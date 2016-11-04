@@ -2,6 +2,9 @@
 
 > DiSARM Universal Mobile Application
 
+>> "If your app isn’t a steak knife, it should be."
+
+
 ## Build Setup
 
 ``` bash
