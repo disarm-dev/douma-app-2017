@@ -12,13 +12,12 @@ const store = new Vuex.Store({
       state.count++
     },
     decrement(state) {
-      
       state.count--
     }
   },
   actions: {
     increase({state, commit}) {
-      commit('increment')
+      commit('increment', 1)
     },
     decrease({state, commit}) {
       commit('decrement')

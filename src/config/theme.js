@@ -6,8 +6,8 @@ export default function () {
   Vue.use(VueMaterial)
 
   Vue.material.theme.register('default', {
-    primary: 'cyan',
-    accent: 'pink'
+    primary: 'green',
+    accent: 'amber'
   })
 }
 

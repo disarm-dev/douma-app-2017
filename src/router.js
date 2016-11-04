@@ -61,23 +61,23 @@ const meta = [
     path: '/aoi',
     name: 'aoi',
     component: AOIMap
+  },
+  {
+    path: '/foci',
+    name: 'foci',
+    redirect: '/foci/monitor'
   }
 ]
 
 const monitor = [
   {
-    path: '/foci',
-    name: 'foci',
-    redirect: '/foci/monitor'
-  },
-  {
     path: '/foci/monitor',
     name: 'monitor',
-    redirect: '/foci/monitor/list'
+    redirect: '/foci/monitor/map'
   },
   {
     path: '/foci/monitor/list',
-    name: 'monitor',
+    name: 'monitor:list',
     component: MonitorList
   },
   {
@@ -95,7 +95,7 @@ const identify = [
   },
   {
     path: '/foci/identify/list',
-    name: 'identify',
+    name: 'identify:list',
     component: IdentifyList
   },
   {
