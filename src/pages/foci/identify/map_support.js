@@ -19,8 +19,13 @@ export class MapSupport {
 
   guessFociBoundary () {
     // create convex hull
-    const hull = turf.convex(this.centroids)
-    const bufferedHull = turf.buffer(hull, 100, 'metres')
+    const caseCentroids = this.centroids.features.filter((i) => i.properties.casePresent)
+    const caseCentroidsFeatureCollection = {
+      type: 'FeatureCollection', 
+      features: caseCentroids
+    }
+    const hull = turf.convex(caseCentroidsFeatureCollection)
+    const bufferedHull = turf.buffer(hull, 15, 'metres')
     return bufferedHull
   }
 

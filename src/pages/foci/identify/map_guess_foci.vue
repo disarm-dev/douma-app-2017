@@ -22,8 +22,8 @@
     },
     mounted() {
       this.map = Leaflet.map('identify-map', {
-        center: [-26.1447782, 32.0813722],
-        zoom: 15,
+        // center: [-26.1447782, 32.0813722],
+        // zoom: 15,
         tms: true
       });
       const url = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
@@ -38,7 +38,21 @@
       const structures = new MapSupport(structuresFeatureCollection)
 
       // Plot structures
-      Leaflet.geoJSON(structures.polygons).addTo(this.map)
+      const structureStyle = {
+        weight: 1,
+        color: 'green'
+      }
+
+      const structuresLayer = Leaflet.geoJSON(structures.polygons, {style: (feature) => {
+        if (feature.properties.casePresent === true) {
+          return {color: 'red'}
+        } else {
+          return {color: 'blue'}
+        }
+      }})
+      structuresLayer.addTo(this.map)
+
+      this.map.fitBounds(structuresLayer.getBounds())
       
       // Guess foci
       const fociGuess = structures.guessFociBoundary()
