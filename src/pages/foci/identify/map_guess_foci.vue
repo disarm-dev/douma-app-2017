@@ -33,20 +33,18 @@
       // Load structures
       const structuresArray = Helpers.objectToArray(firebaseStructures)
       const structuresFeatureCollection = Helpers.buildFeatureCollection(structuresArray)
+
+      // Create featureCollection from raw data
       const structures = new MapSupport(structuresFeatureCollection)
 
-      // // Create featureCollection from raw data
-      // structures.buildFeatureCollection()
-      // const featureCollection = structures.featureCollection
+      // Plot structures
+      Leaflet.geoJSON(structures.polygons).addTo(this.map)
       
-      // // Plot structures
-      // Leaflet.geoJSON(featureCollection).addTo(this.map)
-      
-      // // Guess foci
-      // const fociGuess = structures.guessFoci()
+      // Guess foci
+      const fociGuess = structures.guessFociBoundary()
 
-      // // Plot foci boundary
-      // Leaflet.geoJSON()
+      // Plot foci boundary
+      Leaflet.geoJSON(fociGuess).addTo(this.map)
       
       // // Ask user to confirm foci guess
       
