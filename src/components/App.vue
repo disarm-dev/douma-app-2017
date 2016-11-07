@@ -71,6 +71,7 @@ export default {
   created() {
     this.$store.dispatch('increase');
 
+    // TODO: Want to move this firebase init stuff somewhere else?
     this.app = firebase.initializeApp({
       apiKey: "AIzaSyDsZiVbY7Dit61RgEQtXDeHHplC77h3URc",
       authDomain: "disarm-platform.firebaseapp.com",

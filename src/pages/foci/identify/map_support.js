@@ -1,47 +1,36 @@
-import Turf from 'turf'
-import structures from './temp_structures.js'
+import turf from 'turf'
 
 export class MapSupport {
 
-  constructor (data) {
-    this.data = data
-    this.featureCollection = this.buildFeatureCollection(data)
+  constructor (polygonsFeatureCollection) {
+    this.polygonsFeatureCollection = polygonsFeatureCollection
+    this.centroids = this.convertPolygonsToCentroids()
+    debugger
+    // this.featureCollection = this.buildFeatureCollection(data)
   }
+
+
+  convertPolygonsToCentroids () {
+    const centroids = this.polygonsFeatureCollection.features.map((polygon) => {
+      return turf.centroid(polygon)
+    })
+    return turf.featureCollection(centroids)
+  }
+
 
   // Create FeatureCollection from firebase export of structures.
-  buildFeatureCollection (data) {
-    let output = {
-      type: "FeatureCollection",
-      features: []
+
+  guessFociBoundary () {
+    // create convex hull
+    const hull = turf.convex(this.featureCollection)
+
+    const resultFeatures = points.features.concat(hull)
+    const result = {
+      "type": "FeatureCollection",
+      "features": resultFeatures
     }
 
-    for (const key in data) {
-        // skip loop if the property is from prototype
-        if (!data.hasOwnProperty(key)) continue
-
-        let obj = { type: 'Feature', properties: {} }
-        obj.geometry = data[key].geometry
-        obj.properties.id = key
-        output.features.push(obj)
-    }
-
-    return output
-  }
-
-  guessFoci () {
-    return this.structures
-  }
-
-  plotFociGuess (map) {
-
+    return hull
   }
 
 }
-
-
-// TODO: Remove global debug stuff - it's horrible!
-let m = new MapSupport(structures)
-
-window.Turf = Turf
-window.MapSupport = MapSupport
-window.m = m
