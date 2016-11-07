@@ -19,7 +19,9 @@
         <div class="md-toolbar-container">
           <h3 class="md-title">DUMA</h3>
         </div>
-        <p>DiSARM Universal Mobile Application</p>
+        <div v-if="user">
+          <p>Logged in: {{user.email}}</p>
+        </div>
       </md-toolbar>
 
       <md-list>
@@ -42,8 +44,10 @@
 </template>
 
 <script>
-import Tabs from './Tabs.vue';
 import { mapActions } from 'vuex'
+import firebase from 'firebase'
+import Tabs from './Tabs.vue'
+
 
 export default {
   components: {
@@ -51,7 +55,8 @@ export default {
   },
   data() {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      app: {},
+      user: {}
     }
   },
   methods: {
@@ -65,13 +70,27 @@ export default {
   },
   created() {
     this.$store.dispatch('increase');
-    this.$store.dispatch('increase');
-    this.$store.dispatch('increase');
+
+    this.app = firebase.initializeApp({
+      apiKey: "AIzaSyDsZiVbY7Dit61RgEQtXDeHHplC77h3URc",
+      authDomain: "disarm-platform.firebaseapp.com",
+      databaseURL: "https://disarm-platform.firebaseio.com",
+      storageBucket: "disarm-platform.appspot.com",
+      messagingSenderId: "11635888704"
+    });
+
+    firebase.auth().signInWithEmailAndPassword('user@disarm.io', 'screwMalaria123').then(() => {
+      console.log('success')
+      this.user = firebase.auth().currentUser
+      console.log(this.user)
+
+    }).catch((e) => {
+      console.log(e);
+    })
   }
 }
 </script>
 
 <style scoped>
-
 
 </style>

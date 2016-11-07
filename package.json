@@ -4,10 +4,11 @@
   "author": "DiSARM Team",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --inline --hot",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --inline --hot --host 0.0.0.0",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
+    "firebase": "^3.5.3",
     "leaflet": "^1.0.1",
     "vue": "^2.0.1",
     "vue-material": "^0.2.0",
