@@ -10,6 +10,7 @@
   "dependencies": {
     "firebase": "^3.5.3",
     "leaflet": "^1.0.1",
+    "leaflet-draw": "^0.4.1",
     "vue": "^2.0.1",
     "vue-material": "^0.2.0",
     "vue-router": "^2.0.1",
