@@ -19,6 +19,7 @@ export function buildFeatureCollection (array) {
   output.features = array.map((i) => {
     let obj = { type: 'Feature', properties: {} }
     obj.properties.id = i.id
+    // TODO: Remove this `casePresent` for-debugging-only property
     obj.properties.casePresent = !!(i.actioned)
     obj.geometry = i.geometry
     return obj
