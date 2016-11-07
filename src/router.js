@@ -65,7 +65,7 @@ const meta = [
   {
     path: '/foci',
     name: 'foci',
-    redirect: '/foci/monitor'
+    redirect: '/foci/identify'
   }
 ]
 
@@ -73,7 +73,7 @@ const monitor = [
   {
     path: '/foci/monitor',
     name: 'monitor',
-    redirect: '/foci/monitor/map'
+    redirect: '/foci/monitor/list'
   },
   {
     path: '/foci/monitor/list',
@@ -91,7 +91,7 @@ const identify = [
   {
     path: '/foci/identify',
     name: 'identify',
-    redirect: '/foci/identify/list'
+    redirect: '/foci/identify/map'
   },
   {
     path: '/foci/identify/list',
