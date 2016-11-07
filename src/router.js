@@ -16,7 +16,8 @@ import MonitorMap from './pages/foci/monitor/map.vue'
 // Identify
 
 import IdentifyList from './pages/foci/identify/list.vue'
-import IdentifyMap from './pages/foci/identify/map.vue'
+import IdentifyMapGuessFoci from './pages/foci/identify/map_guess_foci.vue'
+import IdentifyMapEditFoci from './pages/foci/identify/map_edit_foci.vue'
 
 // Investigate
 
@@ -91,7 +92,7 @@ const identify = [
   {
     path: '/foci/identify',
     name: 'identify',
-    redirect: '/foci/identify/map'
+    redirect: '/foci/identify/map/guess_foci'
   },
   {
     path: '/foci/identify/list',
@@ -99,9 +100,14 @@ const identify = [
     component: IdentifyList
   },
   {
-    path: '/foci/identify/map',
-    name: 'identify:map',
-    component: IdentifyMap
+    path: '/foci/identify/map/guess_foci',
+    name: 'identify:map:guess_foci',
+    component: IdentifyMapGuessFoci
+  },
+  {
+    path: '/foci/identify/map/edit_foci',
+    name: 'identify:map:edit_foci',
+    component: IdentifyMapEditFoci
   }
 ]
 
