@@ -28,22 +28,3 @@ export function buildFeatureCollection (array) {
 
 
 
-{
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [
-              58.00781249999999,
-              57.70414723434193
-            ],
-            [
-              50.9765625,
-              36.87962060502676
-            ],
-            [
