@@ -2,7 +2,7 @@
   <div>
     <md-tabs class="tabs" @change="onTabChange"  :md-centered="true">
       
-      <md-tab v-for="value in routes" :md-label="value.name" :md-active="current == value.routeName"></md-tab>
+      <md-tab v-for="value in routes" :md-label="value.title" :md-active="current == value.name"></md-tab>
 
     </md-tabs>
     
@@ -10,7 +10,7 @@
       <md-input-container>
         <md-select name="navigation" :value="current" @change="onSelectChange">
 
-          <md-option v-for="value in routes" :value="value.routeName">{{value.name}}</md-option>
+          <md-option v-for="value in routes" :value="value.name">{{value.name}}</md-option>
 
         </md-select>
       </md-input-container>
@@ -26,34 +26,35 @@
     props: ['value'],
     data() {
       return {
-        selected:  'Monitor',
+        // TODO: get `selected` from state, not set arbitrary
+        selected:  'Identify',
         routes: [
           {
-            name: 'Monitor',
-            routeName: 'monitor'
+            title: 'Monitor',
+            name: 'monitor'
           },
           {
-            name: 'Identify',
-            routeName: 'identify'
+            title: 'Identify',
+            name: 'identify'
           },
           {
-            name: 'Investigate',
-            routeName: 'investigate'
+            title: 'Investigate',
+            name: 'investigate'
           },
           {
-            name: 'Classify',
-            routeName: 'classify'
+            title: 'Classify',
+            name: 'classify'
           },
           {
-            name: 'Respond',
-            routeName: 'respond'
+            title: 'Respond',
+            name: 'respond'
           }
         ]
       }
     },
     methods: {
       onTabChange(i) {
-        this.$emit('change', this.routes[i].routeName)
+        this.$emit('change', this.routes[i].name)
       },
       onSelectChange(e) {
         this.$emit('change', e)
