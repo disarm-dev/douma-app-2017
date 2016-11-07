@@ -44,7 +44,15 @@
       const fociGuess = structures.guessFociBoundary()
 
       // Plot foci boundary
-      Leaflet.geoJSON(fociGuess).addTo(this.map)
+      const guessStyle     = {
+        color: "#ff7800",
+        fillOpacity: 0.2,
+        weight: 2,
+        opacity: 0.65,
+        dashArray: "5,5"
+      }
+
+      Leaflet.geoJSON(fociGuess, {style: guessStyle}).addTo(this.map)
       
       // // Ask user to confirm foci guess
       
