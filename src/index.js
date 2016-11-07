@@ -13,4 +13,4 @@ sync(store, router)
 
 const DUMA = Vue.component('app', App)
 
-const app = new DUMA({router}).$mount('#app')
+const app = new DUMA({router, store}).$mount('#app')
