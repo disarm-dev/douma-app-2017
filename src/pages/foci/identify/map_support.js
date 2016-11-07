@@ -20,7 +20,7 @@ export class MapSupport {
   guessFociBoundary () {
     // create convex hull
     const hull = turf.convex(this.centroids)
-    const bufferedHull = turf.buffer(hull, 200, 'metres')
+    const bufferedHull = turf.buffer(hull, 100, 'metres')
     return bufferedHull
   }
 
