@@ -5,22 +5,19 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    count: 0
+    count: 0,
+    mapBounds: {},
+    activeFoci: {}
   },
   mutations: {
-    increment(state) {
+    increase(state) {
       state.count++
     },
-    decrement(state) {
-      state.count--
-    }
-  },
-  actions: {
-    increase({state, commit}) {
-      commit('increment', 1)
+    setActiveFoci(state, foci) {
+      state.activeFoci = foci
     },
-    decrease({state, commit}) {
-      commit('decrement')
+    setMapBounds(state, bounds) {
+      state.mapBounds = bounds
     }
   }
 })

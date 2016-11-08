@@ -2,7 +2,7 @@
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 300;
-  src: local('Roboto Light'), local('Roboto-Light'), url(./Roboto-Light.tff) format('truetype');
+  src: local('Roboto'), local('Roboto-Light'), url(./Roboto-Light.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
@@ -14,17 +14,17 @@
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 500;
-  src: local('Roboto Medium'), local('Roboto-Medium'), url(./Roboto-Medium) format('truetype');
+  src: local('Roboto Medium'), local('Roboto-Medium'), url(./Roboto-Medium.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 700;
-  src: local('Roboto Bold'), local('Roboto-Bold'), url(./Roboto-Bold) format('truetype');
+  src: local('Roboto Bold'), local('Roboto-Bold'), url(./Roboto-Bold.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
   font-style: italic;
   font-weight: 400;
-  src: local('Roboto Italic'), local('Roboto-Italic'), url(./Roboto-Italic) format('truetype');
+  src: local('Roboto Italic'), local('Roboto-Italic'), url(./Roboto-Italic.ttf) format('truetype');
 }

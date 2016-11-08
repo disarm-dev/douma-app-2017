@@ -69,7 +69,6 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('increase');
 
     // TODO: Want to move this firebase init stuff somewhere else?
     this.app = firebase.initializeApp({
