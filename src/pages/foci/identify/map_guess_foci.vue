@@ -1,8 +1,8 @@
 <template>
   <div>
-    <button @click="loadStructures">Load data</button>
-    <button @click="guessFoci">Guess foci</button>
-    <button @click="editFoci">Edit foci</button>
+    <md-button @click="loadStructures">Load data</md-button>
+    <md-button @click="guessFoci">Guess foci</md-button>
+    <md-button @click="editFoci">Edit foci</md-button>
     <div id="identify-map"></div>
   </div>
 </template>
