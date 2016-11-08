@@ -1,5 +1,10 @@
 <template>
-  <div id="identify-map"></div>
+  <div>
+    <button @click="loadStructures">Load data</button>
+    <button @click="guessFoci">Guess foci</button>
+    <button @click="editFoci">Edit foci</button>
+    <div id="identify-map"></div>
+  </div>
 </template>
 
 <script>
@@ -8,6 +13,7 @@
   import Leaflet from 'leaflet'
   import firebase from 'firebase'
   import 'leaflet/dist/leaflet.css'
+  import { mapActions } from 'vuex'
 
   import {MapSupport} from './map_support.js'
   // TODO: Remove temp data
@@ -18,6 +24,34 @@
     data(){
       return {
         map: {},
+        structures: {},
+        fociGuessLayer: {},
+        fociGuess: {}
+      }
+    },
+    methods: {
+      loadStructures() {
+        const structuresArray = Helpers.objectToArray(firebaseStructures)
+
+        // Create featureCollection from raw data
+        const structuresFeatureCollection = Helpers.buildFeatureCollection(structuresArray)
+        
+        this.structures = new MapSupport(structuresFeatureCollection)
+
+        // Plot structures
+        Leaflet.geoJSON(this.structures.polygons).addTo(this.map)
+      },
+      guessFoci() {
+        this.fociGuess = this.structures.guessFociBoundary()
+        // Plot foci boundary
+        const poly = new Leaflet.polygon(this.fociGuess)
+        this.fociGuessLayer.addLayer(poly)
+        this.fociGuessLayer.bringToFront()
+        // Leaflet.geoJSON(this.fociGuess).addTo(this.map)
+      },
+      editFoci() {
+        
+        
       }
     },
     mounted() {
@@ -26,27 +60,31 @@
         zoom: 15,
         tms: true
       });
-      const url = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
       
+      
+      this.fociGuessLayer = new Leaflet.FeatureGroup();
+
+      const drawControl = new Leaflet.Control.Draw({
+        draw: {
+          polygon: {
+            allowIntersection: false,
+          },
+          marker: false,
+          polyline: false,
+          rectangle: false,
+          circle: false
+        },
+        edit: {
+          featureGroup: this.fociGuessLayer
+        }
+      });
+      this.map.addControl(drawControl);
+
+      const url = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
       Leaflet.tileLayer(url).addTo(this.map);
 
-      // Load structures
-      const structuresArray = Helpers.objectToArray(firebaseStructures)
-      const structuresFeatureCollection = Helpers.buildFeatureCollection(structuresArray)
 
-      // Create featureCollection from raw data
-      const structures = new MapSupport(structuresFeatureCollection)
-
-      // Plot structures
-      Leaflet.geoJSON(structures.polygons).addTo(this.map)
-      
-      // Guess foci
-      const fociGuess = structures.guessFociBoundary()
-
-      // Plot foci boundary
-      Leaflet.geoJSON(fociGuess).addTo(this.map)
-      
-      // // Ask user to confirm foci guess
+      this.map.addLayer(this.fociGuessLayer)
       
     }
   }
