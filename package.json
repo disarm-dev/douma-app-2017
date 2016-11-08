@@ -8,6 +8,7 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
+    "alpaca": "^1.5.22",
     "firebase": "^3.5.3",
     "leaflet": "^1.0.1",
     "leaflet-draw": "^0.4.1",
