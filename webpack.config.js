@@ -10,6 +10,10 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.(eot|ttf|woff|woff2)$/,
+        loader: 'file'
+      },
       { 
         test: /\.css$/,
         loader: "style-loader!css-loader"
