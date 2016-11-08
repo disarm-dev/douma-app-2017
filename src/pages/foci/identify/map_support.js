@@ -23,5 +23,11 @@ export class MapSupport {
     const bufferedHull = turf.buffer(hull, 200, 'metres')
     return bufferedHull
   }
+  // TODO: Simplify polygon, so it is easier to edit in guessFociBoundary instead
+  simplifyPolygon(coords) {
+    const feature = turf.polygon([coords])
+    const res = turf.simplify(feature, 100, true);
+    return res.geometry.coordinates[0]
+  }
 
 }

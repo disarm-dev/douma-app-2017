@@ -25,7 +25,7 @@
       return {
         map: {},
         structures: {},
-        fociGuessLayer: {},
+        fociGuessLayer: new L.FeatureGroup(),
         fociGuess: {}
       }
     },
@@ -42,12 +42,27 @@
         Leaflet.geoJSON(this.structures.polygons).addTo(this.map)
       },
       guessFoci() {
+        this.map.addLayer(this.fociGuessLayer)
+
+        // result is in  geoJSON
         this.fociGuess = this.structures.guessFociBoundary()
-        // Plot foci boundary
-        const poly = new Leaflet.polygon(this.fociGuess)
+        var coords = []
+
+        Leaflet.geoJSON(this.fociGuess,  {
+          onEachFeature(feature, layer) {
+            const coordinates = feature.geometry.coordinates[0];
+            coords = coordinates.map((array)=> {
+              return [array[1], array[0]]
+            })
+          }
+        })
+
+        const poly = new Leaflet.polygon(coords)
         this.fociGuessLayer.addLayer(poly)
-        this.fociGuessLayer.bringToFront()
-        // Leaflet.geoJSON(this.fociGuess).addTo(this.map)
+
+        // this works, but no editing
+        //Leaflet.geoJSON(this.fociGuess).addTo(this.fociGuessLayer)
+        
       },
       editFoci() {
         
@@ -60,10 +75,10 @@
         zoom: 15,
         tms: true
       });
-      
-      
-      this.fociGuessLayer = new Leaflet.FeatureGroup();
 
+      const url = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+      Leaflet.tileLayer(url).addTo(this.map);
+      
       const drawControl = new Leaflet.Control.Draw({
         draw: {
           polygon: {
@@ -78,14 +93,8 @@
           featureGroup: this.fociGuessLayer
         }
       });
+
       this.map.addControl(drawControl);
-
-      const url = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-      Leaflet.tileLayer(url).addTo(this.map);
-
-
-      this.map.addLayer(this.fociGuessLayer)
-      
     }
   }
 </script>
