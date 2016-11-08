@@ -4,11 +4,12 @@
   "author": "DiSARM Team",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --inline --hot --host 0.0.0.0",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --host 0.0.0.0",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
     "firebase": "^3.5.3",
+    "geojson-coords": "0.0.0",
     "leaflet": "^1.0.1",
     "leaflet-draw": "^0.4.1",
     "turf": "^3.0.14",

@@ -14,6 +14,7 @@
   import firebase from 'firebase'
   import 'leaflet/dist/leaflet.css'
   import { mapActions } from 'vuex'
+  import geoCoords from 'geojson-coords'
 
   import {MapSupport} from './map_support.js'
   // TODO: Remove temp data
@@ -25,7 +26,7 @@
       return {
         map: {},
         structures: {},
-        fociGuessLayer: new L.FeatureGroup(),
+        fociGuessLayer: new Leaflet.FeatureGroup(),
         fociGuess: {}
       }
     },
@@ -36,65 +37,70 @@
         // Create featureCollection from raw data
         const structuresFeatureCollection = Helpers.buildFeatureCollection(structuresArray)
         
+        // Plot structures
         this.structures = new MapSupport(structuresFeatureCollection)
 
-        // Plot structures
-        Leaflet.geoJSON(this.structures.polygons).addTo(this.map)
+        const structureStyle = {
+          weight: 1,
+          color: 'green'
+        }
+
+        const structuresLayer = Leaflet.geoJSON(this.structures.polygons, {style: (feature) => {
+          if (feature.properties.casePresent === true) {
+            return {color: 'red'}
+          } else {
+            return {color: 'blue'}
+          }
+        }})
+        
+        
+        structuresLayer.addTo(this.map)
+        this.map.fitBounds(structuresLayer.getBounds())
       },
       guessFoci() {
-        this.map.addLayer(this.fociGuessLayer)
 
-        // result is in  geoJSON
+        // result is in a FeatureCollection
         this.fociGuess = this.structures.guessFociBoundary()
-        var coords = []
 
-        Leaflet.geoJSON(this.fociGuess,  {
-          onEachFeature(feature, layer) {
-            const coordinates = feature.geometry.coordinates[0];
-            coords = coordinates.map((array)=> {
-              return [array[1], array[0]]
-            })
-          }
-        })
+        // const styledGuess = new Leaflet.geoJSON(this.fociGuess)
 
-        const poly = new Leaflet.polygon(coords)
-        this.fociGuessLayer.addLayer(poly)
-
-        // this works, but no editing
-        //Leaflet.geoJSON(this.fociGuess).addTo(this.fociGuessLayer)
-        
+        const poly = new Leaflet.polygon(this.fociGuess)
+        this.map.addLayer(this.fociGuessLayer)        
+        this.fociGuessLayer.addLayer(Leaflet.geoJSON(this.fociGuess))
       },
       editFoci() {
-        
+        const drawControl = new Leaflet.Control.Draw({
+          draw: {
+            polygon: true,
+            marker: false,
+            polyline: false,
+            rectangle: false,
+            circle: false
+          },
+          edit: {
+            featureGroup: this.fociGuessLayer
+          }
+        });
+
+        this.map.addControl(drawControl);
         
       }
     },
     mounted() {
       this.map = Leaflet.map('identify-map', {
-        center: [-26.1447782, 32.0813722],
-        zoom: 15,
         tms: true
       });
 
       const url = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-      Leaflet.tileLayer(url).addTo(this.map);
+      Leaflet.tileLayer(url).addTo(this.map); 
       
-      const drawControl = new Leaflet.Control.Draw({
-        draw: {
-          polygon: {
-            allowIntersection: false,
-          },
-          marker: false,
-          polyline: false,
-          rectangle: false,
-          circle: false
-        },
-        edit: {
-          featureGroup: this.fociGuessLayer
-        }
-      });
 
-      this.map.addControl(drawControl);
+
+      // Plot foci boundary
+
+      
+      // // Ask user to confirm foci guess
+      
     }
   }
 </script>

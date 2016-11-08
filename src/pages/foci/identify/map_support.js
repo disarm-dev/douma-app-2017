@@ -1,4 +1,5 @@
 import turf from 'turf'
+import geoCoords from 'geojson-coords'
 
 export class MapSupport {
 
@@ -18,16 +19,24 @@ export class MapSupport {
   }
 
   guessFociBoundary () {
+    // Returns a FeatureCollection
     // create convex hull
-    const hull = turf.convex(this.centroids)
-    const bufferedHull = turf.buffer(hull, 200, 'metres')
-    return bufferedHull
+    const caseCentroids = this.centroids.features.filter((i) => i.properties.casePresent)
+    const caseCentroidsFeatureCollection = {
+      type: 'FeatureCollection', 
+      features: caseCentroids
+    }
+    const hull = turf.convex(caseCentroidsFeatureCollection)
+    const bufferedHull = turf.buffer(hull, 15, 'metres')
+
+    const simplified = this.simplifyPolygon(geoCoords(hull))
+
+    return hull
   }
+
   // TODO: Simplify polygon, so it is easier to edit in guessFociBoundary instead
   simplifyPolygon(coords) {
-    const feature = turf.polygon([coords])
-    const res = turf.simplify(feature, 100, true);
-    return res.geometry.coordinates[0]
+    return turf.simplify(coords, 5, true);
   }
 
 }
