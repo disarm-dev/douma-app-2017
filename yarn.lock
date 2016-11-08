@@ -2052,6 +2052,10 @@ leaflet-draw@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/leaflet-draw/-/leaflet-draw-0.4.1.tgz#e46d21e42c82364ae871707373abad9723983ff6"
 
+leaflet.vectorgrid:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/leaflet.vectorgrid/-/leaflet.vectorgrid-1.1.0.tgz#d67fd854f025cc7b7272e7e331afb19ce6384236"
+
 leaflet@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.0.1.tgz#5868c389b556cd85481198ff8bfe59a8de0932db"
