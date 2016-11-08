@@ -29,14 +29,26 @@ export class MapSupport {
     const hull = turf.convex(caseCentroidsFeatureCollection)
     const bufferedHull = turf.buffer(hull, 15, 'metres')
 
-    const simplified = this.simplifyPolygon(geoCoords(hull))
+    // const simplified = this.simplifyPolygon(geoCoords(bufferedHull))
 
-    return hull
+    return bufferedHull
   }
 
   // TODO: Simplify polygon, so it is easier to edit in guessFociBoundary instead
-  simplifyPolygon(coords) {
-    return turf.simplify(coords, 5, true);
-  }
+  // simplifyPolygon(coords) {
+  //   return {
+  //     type: 'FeatureCollection',
+  //     features: [
+  //       {
+  //         "type": "Feature",
+  //         "properties": {},
+  //         "geometry": {
+  //           "type": "Polygon",
+  //           "coordinates": turf.simplify(coords, 5, true)
+  //         }
+  //       }
+  //     ]
+  //   }    
+  // }
 
 }
