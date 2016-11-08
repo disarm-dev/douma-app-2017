@@ -58,15 +58,14 @@
         this.map.fitBounds(structuresLayer.getBounds())
       },
       guessFoci() {
-
         // result is in a FeatureCollection
         this.fociGuess = this.structures.guessFociBoundary()
 
-        // const styledGuess = new Leaflet.geoJSON(this.fociGuess)
-
-        const poly = new Leaflet.polygon(this.fociGuess)
-        this.map.addLayer(this.fociGuessLayer)        
-        this.fociGuessLayer.addLayer(Leaflet.geoJSON(this.fociGuess))
+        const coordinates = geoCoords(this.fociGuess);
+        // convert geoJson coordinates into Leaflet coordinates
+        const polyCoordinates = Leaflet.GeoJSON.coordsToLatLngs([coordinates], 1)
+        
+        this.fociGuessLayer.addLayer(Leaflet.polygon(polyCoordinates))      
       },
       editFoci() {
         const drawControl = new Leaflet.Control.Draw({
@@ -83,7 +82,6 @@
         });
 
         this.map.addControl(drawControl);
-        
       }
     },
     mounted() {
@@ -93,14 +91,7 @@
 
       const url = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
       Leaflet.tileLayer(url).addTo(this.map); 
-      
-
-
-      // Plot foci boundary
-
-      
-      // // Ask user to confirm foci guess
-      
+      this.map.addLayer(this.fociGuessLayer)
     }
   }
 </script>
