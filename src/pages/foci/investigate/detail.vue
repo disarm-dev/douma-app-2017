@@ -1,12 +1,17 @@
 <template>
   <div>
-    <h1 class="md-title">{{$route.fullPath}}</h1>
-    <div>
-      <p>Schema</p>
-      <textarea cols="60" rows="10" :value="form" @change="handleChange"></textarea>
+    <div class="switch-container">
+      <md-switch class="switch" v-model="editing" @change="update" name="my-test0">Edit</md-switch>
     </div>
-    <md-button @click="update">Create form</md-button>
-    <div id="alpaca-form"></div>
+
+    <div v-show="!editing" id="alpaca-form"></div>
+
+    <div v-show="editing" class="editor">
+      <md-input-container>
+        <label>Form</label>
+        <md-textarea ref="textarea" :value="form" @change="handleChange"></md-textarea>
+      </md-input-container>
+    </div>
   </div>
 </template>
 
@@ -23,25 +28,46 @@
   export default {
     data() {
       return {
+        editing: false,
         alpaca: fociForm
       }
     },
     mounted() {
-      console.log($('#alpaca-form').alpaca(this.alpaca))
+      $('#alpaca-form').alpaca(this.alpaca) 
     },
     computed: {
       form() {
-        return JSON.stringify(this.alpaca)
+        return JSON.stringify(this.alpaca, undefined, 2)
       }
     },
     methods: {
       handleChange(e) {
-        this.alpaca = JSON.parse(e.target.value)
+        this.alpaca = JSON.parse(e)
       },
       update() {
-        $('#alpaca-form').empty()
-        $('#alpaca-form').alpaca(this.alpaca)
+        if (this.editing) {
+          $('#alpaca-form').empty()
+          $('#alpaca-form').alpaca(this.alpaca)
+        } else {
+          this.$nextTick(() => {
+            this.$refs.textarea.$el.dispatchEvent(new Event('input'));
+          })
+        }
       }
     }
   }
 </script>
+
+<style>
+  .editor {
+    padding: 1em;
+  }
+
+  .switch-container {
+    overflow: hidden;
+  }
+
+  .switch {
+    float: right;
+  }
+</style>
