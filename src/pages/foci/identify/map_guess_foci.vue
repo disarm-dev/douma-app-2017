@@ -92,12 +92,37 @@
         tms: true
       });
 
-      // const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5iqp00232ioet4xyusme/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
+      const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5iqp00232ioet4xyusme/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
       // var url = 'https://{s}.tiles.mapbox.com/v4/mapbox.mapbox-streets-v6/{z}/{x}/{y}.vector.pbf';
-      const url = "http://tile.mapzen.com/mapzen/vector/v1/{layers}/{z}/{x}/{y}.pbf?api_key=vector-tiles-HQHyz1k"
-      Leaflet.tileLayer(url).addTo(this.map); 
+      // const url = "http://tile.mapzen.com/mapzen/vector/v1/{layers}/{z}/{x}/{y}.pbf?api_key=vector-tiles-HQHyz1k"
+      // Leaflet.tileLayer(url).addTo(this.map); 
 
-      var options = {};
+      var options = {
+          vectorTileLayerStyles: {
+
+              water: {
+                  weight: 0,
+                  fillColor: '#9bc2c4',
+                  fillOpacity: 1,
+                  fill: true
+              },
+
+              admin: function(properties, zoom) {
+                  var level = properties.admin_level;
+                  var weight = 1;
+                  if (level == 2) {weight = 4;}
+                  return {
+                      weight: weight,
+                      color: '#cf52d3',
+                      dashArray: '2, 6',
+                      fillOpacity: 0
+                  }
+              },
+
+              road: []
+          }
+      };
+
       var layer = L.vectorGrid.protobuf(url, options);
       
       this.map.addLayer(layer)
