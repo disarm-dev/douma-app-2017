@@ -1,5 +1,7 @@
 <template>
   <div class="monitor-list">
+    <md-button class="md-raised md-accent" @click="$router.push({name: 'monitor:map'})">Map</md-button>
+
     <md-card class="foci-card">
       <md-card-header>
         <div class="md-title">Foci in Lobamba</div>

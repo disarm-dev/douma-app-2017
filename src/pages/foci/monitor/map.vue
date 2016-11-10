@@ -1,6 +1,7 @@
 <template>
   <div>
     <md-button @click="loadStructures">Load data</md-button>
+    <md-button class="md-raised md-accent" @click="$router.push({name: 'monitor:list'})">List</md-button>
     <div id="monitor-map"></div>
   </div>
 </template>
