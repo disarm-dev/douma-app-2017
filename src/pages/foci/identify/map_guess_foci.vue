@@ -22,6 +22,7 @@
   import moreStructures from './firebase_export.json'
 
 
+
   export default {
     data(){
       return {
