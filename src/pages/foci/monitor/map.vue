@@ -1,7 +1,10 @@
 <template>
   <div>
-    <md-button @click="loadStructures">Load data</md-button>
-    <md-button class="md-raised md-accent" @click="$router.push({name: 'monitor:list'})">List</md-button>
+    <div class="switch-container">
+      <md-switch class="switch" :value="false"  @change="viewList">
+        List view
+      </md-switch>
+    </div>
     <div id="monitor-map"></div>
   </div>
 </template>
@@ -40,15 +43,17 @@
       this.loadFocis()
     },
     methods: {
+      ...mapActions(['setActiveFoci']),
+      viewList() {
+        this.$router.push({name: 'monitor:list'})
+      },
       loadFocis() {
           Leaflet.geoJSON(this.focisFc, {
           onEachFeature: (feature, layer) => {
             layer.on({
               click: (e) => {
-                // e.target.setStyle({color: 'pink'}) // TODO: Be serious
-                layer.setStyle({color: 'pink'})
-                feature.properties.casePresent = !(feature.properties.casePresent)
-                // window.layer = layer
+                this.$store.commit('setActiveFoci', feature.properties.id)
+                this.$router.push({name: 'investigate'})
               }
             })
           }
@@ -103,5 +108,13 @@
     z-index: 0;
     height: 85vh;
     overflow: hidden;
+  }
+
+  .switch-container {
+    overflow: hidden;
+  }
+
+  .switch {
+    float: right;
   }
 </style>

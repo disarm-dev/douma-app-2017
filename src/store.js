@@ -1,27 +1,26 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import {findIndex} from 'lodash'
 // TODO: Remove bootstrapped data for dev
 import fociExamples from './bootstrap/foci.json'
 
 Vue.use(Vuex)
-
-const activeFoci = fociExamples.features[0]
 
 const store = new Vuex.Store({
   state: {
     count: 0,
     mapBounds: {},
     focis: fociExamples,
-    activeFoci: activeFoci,
+    activeFoci: null,
     structures: {}
   },
   mutations: {
     increase(state) {
       state.count++
     },
-    setActiveFoci(state, foci) {
-      state.activeFoci = foci
+    setActiveFoci(state, fociId) {
+      const index = findIndex(fociExamples.features, (o) => o.properties.id === fociId)
+      state.activeFoci = fociExamples.features[index]
     },
     setMapBounds(state, bounds) {
       state.mapBounds = bounds

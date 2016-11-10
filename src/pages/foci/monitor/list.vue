@@ -1,6 +1,11 @@
 <template>
+
   <div class="monitor-list">
-    <md-button class="md-raised md-accent" @click="$router.push({name: 'monitor:map'})">Map</md-button>
+    <div class="switch-container">
+      <md-switch class="switch" :value="true"  @change="viewMap">
+        List view
+      </md-switch>
+    </div>
 
     <md-card class="foci-card">
       <md-card-header>
@@ -14,9 +19,10 @@
 
             <div class="md-list-text-container">
               <span>{{foci.properties.name}}</span>
+              <span>{{foci.properties.location}}</span>
             </div>
 
-            <md-button class="md-accent">Read more</md-button>
+            <md-button class="md-accent" @click="goToFoci(foci)">Read more</md-button>
           </md-list-item>
 
         </md-list>
@@ -32,15 +38,23 @@
         focis: this.$store.state.focis
       }
     },
-    mounted() {
-      console.log(this.focis)
+    methods: {
+      viewMap() {
+        this.$router.push({name: 'monitor:map'})
+      },
+      goToFoci(foci) {
+        this.$store.commit('setActiveFoci', foci.properties.id)
+        this.$router.push({name: 'investigate'})
+      }
     }
   }
 </script>
 
 <style scoped>
   .monitor-list {
-    margin: 2em 1em;
+    /*margin: 2em 1em;*/
+    margin-right: 1em;
+    margin-left: 1em;
   }
 
   .foci-card {
