@@ -34,19 +34,19 @@ export default {
     return turf.featureCollection(centroids) 
   },
 
-  // guessFociBoundary () {
-  //   // Returns a FeatureCollection
-  //   // create convex hull
-  //   const caseCentroids = this.convertPolygonsToCentroids().features.filter((i) => i.properties.casePresent)
-  //   const caseCentroidsFeatureCollection = {
-  //     type: 'FeatureCollection', 
-  //     features: caseCentroids
-  //   }
-  //   const hull = turf.convex(caseCentroidsFeatureCollection)
-  //   const bufferedHull = turf.buffer(hull, 15, 'metres')
+  guessFociBoundary (structuresFc) {
+    // Returns a FeatureCollection
+    // create convex hull
+    const caseCentroids = this.convertPolygonsToCentroids(structuresFc).features.filter((i) => i.properties.casePresent)
+    const caseCentroidsFeatureCollection = {
+      type: 'FeatureCollection', 
+      features: caseCentroids
+    }
+    const hull = turf.convex(caseCentroidsFeatureCollection)
+    const bufferedHull = turf.buffer(hull, 15, 'metres')
 
-  //   // const simplified = this.simplifyPolygon(geoCoords(bufferedHull))
+    // const simplified = this.simplifyPolygon(geoCoords(bufferedHull))
 
-  //   return bufferedHull
-  // },
+    return bufferedHull
+  },
 }

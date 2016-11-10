@@ -16,7 +16,6 @@
   import geoCoords from 'geojson-coords'
   import MapHelpers from '../../../lib/map_helpers.js'
 
-  import firebase from 'firebase'
   // TODO: Remove temp data
   import firebaseStructures from '../../../bootstrap/firebase_export.json' // Smaller 
 
@@ -46,16 +45,16 @@
 
         // Create featureCollection from raw data
         const structuresFeatureCollection = MapHelpers.buildFeatureCollection(structuresArray)
-        
-        // Plot structures
-        // this.structures = new MapSupport(structuresFeatureCollection)
+
+        // TODO: Improve this
+        this.structures = structuresFeatureCollection
 
         const structureStyle = {
           weight: 1,
           color: 'green'
         }
 
-        const structuresLayer = Leaflet.geoJSON(this.structures.polygons, {style: (feature) => {
+        const structuresLayer = Leaflet.geoJSON(structuresFeatureCollection, {style: (feature) => {
           if (feature.properties.casePresent === true) {
             return {color: 'red'}
           } else {
@@ -69,7 +68,7 @@
       },
       guessFoci() {
         // result is in a FeatureCollection
-        this.fociGuess = this.structures.guessFociBoundary()
+        this.fociGuess = MapHelpers.guessFociBoundary(this.structures)
 
         const coordinates = geoCoords(this.fociGuess);
         // convert geoJson coordinates into Leaflet coordinates
