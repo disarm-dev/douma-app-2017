@@ -1,17 +1,10 @@
 <template>
-
-  
-
   <div id="app" v-md-theme="'default'">
-
     <md-toolbar>
-
       <md-button class="md-icon-button" @click="toggleSideNav">
         <md-icon>menu</md-icon>
       </md-button>
-
       <h2 class="md-title" style="flex: 1">DiSARM</h2>
-
     </md-toolbar>
 
     <md-sidenav class="md-left" ref="sideNav">
@@ -80,7 +73,6 @@ export default {
     });
 
     firebase.auth().signInWithEmailAndPassword('user@disarm.io', 'screwMalaria123').then(() => {
-      console.log('success')
       this.user = firebase.auth().currentUser
       console.log(this.user)
 
