@@ -17,7 +17,7 @@ export function buildFeatureCollection (array) {
     features: []
   }
 
-  output.features = array.map((i) => {
+  output.features = array.map((i, index) => {
     let obj = { type: 'Feature', properties: {} }
     obj.properties.id = i.id
     // TODO: Remove this `casePresent` for-debugging-only property
