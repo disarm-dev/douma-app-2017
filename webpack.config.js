@@ -48,6 +48,7 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue',
       'jquery': "jquery/src/jquery.js",
+      'handlebars': "handlebars/dist/handlebars.js",
     }
   },
   devServer: {
