@@ -6,12 +6,14 @@ import fociExamples from './bootstrap/foci.json'
 
 Vue.use(Vuex)
 
+const activeFoci = fociExamples.features[0]
+
 const store = new Vuex.Store({
   state: {
     count: 0,
     mapBounds: {},
     focis: fociExamples,
-    activeFoci: '',
+    activeFoci: activeFoci,
     structures: {}
   },
   mutations: {
