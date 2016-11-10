@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h1 class="md-title">{{$route.fullPath}}</h1>
+    <h2>Hi user - login here</h2>
+    <!-- If user already logged in, head to last view -->
   </div>
 </template>
 

@@ -22,17 +22,16 @@ import IdentifyMapEditFoci from './pages/foci/identify/map_edit_foci.vue'
 // Investigate
 
 import InvestigateDetail from './pages/foci/investigate/detail.vue'
+import InvestigateForm from './pages/foci/investigate/form.vue'
 import InvestigateMap from './pages/foci/investigate/map.vue'
 import investigateMapEdit from './pages/foci/investigate/mapEdit.vue'
 
 // Classify
 
-import ClassifyDetail from './pages/foci/classify/detail.vue'
 import ClassifyForm from './pages/foci/classify/form.vue'
 
 // Respond
 
-import RespondDetail from './pages/foci/respond/detail.vue'
 import RespondForm from './pages/foci/respond/form.vue'
 
 // TODO: Namespace route names
@@ -75,7 +74,7 @@ const monitor = [
   {
     path: '/foci/monitor',
     name: 'monitor',
-    redirect: '/foci/monitor/list'
+    redirect: '/foci/monitor/map'
   },
   {
     path: '/foci/monitor/list',
@@ -124,6 +123,11 @@ const investigate = [
     component: InvestigateDetail
   },
   {
+    path: '/foci/investigate/form',
+    name: 'investigate:form',
+    component: InvestigateForm
+  },
+  {
     path: '/foci/investigate/map',
     name: 'investigate:map',
     component: InvestigateMap
@@ -140,12 +144,7 @@ const classify = [
   {
     path: '/foci/classify',
     name: 'classify',
-    redirect: '/foci/classify/detail'
-  },
-  {
-    path: '/foci/classify/detail',
-    name: 'classify:detail',
-    component: ClassifyDetail
+    redirect: '/foci/classify/form'
   },
   {
     path: '/foci/classify/form',
@@ -158,12 +157,7 @@ const respond = [
   {
     path: '/foci/respond',
     name: 'respond',
-    redirect: '/foci/respond/detail'
-  },
-  {
-    path: '/foci/respond/detail',
-    name: 'respond:detail',
-    component: RespondDetail
+    redirect: '/foci/respond/form'
   },
   {
     path: '/foci/respond/form',

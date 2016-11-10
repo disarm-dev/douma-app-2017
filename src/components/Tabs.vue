@@ -27,7 +27,7 @@
     data() {
       return {
         // TODO: get `selected` from state, not set arbitrary
-        selected:  'Identify',
+        selected:  '',
         routes: [
           {
             title: 'Monitor',

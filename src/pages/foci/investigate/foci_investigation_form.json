@@ -55,7 +55,7 @@
             },
             "password": {
                 "type": "password",
-                "label": "not Password",
+                "label": "Password",
                 "helpers": [],
                 "validate": true,
                 "disabled": false,
@@ -99,7 +99,7 @@
         }
     },
     "data": {
-        "email": "Jonathan Smith",
+        "email": "Mrs Investigator ",
         "password": "MyPassword",
         "check": true
     }
