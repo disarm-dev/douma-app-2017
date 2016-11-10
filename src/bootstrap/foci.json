@@ -5,9 +5,10 @@
       "type": "Feature",
       "properties": {
         "id": "foci1",
-        "type": "foci",
         "name": "Foci 1",
-        "driversOfTransmission": "water"
+        "driversOfTransmission": "water",
+        "classification": "Active",
+        "responses": ["Monitoring"]
       },
       "geometry": {
         "type": "Polygon",
@@ -41,9 +42,10 @@
       "type": "Feature",
       "properties": {
         "id": "foci2",
-        "type": "foci",
         "name": "Foci 2",
-        "driversOfTransmission": "water"
+        "driversOfTransmission": "water",
+        "classification": "Active",
+        "responses": []
       },
       "geometry": {
         "type": "Polygon",
@@ -81,9 +83,10 @@
       "type": "Feature",
       "properties": {
         "id": "foci3",
-        "type": "foci",
         "name": "Foci 3",
-        "driversOfTransmission": "water"
+        "driversOfTransmission": "",
+        "classification": "",
+        "responses": []
       },
       "geometry": {
         "type": "Polygon",

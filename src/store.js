@@ -10,8 +10,8 @@ const store = new Vuex.Store({
   state: {
     count: 0,
     mapBounds: {},
-    activeFoci: {},
     focis: fociExamples,
+    activeFoci: '',
     structures: {}
   },
   mutations: {
