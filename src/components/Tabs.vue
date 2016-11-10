@@ -26,6 +26,7 @@
     props: ['value'],
     data() {
       return {
+        firstClick: true,
         // TODO: get `selected` from state, not set arbitrary
         selected:  '',
         routes: [
@@ -54,6 +55,10 @@
     },
     methods: {
       onTabChange(i) {
+        if (this.firstClick) {
+          this.firstClick = false;
+          return;
+        }
         this.$emit('change', this.routes[i].name)
       },
       onSelectChange(e) {
