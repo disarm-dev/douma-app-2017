@@ -75,7 +75,7 @@ const monitor = [
   {
     path: '/foci/monitor',
     name: 'monitor',
-    redirect: '/foci/monitor/list'
+    redirect: '/foci/monitor/map'
   },
   {
     path: '/foci/monitor/list',
