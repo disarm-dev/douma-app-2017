@@ -18,7 +18,7 @@
 
   import firebase from 'firebase'
   // TODO: Remove temp data
-  import firebaseStructures from '../../../bootstrap/foci.json' // Smaller 
+  import firebaseStructures from '../../../bootstrap/firebase_export.json' // Smaller 
 
 
   export default {
@@ -41,6 +41,7 @@
     },
     methods: {
       loadStructures() {
+        debugger
         const structuresArray = Helpers.firebaseObjectToArray(firebaseStructures)
 
         // Create featureCollection from raw data

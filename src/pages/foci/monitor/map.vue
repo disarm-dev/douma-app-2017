@@ -15,7 +15,7 @@
   import 'leaflet/dist/leaflet.css'
   import geoCoords from 'geojson-coords'
 
-  import firebaseStructures from '../../../bootstrap/foci.json' // Smaller 
+  import firebaseStructures from '../../../bootstrap/firebase_export.json' // Smaller 
   
 
   export default {
