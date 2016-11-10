@@ -41,7 +41,19 @@
     },
     methods: {
       loadFocis() {
-        Leaflet.geoJSON(fociExamples).addTo(this.map)
+        this.focisFc = fociExamples
+        Leaflet.geoJSON(fociExamples, {
+          onEachFeature: (feature, layer) => {
+            layer.on({
+              click: (e) => {
+                // e.target.setStyle({color: 'pink'}) // TODO: Be serious
+                layer.setStyle({color: 'pink'})
+                feature.properties.casePresent = !(feature.properties.casePresent)
+                // window.layer = layer
+              }
+            })
+          }
+        }).addTo(this.map)
       },
       loadStructures() {
         // Take Firebase object of structure polygons, return array with 
@@ -70,7 +82,7 @@
             onEachFeature: (feature, layer) => {
               layer.on({
                 click: (e) => {
-                  e.target.setStyle({color: 'pink'}) // TODO: Be serious
+                  e.target.setStyle({color: 'orange'}) // TODO: Be serious
                   feature.properties.casePresent = !(feature.properties.casePresent)
                 }
               })
