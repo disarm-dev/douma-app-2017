@@ -99,6 +99,7 @@
     display: block;
     padding-right: 2em;
     padding-left: 2em;
+    z-index: 2;
   }
 
   @media screen and (min-width: 500px) {
