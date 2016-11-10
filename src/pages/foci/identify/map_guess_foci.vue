@@ -18,7 +18,8 @@
 
   import {MapSupport} from './map_support.js'
   // TODO: Remove temp data
-  import firebaseStructures from './temp_structures.js'
+  import firebaseStructures from './temp_structures.json'
+  import moreStructures from './firebase_export.json'
 
 
   export default {
