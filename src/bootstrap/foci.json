@@ -5,7 +5,9 @@
       "type": "Feature",
       "properties": {
         "id": "foci1",
-        "type": "foci"
+        "type": "foci",
+        "name": "Foci 1",
+        "driversOfTransmission": "water"
       },
       "geometry": {
         "type": "Polygon",
@@ -39,7 +41,9 @@
       "type": "Feature",
       "properties": {
         "id": "foci2",
-        "type": "foci"
+        "type": "foci",
+        "name": "Foci 2",
+        "driversOfTransmission": "water"
       },
       "geometry": {
         "type": "Polygon",
@@ -77,7 +81,9 @@
       "type": "Feature",
       "properties": {
         "id": "foci3",
-        "type": "foci"
+        "type": "foci",
+        "name": "Foci 3",
+        "driversOfTransmission": "water"
       },
       "geometry": {
         "type": "Polygon",

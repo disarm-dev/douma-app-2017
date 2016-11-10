@@ -1,13 +1,18 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+// TODO: Remove bootstrapped data for dev
+import fociExamples from './bootstrap/foci.json'
+
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
     count: 0,
     mapBounds: {},
-    activeFoci: {}
+    activeFoci: {},
+    focis: fociExamples,
+    structures: {}
   },
   mutations: {
     increase(state) {

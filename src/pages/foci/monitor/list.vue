@@ -8,38 +8,17 @@
       </md-card-header>
       <md-card-content>
         <md-list class="md-double-line">
-          <md-list-item>
+          
+          <md-list-item v-for='foci in focis.features'>
             <md-icon class="md-primary">blur_on</md-icon>
 
             <div class="md-list-text-container">
-              <span>Foci #1</span>
-              <span>Nhlangano</span>
+              <span>{{foci.properties.name}}</span>
             </div>
 
             <md-button class="md-accent">Read more</md-button>
           </md-list-item>
 
-          <md-list-item>
-            <md-icon class="md-primary">blur_on</md-icon>
-
-            <div class="md-list-text-container">
-              <span>Foci #2</span>
-              <span>Mbabane</span>
-            </div>
-
-            <md-button class="md-accent">Read more</md-button>
-          </md-list-item>
-
-          <md-list-item>
-            <md-icon class="md-primary">blur_on</md-icon>
-
-            <div class="md-list-text-container">
-              <span>Foci #3</span>
-              <span>Ezulwini</span>
-            </div>
-
-            <md-button class="md-accent">Read more</md-button>
-          </md-list-item>
         </md-list>
       </md-card-content>
     </md-card>
@@ -48,7 +27,14 @@
 
 <script>
   export default {
-    
+    data() {
+      return {
+        focis: this.$store.state.focis
+      }
+    },
+    mounted() {
+      console.log(this.focis)
+    }
   }
 </script>
 

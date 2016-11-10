@@ -17,7 +17,8 @@
 
   // import firebaseStructures from './firebase_export.json'
   import firebaseStructures from './temp_structures.json' // Smaller 
-  import fociExamples from './foci.json'
+  
+  // import fociExamples from './foci.json'
 
 
   export default {
@@ -25,10 +26,11 @@
       return {
         map: {},
         structuresLayer: {},
-        focisFc: {}
+        focisFc: this.$store.state.focis
       }
     },
     mounted() {
+
       this.map = Leaflet.map('monitor-map', {
         tms: true,
         center: [-26.3231769,31.1380957],
@@ -42,8 +44,7 @@
     },
     methods: {
       loadFocis() {
-        this.focisFc = fociExamples
-        Leaflet.geoJSON(fociExamples, {
+          Leaflet.geoJSON(this.focisFc, {
           onEachFeature: (feature, layer) => {
             layer.on({
               click: (e) => {
