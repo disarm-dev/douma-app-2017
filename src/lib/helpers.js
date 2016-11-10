@@ -21,7 +21,7 @@ export function buildFeatureCollection (array) {
     let obj = { type: 'Feature', properties: {} }
     obj.properties.id = i.id
     // TODO: Remove this `casePresent` for-debugging-only property
-    obj.properties.casePresent = !!(i.actioned)
+    obj.properties.casePresent = Math.random() >= 0.5 // random boolean, was `!!(i.actioned)`
     obj.geometry = i.geometry
     return obj
   })
