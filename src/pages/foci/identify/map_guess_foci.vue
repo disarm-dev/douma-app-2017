@@ -18,9 +18,7 @@
 
   import firebase from 'firebase'
   // TODO: Remove temp data
-  import firebaseStructures from './temp_structures.json'
-  import moreStructures from './firebase_export.json'
-
+  import firebaseStructures from '../../../bootstrap/foci.json' // Smaller 
 
 
   export default {
