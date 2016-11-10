@@ -6,6 +6,7 @@
       "properties": {
         "id": "foci1",
         "name": "Foci 1",
+        "location": "Simunye",
         "driversOfTransmission": "water",
         "classification": "Active",
         "responses": ["Monitoring"]
@@ -43,6 +44,7 @@
       "properties": {
         "id": "foci2",
         "name": "Foci 2",
+        "location": "Simunye",
         "driversOfTransmission": "water",
         "classification": "Active",
         "responses": []
@@ -84,6 +86,7 @@
       "properties": {
         "id": "foci3",
         "name": "Foci 3",
+        "location": "Simunye",
         "driversOfTransmission": "",
         "classification": "",
         "responses": []
