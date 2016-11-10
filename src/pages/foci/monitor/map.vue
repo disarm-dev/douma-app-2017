@@ -7,12 +7,12 @@
 
 <script>
   import * as Helpers from '../../../lib/helpers.js'
+  import MapHelpers from '../../../lib/map_helpers.js'
   import { mapActions } from 'vuex'
 
   import Leaflet from 'leaflet'
   import 'leaflet/dist/leaflet.css'
   import geoCoords from 'geojson-coords'
-  import {MapSupport} from '../../../lib/map_support.js'
 
   // import firebaseStructures from './firebase_export.json'
   import firebaseStructures from './temp_structures.json' // Smaller 
@@ -22,7 +22,7 @@
     data() {
       return {
         map: {},
-        structuresFc: {},
+        structuresLayer: {},
         focisFc: {}
       }
     },
@@ -44,35 +44,41 @@
         const focisLayer = Leaflet.geoJSON(this.focisFc.polygons)
       },
       loadStructures() {
+        // Take Firebase object of structure polygons, return array with 
+        // `id` as one of the properties
         const structuresArray = Helpers.firebaseObjectToArray(firebaseStructures)
 
-        // Create featureCollection from raw data
-        const structuresFeatureCollection = Helpers.buildFeatureCollection(structuresArray)
+        // Create FeatureCollection from the structuresArray
+        const structuresFc = MapHelpers.buildFeatureCollection(structuresArray)
         
-        // Plot structures
-        this.structuresFc = new MapSupport(structuresFeatureCollection)
+        // Create FeatureCollection of structure centroids
+        // const centroidsFc = MapHelpers.convertPolygonsToCentroids(structuresFc)
 
         const structureStyle = {
           weight: 1,
           color: 'green'
         }
 
-        const structuresLayer = Leaflet.geoJSON(this.structuresFc.polygons, {
+        const structuresLayer = Leaflet.geoJSON(structuresFc, {
             style: (feature) => {
               if (feature.properties.casePresent === true) {
-                return {color: 'red'}
+                return {...structureStyle, color: 'red'}
               } else {
-                return {color: 'blue'}
+                return {...structureStyle, color: 'blue'}
               }
             },
-            // onEachFeature: (feature, layer) => {
-            //   layer.on({
-            //     click: (e) => {
-            //     }
-            //   })
-            // }
+            onEachFeature: (feature, layer) => {
+              layer.on({
+                click: (e) => {
+                  e.target.setStyle({color: 'pink'}) // TODO: Be serious
+                  feature.properties.casePresent = !(feature.properties.casePresent)
+                }
+              })
+            }
           }
         )
+
+        this.structuresLayer = structuresLayer
         
         structuresLayer.addTo(this.map)
         this.map.fitBounds(structuresLayer.getBounds())

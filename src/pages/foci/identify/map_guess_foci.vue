@@ -14,8 +14,7 @@
   import Leaflet from 'leaflet'
   import 'leaflet/dist/leaflet.css'
   import geoCoords from 'geojson-coords'
-  import {MapSupport} from '../../../lib/map_support.js'
-
+  import MapHelpers from '../../../lib/map_helpers.js'
 
   import firebase from 'firebase'
   // TODO: Remove temp data
@@ -50,7 +49,7 @@
         const structuresFeatureCollection = Helpers.buildFeatureCollection(structuresArray)
         
         // Plot structures
-        this.structures = new MapSupport(structuresFeatureCollection)
+        // this.structures = new MapSupport(structuresFeatureCollection)
 
         const structureStyle = {
           weight: 1,

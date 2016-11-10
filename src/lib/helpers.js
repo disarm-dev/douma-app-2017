@@ -10,24 +10,6 @@ export function firebaseObjectToArray (data) {
   return output
 }
 
-// TODO: Do we need our own implementation of this?!
-export function buildFeatureCollection (array) {
-  let output = {
-    type: "FeatureCollection",
-    features: []
-  }
-
-  output.features = array.map((i, index) => {
-    let obj = { type: 'Feature', properties: {} }
-    obj.properties.id = i.id
-    // TODO: Remove this `casePresent` for-debugging-only property
-    obj.properties.casePresent = Math.random() >= 0.5 // random boolean, was `!!(i.actioned)`
-    obj.geometry = i.geometry
-    return obj
-  })
-
-  return output
-}
 
 
 
