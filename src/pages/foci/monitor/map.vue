@@ -16,6 +16,7 @@
 
   // import firebaseStructures from './firebase_export.json'
   import firebaseStructures from './temp_structures.json' // Smaller 
+  import fociExamples from './foci.json'
 
 
   export default {
@@ -36,12 +37,11 @@
       const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
       Leaflet.tileLayer(url).addTo(this.map); 
       this.loadStructures()
+      this.loadFocis()
     },
     methods: {
       loadFocis() {
-        this.focisFc = {}
-
-        const focisLayer = Leaflet.geoJSON(this.focisFc.polygons)
+        Leaflet.geoJSON(fociExamples).addTo(this.map)
       },
       loadStructures() {
         // Take Firebase object of structure polygons, return array with 
@@ -82,7 +82,6 @@
         
         structuresLayer.addTo(this.map)
         this.map.fitBounds(structuresLayer.getBounds())
-
       }
     }
   }
