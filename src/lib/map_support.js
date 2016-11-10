@@ -3,9 +3,11 @@ import geoCoords from 'geojson-coords'
 
 export class MapSupport {
 
+  // Doesn't retunr a FeatureCollection, just the instance.
+
   constructor (polygonsFeatureCollection) {
     this.polygons = polygonsFeatureCollection
-    this.centroids = this.convertPolygonsToCentroids()
+    // this.centroids = this.convertPolygonsToCentroids()
     return this
   }
 
@@ -21,7 +23,7 @@ export class MapSupport {
   guessFociBoundary () {
     // Returns a FeatureCollection
     // create convex hull
-    const caseCentroids = this.centroids.features.filter((i) => i.properties.casePresent)
+    const caseCentroids = this.convertPolygonsToCentroids().features.filter((i) => i.properties.casePresent)
     const caseCentroidsFeatureCollection = {
       type: 'FeatureCollection', 
       features: caseCentroids
