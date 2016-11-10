@@ -33,7 +33,7 @@
     },
     methods: {
       loadStructures() {
-        const structuresArray = Helpers.objectToArray(firebaseStructures)
+        const structuresArray = Helpers.firebaseObjectToArray(firebaseStructures)
 
         // Create featureCollection from raw data
         const structuresFeatureCollection = Helpers.buildFeatureCollection(structuresArray)
