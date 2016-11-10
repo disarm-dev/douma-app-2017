@@ -41,7 +41,7 @@
     },
     methods: {
       loadStructures() {
-        debugger
+        
         const structuresArray = Helpers.firebaseObjectToArray(firebaseStructures)
 
         // Create featureCollection from raw data
