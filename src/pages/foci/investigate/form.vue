@@ -1,7 +1,7 @@
 <template>
   <div>
-    <md-button class='md-raised md-accent' @click="$router.push({name: 'investigate:detail'})">Summary</md-button>
-    <md-button class='md-raised md-accent' @click="$router.push({name: 'investigate:map'})">Map</md-button>
+    <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:investigate:detail'})">Summary</md-button>
+    <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:investigate:map'})">Map</md-button>
     <div class="switch-container">
       <md-switch class="switch" v-model="editing" @change="update" name="my-test0">
         Edit form schema
