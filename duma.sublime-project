@@ -3,7 +3,7 @@
 	[
 		{
 			"path": ".",
-      "folder_exclude_patterns": ["node_modules"]
+      "folder_exclude_patterns": ["dist", "node_modules"]
 		}
 	],
   "settings":
@@ -12,7 +12,7 @@
       {
         "excluded_dir_patterns":
         [
-          "node_modules", "tmp.*", "|.git", "|.svn", "|.hg"
+          "node_modules", "dist", "tmp.*", "|.git", "|.svn", "|.hg"
         ]
       }
   }

@@ -37,6 +37,7 @@
       </md-list>
     </md-sidenav>
 
+    <!-- TODO: Fix this hack for showing the correct Tabs -->
     <duma-tabs v-if="showNav" :value="$route.name" />
 
     <div>
