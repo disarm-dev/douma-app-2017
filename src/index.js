@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import { sync } from 'vuex-router-sync'
 import './fonts/Roboto.css'
 import './fonts/MaterialIcons.css'
+import './index.html'
 
 import configure from './config'
 import App from './components/App.vue'
