@@ -4,7 +4,6 @@
     <no-active-foci v-if='!activeFoci' />
 
     <div v-else>
-        <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:investigate:form'})">Form</md-button>
         <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:investigate:map'})"
         >Map</md-button>
         <div class='container'>
@@ -19,6 +18,7 @@
               : {{activeFoci.properties.responses.join(', ')}}
             </li>
           </ul>
+          <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:investigate:form'})">Edit</md-button>
         </div>
       </div>
     </div>

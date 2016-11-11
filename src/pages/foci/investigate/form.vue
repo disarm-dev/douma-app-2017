@@ -1,15 +1,17 @@
 <template>
   <div>
-    <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:investigate:detail'})">Summary</md-button>
-    <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:investigate:map'})">Map</md-button>
+    <div v-show="!editing">
+      <div id="alpaca-form"></div>
+      <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:investigate:detail'})">Save
+      </md-button>
+    </div>
+
     <div class="switch-container">
       <md-switch class="switch" v-model="editing" @change="update" name="my-test0">
         Edit form schema
         <md-tooltip md-direction="left">Form can be edited using Alpaca JS</md-tooltip>
       </md-switch>
     </div>
-
-    <div v-show="!editing" id="alpaca-form"></div>
 
     <div v-show="editing" class="editor">
       <md-input-container>
