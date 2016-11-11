@@ -14,8 +14,7 @@ import AOIMap from './pages/meta/aoi/map.vue'
 
 // Monitor
 
-import MonitorList from './pages/foci/monitor/list.vue'
-import MonitorMap from './pages/foci/monitor/map.vue'
+import Monitor from './pages/foci/monitor/monitor.vue'
 
 // Identify
 
@@ -105,13 +104,13 @@ const foci_monitor = [
     title: 'Monitor',
     path: '/foci/monitor/list',
     name: 'foci:monitor:list',
-    component: MonitorList
+    component: Monitor
   },
   {
     title: 'Monitor',
     path: '/foci/monitor/map',
     name: 'foci:monitor:map',
-    component: MonitorMap
+    component: Monitor
   }
 ]
 

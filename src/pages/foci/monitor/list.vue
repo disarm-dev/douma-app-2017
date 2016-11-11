@@ -1,33 +1,24 @@
 <template>
+  <div class='fab-container'>
+    <md-button class="md-fab md-clean" @click="$router.push({name: 'foci:monitor:map'})">
+      <md-icon>map</md-icon>
+    </md-button>
+    <div class="monitor-list">    
+      <div class="md-title">Foci in Lobamba</div>
+      <md-list class="md-double-line">
+        
+        <md-list-item v-for='foci in focis.features' @click="goToFoci(foci)">
+          <md-icon class="md-primary">blur_on</md-icon>
 
-  <div class="monitor-list">
-    <div class="switch-container">
-      <md-switch class="switch" :value="true"  @change="viewMap">
-        List view
-      </md-switch>
+          <div class="md-list-text-container">
+            <span>{{foci.properties.name}}</span>
+            <span>{{foci.properties.location}}</span>
+          </div>
+
+        </md-list-item>
+
+      </md-list>
     </div>
-
-    <md-card class="foci-card">
-      <md-card-header>
-        <div class="md-title">Foci in Lobamba</div>
-      </md-card-header>
-      <md-card-content>
-        <md-list class="md-double-line">
-          
-          <md-list-item v-for='foci in focis.features'>
-            <md-icon class="md-primary">blur_on</md-icon>
-
-            <div class="md-list-text-container">
-              <span>{{foci.properties.name}}</span>
-              <span>{{foci.properties.location}}</span>
-            </div>
-
-            <md-button class="md-accent" @click="goToFoci(foci)">Read more</md-button>
-          </md-list-item>
-
-        </md-list>
-      </md-card-content>
-    </md-card>
   </div>
 </template>
 
@@ -51,15 +42,18 @@
 </script>
 
 <style scoped>
+  .fab-container {
+    position: relative;
+  }
+
+  .fab-container .md-fab {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+  }
+
   .monitor-list {
-    /*margin: 2em 1em;*/
-    margin-right: 1em;
-    margin-left: 1em;
+    padding: 20px 10px;
   }
-
-  .foci-card {
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
 </style>
