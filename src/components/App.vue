@@ -19,11 +19,15 @@
 
       <md-list>
         <md-list-item @click="navigate('foci')">
-          <md-icon>move_to_inbox</md-icon><span>Foci</span>
+          <md-icon>filter_center_focus</md-icon><span>Foci</span>
         </md-list-item>
 
         <md-list-item>
           <md-icon>send</md-icon><span>IRS</span>
+        </md-list-item>
+
+        <md-list-item>
+          <md-icon>featured_play_list</md-icon><span>Cases</span>
         </md-list-item>
       </md-list>
     </md-sidenav>

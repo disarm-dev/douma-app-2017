@@ -1,23 +1,19 @@
 <template>
   <div>
+  
     <md-tabs class="tabs" @change="onTabChange"  :md-centered="true">
-      
       <md-tab v-for="value in routes" :md-label="value.title" :md-active="current == value.name"></md-tab>
-
     </md-tabs>
     
     <md-toolbar class="select">
       <md-input-container>
         <md-select name="navigation" :value="current" @change="onSelectChange">
-
           <md-option v-for="value in routes" :value="value.name">{{value.name}}</md-option>
-
         </md-select>
       </md-input-container>
     </md-toolbar>
 
   </div>
-
 </template>
 
 <script> 
