@@ -1,14 +1,14 @@
 <template>
   <div>
   
-    <md-tabs class="tabs" @change="onTabChange"  :md-centered="true">
-      <md-tab v-for="value in routes" :md-label="value.name" :md-active="current == value.name"></md-tab>
+    <md-tabs class="tabs" @change="onTabChange" :md-centered="true">
+      <md-tab v-for="(route, index) in routes" :md-label="route.title" :md-active="isTabActive(route)"></md-tab>
     </md-tabs>
     
     <md-toolbar class="select">
       <md-input-container>
-        <md-select name="navigation" :value="current" @change="onSelectChange">
-          <md-option v-for="value in routes" :value="value.name">{{value.name}}</md-option>
+        <md-select name="navigation" :value="selectValue" @change="onSelectChange">
+          <md-option v-for="route in routes" :value="route.name">{{route.title}}</md-option>
         </md-select>
       </md-input-container>
     </md-toolbar>
@@ -17,46 +17,13 @@
 </template>
 
 <script> 
+  import {find} from 'lodash'
 
   export default {
-    props: ['value'],
+    props: ['value'], // the current route's name
     data() {
       return {
         firstClick: true,
-        // TODO: get `selected` from state, not set arbitrary
-        selected:  '',
-        // routes: [
-        //   {
-        //     title: 'Monitor',
-        //     name: 'monitor'
-        //   },
-        //   {
-        //     title: 'Identify',
-        //     name: 'identify'
-        //   },
-        //   {
-        //     title: 'Investigate',
-        //     name: 'investigate'
-        //   },
-        //   {
-        //     title: 'Classify',
-        //     name: 'classify'
-        //   },
-        //   {
-        //     title: 'Respond',
-        //     name: 'respond'
-        //   }
-        // ]
-      }
-    },
-    computed: {
-      routes () {
-        const thematic_area = this.$store.state.thematic_area
-
-        return this.$router.routes.filter( (route) => {
-          route.thematic_area === thematic_area &&
-          route.name.indexOf('root') !== -1
-        }) 
       }
     },
     methods: {
@@ -65,20 +32,39 @@
           this.firstClick = false;
           return;
         }
-        this.$emit('change', this.routes[i].name)
+        this.$router.push({name: this.routes[i].name})
       },
       onSelectChange(e) {
-        this.$emit('change', e)
+        this.$router.push({name: e})
+      },
+      isTabActive(route) {
+        // the tab has the value foci:monitor, but the route is foci:monitor:map
+        // check if the current route contains the value of the tab
+        return this.value.indexOf(route.name) !== -1
       }
     },
     computed: {
-      current() {
-        if (this.value.indexOf(':') !== -1) {
-          return this.value.split(':')[0];
-        } else {
-          return this.value;
-        }
-      }
+      selectValue() {
+        // find the value displayed by the select component
+        const route = find(this.$router.options.routes, {name: this.value})
+        return route.title
+      },
+      routes () {
+        const numberOfColons = (this.value.match(/:/g) || []).length
+
+        // get the first part of the name (foci/meta/irs)
+        const namespace = (numberOfColons ? this.value.split(':')[0] : this.value)
+
+        return this.$router.options.routes
+        .filter((r) => {
+          // only get routes for this namespace
+          return r.name.indexOf(namespace) !== -1
+        })
+        .filter((r) => {
+          // return root routes (foci:investigate, irs:monitor, meta:login)
+          return (r.name.match(/:/g) || []).length === 1
+        })
+      },
     }
   }
 </script>

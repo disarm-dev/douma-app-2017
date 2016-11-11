@@ -55,30 +55,37 @@ import CasesRoot from './pages/cases/root.vue'
 const meta = [
   {
     path: '/',
-    name: 'home',
+    name: 'meta',
     component: App,
     redirect: '/login'
   },
   {
+    title: 'Login',
     path: '/login',
-    name: 'login',
+    name: 'meta:login',
     component: Login
   },
-  {
+  { 
+    title: 'Logout',
     path: '/logout',
-    name: 'logout',
+    name: 'meta:logout',
     component: Logout
   },
   {
+    title: 'Sync',
     path: '/sync',
-    name: 'sync',
+    name: 'meta:sync',
     component: SyncStatus
   },
   {
+    title: 'AOI',
     path: '/aoi',
-    name: 'aoi',
+    name: 'meta:aoi',
     component: AOIMap
   },
+]
+
+const foci_root = [
   {
     path: '/foci',
     name: 'foci',
@@ -89,26 +96,19 @@ const meta = [
 // FOCI
 const foci_monitor = [
   {
-    thematic_area: 'foci',
-    path: '/foci',
-    name: 'foci:root',
-    component: 'FociRoot'
-  },
-  {
-    thematic_area: 'foci',
-    is_root: true,
+    title: 'Monitor',
     path: '/foci/monitor',
     name: 'foci:monitor',
     redirect: '/foci/monitor/list'
   },
   {
-    thematic_area: 'foci',
+    title: 'Monitor',
     path: '/foci/monitor/list',
     name: 'foci:monitor:list',
     component: MonitorList
   },
   {
-    thematic_area: 'foci',
+    title: 'Monitor',
     path: '/foci/monitor/map',
     name: 'foci:monitor:map',
     component: MonitorMap
@@ -117,78 +117,90 @@ const foci_monitor = [
 
 const foci_identify = [
   {
+    title: 'Identify',
     path: '/foci/identify',
-    name: 'identify',
+    name: 'foci:identify',
     redirect: '/foci/identify/map/guess_foci'
   },
   {
+    title: 'Identify',
     path: '/foci/identify/list',
-    name: 'identify:list',
+    name: 'foci:identify:list',
     component: IdentifyList
   },
   {
+    title: 'Identify',
     path: '/foci/identify/map/guess_foci',
-    name: 'identify:map:guess_foci',
+    name: 'foci:identify:map:guess_foci',
     component: IdentifyMapGuessFoci
   },
   {
+    title: 'Identify',
     path: '/foci/identify/map/edit_foci',
-    name: 'identify:map:edit_foci',
+    name: 'foci:identify:map:edit_foci',
     component: IdentifyMapEditFoci
   }
 ]
 
 const foci_investigate = [
   {
+    title: 'Investigate',
     path: '/foci/investigate',
-    name: 'investigate',
+    name: 'foci:investigate',
     redirect: '/foci/investigate/detail'
   },
   {
+    title: 'Investigate',
     path: '/foci/investigate/detail',
-    name: 'investigate:detail',
+    name: 'foci:investigate:detail',
     component: InvestigateDetail
   },
   {
+    title: 'Investigate',
     path: '/foci/investigate/form',
-    name: 'investigate:form',
+    name: 'foci:investigate:form',
     component: InvestigateForm
   },
   {
+    title: 'Investigate',
     path: '/foci/investigate/map',
-    name: 'investigate:map',
+    name: 'foci:investigate:map',
     component: InvestigateMap
   },
-  ,
   {
+    title: 'Investigate',
     path: '/foci/investigate/editmap',
-    name: 'investigate:mapedit',
+    name: 'foci:investigate:mapedit',
     component: investigateMapEdit
   }
 ]
 
 const foci_classify = [
   {
+    title: 'Classify',
     path: '/foci/classify',
-    name: 'classify',
+    name: 'foci:classify',
     redirect: '/foci/classify/form'
   },
   {
+    title: 'Classify',
     path: '/foci/classify/form',
-    name: 'classify:form',
+    name: 'foci:classify:form',
     component: ClassifyForm
   }
 ]
 
 const foci_respond = [
   {
+    title: 'Respond',
     path: '/foci/respond',
-    name: 'respond',
+    name: 'foci:respond',
     redirect: '/foci/respond/form'
   },
   {
+    title: 'Respond',
     path: '/foci/respond/form',
-    name: 'respond:form',
+    name: 'foci:respond:form',
     component: RespondForm
   }
 ]
@@ -199,6 +211,21 @@ const irs_root = [
   {
     path: '/irs',
     name: 'irs',
+    component: IRSRoot,
+    redirect: '/irs/monitor'
+  }
+]
+
+const irs_monitor = [
+  {
+    title: 'Monitor IRS',
+    path: '/irs/monitor',
+    name: 'irs:monitor',
+    component: IRSRoot
+  },
+  {
+    path: '/irs/monitor/map',
+    name: 'irs:monitor:map',
     component: IRSRoot
   }
 ]
@@ -206,18 +233,34 @@ const irs_root = [
 // CASES
 const cases_root = [
   {
+
     path: '/cases',
     name: 'cases',
+    redirect: '/cases/monitor'
+  }
+]
+
+const cases_monitor= [
+  {
+    title: 'Monitor Cases',
+    path: '/cases/monitor',
+    name: 'cases:monitor',
+    component: CasesRoot
+  },
+  {
+    path: '/cases/monitor/map',
+    name: 'cases:monitor:map',
     component: CasesRoot
   }
 ]
 
 
-const foci = [].concat(foci_monitor, foci_identify, foci_investigate, foci_classify, foci_respond)
 
-const irs = [].concat(irs_root)
+const foci = [].concat(foci_root, foci_monitor, foci_identify, foci_investigate, foci_classify, foci_respond)
 
-const cases = [].concat(cases_root)
+const irs = [].concat(irs_root, irs_monitor)
+
+const cases = [].concat(cases_root, cases_monitor)
 
 const routes = [].concat(meta, foci, irs, cases)
 
