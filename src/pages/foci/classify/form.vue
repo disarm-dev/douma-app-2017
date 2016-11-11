@@ -2,13 +2,21 @@
   <div>
     <no-active-foci v-if='!activeFoci' />
 
-    <div v-else>
-      <input type='radio' name='classification' v-model="classification" value="active" />
-      <label>Active</label>
-      <input type='radio' name='classification' v-model="classification" value="residual_active" />
-      <label>Residual, active</label>
-      <input type='radio' name='classification' v-model="classification" value="inactive" />
-      <label>Inactive</label>
+    <div class="container" v-else>
+      <md-card>
+        <md-card-header>
+          <div class="md-title">Classify</div>
+        </md-card-header>
+        <md-card-content>
+          <div>
+            <md-radio v-model="classification" md-value="active">Active</md-radio>
+            <md-radio v-model="classification" md-value="residual">Residual, active</md-radio>
+            <md-radio v-model="classification" md-value="inactive">Inactive</md-radio>
+          </div>
+          <md-button class="md-accent md-raised">Save</md-button>
+        </md-card-content>
+      </md-card>
+
     </div>
   </div>
 </template>
@@ -28,14 +36,24 @@
     computed: {
       classification: {
         get () {
-          if (!this.activeFoci) return ''
-          return this.$store.state.activeFoci.classification
+          return this.$store.state.activeFoci.properties.classification
         },
         set (newValue) {
-          this.$store.state.activeFoci.classification = newValue
+          this.$store.commit('setClassification', newValue)
         }
       }
     }
   }
 </script>
+
+<style scoped>
+  .container {
+    max-width: 800px;
+    margin: 2em auto;
+  }
+
+  .radio {
+
+  }
+</style>
 

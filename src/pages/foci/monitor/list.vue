@@ -4,7 +4,7 @@
       <md-icon>map</md-icon>
     </md-button>
     <div class="monitor-list">    
-      <div class="md-title">Recent Foci in Lobamba</div>
+      <div class="md-title">Recent foci</div>
       <md-list class="md-double-line">
         
         <md-list-item v-for='foci in focis.features' @click="goToFoci(foci)">
