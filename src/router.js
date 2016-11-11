@@ -8,6 +8,10 @@ import Logout from './pages/meta/user/logout.vue'
 import SyncStatus from './pages/meta/sync/status.vue'
 import AOIMap from './pages/meta/aoi/map.vue'
 
+// 
+// FOCI
+// 
+
 // Monitor
 
 import MonitorList from './pages/foci/monitor/list.vue'
@@ -34,8 +38,20 @@ import ClassifyForm from './pages/foci/classify/form.vue'
 
 import RespondForm from './pages/foci/respond/form.vue'
 
+// 
+// IRS
+// 
+import IRSRoot from './pages/irs/root.vue'
+
+
+// 
+// CASES
+// 
+import CasesRoot from './pages/cases/root.vue'
+
 // TODO: Namespace route names
 
+// META
 const meta = [
   {
     path: '/',
@@ -70,25 +86,36 @@ const meta = [
   }
 ]
 
-const monitor = [
+// FOCI
+const foci_monitor = [
   {
+    thematic_area: 'foci',
+    path: '/foci',
+    name: 'foci:root',
+    component: 'FociRoot'
+  },
+  {
+    thematic_area: 'foci',
+    is_root: true,
     path: '/foci/monitor',
-    name: 'monitor',
+    name: 'foci:monitor',
     redirect: '/foci/monitor/list'
   },
   {
+    thematic_area: 'foci',
     path: '/foci/monitor/list',
-    name: 'monitor:list',
+    name: 'foci:monitor:list',
     component: MonitorList
   },
   {
+    thematic_area: 'foci',
     path: '/foci/monitor/map',
-    name: 'monitor:map',
+    name: 'foci:monitor:map',
     component: MonitorMap
   }
 ]
 
-const identify = [
+const foci_identify = [
   {
     path: '/foci/identify',
     name: 'identify',
@@ -111,7 +138,7 @@ const identify = [
   }
 ]
 
-const investigate = [
+const foci_investigate = [
   {
     path: '/foci/investigate',
     name: 'investigate',
@@ -140,7 +167,7 @@ const investigate = [
   }
 ]
 
-const classify = [
+const foci_classify = [
   {
     path: '/foci/classify',
     name: 'classify',
@@ -153,7 +180,7 @@ const classify = [
   }
 ]
 
-const respond = [
+const foci_respond = [
   {
     path: '/foci/respond',
     name: 'respond',
@@ -166,9 +193,33 @@ const respond = [
   }
 ]
 
-const foci = [].concat(monitor, identify, investigate, classify, respond)
 
-const routes = [].concat(meta, foci)
+// IRS
+const irs_root = [
+  {
+    path: '/irs',
+    name: 'irs',
+    component: IRSRoot
+  }
+]
+
+// CASES
+const cases_root = [
+  {
+    path: '/cases',
+    name: 'cases',
+    component: CasesRoot
+  }
+]
+
+
+const foci = [].concat(foci_monitor, foci_identify, foci_investigate, foci_classify, foci_respond)
+
+const irs = [].concat(irs_root)
+
+const cases = [].concat(cases_root)
+
+const routes = [].concat(meta, foci, irs, cases)
 
 Vue.use(VueRouter)
 

@@ -2,7 +2,7 @@
   <div>
   
     <md-tabs class="tabs" @change="onTabChange"  :md-centered="true">
-      <md-tab v-for="value in routes" :md-label="value.title" :md-active="current == value.name"></md-tab>
+      <md-tab v-for="value in routes" :md-label="value.name" :md-active="current == value.name"></md-tab>
     </md-tabs>
     
     <md-toolbar class="select">
@@ -25,28 +25,38 @@
         firstClick: true,
         // TODO: get `selected` from state, not set arbitrary
         selected:  '',
-        routes: [
-          {
-            title: 'Monitor',
-            name: 'monitor'
-          },
-          {
-            title: 'Identify',
-            name: 'identify'
-          },
-          {
-            title: 'Investigate',
-            name: 'investigate'
-          },
-          {
-            title: 'Classify',
-            name: 'classify'
-          },
-          {
-            title: 'Respond',
-            name: 'respond'
-          }
-        ]
+        // routes: [
+        //   {
+        //     title: 'Monitor',
+        //     name: 'monitor'
+        //   },
+        //   {
+        //     title: 'Identify',
+        //     name: 'identify'
+        //   },
+        //   {
+        //     title: 'Investigate',
+        //     name: 'investigate'
+        //   },
+        //   {
+        //     title: 'Classify',
+        //     name: 'classify'
+        //   },
+        //   {
+        //     title: 'Respond',
+        //     name: 'respond'
+        //   }
+        // ]
+      }
+    },
+    computed: {
+      routes () {
+        const thematic_area = this.$store.state.thematic_area
+
+        return this.$router.routes.filter( (route) => {
+          route.thematic_area === thematic_area &&
+          route.name.indexOf('root') !== -1
+        }) 
       }
     },
     methods: {

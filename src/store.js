@@ -9,6 +9,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     count: 0,
+    thematic_area: 'foci',
     mapBounds: {},
     focis: fociExamples,
     activeFoci: null,
