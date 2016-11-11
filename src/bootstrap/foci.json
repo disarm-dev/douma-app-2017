@@ -4,11 +4,10 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "foci1",
-        "name": "Foci 1",
+        "id": "462121",
         "location": "Simunye",
         "driversOfTransmission": "water",
-        "classification": "Active",
+        "classification": "active",
         "responses": ["Monitoring"]
       },
       "geometry": {
@@ -42,11 +41,10 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "foci2",
-        "name": "Foci 2",
+        "id": "452423",
         "location": "Simunye",
         "driversOfTransmission": "water",
-        "classification": "Active",
+        "classification": "active",
         "responses": []
       },
       "geometry": {
@@ -84,11 +82,10 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "foci3",
-        "name": "Foci 3",
-        "location": "Simunye",
-        "driversOfTransmission": "",
-        "classification": "",
+        "id": "238314",
+        "location": "Not Simunye",
+        "driversOfTransmission": "unknown",
+        "classification": "unclassified",
         "responses": []
       },
       "geometry": {

@@ -3,11 +3,11 @@
     <no-active-foci v-if='!activeFoci' />
 
     <div v-else>
-      <input type='radio' name='classification' v-model="classification" value="1" />
+      <input type='radio' name='classification' v-model="classification" value="active" />
       <label>Active</label>
-      <input type='radio' name='classification' v-model="classification" value="2" />
+      <input type='radio' name='classification' v-model="classification" value="residual_active" />
       <label>Residual, active</label>
-      <input type='radio' name='classification' v-model="classification" value="3" />
+      <input type='radio' name='classification' v-model="classification" value="inactive" />
       <label>Inactive</label>
     </div>
   </div>

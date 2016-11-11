@@ -4,15 +4,15 @@
       <md-icon>map</md-icon>
     </md-button>
     <div class="monitor-list">    
-      <div class="md-title">Foci in Lobamba</div>
+      <div class="md-title">Recent Foci in Lobamba</div>
       <md-list class="md-double-line">
         
         <md-list-item v-for='foci in focis.features' @click="goToFoci(foci)">
           <md-icon class="md-primary">blur_on</md-icon>
 
           <div class="md-list-text-container">
-            <span>{{foci.properties.name}}</span>
-            <span>{{foci.properties.location}}</span>
+            <span>{{foci.properties.id}}</span>
+            <span>{{foci.properties.classification}}</span>
           </div>
 
         </md-list-item>
@@ -56,4 +56,5 @@
   .monitor-list {
     padding: 20px 10px;
   }
+
 </style>

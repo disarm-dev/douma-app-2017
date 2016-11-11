@@ -6,7 +6,7 @@
     <div v-else>
         <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:investigate:form'})">Form</md-button>
         <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:investigate:map'})">Map</md-button>
-        <h1>Summary of foci #{{activeFoci.properties.id}}</h1>
+        <h2>Foci #{{activeFoci.properties.id}}</h2>
         <ul>
           <li>Classification: {{activeFoci.properties.classification}}</li>
           <li>Responses: {{activeFoci.properties.responses.join(', ')}}</li>
