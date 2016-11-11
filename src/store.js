@@ -23,6 +23,9 @@ const store = new Vuex.Store({
       const index = findIndex(fociExamples.features, (o) => o.properties.id === fociId)
       state.activeFoci = fociExamples.features[index]
     },
+    setClassification(state, classification) {
+      state.activeFoci.properties.classification = classification
+    },
     setMapBounds(state, bounds) {
       state.mapBounds = bounds
     }
