@@ -45,7 +45,7 @@
     methods: {
       ...mapActions(['setActiveFoci']),
       viewList() {
-        this.$router.push({name: 'monitor:list'})
+        this.$router.push({name: 'foci:monitor:list'})
       },
       loadFocis() {
           Leaflet.geoJSON(this.focisFc, {
@@ -53,7 +53,7 @@
             layer.on({
               click: (e) => {
                 this.$store.commit('setActiveFoci', feature.properties.id)
-                this.$router.push({name: 'investigate'})
+                this.$router.push({name: 'foci:investigate'})
               }
             })
           }

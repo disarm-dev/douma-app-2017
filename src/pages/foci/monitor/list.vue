@@ -40,11 +40,11 @@
     },
     methods: {
       viewMap() {
-        this.$router.push({name: 'monitor:map'})
+        this.$router.push({name: 'foci:monitor:map'})
       },
       goToFoci(foci) {
         this.$store.commit('setActiveFoci', foci.properties.id)
-        this.$router.push({name: 'investigate'})
+        this.$router.push({name: 'foci:investigate'})
       }
     }
   }

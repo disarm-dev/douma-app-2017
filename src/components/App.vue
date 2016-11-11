@@ -22,17 +22,23 @@
           <md-icon>filter_center_focus</md-icon><span>Foci</span>
         </md-list-item>
 
-        <md-list-item>
+        <md-list-item @click="navigate('irs')">
           <md-icon>send</md-icon><span>IRS</span>
         </md-list-item>
 
-        <md-list-item>
+        <md-list-item @click="navigate('cases')">
           <md-icon>featured_play_list</md-icon><span>Cases</span>
+          <md-divider class="md-inset"></md-divider>
+        </md-list-item>
+
+        <md-list-item @click="navigate('meta')">
+          <md-icon>person</md-icon><span>Meta</span>
         </md-list-item>
       </md-list>
     </md-sidenav>
 
-    <duma-tabs :value="$route.name" @change="navigate" />
+    <!-- TODO: Fix this hack for showing the correct Tabs -->
+    <duma-tabs v-if="showNav" :value="$route.name" />
 
     <div>
       <router-view></router-view>
@@ -53,13 +59,17 @@ export default {
   data() {
     return {
       app: {},
-      user: {}
+      user: {},
+      showNav: true
     }
   },
   methods: {
     ...mapActions(['increase']),
-    navigate(somewhere) {
-      this.$router.push({name: somewhere})
+    navigate(name) {
+      this.showNav = false // we need this to re-render the tabs for the new routes
+      setTimeout(() => this.showNav = true, 10)
+      this.$router.push({name})
+      this.toggleSideNav()
     },
     toggleSideNav() {
       this.$refs.sideNav.toggle();
