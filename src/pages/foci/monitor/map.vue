@@ -28,12 +28,15 @@
       }
     },
     mounted() {
-
       this.map = Leaflet.map('monitor-map', {
         tms: true,
         center: [-26.3231769,31.1380957],
         zoom: 10,
       });
+
+      this.$parent.$on('show', () => {
+        this.map.invalidateSize()
+      })
 
       const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
       Leaflet.tileLayer(url).addTo(this.map); 

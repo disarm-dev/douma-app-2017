@@ -16,6 +16,7 @@
     },
     computed: {
       view () {
+        this.$emit('show')
         if (this.$route.name.indexOf('list') >= 0 ) {
           return 'list'
         } else {
