@@ -1,5 +1,5 @@
 <template>
-  <div id="app" v-md-theme="'default'">
+  <div id="app" v-md-theme="theme">
     <md-toolbar>
       <md-button class="md-icon-button" @click="toggleSideNav">
         <md-icon>menu</md-icon>
@@ -52,6 +52,9 @@ import Tabs from './Tabs.vue'
 
 
 export default {
+  props: {
+    theme: String
+  },
   components: {
     'duma-tabs': Tabs
   },
