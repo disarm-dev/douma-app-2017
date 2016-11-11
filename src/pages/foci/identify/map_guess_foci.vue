@@ -2,7 +2,7 @@
   <div>
     <md-button @click="loadStructures">Load data</md-button>
     <md-button @click="guessFoci">Guess foci</md-button>
-    <md-button @click="editFoci">Edit foci</md-button>
+    <md-button @click="editFoci">Edit focis</md-button>
     <div id="identify-map"></div>
   </div>
 </template>
