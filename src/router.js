@@ -4,7 +4,6 @@ import VueRouter from 'vue-router'
 // Meta
 import App from './components/App.vue'
 import Login from './pages/meta/user/login.vue'
-import Logout from './pages/meta/user/logout.vue'
 import SyncStatus from './pages/meta/sync/status.vue'
 import AOIMap from './pages/meta/aoi/map.vue'
 
@@ -68,7 +67,8 @@ const meta = [
     title: 'Logout',
     path: '/logout',
     name: 'meta:logout',
-    component: Logout
+    // component: Logout
+    redirect: '/'
   },
   {
     title: 'Sync',
@@ -210,14 +210,13 @@ const irs_root = [
   {
     path: '/irs',
     name: 'irs',
-    component: IRSRoot,
     redirect: '/irs/monitor'
   }
 ]
 
 const irs_monitor = [
   {
-    title: 'Monitor IRS',
+    title: 'Target IRS',
     path: '/irs/monitor',
     name: 'irs:monitor',
     component: IRSRoot

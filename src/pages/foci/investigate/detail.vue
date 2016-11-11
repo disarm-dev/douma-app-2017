@@ -1,17 +1,25 @@
 <template>
 
-  <div>
+  <div >
     <no-active-foci v-if='!activeFoci' />
 
     <div v-else>
         <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:investigate:form'})">Form</md-button>
-        <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:investigate:map'})">Map</md-button>
-        <h2>Foci #{{activeFoci.properties.id}}</h2>
-        <ul>
-          <li>Classification: {{activeFoci.properties.classification}}</li>
-          <li>Responses: {{activeFoci.properties.responses.join(', ')}}</li>
-        </ul>
-  
+        <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:investigate:map'})"
+        >Map</md-button>
+        <div class='container'>
+          <h2>Foci #{{activeFoci.properties.id}}</h2>
+          <ul>
+            <li>
+              <a @click="$router.push({name: 'foci:classify'})">Classification</a>
+              : {{activeFoci.properties.classification}}
+            </li>
+            <li>
+              <a @click="$router.push({name: 'foci:respond'})">Responses</a>
+              : {{activeFoci.properties.responses.join(', ')}}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </template>

@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <h2>Hi user - login here</h2>
-    <!-- If user already logged in, head to last view -->
+  <div class='container'>
+    <div class='md-title'>Hey User - login here</div>
+    <!-- <div class='md-body-1'>For example, adding new cases, assigning to structures, etc.</div> -->
   </div>
 </template>
 

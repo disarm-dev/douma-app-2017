@@ -1,8 +1,11 @@
 <template>
-  <div>
-    <md-button @click="loadStructures">Load data</md-button>
-    <md-button @click="guessFoci">Guess foci</md-button>
-    <md-button @click="editFoci">Edit focis</md-button>
+  <div class='fab-container'>
+    <md-button class="md-fab md-accent" v-show='!fociGuess' @click="guessFoci()">
+      <md-icon style="color: white">border_outer</md-icon>
+    </md-button>
+    <md-button class="md-fab md-primary" v-show='fociGuess'>
+      <md-icon style="color: white">save</md-icon>
+    </md-button>
     <div id="identify-map"></div>
   </div>
 </template>
@@ -26,17 +29,19 @@
         map: {},
         structures: {},
         fociGuessLayer: new Leaflet.FeatureGroup(),
-        fociGuess: {}
+        fociGuess: null
       }
     },
     mounted() {
       this.map = Leaflet.map('identify-map', {
-        tms: true
+        // tms: true
       });
 
       const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
-      Leaflet.tileLayer(url).addTo(this.map); 
+      Leaflet.tileLayer(url).addTo(this.map)
       this.map.addLayer(this.fociGuessLayer)
+      this.addEditFociControls()
+      this.$nextTick(() => this.loadStructures())
     },
     methods: {
       loadStructures() {
@@ -74,12 +79,15 @@
         // convert geoJson coordinates into Leaflet coordinates
         const polyCoordinates = Leaflet.GeoJSON.coordsToLatLngs([coordinates], 1)
         
-        this.fociGuessLayer.addLayer(Leaflet.polygon(polyCoordinates))      
+        this.fociGuessLayer.addLayer(Leaflet.polygon(polyCoordinates, {
+          color: 'orange',
+          dashArray: [5,5]
+        }))      
       },
-      editFoci() {
+      addEditFociControls() {
         const drawControl = new Leaflet.Control.Draw({
           draw: {
-            polygon: true,
+            polygon: false,
             marker: false,
             polyline: false,
             rectangle: false,
@@ -97,9 +105,20 @@
 </script>
 
 <style scoped>
+  .fab-container {
+    position: relative;
+  }
+
+  .fab-container .md-fab {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+  }
+
   #identify-map {
     z-index: 0;
-    height: 85vh;
+    min-height: 85vh;
     overflow: hidden;
   }
 

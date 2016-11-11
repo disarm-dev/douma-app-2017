@@ -1,5 +1,8 @@
 <template>
-  <h2>IRS goes here</h2>
+  <div class='container'>
+    <div class='md-title'>IRS functionality can go here</div>
+    <div class='md-body-1'>For example, adding targeting, tracking intervention activity and progress.</div>
+  </div>
 </template>
 
 <script>

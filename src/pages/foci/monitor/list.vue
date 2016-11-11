@@ -1,7 +1,7 @@
 <template>
   <div class='fab-container'>
     <md-button class="md-fab md-clean" @click="$router.push({name: 'foci:monitor:map'})">
-      <md-icon>map</md-icon>
+      <md-icon>location_on</md-icon>
     </md-button>
     <div class="monitor-list">    
       <div class="md-title">Recent foci</div>

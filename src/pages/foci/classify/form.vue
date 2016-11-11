@@ -13,7 +13,7 @@
             <md-radio v-model="classification" md-value="residual">Residual, active</md-radio>
             <md-radio v-model="classification" md-value="inactive">Inactive</md-radio>
           </div>
-          <md-button class="md-accent md-raised">Save</md-button>
+          <md-button class="md-accent md-raised" @click="$router.push({name: 'foci:investigate'})">Save</md-button>
         </md-card-content>
       </md-card>
 

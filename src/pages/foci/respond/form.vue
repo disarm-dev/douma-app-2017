@@ -18,7 +18,7 @@
               <md-textarea></md-textarea>
             </md-input-container>
           </div>
-          <md-button class="md-accent md-raised">Save</md-button>
+          <md-button class="md-accent md-raised" @click="$router.push({name: 'foci:investigate'})">Save</md-button>
         </md-card-content>
       </md-card>
 
@@ -52,7 +52,7 @@
 
 </script>
 
-<style>
+<style scoped>
   .container {
     max-width: 800px;
     margin: 2em auto;

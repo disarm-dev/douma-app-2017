@@ -24,7 +24,8 @@
       return {
         map: {},
         structuresLayer: {},
-        focisFc: this.$store.state.focis
+        focisFc: this.$store.state.focis,
+        focisLayer: {}
       }
     },
     mounted() {
@@ -36,6 +37,7 @@
 
       this.$parent.$on('show', () => {
         this.map.invalidateSize()
+        this.map.fitBounds(this.focisLayer.getBounds())
       })
 
       const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
@@ -49,7 +51,7 @@
         this.$router.push({name: 'foci:monitor:list'})
       },
       loadFocis() {
-          Leaflet.geoJSON(this.focisFc, {
+        this.focisLayer = Leaflet.geoJSON(this.focisFc, {
           onEachFeature: (feature, layer) => {
             layer.on({
               click: (e) => {
@@ -59,6 +61,7 @@
             })
           }
         }).addTo(this.map)
+        this.map.fitBounds(this.focisLayer.getBounds())
       },
       loadStructures() {
         // Take Firebase object of structure polygons, return array with 
@@ -118,7 +121,7 @@
 
   #monitor-map {
     z-index: 0;
-    height: 85vh;
+    min-height: 85vh;
     overflow: hidden;
   }
 

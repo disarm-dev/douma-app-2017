@@ -43,10 +43,10 @@ export default {
       features: caseCentroids
     }
     const hull = turf.convex(caseCentroidsFeatureCollection)
-    const bufferedHull = turf.buffer(hull, 15, 'metres')
+    // const bufferedHull = turf.buffer(hull, 15, 'metres')
 
     // const simplified = this.simplifyPolygon(geoCoords(bufferedHull))
 
-    return bufferedHull
+    return hull
   },
 }
