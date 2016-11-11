@@ -13,6 +13,24 @@ configure()
 
 sync(store, router)
 
-const DUMA = Vue.component('app', App)
+let DUMA = Vue.component('app', App)
+const handleTheme = (route) => {
+  console.log(route);
+  if (route.name.indexOf('foci') >= 0) {
+    DUMA.theme = 'cyan'
+  } else if (route.name.indexOf('irs') >= 0) {
+    DUMA.theme = 'indigo'
+  } else if (route.name.indexOf('cases') >= 0) {
+    DUMA.theme = 'teal'
+  } else {
+    DUMA.theme = 'default'
+  }
+}
 
-const app = new DUMA({router, store}).$mount('#app')
+DUMA = new DUMA({router, store}).$mount('#app')
+
+handleTheme(router.currentRoute)
+
+router.afterEach((route) => {
+  handleTheme(route)
+})
