@@ -2,7 +2,6 @@ var path = require('path')
 var webpack = require('webpack')
 var Visualizer = require('webpack-visualizer-plugin')
 
-
 module.exports = {
   entry: './src/index.js',
   output: {
@@ -77,6 +76,6 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.LoaderOptionsPlugin({
       minimize: true
     }),
-    new Visualizer()
+    new Visualizer(),
   ])
 }
