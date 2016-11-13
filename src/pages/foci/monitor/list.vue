@@ -18,6 +18,13 @@
         </md-list-item>
 
       </md-list>
+      <md-card>
+        <md-card-header>12 new cases found</md-card-header>
+        <md-card-actions>
+          <md-button class='md-accent' @click="$router.push({name: 'foci:identify'})">Add new foci</md-button>
+        </md-card-actions>
+      </md-card>
+
     </div>
   </div>
 </template>
