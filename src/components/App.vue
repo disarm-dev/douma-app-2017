@@ -41,7 +41,10 @@
     <duma-tabs v-if="showNav" :value="$route.name" />
 
     <div>
-      <router-view></router-view>
+      <keep-alive>
+        <router-view v-if='this.$route.meta.keepRouteAlive'></router-view>
+      </keep-alive>
+      <router-view v-if='!this.$route.meta.keepRouteAlive'></router-view>
     </div>
   </div>
 </template>

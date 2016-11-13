@@ -1,7 +1,9 @@
 <template>
   <div>
     <monitor-list v-show="view === 'list'"/>
-    <monitor-map v-show="view === 'map'"/>
+    <keep-alive>
+      <monitor-map v-show="view === 'map'"/>
+    </keep-alive>
   </div>
 </template>
 

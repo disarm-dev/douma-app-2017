@@ -35,6 +35,7 @@
         zoom: 10,
       });
 
+      // TODO: Need to stop this fitBounds - it forgets any previous user zooming, etc.
       this.$parent.$on('show', () => {
         this.map.invalidateSize()
         this.map.fitBounds(this.focisLayer.getBounds())

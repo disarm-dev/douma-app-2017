@@ -41,7 +41,7 @@
       Leaflet.tileLayer(url).addTo(this.map)
       this.map.addLayer(this.fociGuessLayer)
       this.addEditFociControls()
-      this.$nextTick(() => this.loadStructures())
+      this.loadStructures()
     },
     methods: {
       loadStructures() {
@@ -67,9 +67,10 @@
           }
         }})
         
-        
-        structuresLayer.addTo(this.map)
-        this.map.fitBounds(structuresLayer.getBounds())
+        this.$nextTick( () => {
+          structuresLayer.addTo(this.map)
+          this.map.fitBounds(structuresLayer.getBounds())
+        })
       },
       guessFoci() {
         // result is in a FeatureCollection
