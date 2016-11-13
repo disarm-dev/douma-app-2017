@@ -47,7 +47,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .fab-container {
     position: relative;
   }
