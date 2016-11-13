@@ -1,28 +1,29 @@
 <template>
-
-  <div >
+  <div class='fab-container'>
     <no-active-foci v-if='!activeFoci' />
 
     <div v-else>
-        <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:investigate:map'})"
-        >Map</md-button>
-        <div class='container'>
-          <h2>Foci #{{activeFoci.properties.id}}</h2>
-          <ul>
-            <li>
-              <a @click="$router.push({name: 'foci:classify'})">Classification</a>
-              : {{activeFoci.properties.classification}}
-            </li>
-            <li>
-              <a @click="$router.push({name: 'foci:respond'})">Responses</a>
-              : {{activeFoci.properties.responses.join(', ')}}
-            </li>
-          </ul>
-          <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:investigate:form'})">Edit</md-button>
-        </div>
+      <md-button class="md-fab md-clean" @click="$router.push({name: 'foci:investigate:map'})">
+        <md-icon>location_on</md-icon>
+      </md-button>
+      <div class="foci-detail">    
+        <h2>Foci #{{activeFoci.properties.id}}</h2>
+        <ul>
+          <li>
+            <a @click="$router.push({name: 'foci:classify'})">Classification</a>
+            : {{activeFoci.properties.classification}}
+          </li>
+          <li>
+            <a @click="$router.push({name: 'foci:respond'})">Responses</a>
+            : {{activeFoci.properties.responses.join(', ')}}
+          </li>
+        </ul>
+        <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:investigate:form'})">Edit</md-button>
       </div>
     </div>
-  </template>
+  </div>
+
+</template>
 
 <script>
   import NoActiveFoci from '../../../components/no-active-foci.vue'
@@ -47,4 +48,18 @@
 </script>
 
 <style>
+  .fab-container {
+    position: relative;
+  }
+
+  .fab-container .md-fab {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+  }
+
+  .foci-detail {
+    padding: 20px 10px;
+  }
 </style>

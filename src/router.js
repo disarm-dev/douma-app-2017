@@ -54,8 +54,8 @@ const meta = [
   {
     path: '/',
     name: 'meta',
-    component: App,
-    redirect: '/login'
+    // component: App,
+    redirect: '/foci'
   },
   {
     title: 'Login',
