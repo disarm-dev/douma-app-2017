@@ -104,7 +104,7 @@ const foci_monitor = [
     title: 'Monitor',
     path: '/foci/monitor/list',
     name: 'foci:monitor:list',
-    component: Monitor
+    component: Monitor,
   },
   {
     title: 'Monitor',
@@ -131,7 +131,10 @@ const foci_identify = [
     title: 'Identify',
     path: '/foci/identify/map/guess_foci',
     name: 'foci:identify:map:guess_foci',
-    component: IdentifyMapGuessFoci
+    component: IdentifyMapGuessFoci,
+    meta: {
+      keepRouteAlive: true
+    }
   },
   {
     title: 'Identify',

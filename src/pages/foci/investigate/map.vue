@@ -1,13 +1,21 @@
 <template>
-  <div class='fab-container'>
-    <md-button class="md-fab md-clean" @click="$router.push({name: 'foci:investigate:detail'})">
-      <md-icon>info_outline</md-icon>
-    </md-button>
+  <no-active-foci v-if='!activeFoci' />
+  <div v-else class='fab-container'>
+    <div class="fab-buttons">
+      <md-button class="md-fab md-clean" @click="$router.push({name: 'foci:investigate:detail'})">
+        <md-icon>info_outline</md-icon>
+      </md-button>
+      <md-button class="md-fab md-clean md-accent" @click="$router.push({name: 'foci:investigate:detail'})">
+        <md-icon>add</md-icon>
+      </md-button>
+    </div>
     <div id="investigate-map"></div>
   </div>
 </template>
 
 <script>
+  import NoActiveFoci from '../../../components/no-active-foci.vue'
+
   import * as Helpers from '../../../lib/helpers.js'
   import MapHelpers from '../../../lib/map_helpers.js'
   import { mapActions } from 'vuex'
@@ -17,6 +25,9 @@
   import geoCoords from 'geojson-coords'
 
   export default {
+    components: {
+      'no-active-foci': NoActiveFoci
+    },
     data() {
       return {
         map: {},
@@ -25,6 +36,7 @@
       }
     },
     mounted() {
+      if (!this.activeFoci) return
       this.map = Leaflet.map('investigate-map', {
         tms: true,
         center: [-26.3231769,31.1380957],
@@ -55,7 +67,7 @@
     position: relative;
   }
 
-  .fab-container .md-fab {
+  .fab-buttons {
     position: absolute;
     top: 10px;
     right: 10px;

@@ -18,6 +18,16 @@
         </md-list-item>
 
       </md-list>
+      <md-card>
+        <md-card-header>
+          <md-icon class="md-accent">note_added</md-icon>
+          12 new cases found outside existing focis
+        </md-card-header>
+        <md-card-actions>
+          <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:identify'})">Identify new foci</md-button>
+        </md-card-actions>
+      </md-card>
+
     </div>
   </div>
 </template>
