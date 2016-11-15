@@ -23,7 +23,7 @@
         </md-list-item>
 
         <md-list-item @click="navigate('irs')">
-          <md-icon>send</md-icon><span>IRS</span>
+          <md-icon>send</md-icon><span>Targeting</span>
         </md-list-item>
 
         <md-list-item @click="navigate('cases')">
