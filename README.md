@@ -4,6 +4,9 @@
 
 >> "If your app isn’t a steak knife, it should be."
 
+## Deploying
+
+Uses [surge.sh](http://surge.sh).
 
 ## Build Setup
 
