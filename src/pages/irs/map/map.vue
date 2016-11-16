@@ -20,29 +20,42 @@
       }
     },
     mounted() {
-      console.log('mounted')
-      this.map = Leaflet.map('irs-map', {
-        center: [-26.3231769,31.1380957],
-        zoom: 15,
-        tms: true
-      });
-      const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
-      
-      Leaflet.tileLayer(url).addTo(this.map);
+      this.loadMap()
 
-      this.loadStructures()
+      // this.$store.subscribe((mutation, state) => {
+      //   if (mutation.type == "actionStructure") {
+      //     if (this.structuresLayer) {
+      //       this.map.removeLayer(this.structuresLayer)
+      //     }
+      //     this.loadStructures();
+      //   }
+      // })
 
-      this.$store.subscribe((mutation, state) => {
-        if (mutation.type == "actionStructure") {
-          if (this.structuresLayer) {
-            this.map.removeLayer(this.structuresLayer)
-          }
-          this.loadStructures();
-        }
-      })
+
+    },
+    watch: {
+      '$route': 'fetchData'
     },
     methods: {
+      fetchData(){
+        if(this.$route.name === 'irs:map') {
+          this.loadStructures()
+        }
+      },
+      loadMap(){
+        this.map = Leaflet.map('irs-map', {
+          center: [-26.3231769,31.1380957],
+          zoom: 15,
+          tms: true
+        });
+        const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
+        
+        // Leaflet.tileLayer(url).addTo(this.map);
+      },
       loadStructures() {
+        if (this.structuresLayer) {
+          this.map.removeLayer(this.structuresLayer)
+        }
 
         const structuresFeatureCollection = MapHelpers.buildFeatureCollection(this.$store.state.irs.structures)
 
@@ -63,17 +76,16 @@
             })
 
             layer.on('contextmenu', (e) => {
-              console.log('context')
               e.target.setStyle({color: 'green'})
               this.$store.commit('actionStructure', feature.properties.id)
             })
           }
         })
 
-        this.$nextTick( () => {
+        // this.$nextTick( () => {
           this.structuresLayer.addTo(this.map)
           this.map.fitBounds(this.structuresLayer.getBounds())
-        })
+        // })
       },
     }
   }
