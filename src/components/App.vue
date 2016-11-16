@@ -83,22 +83,25 @@ export default {
   },
   created() {
 
-    // TODO: Want to move this firebase init stuff somewhere else?
-    this.app = firebase.initializeApp({
-      apiKey: "AIzaSyDsZiVbY7Dit61RgEQtXDeHHplC77h3URc",
-      authDomain: "disarm-platform.firebaseapp.com",
-      databaseURL: "https://disarm-platform.firebaseio.com",
-      storageBucket: "disarm-platform.appspot.com",
-      messagingSenderId: "11635888704"
-    });
+    if (navigator.onLine){
+      // TODO: Want to move this firebase init stuff somewhere else?
+      this.app = firebase.initializeApp({
+        apiKey: "AIzaSyDsZiVbY7Dit61RgEQtXDeHHplC77h3URc",
+        authDomain: "disarm-platform.firebaseapp.com",
+        databaseURL: "https://disarm-platform.firebaseio.com",
+        storageBucket: "disarm-platform.appspot.com",
+        messagingSenderId: "11635888704"
+      });
 
-    firebase.auth().signInWithEmailAndPassword('user@disarm.io', 'screwMalaria123').then(() => {
-      this.user = firebase.auth().currentUser
-      console.log(this.user)
+      firebase.auth().signInWithEmailAndPassword('user@disarm.io', 'screwMalaria123').then(() => {
+        this.user = firebase.auth().currentUser
 
-    }).catch((e) => {
-      console.log(e);
-    })
+      }).catch((e) => {
+        console.error(e);
+      })
+    } else {
+      console.warn('Browser is offline - not trying to authenticate the user')
+    }
   }
 }
 </script>
