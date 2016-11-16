@@ -15,7 +15,6 @@ sync(store, router)
 
 let DUMA = Vue.component('app', App)
 const handleTheme = (route) => {
-  console.log(route);
   if (route.name.indexOf('foci') >= 0) {
     DUMA.theme = 'cyan'
   } else if (route.name.indexOf('irs') >= 0) {
