@@ -1,6 +1,7 @@
 var path = require('path')
 var webpack = require('webpack')
 var Visualizer = require('webpack-visualizer-plugin')
+var CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   entry: './src/index.js',
@@ -76,6 +77,14 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.LoaderOptionsPlugin({
       minimize: true
     }),
+    new CopyWebpackPlugin([
+        { from: 'src/index.html', to: '200.html' }
+    ]),
+    new CopyWebpackPlugin([
+        { from: 'src/assets/logo.png', to: 'assets/logo.png' },
+        { from: 'src/CNAME' },
+        { from: 'src/index.html' },
+    ]),
     new Visualizer(),
   ])
 }
