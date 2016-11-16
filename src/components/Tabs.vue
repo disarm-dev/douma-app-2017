@@ -23,15 +23,19 @@
     props: ['value'], // the current route's name
     data() {
       return {
-        firstClick: true,
+        initialTabStateSet: false,
       }
     },
     methods: {
       onTabChange(i) {
-        if (this.firstClick) {
-          this.firstClick = false;
-          return;
-        }
+        // // `initialTabStateSet` is required to override the default
+        // //  functionality of the md-tabs component, which would otherwise 
+        // // do something bad, but I can't figure exactly what...
+        // if (this.initialTabStateSet) {
+        //   console.log('!initialTabStateSet')
+        //   this.initialTabStateSet = !!this.initialTabStateSet
+        //   return
+        // }
         this.$router.push({name: this.routes[i].name})
       },
       onSelectChange(e) {
