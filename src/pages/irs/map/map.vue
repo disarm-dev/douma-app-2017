@@ -15,33 +15,36 @@
   export default {
     data() {
       return {
-        map: {},
+        map: null,
         structuresLayer: null
       }
     },
     mounted() {
       this.loadMap()
 
-      // this.$store.subscribe((mutation, state) => {
-      //   if (mutation.type == "actionStructure") {
-      //     if (this.structuresLayer) {
-      //       this.map.removeLayer(this.structuresLayer)
-      //     }
-      //     this.loadStructures();
-      //   }
-      // })
+      if (this.$store.state.irs.structures.length !== 0) {
+        this.loadStructures()
+      } else {
+        console.warn('No structures loaded - try the Tasks pane')
+      }
 
-
-    },
-    watch: {
-      '$route': 'fetchData'
-    },
-    methods: {
-      fetchData(){
-        if(this.$route.name === 'irs:map') {
-          this.loadStructures()
+      this.$store.subscribe((mutation, state) => {
+        if (mutation.type == "actionStructure") {
+          this.redrawStructure(mutation.payload)
         }
-      },
+      })
+
+
+    },
+    // watch: {
+    //   '$route': 'redrawMap'
+    // },
+    methods: {
+      // redrawMap(){
+      //   if(this.$route.name === 'irs:map' && this.map) {
+      //     this.loadStructures()
+      //   }
+      // },
       loadMap(){
         this.map = Leaflet.map('irs-map', {
           center: [-26.3231769,31.1380957],
@@ -63,20 +66,18 @@
         this.structuresLayer = Leaflet.geoJSON(structuresFeatureCollection, {
           style: (feature) => {
             // if(!feature.properties.actioned) debugger
-            if (feature.properties.actioned) {
-              return {color: 'green'}
-            } else {
-              return {color: 'red'}
-            }
+            this.colourStructure(feature)
           },
           onEachFeature: (feature, layer) => {
             layer.on('click', () => {
+              console.log(feature.properties.id)
               this.$store.commit('setActiveIRSStructure', feature.properties.id)
               this.$router.push({name: 'irs:form'})
             })
 
             layer.on('contextmenu', (e) => {
-              e.target.setStyle({color: 'green'})
+              // e.target.setStyle({color: 'green'})
+              // console.log(feature.properties)
               this.$store.commit('actionStructure', feature.properties.id)
             })
           }
@@ -87,6 +88,16 @@
           this.map.fitBounds(this.structuresLayer.getBounds())
         // })
       },
+      redrawStructure(id) {
+        console.log('Find structure id', id, 'and colour it!')
+      },
+      colourStructure(structureFeature){
+        if (structureFeature.properties.actioned) {
+          return {color: 'green'}
+        } else {
+          return {color: 'red'}
+        }
+      }
     }
   }
 </script>
