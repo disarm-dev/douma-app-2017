@@ -41,6 +41,11 @@ import RespondForm from './pages/foci/respond/form.vue'
 // 
 import IRSRoot from './pages/irs/root.vue'
 
+import IRSTasks from './pages/irs/tasks/tasks.vue'
+import IRSMap from './pages/irs/map/map.vue'
+import IRSList from './pages/irs/list/list.vue'
+import IRSForm from './pages/irs/form/form.vue'
+
 
 // 
 // CASES
@@ -213,22 +218,38 @@ const irs_root = [
   {
     path: '/irs',
     name: 'irs',
-    redirect: '/irs/monitor'
+    redirect: '/irs/tasks'
   }
 ]
 
 const irs_monitor = [
   {
-    title: 'Target IRS',
-    path: '/irs/monitor',
-    name: 'irs:monitor',
-    component: IRSRoot
+    title: 'Tasks',
+    path: '/irs/tasks',
+    name: 'irs:tasks',
+    component: IRSTasks
   },
   {
-    path: '/irs/monitor/map',
-    name: 'irs:monitor:map',
-    component: IRSRoot
-  }
+    title: 'Map',
+    path: '/irs/map',
+    name: 'irs:map',
+    component: IRSMap,
+    meta: {
+      keepRouteAlive: true
+    }
+  },
+  {
+    title: 'List',
+    path: '/irs/list',
+    name: 'irs:list',
+    component: IRSList
+  },
+  {
+    title: 'Form',
+    path: '/irs/form',
+    name: 'irs:form',
+    component: IRSForm
+  },
 ]
 
 // CASES

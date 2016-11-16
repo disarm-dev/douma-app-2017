@@ -1,5 +1,5 @@
 <template>
-  <div id="app" v-md-theme="theme">
+  <div id="app" v-md-theme="(theme ? theme : 'default')">
     <md-toolbar>
       <md-button class="md-icon-button" @click="toggleSideNav">
         <md-icon>menu</md-icon>

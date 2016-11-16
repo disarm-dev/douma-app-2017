@@ -13,7 +13,11 @@ const store = new Vuex.Store({
     mapBounds: {},
     focis: fociExamples,
     activeFoci: null,
-    structures: {}
+    structures: {},
+    irs: {
+      structures: [],
+      active: null,
+    }
   },
   mutations: {
     increase(state) {
@@ -28,6 +32,17 @@ const store = new Vuex.Store({
     },
     setMapBounds(state, bounds) {
       state.mapBounds = bounds
+    },
+    setIRSStructures(state, structures) {
+      state.irs.structures = structures
+    },
+    setActiveIRSStructure(state, structureId) {
+      const index = findIndex(state.irs.structures, o => o.id === structureId)
+      state.irs.active = state.irs.structures[index]
+    },
+    actionStructure(state, structureId) {
+      const index = findIndex(state.irs.structures, o => o.id === structureId)
+      state.irs.structures[index].actioned = true
     }
   }
 })

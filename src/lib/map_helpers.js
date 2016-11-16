@@ -10,11 +10,14 @@ export default {
     }
 
     output.features = array.map((i, index) => {
-      let obj = { type: 'Feature', properties: {} }
-      obj.properties.id = i.id
+      let obj = { type: 'Feature', properties: i, geometry: i.geometry }
+
+      // Remove duplicate
+      delete obj.properties.geometry
+
       // TODO: Remove this `casePresent` for-debugging-only property
       obj.properties.casePresent = Math.random() >= 0.5 // random boolean, was `!!(i.actioned)`
-      obj.geometry = i.geometry
+
       return obj
     })
 
