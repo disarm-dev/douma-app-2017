@@ -46,14 +46,13 @@
         person: 'Person A',
         date: new Date().toISOString().substring(0, 10),
         time: new Date().getHours() + ':' + new Date().getMinutes(),
-        actioned: this.$store.state.irs.active.actioned
+        actioned: this.$store.state.irs.active
       }
     },
     methods: {
       submit(e) {
-        this.$router.push({name: 'irs:map'})
         this.$store.commit('actionStructure', this.$store.state.irs.active.id)
-
+        this.$router.push({name: 'irs:map'})
       }
     }
   }
