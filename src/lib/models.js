@@ -1,4 +1,4 @@
-export function createStructures (input) {
+export function createStructuresCollection (input) {
   return input.map(i => {
     return Object.assign({
       actioned: false,

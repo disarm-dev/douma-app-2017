@@ -11,7 +11,7 @@
   import {slice } from 'lodash'
   import * as Helpers from '../../../lib/helpers.js'
 
-  import {createStructures} from '../../../lib/models.js'
+  import {createStructuresCollection} from '../../../lib/models.js'
   import firebaseStructures from '../../../bootstrap/firebase_export.json'
 
   export default {
@@ -27,7 +27,7 @@
     methods: {
       loadStructures() {
         let structuresArray = slice(Helpers.firebaseObjectToArray(firebaseStructures), 0, 50)
-        structuresArray = createStructures(structuresArray)
+        structuresArray = createStructuresCollection(structuresArray)
         this.$store.commit('setIRSStructures', structuresArray)
       }
     }
