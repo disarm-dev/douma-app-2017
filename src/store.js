@@ -24,7 +24,7 @@ const store = new Vuex.Store({
       state.count++
     },
     setActiveFoci(state, fociId) {
-      const index = findIndex(fociExamples.features, (o) => o.properties.id === fociId)
+      const index = findIndex(fociExamples.features, (o) => {o.properties.id === fociId})
       state.activeFoci = fociExamples.features[index]
     },
     setClassification(state, classification) {
@@ -37,11 +37,11 @@ const store = new Vuex.Store({
       state.irs.structures = structures
     },
     setActiveIRSStructure(state, structureId) {
-      const index = findIndex(state.irs.structures, o => o.id === structureId)
+      const index = findIndex(state.irs.structures, (o) => {o.id === structureId})
       state.irs.active = state.irs.structures[index]
     },
     actionStructure(state, structureId) {
-      const index = findIndex(state.irs.structures, o => o.id === structureId)
+      const index = findIndex(state.irs.structures, (o) => {o.id === structureId})
       state.irs.structures[index].actioned = true
     }
   }
