@@ -9,18 +9,16 @@
 
 <script>
   import {slice } from 'lodash'
-
   import * as Helpers from '../../../lib/helpers.js'
+
   import {createStructures} from '../../../lib/models.js'
   import firebaseStructures from '../../../bootstrap/firebase_export.json'
 
   export default {
     mounted() {
-      var structuresArray = slice(Helpers.firebaseObjectToArray(firebaseStructures), 0, 50)
-
+      let structuresArray = slice(Helpers.firebaseObjectToArray(firebaseStructures), 0, 50)
       structuresArray = createStructures(structuresArray)
-
-        this.$store.commit('setIRSStructures', structuresArray)
+      this.$store.commit('setIRSStructures', structuresArray)
     }
   }
 
