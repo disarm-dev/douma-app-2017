@@ -1,31 +1,31 @@
 <template>
   <div>
-    <div v-if="!structureCopy">
+    <div v-if="!structure">
       <no-active-structure />
     </div>
 
     <div v-else class="form">
-      <div class="md-title">Structure: {{structureCopy.id}}</div>
+      <div class="md-title">Structure: {{structure.id}}</div>
 
       <form novalidate @submit.stop.prevent="submit">
 
         <md-input-container>
           <label>Actioned by</label>
-          <md-input v-model="structureCopy.actionBy"></md-input>
+          <md-input v-model="structure.actionBy"></md-input>
         </md-input-container>
 
         <md-input-container>
           <label>Date</label>
-          <md-input type="date" v-model="structureCopy.date"></md-input>
+          <md-input type="date" v-model="structure.actionDate"></md-input>
         </md-input-container>
 
         <md-input-container>
           <label>Time</label>
-          <md-input type="time" v-model="structureCopy.time"></md-input>
+          <md-input type="time" v-model="structure.actionTime"></md-input>
         </md-input-container>
         
         <div>
-          <md-checkbox v-model="structureCopy.actioned">Actioned?</md-checkbox>
+          <md-checkbox v-model="structure.actioned">Actioned?</md-checkbox>
         </div>
 
         <md-button @click="submit" type="submit" class="md-raised md-accent">Save</md-button>
@@ -40,47 +40,19 @@
   import NoActiveStructure from '../../../components/no-active-structure.vue'
 
   export default {
-    data(){
-      // return {
-      //   structure: ( () => {
-      //     ...find(this.$store.state.irs.structures,
-      //       o => o.id === this.$store.state.irs.activeStructureId
-      //     )})()
-
-
-    //     structureCopy() {
-    //       return 
-
-    // //       find(this.$store.state.irs.structures,
-    // //         o => o.id === this.$store.state.irs.activeStructureId
-    // //       )  
-    //     }
+    data() {
+      return {
+        structure: (() => {
+          return Object.assign({}, this.$store.getters.activeStructure)
+        })()
       }
     },
     components: {
       NoActiveStructure
     },
-    computed: {
-      // actionedCopy: {
-      //   get () {
-      //     return find(this.$store.state.irs.structures,
-      //                 o => o.id === this.$store.state.irs.activeStructureId
-      //     ).actioned
-
-      //   },
-      //   set(val){
-      //     return val
-      //   }
-      // },
-      structureCopy () {
-          return {...find(this.$store.state.irs.structures,
-            o => o.id === this.$store.state.irs.activeStructureId)}
-      }
-    },
     methods: {
       submit(e) {
-        console.log(this.structureCopy)
-        this.$store.commit('updateIRSStructure', this.structureCopy)
+        this.$store.commit('updateIRSStructure', this.structure)
         history.back()
       }
     }

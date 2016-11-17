@@ -8,8 +8,6 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    count: 0,
-    thematic_area: 'foci',
     mapBounds: {},
     focis: fociExamples,
     activeFoci: null,
@@ -19,10 +17,12 @@ const store = new Vuex.Store({
       activeStructureId: null,
     }
   },
+  getters: {
+    activeStructure(state) {
+      return find(state.irs.structures, o => o.id === state.irs.activeStructureId)
+    }
+  },
   mutations: {
-    increase(state) {
-      state.count++
-    },
     setActiveFoci(state, fociId) {
       const index = findIndex(fociExamples.features, o => o.properties.id === fociId)
       state.activeFoci = fociExamples.features[index]
@@ -39,15 +39,17 @@ const store = new Vuex.Store({
     },
     unloadIRSStructures(state) {
       state.irs.structures = []
-      setActiveIRSStructure
+      // setActiveIRSStructure
     },
     setActiveIRSStructure (state, structureId) {
       state.irs.activeStructureId = structureId
     },
-    updateIRSStructure (state, updatedStructure) {
-      console.log('updateIRSStructure')
-      let structureToUpdate = find(state.irs.structures, (o) => o.id === updatedStructure.id) 
-      structureToUpdate = updatedStructure
+    updateIRSStructure (state, structure) {
+      const index = findIndex(state.irs.structures, o => o.id === structure.id)
+      state.irs.structures[index] = structure
+
+      // let structureToUpdate = find(state.irs.structures, (o) => o.id === updatedStructure.id) 
+      // structureToUpdate = updatedStructure
     }
   }
 })
