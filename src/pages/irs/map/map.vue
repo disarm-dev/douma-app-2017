@@ -22,7 +22,6 @@
       this.loadMap()
 
       this.$store.subscribe((mutation, state) => {
-        debugger
         if (mutation.type == "updateIRSStructure") {
           this.redrawStructure(mutation.payload)
         }
@@ -42,7 +41,7 @@
 
         this.leMap.on('layerremove', () => console.log('layerremove'))
         
-        // Leaflet.tileLayer(url).addTo(this.leMap);
+        Leaflet.tileLayer(url).addTo(this.leMap);
       },
       loadStructures() {
         if (this.structuresLayer) {
