@@ -22,6 +22,7 @@
       this.loadMap()
 
       this.$store.subscribe((mutation, state) => {
+        debugger
         if (mutation.type == "updateIRSStructure") {
           this.redrawStructure(mutation.payload)
         }
@@ -61,7 +62,8 @@
           },
           onEachFeature: (feature, layer) => {
             layer.on('click', () => {
-              this.$store.commit('setActiveIRSStructure', feature.properties.id)
+              this.$store.commit('setActiveIRSStructure', layer)
+              console.log(layer)
               this.$router.push({name: 'irs:form'})
             })
 
@@ -77,7 +79,7 @@
         this.leMap.fitBounds(this.structuresLayer.getBounds())
       },
       redrawStructure() {
-        debugger
+        // debugger
         console.log('redrawStructure')
       },
       colourStructure(structureFeature){

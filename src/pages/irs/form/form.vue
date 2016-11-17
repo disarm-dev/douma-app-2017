@@ -53,8 +53,6 @@
       NoTasks
     },
     mounted() {
-      console.log(this.$store.state.irs.structures)
-      console.log(this.$store.state.irs.structures)
     },
     methods: {
       submit(e) {

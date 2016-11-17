@@ -15,6 +15,9 @@ const store = new Vuex.Store({
     irs: {
       structures: [],
       activeStructureId: null,
+      activeIRSStructureMapLayer: null
+      // activeStructure: {},
+      // activeStructureMapLayer: {}
     }
   },
   getters: {
@@ -22,6 +25,12 @@ const store = new Vuex.Store({
       return find(state.irs.structures, o => o.id === state.irs.activeStructureId)
     }
   },
+  // actions: {
+  //   setActiveIRSStructure() {
+  //     // update the collection
+  //     // recolour the layer
+  //   }
+  // },
   mutations: {
     setActiveFoci(state, fociId) {
       const index = findIndex(fociExamples.features, o => o.properties.id === fociId)
@@ -40,8 +49,12 @@ const store = new Vuex.Store({
     unloadIRSStructures(state) {
       state.irs.structures = []
     },
-    setActiveIRSStructure (state, structureId) {
+    setActiveIRSStructure (state, layer) {
+      if(layer) {
+        const structureId = layer.feature.properties.id
+      }
       state.irs.activeStructureId = structureId
+      state.irs.activeIRSStructureMapLayer = Object.assign({}, layer)
     },
     updateIRSStructure (state, structure) {
       const index = findIndex(state.irs.structures, o => o.id === structure.id)
