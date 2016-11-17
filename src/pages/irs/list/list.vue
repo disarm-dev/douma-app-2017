@@ -2,7 +2,10 @@
   <div class="irs-list">
     <div class="md-title">Structures ({{$store.state.irs.structures.length}})</div>
     <md-list class="md-dense">
-      <md-list-item  v-for="structure in structuresSortedByAction" @click="setActiveStructure(structure.id)" :class="{actioned: structure.actioned,  'not-actioned': !structure.actioned}">
+      <md-list-item  
+        v-for="structure in structuresSortedByAction" 
+        @click="setActiveStructure(structure.id)" 
+        :class="{actioned: structure.actioned,  'not-actioned': !structure.actioned}">
         <md-icon>{{structure.actioned ? 'done'  : 'warning' }}</md-icon> <span>{{structure.id}}</span>
       </md-list-item>
     </md-list>
@@ -10,10 +13,12 @@
 </template>
 
 <script>
+  import {sortBy} from 'lodash'
+
   export default {
     computed: {
       structuresSortedByAction(){
-        return this.$store.state.irs.structures
+        return sortBy(this.$store.state.irs.structures, o => !o.actioned)
       }
     },
     methods: {
