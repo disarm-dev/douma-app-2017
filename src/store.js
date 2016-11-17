@@ -15,7 +15,7 @@ const store = new Vuex.Store({
     irs: {
       structures: [],
       activeStructureId: null,
-      activeIRSStructureMapLayer: null
+      structuresLayer: null
       // activeStructure: {},
       // activeStructureMapLayer: {}
     }
@@ -45,6 +45,9 @@ const store = new Vuex.Store({
     // IRS
     setIRSStructures(state, structures) {
       state.irs.structures = structures
+    },
+    setIRSStructuresMapLayer(state, structuresLayer) {
+      state.irs.structuresLayer = structuresLayer
     },
     unloadIRSStructures(state) {
       state.irs.structures = []

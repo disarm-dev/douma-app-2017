@@ -11,11 +11,17 @@
 <script>
   import {slice } from 'lodash'
   import * as Helpers from '../../../lib/helpers.js'
-
+  import Leaflet from 'leaflet'
   import {createStructuresCollection} from '../../../lib/models.js'
+  import MapHelpers from '../../../lib/map_helpers.js'
   import firebaseStructures from '../../../bootstrap/firebase_export.json'
 
   export default {
+    data() {
+      return {
+        firebaseStructures
+      }
+    },
     computed: {
       loadedStructuresCount(){
         if (this.$store.state.irs.structures) {
@@ -26,12 +32,19 @@
       }
     },
     mounted() {
+      // debugger
     },
     methods: {
       loadStructures() {
-        let structuresArray = slice(Helpers.firebaseObjectToArray(firebaseStructures), 0, 2)
+        // let structuresArray = slice(Helpers.firebaseObjectToArray(firebaseStructures), 0, 2)
+        let structuresArray = Helpers.firebaseObjectToArray(firebaseStructures)
         structuresArray = createStructuresCollection(structuresArray)
-        this.$store.commit('setIRSStructures', structuresArray)
+        
+        const structuresFeatureCollection = MapHelpers.buildFeatureCollection(this.$store.state.irs.structures)
+        
+        this.$store.commit('setIRSStructuresMapLayer', Leaflet.geoJson(structuresFeatureCollection))
+        this.$store.commit('setIRSStructures', structuresFeatureCollection)
+        alert('done loading')
       },
       unloadStructures() {
         this.$store.commit('unloadIRSStructures')

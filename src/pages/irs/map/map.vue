@@ -53,7 +53,8 @@
           return
         }
 
-        const structuresFeatureCollection = MapHelpers.buildFeatureCollection(this.$store.state.irs.structures)
+        // const structuresFeatureCollection = MapHelpers.buildFeatureCollection(this.$store.state.irs.structures)
+        const structuresFeatureCollection = this.$store.state.irs.structures
 
         this.structuresLayer = Leaflet.geoJSON(structuresFeatureCollection, {
           style: (feature) => {
