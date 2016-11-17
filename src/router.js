@@ -89,6 +89,7 @@ const meta = [
   },
 ]
 
+// FOCI
 const foci_root = [
   {
     path: '/foci',
@@ -97,7 +98,6 @@ const foci_root = [
   }
 ]
 
-// FOCI
 const foci_monitor = [
   {
     title: 'Monitor',
@@ -219,10 +219,7 @@ const irs_root = [
     path: '/irs',
     name: 'irs',
     redirect: '/irs/tasks'
-  }
-]
-
-const irs_monitor = [
+  },
   {
     title: 'Tasks',
     path: '/irs/tasks',
@@ -280,7 +277,7 @@ const cases_monitor= [
 
 const foci = [].concat(foci_root, foci_monitor, foci_identify, foci_investigate, foci_classify, foci_respond)
 
-const irs = [].concat(irs_root, irs_monitor)
+const irs = [].concat(irs_root)
 
 const cases = [].concat(cases_root, cases_monitor)
 

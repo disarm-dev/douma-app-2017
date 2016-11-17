@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {findIndex} from 'lodash'
+import {find, findIndex} from 'lodash'
 // TODO: Remove bootstrapped data for dev
 import fociExamples from './bootstrap/foci.json'
 
@@ -16,7 +16,7 @@ const store = new Vuex.Store({
     structures: {},
     irs: {
       structures: [],
-      active: null,
+      activeStructureId: null,
     }
   },
   mutations: {
@@ -24,7 +24,7 @@ const store = new Vuex.Store({
       state.count++
     },
     setActiveFoci(state, fociId) {
-      const index = findIndex(fociExamples.features, (o) => {o.properties.id === fociId})
+      const index = findIndex(fociExamples.features, o => o.properties.id === fociId)
       state.activeFoci = fociExamples.features[index]
     },
     setClassification(state, classification) {
@@ -33,16 +33,21 @@ const store = new Vuex.Store({
     setMapBounds(state, bounds) {
       state.mapBounds = bounds
     },
+    // IRS
     setIRSStructures(state, structures) {
       state.irs.structures = structures
     },
-    setActiveIRSStructure(state, structureId) {
-      const index = findIndex(state.irs.structures, (o) => {o.id === structureId})
-      state.irs.active = state.irs.structures[index]
+    unloadIRSStructures(state) {
+      state.irs.structures = []
+      setActiveIRSStructure
     },
-    actionStructure(state, structureId) {
-      const index = findIndex(state.irs.structures, (o) => {o.id === structureId})
-      state.irs.structures[index].actioned = true
+    setActiveIRSStructure (state, structureId) {
+      state.irs.activeStructureId = structureId
+    },
+    updateIRSStructure (state, updatedStructure) {
+      console.log('updateIRSStructure')
+      let structureToUpdate = find(state.irs.structures, (o) => o.id === updatedStructure.id) 
+      structureToUpdate = updatedStructure
     }
   }
 })

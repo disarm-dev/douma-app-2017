@@ -7,66 +7,62 @@
   import Leaflet from 'leaflet'
   import 'leaflet/dist/leaflet.css'
   import MapHelpers from '../../../lib/map_helpers.js'
-  import {findIndex} from 'lodash'
-  
-  
-  
 
   export default {
     data() {
       return {
-        map: null,
-        structuresLayer: null
+        leMap: null,
+        structuresLayer: null,
+        structures: this.$store.state.irs.structures
       }
     },
     mounted() {
       this.loadMap()
 
-      if (this.$store.state.irs.structures.length !== 0) {
-        this.loadStructures()
-      } else {
-        console.warn('No structures loaded - try the Tasks pane')
-      }
-
       this.$store.subscribe((mutation, state) => {
-        if (mutation.type == "actionStructure") {
+        // console.log(mutation, state)
+        if (mutation.type == "updateIRSStructure") {
           this.redrawStructure(mutation.payload)
         }
       })
-
-
+    },
+    activated() {
+      this.loadStructures()
     },
     // watch: {
-    //   '$route': 'redrawMap'
+    //   'structures': 'redrawStructure',
+    //   'structuresLayer': 'redrawStructure'
     // },
     methods: {
-      // redrawMap(){
-      //   if(this.$route.name === 'irs:map' && this.map) {
-      //     this.loadStructures()
-      //   }
-      // },
       loadMap(){
-        this.map = Leaflet.map('irs-map', {
+        this.leMap = Leaflet.map('irs-map', {
           center: [-26.3231769,31.1380957],
           zoom: 15,
           tms: true
         });
         const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
+
+        this.leMap.on('layerremove', () => console.log('layerremove'))
         
-        // Leaflet.tileLayer(url).addTo(this.map);
+        // Leaflet.tileLayer(url).addTo(this.leMap);
       },
       loadStructures() {
         if (this.structuresLayer) {
-          this.map.removeLayer(this.structuresLayer)
+          return
         }
 
-        const structuresFeatureCollection = MapHelpers.buildFeatureCollection(this.$store.state.irs.structures)
+        if (this.$store.state.irs.structures.length === 0) {
+          console.warn('No structures loaded - try the Tasks pane')
+          return
+        }
 
+        console.log('2 build structuresFeatureCollection')
+        const structuresFeatureCollection = MapHelpers.buildFeatureCollection(this.$store.state.irs.structures)
 
         this.structuresLayer = Leaflet.geoJSON(structuresFeatureCollection, {
           style: (feature) => {
             // if(!feature.properties.actioned) debugger
-            this.colourStructure(feature)
+            return this.colourStructure(feature)
           },
           onEachFeature: (feature, layer) => {
             layer.on('click', () => {
@@ -83,13 +79,15 @@
           }
         })
 
-        // this.$nextTick( () => {
-          this.structuresLayer.addTo(this.map)
-          this.map.fitBounds(this.structuresLayer.getBounds())
-        // })
+        console.log('3 add structuresLayer to map')
+        this.structuresLayer.addTo(this.leMap)
+        console.log('4 get and fit bounds')
+        this.leMap.fitBounds(this.structuresLayer.getBounds())
       },
-      redrawStructure(id) {
-        console.log('Find structure id', id, 'and colour it!')
+      redrawStructure() {
+        // let id = 5
+        // console.log('Find structure id', id, 'and colour it!')
+        console.log('redrawStructure')
       },
       colourStructure(structureFeature){
         if (structureFeature.properties.actioned) {

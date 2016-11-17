@@ -2,7 +2,7 @@
   <div class="irs-list">
     <div class="md-title">Structures ({{$store.state.irs.structures.length}})</div>
     <md-list class="md-dense">
-      <md-list-item  v-for="structure in $store.state.irs.structures" @click="click(structure.id)" :class="{actioned: structure.actioned,  'not-actioned': !structure.actioned}">
+      <md-list-item  v-for="structure in structuresSortedByAction" @click="setActiveStructure(structure.id)" :class="{actioned: structure.actioned,  'not-actioned': !structure.actioned}">
         <md-icon>{{structure.actioned ? 'done'  : 'warning' }}</md-icon> <span>{{structure.id}}</span>
       </md-list-item>
     </md-list>
@@ -11,8 +11,13 @@
 
 <script>
   export default {
+    computed: {
+      structuresSortedByAction(){
+        return this.$store.state.irs.structures
+      }
+    },
     methods: {
-      click(id) {
+      setActiveStructure(id) {
         this.$store.commit('setActiveIRSStructure', id)
         this.$router.push({name: 'irs:form'})
       }
