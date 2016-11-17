@@ -29,7 +29,7 @@
     },
     methods: {
       loadStructures() {
-        let structuresArray = slice(Helpers.firebaseObjectToArray(firebaseStructures), 0, 10)
+        let structuresArray = slice(Helpers.firebaseObjectToArray(firebaseStructures), 0, 2)
         structuresArray = createStructuresCollection(structuresArray)
         this.$store.commit('setIRSStructures', structuresArray)
       },

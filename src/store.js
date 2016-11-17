@@ -39,7 +39,6 @@ const store = new Vuex.Store({
     },
     unloadIRSStructures(state) {
       state.irs.structures = []
-      // setActiveIRSStructure
     },
     setActiveIRSStructure (state, structureId) {
       state.irs.activeStructureId = structureId
@@ -47,9 +46,10 @@ const store = new Vuex.Store({
     updateIRSStructure (state, structure) {
       const index = findIndex(state.irs.structures, o => o.id === structure.id)
       state.irs.structures[index] = structure
-
-      // let structureToUpdate = find(state.irs.structures, (o) => o.id === updatedStructure.id) 
-      // structureToUpdate = updatedStructure
+    },
+    actionStructure(state, id) {
+      const index = findIndex(state.irs.structures, o => o.id === id)
+      state.irs.structures[index].actioned = true
     }
   }
 })

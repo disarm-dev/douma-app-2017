@@ -13,14 +13,15 @@
       return {
         leMap: null,
         structuresLayer: null,
-        structures: this.$store.state.irs.structures
       }
+    },
+    created() {
+
     },
     mounted() {
       this.loadMap()
 
       this.$store.subscribe((mutation, state) => {
-        // console.log(mutation, state)
         if (mutation.type == "updateIRSStructure") {
           this.redrawStructure(mutation.payload)
         }
@@ -29,10 +30,6 @@
     activated() {
       this.loadStructures()
     },
-    // watch: {
-    //   'structures': 'redrawStructure',
-    //   'structuresLayer': 'redrawStructure'
-    // },
     methods: {
       loadMap(){
         this.leMap = Leaflet.map('irs-map', {
@@ -52,11 +49,9 @@
         }
 
         if (this.$store.state.irs.structures.length === 0) {
-          console.warn('No structures loaded - try the Tasks pane')
           return
         }
 
-        console.log('2 build structuresFeatureCollection')
         const structuresFeatureCollection = MapHelpers.buildFeatureCollection(this.$store.state.irs.structures)
 
         this.structuresLayer = Leaflet.geoJSON(structuresFeatureCollection, {
@@ -66,7 +61,6 @@
           },
           onEachFeature: (feature, layer) => {
             layer.on('click', () => {
-              console.log(feature.properties.id)
               this.$store.commit('setActiveIRSStructure', feature.properties.id)
               this.$router.push({name: 'irs:form'})
             })
@@ -79,14 +73,11 @@
           }
         })
 
-        console.log('3 add structuresLayer to map')
         this.structuresLayer.addTo(this.leMap)
-        console.log('4 get and fit bounds')
         this.leMap.fitBounds(this.structuresLayer.getBounds())
       },
       redrawStructure() {
-        // let id = 5
-        // console.log('Find structure id', id, 'and colour it!')
+        debugger
         console.log('redrawStructure')
       },
       colourStructure(structureFeature){
