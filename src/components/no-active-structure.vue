@@ -9,23 +9,3 @@
     <md-button class='md-raised md-accent' @click="$router.push({name: 'irs:list'})">List</md-button>
   </div>
 </template>
-
-<script>
-  export default {
-  }
-</script>
-
-
-<style>
-  .container {
-    padding: 1em;
-  }
-  
-  .icon-container {
-    padding-top: 2em;
-  }
-
-  .icon {
-    font-size: 60px;
-  }
-</style>

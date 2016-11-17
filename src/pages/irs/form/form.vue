@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div v-if="!structure">
-      <no-active-structure />
+    <div v-if="$store.state.irs.structures == false || !$store.getters.activeStructure">
+      <no-tasks v-if="$store.state.irs.structures == false" />
+      <no-active-structure v-if="$store.state.irs.structures != false && !$store.getters.activeStructure" />
     </div>
-
     <div v-else class="form">
       <div class="md-title">Structure: {{structure.id}}</div>
 
@@ -38,17 +38,23 @@
   import {find, findIndex} from 'lodash'
 
   import NoActiveStructure from '../../../components/no-active-structure.vue'
+  import NoTasks from '../../../components/no-tasks.vue'
 
   export default {
     data() {
       return {
         structure: (() => {
           return Object.assign({}, this.$store.getters.activeStructure)
-        })()
+        })(),
       }
     },
     components: {
-      NoActiveStructure
+      NoActiveStructure,
+      NoTasks
+    },
+    mounted() {
+      console.log(this.$store.state.irs.structures)
+      console.log(this.$store.state.irs.structures)
     },
     methods: {
       submit(e) {
