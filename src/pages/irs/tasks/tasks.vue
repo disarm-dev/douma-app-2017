@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="tasks">
     <div class='md-title'>Targeting functionality can go here</div>
     <div class='md-body-1'>For example, adding targeting, tracking intervention activity and progress.</div>
     <div>Currently have {{loadedStructuresCount}} structures loaded</div>
@@ -29,7 +29,7 @@
     },
     methods: {
       loadStructures() {
-        let structuresArray = slice(Helpers.firebaseObjectToArray(firebaseStructures), 0, 2)
+        let structuresArray = slice(Helpers.firebaseObjectToArray(firebaseStructures), 0, 10)
         structuresArray = createStructuresCollection(structuresArray)
         this.$store.commit('setIRSStructures', structuresArray)
       },
@@ -41,3 +41,11 @@
 
 
 </script>
+
+<style scoped>
+  .tasks {
+    max-width: 800px;
+    margin: 1em auto;
+    padding: 1em;
+  }
+</style>
