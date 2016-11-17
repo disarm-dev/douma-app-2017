@@ -41,12 +41,15 @@
 
   export default {
     data(){
-      return {
-        structure: null
+      // return {
+      //   structure: ( () => {
+      //     ...find(this.$store.state.irs.structures,
+      //       o => o.id === this.$store.state.irs.activeStructureId
+      //     )})()
+
+
     //     structureCopy() {
-    //       return {...find(this.$store.state.irs.structures,
-    //         o => o.id === this.$store.state.irs.activeStructureId
-    //       )}
+    //       return 
 
     // //       find(this.$store.state.irs.structures,
     // //         o => o.id === this.$store.state.irs.activeStructureId
@@ -69,16 +72,9 @@
       //     return val
       //   }
       // },
-      structureCopy: {
-        get () {
-          return this.structure = {...find(this.$store.state.irs.structures,
-            o => o.id === this.$store.state.irs.activeStructureId
-          )}
-        },
-        set (structureChanged) {
-          console.log('changed')
-          this.structure = structureChanged
-        }
+      structureCopy () {
+          return {...find(this.$store.state.irs.structures,
+            o => o.id === this.$store.state.irs.activeStructureId)}
       }
     },
     methods: {
