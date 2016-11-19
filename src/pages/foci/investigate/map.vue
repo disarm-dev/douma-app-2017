@@ -5,7 +5,7 @@
       <md-button class="md-fab md-clean" @click="$router.push({name: 'foci:investigate:detail'})">
         <md-icon>info_outline</md-icon>
       </md-button>
-      <md-button class="md-fab md-clean md-accent" @click="$router.push({name: 'foci:investigate:detail'})">
+      <md-button class="md-fab md-clean md-accent">
         <md-icon>add</md-icon>
       </md-button>
     </div>

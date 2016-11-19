@@ -18,7 +18,8 @@
             : {{activeFoci.properties.responses.join(', ')}}
           </li>
         </ul>
-        <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:investigate:form'})">Edit</md-button>
+        <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:investigate:form'})">Survey</md-button>
+        <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:investigate:map'})">Add driver of risk to map</md-button>
       </div>
     </div>
   </div>
