@@ -24,7 +24,7 @@ export default {
     // Returns a FeatureCollection
     return output 
   },
-  // Doesn't return a FeatureCollection, just the instance.
+  // Doesn't return a FeatureCollection
   convertPolygonsToCentroids (polygons) {
     // Takes array of polygons
     const centroids = polygons.features.map((polygon) => {
