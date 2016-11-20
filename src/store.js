@@ -8,13 +8,15 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    mapBounds: {},
-    focis: fociExamples,
-    activeFoci: null,
-    structures: {},
+    foci: {
+      mapBounds: {},
+      focis: fociExamples,
+      activeFoci: null,
+      structures: {},
+    },
     irs: {
-      structures: [],
-      activeStructureId: null,
+      structures: null, // StructuresCollection ?
+      activeStructure: null,
       activeIRSStructureMapLayer: null
       // activeStructure: {},
       // activeStructureMapLayer: {}
@@ -22,7 +24,8 @@ const store = new Vuex.Store({
   },
   getters: {
     activeStructure(state) {
-      return find(state.irs.structures, o => o.id === state.irs.activeStructureId)
+      return state.irs.structures.findModelById(state.irs.activeStructure)
+      // return find(state.irs.structures, o => o.id === state.irs.activeStructure)
     }
   },
   // actions: {
@@ -47,14 +50,16 @@ const store = new Vuex.Store({
       state.irs.structures = structures
     },
     unloadIRSStructures(state) {
-      state.irs.structures = []
+      state.irs.structures = null
     },
     setActiveIRSStructure (state, layer) {
-      if(layer) {
-        const structureId = layer.feature.properties.id
+      var structureId
+      if (typeof layer === 'object') {
+        structureId = layer.feature.properties.id
+      } else {
+        structureId = layer
       }
-      state.irs.activeStructureId = structureId
-      state.irs.activeIRSStructureMapLayer = Object.assign({}, layer)
+      state.irs.activeStructure = structureId
     },
     updateIRSStructure (state, structure) {
       const index = findIndex(state.irs.structures, o => o.id === structure.id)

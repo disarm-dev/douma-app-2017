@@ -9,17 +9,17 @@
 </template>
 
 <script>
-  import {slice } from 'lodash'
+  import {slice} from 'lodash'
   import * as Helpers from '../../../lib/helpers.js'
 
-  import {createStructuresCollection} from '../../../lib/models.js'
+  import StructuresCollection from '../../../lib/models.js'
   import firebaseStructures from '../../../bootstrap/firebase_export.json'
 
   export default {
     computed: {
       loadedStructuresCount(){
         if (this.$store.state.irs.structures) {
-          return this.$store.state.irs.structures.length
+          return this.$store.state.irs.structures._models.length
         } else {
           return 0
         }
@@ -29,9 +29,9 @@
     },
     methods: {
       loadStructures() {
-        let structuresArray = slice(Helpers.firebaseObjectToArray(firebaseStructures), 0, 500)
-        structuresArray = createStructuresCollection(structuresArray)
-        this.$store.commit('setIRSStructures', structuresArray)
+        let structuresArray = slice(Helpers.firebaseObjectToArray(firebaseStructures), 0, 5)
+        const structuresCollection = new StructuresCollection(structuresArray)
+        this.$store.commit('setIRSStructures', structuresCollection)
       },
       unloadStructures() {
         this.$store.commit('unloadIRSStructures')

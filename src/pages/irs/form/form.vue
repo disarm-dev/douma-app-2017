@@ -44,6 +44,8 @@
     data() {
       return {
         structure: (() => {
+          // Structure should be a copy of the activeStructure, so that updating only
+          // takes place once 'submitted'
           return Object.assign({}, this.$store.getters.activeStructure)
         })(),
       }

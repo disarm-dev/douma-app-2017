@@ -1,6 +1,6 @@
 <template>
   <div class="irs-list">
-    <div class="md-title">Structures ({{$store.state.irs.structures.length}})</div>
+    <div class="md-title">Structures ({{$store.state.irs.structures._models.length}})</div>
     <md-list class="md-dense">
       <md-list-item  
         v-for="structure in structuresSortedByAction" 
@@ -18,7 +18,7 @@
   export default {
     computed: {
       structuresSortedByAction(){
-        return sortBy(this.$store.state.irs.structures, o => !o.actioned)
+        return sortBy(this.$store.state.irs.structures._models, o => !o.actioned)
       }
     },
     methods: {

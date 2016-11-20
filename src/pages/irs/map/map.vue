@@ -13,56 +13,66 @@
       return {
         leMap: null,
         structuresLayer: null,
+        structuresFeatureCollection: null,
       }
     },
+    computed: {
+      structures () { return this.$store.state.irs.structures }
+    },
     created() {
-
     },
     mounted() {
       this.loadMap()
+      this.loadStructures()
 
       this.$store.subscribe((mutation, state) => {
         if (mutation.type == "updateIRSStructure") {
-          this.redrawStructure(mutation.payload)
+          this.redrawStructures(mutation.payload)
         }
       })
     },
     activated() {
-      this.loadStructures()
     },
+    // watch: {
+    //   'structures': 'redrawStructures',
+    // },
     methods: {
       loadMap(){
+        // Configure basic map
         this.leMap = Leaflet.map('irs-map', {
           center: [-26.3231769,31.1380957],
           zoom: 15,
           tms: true
         });
+        // Add basemap
         const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
 
-        this.leMap.on('layerremove', () => console.log('layerremove'))
-        
-        Leaflet.tileLayer(url).addTo(this.leMap);
+        // Leaflet.tileLayer(url).addTo(this.leMap);
       },
       loadStructures() {
         if (this.structuresLayer) {
           return
         }
 
-        if (this.$store.state.irs.structures.length === 0) {
+        if (this.$store.state.irs.structures._models.length === 0) {
           return
         }
 
-        const structuresFeatureCollection = MapHelpers.buildFeatureCollection(this.$store.state.irs.structures)
+        this.structuresFeatureCollection = MapHelpers.buildFeatureCollection(this.$store.state.irs.structures._models)
 
-        this.structuresLayer = Leaflet.geoJSON(structuresFeatureCollection, {
+        this.structuresLayer = Leaflet.geoJSON(this.structuresFeatureCollection, {
           style: (feature) => {
             // if(!feature.properties.actioned) debugger
             return this.colourStructure(feature)
           },
           onEachFeature: (feature, layer) => {
+            // Make sure each feature has its layerId set as a property. This way
+            // the feature alone can be passed for editing, and have the specific
+            // GeoJSON layer update when editing is finished.
+            feature.properties.layerId = L.stamp(layer)
+
             layer.on('click', () => {
               this.$store.commit('setActiveIRSStructure', layer)
-              console.log(layer)
               this.$router.push({name: 'irs:form'})
             })
 
@@ -77,9 +87,12 @@
         this.structuresLayer.addTo(this.leMap)
         this.leMap.fitBounds(this.structuresLayer.getBounds())
       },
-      redrawStructure() {
-        // debugger
-        console.log('redrawStructure')
+      redrawStructures(payload) {
+        const layerToRedraw = this.structuresLayer.getLayer(payload.layerId)
+        this.structuresLayer.resetStyle(layerToRedraw)
+        // this.structuresLayer.removeFrom(this.leMap)
+        // this.structuresLayer = null
+        // this.loadStructures()
       },
       colourStructure(structureFeature){
         if (structureFeature.properties.actioned) {
