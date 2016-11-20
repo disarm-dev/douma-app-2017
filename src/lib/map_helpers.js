@@ -2,7 +2,8 @@ import turf from 'turf'
 import geoCoords from 'geojson-coords'
 
 export default {
-  buildFeatureCollection (array) {
+  // TODO: is this `buildFeatureCollection` duplicated in models.js?
+  buildFeatureCollection (array) { 
     // Takes array of geometries from firebase
     let output = {
       type: "FeatureCollection",

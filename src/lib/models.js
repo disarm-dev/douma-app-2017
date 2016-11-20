@@ -1,7 +1,7 @@
 export default class StructuresCollection  {
   constructor (models) {
     this._models = this._createModels(models)
-    this._featureCollection = this._toFeatureCollection()
+    this.featureCollection = this.toFeatureCollection()
   }
 
   _createModels (models) {
@@ -19,11 +19,8 @@ export default class StructuresCollection  {
     }) 
   }
 
-  findModelById(modelId){
-    return this._models.find( (i) => i.id === modelId )
-  }
 
-  _toFeatureCollection () {
+  toFeatureCollection () {
     const models = this._models
 
     let output = {
@@ -42,5 +39,14 @@ export default class StructuresCollection  {
 
     // Returns a FeatureCollection
     return output 
+  }
+
+  modelsFromFeatureCollection () {
+    return this.featureCollection.features.map( (i) => i.properties )
+  }
+
+  // Finders
+  findModelById(modelId){
+    return this._models.find( (i) => i.id === modelId )
   }
 }

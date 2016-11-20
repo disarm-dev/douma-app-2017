@@ -54,11 +54,11 @@
           return
         }
 
-        if (this.$store.state.irs.structures._models.length === 0) {
+        if (!this.$store.state.irs.structures) {
           return
         }
 
-        this.structuresFeatureCollection = MapHelpers.buildFeatureCollection(this.$store.state.irs.structures._models)
+        this.structuresFeatureCollection = this.$store.state.irs.structures.featureCollection
 
         this.structuresLayer = Leaflet.geoJSON(this.structuresFeatureCollection, {
           style: (feature) => {

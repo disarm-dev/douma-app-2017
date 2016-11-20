@@ -19,7 +19,7 @@
     computed: {
       loadedStructuresCount(){
         if (this.$store.state.irs.structures) {
-          return this.$store.state.irs.structures._models.length
+          return this.$store.state.irs.structures.modelsFromFeatureCollection().length
         } else {
           return 0
         }
