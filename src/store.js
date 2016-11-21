@@ -46,14 +46,11 @@ const store = new Vuex.Store({
       Vue.set(state.irs.structures.models, index, structureCopy)
     },
     'irs:actionStructure': (state, id) => {
-      const index = findIndex(state.irs.structures, o => o.id === id)
-      state.irs.structures[index].actioned = true
-      Vue.set(state.irs.structures.models, index, structureCopy)
+      const index = state.irs.structures.models.findIndex(o => o.id === id)
+      var structure = Object.assign({}, state.irs.structures.models[index])
+      structure.actioned = true
+      Vue.set(state.irs.structures.models, index, structure)
     }
-    // actionStructure(state, id) {
-    //   const index = findIndex(state.irs.structures, o => o.id === id)
-    //   state.irs.structures[index].actioned = true
-    // }
   }
 })
 
