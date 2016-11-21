@@ -69,17 +69,19 @@
             // Make sure each feature has its layerId set as a property. This way
             // the feature alone can be passed for editing, and have the specific
             // GeoJSON layer update when editing is finished.
+            
             feature.properties.layerId = L.stamp(layer)
 
             layer.on('click', () => {
-              this.$store.commit('setActiveIRSStructure', layer)
+              this.$store.commit('irs:setActiveStructure', layer.feature.properties)
               this.$router.push({name: 'irs:form'})
             })
 
             layer.on('contextmenu', (e) => {
               // e.target.setStyle({color: 'green'})
               // console.log(feature.properties)
-              this.$store.commit('actionStructure', feature.properties.id)
+              // TODO: Make this work
+              this.$store.commit('irs:actionStructure', feature.properties.id)
             })
           }
         })

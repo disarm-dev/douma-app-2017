@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import {find, findIndex} from 'lodash'
 // TODO: Remove bootstrapped data for dev
 import fociExamples from './bootstrap/foci.json'
+import StructuresCollection from './lib/models.js'
 
 Vue.use(Vuex)
 
@@ -15,29 +16,10 @@ const store = new Vuex.Store({
       structures: {},
     },
     irs: {
-      structures: null, // StructuresCollection ?
-      activeStructure: null,
-      activeIRSStructureMapLayer: null
-      // activeStructure: {},
-      // activeStructureMapLayer: {}
+      structures: new StructuresCollection, // StructuresCollection
+      activeStructure: null, // StructureModel from StructuresCollection
     }
   },
-  getters: {
-    activeStructure(state) {
-      if(state.irs.structures) {
-        return state.irs.structures.findModelById(state.irs.activeStructure)
-      } else {
-        return null
-      }
-      // return find(state.irs.structures, o => o.id === state.irs.activeStructure)
-    }
-  },
-  // actions: {
-  //   setActiveIRSStructure() {
-  //     // update the collection
-  //     // recolour the layer
-  //   }
-  // },
   mutations: {
     setActiveFoci(state, fociId) {
       const index = findIndex(fociExamples.features, o => o.properties.id === fociId)
@@ -49,33 +31,29 @@ const store = new Vuex.Store({
     setMapBounds(state, bounds) {
       state.mapBounds = bounds
     },
-    // IRS
-    setIRSStructures(state, structures) {
-      state.irs.structures = structures
+
+    'irs:loadStructures': (state, structures) => {
+      state.irs.structures = new StructuresCollection(structures)
     },
-    setIRSStructuresMapLayer(state, structuresLayer) {
-      state.irs.structuresLayer = structuresLayer
+    'irs:unloadStructures': (state) => {
+      state.irs.structures = new StructuresCollection
     },
-    unloadIRSStructures(state) {
-      state.irs.structures = null
+    'irs:setActiveStructure': (state, structure) => {
+      state.irs.activeStructure = structure
     },
-    setActiveIRSStructure (state, layer) {
-      var structureId
-      if (typeof layer === 'object') {
-        structureId = layer.feature.properties.id
-      } else {
-        structureId = layer
-      }
-      state.irs.activeStructure = structureId
+    'irs:updateStructure': (state, structureCopy) => {
+      const index = state.irs.structures.findIndex(structureCopy)
+      Vue.set(state.irs.structures.models, index, structureCopy)
     },
-    updateIRSStructure (state, structure) {
-      const index = findIndex(state.irs.structures, o => o.id === structure.id)
-      state.irs.structures[index] = structure
-    },
-    actionStructure(state, id) {
+    'irs:actionStructure': (state, id) => {
       const index = findIndex(state.irs.structures, o => o.id === id)
       state.irs.structures[index].actioned = true
+      Vue.set(state.irs.structures.models, index, structureCopy)
     }
+    // actionStructure(state, id) {
+    //   const index = findIndex(state.irs.structures, o => o.id === id)
+    //   state.irs.structures[index].actioned = true
+    // }
   }
 })
 

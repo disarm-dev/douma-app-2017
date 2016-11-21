@@ -1,31 +1,30 @@
 <template>
   <div>
-    <div v-if="$store.state.irs.structures == false || !$store.getters.activeStructure">
-      <no-tasks v-if="$store.state.irs.structures == false" />
-      <no-active-structure v-if="$store.state.irs.structures != false && !$store.getters.activeStructure" />
-    </div>
+    
+    <no-active-structure v-if="!$store.state.irs.activeStructure" />
+
     <div v-else class="form">
-      <div class="md-title">Structure: {{structure.id}}</div>
+      <div class="md-title">Structure: {{structureCopy.id}}</div>
 
       <form novalidate @submit.stop.prevent="submit">
 
         <md-input-container>
           <label>Actioned by</label>
-          <md-input v-model="structure.actionBy"></md-input>
+          <md-input v-model="structureCopy.actionBy"></md-input>
         </md-input-container>
 
         <md-input-container>
           <label>Date</label>
-          <md-input type="date" v-model="structure.actionDate"></md-input>
+          <md-input type="date" v-model="structureCopy.actionDate"></md-input>
         </md-input-container>
 
         <md-input-container>
           <label>Time</label>
-          <md-input type="time" v-model="structure.actionTime"></md-input>
+          <md-input type="time" v-model="structureCopy.actionTime"></md-input>
         </md-input-container>
         
         <div>
-          <md-checkbox v-model="structure.actioned">Actioned?</md-checkbox>
+          <md-checkbox v-model="structureCopy.actioned">Actioned?</md-checkbox>
         </div>
 
         <md-button @click="submit" type="submit" class="md-raised md-accent">Save</md-button>
@@ -35,30 +34,24 @@
 </template>
 
 <script>
-  import {find, findIndex} from 'lodash'
-
   import NoActiveStructure from '../../../components/no-active-structure.vue'
   import NoTasks from '../../../components/no-tasks.vue'
 
   export default {
     data() {
       return {
-        structure: (() => {
-          // Structure should be a copy of the activeStructure, so that updating only
-          // takes place once 'submitted'
-          return Object.assign({}, this.$store.getters.activeStructure)
-        })(),
+        // Structure should be a copy of the activeStructure, so that updating only
+        // takes place once 'submitted'
+        structureCopy: Object.assign({}, this.$store.state.irs.activeStructure)
       }
     },
     components: {
       NoActiveStructure,
       NoTasks
     },
-    mounted() {
-    },
     methods: {
       submit(e) {
-        this.$store.commit('updateIRSStructure', this.structure)
+        this.$store.commit('irs:updateStructure', this.structureCopy)
         history.back()
       }
     }

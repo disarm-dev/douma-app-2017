@@ -1,10 +1,10 @@
 <template>
   <div class="irs-list">
-    <div class="md-title">Structures ({{$store.state.irs.structures._models.length}})</div>
+    <div class="md-title">Structures ({{structures.models.length}})</div>
     <md-list class="md-dense">
       <md-list-item  
         v-for="structure in structuresSortedByAction" 
-        @click="setActiveStructure(structure.id)" 
+        @click="setActiveStructure(structure)" 
         :class="{actioned: structure.actioned,  'not-actioned': !structure.actioned}">
         <md-icon>{{structure.actioned ? 'done'  : 'warning' }}</md-icon> <span>{{structure.id}}</span>
       </md-list-item>
@@ -16,14 +16,19 @@
   import {sortBy} from 'lodash'
 
   export default {
+    data() {
+      return {
+        structures: this.$store.state.irs.structures
+      }
+    },
     computed: {
       structuresSortedByAction(){
-        return sortBy(this.$store.state.irs.structures._models, o => !o.actioned)
+        return sortBy(this.structures.models, o => !o.actioned)
       }
     },
     methods: {
-      setActiveStructure(id) {
-        this.$store.commit('setActiveIRSStructure', id)
+      setActiveStructure(structure) {
+        this.$store.commit('irs:setActiveStructure', structure)
         this.$router.push({name: 'irs:form'})
       }
     }

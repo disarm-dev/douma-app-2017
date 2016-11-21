@@ -1,10 +1,15 @@
+// TODO: Do this
+// class StructureModel {
+
+// }
+
 export default class StructuresCollection  {
   constructor (models) {
-    this._models = this._createModels(models)
+    this.models = this._createModels(models)
     this.featureCollection = this.toFeatureCollection()
   }
 
-  _createModels (models) {
+  _createModels (models = []) {
     return models.map(i => {
 
       // Add default params to model
@@ -19,9 +24,18 @@ export default class StructuresCollection  {
     }) 
   }
 
+  findIndex(structureCopy) {
+    var index;
+    this.models.findIndex((o, i) => {
+      if(o.id === structureCopy.id) {
+        index = i
+      }
+    })
+    return index
+  }
 
   toFeatureCollection () {
-    const models = this._models
+    const models = this.models
 
     let output = {
       type: "FeatureCollection",
@@ -44,9 +58,9 @@ export default class StructuresCollection  {
   modelsFromFeatureCollection () {
     return this.featureCollection.features.map( (i) => i.properties )
   }
-
+  
   // Finders
   findModelById(modelId){
-    return this._models.find( (i) => i.id === modelId )
+    return this.models.find( (i) => i.id === modelId )
   }
 }
