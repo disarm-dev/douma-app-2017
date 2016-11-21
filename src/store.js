@@ -24,7 +24,11 @@ const store = new Vuex.Store({
   },
   getters: {
     activeStructure(state) {
-      return state.irs.structures.findModelById(state.irs.activeStructure)
+      if(state.irs.structures) {
+        return state.irs.structures.findModelById(state.irs.activeStructure)
+      } else {
+        return null
+      }
       // return find(state.irs.structures, o => o.id === state.irs.activeStructure)
     }
   },
