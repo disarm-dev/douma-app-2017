@@ -53,6 +53,9 @@ const store = new Vuex.Store({
     setIRSStructures(state, structures) {
       state.irs.structures = structures
     },
+    setIRSStructuresMapLayer(state, structuresLayer) {
+      state.irs.structuresLayer = structuresLayer
+    },
     unloadIRSStructures(state) {
       state.irs.structures = null
     },

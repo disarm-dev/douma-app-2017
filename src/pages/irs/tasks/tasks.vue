@@ -16,6 +16,11 @@
   import firebaseStructures from '../../../bootstrap/firebase_export.json'
 
   export default {
+    data() {
+      return {
+        firebaseStructures
+      }
+    },
     computed: {
       loadedStructuresCount(){
         if (this.$store.state.irs.structures) {
@@ -26,6 +31,7 @@
       }
     },
     mounted() {
+      // debugger
     },
     methods: {
       loadStructures() {
