@@ -19,23 +19,13 @@
     computed: {
       structures () { return this.$store.state.irs.structures }
     },
-    created() {
-    },
     mounted() {
       this.loadMap()
       this.loadStructures()
-
-      this.$store.subscribe((mutation, state) => {
-        if (mutation.type == "updateIRSStructure") {
-          this.redrawStructures(mutation.payload)
-        }
-      })
     },
-    activated() {
+    watch: {
+      '$store.state.irs.activeStructure': 'redrawStructures',
     },
-    // watch: {
-    //   'structures': 'redrawStructures',
-    // },
     methods: {
       loadMap(){
         // Configure basic map
@@ -62,14 +52,13 @@
 
         this.structuresLayer = Leaflet.geoJSON(this.structuresFeatureCollection, {
           style: (feature) => {
-            // if(!feature.properties.actioned) debugger
             return this.colourStructure(feature)
           },
           onEachFeature: (feature, layer) => {
             // Make sure each feature has its layerId set as a property. This way
             // the feature alone can be passed for editing, and have the specific
             // GeoJSON layer update when editing is finished.
-            
+
             feature.properties.layerId = L.stamp(layer)
 
             layer.on('click', () => {
@@ -78,23 +67,22 @@
             })
 
             layer.on('contextmenu', (e) => {
-              // e.target.setStyle({color: 'green'})
-              // console.log(feature.properties)
-              // TODO: Make this work
-              this.$store.commit('irs:actionStructure', feature.properties.id)
+              this.$store.commit('irs:setActiveStructure', feature.properties)
+              const changedStructured = Object.assign(feature.properties, {actioned: !feature.properties.actioned})
+              this.$store.commit('irs:updateStructure', changedStructured)
             })
+
           }
         })
 
         this.structuresLayer.addTo(this.leMap)
         this.leMap.fitBounds(this.structuresLayer.getBounds())
       },
-      redrawStructures(payload) {
-        const layerToRedraw = this.structuresLayer.getLayer(payload.layerId)
-        this.structuresLayer.resetStyle(layerToRedraw)
-        // this.structuresLayer.removeFrom(this.leMap)
-        // this.structuresLayer = null
-        // this.loadStructures()
+      redrawStructures() {
+        console.log('redrawStructures')
+        const layerId = this.$store.state.irs.activeStructure.layerId
+        const layerToRedraw = this.structuresLayer.getLayer(layerId)
+        this.structuresLayer.resetStyle(layerToRedraw)  
       },
       colourStructure(structureFeature){
         if (structureFeature.properties.actioned) {

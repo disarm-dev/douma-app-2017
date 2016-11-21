@@ -13,7 +13,7 @@
   import {slice} from 'lodash'
   import firebaseStructures from '../../../bootstrap/firebase_export.json'
   import * as Helpers from '../../../lib/helpers.js'
-  let structuresArray = slice(Helpers.firebaseObjectToArray(firebaseStructures), 0, 5)
+  let structuresArray = slice(Helpers.firebaseObjectToArray(firebaseStructures), 0, 10)
 
   export default {
     computed: {

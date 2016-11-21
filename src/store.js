@@ -42,14 +42,9 @@ const store = new Vuex.Store({
       state.irs.activeStructure = structure
     },
     'irs:updateStructure': (state, structureCopy) => {
+      // TODO: findIndex is not always available, most likely due to Vuex, fix
       const index = state.irs.structures.findIndex(structureCopy)
       Vue.set(state.irs.structures.models, index, structureCopy)
-    },
-    'irs:actionStructure': (state, id) => {
-      const index = state.irs.structures.models.findIndex(o => o.id === id)
-      var structure = Object.assign({}, state.irs.structures.models[index])
-      structure.actioned = true
-      Vue.set(state.irs.structures.models, index, structure)
     }
   }
 })
