@@ -17,7 +17,6 @@ import Monitor from './pages/foci/monitor/monitor.vue'
 
 // Identify
 
-import IdentifyList from './pages/foci/identify/list.vue'
 import IdentifyMapGuessFoci from './pages/foci/identify/map_guess_foci.vue'
 import IdentifyMapEditFoci from './pages/foci/identify/map_edit_foci.vue'
 
@@ -26,7 +25,6 @@ import IdentifyMapEditFoci from './pages/foci/identify/map_edit_foci.vue'
 import InvestigateDetail from './pages/foci/investigate/detail.vue'
 import InvestigateForm from './pages/foci/investigate/form.vue'
 import InvestigateMap from './pages/foci/investigate/map.vue'
-import investigateMapEdit from './pages/foci/investigate/mapEdit.vue'
 
 // Classify
 
@@ -128,12 +126,6 @@ const foci_identify = [
   },
   {
     title: 'Identify',
-    path: '/foci/identify/list',
-    name: 'foci:identify:list',
-    component: IdentifyList
-  },
-  {
-    title: 'Identify',
     path: '/foci/identify/map/guess_foci',
     name: 'foci:identify:map:guess_foci',
     component: IdentifyMapGuessFoci,
@@ -173,12 +165,6 @@ const foci_investigate = [
     path: '/foci/investigate/map',
     name: 'foci:investigate:map',
     component: InvestigateMap
-  },
-  {
-    title: 'Investigate',
-    path: '/foci/investigate/editmap',
-    name: 'foci:investigate:mapedit',
-    component: investigateMapEdit
   }
 ]
 
