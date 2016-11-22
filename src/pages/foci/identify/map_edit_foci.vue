@@ -17,6 +17,7 @@
       }
     },
     mounted() {
+      console.log('map_edit_foci')
       this.map = Leaflet.map('identify-map', {
         center: [-26.3231769,31.1380957],
         zoom: 15,

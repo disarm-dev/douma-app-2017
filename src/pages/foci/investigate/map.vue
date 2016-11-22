@@ -31,7 +31,7 @@
     data() {
       return {
         map: {},
-        activeFoci: this.$store.state.activeFoci,
+        activeFoci: this.$store.state.foci.activeFoci,
         activeFociLayer: {}
       }
     },

@@ -21,16 +21,21 @@ const store = new Vuex.Store({
     }
   },
   mutations: {
-    setActiveFoci(state, fociId) {
+    'foci:setActiveFoci': (state, fociId) => {
       const index = findIndex(fociExamples.features, o => o.properties.id === fociId)
-      state.activeFoci = fociExamples.features[index]
+      state.foci.activeFoci = fociExamples.features[index]
     },
-    setClassification(state, classification) {
-      state.activeFoci.properties.classification = classification
+    'foci:setClassification': (state, classification) => {
+      state.foci.activeFoci.properties.classification = classification
     },
-    setMapBounds(state, bounds) {
-      state.mapBounds = bounds
+    'foci:setMapBounds': (state, bounds) => {
+      state.foci.mapBounds = bound
     },
+    'foci:setResponses': (state, responses) => {
+      // TODO: Find a way to implement this.
+      // Reponses is an array of strings
+    },
+
 
     'irs:loadStructures': (state, structures) => {
       state.irs.structures = new StructuresCollection(structures)

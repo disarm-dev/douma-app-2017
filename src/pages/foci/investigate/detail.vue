@@ -35,15 +35,8 @@
     },
     data() {
       return {
-        activeFoci: this.$store.state.activeFoci
+        activeFoci: this.$store.state.foci.activeFoci
       }
-    },
-    mounted() {
-
-    },
-    computed: {
-    },
-    methods: {
     }
   }
 </script>

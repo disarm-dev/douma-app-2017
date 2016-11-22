@@ -9,7 +9,6 @@
 
 <script>
   import * as Helpers from '../../../lib/helpers.js'
-  import MapHelpers from '../../../lib/map_helpers.js'
   import { mapActions } from 'vuex'
 
   import Leaflet from 'leaflet'
@@ -24,7 +23,7 @@
       return {
         map: {},
         structuresLayer: {},
-        focisFc: this.$store.state.focis,
+        focisFc: this.$store.state.foci.focis,
         focisLayer: {}
       }
     },
@@ -41,13 +40,13 @@
         this.map.fitBounds(this.focisLayer.getBounds())
       })
 
-      const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
-      Leaflet.tileLayer(url).addTo(this.map); 
+      // const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
+      // Leaflet.tileLayer(url).addTo(this.map); 
+      
       // this.loadStructures()
       this.loadFocis()
     },
     methods: {
-      ...mapActions(['setActiveFoci']),
       viewList() {
         this.$router.push({name: 'foci:monitor:list'})
       },
@@ -56,7 +55,7 @@
           onEachFeature: (feature, layer) => {
             layer.on({
               click: (e) => {
-                this.$store.commit('setActiveFoci', feature.properties.id)
+                this.$store.commit('foci:setActiveFoci', feature.properties.id)
                 this.$router.push({name: 'foci:investigate'})
               }
             })

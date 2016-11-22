@@ -35,13 +35,13 @@
     },
     data() {
       return {
-        activeFoci: this.$store.state.activeFoci,
+        activeFoci: this.$store.state.foci.activeFoci,
       }
     },
     computed: {
       responses: {
         get() {
-          return this.$store.state.activeFoci.properties.responses
+          return this.activeFoci.properties.responses
         },
         set(newVal) {
           this.$store.commit('setResponses', newVal)

@@ -36,7 +36,7 @@
   export default {
     data() {
       return {
-        focis: this.$store.state.focis
+        focis: this.$store.state.foci.focis
       }
     },
     methods: {
@@ -44,7 +44,7 @@
         this.$router.push({name: 'foci:monitor:map'})
       },
       goToFoci(foci) {
-        this.$store.commit('setActiveFoci', foci.properties.id)
+        this.$store.commit('foci:setActiveFoci', foci.properties.id)
         this.$router.push({name: 'foci:investigate'})
       }
     }

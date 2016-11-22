@@ -70,7 +70,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['increase']),
     navigate(name) {
       this.showNav = false // we need this to re-render the tabs for the new routes
       setTimeout(() => this.showNav = true, 10)
