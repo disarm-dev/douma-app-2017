@@ -1,19 +1,25 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {find, findIndex} from 'lodash'
+import StructuresCollection from './lib/models.js'
+
 // TODO: Remove bootstrapped data for dev
 import fociExamples from './bootstrap/foci.json'
-import StructuresCollection from './lib/models.js'
+import * as Helpers from './lib/helpers.js'
+
+import firebaseStructures from './bootstrap/firebase_export.json'
+
+const structuresArray = Helpers.firebaseObjectToArray(firebaseStructures)
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
     foci: {
-      mapBounds: {},
+      mapBounds: {}, // TODO: Check if needed
       focis: fociExamples,
       activeFoci: null,
-      structures: {},
+      structures: new StructuresCollection(structuresArray),
     },
     irs: {
       structures: new StructuresCollection, // StructuresCollection
@@ -21,6 +27,9 @@ const store = new Vuex.Store({
     }
   },
   mutations: {
+    'foci:loadStructures': (state, structures) => {
+      state.foci.structures = new StructuresCollection(structures)
+    },
     'foci:setActiveFoci': (state, fociId) => {
       const index = findIndex(fociExamples.features, o => o.properties.id === fociId)
       state.foci.activeFoci = fociExamples.features[index]

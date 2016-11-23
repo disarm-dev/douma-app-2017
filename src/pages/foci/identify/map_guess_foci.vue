@@ -11,22 +11,20 @@
 </template>
 
 <script>
-  import * as Helpers from '../../../lib/helpers.js'
-  import { mapActions } from 'vuex'
-
   import Leaflet from 'leaflet'
   import 'leaflet/dist/leaflet.css'
+  
+  import 'leaflet-draw'
+  import 'leaflet-draw/dist/leaflet.draw.css'
+
   import geoCoords from 'geojson-coords'
   import MapHelpers from '../../../lib/map_helpers.js'
 
-  // TODO: Remove temp data
-  import firebaseStructures from '../../../bootstrap/firebase_export.json' // Smaller 
-
-
   export default {
-    data(){
+    data() {
       return {
         map: {},
+        structuresLayer: null,
         structures: {},
         fociGuessLayer: new Leaflet.FeatureGroup(),
         fociGuess: null
@@ -34,7 +32,7 @@
     },
     mounted() {
       this.map = Leaflet.map('identify-map', {
-        // tms: true
+        tms: true
       });
 
       const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
@@ -45,31 +43,19 @@
     },
     methods: {
       loadStructures() {
-        
-        const structuresArray = Helpers.firebaseObjectToArray(firebaseStructures)
-
-        // Create featureCollection from raw data
-        const structuresFeatureCollection = MapHelpers.buildFeatureCollection(structuresArray)
-
-        // TODO: Improve this
-        this.structures = structuresFeatureCollection
-
-        const structureStyle = {
-          weight: 1,
-          color: 'green'
-        }
-
-        const structuresLayer = Leaflet.geoJSON(structuresFeatureCollection, {style: (feature) => {
+        this.structuresLayer = Leaflet.geoJSON(this.$store.state.foci.structures.featureCollection, {style: (feature) => {
           if (feature.properties.casePresent === true) {
             return {color: 'red'}
           } else {
             return {color: 'blue'}
           }
         }})
+
+        console.log(this.structuresLayer)        
         
-        this.$nextTick( () => {
-          structuresLayer.addTo(this.map)
-          this.map.fitBounds(structuresLayer.getBounds())
+        this.$nextTick(() => {
+          this.structuresLayer.addTo(this.map)
+          this.map.fitBounds(this.structuresLayer.getBounds())
         })
       },
       guessFoci() {
