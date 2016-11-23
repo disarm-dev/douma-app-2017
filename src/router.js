@@ -18,7 +18,6 @@ import Monitor from './pages/foci/monitor/monitor.vue'
 // Identify
 
 import IdentifyMapGuessFoci from './pages/foci/identify/map_guess_foci.vue'
-import IdentifyMapEditFoci from './pages/foci/identify/map_edit_foci.vue'
 
 // Investigate
 
@@ -132,12 +131,6 @@ const foci_identify = [
     meta: {
       keepRouteAlive: true
     }
-  },
-  {
-    title: 'Identify',
-    path: '/foci/identify/map/edit_foci',
-    name: 'foci:identify:map:edit_foci',
-    component: IdentifyMapEditFoci
   }
 ]
 
