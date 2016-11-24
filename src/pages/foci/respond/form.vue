@@ -1,6 +1,6 @@
 <template>
   <div>
-    <no-active-foci v-if='!activeFoci.properties' />
+    <no-active-foci v-if='!this.$store.state.foci.activeFoci' />
     
     <div class="container" v-else>
       <md-card>
@@ -30,7 +30,7 @@
   
   export default {
     components: {
-      'no-active-foci': NoActiveFoci
+      NoActiveFoci
     },
     data() {
       return {

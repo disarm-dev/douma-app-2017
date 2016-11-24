@@ -36,8 +36,6 @@ import RespondForm from './pages/foci/respond/form.vue'
 // 
 // IRS
 // 
-import IRSRoot from './pages/irs/root.vue'
-
 import IRSTasks from './pages/irs/tasks/tasks.vue'
 import IRSMap from './pages/irs/map/map.vue'
 import IRSList from './pages/irs/list/list.vue'

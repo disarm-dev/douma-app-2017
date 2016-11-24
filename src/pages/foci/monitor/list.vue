@@ -7,12 +7,12 @@
       <div class="md-title">Recent foci</div>
       <md-list class="md-double-line">
         
-        <md-list-item v-for='foci in focis.features' @click="goToFoci(foci)">
+        <md-list-item v-for='foci in focis' @click="goToFoci(foci)">
           <md-icon class="md-primary">blur_on</md-icon>
 
           <div class="md-list-text-container">
-            <span>{{foci.properties.id}}</span>
-            <span>{{foci.properties.classification}}</span>
+            <span>{{foci.id}}</span>
+            <span>{{foci.classification}}</span>
           </div>
 
         </md-list-item>
@@ -36,7 +36,7 @@
   export default {
     data() {
       return {
-        focis: this.$store.state.foci.focis
+        focis: this.$store.state.foci.focis.models
       }
     },
     methods: {
@@ -44,7 +44,7 @@
         this.$router.push({name: 'foci:monitor:map'})
       },
       goToFoci(foci) {
-        this.$store.commit('foci:setActiveFoci', foci.properties.id)
+        this.$store.commit('foci:setActiveFoci', foci)
         this.$router.push({name: 'foci:investigate'})
       }
     }

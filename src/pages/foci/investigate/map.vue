@@ -16,17 +16,12 @@
 <script>
   import NoActiveFoci from '../../../components/no-active-foci.vue'
 
-  import * as Helpers from '../../../lib/helpers.js'
-  import MapHelpers from '../../../lib/map_helpers.js'
-  import { mapActions } from 'vuex'
-
   import Leaflet from 'leaflet'
   import 'leaflet/dist/leaflet.css'
-  import geoCoords from 'geojson-coords'
 
   export default {
     components: {
-      'no-active-foci': NoActiveFoci
+      NoActiveFoci
     },
     data() {
       return {

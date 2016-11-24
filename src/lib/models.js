@@ -3,7 +3,31 @@
 
 // }
 
-export default class StructuresCollection  {
+
+export class FociCollection {
+  constructor(featureCollection) {
+    this.featureCollection = featureCollection
+    this.models = this._createModels(featureCollection)
+  }
+
+  _createModels(featureCollection) {
+    return featureCollection.features.map(({type, properties, geometry}) => {
+      return Object.assign({type, geometry}, properties)
+    })
+  }
+
+  findFociIndex(foci) {
+    var index;
+    this.models.map((f, i) => {
+      if (f.id === foci.id) {
+        var index = i
+      }
+    })
+    return i
+  }
+}
+
+export class StructuresCollection  {
   constructor (models) {
     this.models = this._createModels(models)
     this.featureCollection = this.toFeatureCollection()

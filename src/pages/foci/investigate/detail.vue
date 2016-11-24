@@ -7,15 +7,15 @@
         <md-icon>location_on</md-icon>
       </md-button>
       <div class="foci-detail">    
-        <h2>Foci #{{activeFoci.properties.id}}</h2>
+        <h2>Foci #{{activeFoci.id}}</h2>
         <ul>
           <li>
             <a @click="$router.push({name: 'foci:classify'})">Classification</a>
-            : {{activeFoci.properties.classification}}
+            : {{activeFoci.classification}}
           </li>
           <li>
             <a @click="$router.push({name: 'foci:respond'})">Responses</a>
-            : {{activeFoci.properties.responses.filter(r => r.value).map(r => r.name).join(', ')}}
+            : {{activeFoci.responses.filter(r => r.value).map(r => r.name).join(', ')}}
           </li>
         </ul>
         <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:investigate:form'})">Survey</md-button>
@@ -31,7 +31,7 @@
 
   export default {
     components: {
-      'no-active-foci': NoActiveFoci
+      NoActiveFoci
     },
     data() {
       return {

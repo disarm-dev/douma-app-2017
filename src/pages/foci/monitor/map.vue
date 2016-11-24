@@ -23,7 +23,7 @@
       return {
         map: {},
         structuresLayer: {},
-        focisFc: this.$store.state.foci.focis,
+        focisFc: this.$store.state.foci.focis.featureCollection,
         focisLayer: {}
       }
     },
@@ -55,7 +55,7 @@
           onEachFeature: (feature, layer) => {
             layer.on({
               click: (e) => {
-                this.$store.commit('foci:setActiveFoci', feature.properties.id)
+                this.$store.commit('foci:setActiveFoci', feature.properties)
                 this.$router.push({name: 'foci:investigate'})
               }
             })

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {find, findIndex} from 'lodash'
-import StructuresCollection from './lib/models.js'
+import {StructuresCollection, FociCollection} from './lib/models.js'
 
 // TODO: Remove bootstrapped data for dev
 import fociExamples from './bootstrap/foci.json'
@@ -17,7 +17,7 @@ const store = new Vuex.Store({
   state: {
     foci: {
       mapBounds: {}, // TODO: Check if needed
-      focis: fociExamples,
+      focis: new FociCollection(fociExamples),
       activeFoci: null,
       structures: new StructuresCollection(structuresArray),
     },
@@ -30,9 +30,8 @@ const store = new Vuex.Store({
     'foci:loadStructures': (state, structures) => {
       state.foci.structures = new StructuresCollection(structures)
     },
-    'foci:setActiveFoci': (state, fociId) => {
-      const index = findIndex(fociExamples.features, o => o.properties.id === fociId)
-      state.foci.activeFoci = fociExamples.features[index]
+    'foci:setActiveFoci': (state, foci) => {
+      state.foci.activeFoci = foci
     },
     'foci:setClassification': (state, classification) => {
       state.foci.activeFoci.properties.classification = classification
