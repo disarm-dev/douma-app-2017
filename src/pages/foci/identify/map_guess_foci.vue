@@ -25,7 +25,6 @@
       return {
         map: {},
         structuresLayer: null,
-        structures: {},
         fociGuessLayer: new Leaflet.FeatureGroup(),
         fociGuess: null
       }
@@ -51,8 +50,6 @@
           }
         }})
 
-        console.log(this.structuresLayer)        
-        
         this.$nextTick(() => {
           this.structuresLayer.addTo(this.map)
           this.map.fitBounds(this.structuresLayer.getBounds())
@@ -60,7 +57,7 @@
       },
       guessFoci() {
         // result is in a FeatureCollection
-        this.fociGuess = MapHelpers.guessFociBoundary(this.structures)
+        this.fociGuess = MapHelpers.guessFociBoundary(this.$store.state.foci.structures.featureCollection)
 
         const coordinates = geoCoords(this.fociGuess);
         // convert geoJson coordinates into Leaflet coordinates
