@@ -1,6 +1,6 @@
 <template>
   <div>
-    <no-active-foci v-if='!activeFoci' />
+    <no-active-foci v-if='!activeFoci.properties' />
     
     <div class="container" v-else>
       <md-card>
@@ -9,16 +9,15 @@
         </md-card-header>
         <md-card-content>
           <div>
-            <md-checkbox v-model="responses">Education</md-checkbox>
-            <md-checkbox v-model="responses">IRS</md-checkbox>
-            <md-checkbox v-model="responses">LLIN distribution</md-checkbox>
-            <md-checkbox v-model="responses">Monitoring</md-checkbox>
+            
+            <md-checkbox v-for="response in activeFoci.properties.responses" v-model="response.value">{{response.name}}</md-checkbox>
+            
             <md-input-container>
               <label>Additional information</label>
               <md-textarea></md-textarea>
             </md-input-container>
           </div>
-          <md-button class="md-accent md-raised" @click="$router.push({name: 'foci:investigate'})">Save</md-button>
+          <md-button class="md-accent md-raised" @click="save">Save</md-button>
         </md-card-content>
       </md-card>
 
@@ -35,19 +34,25 @@
     },
     data() {
       return {
-        activeFoci: this.$store.state.foci.activeFoci,
+        activeFoci: Object.assign({}, this.$store.state.foci.activeFoci),
       }
     },
-    computed: {
-      responses: {
-        get() {
-          return this.activeFoci.properties.responses
-        },
-        set(newVal) {
-          this.$store.commit('setResponses', newVal)
-        }
+    methods: {
+      save() {
+        this.$store.commit('foci:setResponses', this.activeFoci.properties.responses)
+        this.$router.push({name: 'foci:investigate'})
       }
     }
+    // computed: {
+    //   responses: {
+    //     get() {
+    //       return this.activeFoci.properties.responses
+    //     },
+    //     set(newVal) {
+    //       this.$store.commit('setResponses', newVal)
+    //     }
+    //   }
+    // }
   }
 
 </script>

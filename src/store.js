@@ -41,8 +41,7 @@ const store = new Vuex.Store({
       state.foci.mapBounds = bound
     },
     'foci:setResponses': (state, responses) => {
-      // TODO: Find a way to implement this.
-      // Reponses is an array of strings
+      state.foci.activeFoci.properties.responses = responses
     },
 
 

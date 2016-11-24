@@ -15,7 +15,7 @@
           </li>
           <li>
             <a @click="$router.push({name: 'foci:respond'})">Responses</a>
-            : {{activeFoci.properties.responses.join(', ')}}
+            : {{activeFoci.properties.responses.filter(r => r.value).map(r => r.name).join(', ')}}
           </li>
         </ul>
         <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:investigate:form'})">Survey</md-button>

@@ -8,7 +8,12 @@
         "location": "Simunye",
         "driversOfTransmission": "water",
         "classification": "active",
-        "responses": ["Monitoring"]
+        "responses": [
+          {"name": "Monitoring", "value": false},
+          {"name": "Education", "value": true},
+          {"name": "LLIN Distribution", "value": false},
+          {"name": "Irs", "value": false}
+        ]
       },
       "geometry": {
         "type": "Polygon",
@@ -45,7 +50,12 @@
         "location": "Simunye",
         "driversOfTransmission": "water",
         "classification": "active",
-        "responses": []
+        "responses": [
+          {"name": "monitoring", "value": true},
+          {"name": "education", "value": false},
+          {"name": "llinDistribution", "value": false},
+          {"name": "irs", "value": true}
+        ]
       },
       "geometry": {
         "type": "Polygon",
@@ -86,7 +96,12 @@
         "location": "Not Simunye",
         "driversOfTransmission": "unknown",
         "classification": "unclassified",
-        "responses": []
+        "responses": [
+          {"name": "monitoring", "value": false},
+          {"name": "education", "value": true},
+          {"name": "llinDistribution", "value": true},
+          {"name": "irs", "value": false}
+        ]
       },
       "geometry": {
         "type": "Polygon",
