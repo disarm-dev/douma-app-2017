@@ -3,48 +3,35 @@
 
 // }
 
+export class BaseCollection {
 
-export class FociCollection {
-  constructor(featureCollection) {
-    this.featureCollection = featureCollection
-    this.models = this._createModels(featureCollection)
-  }
+  defaults = {}
 
-  _createModels(featureCollection) {
-    return featureCollection.features.map(({type, properties, geometry}) => {
-      return Object.assign({type, geometry}, properties)
-    })
-  }
-
-  findFociIndex(foci) {
-    var index;
-    this.models.map((f, i) => {
-      if (f.id === foci.id) {
-        var index = i
-      }
-    })
-    return i
-  }
-}
-
-export class StructuresCollection  {
-  constructor (models) {
-    this.models = this._createModels(models)
+  constructor (object) {
+    const array = this.firebaseObjectToArray(object)
+    this.models = this._createModels(array)
     this.featureCollection = this.toFeatureCollection()
   }
 
-  _createModels (models = []) {
-    return models.map(i => {
+  firebaseObjectToArray (data) {
+    // data is an "object of objects"
+    // MUST HAVE an INTEGER as the key
+    let output = []
+    for (const key in data) {
+      console.log(key)
+      // skip loop if the property is from prototype
+      if (!data.hasOwnProperty(key)) continue
+      output.push({...data[key], id: parseInt(key)})
+    }
+    return output
+  }
 
+
+  _createModels (models = []) {
+    return models.map((m, i) => {
       // Add default params to model
       // TODO: Check whether these are real or debugging-only
-      return Object.assign({
-        actioned: false,
-        casePresent: Math.random() >= 0.5, // random boolean
-        actionBy: 'Person A',
-        actionDate: new Date().toISOString().substring(0, 10),
-        actionTime: new Date().getHours() + ':' + new Date().getMinutes(),
-      }, i)
+      return Object.assign({}, this.defaults, m)
     }) 
   }
 
@@ -66,7 +53,7 @@ export class StructuresCollection  {
       features: []
     }
 
-    output.features = models.map((i, index) => {
+    output.features = models.map((i) => {
       let obj = { type: 'Feature', properties: i, geometry: i.geometry }
 
       // Remove duplicate
@@ -86,5 +73,25 @@ export class StructuresCollection  {
   // Finders
   findModelById(modelId){
     return this.models.find( (i) => i.id === modelId )
+  }
+}
+
+export class StructuresCollection extends BaseCollection {
+  defaults = {
+    actioned: false,
+    casePresent: Math.random() >= 0.5, // random boolean
+    actionBy: 'Person A',
+    actionDate: new Date().toISOString().substring(0, 10),
+    actionTime: new Date().getHours() + ':' + new Date().getMinutes(),
+  }
+
+  constructor(models) {
+    super(models)
+  }
+}
+
+export class FociCollection extends BaseCollection {
+  constructor(models) {
+    super(models)
   }
 }

@@ -11,9 +11,7 @@
 <script>
   // TODO: Remove the following 4? lines once we have got real data
   import {slice} from 'lodash'
-  import firebaseStructures from '../../../bootstrap/firebase_export.json'
-  import * as Helpers from '../../../lib/helpers.js'
-  let structuresArray = slice(Helpers.firebaseObjectToArray(firebaseStructures), 0, 10)
+  import firebaseStructures from '../../../bootstrap/structures_5.json'
 
   export default {
     computed: {
@@ -24,7 +22,7 @@
     methods: {
       loadStructures() {
         // TODO: Figure real fetching of data
-        this.$store.commit('irs:loadStructures', structuresArray)
+        this.$store.commit('irs:loadStructures', firebaseStructures)
       },
       unloadStructures() {
         this.$store.commit('irs:unloadStructures')

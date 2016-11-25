@@ -8,14 +8,13 @@
 </template>
 
 <script>
-  import * as Helpers from '../../../lib/helpers.js'
   import { mapActions } from 'vuex'
 
   import Leaflet from 'leaflet'
   import 'leaflet/dist/leaflet.css'
   import geoCoords from 'geojson-coords'
 
-  import firebaseStructures from '../../../bootstrap/firebase_export.json' // Smaller 
+  import firebaseStructures from '../../../bootstrap/structures.json' // Smaller 
   
 
   export default {
@@ -63,48 +62,48 @@
         }).addTo(this.map)
         this.map.fitBounds(this.focisLayer.getBounds())
       },
-      loadStructures() {
-        // TODO: Move this into the store and use a StructureCollection
+      // loadStructures() {
+      //   // TODO: Move this into the store and use a StructureCollection
 
-        // Take Firebase object of structure polygons, return array with 
-        // `id` as one of the properties
-        const structuresArray = Helpers.firebaseObjectToArray(firebaseStructures)
+      //   // Take Firebase object of structure polygons, return array with 
+      //   // `id` as one of the properties
+      //   const structuresArray = Helpers.firebaseObjectToArray(firebaseStructures)
 
-        // Create FeatureCollection from the structuresArray
-        const structuresFc = MapHelpers.buildFeatureCollection(structuresArray)
+      //   // Create FeatureCollection from the structuresArray
+      //   const structuresFc = MapHelpers.buildFeatureCollection(structuresArray)
         
-        // Create FeatureCollection of structure centroids
-        // const centroidsFc = MapHelpers.convertPolygonsToCentroids(structuresFc)
+      //   // Create FeatureCollection of structure centroids
+      //   // const centroidsFc = MapHelpers.convertPolygonsToCentroids(structuresFc)
 
-        const structureStyle = {
-          weight: 1,
-          color: 'green'
-        }
+      //   const structureStyle = {
+      //     weight: 1,
+      //     color: 'green'
+      //   }
 
-        const structuresLayer = Leaflet.geoJSON(structuresFc, {
-            style: (feature) => {
-              if (feature.properties.casePresent === true) {
-                return {...structureStyle, color: 'red'}
-              } else {
-                return {...structureStyle, color: 'blue'}
-              }
-            },
-            onEachFeature: (feature, layer) => {
-              layer.on({
-                click: (e) => {
-                  e.target.setStyle({color: 'orange'}) // TODO: Be serious
-                  feature.properties.casePresent = !(feature.properties.casePresent)
-                }
-              })
-            }
-          }
-        )
+      //   const structuresLayer = Leaflet.geoJSON(structuresFc, {
+      //       style: (feature) => {
+      //         if (feature.properties.casePresent === true) {
+      //           return {...structureStyle, color: 'red'}
+      //         } else {
+      //           return {...structureStyle, color: 'blue'}
+      //         }
+      //       },
+      //       onEachFeature: (feature, layer) => {
+      //         layer.on({
+      //           click: (e) => {
+      //             e.target.setStyle({color: 'orange'}) // TODO: Be serious
+      //             feature.properties.casePresent = !(feature.properties.casePresent)
+      //           }
+      //         })
+      //       }
+      //     }
+      //   )
 
-        this.structuresLayer = structuresLayer
+      //   this.structuresLayer = structuresLayer
         
-        structuresLayer.addTo(this.map)
-        this.map.fitBounds(structuresLayer.getBounds())
-      }
+      //   structuresLayer.addTo(this.map)
+      //   this.map.fitBounds(structuresLayer.getBounds())
+      // }
     }
   }
 </script>

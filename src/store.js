@@ -5,11 +5,8 @@ import {StructuresCollection, FociCollection} from './lib/models.js'
 
 // TODO: Remove bootstrapped data for dev
 import fociExamples from './bootstrap/foci.json'
-import * as Helpers from './lib/helpers.js'
+import firebaseStructures from './bootstrap/structures_5.json'
 
-import firebaseStructures from './bootstrap/firebase_export.json'
-
-const structuresArray = Helpers.firebaseObjectToArray(firebaseStructures)
 
 Vue.use(Vuex)
 
@@ -19,7 +16,7 @@ const store = new Vuex.Store({
       mapBounds: {}, // TODO: Check if needed
       focis: new FociCollection(fociExamples),
       activeFoci: null,
-      structures: new StructuresCollection(structuresArray),
+      structures: new StructuresCollection(firebaseStructures),
     },
     irs: {
       structures: new StructuresCollection, // StructuresCollection
@@ -27,6 +24,7 @@ const store = new Vuex.Store({
     }
   },
   mutations: {
+    // TODO: Rename to setStructures
     'foci:loadStructures': (state, structures) => {
       state.foci.structures = new StructuresCollection(structures)
     },
