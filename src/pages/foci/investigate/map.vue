@@ -26,7 +26,9 @@
     data() {
       return {
         map: {},
-        activeFoci: this.$store.state.foci.activeFoci,
+        // this can either be a model or a feature 
+        activeFoci: this.$store.getters.activeFoci, 
+
         activeFociLayer: {}
       }
     },

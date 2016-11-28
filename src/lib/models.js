@@ -7,7 +7,8 @@ export class BaseCollection {
 
   defaults = {}
 
-  constructor (object) {
+  constructor (object, defaults) {
+    this.defaults = defaults
     const array = this.firebaseObjectToArray(object)
     this.models = this._createModels(array)
     this.featureCollection = this.toFeatureCollection()
@@ -18,7 +19,6 @@ export class BaseCollection {
     // MUST HAVE an INTEGER as the key
     let output = []
     for (const key in data) {
-      console.log(key)
       // skip loop if the property is from prototype
       if (!data.hasOwnProperty(key)) continue
       output.push({...data[key], id: parseInt(key)})
@@ -69,6 +69,14 @@ export class BaseCollection {
   modelsFromFeatureCollection () {
     return this.featureCollection.features.map( (i) => i.properties )
   }
+
+  getModel(id) {
+    return this.models.find(o => o.id === id)
+  }
+
+  getFeature(id) {
+    return this.featureCollection.features.find(o => o.id === id)
+  }
   
   // Finders
   findModelById(modelId){
@@ -77,16 +85,15 @@ export class BaseCollection {
 }
 
 export class StructuresCollection extends BaseCollection {
-  defaults = {
-    actioned: false,
-    casePresent: Math.random() >= 0.5, // random boolean
-    actionBy: 'Person A',
-    actionDate: new Date().toISOString().substring(0, 10),
-    actionTime: new Date().getHours() + ':' + new Date().getMinutes(),
-  }
 
   constructor(models) {
-    super(models)
+    super(models, {
+      actioned: false,
+      casePresent: (() => {Math.random() >= 0.5})(), // TODO: fix, doesn't work
+      actionBy: 'Person A',
+      actionDate: new Date().toISOString().substring(0, 10),
+      actionTime: new Date().getHours() + ':' + new Date().getMinutes(),
+    })
   }
 }
 

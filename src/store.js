@@ -5,7 +5,7 @@ import {StructuresCollection, FociCollection} from './lib/models.js'
 
 // TODO: Remove bootstrapped data for dev
 import fociExamples from './bootstrap/foci.json'
-import firebaseStructures from './bootstrap/structures_5.json'
+import firebaseStructures from './bootstrap/structures.json'
 
 
 Vue.use(Vuex)
@@ -55,6 +55,18 @@ const store = new Vuex.Store({
       // TODO: findIndex is not always available, most likely due to Vuex, fix
       const index = state.irs.structures.findIndex(structureCopy)
       Vue.set(state.irs.structures.models, index, structureCopy)
+    }
+  },
+  getters: {
+    activeFoci(state) {
+      var id;
+      if (!state.foci.activeFoci) return false
+      if (state.foci.activeFoci.hasOwnProperty('id')) {
+        id = state.foci.activeFoci.id
+      } else {
+        id = state.foci.activeFoci.properties.id
+      }
+      return {model: state.foci.focis.getModel(id), feature: state.foci.focis.getFeature(id)}
     }
   }
 })

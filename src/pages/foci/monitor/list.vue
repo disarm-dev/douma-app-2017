@@ -36,7 +36,7 @@
   export default {
     data() {
       return {
-        focis: this.$store.state.foci.focis.models
+        focis: this.$store.state.foci.focis
       }
     },
     methods: {

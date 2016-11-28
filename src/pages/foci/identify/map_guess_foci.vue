@@ -42,9 +42,14 @@
     },
     methods: {
       loadStructures() {
-        const structuresFc = this.$store.state.foci.structures.featureCollection
-
-        this.structuresLayer = Leaflet.geoJSON(this.$store.state.foci.structures.featureCollection)
+        
+        this.structuresLayer = Leaflet.geoJSON(this.$store.state.foci.structures.featureCollection, {style: (feature) => {
+          if (feature.properties.casePresent === true) {
+            return {color: 'red'}
+          } else {
+            return {color: 'blue'}
+          }
+        }})
 
         this.$nextTick(() => {
           this.structuresLayer.addTo(this.map)
