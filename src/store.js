@@ -58,7 +58,7 @@ const store = new Vuex.Store({
     }
   },
   getters: {
-    activeFoci(state) {
+    'foci:activeFoci': (state) => {
       var id;
       if (!state.foci.activeFoci) return false
       if (state.foci.activeFoci.hasOwnProperty('id')) {
@@ -67,6 +67,9 @@ const store = new Vuex.Store({
         id = state.foci.activeFoci.properties.id
       }
       return {model: state.foci.focis.getModel(id), feature: state.foci.focis.getFeature(id)}
+    },
+    'foci.focis': (state) => {
+      
     }
   }
 })

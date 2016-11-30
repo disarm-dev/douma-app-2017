@@ -1,5 +1,5 @@
 <template>
-  <no-active-foci v-if='!activeFoci' />
+  <no-active-foci v-if='!$store.getters['foci:activeFoci']' />
   <div v-else class='fab-container'>
     <div class="fab-buttons">
       <md-button class="md-fab md-clean" @click="$router.push({name: 'foci:investigate:detail'})">
@@ -27,7 +27,7 @@
       return {
         map: {},
         // this can either be a model or a feature 
-        activeFoci: this.$store.getters.activeFoci, 
+        activeFoci: this.$store.getters['foci:activeFoci'], 
 
         activeFociLayer: {}
       }
@@ -51,7 +51,7 @@
     },
     methods: {
       loadActiveFoci() {
-        this.activeFociLayer = Leaflet.geoJSON(this.activeFoci).addTo(this.map)
+        this.activeFociLayer = Leaflet.geoJSON(this.activeFoci.feature).addTo(this.map)
         this.map.fitBounds(this.activeFociLayer.getBounds())
       }
     }

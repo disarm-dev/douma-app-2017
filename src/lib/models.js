@@ -75,7 +75,7 @@ export class BaseCollection {
   }
 
   getFeature(id) {
-    return this.featureCollection.features.find(o => o.id === id)
+    return this.featureCollection.features.find(o => o.properties.id === id)
   }
   
   // Finders
@@ -89,7 +89,7 @@ export class StructuresCollection extends BaseCollection {
   constructor(models) {
     super(models, {
       actioned: false,
-      casePresent: (() => {Math.random() >= 0.5})(), // TODO: fix, doesn't work
+      casePresent: true, //(() => {Math.random() >= 0.5})(), // TODO: fix, doesn't work
       actionBy: 'Person A',
       actionDate: new Date().toISOString().substring(0, 10),
       actionTime: new Date().getHours() + ':' + new Date().getMinutes(),
