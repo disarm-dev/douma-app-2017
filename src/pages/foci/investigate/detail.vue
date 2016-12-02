@@ -7,18 +7,19 @@
         <md-icon>location_on</md-icon>
       </md-button>
       <div class="foci-detail">    
-        <h2>Foci #{{activeFoci.properties.id}}</h2>
+        <h2>Foci #{{activeFoci.id}}</h2>
         <ul>
           <li>
             <a @click="$router.push({name: 'foci:classify'})">Classification</a>
-            : {{activeFoci.properties.classification}}
+            : {{activeFoci.classification}}
           </li>
           <li>
             <a @click="$router.push({name: 'foci:respond'})">Responses</a>
-            : {{activeFoci.properties.responses.join(', ')}}
+            : {{activeFoci.responses.filter(r => r.value).map(r => r.name).join(', ')}}
           </li>
         </ul>
-        <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:investigate:form'})">Edit</md-button>
+        <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:investigate:form'})">Survey</md-button>
+        <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:investigate:map'})">Add driver of risk to map</md-button>
       </div>
     </div>
   </div>
@@ -30,19 +31,12 @@
 
   export default {
     components: {
-      'no-active-foci': NoActiveFoci
+      NoActiveFoci
     },
     data() {
       return {
-        activeFoci: this.$store.state.activeFoci
+        activeFoci: this.$store.state.foci.activeFoci
       }
-    },
-    mounted() {
-
-    },
-    computed: {
-    },
-    methods: {
     }
   }
 </script>
