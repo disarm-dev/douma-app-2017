@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server  --content-base src/ --inline --hot --host 0.0.0.0",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "service-worker": "sw-precache --root=dist --maximum-file-size-to-cache-in-bytes=14194304 --navigate-fallback=index.html",
     "deploy": "npm run build; surge dist"
   },
   "dependencies": {
@@ -39,6 +40,8 @@
     "handlebars": "^4.0.5",
     "json-loader": "^0.5.4",
     "style-loader": "^0.13.1",
+    "sw-precache": "^4.2.3",
+    "sw-precache-webpack-plugin": "^0.6.3",
     "vue-loader": "^9.7.0",
     "webpack": "^2.1.0-beta.25",
     "webpack-dev-server": "^2.1.0-beta.0",
