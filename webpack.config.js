@@ -69,7 +69,7 @@ if (process.env.NODE_ENV === 'production') {
         NODE_ENV: '"production"'
       }
     }),
-    // TODO: Fix Uglify, one solution is to fork webpack and update uglify
+    // TODO: Fix Uglify, one solution is to fork webpack and update uglify manually
     // new webpack.optimize.UglifyJsPlugin({
     //   compress: true,
     // }),
@@ -80,8 +80,10 @@ if (process.env.NODE_ENV === 'production') {
         { from: 'src/index.html', to: '200.html' }
     ]),
     new CopyWebpackPlugin([
-        { from: 'src/assets/logo.png', to: 'assets/logo.png' },
+        { from: 'src/assets', to: 'assets' },
         { from: 'src/CNAME' },
+        { from: 'src/favicon.ico' },
+        { from: 'src/manifest.json' },
         { from: 'src/index.html' },
     ]),
     new Visualizer(),
