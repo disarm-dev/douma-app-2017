@@ -1,6 +1,6 @@
 {
-  "name": "duma",
-  "description": "DiSARM Universal Mobile Application",
+  "name": "DOUMA",
+  "description": "DiSARM Offline Universal Multi-device Application",
   "author": "DiSARM Team",
   "private": true,
   "scripts": {

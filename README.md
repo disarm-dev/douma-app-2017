@@ -1,6 +1,6 @@
-# duma
+# DOUMA
 
-> DiSARM Universal Mobile Application
+> DiSARM Offline Universal Multi-device Application
 
 >> "If your app isn’t a steak knife, it should be."
 
