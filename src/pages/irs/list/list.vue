@@ -13,8 +13,6 @@
 </template>
 
 <script>
-  import {sortBy} from 'lodash'
-
   export default {
     data() {
       return {
@@ -23,7 +21,7 @@
     },
     computed: {
       structuresSortedByAction(){
-        return sortBy(this.structures.models, o => !o.actioned)
+        return this.structures.models.sort (o => !o.actioned)
       }
     },
     methods: {
