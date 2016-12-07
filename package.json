@@ -1,6 +1,6 @@
 {
-  "name": "duma",
-  "description": "DiSARM Universal Mobile Application",
+  "name": "DOUMA",
+  "description": "DiSARM Offline Universal Multi-device Application",
   "author": "DiSARM Team",
   "private": true,
   "scripts": {
@@ -29,6 +29,7 @@
   "devDependencies": {
     "babel-core": "^6.0.0",
     "babel-loader": "^6.0.0",
+    "babel-plugin-transform-class-properties": "^6.19.0",
     "babel-plugin-transform-object-rest-spread": "^6.16.0",
     "babel-preset-es2015": "^6.0.0",
     "copy-webpack-plugin": "^4.0.1",

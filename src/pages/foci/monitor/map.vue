@@ -8,15 +8,13 @@
 </template>
 
 <script>
-  import * as Helpers from '../../../lib/helpers.js'
-  import MapHelpers from '../../../lib/map_helpers.js'
   import { mapActions } from 'vuex'
 
   import Leaflet from 'leaflet'
   import 'leaflet/dist/leaflet.css'
   import geoCoords from 'geojson-coords'
 
-  import firebaseStructures from '../../../bootstrap/firebase_export.json' // Smaller 
+  import firebaseStructures from '../../../bootstrap/structures.json' // Smaller 
   
 
   export default {
@@ -24,7 +22,7 @@
       return {
         map: {},
         structuresLayer: {},
-        focisFc: this.$store.state.focis,
+        focisFc: this.$store.state.foci.focis.featureCollection,
         focisLayer: {}
       }
     },
@@ -41,13 +39,13 @@
         this.map.fitBounds(this.focisLayer.getBounds())
       })
 
-      const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
-      Leaflet.tileLayer(url).addTo(this.map); 
+      // const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
+      // Leaflet.tileLayer(url).addTo(this.map); 
+
       // this.loadStructures()
       this.loadFocis()
     },
     methods: {
-      ...mapActions(['setActiveFoci']),
       viewList() {
         this.$router.push({name: 'foci:monitor:list'})
       },
@@ -56,7 +54,7 @@
           onEachFeature: (feature, layer) => {
             layer.on({
               click: (e) => {
-                this.$store.commit('setActiveFoci', feature.properties.id)
+                this.$store.commit('foci:setActiveFoci', feature.properties)
                 this.$router.push({name: 'foci:investigate'})
               }
             })
@@ -64,46 +62,48 @@
         }).addTo(this.map)
         this.map.fitBounds(this.focisLayer.getBounds())
       },
-      loadStructures() {
-        // Take Firebase object of structure polygons, return array with 
-        // `id` as one of the properties
-        const structuresArray = Helpers.firebaseObjectToArray(firebaseStructures)
+      // loadStructures() {
+      //   // TODO: Move this into the store and use a StructureCollection
 
-        // Create FeatureCollection from the structuresArray
-        const structuresFc = MapHelpers.buildFeatureCollection(structuresArray)
+      //   // Take Firebase object of structure polygons, return array with 
+      //   // `id` as one of the properties
+      //   const structuresArray = Helpers.firebaseObjectToArray(firebaseStructures)
+
+      //   // Create FeatureCollection from the structuresArray
+      //   const structuresFc = MapHelpers.buildFeatureCollection(structuresArray)
         
-        // Create FeatureCollection of structure centroids
-        // const centroidsFc = MapHelpers.convertPolygonsToCentroids(structuresFc)
+      //   // Create FeatureCollection of structure centroids
+      //   // const centroidsFc = MapHelpers.convertPolygonsToCentroids(structuresFc)
 
-        const structureStyle = {
-          weight: 1,
-          color: 'green'
-        }
+      //   const structureStyle = {
+      //     weight: 1,
+      //     color: 'green'
+      //   }
 
-        const structuresLayer = Leaflet.geoJSON(structuresFc, {
-            style: (feature) => {
-              if (feature.properties.casePresent === true) {
-                return {...structureStyle, color: 'red'}
-              } else {
-                return {...structureStyle, color: 'blue'}
-              }
-            },
-            onEachFeature: (feature, layer) => {
-              layer.on({
-                click: (e) => {
-                  e.target.setStyle({color: 'orange'}) // TODO: Be serious
-                  feature.properties.casePresent = !(feature.properties.casePresent)
-                }
-              })
-            }
-          }
-        )
+      //   const structuresLayer = Leaflet.geoJSON(structuresFc, {
+      //       style: (feature) => {
+      //         if (feature.properties.casePresent === true) {
+      //           return {...structureStyle, color: 'red'}
+      //         } else {
+      //           return {...structureStyle, color: 'blue'}
+      //         }
+      //       },
+      //       onEachFeature: (feature, layer) => {
+      //         layer.on({
+      //           click: (e) => {
+      //             e.target.setStyle({color: 'orange'}) // TODO: Be serious
+      //             feature.properties.casePresent = !(feature.properties.casePresent)
+      //           }
+      //         })
+      //       }
+      //     }
+      //   )
 
-        this.structuresLayer = structuresLayer
+      //   this.structuresLayer = structuresLayer
         
-        structuresLayer.addTo(this.map)
-        this.map.fitBounds(structuresLayer.getBounds())
-      }
+      //   structuresLayer.addTo(this.map)
+      //   this.map.fitBounds(structuresLayer.getBounds())
+      // }
     }
   }
 </script>

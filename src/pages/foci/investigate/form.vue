@@ -31,7 +31,6 @@
   import 'alpaca/dist/alpaca/bootstrap/alpaca.min.css'
   
   import fociForm from './foci_investigation_form.json'
-  console.log(fociForm)
 
   export default {
     data() {

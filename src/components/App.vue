@@ -1,5 +1,5 @@
 <template>
-  <div id="app" v-md-theme="theme">
+  <div id="app" v-md-theme="(theme ? theme : 'default')">
     <md-toolbar>
       <md-button class="md-icon-button" @click="toggleSideNav">
         <md-icon>menu</md-icon>
@@ -10,7 +10,7 @@
     <md-sidenav class="md-left" ref="sideNav">
       <md-toolbar class="md-medium">
         <div class="md-toolbar-container">
-          <h3 class="md-title">DUMA</h3>
+          <h3 class="md-title">DOUMA</h3>
         </div>
         <div v-if="user">
           <p>Logged in: {{user.email}}</p>
@@ -38,7 +38,7 @@
     </md-sidenav>
 
     <!-- TODO: Fix this hack for showing the correct Tabs -->
-    <duma-tabs v-if="showNav" :value="$route.name" />
+    <douma-tabs v-if="showNav" :value="$route.name" />
 
     <div>
       <keep-alive>
@@ -60,7 +60,7 @@ export default {
     theme: String
   },
   components: {
-    'duma-tabs': Tabs
+    'douma-tabs': Tabs
   },
   data() {
     return {
@@ -70,7 +70,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['increase']),
     navigate(name) {
       this.showNav = false // we need this to re-render the tabs for the new routes
       setTimeout(() => this.showNav = true, 10)
@@ -83,22 +82,25 @@ export default {
   },
   created() {
 
-    // TODO: Want to move this firebase init stuff somewhere else?
-    this.app = firebase.initializeApp({
-      apiKey: "AIzaSyDsZiVbY7Dit61RgEQtXDeHHplC77h3URc",
-      authDomain: "disarm-platform.firebaseapp.com",
-      databaseURL: "https://disarm-platform.firebaseio.com",
-      storageBucket: "disarm-platform.appspot.com",
-      messagingSenderId: "11635888704"
-    });
+    // if (navigator.onLine){
+    //   // TODO: Want to move this firebase init stuff somewhere else?
+    //   this.app = firebase.initializeApp({
+    //     apiKey: "AIzaSyDsZiVbY7Dit61RgEQtXDeHHplC77h3URc",
+    //     authDomain: "disarm-platform.firebaseapp.com",
+    //     databaseURL: "https://disarm-platform.firebaseio.com",
+    //     storageBucket: "disarm-platform.appspot.com",
+    //     messagingSenderId: "11635888704"
+    //   });
 
-    firebase.auth().signInWithEmailAndPassword('user@disarm.io', 'screwMalaria123').then(() => {
-      this.user = firebase.auth().currentUser
-      console.log(this.user)
+    //   firebase.auth().signInWithEmailAndPassword('user@disarm.io', 'screwMalaria123').then(() => {
+    //     this.user = firebase.auth().currentUser
 
-    }).catch((e) => {
-      console.log(e);
-    })
+    //   }).catch((e) => {
+    //     console.error(e);
+    //   })
+    // } else {
+    //   console.warn('Browser is offline - not trying to authenticate the user')
+    // }
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <no-active-foci v-if='!activeFoci' />
+    <no-active-foci v-if='!$store.state.foci.activeFoci' />
 
     <div class="container" v-else>
       <md-card>
@@ -9,11 +9,11 @@
         </md-card-header>
         <md-card-content>
           <div>
-            <md-radio v-model="classification" md-value="active">Active</md-radio>
-            <md-radio v-model="classification" md-value="residual">Residual, active</md-radio>
-            <md-radio v-model="classification" md-value="inactive">Inactive</md-radio>
+            <md-radio v-model="activeFoci.classification" md-value="active">Active</md-radio>
+            <md-radio v-model="activeFoci.classification" md-value="residual">Residual, active</md-radio>
+            <md-radio v-model="activeFoci.classification" md-value="inactive">Inactive</md-radio>
           </div>
-          <md-button class="md-accent md-raised" @click="$router.push({name: 'foci:investigate'})">Save</md-button>
+          <md-button class="md-accent md-raised" @click="save">Save</md-button>
         </md-card-content>
       </md-card>
 
@@ -30,17 +30,13 @@
     },
     data() {
       return {
-        activeFoci: this.$store.state.activeFoci,
+        activeFoci: Object.assign({}, this.$store.getters['foci:activeFoci'].model),
       }
     },
-    computed: {
-      classification: {
-        get () {
-          return this.$store.state.activeFoci.properties.classification
-        },
-        set (newValue) {
-          this.$store.commit('setClassification', newValue)
-        }
+    methods: {
+      save() {
+        this.$store.commit('foci:setClassification', this.activeFoci.classification)
+        this.$router.push({name: 'foci:investigate'})
       }
     }
   }
@@ -50,10 +46,6 @@
   .container {
     max-width: 800px;
     margin: 2em auto;
-  }
-
-  .radio {
-
   }
 </style>
 

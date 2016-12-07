@@ -1,11 +1,11 @@
 <template>
-  <no-active-foci v-if='!activeFoci' />
+  <no-active-foci v-if='!$store.getters['foci:activeFoci']' />
   <div v-else class='fab-container'>
     <div class="fab-buttons">
       <md-button class="md-fab md-clean" @click="$router.push({name: 'foci:investigate:detail'})">
         <md-icon>info_outline</md-icon>
       </md-button>
-      <md-button class="md-fab md-clean md-accent" @click="$router.push({name: 'foci:investigate:detail'})">
+      <md-button class="md-fab md-clean md-accent">
         <md-icon>add</md-icon>
       </md-button>
     </div>
@@ -16,22 +16,19 @@
 <script>
   import NoActiveFoci from '../../../components/no-active-foci.vue'
 
-  import * as Helpers from '../../../lib/helpers.js'
-  import MapHelpers from '../../../lib/map_helpers.js'
-  import { mapActions } from 'vuex'
-
   import Leaflet from 'leaflet'
   import 'leaflet/dist/leaflet.css'
-  import geoCoords from 'geojson-coords'
 
   export default {
     components: {
-      'no-active-foci': NoActiveFoci
+      NoActiveFoci
     },
     data() {
       return {
         map: {},
-        activeFoci: this.$store.state.activeFoci,
+        // this can either be a model or a feature 
+        activeFoci: this.$store.getters['foci:activeFoci'], 
+
         activeFociLayer: {}
       }
     },
@@ -54,7 +51,7 @@
     },
     methods: {
       loadActiveFoci() {
-        this.activeFociLayer = Leaflet.geoJSON(this.activeFoci).addTo(this.map)
+        this.activeFociLayer = Leaflet.geoJSON(this.activeFoci.feature).addTo(this.map)
         this.map.fitBounds(this.activeFociLayer.getBounds())
       }
     }
