@@ -69,10 +69,11 @@ if (process.env.NODE_ENV === 'production') {
         NODE_ENV: '"production"'
       }
     }),
-    // TODO: Fix Uglify, one solution is to fork webpack and update uglify manually
-    // new webpack.optimize.UglifyJsPlugin({
-    //   compress: true,
-    // }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
     }),
@@ -89,8 +90,3 @@ if (process.env.NODE_ENV === 'production') {
     new Visualizer(),
   ])
 }
-
-
-
-
-
