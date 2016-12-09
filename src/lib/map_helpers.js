@@ -2,7 +2,8 @@ import turf from 'turf'
 import geoCoords from 'geojson-coords'
 
 export default {
-  buildFeatureCollection (array) {
+  // TODO: is this `buildFeatureCollection` duplicated in models.js?
+  buildFeatureCollection (array) { 
     // Takes array of geometries from firebase
     let output = {
       type: "FeatureCollection",
@@ -10,18 +11,21 @@ export default {
     }
 
     output.features = array.map((i, index) => {
-      let obj = { type: 'Feature', properties: {} }
-      obj.properties.id = i.id
+      let obj = { type: 'Feature', properties: i, geometry: i.geometry }
+
+      // Remove duplicate
+      delete obj.properties.geometry
+
       // TODO: Remove this `casePresent` for-debugging-only property
       obj.properties.casePresent = Math.random() >= 0.5 // random boolean, was `!!(i.actioned)`
-      obj.geometry = i.geometry
+
       return obj
     })
 
     // Returns a FeatureCollection
     return output 
   },
-  // Doesn't return a FeatureCollection, just the instance.
+  // Doesn't return a FeatureCollection
   convertPolygonsToCentroids (polygons) {
     // Takes array of polygons
     const centroids = polygons.features.map((polygon) => {

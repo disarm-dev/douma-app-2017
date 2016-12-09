@@ -14,7 +14,7 @@ module.exports = {
     rules: [
       {
         test: /\.(eot|ttf|woff|woff2)$/,
-        loader: 'file'
+        loader: 'file-loader'
       },
       { 
         test: /\.css$/,
@@ -22,24 +22,24 @@ module.exports = {
       },
       {
         test: /\.vue$/,
-        loader: 'vue',
+        loader: 'vue-loader',
         options: {
           // vue-loader options go here
         }
       },
       {
         test: /\.js$/,
-        loader: 'babel',
+        loader: 'babel-loader',
         exclude: /node_modules/
       },
       {
         test: /\.json$/,
-        loader: 'json',
+        loader: 'json-loader',
         exclude: /node_modules/
       },
       {
         test: /\.(png|jpg|gif|svg|html)$/,
-        loader: 'file',
+        loader: 'file-loader',
         options: {
           name: '[name].[ext]?[hash]'
         }
@@ -61,7 +61,7 @@ module.exports = {
 }
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports.devtool = '#source-map'
+  module.exports.devtool = '#cheap-source-map'
   // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({

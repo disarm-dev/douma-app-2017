@@ -17,16 +17,13 @@ import Monitor from './pages/foci/monitor/monitor.vue'
 
 // Identify
 
-import IdentifyList from './pages/foci/identify/list.vue'
 import IdentifyMapGuessFoci from './pages/foci/identify/map_guess_foci.vue'
-import IdentifyMapEditFoci from './pages/foci/identify/map_edit_foci.vue'
 
 // Investigate
 
 import InvestigateDetail from './pages/foci/investigate/detail.vue'
 import InvestigateForm from './pages/foci/investigate/form.vue'
 import InvestigateMap from './pages/foci/investigate/map.vue'
-import investigateMapEdit from './pages/foci/investigate/mapEdit.vue'
 
 // Classify
 
@@ -39,7 +36,10 @@ import RespondForm from './pages/foci/respond/form.vue'
 // 
 // IRS
 // 
-import IRSRoot from './pages/irs/root.vue'
+import IRSTasks from './pages/irs/tasks/tasks.vue'
+import IRSMap from './pages/irs/map/map.vue'
+import IRSList from './pages/irs/list/list.vue'
+import IRSForm from './pages/irs/form/form.vue'
 
 
 // 
@@ -84,6 +84,7 @@ const meta = [
   },
 ]
 
+// FOCI
 const foci_root = [
   {
     path: '/foci',
@@ -92,7 +93,6 @@ const foci_root = [
   }
 ]
 
-// FOCI
 const foci_monitor = [
   {
     title: 'Monitor',
@@ -123,24 +123,12 @@ const foci_identify = [
   },
   {
     title: 'Identify',
-    path: '/foci/identify/list',
-    name: 'foci:identify:list',
-    component: IdentifyList
-  },
-  {
-    title: 'Identify',
     path: '/foci/identify/map/guess_foci',
     name: 'foci:identify:map:guess_foci',
     component: IdentifyMapGuessFoci,
     meta: {
       keepRouteAlive: true
     }
-  },
-  {
-    title: 'Identify',
-    path: '/foci/identify/map/edit_foci',
-    name: 'foci:identify:map:edit_foci',
-    component: IdentifyMapEditFoci
   }
 ]
 
@@ -168,12 +156,6 @@ const foci_investigate = [
     path: '/foci/investigate/map',
     name: 'foci:investigate:map',
     component: InvestigateMap
-  },
-  {
-    title: 'Investigate',
-    path: '/foci/investigate/editmap',
-    name: 'foci:investigate:mapedit',
-    component: investigateMapEdit
   }
 ]
 
@@ -213,22 +195,35 @@ const irs_root = [
   {
     path: '/irs',
     name: 'irs',
-    redirect: '/irs/monitor'
-  }
-]
-
-const irs_monitor = [
-  {
-    title: 'Target IRS',
-    path: '/irs/monitor',
-    name: 'irs:monitor',
-    component: IRSRoot
+    redirect: '/irs/tasks'
   },
   {
-    path: '/irs/monitor/map',
-    name: 'irs:monitor:map',
-    component: IRSRoot
-  }
+    title: 'Tasks',
+    path: '/irs/tasks',
+    name: 'irs:tasks',
+    component: IRSTasks
+  },
+  {
+    title: 'Map',
+    path: '/irs/map',
+    name: 'irs:map',
+    component: IRSMap,
+    meta: {
+      keepRouteAlive: true
+    }
+  },
+  {
+    title: 'List',
+    path: '/irs/list',
+    name: 'irs:list',
+    component: IRSList
+  },
+  {
+    title: 'Form',
+    path: '/irs/form',
+    name: 'irs:form',
+    component: IRSForm
+  },
 ]
 
 // CASES
@@ -259,7 +254,7 @@ const cases_monitor= [
 
 const foci = [].concat(foci_root, foci_monitor, foci_identify, foci_investigate, foci_classify, foci_respond)
 
-const irs = [].concat(irs_root, irs_monitor)
+const irs = [].concat(irs_root)
 
 const cases = [].concat(cases_root, cases_monitor)
 
