@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {find, findIndex} from 'lodash'
 import {StructuresCollection, FociCollection} from './lib/models.js'
 
 // TODO: Remove bootstrapped data for dev
