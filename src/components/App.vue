@@ -10,7 +10,7 @@
     <md-sidenav class="md-left" ref="sideNav">
       <md-toolbar class="md-medium">
         <div class="md-toolbar-container">
-          <h3 class="md-title">DUMA</h3>
+          <h3 class="md-title">DOUMA</h3>
         </div>
         <div v-if="user">
           <p>Logged in: {{user.email}}</p>
@@ -38,7 +38,7 @@
     </md-sidenav>
 
     <!-- TODO: Fix this hack for showing the correct Tabs -->
-    <duma-tabs v-if="showNav" :value="$route.name" />
+    <douma-tabs v-if="showNav" :value="$route.name" />
 
     <div>
       <keep-alive>
@@ -60,7 +60,7 @@ export default {
     theme: String
   },
   components: {
-    'duma-tabs': Tabs
+    'douma-tabs': Tabs
   },
   data() {
     return {

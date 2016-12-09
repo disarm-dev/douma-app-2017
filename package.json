@@ -1,6 +1,6 @@
 {
-  "name": "duma",
-  "description": "DiSARM Universal Mobile Application",
+  "name": "DOUMA",
+  "description": "DiSARM Offline Universal Multi-device Application",
   "author": "DiSARM Team",
   "private": true,
   "scripts": {
@@ -17,9 +17,8 @@
     "handlebars": "^4.0.5",
     "jquery": "^3.1.1",
     "leaflet": "^1.0.1",
-    "leaflet-draw": "^0.4.1",
+    "leaflet-draw": "^0.4.7",
     "leaflet.vectorgrid": "^1.1.0",
-    "lodash": "^4.16.6",
     "turf": "^3.0.14",
     "vue": "^2.0.1",
     "vue-material": "^0.2.0",

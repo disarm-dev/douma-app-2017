@@ -9,8 +9,7 @@
 </template>
 
 <script>
-  // TODO: Remove the following 4? lines once we have got real data
-  import {slice} from 'lodash'
+  // TODO: Remove the following line once we have got real data
   import firebaseStructures from '../../../bootstrap/structures_5.json'
 
   export default {

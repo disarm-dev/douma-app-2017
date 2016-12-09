@@ -17,8 +17,6 @@
 </template>
 
 <script> 
-  import {find} from 'lodash'
-
   export default {
     props: ['value'], // the current route's name
     data() {
@@ -50,7 +48,7 @@
     computed: {
       selectValue() {
         // find the value displayed by the select component
-        const route = find(this.$router.options.routes, {name: this.value})
+        const route = this.$router.options.routes.find( (i) => i.name === this.value )
         return route.title
       },
       routes () {
