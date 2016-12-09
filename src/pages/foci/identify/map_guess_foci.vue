@@ -15,7 +15,7 @@
   import 'leaflet/dist/leaflet.css'
   
   import 'leaflet-draw'
-  import 'leaflet-draw/dist/leaflet.draw.css'
+  import 'leaflet-draw/src/leaflet.draw.css'
 
   import geoCoords from 'geojson-coords'
   import MapHelpers from '../../../lib/map_helpers.js'
