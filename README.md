@@ -1,5 +1,7 @@
 # DOUMA
 
+![OfflineIcon.png](https://bitbucket.org/repo/7qBnaL/images/3197852267-OfflineIcon.png)
+
 > DiSARM Offline Universal Multi-device Application
 
 >> "If your app isn’t a steak knife, it should be."
