@@ -10,7 +10,7 @@
 
 <script>
   // TODO: Remove the following line once we have got real data
-  import firebaseStructures from '../../../bootstrap/structures_5.json'
+  import firebaseStructures from '../../../data_bootstrap/structures_5.json'
 
   export default {
     computed: {
