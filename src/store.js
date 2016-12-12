@@ -3,8 +3,8 @@ import Vuex from 'vuex'
 import {StructuresCollection, FociCollection} from './lib/models.js'
 
 // TODO: Remove bootstrapped data for dev
-import fociExamples from './bootstrap/foci.json'
-import firebaseStructures from './bootstrap/structures.json'
+import fociExamples from './data_bootstrap/foci.json'
+import firebaseStructures from './data_bootstrap/structures.json'
 
 
 Vue.use(Vuex)
