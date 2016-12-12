@@ -37,6 +37,16 @@
       </md-list>
     </md-sidenav>
 
+    <md-dialog ref="dialog">
+      <md-dialog-title>{{dialog.title}}</md-dialog-title>
+
+      <md-dialog-content>{{dialog.message}}</md-dialog-content>
+
+      <md-dialog-actions>
+        <md-button class="md-primary" @click="closeDialog()">Awesome!</md-button>
+      </md-dialog-actions>
+    </md-dialog>
+
     <!-- TODO: Fix this hack for showing the correct Tabs -->
     <douma-tabs v-if="showNav" :value="$route.name" />
 
@@ -57,7 +67,8 @@ import Tabs from './Tabs.vue'
 
 export default {
   props: {
-    theme: String
+    theme: String,
+    sw: Object
   },
   components: {
     'douma-tabs': Tabs
@@ -66,7 +77,8 @@ export default {
     return {
       app: {},
       user: {},
-      showNav: true
+      showNav: true,
+      dialog: {title: null, message: null}
     }
   },
   methods: {
@@ -78,6 +90,15 @@ export default {
     },
     toggleSideNav() {
       this.$refs.sideNav.toggle();
+    },
+    closeDialog() {
+      this.$refs.dialog.close()
+    }
+  },
+  watch: {
+    sw: function (val, oldVal) {
+      this.dialog = val
+      this.$refs.dialog.open()
     }
   },
   created() {
