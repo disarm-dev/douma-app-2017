@@ -34,10 +34,9 @@ router.afterEach((route) => {
   handleTheme(route)
 })
 
-
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/service-worker.js').then(function(reg) {
-    
+
     reg.onupdatefound = function() {
       var installingWorker = reg.installing;
       installingWorker.onstatechange = function() {
@@ -49,10 +48,12 @@ if ('serviceWorker' in navigator) {
               // It's the perfect time to display a "New content is available; please refresh."
               // message in the page's interface.
               console.log('New or updated content is available.');
+              DOUMA.sw = {title: 'Update available', message: "An update is available, please refresh"}
             } else {
               // At this point, everything has been precached.
               // It's the perfect time to display a "Content is cached for offline use." message.
               console.log('Content is now available offline!');
+              DOUMA.sw = {title: 'Available offline', message: "Content is available offline"}
             }
             break;
 
