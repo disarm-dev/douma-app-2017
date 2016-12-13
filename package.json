@@ -21,7 +21,7 @@
     "leaflet.vectorgrid": "^1.1.0",
     "turf": "^3.0.14",
     "vue": "^2.0.1",
-    "vue-material": "^0.2.0",
+    "vue-material": "^0.4.1",
     "vue-router": "^2.0.1",
     "vuex": "^2.0.0",
     "vuex-router-sync": "^3.0.0"

@@ -38,7 +38,7 @@
     </md-sidenav>
 
     <!-- TODO: Fix this hack for showing the correct Tabs -->
-    <douma-tabs v-if="showNav" :value="$route.name" />
+    
 
     <div>
       <keep-alive>

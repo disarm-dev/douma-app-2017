@@ -3,6 +3,11 @@ import VueRouter from 'vue-router'
 
 // Meta
 import App from './components/App.vue'
+import FociContainer from './components/foci-container.vue'
+import IRSContainer from './components/irs-container.vue'
+import CasesContainer from './components/cases-container.vue'
+
+
 import Login from './pages/meta/user/login.vue'
 import SyncStatus from './pages/meta/sync/status.vue'
 import AOIMap from './pages/meta/aoi/map.vue'
@@ -13,7 +18,8 @@ import AOIMap from './pages/meta/aoi/map.vue'
 
 // Monitor
 
-import Monitor from './pages/foci/monitor/monitor.vue'
+import MonitorList from './pages/foci/monitor/list.vue'
+import MonitorMap from './pages/foci/monitor/map.vue'
 
 // Identify
 
@@ -58,26 +64,22 @@ const meta = [
     redirect: '/foci'
   },
   {
-    title: 'Login',
     path: '/login',
     name: 'meta:login',
     component: Login
   },
   { 
-    title: 'Logout',
     path: '/logout',
     name: 'meta:logout',
     // component: Logout
     redirect: '/'
   },
   {
-    title: 'Sync',
     path: '/sync',
     name: 'meta:sync',
     component: SyncStatus
   },
   {
-    title: 'AOI',
     path: '/aoi',
     name: 'meta:aoi',
     component: AOIMap
@@ -85,178 +87,137 @@ const meta = [
 ]
 
 // FOCI
-const foci_root = [
+const foci = [
   {
     path: '/foci',
     name: 'foci',
-    redirect: '/foci/monitor'
-  }
-]
+    redirect: '/foci/monitor',
+    component: FociContainer,
+    children: [
+      {
+        path: 'monitor',
+        name: 'foci:monitor',
+        redirect: 'monitor/list',
+      },
+      {
+        path: 'monitor/list',
+        name: 'foci:monitor:list',
+        component: MonitorList,
+      },
+      {
+        path: 'monitor/map',
+        name: 'foci:monitor:map',
+        component: MonitorMap,
+        meta: {
+          keepRouteAlive: true
+        }
+      },
 
-const foci_monitor = [
-  {
-    title: 'Monitor',
-    path: '/foci/monitor',
-    name: 'foci:monitor',
-    redirect: '/foci/monitor/list'
-  },
-  {
-    title: 'Monitor',
-    path: '/foci/monitor/list',
-    name: 'foci:monitor:list',
-    component: Monitor,
-  },
-  {
-    title: 'Monitor',
-    path: '/foci/monitor/map',
-    name: 'foci:monitor:map',
-    component: Monitor
-  }
-]
+      {
+        path: 'identify',
+        name: 'foci:identify',
+        component: IdentifyMapGuessFoci,
+        meta: {
+          keepRouteAlive: true
+        }
+      },
 
-const foci_identify = [
-  {
-    title: 'Identify',
-    path: '/foci/identify',
-    name: 'foci:identify',
-    redirect: '/foci/identify/map/guess_foci'
-  },
-  {
-    title: 'Identify',
-    path: '/foci/identify/map/guess_foci',
-    name: 'foci:identify:map:guess_foci',
-    component: IdentifyMapGuessFoci,
-    meta: {
-      keepRouteAlive: true
-    }
-  }
-]
+      {
+        path: 'investigate',
+        name: 'foci:investigate',
+        redirect: 'investigate/detail',
+      },
+      {
+        path: 'investigate/detail',
+        name: 'foci:investigate:detail',
+        component: InvestigateDetail
+      },
+      {
+        path: 'investigate/form',
+        name: 'foci:investigate:form',
+        component: InvestigateForm
+      },
+      {
+        path: 'investigate/map',
+        name: 'foci:investigate:map',
+        component: InvestigateMap
+      },
 
-const foci_investigate = [
-  {
-    title: 'Investigate',
-    path: '/foci/investigate',
-    name: 'foci:investigate',
-    redirect: '/foci/investigate/detail'
-  },
-  {
-    title: 'Investigate',
-    path: '/foci/investigate/detail',
-    name: 'foci:investigate:detail',
-    component: InvestigateDetail
-  },
-  {
-    title: 'Investigate',
-    path: '/foci/investigate/form',
-    name: 'foci:investigate:form',
-    component: InvestigateForm
-  },
-  {
-    title: 'Investigate',
-    path: '/foci/investigate/map',
-    name: 'foci:investigate:map',
-    component: InvestigateMap
-  }
-]
+      {
+        path: 'classify/form',
+        name: 'foci:classify',
+        component: ClassifyForm
+      },
 
-const foci_classify = [
-  {
-    title: 'Classify',
-    path: '/foci/classify',
-    name: 'foci:classify',
-    redirect: '/foci/classify/form'
-  },
-  {
-    title: 'Classify',
-    path: '/foci/classify/form',
-    name: 'foci:classify:form',
-    component: ClassifyForm
-  }
-]
-
-const foci_respond = [
-  {
-    title: 'Respond',
-    path: '/foci/respond',
-    name: 'foci:respond',
-    redirect: '/foci/respond/form'
-  },
-  {
-    title: 'Respond',
-    path: '/foci/respond/form',
-    name: 'foci:respond:form',
-    component: RespondForm
+      {
+        path: 'respond',
+        name: 'foci:respond',
+        component: RespondForm
+      }
+    ]
   }
 ]
 
 
 // IRS
-const irs_root = [
+const irs = [
   {
     path: '/irs',
     name: 'irs',
-    redirect: '/irs/tasks'
-  },
-  {
-    title: 'Tasks',
-    path: '/irs/tasks',
-    name: 'irs:tasks',
-    component: IRSTasks
-  },
-  {
-    title: 'Map',
-    path: '/irs/map',
-    name: 'irs:map',
-    component: IRSMap,
-    meta: {
-      keepRouteAlive: true
-    }
-  },
-  {
-    title: 'List',
-    path: '/irs/list',
-    name: 'irs:list',
-    component: IRSList
-  },
-  {
-    title: 'Form',
-    path: '/irs/form',
-    name: 'irs:form',
-    component: IRSForm
-  },
+    component: IRSContainer,
+    redirect: '/irs/tasks',
+    children: [
+      {
+        path: 'tasks',
+        name: 'irs:tasks',
+        component: IRSTasks
+      },
+      {
+        path: 'map',
+        name: 'irs:map',
+        component: IRSMap,
+        meta: {
+          keepRouteAlive: true
+        }
+      },
+      {
+        path: 'list',
+        name: 'irs:list',
+        component: IRSList
+      },
+      {
+        path: 'form',
+        name: 'irs:form',
+        component: IRSForm
+      }
+    ]
+  }
 ]
 
 // CASES
-const cases_root = [
+const cases = [
   {
-
     path: '/cases',
     name: 'cases',
-    redirect: '/cases/monitor'
+    redirect: '/cases/monitor',
+    component: CasesContainer,
+    children: [
+      {
+        path: 'monitor',
+        name: 'cases:monitor',
+        component: CasesRoot
+      },
+      {
+        path: 'monitor/map',
+        name: 'cases:monitor:map',
+        component: CasesRoot,
+        meta: {
+          keepRouteAlive: true
+        }
+      }
+    ]
   }
 ]
-
-const cases_monitor= [
-  {
-    title: 'Monitor Cases',
-    path: '/cases/monitor',
-    name: 'cases:monitor',
-    component: CasesRoot
-  },
-  {
-    path: '/cases/monitor/map',
-    name: 'cases:monitor:map',
-    component: CasesRoot
-  }
-]
-
-
-
-const foci = [].concat(foci_root, foci_monitor, foci_identify, foci_investigate, foci_classify, foci_respond)
-
-const irs = [].concat(irs_root)
-
-const cases = [].concat(cases_root, cases_monitor)
 
 const routes = [].concat(meta, foci, irs, cases)
 
