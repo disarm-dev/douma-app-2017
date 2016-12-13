@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="md-title">{{msg}}</h1>
+    <h1 class="md-title" style="text-align:center;">{{msg}}</h1>
   </div>
 </template>
 
@@ -8,8 +8,13 @@
   export default {
     data() {
       return {
-        msg: 'Hello, World!'
+        msg: 'Logging out...'
       }
+    },
+    mounted() {
+      setTimeout(() => {
+        this.$router.push({name: 'root'})
+      }, 3000)
     }
   }
 </script>

@@ -7,8 +7,9 @@ import FociContainer from './components/foci-container.vue'
 import IRSContainer from './components/irs-container.vue'
 import CasesContainer from './components/cases-container.vue'
 
-
+import Root from './pages/meta/root.vue'
 import Login from './pages/meta/user/login.vue'
+import Logout from './pages/meta/user/logout.vue'
 import SyncStatus from './pages/meta/sync/status.vue'
 import AOIMap from './pages/meta/aoi/map.vue'
 
@@ -53,15 +54,12 @@ import IRSForm from './pages/irs/form/form.vue'
 // 
 import CasesRoot from './pages/cases/root.vue'
 
-// TODO: Namespace route names
-
 // META
 const meta = [
   {
     path: '/',
-    name: 'meta',
-    // component: App,
-    redirect: '/foci'
+    name: 'root',
+    component: Root,
   },
   {
     path: '/login',
@@ -71,8 +69,7 @@ const meta = [
   { 
     path: '/logout',
     name: 'meta:logout',
-    // component: Logout
-    redirect: '/'
+    component: Logout
   },
   {
     path: '/sync',
