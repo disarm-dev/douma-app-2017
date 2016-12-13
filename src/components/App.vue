@@ -35,10 +35,7 @@
           <md-icon>person</md-icon><span>Meta</span>
         </md-list-item>
       </md-list>
-    </md-sidenav>
-
-    <!-- TODO: Fix this hack for showing the correct Tabs -->
-    
+    </md-sidenav>    
 
     <div>
       <keep-alive>
@@ -50,7 +47,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
 import firebase from 'firebase'
 import Tabs from './Tabs.vue'
 
