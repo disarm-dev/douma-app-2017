@@ -57,7 +57,12 @@ module.exports = {
     historyApiFallback: true,
     noInfo: true
   },
-  devtool: '#eval-source-map'
+  devtool: '#eval-source-map',
+  plugins: [
+    new webpack.DefinePlugin({
+      'ENABLE_SW': false
+    })
+  ]
 }
 
 if (process.env.NODE_ENV === 'production') {
@@ -67,7 +72,8 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"production"'
-      }
+      },
+      'ENABLE_SW': true
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {

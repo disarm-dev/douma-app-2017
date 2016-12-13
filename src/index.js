@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import { sync } from 'vuex-router-sync'
 import './fonts/Roboto.css'
 import './fonts/MaterialIcons.css'
 
@@ -10,8 +9,6 @@ import router from './router'
 import store from './store'
 
 configure()
-
-sync(store, router)
 
 let DOUMA = Vue.component('app', App)
 const handleTheme = (route) => {
@@ -35,7 +32,7 @@ router.afterEach((route) => {
 })
 
 
-if ('serviceWorker' in navigator) {
+if ('serviceWorker' in navigator && ENABLE_SW) {
   navigator.serviceWorker.register('/service-worker.js').then(function(reg) {
     
     reg.onupdatefound = function() {
