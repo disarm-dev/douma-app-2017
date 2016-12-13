@@ -28,11 +28,6 @@
     },
     methods: {
       onTabChange(i) {
-        // prevent first tab from being auto selected
-        if (!this.initialTabStateSet) {
-          this.initialTabStateSet = true
-          return
-        }
         this.$router.push({name: this.routes[i].name})
       },
       onSelectChange(e) {
