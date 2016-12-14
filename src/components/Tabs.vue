@@ -1,83 +1,39 @@
 <template>
-  <div>
-  
-    <md-tabs class="tabs" @change="onTabChange" :md-centered="true">
-      <md-tab v-for="(route, index) in routes" :md-label="route.title" :md-active="isActive(route)"></md-tab>
-    </md-tabs>
-    
-    <md-toolbar class="select">
-      <md-input-container>
-        <md-select name="navigation" :value="$route.name" @change="onSelectChange">
-          <md-option v-for="route in routes" :value="route.name">{{route.title}}</md-option>
-        </md-select>
-      </md-input-container>
-    </md-toolbar>
-
-  </div>
+  <md-tabs @change="onTabChange" :md-centered="true">
+    <md-tab v-for="(route, index) in routes" :md-label="route.title" :md-active="active == index"></md-tab>
+  </md-tabs>  
 </template>
 
 <script> 
   export default {
-    props: [
-      'routes'
-    ],
+    props: ['routes'],
     data() {
       return {
-        initialTabStateSet: false,
+        active: this.routes.findIndex(r => this.$route.name.indexOf(r.name) >= 0)
       }
     },
     methods: {
       onTabChange(i) {
+        this.active = i
         this.$router.push({name: this.routes[i].name})
-      },
-      onSelectChange(e) {
-        this.$router.push({name: e})
-      },
-      isActive(route) {
-        return this.$route.name.indexOf(route.name) >= 0
       }
     }
   }
 </script>
 
 <style>
-  .md-select-value {
-    text-transform: capitalize;
-  }
-
   .md-tabs .md-tabs-content {
     height: 0 !important;
   }
 
-  .md-select .md-select-menu {
-    left: auto !important;
-    right: 20px !important;
-  }
-
-  .select .md-input-container {
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-  }
-
-  .tabs {
-    display: none;
-  }
-
-  .select {
-    display: block;
-    padding-right: 2em;
-    padding-left: 2em;
-    z-index: 2;
-  }
-
-  @media screen and (min-width: 500px) {
-    .tabs {
-      display: flex;
+  @media screen and (max-width: 500px) {
+    .md-tabs-navigation {
+      overflow-x: scroll;
+      justify-content: flex-start !important;
     }
-
-    .select {
-      display: none;
+    .md-tab-header {
+      min-width: auto !important;
+      max-width: none !important;
     }
   }
-  
 </style>

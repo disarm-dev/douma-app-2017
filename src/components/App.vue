@@ -38,10 +38,7 @@
     </md-sidenav>    
 
     <div>
-      <keep-alive>
-        <router-view v-if='this.$route.meta.keepRouteAlive'></router-view>
-      </keep-alive>
-      <router-view v-if='!this.$route.meta.keepRouteAlive'></router-view>
+      <router-view ></router-view>
     </div>
   </div>
 </template>
