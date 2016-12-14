@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import firebase from 'firebase'
+
 import './fonts/Roboto.css'
 import './fonts/MaterialIcons.css'
 
@@ -30,6 +32,32 @@ handleTheme(router.currentRoute)
 router.afterEach((route) => {
   handleTheme(route)
 })
+
+DOUMA.$store.state.online = navigator.onLine
+window.addEventListener("offline", e => DOUMA.$store.state.online = false);
+window.addEventListener("online", e => DOUMA.$store.state.online = true);
+
+const init = () => {
+  firebase.initializeApp({
+    apiKey: "AIzaSyDsZiVbY7Dit61RgEQtXDeHHplC77h3URc",
+    authDomain: "disarm-platform.firebaseapp.com",
+    databaseURL: "https://disarm-platform.firebaseio.com",
+    storageBucket: "disarm-platform.appspot.com",
+    messagingSenderId: "11635888704"
+  });
+}
+
+if (navigator.onLine) {
+  init()
+} else {
+  var authenticated = false;
+  window.addEventListener("online", e =>  {
+    if (!authenticated) {
+      init()
+      authenticated = true
+    }
+  });
+}
 
 
 if ('serviceWorker' in navigator && ENABLE_SW) {

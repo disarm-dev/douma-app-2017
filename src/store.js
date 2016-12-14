@@ -11,6 +11,8 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
+    user: null,
+    online: null,
     foci: {
       mapBounds: {}, // TODO: Check if needed
       focis: new FociCollection(fociExamples),
