@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import firebase from 'firebase'
 
 // Meta
 import App from './components/App.vue'
@@ -54,6 +55,13 @@ import IRSForm from './pages/irs/form/form.vue'
 // 
 import CasesRoot from './pages/cases/root.vue'
 
+const beforeEnter = (to, from, next) => {
+  if (!firebase.auth().currentUser) {
+    return next('/login')
+  } 
+  next()
+}
+
 // META
 const meta = [
   {
@@ -90,6 +98,7 @@ const foci = [
     name: 'foci',
     redirect: '/foci/monitor',
     component: FociContainer,
+    beforeEnter,
     children: [
       {
         path: 'monitor',
@@ -163,6 +172,7 @@ const irs = [
     name: 'irs',
     component: IRSContainer,
     redirect: '/irs/tasks',
+    beforeEnter,
     children: [
       {
         path: 'tasks',
@@ -198,6 +208,7 @@ const cases = [
     name: 'cases',
     redirect: '/cases/monitor',
     component: CasesContainer,
+    beforeEnter,
     children: [
       {
         path: 'monitor',

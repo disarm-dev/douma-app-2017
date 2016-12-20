@@ -21,7 +21,7 @@ firebase.initializeApp({
   databaseURL: "https://disarm-platform.firebaseio.com",
   storageBucket: "disarm-platform.appspot.com",
   messagingSenderId: "11635888704"
-})
+}, 'DOUMA')
 
 configure()
 
@@ -42,23 +42,9 @@ DOUMA = new DOUMA({router, store}).$mount('#app')
 
 handleTheme(router.currentRoute)
 
-router.beforeEach((to, from, next) => {
-   // TODO: Implement per page auth
-  // require user to be logged in to access anything for now
-  // Read more: https://router.vuejs.org/en/advanced/navigation-guards.html
-  if (to.path !== '/login') {
-    if (!firebase.auth().currentUser) {
-      return next('/login')
-    } 
-  }
-  next()
-})
-
 router.afterEach((route) => {
   handleTheme(route)
 })
-// 
-// router.push('/')
 
 DOUMA.$store.state.online = navigator.onLine
 window.addEventListener("offline", e => DOUMA.$store.state.online = false);
