@@ -10,6 +10,19 @@ import App from './components/App.vue'
 import router from './router'
 import store from './store'
 
+
+window.firebase = firebase
+
+
+// TODO: find a way to check when app has been initialized
+firebase.initializeApp({
+  apiKey: "AIzaSyDsZiVbY7Dit61RgEQtXDeHHplC77h3URc",
+  authDomain: "disarm-platform.firebaseapp.com",
+  databaseURL: "https://disarm-platform.firebaseio.com",
+  storageBucket: "disarm-platform.appspot.com",
+  messagingSenderId: "11635888704"
+})
+
 configure()
 
 let DOUMA = Vue.component('app', App)
@@ -29,40 +42,32 @@ DOUMA = new DOUMA({router, store}).$mount('#app')
 
 handleTheme(router.currentRoute)
 
+router.beforeEach((to, from, next) => {
+   // TODO: Implement per page auth
+  // require user to be logged in to access anything for now
+  // Read more: https://router.vuejs.org/en/advanced/navigation-guards.html
+  if (to.path !== '/login') {
+    if (!firebase.auth().currentUser) {
+      return next('/login')
+    } 
+  }
+  next()
+})
+
 router.afterEach((route) => {
   handleTheme(route)
 })
+// 
+// router.push('/')
 
 DOUMA.$store.state.online = navigator.onLine
 window.addEventListener("offline", e => DOUMA.$store.state.online = false);
 window.addEventListener("online", e => DOUMA.$store.state.online = true);
 
-const init = () => {
-  firebase.initializeApp({
-    apiKey: "AIzaSyDsZiVbY7Dit61RgEQtXDeHHplC77h3URc",
-    authDomain: "disarm-platform.firebaseapp.com",
-    databaseURL: "https://disarm-platform.firebaseio.com",
-    storageBucket: "disarm-platform.appspot.com",
-    messagingSenderId: "11635888704"
-  });
-}
-
-if (navigator.onLine) {
-  init()
-} else {
-  var authenticated = false;
-  window.addEventListener("online", e =>  {
-    if (!authenticated) {
-      init()
-      authenticated = true
-    }
-  });
-}
 
 
 if ('serviceWorker' in navigator && ENABLE_SW) {
   navigator.serviceWorker.register('/service-worker.js').then(function(reg) {
-    
     reg.onupdatefound = function() {
       var installingWorker = reg.installing;
       installingWorker.onstatechange = function() {

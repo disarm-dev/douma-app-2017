@@ -1,6 +1,6 @@
 <template>
   <div class='login'>
-    
+
     <md-card>
       <md-card-content>
         <form novalidate @submit.stop.prevent="login">
@@ -17,12 +17,12 @@
             <label>Password</label>
             <md-input type="password" v-model="password"></md-input>
           </md-input-container>
-          
+
           <md-button type="submit" class="md-raised md-primary login-button" :disabled="disabled">Login</md-button>
         </form>
       </md-card-content>
     </md-card>
-    
+
   </div>
 </template>
 
@@ -46,11 +46,11 @@ export default {
       firebase.auth()
       .signInWithEmailAndPassword(this.email, this.password)
       .then(() => {
-        console.log('done logging in')
-        console.log(firebase.auth().currentUser)
         this.$store.state.user = firebase.auth().currentUser
         this.$router.push({name: 'root'})
       }).catch((e) => {
+        this.msg = e.message
+        this.disabled = false
         console.error(e);
       })
     }
@@ -72,7 +72,7 @@ export default {
     width: 50px;
     font-size: 50px;
   }
-  
+
   .login-text {
     padding-top: 0.5em;
     text-align: center;

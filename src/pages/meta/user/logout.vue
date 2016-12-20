@@ -10,7 +10,7 @@
         <p >You are currently offline, if you log out now you will not have access to DOUMA until you get online and log back in again.</p>
       </md-card-content>
       <md-card-actions>
-        <md-button class="md-primary" @click="">Logout</md-button>
+        <md-button class="md-primary" @click="logout">Logout</md-button>
         <md-button>Cancel</md-button>
       </md-card-actions>
     </md-card>
