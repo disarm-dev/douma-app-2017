@@ -2,7 +2,10 @@
   <div>
     <duma-tabs :routes="links"></duma-tabs>
     <div>
-      <router-view>
+      <keep-alive>
+        <router-view v-if='this.$route.meta.keepRouteAlive'></router-view>
+      </keep-alive>
+      <router-view v-if='!this.$route.meta.keepRouteAlive'></router-view>
     </div>
   </div>
 </template>
