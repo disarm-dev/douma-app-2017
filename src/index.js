@@ -21,7 +21,7 @@ firebase.initializeApp({
   databaseURL: "https://disarm-platform.firebaseio.com",
   storageBucket: "disarm-platform.appspot.com",
   messagingSenderId: "11635888704"
-}, 'DOUMA')
+})
 
 configure()
 
