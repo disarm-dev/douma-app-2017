@@ -34,6 +34,10 @@
         <md-list-item @click="navigate('meta:profile')">
           <md-icon>person</md-icon><span>Meta</span>
         </md-list-item>
+
+        <md-list-item @click="navigate('gps')">
+          <md-icon>gps_fixed</md-icon><span>GPS</span>
+        </md-list-item>
       </md-list>
     </md-sidenav>    
 

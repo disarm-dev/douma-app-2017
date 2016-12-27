@@ -15,6 +15,10 @@ import Logout from './pages/meta/user/logout.vue'
 import SyncStatus from './pages/meta/sync/status.vue'
 import AOIMap from './pages/meta/aoi/map.vue'
 
+// GPS
+
+import GPSExample from './pages/gps/root.vue'
+
 // 
 // FOCI
 // 
@@ -73,7 +77,8 @@ const meta = [
   {
     path: '/profile',
     name: 'meta:profile',
-    component: Profile
+    component: Profile,
+    beforeEnter
   },
   {
     path: '/login',
@@ -233,7 +238,16 @@ const cases = [
   }
 ]
 
-const routes = [].concat(meta, foci, irs, cases)
+const gps = [
+  {
+    path: '/gps',
+    name: 'gps',
+    component: GPSExample,
+
+  }
+]
+
+const routes = [].concat(meta, foci, irs, cases, gps)
 
 Vue.use(VueRouter)
 
