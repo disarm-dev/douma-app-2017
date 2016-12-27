@@ -30,6 +30,18 @@
 import firebase from 'firebase'
 
 export default {
+  mounted() {
+    const interval = setInterval(() => {
+      if (firebase.auth().currentUser) {
+        this.$router.push({name: 'root'})
+        clearInterval(interval)
+      }
+    }, 500)
+
+    setTimeout(() => {
+      clearInterval(interval)
+    }, 3000)
+  },
   data() {
     return {
       msg: 'Please login below',
