@@ -31,7 +31,7 @@
           <md-divider class="md-inset"></md-divider>
         </md-list-item>
 
-        <md-list-item @click="navigate('meta')">
+        <md-list-item @click="navigate('meta:profile')">
           <md-icon>person</md-icon><span>Meta</span>
         </md-list-item>
       </md-list>

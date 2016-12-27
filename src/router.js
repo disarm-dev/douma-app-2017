@@ -9,6 +9,7 @@ import IRSContainer from './components/irs-container.vue'
 import CasesContainer from './components/cases-container.vue'
 
 import Root from './pages/meta/root.vue'
+import Profile from './pages/meta/user/profile.vue'
 import Login from './pages/meta/user/login.vue'
 import Logout from './pages/meta/user/logout.vue'
 import SyncStatus from './pages/meta/sync/status.vue'
@@ -68,6 +69,11 @@ const meta = [
     path: '/',
     name: 'root',
     component: Root,
+  },
+  {
+    path: '/profile',
+    name: 'meta:profile',
+    component: Profile
   },
   {
     path: '/login',

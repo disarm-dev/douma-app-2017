@@ -22,7 +22,7 @@
     methods: {
       logout() {
         firebase.auth().signOut().then(() => {
-          this.$router.push({name: 'login'})
+          this.$router.push({name: 'meta:login'})
         }, (error) => {
           console.log(error)
         });
