@@ -18,7 +18,7 @@ export default class LeafletGPS {
 
     if ('geolocation' in navigator) {
 
-      set up a watcher
+      // set up a watcher
       this._watchID = navigator.geolocation.watchPosition((position) => {
         this._onLocationFound({
           latlng: Leaflet.latLng(position.coords.latitude, position.coords.longitude), 
@@ -42,7 +42,13 @@ export default class LeafletGPS {
     this.position = latlng
 
     this._accuracyLabel.setPrefix(`<p style="font-size:20px;margin:0;">Accuracy: ${accuracy}m</p>`)
-    this._lmap.setView(latlng, 17)
+    
+    let zoom = 17
+    if(this._lmap.getZoom()) {
+      zoom = this._lmap.getZoom()
+    } 
+    this._lmap.setView(latlng, zoom)
+
     if (this.marker) {
       this.marker.setLatLng(latlng);
     } else {
