@@ -13,15 +13,12 @@
       
       Leaflet.tileLayer(url).addTo(this.lmap)
 
-      this.lmap.locate({setView: true, maxZoom: 16})
-      this.lmap.on('locationfound', this.onLocationFound)
-      this.lmap.on('locationerror', this.onLocationError)
-      
-      // Might need this for real time updates
       if ('geolocation' in navigator) {
         this.watchID = navigator.geolocation.watchPosition((position) => {
-          console.log(position.coords.latitude, position.coords.longitude);
+          this.onLocationFound({latlng: L.latLng(position.coords.latitude, position.coords.longitude)})
         });  
+      } else {
+        alert('GPS is not supported ')
       }
       
     },
@@ -33,16 +30,19 @@
     data() {
       return {
         lmap: null,
-        watchID: null
+        watchID: null,
+        marker: null
       }
     },
     methods: {
-      onLocationFound(e) {
-        var radius = e.accuracy / 2;
-
-        Leaflet.marker(e.latlng).addTo(this.lmap).bindPopup(`You are within ${radius} meters from this point`).openPopup();
-
-        Leaflet.circle(e.latlng, radius).addTo(this.lmap);
+      onLocationFound({latlng}) {
+        if (this.marker) {
+          this.marker.setLatLng(latlng);
+          this.lmap.setView(latlng, 17)
+        } else {
+          this.marker = Leaflet.marker(latlng).addTo(this.lmap)
+          this.lmap.setView(latlng, 17)
+        }
       },
       onLocationError(e) {
         alert(e.message);
