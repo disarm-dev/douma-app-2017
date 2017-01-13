@@ -38,7 +38,7 @@ export default class LeafletGPS {
 
   _onLocationFound({latlng, accuracy}) {
     // expose these 
-    this.accuracy = accuracy
+    this.accuracy = Math.round(accuracy * 100)/100; // round to two decimals
     this.position = latlng
 
     this._accuracyLabel.setPrefix(`<p style="font-size:20px;margin:0;">Accuracy: ${accuracy}m</p>`)
