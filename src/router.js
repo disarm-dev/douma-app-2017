@@ -12,6 +12,8 @@ import Root from './pages/meta/root.vue'
 import Profile from './pages/meta/user/profile.vue'
 import Login from './pages/meta/user/login.vue'
 import Logout from './pages/meta/user/logout.vue'
+import ResetPassword from './pages/meta/user/resetPassword.vue'
+import NewUser from './pages/meta/user/newUser.vue'
 import SyncStatus from './pages/meta/sync/status.vue'
 import AOIMap from './pages/meta/aoi/map.vue'
 
@@ -89,6 +91,16 @@ const meta = [
     path: '/logout',
     name: 'meta:logout',
     component: Logout
+  },
+  { 
+    path: '/resetpassword',
+    name: 'meta:resetpassword',
+    component: ResetPassword
+  },
+  { 
+    path: '/newuser',
+    name: 'meta:newuser',
+    component: NewUser
   },
   {
     path: '/sync',

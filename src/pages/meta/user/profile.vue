@@ -9,6 +9,7 @@
         <p class="profile-text">{{email}}</p>
 
         <md-button class="md-raised md-accent" @click="logout">Logout</md-button>
+        <md-button class="md-raised" @click="logout">Reset password</md-button>
       </md-card-content>
     </md-card>
 
@@ -33,6 +34,9 @@ export default {
   methods: {
     logout() {
       this.$router.push({name: 'meta:logout'})
+    },
+    resetPassword() {
+      this.$router.push({name: 'meta:resetpassword'})
     }
   }
 }
