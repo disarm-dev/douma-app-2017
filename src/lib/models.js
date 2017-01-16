@@ -97,6 +97,13 @@ export class StructuresCollection extends BaseCollection {
   }
 }
 
+export function Structures (structures, actions) {
+  return structures.map((s) => {
+    s.actioned = actions.find((a) => a._id === s.action).actioned
+    return s
+  })
+}
+
 export class FociCollection extends BaseCollection {
   constructor(models) {
     super(models)
