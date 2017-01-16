@@ -25,7 +25,8 @@
           },
           {
             title: 'Map',
-            name: 'irs:map'
+            name: 'irs:map',
+            keepRouteAlive: true
           },
           {
             title: 'List',
