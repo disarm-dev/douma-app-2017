@@ -7,6 +7,7 @@ export default class LeafletGPS {
   _watchId = null
   _accuracyLabel = null
   _marker = null
+  _fixedCenter = null
   
   accuracy = null
   position = null
@@ -15,6 +16,8 @@ export default class LeafletGPS {
   constructor(leafletMap) {
     // grab the map
     this._lmap = leafletMap
+
+    this._fixedCenter = true
 
     if ('geolocation' in navigator) {
 
@@ -30,6 +33,28 @@ export default class LeafletGPS {
         prefix: ``,
         position: 'topright'
       }).addTo(this._lmap)
+      
+      // Add a button to move map to center or let user control center of map
+      const controlCenterButton  = L.Control.extend({
+        options: {
+          position: 'bottomright'
+        },
+        onAdd: (map) => {
+          var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
+
+          container.style.backgroundColor = 'red';
+          container.style.width = '50px';
+          container.style.height = '50px';
+       
+          container.onclick = () => {
+            this._fixedCenter = !this._fixedCenter
+            container.style.backgroundColor = this._fixedCenter ? 'red' : 'green';
+          }
+          return container;
+        }
+      })
+
+      this._lmap.addControl(new controlCenterButton());
 
     } else {
       alert('GPS is not supported')
@@ -43,17 +68,19 @@ export default class LeafletGPS {
 
     this._accuracyLabel.setPrefix(`<p style="font-size:20px;margin:0;">Accuracy: ${accuracy}m</p>`)
     
-    let zoom = 17
-    if(this._lmap.getZoom()) {
-      zoom = this._lmap.getZoom()
-    } 
-    this._lmap.setView(latlng, zoom)
+    // Move the map to the location, if center is fixed
+    if (this._fixedCenter) {
+      let zoom = this._lmap.getZoom() ? this._lmap.getZoom() : 17
+      this._lmap.setView(latlng, zoom)  
+    }
+    
 
     if (this.marker) {
       this.marker.setLatLng(latlng);
     } else {
       this.marker = Leaflet.marker(latlng).addTo(this._lmap)
     }
+
   }
 
   destroy() {
