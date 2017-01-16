@@ -83,6 +83,7 @@
           date
         }).then((res) => {
           this.action._rev = res.rev
+          this.$store.commit('irs:updateStructure', {structure: this.structure, action: this.action})
         })
 
         // Looks crazy, but needed to update map

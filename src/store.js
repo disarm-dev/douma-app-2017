@@ -56,10 +56,11 @@ const store = new Vuex.Store({
     'irs:setActiveLayer': (state, layer) => {
       state.irs.activeLayer = layer
     },
-    'irs:updateStructure': (state, structureCopy) => {
+    'irs:updateStructure': (state, {structure, action}) => {
       // TODO: findIndex is not always available, most likely due to Vuex, fix
-      const index = state.irs.structures.findIndex(structureCopy)
-      Vue.set(state.irs.structures.models, index, structureCopy)
+      let index = state.irs.structures.findIndex((s) => s._id === structure._id)
+      structure.actioned = action.actioned
+      Vue.set(state.irs.structures, index, structure)
     }
   },
   getters: {
