@@ -4,9 +4,13 @@
 
 
 <script>
+  import PouchDB from 'pouchdb'
   import Leaflet from 'leaflet'
   import 'leaflet/dist/leaflet.css'
   import MapHelpers from '../../../lib/map_helpers.js'
+
+  const actions = new PouchDB('actions')
+  const structures = new PouchDB('structures')
 
   export default {
     data() {
@@ -93,11 +97,16 @@
       redrawStructures() {
         
         if (this.$store.state.irs.activeLayer) {
-          console.log('redrawStructures', this.$store.state.irs.activeLayer)
+          structures.get(this.$store.state.irs.activeStructure).then((structure) => {
+            actions.get(structure.action).then((action) => {
+              const layerId = this.$store.state.irs.activeLayer  
+              const layerToRedraw = this.structuresLayer.getLayer(layerId)
 
-          const layerId = this.$store.state.irs.activeLayer  
-          const layerToRedraw = this.structuresLayer.getLayer(layerId)
-          this.structuresLayer.resetStyle(layerToRedraw)  
+              layerToRedraw.feature.properties.actioned = action.actioned
+              
+              this.structuresLayer.resetStyle(layerToRedraw)  
+            })  
+          })        
         }
       },
       colourStructure(structureFeature){
