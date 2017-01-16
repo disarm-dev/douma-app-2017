@@ -1,12 +1,12 @@
 <template>
   <div class="irs-list">
-    <div class="md-title">Structures ({{structures.models.length}})</div>
+    <div class="md-title">Structures ({{structures.length}})</div>
     <md-list class="md-dense">
       <md-list-item  
         v-for="structure in structuresSortedByAction" 
-        @click="setActiveStructure(structure)" 
+        @click="setActiveStructure(structure._id)" 
         :class="{actioned: structure.actioned,  'not-actioned': !structure.actioned}">
-        <md-icon>{{structure.actioned ? 'done'  : 'warning' }}</md-icon> <span>{{structure.id}}</span>
+        <md-icon>{{structure.actioned ? 'done'  : 'warning' }}</md-icon> <span>{{structure._id}}</span>
       </md-list-item>
     </md-list>
   </div>
@@ -21,7 +21,7 @@
     },
     computed: {
       structuresSortedByAction(){
-        return this.structures.models.sort (o => !o.actioned)
+        return this.structures.sort (o => !o.actioned)
       }
     },
     methods: {

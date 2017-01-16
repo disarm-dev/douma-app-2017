@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {StructuresCollection, FociCollection} from './lib/models.js'
+import {StructuresCollection, FociCollection, Structures} from './lib/models.js'
 
 // TODO: Remove bootstrapped data for dev
 import fociExamples from './data_bootstrap/foci.json'
@@ -20,7 +20,7 @@ const store = new Vuex.Store({
       structures: new StructuresCollection(firebaseStructures),
     },
     irs: {
-      structures: new StructuresCollection, // StructuresCollection
+      structures: [], // StructuresCollection
       activeStructure: null, // StructureModel from StructuresCollection
     }
   },
@@ -43,11 +43,11 @@ const store = new Vuex.Store({
     },
 
 
-    'irs:loadStructures': (state, structures) => {
-      state.irs.structures = new StructuresCollection(structures)
+    'irs:loadStructures': (state, {structures, actions}) => {
+      state.irs.structures = Structures(structures, actions)
     },
     'irs:unloadStructures': (state) => {
-      state.irs.structures = new StructuresCollection
+      state.irs.structures = []
     },
     'irs:setActiveStructure': (state, structure) => {
       state.irs.activeStructure = structure

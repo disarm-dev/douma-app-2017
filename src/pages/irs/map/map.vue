@@ -44,11 +44,21 @@
           return
         }
 
-        if (!this.$store.state.irs.structures) {
+        if (!this.$store.state.irs.structures || this.$store.state.irs.structures.length === 0) {
           return
         }
 
-        this.structuresFeatureCollection = this.$store.state.irs.structures.featureCollection
+        this.structuresFeatureCollection = {
+          type: "FeatureCollection",
+          features: this.$store.state.irs.structures.map((s) => {
+            let {geometry, ...properties} = s
+            return {
+              type: 'Feature',
+              geometry,
+              properties
+            }
+          })
+        }
 
         this.structuresLayer = Leaflet.geoJSON(this.structuresFeatureCollection, {
           style: (feature) => {
@@ -61,16 +71,17 @@
 
             feature.properties.layerId = L.stamp(layer)
 
+
             layer.on('click', () => {
-              this.$store.commit('irs:setActiveStructure', layer.feature.properties)
+              this.$store.commit('irs:setActiveStructure', feature.properties._id)
               this.$router.push({name: 'irs:form'})
             })
 
-            layer.on('contextmenu', (e) => {
-              this.$store.commit('irs:setActiveStructure', feature.properties)
-              const changedStructured = Object.assign(feature.properties, {actioned: !feature.properties.actioned})
-              this.$store.commit('irs:updateStructure', changedStructured)
-            })
+            // layer.on('contextmenu', (e) => {
+            //   this.$store.commit('irs:setActiveStructure', feature.properties)
+            //   const changedStructured = Object.assign(feature.properties, {actioned: !feature.properties.actioned})
+            //   this.$store.commit('irs:updateStructure', changedStructured)
+            // })
 
           }
         })
@@ -80,9 +91,9 @@
       },
       redrawStructures() {
         console.log('redrawStructures')
-        const layerId = this.$store.state.irs.activeStructure.layerId
-        const layerToRedraw = this.structuresLayer.getLayer(layerId)
-        this.structuresLayer.resetStyle(layerToRedraw)  
+        // const layerId = this.$store.state.irs.activeStructure.layerId
+        // const layerToRedraw = this.structuresLayer.getLayer(layerId)
+        // this.structuresLayer.resetStyle(layerToRedraw)
       },
       colourStructure(structureFeature){
         if (structureFeature.properties.actioned) {
