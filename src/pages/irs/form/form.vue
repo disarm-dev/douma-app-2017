@@ -63,15 +63,16 @@
         this.structure = structure
         actions.get(structure.action).then((action) => {
           let date = moment(action.date)
-          this.action = Object.assign({
+          this.action = Object.assign(action, {
             date: date.format('YYYY-MM-DD'),
             time: date.format('HH:mm')
-          }, action)
+          })
         })
       })
     },
     methods: {
       submit(e) {
+        console.log('call submit')
         let {_id, _rev, actioned, by, date, time} = this.action
         date = moment(`${date} ${time}`).toDate()
         actions.put({
@@ -83,10 +84,13 @@
         }).then((res) => {
           this.action._rev = res.rev
         })
+
+        // Looks crazy, but needed to update map
         this.$store.commit('irs:setActiveStructure', '')
-        this.$store.commit('irs:setActiveStructure', this.structure._id)
-        //this.$store.commit('irs:updateStructure', this.structureCopy)
-        // history.back()
+        setTimeout(() => {
+          this.$store.commit('irs:setActiveStructure', this.structure._id)  
+        })
+        this.$router.push({ name: 'irs:map'})
       }
     }
   }

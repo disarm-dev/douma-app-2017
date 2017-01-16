@@ -73,6 +73,7 @@
 
 
             layer.on('click', () => {
+              this.$store.commit('irs:setActiveLayer', feature.properties.layerId)
               this.$store.commit('irs:setActiveStructure', feature.properties._id)
               this.$router.push({name: 'irs:form'})
             })
@@ -90,12 +91,17 @@
         this.leMap.fitBounds(this.structuresLayer.getBounds())
       },
       redrawStructures() {
-        console.log('redrawStructures')
-        // const layerId = this.$store.state.irs.activeStructure.layerId
-        // const layerToRedraw = this.structuresLayer.getLayer(layerId)
-        // this.structuresLayer.resetStyle(layerToRedraw)
+        
+        if (this.$store.state.irs.activeLayer) {
+          console.log('redrawStructures', this.$store.state.irs.activeLayer)
+
+          const layerId = this.$store.state.irs.activeLayer  
+          const layerToRedraw = this.structuresLayer.getLayer(layerId)
+          this.structuresLayer.resetStyle(layerToRedraw)  
+        }
       },
       colourStructure(structureFeature){
+        console.log('colourStructure', structureFeature)
         if (structureFeature.properties.actioned) {
           return {color: 'green'}
         } else {

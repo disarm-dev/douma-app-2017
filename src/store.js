@@ -21,7 +21,8 @@ const store = new Vuex.Store({
     },
     irs: {
       structures: [], // StructuresCollection
-      activeStructure: null, // StructureModel from StructuresCollection
+      activeStructure: '', // StructureModel from StructuresCollection
+      activeLayer: null
     }
   },
   mutations: {
@@ -51,6 +52,9 @@ const store = new Vuex.Store({
     },
     'irs:setActiveStructure': (state, structure) => {
       state.irs.activeStructure = structure
+    },
+    'irs:setActiveLayer': (state, layer) => {
+      state.irs.activeLayer = layer
     },
     'irs:updateStructure': (state, structureCopy) => {
       // TODO: findIndex is not always available, most likely due to Vuex, fix
