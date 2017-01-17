@@ -62,214 +62,219 @@ import IRSForm from './pages/irs/form/form.vue'
 // 
 import CasesRoot from './pages/cases/root.vue'
 
-const beforeEnter = (to, from, next) => {
-  if (!firebase.auth().currentUser) {
-    return next('/login')
-  } 
-  next()
+export default function getRouter(store) {
+
+
+  const beforeEnter = (to, from, next) => {
+    if (!firebase.auth().currentUser) {
+      // save route, so we can send user back after login
+      store.state.previousRoute = to
+      return next('/login')
+    } 
+    next()
+  }
+
+  // META
+  const meta = [
+    {
+      path: '/',
+      name: 'root',
+      component: Root,
+    },
+    {
+      path: '/profile',
+      name: 'meta:profile',
+      component: Profile,
+      beforeEnter
+    },
+    {
+      path: '/login',
+      name: 'meta:login',
+      component: Login
+    },
+    { 
+      path: '/logout',
+      name: 'meta:logout',
+      component: Logout
+    },
+    { 
+      path: '/resetpassword',
+      name: 'meta:resetpassword',
+      component: ResetPassword
+    },
+    { 
+      path: '/newuser',
+      name: 'meta:newuser',
+      component: NewUser
+    },
+    {
+      path: '/sync',
+      name: 'meta:sync',
+      component: SyncStatus
+    },
+    {
+      path: '/aoi',
+      name: 'meta:aoi',
+      component: AOIMap
+    },
+  ]
+
+  // FOCI
+  const foci = [
+    {
+      path: '/foci',
+      name: 'foci',
+      redirect: '/foci/monitor',
+      component: FociContainer,
+      beforeEnter,
+      children: [
+        {
+          path: 'monitor',
+          name: 'foci:monitor',
+          redirect: 'monitor/list',
+        },
+        {
+          path: 'monitor/list',
+          name: 'foci:monitor:list',
+          component: MonitorList,
+        },
+        {
+          path: 'monitor/map',
+          name: 'foci:monitor:map',
+          component: MonitorMap,
+          meta: {
+            keepRouteAlive: true
+          }
+        },
+
+        {
+          path: 'identify',
+          name: 'foci:identify',
+          component: IdentifyMapGuessFoci,
+          meta: {
+            keepRouteAlive: true
+          }
+        },
+
+        {
+          path: 'investigate',
+          name: 'foci:investigate',
+          redirect: 'investigate/detail',
+        },
+        {
+          path: 'investigate/detail',
+          name: 'foci:investigate:detail',
+          component: InvestigateDetail
+        },
+        {
+          path: 'investigate/form',
+          name: 'foci:investigate:form',
+          component: InvestigateForm
+        },
+        {
+          path: 'investigate/map',
+          name: 'foci:investigate:map',
+          component: InvestigateMap
+        },
+
+        {
+          path: 'classify/form',
+          name: 'foci:classify',
+          component: ClassifyForm
+        },
+
+        {
+          path: 'respond',
+          name: 'foci:respond',
+          component: RespondForm
+        }
+      ]
+    }
+  ]
+
+
+  // IRS
+  const irs = [
+    {
+      path: '/irs',
+      name: 'irs',
+      component: IRSContainer,
+      redirect: '/irs/tasks',
+      beforeEnter,
+      children: [
+        {
+          path: 'tasks',
+          name: 'irs:tasks',
+          component: IRSTasks
+        },
+        {
+          path: 'map',
+          name: 'irs:map',
+          component: IRSMap,
+          meta: {
+            keepRouteAlive: true
+          }
+        },
+        {
+          path: 'list',
+          name: 'irs:list',
+          component: IRSList
+        },
+        {
+          path: 'form',
+          name: 'irs:form',
+          component: IRSForm
+        }
+      ]
+    }
+  ]
+
+  // CASES
+  const cases = [
+    {
+      path: '/cases',
+      name: 'cases',
+      redirect: '/cases/monitor',
+      component: CasesContainer,
+      beforeEnter,
+      children: [
+        {
+          path: 'monitor',
+          name: 'cases:monitor',
+          component: CasesRoot
+        },
+        {
+          path: 'monitor/map',
+          name: 'cases:monitor:map',
+          component: CasesRoot,
+          meta: {
+            keepRouteAlive: true
+          }
+        }
+      ]
+    }
+  ]
+
+  const gps = [
+    {
+      path: '/gps',
+      name: 'gps',
+      component: GPSExample,
+
+    }
+  ]
+
+  const routes = [].concat(meta, foci, irs, cases, gps)
+
+  Vue.use(VueRouter)
+
+  const router = new VueRouter({
+    routes,
+    mode: 'history'
+  })
+
+  return router;
 }
-
-// META
-const meta = [
-  {
-    path: '/',
-    name: 'root',
-    component: Root,
-  },
-  {
-    path: '/profile',
-    name: 'meta:profile',
-    component: Profile,
-    beforeEnter
-  },
-  {
-    path: '/login',
-    name: 'meta:login',
-    component: Login
-  },
-  { 
-    path: '/logout',
-    name: 'meta:logout',
-    component: Logout
-  },
-  { 
-    path: '/resetpassword',
-    name: 'meta:resetpassword',
-    component: ResetPassword
-  },
-  { 
-    path: '/newuser',
-    name: 'meta:newuser',
-    component: NewUser
-  },
-  {
-    path: '/sync',
-    name: 'meta:sync',
-    component: SyncStatus
-  },
-  {
-    path: '/aoi',
-    name: 'meta:aoi',
-    component: AOIMap
-  },
-]
-
-// FOCI
-const foci = [
-  {
-    path: '/foci',
-    name: 'foci',
-    redirect: '/foci/monitor',
-    component: FociContainer,
-    beforeEnter,
-    children: [
-      {
-        path: 'monitor',
-        name: 'foci:monitor',
-        redirect: 'monitor/list',
-      },
-      {
-        path: 'monitor/list',
-        name: 'foci:monitor:list',
-        component: MonitorList,
-      },
-      {
-        path: 'monitor/map',
-        name: 'foci:monitor:map',
-        component: MonitorMap,
-        meta: {
-          keepRouteAlive: true
-        }
-      },
-
-      {
-        path: 'identify',
-        name: 'foci:identify',
-        component: IdentifyMapGuessFoci,
-        meta: {
-          keepRouteAlive: true
-        }
-      },
-
-      {
-        path: 'investigate',
-        name: 'foci:investigate',
-        redirect: 'investigate/detail',
-      },
-      {
-        path: 'investigate/detail',
-        name: 'foci:investigate:detail',
-        component: InvestigateDetail
-      },
-      {
-        path: 'investigate/form',
-        name: 'foci:investigate:form',
-        component: InvestigateForm
-      },
-      {
-        path: 'investigate/map',
-        name: 'foci:investigate:map',
-        component: InvestigateMap
-      },
-
-      {
-        path: 'classify/form',
-        name: 'foci:classify',
-        component: ClassifyForm
-      },
-
-      {
-        path: 'respond',
-        name: 'foci:respond',
-        component: RespondForm
-      }
-    ]
-  }
-]
-
-
-// IRS
-const irs = [
-  {
-    path: '/irs',
-    name: 'irs',
-    component: IRSContainer,
-    redirect: '/irs/tasks',
-    beforeEnter,
-    children: [
-      {
-        path: 'tasks',
-        name: 'irs:tasks',
-        component: IRSTasks
-      },
-      {
-        path: 'map',
-        name: 'irs:map',
-        component: IRSMap,
-        meta: {
-          keepRouteAlive: true
-        }
-      },
-      {
-        path: 'list',
-        name: 'irs:list',
-        component: IRSList
-      },
-      {
-        path: 'form',
-        name: 'irs:form',
-        component: IRSForm
-      }
-    ]
-  }
-]
-
-// CASES
-const cases = [
-  {
-    path: '/cases',
-    name: 'cases',
-    redirect: '/cases/monitor',
-    component: CasesContainer,
-    beforeEnter,
-    children: [
-      {
-        path: 'monitor',
-        name: 'cases:monitor',
-        component: CasesRoot
-      },
-      {
-        path: 'monitor/map',
-        name: 'cases:monitor:map',
-        component: CasesRoot,
-        meta: {
-          keepRouteAlive: true
-        }
-      }
-    ]
-  }
-]
-
-const gps = [
-  {
-    path: '/gps',
-    name: 'gps',
-    component: GPSExample,
-
-  }
-]
-
-const routes = [].concat(meta, foci, irs, cases, gps)
-
-Vue.use(VueRouter)
-
-const router = new VueRouter({
-  routes,
-  mode: 'history'
-})
-
-
-export default router
 
 
 

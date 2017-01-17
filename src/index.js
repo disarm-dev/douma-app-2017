@@ -7,10 +7,10 @@ import './fonts/MaterialIcons.css'
 
 import configure from './config'
 import App from './components/App.vue'
-import router from './router'
+import getRouter from './router'
 import store from './store'
 
-
+let router = getRouter(store)
 window.firebase = firebase
 
 

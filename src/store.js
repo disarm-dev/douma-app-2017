@@ -13,6 +13,7 @@ const store = new Vuex.Store({
   state: {
     user: null,
     online: null,
+    previousRoute: null,
     foci: {
       mapBounds: {}, // TODO: Check if needed
       focis: new FociCollection(fociExamples),

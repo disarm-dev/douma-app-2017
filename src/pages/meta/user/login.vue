@@ -42,7 +42,7 @@ export default {
   mounted() {
     const interval = setInterval(() => {
       if (firebase.auth().currentUser) {
-        this.$router.push({name: 'root'})
+        this.continue()
         clearInterval(interval)
       }
     }, 500)
@@ -68,12 +68,21 @@ export default {
       .signInWithEmailAndPassword(this.email, this.password)
       .then(() => {
         this.$store.state.user = firebase.auth().currentUser
-        this.$router.push({name: 'root'})
+        this.continue()
+       
       }).catch((e) => {
         this.msg = e.message
         this.disabled = false
         console.error(e);
       })
+    },
+    continue() {
+      if (this.$store.state.previousRoute) {
+        let {name} = this.$store.state.previousRoute
+        this.$router.push({name})  
+      } else {
+        this.$router.push({name: 'root'})  
+      }
     }
   }
 }
