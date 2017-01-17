@@ -46,9 +46,9 @@ router.afterEach((route) => {
   handleTheme(route)
 })
 
-DOUMA.$store.state.online = navigator.onLine
-window.addEventListener("offline", e => DOUMA.$store.state.online = false);
-window.addEventListener("online", e => DOUMA.$store.state.online = true);
+DOUMA.$store.commit('meta:setOnline', navigator.onLine)
+window.addEventListener("offline", e => DOUMA.$store.commit('meta:setOnline', false));
+window.addEventListener("online", e => DOUMA.$store.commit('meta:setOnline', true));
 
 
 

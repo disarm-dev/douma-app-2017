@@ -28,6 +28,10 @@ const store = new Vuex.Store({
     }
   },
   mutations: {
+    'meta:setOnline': (state, online) => {
+      state.online = online
+    },
+
     // TODO: Rename to setStructures
     'foci:loadStructures': (state, structures) => {
       state.foci.structures = new StructuresCollection(structures)
