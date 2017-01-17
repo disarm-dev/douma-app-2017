@@ -34,6 +34,10 @@
           {
             title: 'Form',
             name: 'irs:form'
+          },
+          {
+            title: 'Sync',
+            name: 'irs:sync'
           }
         ]
       }

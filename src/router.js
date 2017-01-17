@@ -55,6 +55,7 @@ import IRSTasks from './pages/irs/tasks/tasks.vue'
 import IRSMap from './pages/irs/map/map.vue'
 import IRSList from './pages/irs/list/list.vue'
 import IRSForm from './pages/irs/form/form.vue'
+import IRSSync from './pages/irs/sync/sync.vue'
 
 
 // 
@@ -224,6 +225,11 @@ export default function getRouter(store) {
           path: 'form',
           name: 'irs:form',
           component: IRSForm
+        },
+        {
+          path: 'sync',
+          name: 'irs:sync',
+          component: IRSSync
         }
       ]
     }
