@@ -25,6 +25,8 @@
     },
     mounted() {
       this.loadMap()
+    },
+    activated() {
       this.loadStructures()
     },
     watch: {
