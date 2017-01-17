@@ -19,7 +19,7 @@
         </md-input-container>
 
         <md-input-container>
-          <label>Date</label>
+          <label>Time</label>
           <md-input type="time" v-model="action.time"></md-input>
         </md-input-container>
 
