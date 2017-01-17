@@ -25,8 +25,15 @@
       }
     },
     methods: {
-      setActiveStructure(structure) {
-        this.$store.commit('irs:setActiveStructure', structure)
+      setActiveStructure(structureId) {
+        // set active structures, so it can be rerendered on map
+        if (this.$store.state.irs.mapRendered) {
+          const event = new CustomEvent('selectList', { 'detail': structureId });
+          document.dispatchEvent(event)
+          console.log('dispath selectList', structureId)
+        }
+
+        this.$store.commit('irs:setActiveStructure', structureId)
         this.$router.push({name: 'irs:form'})
       }
     }

@@ -93,6 +93,13 @@
 
         this.structuresLayer.addTo(this.leMap)
         this.leMap.fitBounds(this.structuresLayer.getBounds())
+
+        // listen for when structure is selected from list
+        // so the structure on the map can be recoloured when saved
+        this.$store.commit('irs:setMapRendered', true)
+        document.addEventListener('selectList', (e) => {
+          this.$store.commit('irs:setActiveLayer', this.getLayerIdForStructure(e.detail))
+        }, false);
       },
       redrawStructures() {
         
@@ -110,12 +117,18 @@
         }
       },
       colourStructure(structureFeature){
-        console.log('colourStructure', structureFeature)
         if (structureFeature.properties.actioned) {
           return {color: 'green'}
         } else {
           return {color: 'red'}
         }
+      },
+      getLayerIdForStructure(structureId) {
+        let layer = this.structuresLayer.getLayers().find((layer) => {
+          return layer.feature.properties._id === structureId
+        })
+        let {feature: {properties: {layerId: id}}} = layer
+        return id 
       }
     }
   }
