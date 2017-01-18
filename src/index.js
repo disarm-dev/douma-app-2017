@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import firebase from 'firebase'
+import PouchDB from 'pouchdb'
 
 import './fonts/Roboto.css'
 import './fonts/MaterialIcons.css'
@@ -12,6 +13,7 @@ import store from './store'
 
 let router = getRouter(store)
 window.firebase = firebase
+window.PouchDB = PouchDB
 
 
 // TODO: find a way to check when app has been initialized

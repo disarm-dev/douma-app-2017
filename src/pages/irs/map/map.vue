@@ -4,13 +4,11 @@
 
 
 <script>
-  import PouchDB from 'pouchdb'
   import Leaflet from 'leaflet'
   import 'leaflet/dist/leaflet.css'
   import MapHelpers from '../../../lib/map_helpers.js'
 
-  const actions = new PouchDB('actions')
-  const structures = new PouchDB('structures')
+  import {structures, actions} from '../../../db'
 
   export default {
     data() {
@@ -31,6 +29,7 @@
     },
     watch: {
       '$store.state.irs.activeStructure': 'redrawStructures',
+      '$store.state.irs.mapReRenderCount': 'renderStructuresAgain'
     },
     methods: {
       loadMap(){
@@ -102,6 +101,12 @@
         document.addEventListener('selectList', (e) => {
           this.$store.commit('irs:setActiveLayer', this.getLayerIdForStructure(e.detail))
         }, false);
+      },
+      renderStructuresAgain() {
+        console.log('render structures again')
+        this.structuresLayer.remove()
+        this.structuresLayer = null
+        this.loadStructures()
       },
       redrawStructures() {
         

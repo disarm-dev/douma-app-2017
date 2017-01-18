@@ -21,6 +21,7 @@ const store = new Vuex.Store({
       structures: new StructuresCollection(firebaseStructures),
     },
     irs: {
+      mapReRenderCount: 0,
       mapRendered: false,
       structures: [], // StructuresCollection
       activeStructure: '', // StructureModel from StructuresCollection
@@ -49,7 +50,9 @@ const store = new Vuex.Store({
       state.foci.activeFoci.properties.responses = responses
     },
 
-
+    'irs:reRenderMap': (state) => {
+      state.irs.mapReRenderCount += 1
+    },
     'irs:loadStructures': (state, {structures, actions}) => {
       state.irs.structures = Structures(structures, actions)
     },

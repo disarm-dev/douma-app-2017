@@ -11,9 +11,7 @@
   </div>
 </template>
 <script>
-  import PouchDB from 'pouchdb'
-  const structures = new PouchDB('structures')
-  const actions = new PouchDB('actions')
+  import {structures, actions} from '../../../db'
 
   export default {
     data() {

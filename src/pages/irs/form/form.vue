@@ -36,14 +36,12 @@
 </template>
 
 <script>
-  import PouchDB from 'pouchdb'
   import moment from 'moment'
 
   import NoActiveStructure from '../../../components/no-active-structure.vue'
   import NoTasks from '../../../components/no-tasks.vue'
 
-  const structures = new PouchDB('structures')
-  const actions = new PouchDB('actions')
+  import {structures, actions} from '../../../db'
 
   export default {
     data() {
