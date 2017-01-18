@@ -16,7 +16,7 @@ module.exports = {
         test: /\.(eot|ttf|woff|woff2)$/,
         loader: 'file-loader'
       },
-      { 
+      {
         test: /\.css$/,
         loader: "style-loader!css-loader"
       },
@@ -60,7 +60,7 @@ module.exports = {
   devtool: '#eval-source-map',
   plugins: [
     new webpack.DefinePlugin({
-      'ENABLE_SW': false
+      'ENABLE_SW': process.env.NODE_ENV === 'production'
     })
   ]
 }
@@ -72,8 +72,7 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"production"'
-      },
-      'ENABLE_SW': true
+      }
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
