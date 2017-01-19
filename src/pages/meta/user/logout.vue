@@ -10,8 +10,8 @@
         <p >You are currently offline, if you log out now you will not have access to DOUMA until you get online and log back in again.</p>
       </md-card-content>
       <md-card-actions>
-        <md-button class="md-primary" @click="logout">Logout</md-button>
-        <md-button>Cancel</md-button>
+        <md-button @click="cancel">Cancel</md-button>
+        <md-button class="md-primary md-raised" @click="logout">Logout</md-button>
       </md-card-actions>
     </md-card>
   </div>
@@ -26,6 +26,9 @@
         }, (error) => {
           console.log(error)
         });
+      },
+      cancel() {
+        this.$router.push({name: 'meta:profile'})
       }
     }
   }

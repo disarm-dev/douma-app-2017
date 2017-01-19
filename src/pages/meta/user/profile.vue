@@ -9,7 +9,7 @@
         <p class="profile-text">{{email}}</p>
 
         <md-button class="md-raised md-accent" @click="logout">Logout</md-button>
-        <md-button class="md-raised" @click="logout">Reset password</md-button>
+        <md-button class="md-raised" @click="resetPassword">Reset password</md-button>
       </md-card-content>
     </md-card>
 
