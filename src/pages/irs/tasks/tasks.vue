@@ -59,21 +59,22 @@
             filter: 'areas/' + this.region
           }).then(() => {
             structures.find({selector: {area: this.region}}).then(({docs}) => {
-              console.log(docs)
               this.structures = docs
-
               let ids = this.structures.map(s => s.action).filter(id => id ? true : false)
-              console.log(ids)
+
               PouchDB.replicate('http://localhost:5984/actions', actions, {
                 doc_ids: ids
               }).then(() => {
                 actions.find({selector: {_id: {$in: ids}}}).then(({docs: secondDocs}) => {
                   this.actions = secondDocs
-                  this.$store.commit('irs:loadStructures', {structures: this.structures, actions: this.actions})
-                })
-              })
+                  this.$store.commit('irs:loadStructures', {
+                    structures: this.structures, 
+                    actions: this.actions
+                  })
+                }).catch(err => console.log(err))
+              }).catch(err => console.log(err))
             })
-          })
+          }).catch(err => console.log(err))
         // })
       },
       unloadStructures() {

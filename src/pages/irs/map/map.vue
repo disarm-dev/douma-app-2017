@@ -118,8 +118,8 @@
               layerToRedraw.feature.properties.actioned = action.actioned
               
               this.structuresLayer.resetStyle(layerToRedraw)  
-            })  
-          })        
+            }).catch(err => console.log(err))
+          }).catch(err => console.log(err))        
         }
       },
       colourStructure(structureFeature){

@@ -65,12 +65,11 @@
             date: date.format('YYYY-MM-DD'),
             time: date.format('HH:mm')
           })
-        })
-      })
+        }).catch((err) => console.log(err))
+      }).catch((err) => console.log(err))
     },
     methods: {
       submit(e) {
-        console.log('call submit')
         let {_id, _rev, actioned, by, date, time} = this.action
         date = moment(`${date} ${time}`).toDate()
         actions.put({
@@ -82,7 +81,7 @@
         }).then((res) => {
           this.action._rev = res.rev
           this.$store.commit('irs:updateStructure', {structure: this.structure, action: this.action})
-        })
+        }).catch(err => console.log(err))
 
         // Looks crazy, but needed to update map
         this.$store.commit('irs:setActiveStructure', '')
