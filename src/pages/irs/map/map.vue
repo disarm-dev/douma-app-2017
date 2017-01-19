@@ -97,7 +97,6 @@
 
         // listen for when structure is selected from list
         // so the structure on the map can be recoloured when saved
-        this.$store.commit('irs:setMapRendered', true)
         document.addEventListener('selectList', (e) => {
           this.$store.commit('irs:setActiveLayer', this.getLayerIdForStructure(e.detail))
         }, false);

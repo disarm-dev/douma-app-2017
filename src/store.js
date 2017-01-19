@@ -22,7 +22,6 @@ const store = new Vuex.Store({
     },
     irs: {
       mapReRenderCount: 0,
-      mapRendered: false,
       structures: [], // StructuresCollection
       activeStructure: '', // StructureModel from StructuresCollection
       activeLayer: null
@@ -64,9 +63,6 @@ const store = new Vuex.Store({
     },
     'irs:setActiveLayer': (state, layer) => {
       state.irs.activeLayer = layer
-    },
-    'irs:setMapRendered': (state, rendered) => {
-      state.irs.mapRendered = rendered
     },
     'irs:updateStructure': (state, {structure, action}) => {
       // TODO: findIndex is not always available, most likely due to Vuex, fix
