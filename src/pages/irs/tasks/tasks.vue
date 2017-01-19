@@ -2,7 +2,11 @@
   <div class="tasks">
     <div class='md-title'>Targeting functionality can go here</div>
     <div class='md-body-1'>For example, adding targeting, tracking intervention activity and progress.</div>
-    <div>Currently have {{$store.state.irs.structures.length}} structures loaded</div>
+    <div class="structures">
+      <div>Currently have {{$store.state.irs.structures.length}} structure{{$store.state.irs.structures.length === 1 ? '' : 's'}} loaded</div>
+      <div>{{actioned.length}} structure{{actioned.length ===  1 ? '' : 's'}} that {{actioned.length ===  1 ? 'has' : 'have'}} been actioned</div>
+      <div>{{notActioned.length}} structure{{notActioned.length ===  1 ? '' : 's'}} that {{notActioned.length ===  1 ? 'has' : 'have'}} not been actioned</div>
+    </div>
 
 
     <p>Please select a region below: </p>
@@ -21,8 +25,6 @@
 </template>
 
 <script>
-  // TODO: Remove the following line once we have got real data
-  // import firebaseStructures from '../../../data_bootstrap/structures_5.json'
   import {structures, actions} from '../../../db'
   
   export default {
@@ -31,6 +33,14 @@
         structures: [],
         actions: [],
         region: ''
+      }
+    },
+    computed: {
+      actioned() {
+        return this.$store.state.irs.structures.filter(({actioned}) => actioned)
+      },
+      notActioned() {
+        return this.$store.state.irs.structures.filter(({actioned}) => !actioned)
       }
     },
     methods: {
@@ -90,6 +100,9 @@
   .tasks {
     max-width: 800px;
     margin: 1em auto;
+    padding: 1em;
+  }
+  .structures {
     padding: 1em;
   }
 </style>
