@@ -17,7 +17,7 @@ export default class LeafletGPS {
     // grab the map
     this._lmap = leafletMap
 
-    this._fixedCenter = true
+    this._fixedCenter = false
 
     if ('geolocation' in navigator) {
 

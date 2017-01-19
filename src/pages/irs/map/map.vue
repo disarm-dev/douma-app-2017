@@ -7,6 +7,7 @@
   import Leaflet from 'leaflet'
   import 'leaflet/dist/leaflet.css'
   import MapHelpers from '../../../lib/map_helpers.js'
+  import LeafletGPS from '../../gps/gps'
 
   import {structures, actions} from '../../../db'
 
@@ -27,6 +28,9 @@
     activated() {
       this.loadStructures()
     },
+    beforeDestroy() {
+      this.gps.destroy()
+    },
     watch: {
       '$store.state.irs.activeStructure': 'redrawStructures',
       '$store.state.irs.mapReRenderCount': 'renderStructuresAgain'
@@ -42,7 +46,9 @@
         // Add basemap
         const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
 
-        // Leaflet.tileLayer(url).addTo(this.leMap);
+        this.gps = new LeafletGPS(this.leMap)
+
+        Leaflet.tileLayer(url).addTo(this.leMap);
       },
       loadStructures() {
         if (this.structuresLayer) {
@@ -102,9 +108,10 @@
         }, false);
       },
       renderStructuresAgain() {
-        console.log('render structures again')
-        this.structuresLayer.remove()
-        this.structuresLayer = null
+        if (this.structuresLayer) {
+          this.structuresLayer.remove()
+          this.structuresLayer = null  
+        }
         this.loadStructures()
       },
       redrawStructures() {
