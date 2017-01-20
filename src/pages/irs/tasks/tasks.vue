@@ -88,6 +88,7 @@
         // })
       },
       unloadStructures() {
+        this.$store.commit('irs:reRenderMap')
         this.$store.commit('irs:unloadStructures')
       }
     }
