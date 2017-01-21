@@ -3,6 +3,10 @@ var webpack = require('webpack')
 var Visualizer = require('webpack-visualizer-plugin')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
 
+var commitHash = require('child_process')
+  .execSync('git rev-parse --short HEAD')
+  .toString();
+
 module.exports = {
   entry: './src/index.js',
   output: {
@@ -60,6 +64,7 @@ module.exports = {
   devtool: '#eval-source-map',
   plugins: [
     new webpack.DefinePlugin({
+      "COMMITHASH": JSON.stringify(commitHash),
       'ENABLE_SW': process.env.NODE_ENV === 'production'
     })
   ]

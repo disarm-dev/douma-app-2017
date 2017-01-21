@@ -11,6 +11,8 @@ import App from './components/App.vue'
 import getRouter from './router'
 import store from './store'
 
+console.info('DOUMA version: ' + COMMITHASH)
+
 let router = getRouter(store)
 window.firebase = firebase
 window.PouchDB = PouchDB
