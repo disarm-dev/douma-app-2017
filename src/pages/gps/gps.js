@@ -43,6 +43,7 @@ export default class LeafletGPS {
           var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
 
           container.style.backgroundColor = 'red';
+          container.style.borderRadius = '50%';
           container.style.width = '50px';
           container.style.height = '50px';
        

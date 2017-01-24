@@ -28,7 +28,7 @@
   </div>
 </template>
 <script>
-  import firebase from 'firebase'
+  import Parse from 'parse'
 
   export default {
     data () {
@@ -46,7 +46,7 @@
           return
         }
 
-        firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then((err) => {
+        Parse.User.signUp(this.email, this.password).then((err) => {
           console.log(err)
           if (err.hasOwnProperty('message')) {
             this.msg = err.message

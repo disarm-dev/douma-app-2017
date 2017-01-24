@@ -36,20 +36,20 @@
 </template>
 
 <script>
-import firebase from 'firebase'
+import Parse from 'parse'
 
 export default {
   mounted() {
-    const interval = setInterval(() => {
-      if (firebase.auth().currentUser) {
-        this.continue()
-        clearInterval(interval)
-      }
-    }, 500)
+    // const interval = setInterval(() => {
+    //   if (firebase.auth().currentUser) {
+    //     this.continue()
+    //     clearInterval(interval)
+    //   }
+    // }, 500)
 
-    setTimeout(() => {
-      clearInterval(interval)
-    }, 3000)
+    // setTimeout(() => {
+    //   clearInterval(interval)
+    // }, 3000)
   },
   data() {
     return {
@@ -63,13 +63,14 @@ export default {
     login() {
       this.msg = "Loading..."
       this.disabled = true
+      
+      Parse.User.setUsername(this.email)
+      Parse.User.setPassword(this.password)
 
-      firebase.auth()
-      .signInWithEmailAndPassword(this.email, this.password)
+      Parse.User.login
       .then(() => {
-        this.$store.state.user = firebase.auth().currentUser
+        this.$store.state.user = Parse.User.current()
         this.continue()
-       
       }).catch((e) => {
         this.msg = e.message
         this.disabled = false

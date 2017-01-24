@@ -18,12 +18,14 @@
 </template>
 
 <script>
+  import Parse from 'parse'
+
   export default {
     methods: {
       logout() {
-        firebase.auth().signOut().then(() => {
+        Parse.User.logOut().then(() => {
           this.$router.push({name: 'meta:login'})
-        }, (error) => {
+        }).catch((error) => {
           console.log(error)
         });
       },

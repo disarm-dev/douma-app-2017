@@ -19,7 +19,7 @@
   </div>
 </template>
 <script>
-  import firebase from 'firebase'
+  import Parse from 'parse'
 
   export default {
     data () {
@@ -31,12 +31,13 @@
     },
     methods: {
       reset() {
-        firebase.auth().sendPasswordResetEmail(this.email).then((err) => {
-          if (err) {
-            this.msg = err.message
-          } else {
+        Parse.User.requestPasswordReset(this.email, {
+          success() {
             this.sentEmail = true
             this.msg = "An email has been sent with instructions on how to change your password."
+          },
+          error(err) {
+            this.msg = err.message
           }
         })
       },

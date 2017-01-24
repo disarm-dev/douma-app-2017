@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import firebase from 'firebase'
+import Parse from 'parse'
 import PouchDB from 'pouchdb'
 
 import './fonts/Roboto.css'
@@ -14,18 +14,20 @@ import store from './store'
 console.info('DOUMA version: ' + COMMITHASH)
 
 let router = getRouter(store)
-window.firebase = firebase
 window.PouchDB = PouchDB
-
+window.Parse = Parse
 
 // TODO: find a way to check when app has been initialized
-firebase.initializeApp({
-  apiKey: "AIzaSyDsZiVbY7Dit61RgEQtXDeHHplC77h3URc",
-  authDomain: "disarm-platform.firebaseapp.com",
-  databaseURL: "https://disarm-platform.firebaseio.com",
-  storageBucket: "disarm-platform.appspot.com",
-  messagingSenderId: "11635888704"
-})
+// firebase.initializeApp({
+//   apiKey: "AIzaSyDsZiVbY7Dit61RgEQtXDeHHplC77h3URc",
+//   authDomain: "disarm-platform.firebaseapp.com",
+//   databaseURL: "https://disarm-platform.firebaseio.com",
+//   storageBucket: "disarm-platform.appspot.com",
+//   messagingSenderId: "11635888704"
+// })
+
+Parse.initialize("APPLICATION_ID"); 
+Parse.serverURL = 'http://localhost:1337/parse'
 
 configure()
 

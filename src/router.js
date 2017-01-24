@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import firebase from 'firebase'
+import Parse from 'parse'
 
 // Meta
 import App from './components/App.vue'
@@ -67,7 +67,7 @@ export default function getRouter(store) {
 
 
   const beforeEnter = (to, from, next) => {
-    if (!firebase.auth().currentUser) {
+    if (!Parse.User.current()) {
       // save route, so we can send user back after login
       store.state.previousRoute = to
       return next('/login')
