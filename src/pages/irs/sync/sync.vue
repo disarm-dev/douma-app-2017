@@ -1,6 +1,7 @@
 <template>
   <div class="sync">
     <div class='md-title'>Sync</div>
+    <div>There are {{recordsCount}} records, and {{unsyncedCount}} records not synced</div>
     <div class='md-body-1'>Synchronise your data with the server.</div>
     <br>
     <div v-if="!$store.state.online" class='md-body-1'>You need to be connected to the internet to synchronise. </div>
@@ -11,7 +12,8 @@
   </div>
 </template>
 <script>
-  import {structures, actions} from '../../../db'
+  import {structures, actions, syncOptions} from '../../../db'
+  import Vue from 'vue'
 
   export default {
     data() {
@@ -19,37 +21,54 @@
         syncing: []
       }
     },
+    mounted() {
+        actions.list().then( (res) => {
+          this.$store.state.irs.actions = res.data
+        })
+    },
+    computed: {
+      recordsCount() {
+        return this.$store.state.irs.actions.length
+      },
+      unsyncedCount() {
+        return this.$store.state.irs.actions.filter( (i) => i._status == "created").length
+      }
+    },
     methods: {
       sync() {
-        this.syncing.push({name: 'structures'})
-        let strucSync = PouchDB.sync('structures', 'http://localhost:5984/structures')
-          .on('complete', (info) => {
-            console.log('complete', info)
-            let index = this.syncing.findIndex(({name}) => name === 'structures')
-            this.syncing.splice(index, 1)
-            strucSync.cancel();
-          })
-          .on('change', (info) => {
-            console.log('change', info)
-          })
-          .on('error', (err) => {
-            console.log('error', info)
-          });
+        actions.sync(syncOptions).then(r => {
+          console.log(r)
+          actions.list().then( (res) => this.$store.state.irs.actions = res.data )
+        }) 
+        // this.syncing.push({name: 'structures'})
+        // let strucSync = PouchDB.sync('structures', 'http://localhost:5984/structures')
+        //   .on('complete', (info) => {
+        //     console.log('complete', info)
+        //     let index = this.syncing.findIndex(({name}) => name === 'structures')
+        //     this.syncing.splice(index, 1)
+        //     strucSync.cancel();
+        //   })
+        //   .on('change', (info) => {
+        //     console.log('change', info)
+        //   })
+        //   .on('error', (err) => {
+        //     console.log('error', info)
+        //   });
 
-        this.syncing.push({name: 'actions'})
-        let actionSync = PouchDB.sync('actions', 'http://localhost:5984/actions')
-          .on('complete', (info) => {
-            console.log('complete', info)
-            let index = this.syncing.findIndex(({name}) => name === 'actions')
-            this.syncing.splice(index, 1)
-            actionSync.cancel();
-          })
-          .on('change', (info) => {
-            console.log('change', info)
-          })
-          .on('error', (err) => {
-            console.log('error', info)
-          });
+        // this.syncing.push({name: 'actions'})
+        // let actionSync = PouchDB.sync('actions', 'http://localhost:5984/actions')
+        //   .on('complete', (info) => {
+        //     console.log('complete', info)
+        //     let index = this.syncing.findIndex(({name}) => name === 'actions')
+        //     this.syncing.splice(index, 1)
+        //     actionSync.cancel();
+        //   })
+        //   .on('change', (info) => {
+        //     console.log('change', info)
+        //   })
+        //   .on('error', (err) => {
+        //     console.log('error', info)
+        //   });
       }
     }
   }

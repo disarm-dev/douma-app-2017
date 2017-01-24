@@ -1,31 +1,23 @@
-import PouchDB from 'pouchdb'
-import findPlugin from 'pouchdb-find'
+import Kinto from 'kinto'
 
-PouchDB.plugin(findPlugin)
+const syncOptions = {
+  remote: "https://kinto.dev.mozaws.net/v1",
+  headers: {
+    Authorization: "Basic " + "basicauth:842ba3f6b700d048458dcdb203805df2df12877819389513352cad3afb92bf0c"
+  },
+  bucket: 'disthing',
+  collection: 'actions'
+}
+const db = new Kinto(syncOptions)
 
-const structures = new PouchDB('structures', {auto_compaction: true})
-const actions = new PouchDB('actions', {auto_compaction: true})
+const structures = require('./data_bootstrap/structures_5.json')
+const actions = db.collection('actions')
 
-structures.createIndex({
-  index: {
-    fields: ['area']
-  }
-}).then((result) => {
-  console.log(result)
-}).catch((err) => {
-  console.log(err)
-});
 
-actions.createIndex({
-  index: {
-    fields: ['_id']
-  }
-}).then((result) => {
-  console.log(result)
-}).catch((err) => {
-  console.log(err)
-});
+window.db = {
+  structures, actions, syncOptions
+}
 
 export {
-  structures, actions
+  structures, actions, syncOptions
 }

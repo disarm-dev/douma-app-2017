@@ -26,7 +26,7 @@
 
 <script>
   import {structures, actions} from '../../../db'
-  
+
   export default {
     data() {
       return {
@@ -45,46 +45,14 @@
     },
     methods: {
       loadStructures() {
-        this.$store.commit('irs:reRenderMap')
-        // structures.put({
-        //   _id: '_design/areas',
-        //   filters: {
-        //     lubombo: function (doc) {
-        //       return doc.area === 'lubombo';
-        //     }.toString(),
-        //     hhohho: function (doc) {
-        //       return doc.area === 'hhohho';
-        //     }.toString(),
-        //     manzini: function (doc) {
-        //       return doc.area === 'manzini';
-        //     }.toString(),
-            // shiselweni: function (doc) {
-            //   return doc.area === 'shiselweni';
-            // }.toString()
-        //   }
-        // }).then((err) => {
-          // console.log(err)
+        // this.$store.commit('irs:reRenderMap')
 
-          PouchDB.replicate('http://localhost:5984/structures', structures, {
-            filter: 'areas/' + this.region
-          }).then(() => {
-            structures.find({selector: {area: this.region}}).then(({docs}) => {
-              this.structures = docs
-              let ids = this.structures.map(s => s.action).filter(id => id ? true : false)
-
-              PouchDB.replicate('http://localhost:5984/actions', actions, {
-                doc_ids: ids
-              }).then(() => {
-                actions.find({selector: {_id: {$in: ids}}}).then(({docs: secondDocs}) => {
-                  this.actions = secondDocs
-                  this.$store.commit('irs:loadStructures', {
-                    structures: this.structures, 
-                    actions: this.actions
-                  })
-                }).catch(err => console.log(err))
-              }).catch(err => console.log(err))
-            })
-          }).catch(err => console.log(err))
+        actions.list().then((res)=> {
+          console.log(res)
+        })
+        // this.$store.commit('irs:loadStructures', {
+        //   structures: this.structures, 
+        //   actions: this.actions
         // })
       },
       unloadStructures() {

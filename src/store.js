@@ -21,6 +21,7 @@ const store = new Vuex.Store({
       structures: new StructuresCollection(firebaseStructures),
     },
     irs: {
+      actions:[],
       mapReRenderCount: 0,
       structures: [], // StructuresCollection
       activeStructure: '', // StructureModel from StructuresCollection

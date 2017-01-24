@@ -1,5 +1,5 @@
-{
-  "428727337": {
+[
+  {
     "geometry": {
       "coordinates": [
         [
@@ -31,13 +31,9 @@
     "riskmax": 0.001169,
     "riskmean": 0.001169,
     "riskmin": 0.001169,
-    "risksum": 0,
-    "actionBy": "Person A",
-    "actionDate": "2016-07-15",
-    "actionTime": "04:48",
-    "actioned": true
+    "risksum": 0
   },
-  "428727338": {
+  {
     "geometry": {
       "coordinates": [
         [
@@ -69,13 +65,9 @@
     "riskmax": 0.001249,
     "riskmean": 0.001249,
     "riskmin": 0.001249,
-    "risksum": 0,
-    "actionBy": "Person A",
-    "actionDate": "2016-07-15",
-    "actionTime": "04:48",
-    "actioned": true
+    "risksum": 0
   },
-  "428727339": {
+  {
     "geometry": {
       "coordinates": [
         [
@@ -107,13 +99,9 @@
     "riskmax": 0.001249,
     "riskmean": 0.001249,
     "riskmin": 0.001249,
-    "risksum": 0,
-    "actionBy": "Person A",
-    "actionDate": "2016-07-15",
-    "actionTime": "04:28",
-    "actioned": true
+    "risksum": 0
   },
-  "428727340": {
+  {
     "geometry": {
       "coordinates": [
         [
@@ -145,13 +133,9 @@
     "riskmax": 0.001249,
     "riskmean": 0.001249,
     "riskmin": 0.001249,
-    "risksum": 0,
-    "actionBy": "Person A",
-    "actionDate": "2016-07-15",
-    "actionTime": "04:29",
-    "actioned": true
+    "risksum": 0
   },
-  "428727341": {
+  {
     "geometry": {
       "coordinates": [
         [
@@ -185,4 +169,4 @@
     "riskmin": 0.001249,
     "risksum": 0
   }
-}
+]
