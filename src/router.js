@@ -67,11 +67,11 @@ export default function getRouter(store) {
 
 
   const beforeEnter = (to, from, next) => {
-    if (!Parse.User.current()) {
-      // save route, so we can send user back after login
-      store.state.previousRoute = to
-      return next('/login')
-    } 
+    // if (!Parse.User.current()) {
+    //   // save route, so we can send user back after login
+    //   store.state.previousRoute = to
+    //   return next('/login')
+    // } 
     next()
   }
 

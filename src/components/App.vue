@@ -4,7 +4,7 @@
       <md-button class="md-icon-button" @click="toggleSideNav">
         <md-icon>menu</md-icon>
       </md-button>
-      <h2 class="md-title" style="flex: 1">DiSARM</h2>
+      <h2 class="md-title" style="flex: 1">DOUMA > {insert breadcrumbs}</h2>
     </md-toolbar>
 
     <md-sidenav class="md-left" ref="sideNav">
@@ -23,21 +23,23 @@
         </md-list-item>
 
         <md-list-item @click="navigate('irs')">
-          <md-icon>send</md-icon><span>Targeting</span>
+          <md-icon>send</md-icon><span>IRS</span>
         </md-list-item>
 
         <md-list-item @click="navigate('cases')">
           <md-icon>featured_play_list</md-icon><span>Cases</span>
-          <md-divider class="md-inset"></md-divider>
-        </md-list-item>
-
-        <md-list-item @click="navigate('meta:profile')">
-          <md-icon>person</md-icon><span>Meta</span>
         </md-list-item>
 
         <md-list-item @click="navigate('gps')">
           <md-icon>gps_fixed</md-icon><span>GPS</span>
         </md-list-item>
+
+        <md-divider class="md-inset"></md-divider>
+
+        <md-list-item @click="navigate('meta:profile')">
+          <md-icon>person</md-icon><span>Meta</span>
+        </md-list-item>
+
       </md-list>
     </md-sidenav>    
 
