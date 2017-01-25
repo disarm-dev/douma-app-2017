@@ -2,8 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import {Structures} from './lib/models.js'
 
-
-
 Vue.use(Vuex)
 
 const store = new Vuex.Store({

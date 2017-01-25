@@ -9,7 +9,7 @@ export class BaseCollection {
     this.featureCollection = this.toFeatureCollection()
   }
 
-  firebaseObjectToArray (data) {
+  firebaseObjectToArray (data) { // TODO: @refac Remove this firebaseObjectToArray function?
     // data is an "object of objects"
     // MUST HAVE an INTEGER as the key
     let output = []
@@ -79,6 +79,7 @@ export class BaseCollection {
   }
 }
 
+// TODO: @important Rename `Structures` and anything similar to more general SpatialEntity
 export class StructuresCollection extends BaseCollection {
 
   constructor(models) {
