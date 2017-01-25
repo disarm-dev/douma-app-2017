@@ -13,10 +13,12 @@
       </md-card-content>
     </md-card>
 
-    <p>You can use the following pieces/apps:</p>
-    <div v-for='app in allowedApps'>
-      <p @click="$router.push(app)">{{app}}</p>
-    </div>    
+    <md-card>
+      <md-card-content>
+        <md-subheader>You can use the following pieces/apps:</md-subheader>
+        <md-button v-for='app in allowedApps' class='md-raised md-primary' @click="$router.push(app)">{{app}}</md-button>
+      </md-card-content>
+    </md-card>
 
 </template>
 
