@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Parse from 'parse'
 
-// Meta
+// Containers
 import App from './components/App.vue'
 import FociContainer from './components/foci-container.vue'
 import IRSContainer from './components/irs-container.vue'
 import CasesContainer from './components/cases-container.vue'
 
+// Meta
 import Profile from './apps/meta/user/profile.vue'
 import Login from './apps/meta/user/login.vue'
 import Logout from './apps/meta/user/logout.vue'
@@ -17,34 +17,23 @@ import SyncStatus from './apps/meta/sync/status.vue'
 import AOIMap from './apps/meta/aoi/map.vue'
 
 // GPS
-
 import GPSExample from './apps/gps/root.vue'
 
 // 
 // FOCI
 // 
-
 // Monitor
-
 import MonitorList from './apps/foci/monitor/list.vue'
 import MonitorMap from './apps/foci/monitor/map.vue'
-
 // Identify
-
 import IdentifyMapGuessFoci from './apps/foci/identify/map_guess_foci.vue'
-
 // Investigate
-
 import InvestigateDetail from './apps/foci/investigate/detail.vue'
 import InvestigateForm from './apps/foci/investigate/form.vue'
 import InvestigateMap from './apps/foci/investigate/map.vue'
-
 // Classify
-
 import ClassifyForm from './apps/foci/classify/form.vue'
-
 // Respond
-
 import RespondForm from './apps/foci/respond/form.vue'
 
 // 
@@ -62,6 +51,12 @@ import IRSSync from './apps/irs/sync/sync.vue'
 // 
 import CasesRoot from './apps/cases/root.vue'
 
+
+
+// 
+// ROUTES
+// 
+
 export default function getRouter(store) {
 
   const beforeEnter = (to, from, next) => {
@@ -75,6 +70,10 @@ export default function getRouter(store) {
 
   // META
   const meta = [
+    // 
+    // ROOT redirects to the profile page, which lists out the apps 
+    // available for the user to select
+    // 
     {
       path: '/',
       redirect: '/profile'
