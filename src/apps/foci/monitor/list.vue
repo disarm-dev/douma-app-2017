@@ -33,7 +33,12 @@
 </template>
 
 <script>
+  import prepareApp from '../foci.js'
+
   export default {
+    beforeCreate() {
+      prepareApp(this.$store.state)
+    },
     data() {
       return {
         focis: this.$store.state.foci.focis.models

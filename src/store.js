@@ -1,10 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {StructuresCollection, FociCollection, Structures} from './lib/models.js'
+import {Structures} from './lib/models.js'
 
-// TODO: @debug Remove bootstrapped data for dev
-import fociExamples from './data_bootstrap/foci.json'
-import firebaseStructures from './data_bootstrap/structures.json'
 
 
 Vue.use(Vuex)
@@ -13,12 +10,6 @@ const store = new Vuex.Store({
   state: {
     user: {name: 'Poor Original Bob', email: 'bob@bob.com'},
     online: null,
-    foci: {
-      mapBounds: {}, // TODO: @feature Check if mapBounds needed here
-      focis: new FociCollection(fociExamples),
-      activeFoci: null,
-      structures: new StructuresCollection(firebaseStructures),
-    },
     irs: {
       actions:[],
       mapReRenderCount: 0,
