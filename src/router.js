@@ -95,7 +95,7 @@ export default function getRouter(store) {
       component: Logout
     },
     { 
-      path: '/resetpassword',
+      path: '/reset_password',
       name: 'meta:resetpassword',
       component: ResetPassword
     },

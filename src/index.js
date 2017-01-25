@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Parse from 'parse'
-import PouchDB from 'pouchdb'
 
 import './fonts/Roboto.css'
 import './fonts/MaterialIcons.css'
@@ -38,9 +36,15 @@ router.afterEach((route) => {
   handleTheme(route)
 })
 
+// TODO: @refac Do we need to listen to online status, and if so, where do we want to do it?
 DOUMA.$store.commit('meta:setOnline', navigator.onLine)
 window.addEventListener("offline", e => DOUMA.$store.commit('meta:setOnline', false));
 window.addEventListener("online", e => DOUMA.$store.commit('meta:setOnline', true));
+
+
+// 
+// SERVICE WORKER
+// 
 
 if ('serviceWorker' in navigator && ENABLE_SW) {
   navigator.serviceWorker.register('/service-worker.js').then(function(reg) {

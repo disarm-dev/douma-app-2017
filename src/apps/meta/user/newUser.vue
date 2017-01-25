@@ -28,7 +28,6 @@
   </div>
 </template>
 <script>
-  import Parse from 'parse'
 
   export default {
     data () {
@@ -46,14 +45,7 @@
           return
         }
 
-        Parse.User.signUp(this.email, this.password).then((err) => {
-          console.log(err)
-          if (err.hasOwnProperty('message')) {
-            this.msg = err.message
-          } else {
-            this.$router.push({name: 'meta:profile'})
-          }
-        })
+        this.$router.push({name: 'meta:profile'})
       }
     }
   }
