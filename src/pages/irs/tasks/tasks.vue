@@ -1,7 +1,6 @@
 <template>
   <div class="tasks">
-    <div class='md-title'>Targeting functionality can go here</div>
-    <div class='md-body-1'>For example, adding targeting, tracking intervention activity and progress.</div>
+    <div class='md-title'>IRS Progress records</div>
     <div class="structures">
       <div>Currently have {{$store.state.irs.structures.length}} structure{{$store.state.irs.structures.length === 1 ? '' : 's'}} loaded</div>
       <div>{{actioned.length}} structure{{actioned.length ===  1 ? '' : 's'}} that {{actioned.length ===  1 ? 'has' : 'have'}} been actioned</div>

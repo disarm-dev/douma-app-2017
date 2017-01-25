@@ -57,16 +57,16 @@
       NoTasks
     },
     mounted() {
-      structures.get(this.$store.state.irs.activeStructure).then((structure) => {
-        this.structure = structure
-        actions.get(structure.action).then((action) => {
-          let date = moment(action.date)
-          this.action = Object.assign(action, {
-            date: date.format('YYYY-MM-DD'),
-            time: date.format('HH:mm')
-          })
-        }).catch((err) => console.log(err))
-      }).catch((err) => console.log(err))
+      // structures.get(this.$store.state.irs.activeStructure).then((structure) => {
+      //   this.structure = structure
+      //   actions.get(structure.action).then((action) => {
+      //     let date = moment(action.date)
+      //     this.action = Object.assign(action, {
+      //       date: date.format('YYYY-MM-DD'),
+      //       time: date.format('HH:mm')
+      //     })
+      //   }).catch((err) => console.log(err))
+      // }).catch((err) => console.log(err))
     },
     methods: {
       submit(e) {

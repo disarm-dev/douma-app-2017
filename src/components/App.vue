@@ -4,7 +4,8 @@
       <md-button class="md-icon-button" @click="toggleSideNav">
         <md-icon>menu</md-icon>
       </md-button>
-      <h2 class="md-title" style="flex: 1">DiSARM</h2>
+      <img src="/assets/nmcp.png" style="height: 50px;">
+      <!-- <h2 class="md-title" style="flex: 1; padding-left: 0.5em;">NMCP Swaziland | DiSARM</h2> -->
     </md-toolbar>
 
     <md-sidenav class="md-left" ref="sideNav">
@@ -23,7 +24,7 @@
         </md-list-item>
 
         <md-list-item @click="navigate('irs')">
-          <md-icon>send</md-icon><span>Targeting</span>
+          <md-icon>send</md-icon><span>IRS Progress</span>
         </md-list-item>
 
         <md-list-item @click="navigate('cases')">
