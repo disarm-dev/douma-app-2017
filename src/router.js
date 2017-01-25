@@ -8,7 +8,6 @@ import FociContainer from './components/foci-container.vue'
 import IRSContainer from './components/irs-container.vue'
 import CasesContainer from './components/cases-container.vue'
 
-import Root from './apps/meta/root.vue'
 import Profile from './apps/meta/user/profile.vue'
 import Login from './apps/meta/user/login.vue'
 import Logout from './apps/meta/user/logout.vue'
@@ -65,22 +64,20 @@ import CasesRoot from './apps/cases/root.vue'
 
 export default function getRouter(store) {
 
-
   const beforeEnter = (to, from, next) => {
-    // if (!Parse.User.current()) {
-    //   // save route, so we can send user back after login
-    //   store.state.previousRoute = to
-    //   return next('/login')
-    // } 
-    next()
+    if (!store.state.user) {
+      store.state.previousRoute = to
+      return next('/login')
+    } else {
+      return next()
+    }
   }
 
   // META
   const meta = [
     {
       path: '/',
-      name: 'root',
-      component: Root,
+      redirect: '/profile'
     },
     {
       path: '/profile',

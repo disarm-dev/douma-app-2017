@@ -4,7 +4,6 @@
       <md-button class="md-icon-button" @click="toggleSideNav">
         <md-icon>menu</md-icon>
       </md-button>
-      <img src="/assets/nmcp.png" style="height: 50px;">
       <!-- <h2 class="md-title" style="flex: 1; padding-left: 0.5em;">NMCP Swaziland | DiSARM</h2> -->
       <h2 class="md-title" style="flex: 1">DOUMA > {insert breadcrumbs}</h2>
     </md-toolbar>
@@ -12,10 +11,14 @@
     <md-sidenav class="md-left" ref="sideNav">
       <md-toolbar class="md-medium">
         <div class="md-toolbar-container">
-          <h3 class="md-title">DOUMA</h3>
+          <img src="/assets/nmcp.png" style="height: 50px;">
+
         </div>
         <div v-if="user">
-          <p>Logged in: {{user.email}}</p>
+          <p @click="navigate('meta:profile')">Logged in: {{user.email}}</p>
+        </div>
+        <div v-else>
+          <p>Nope, not logged in.</p>
         </div>
       </md-toolbar>
 
@@ -52,38 +55,28 @@
 </template>
 
 <script>
-import firebase from 'firebase'
-import Tabs from './Tabs.vue'
-
-
-export default {
-  props: {
-    theme: String
-  },
-  components: {
-    'douma-tabs': Tabs
-  },
-  data() {
-    return {
-      app: {},
-      user: {},
-      showNav: true
-    }
-  },
-  methods: {
-    navigate(name) {
-      this.showNav = false // we need this to re-render the tabs for the new routes
-      setTimeout(() => this.showNav = true, 10)
-      this.$router.push({name})
-      this.toggleSideNav()
+  export default {
+    props: ['theme'],
+    data() {
+      return {
+        showNav: true
+      }
     },
-    toggleSideNav() {
-      this.$refs.sideNav.toggle();
+    computed: {
+      user() {
+        return this.$store.state.user
+      }
+    },
+    methods: {
+      navigate(name) {
+        this.$router.push({name})
+        this.toggleSideNav()
+      },
+      toggleSideNav() {
+        this.$refs.sideNav.toggle();
+      }
     }
-  },
-  created() {
   }
-}
 </script>
 
 <style scoped>

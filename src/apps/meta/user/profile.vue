@@ -4,42 +4,45 @@
     <md-card>
       <md-card-content>
         <md-subheader>Name</md-subheader>
-        <p class="profile-text">{{name}}</p>
+        <p class="profile-text">{{user.name}}</p>
         <md-subheader>Email</md-subheader>
-        <p class="profile-text">{{email}}</p>
+        <p class="profile-text">{{user.email}}</p>
 
         <md-button class="md-raised md-accent" @click="logout">Logout</md-button>
         <md-button class="md-raised" @click="resetPassword">Reset password</md-button>
       </md-card-content>
     </md-card>
 
-  </div>
+    <p>You can use the following pieces/apps:</p>
+    <div v-for='app in allowedApps'>
+      <p @click="$router.push(app)">{{app}}</p>
+    </div>    
+
 </template>
 
 <script>
-import firebase from 'firebase'
-
-export default {
-  mounted() {
-    const user = firebase.auth().currentUser
-    this.email = user.email
-    this.name = user.displayName
-  },
-  data() {
-    return {
-      name: '',
-      email: '',
-    }
-  },
-  methods: {
-    logout() {
-      this.$router.push({name: 'meta:logout'})
+  export default {
+    mounted() {
     },
-    resetPassword() {
-      this.$router.push({name: 'meta:resetpassword'})
+    data() {
+      return {
+        allowedApps: ['irs', 'foci']
+      }
+    },
+    computed: {
+      user(){
+        return this.$store.state.user
+      }
+    },
+    methods: {
+      logout() {
+        this.$router.push({name: 'meta:logout'})
+      },
+      resetPassword() {
+        this.$router.push({name: 'meta:resetpassword'})
+      }
     }
   }
-}
 </script>
 
 <style>

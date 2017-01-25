@@ -36,57 +36,34 @@
 </template>
 
 <script>
-import Parse from 'parse'
-
-export default {
-  mounted() {
-    // const interval = setInterval(() => {
-    //   if (firebase.auth().currentUser) {
-    //     this.continue()
-    //     clearInterval(interval)
-    //   }
-    // }, 500)
-
-    // setTimeout(() => {
-    //   clearInterval(interval)
-    // }, 3000)
-  },
-  data() {
-    return {
-      msg: 'Please login below',
-      disabled: false,
-      email: '',
-      password: ''
-    }
-  },
-  methods: {
-    login() {
-      this.msg = "Loading..."
-      this.disabled = true
-      
-      Parse.User.setUsername(this.email)
-      Parse.User.setPassword(this.password)
-
-      Parse.User.login
-      .then(() => {
-        this.$store.state.user = Parse.User.current()
-        this.continue()
-      }).catch((e) => {
-        this.msg = e.message
-        this.disabled = false
-        console.error(e);
-      })
+  export default {
+    mounted() {
     },
-    continue() {
-      if (this.$store.state.previousRoute) {
-        let {name} = this.$store.state.previousRoute
-        this.$router.push({name})  
-      } else {
-        this.$router.push({name: 'root'})  
+    data() {
+      return {
+        msg: 'Please login below',
+        disabled: false,
+        email: '',
+        password: ''
+      }
+    },
+    methods: {
+      login() {
+        this.msg = "Loading..."
+        this.disabled = true
+        this.$store.state.user = {name: 'Poor Relogged-in Bob', email: 'bob@bob.com'}
+        this.continue()
+      },
+      continue() {
+        if (this.$store.state.previousRoute) {
+          let {name} = this.$store.state.previousRoute
+          this.$router.push({name})  
+        } else {
+          this.$router.push({name: 'root'})  
+        }
       }
     }
   }
-}
 </script>
 
 <style>

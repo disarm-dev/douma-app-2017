@@ -6,7 +6,7 @@
           <div>
             <p class="md-body-1 login-text">{{msg}}</p>
           </div>
-          <md-input-container>
+          <md-input-container v-if='!sentEmail'>
             <label>Email</label>
             <md-input type="email" v-model.trim="email"></md-input>
           </md-input-container>
@@ -18,9 +18,8 @@
     </md-card>
   </div>
 </template>
-<script>
-  import Parse from 'parse'
 
+<script>
   export default {
     data () {
       return {
@@ -31,15 +30,8 @@
     },
     methods: {
       reset() {
-        Parse.User.requestPasswordReset(this.email, {
-          success() {
-            this.sentEmail = true
-            this.msg = "An email has been sent with instructions on how to change your password."
-          },
-          error(err) {
-            this.msg = err.message
-          }
-        })
+        this.sentEmail = true
+        this.msg = "An email has been sent with instructions on how to change your password."
       },
       back() {
         this.$router.push({name: 'meta:login'})

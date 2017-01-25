@@ -18,16 +18,10 @@
 </template>
 
 <script>
-  import Parse from 'parse'
-
   export default {
     methods: {
       logout() {
-        Parse.User.logOut().then(() => {
-          this.$router.push({name: 'meta:login'})
-        }).catch((error) => {
-          console.log(error)
-        });
+        this.$router.push({name: 'meta:login'})
       },
       cancel() {
         this.$router.push({name: 'meta:profile'})

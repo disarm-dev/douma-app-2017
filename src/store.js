@@ -11,9 +11,8 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    user: null,
+    user: {name: 'Poor Original Bob', email: 'bob@bob.com'},
     online: null,
-    previousRoute: null,
     foci: {
       mapBounds: {}, // TODO: @feature Check if mapBounds needed here
       focis: new FociCollection(fociExamples),
