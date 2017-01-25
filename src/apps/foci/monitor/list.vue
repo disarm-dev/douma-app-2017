@@ -37,7 +37,7 @@
 
   export default {
     beforeCreate() {
-      prepareApp(this.$store.state)
+      prepareApp(this.$store.state) // TODO: @refac This MUST be moved to a new parent component, e.g. Foci.vue
     },
     data() {
       return {
