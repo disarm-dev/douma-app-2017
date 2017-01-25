@@ -6,6 +6,7 @@
       </md-button>
       <img src="/assets/nmcp.png" style="height: 50px;">
       <!-- <h2 class="md-title" style="flex: 1; padding-left: 0.5em;">NMCP Swaziland | DiSARM</h2> -->
+      <h2 class="md-title" style="flex: 1">DOUMA > {insert breadcrumbs}</h2>
     </md-toolbar>
 
     <md-sidenav class="md-left" ref="sideNav">
@@ -29,16 +30,18 @@
 
         <md-list-item @click="navigate('cases')">
           <md-icon>featured_play_list</md-icon><span>Cases</span>
-          <md-divider class="md-inset"></md-divider>
-        </md-list-item>
-
-        <md-list-item @click="navigate('meta:profile')">
-          <md-icon>person</md-icon><span>Meta</span>
         </md-list-item>
 
         <md-list-item @click="navigate('gps')">
           <md-icon>gps_fixed</md-icon><span>GPS</span>
         </md-list-item>
+
+        <md-divider class="md-inset"></md-divider>
+
+        <md-list-item @click="navigate('meta:profile')">
+          <md-icon>person</md-icon><span>Meta</span>
+        </md-list-item>
+
       </md-list>
     </md-sidenav>    
 
