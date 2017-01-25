@@ -4,7 +4,7 @@ var Visualizer = require('webpack-visualizer-plugin')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
 
 var commitHash = require('child_process')
-  .execSync('git rev-parse --short HEAD')
+  .execSync('git rev-parse HEAD')
   .toString();
 
 module.exports = {
