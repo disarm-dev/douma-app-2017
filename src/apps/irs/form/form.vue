@@ -38,8 +38,8 @@
 <script>
   import moment from 'moment'
 
-  import NoActiveStructure from '../../../components/no-active-structure.vue'
-  import NoTasks from '../../../components/no-tasks.vue'
+  import NoActiveStructure from '../no-active-structure.vue'
+  import NoTasks from '../no-tasks.vue'
 
   import {structures, actions} from '../../../db'
 

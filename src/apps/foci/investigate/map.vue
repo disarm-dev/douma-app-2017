@@ -14,7 +14,7 @@
 </template>
 
 <script>
-  import NoActiveFoci from '../../../components/no-active-foci.vue'
+  import NoActiveFoci from '../no-active-foci.vue'
 
   import Leaflet from 'leaflet'
   import 'leaflet/dist/leaflet.css'

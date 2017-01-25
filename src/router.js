@@ -8,18 +8,18 @@ import FociContainer from './components/foci-container.vue'
 import IRSContainer from './components/irs-container.vue'
 import CasesContainer from './components/cases-container.vue'
 
-import Root from './pages/meta/root.vue'
-import Profile from './pages/meta/user/profile.vue'
-import Login from './pages/meta/user/login.vue'
-import Logout from './pages/meta/user/logout.vue'
-import ResetPassword from './pages/meta/user/resetPassword.vue'
-import NewUser from './pages/meta/user/newUser.vue'
-import SyncStatus from './pages/meta/sync/status.vue'
-import AOIMap from './pages/meta/aoi/map.vue'
+import Root from './apps/meta/root.vue'
+import Profile from './apps/meta/user/profile.vue'
+import Login from './apps/meta/user/login.vue'
+import Logout from './apps/meta/user/logout.vue'
+import ResetPassword from './apps/meta/user/resetPassword.vue'
+import NewUser from './apps/meta/user/newUser.vue'
+import SyncStatus from './apps/meta/sync/status.vue'
+import AOIMap from './apps/meta/aoi/map.vue'
 
 // GPS
 
-import GPSExample from './pages/gps/root.vue'
+import GPSExample from './apps/gps/root.vue'
 
 // 
 // FOCI
@@ -27,41 +27,41 @@ import GPSExample from './pages/gps/root.vue'
 
 // Monitor
 
-import MonitorList from './pages/foci/monitor/list.vue'
-import MonitorMap from './pages/foci/monitor/map.vue'
+import MonitorList from './apps/foci/monitor/list.vue'
+import MonitorMap from './apps/foci/monitor/map.vue'
 
 // Identify
 
-import IdentifyMapGuessFoci from './pages/foci/identify/map_guess_foci.vue'
+import IdentifyMapGuessFoci from './apps/foci/identify/map_guess_foci.vue'
 
 // Investigate
 
-import InvestigateDetail from './pages/foci/investigate/detail.vue'
-import InvestigateForm from './pages/foci/investigate/form.vue'
-import InvestigateMap from './pages/foci/investigate/map.vue'
+import InvestigateDetail from './apps/foci/investigate/detail.vue'
+import InvestigateForm from './apps/foci/investigate/form.vue'
+import InvestigateMap from './apps/foci/investigate/map.vue'
 
 // Classify
 
-import ClassifyForm from './pages/foci/classify/form.vue'
+import ClassifyForm from './apps/foci/classify/form.vue'
 
 // Respond
 
-import RespondForm from './pages/foci/respond/form.vue'
+import RespondForm from './apps/foci/respond/form.vue'
 
 // 
 // IRS
 // 
-import IRSTasks from './pages/irs/tasks/tasks.vue'
-import IRSMap from './pages/irs/map/map.vue'
-import IRSList from './pages/irs/list/list.vue'
-import IRSForm from './pages/irs/form/form.vue'
-import IRSSync from './pages/irs/sync/sync.vue'
+import IRSTasks from './apps/irs/tasks/tasks.vue'
+import IRSMap from './apps/irs/map/map.vue'
+import IRSList from './apps/irs/list/list.vue'
+import IRSForm from './apps/irs/form/form.vue'
+import IRSSync from './apps/irs/sync/sync.vue'
 
 
 // 
 // CASES
 // 
-import CasesRoot from './pages/cases/root.vue'
+import CasesRoot from './apps/cases/root.vue'
 
 export default function getRouter(store) {
 

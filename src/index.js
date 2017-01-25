@@ -14,20 +14,6 @@ import store from './store'
 console.info('DOUMA version: ' + COMMITHASH)
 
 let router = getRouter(store)
-window.PouchDB = PouchDB
-window.Parse = Parse
-
-// TODO: find a way to check when app has been initialized
-// firebase.initializeApp({
-//   apiKey: "AIzaSyDsZiVbY7Dit61RgEQtXDeHHplC77h3URc",
-//   authDomain: "disarm-platform.firebaseapp.com",
-//   databaseURL: "https://disarm-platform.firebaseio.com",
-//   storageBucket: "disarm-platform.appspot.com",
-//   messagingSenderId: "11635888704"
-// })
-
-Parse.initialize("APPLICATION_ID"); 
-Parse.serverURL = 'http://localhost:1337/parse'
 
 configure()
 
@@ -55,8 +41,6 @@ router.afterEach((route) => {
 DOUMA.$store.commit('meta:setOnline', navigator.onLine)
 window.addEventListener("offline", e => DOUMA.$store.commit('meta:setOnline', false));
 window.addEventListener("online", e => DOUMA.$store.commit('meta:setOnline', true));
-
-
 
 if ('serviceWorker' in navigator && ENABLE_SW) {
   navigator.serviceWorker.register('/service-worker.js').then(function(reg) {
