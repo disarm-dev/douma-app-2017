@@ -4,16 +4,16 @@ import VueRouter from 'vue-router'
 import './fonts/Roboto.css'
 import './fonts/MaterialIcons.css'
 
-import configure from './config/theme'
+import configureTheme from './config/theme'
 import App from './components/App.vue'
 import getRouter from './router'
 import store from './store'
 
-console.info('DOUMA version: ' + COMMITHASH)
+if (DOUMA_DEV_MODE) console.info('DOUMA version: ' + COMMIT_HASH)
 
 let router = getRouter(store)
 
-configure()
+configureTheme()
 
 let DOUMA = Vue.component('app', App)
 const handleTheme = (route) => {
@@ -46,7 +46,7 @@ window.addEventListener("online", e => DOUMA.$store.commit('meta:setOnline', tru
 // SERVICE WORKER
 // 
 
-if ('serviceWorker' in navigator && ENABLE_SW) {
+if ('serviceWorker' in navigator && !DOUMA_DEV_MODE) {
   navigator.serviceWorker.register('/service-worker.js').then(function(reg) {
     reg.onupdatefound = function() {
       var installingWorker = reg.installing;

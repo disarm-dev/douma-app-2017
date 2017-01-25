@@ -64,8 +64,8 @@ module.exports = {
   devtool: '#eval-source-map',
   plugins: [
     new webpack.DefinePlugin({
-      "COMMITHASH": JSON.stringify(commitHash),
-      'ENABLE_SW': process.env.NODE_ENV === 'production'
+      "COMMIT_HASH": JSON.stringify(commitHash),
+      'DOUMA_DEV_MODE': process.env.NODE_ENV !== 'production'
     })
   ]
 }
