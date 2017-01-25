@@ -6,7 +6,7 @@ import PouchDB from 'pouchdb'
 import './fonts/Roboto.css'
 import './fonts/MaterialIcons.css'
 
-import configure from './config'
+import configure from './config/theme'
 import App from './components/App.vue'
 import getRouter from './router'
 import store from './store'

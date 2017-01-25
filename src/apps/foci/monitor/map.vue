@@ -33,7 +33,7 @@
         zoom: 10,
       });
 
-      // TODO: Need to stop this fitBounds - it forgets any previous user zooming, etc.
+      // TODO: @feature Need to stop this fitBounds - it forgets any previous user zooming, etc.
       this.$parent.$on('show', () => {
         this.map.invalidateSize()
         this.map.fitBounds(this.focisLayer.getBounds())
@@ -63,7 +63,7 @@
         this.map.fitBounds(this.focisLayer.getBounds())
       },
       // loadStructures() {
-      //   // TODO: Move this into the store and use a StructureCollection
+      //   // TODO: @refac Move this into the store and use a StructureCollection
 
       //   // Take Firebase object of structure polygons, return array with 
       //   // `id` as one of the properties
@@ -91,7 +91,7 @@
       //       onEachFeature: (feature, layer) => {
       //         layer.on({
       //           click: (e) => {
-      //             e.target.setStyle({color: 'orange'}) // TODO: Be serious
+      //             e.target.setStyle({color: 'orange'}) // TODO: @wtf Be serious
       //             feature.properties.casePresent = !(feature.properties.casePresent)
       //           }
       //         })

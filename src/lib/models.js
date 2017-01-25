@@ -1,8 +1,3 @@
-// TODO: Do this
-// class StructureModel {
-
-// }
-
 export class BaseCollection {
 
   defaults = {}
@@ -30,7 +25,7 @@ export class BaseCollection {
   _createModels (models = []) {
     return models.map((m, i) => {
       // Add default params to model
-      // TODO: Check whether these are real or debugging-only
+      // TODO: @debug Check whether these are real or debugging-only
       return Object.assign({}, this.defaults, m)
     }) 
   }
@@ -89,7 +84,7 @@ export class StructuresCollection extends BaseCollection {
   constructor(models) {
     super(models, {
       actioned: false,
-      casePresent: true, //(() => {Math.random() >= 0.5})(), // TODO: fix, doesn't work
+      casePresent: true,
       actionBy: 'Person A',
       actionDate: new Date().toISOString().substring(0, 10),
       actionTime: new Date().getHours() + ':' + new Date().getMinutes(),

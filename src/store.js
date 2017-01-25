@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import {StructuresCollection, FociCollection, Structures} from './lib/models.js'
 
-// TODO: Remove bootstrapped data for dev
+// TODO: @debug Remove bootstrapped data for dev
 import fociExamples from './data_bootstrap/foci.json'
 import firebaseStructures from './data_bootstrap/structures.json'
 
@@ -15,7 +15,7 @@ const store = new Vuex.Store({
     online: null,
     previousRoute: null,
     foci: {
-      mapBounds: {}, // TODO: Check if needed
+      mapBounds: {}, // TODO: @feature Check if mapBounds needed here
       focis: new FociCollection(fociExamples),
       activeFoci: null,
       structures: new StructuresCollection(firebaseStructures),
@@ -33,7 +33,7 @@ const store = new Vuex.Store({
       state.online = online
     },
 
-    // TODO: Rename to setStructures
+    // TODO: @refac Rename to setStructures
     'foci:loadStructures': (state, structures) => {
       state.foci.structures = new StructuresCollection(structures)
     },
@@ -66,7 +66,7 @@ const store = new Vuex.Store({
       state.irs.activeLayer = layer
     },
     'irs:updateStructure': (state, {structure, action}) => {
-      // TODO: findIndex is not always available, most likely due to Vuex, fix
+      // FIXME: findIndex is not always available, most likely due to Vuex, fix
       let index = state.irs.structures.findIndex((s) => s._id === structure._id)
       structure.actioned = action.actioned
       Vue.set(state.irs.structures, index, structure)
