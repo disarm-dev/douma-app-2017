@@ -8,15 +8,9 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
-
   import Leaflet from 'leaflet'
   import 'leaflet/dist/leaflet.css'
-  import geoCoords from 'geojson-coords'
-
-  import firebaseStructures from '../../../data_bootstrap/structures.json' // Smaller 
   
-
   export default {
     data() {
       return {
