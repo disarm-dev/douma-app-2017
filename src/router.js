@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 
 // Containers
 import App from './components/App.vue'
-import FociContainer from './components/foci-container.vue'
+
 import IRSContainer from './components/irs-container.vue'
 import CasesContainer from './components/cases-container.vue'
 
@@ -23,6 +23,8 @@ import GPSExample from './apps/gps/root.vue'
 // FOCI
 // 
 // Monitor
+import FociContainer from './apps/foci/Foci.vue'
+
 import MonitorList from './apps/foci/monitor/list.vue'
 import MonitorMap from './apps/foci/monitor/map.vue'
 // Identify
