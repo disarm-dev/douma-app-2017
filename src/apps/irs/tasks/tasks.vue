@@ -2,7 +2,7 @@
   <div class="tasks">
     <div class='md-title'>IRS Progress records</div>
     <div class="structures">
-      <div>Count of loaded data/tasks/actions, etc: {{actionsCount}}</div>
+      <div>Tasks count: {{tasksCount}}</div>
     </div>
 
     <p>Please select a Scale and then an Area of Interest: </p>
@@ -51,8 +51,9 @@
       }
     },
     computed: {
-      actionsCount() {
+      tasksCount() {
         return this.$store.state.irs.actions.length
+        // return this.$store.state.irs.tasks.length
       }
     },
     methods: {
