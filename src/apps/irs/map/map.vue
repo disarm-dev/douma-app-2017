@@ -99,10 +99,12 @@
         }
       },
       colourStructure(structureFeature){
-        if (structureFeature.properties.actioned) {
+        if (structureFeature.properties.actioned == true) {
           return {color: 'green'}
-        } else {
+        } else if (structureFeature.properties.actioned == false) {
           return {color: 'red'}
+        } else {
+          return {color: 'orange'}
         }
       },
       getLayerIdForStructure(structureId) {
