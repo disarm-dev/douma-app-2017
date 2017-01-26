@@ -3,8 +3,6 @@ import VueRouter from 'vue-router'
 
 // Containers
 import App from './components/App.vue'
-
-import IRSContainer from './components/irs-container.vue'
 import CasesContainer from './components/cases-container.vue'
 
 // Meta
@@ -22,9 +20,8 @@ import GPSExample from './apps/gps/root.vue'
 // 
 // FOCI
 // 
-// Monitor
 import FociContainer from './apps/foci/Foci.vue'
-
+// Monitor
 import MonitorList from './apps/foci/monitor/list.vue'
 import MonitorMap from './apps/foci/monitor/map.vue'
 // Identify
@@ -41,6 +38,7 @@ import RespondForm from './apps/foci/respond/form.vue'
 // 
 // IRS
 // 
+import IRSContainer from './apps/irs/IRS.vue'
 import IRSTasks from './apps/irs/tasks/tasks.vue'
 import IRSMap from './apps/irs/map/map.vue'
 import IRSList from './apps/irs/list/list.vue'
