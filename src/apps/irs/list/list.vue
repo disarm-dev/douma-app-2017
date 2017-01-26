@@ -1,5 +1,8 @@
 <template>
   <div class="irs-list">
+    <!-- TODO: @debug Remove this "tasks reset" button -->
+    <div><md-button class='md-raised md-warn' @click='unloadTasks'>unLoad tasks</md-button></div>
+
     <div class="md-title">Tasks ({{$store.state.irs.tasks.length}})</div>
 
     <div style='width: 100%; height: 20px; background: #cacaca'>
@@ -14,11 +17,6 @@
     <md-chips v-model="searchOptions" md-input-placeholder="Add filter/search option">
       <template scope="chip">{{ chip.value }}</template>
     </md-chips>
-
-    <md-input-container>
-      <label>Search</label>
-      <md-input v-model='searchTerm'>SEARCH</md-input>
-    </md-input-container>
 
     <md-subheader>Not visited</md-subheader>
     <md-list class="md-dense">
@@ -99,8 +97,14 @@
         } else if (task.actioned == 'unvisited') {
           return 'unknown-action'
         }
+      },
+      unloadTasks() {
+        // TODO: @debug Remove these temporary things
+        this.$store.commit("irs:reset")
+        window.douma.data.irs.entities = []
+        window.douma.data.irs.entitiesLayer.remove()
+        window.douma.data.irs.entitiesLayer = null
       }
-
     }
   }
 </script>

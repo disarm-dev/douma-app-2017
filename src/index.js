@@ -27,6 +27,7 @@ window.douma = {
   } // TODO: @refac Don't use this global
 
 // Make a `router` for the `store`
+// TODO: @refac Can we make the router instanciatian simpler so we can reuse the router module, e.g. in the $store
 let router = getRouter(store)
 
 // Create a bunch of themes matching the routes

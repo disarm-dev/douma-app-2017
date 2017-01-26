@@ -7,10 +7,8 @@
   import 'leaflet/dist/leaflet.css'
 
   export default {
-    mounted() {
-      this.createMap()
-    },
     activated() {
+      this.createMap()
       this.renderEntitiesLayer()
     },
     computed: {
@@ -22,8 +20,11 @@
     },
     methods: {
       createMap(){
+        let leMap = window.douma.data.irs.leMap
+        if (leMap) return
+
         // Configure basic map
-        let leMap= Leaflet.map('irs-map', {
+        leMap = Leaflet.map('irs-map', {
           center: [-26.3231769,31.1380957], // TODO: @refac Make the map center a bit more dynamic? With GPS?
           zoom: 15,
           tms: true

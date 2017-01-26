@@ -16,9 +16,11 @@ export default {
         state.activeAction = actionClone
         state.tasks.splice(originalActionIndex, 1, actionClone)
       }
-
-
-    }
+    },
+    "irs:reset": (state) => {
+      state.tasks = []
+      state.activeAction = null
+    },
   },
   actions: {
     "irs:setActiveActionByOSMId": (context, osm_id) => {

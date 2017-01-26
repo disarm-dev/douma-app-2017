@@ -30,10 +30,6 @@
             name: 'irs:map'
           },
           {
-            title: 'List',
-            name: 'irs:list'
-          },
-          {
             title: 'Form',
             name: 'irs:form'
           },

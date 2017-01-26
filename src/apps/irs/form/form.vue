@@ -45,7 +45,6 @@
   import moment from 'moment'
 
   import NoActiveStructure from '../no-active-structure.vue'
-  import NoTasks from '../no-tasks.vue'
 
   import {structures, actions} from '../../../db'
 
@@ -59,8 +58,7 @@
       }
     },
     components: {
-      NoActiveStructure,
-      NoTasks
+      NoActiveStructure
     },
     mounted() {
       // structures.get(this.$store.state.irs.activeStructure).then((structure) => {
