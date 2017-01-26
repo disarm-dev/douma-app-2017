@@ -1,9 +1,8 @@
 <template>
   <div class="irs-list">
+    <div class="md-title">Tasks ({{$store.state.irs.tasks.length}})</div>
     <!-- TODO: @debug Remove this "tasks reset" button -->
     <div><md-button class='md-raised md-warn' @click='unloadTasks'>unLoad tasks</md-button></div>
-
-    <div class="md-title">Tasks ({{$store.state.irs.tasks.length}})</div>
 
     <div style='width: 100%; height: 20px; background: #cacaca'>
       <span style='background: green; height: 100%; display: block; float: left;'
@@ -102,8 +101,10 @@
         // TODO: @debug Remove these temporary things
         this.$store.commit("irs:reset")
         window.douma.data.irs.entities = []
-        window.douma.data.irs.entitiesLayer.remove()
-        window.douma.data.irs.entitiesLayer = null
+        if (window.douma.data.irs.entitiesLayer) {
+          window.douma.data.irs.entitiesLayer.remove()
+          window.douma.data.irs.entitiesLayer = null
+        }
       }
     }
   }
@@ -112,8 +113,8 @@
 <style>
   .irs-list {
     max-width: 800px;
-    margin: 1em auto;
-    padding: 1em;
+    /*margin: 1em auto;*/
+    /*padding: 1em;*/
   }
 
   .actioned {

@@ -36,6 +36,8 @@
         </div>
 
         <md-button type="submit" class="md-raised md-accent">Save</md-button>
+        <!-- TODO: @fix Stop the cancel button submitting! -->
+        <md-button type="cancel" class="md-raised md-warn">Cancel</md-button>
       </form>
     </div>
   </div>

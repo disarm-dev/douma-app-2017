@@ -1,8 +1,7 @@
 <template>
   <div class="tasks">
     <template v-if='tasksCount <= 0'>
-      <div class='md-title'>IRS Progress records</div>
-
+      <div class='md-title'>Load IRS tasks</div>
       <p>Please select a Scale and then an Area of Interest: </p>
 
       <md-input-container>
