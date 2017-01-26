@@ -70,7 +70,6 @@
 
         const entitiesInAoiOsmIds = entitiesInAoi.map(entity => entity.properties.osm_id)
 
-
         // Find Actions that match Entities in AOI
         const actionsInAoi = allActions.filter((action) => {
           return entitiesInAoiOsmIds.includes(action.osm_id)
@@ -89,8 +88,6 @@
             }
           }
         })
-
-
 
         // Copy properties from Actions in AOI to Entities in AOI
         actionsInAoi.forEach((action) => {

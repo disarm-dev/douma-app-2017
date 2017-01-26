@@ -7,6 +7,17 @@ export default {
   mutations: {
     "irs:setActiveAction": (state, action) => {
       state.activeAction = action
+    },
+    "irs:updateActiveAction": (state, actionClone) => {
+      let originalActionIndex = state.tasks.findIndex(task => task.osm_id === actionClone.osm_id)
+
+      if (originalActionIndex > -1) {
+        // TODO: @feature Need to also persist to Kinto store somehow
+        state.activeAction = actionClone
+        state.tasks.splice(originalActionIndex, 1, actionClone)
+      }
+
+
     }
   },
   actions: {
@@ -19,15 +30,6 @@ export default {
       if (!action) action = {osm_id: osm_id}
       context.commit('irs:setActiveAction', action)
     },
-    "irs:updateActiveAction": (context, actionClone) => {
-      let originalActionIndex = context.state.tasks.findIndex(task => task.osm_id === actionClone.osm_id)
-
-      if (originalActionIndex > -1) {
-        context.state.tasks.splice(originalActionIndex, 1, actionClone)
-        // TODO: @feature Need to also persist to Kinto store somehow
-      }
-
-    }
   }
 }
 

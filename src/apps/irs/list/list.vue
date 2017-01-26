@@ -51,6 +51,7 @@
 
 <script>
   export default {
+    name: 'IrsList',
     data() {
       return {
         searchOptions: [],

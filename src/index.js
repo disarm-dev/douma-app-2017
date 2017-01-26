@@ -19,7 +19,7 @@ console.info('DOUMA version: ' + COMMIT_HASH)
 window.douma = {
     data: {
       irs: {
-        leMap: {},
+        leMap: null,
         entities: [],
         entitiesLayer: null
       }

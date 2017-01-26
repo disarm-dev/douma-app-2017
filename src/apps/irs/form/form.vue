@@ -14,6 +14,11 @@
         </md-input-container>
 
         <md-input-container>
+          <label>OSM ID (e.g. for structure)</label>
+          <md-input type="text" v-model="action.osm_id"></md-input>
+        </md-input-container>
+
+        <md-input-container>
           <label>Date</label>
           <md-input type="date" v-model="action.date"></md-input>
         </md-input-container>
@@ -72,7 +77,7 @@
     methods: {
       submit() {
         // TODO: @feature Want to validate before commiting?
-        this.$store.dispatch("irs:updateActiveAction", this.action)
+        this.$store.commit("irs:updateActiveAction", this.action)
         history.back()
       }
     }
