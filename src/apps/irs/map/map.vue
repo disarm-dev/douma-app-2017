@@ -2,56 +2,45 @@
   <div id="irs-map"></div>
 </template>
 
-
 <script>
   import Leaflet from 'leaflet'
   import 'leaflet/dist/leaflet.css'
-  import MapHelpers from '../../../lib/map_helpers.js'
-  import LeafletGPS from '../../gps/gps'
-
-  import {structures, actions} from '../../../db'
 
   export default {
     data() {
       return {
-        leMap: null,
-        structuresLayer: null,
-        structuresFeatureCollection: null,
+        leMap: null
       }
     },
     computed: {
-      structures () { return this.$store.state.irs.structures }
+      structures () { return this.$store.state.irs.structures },
     },
     mounted() {
-      this.loadMap()
+      this.createMap()
     },
-    activated() {
-      this.loadStructures()
-    },
-    beforeDestroy() {
-      this.gps.destroy()
-    },
+    // activated() {
+    //   this.renderEntitiesLayer()
+    // },
     watch: {
-      '$store.state.irs.activeStructure': 'redrawStructures',
-      '$store.state.irs.mapReRenderCount': 'renderStructuresAgain'
+      '$store.state.irs.activeAction': 'redrawEntityLayer',
     },
     methods: {
-      loadMap(){
+      createMap(){
         // Configure basic map
         this.leMap = Leaflet.map('irs-map', {
-          center: [-26.3231769,31.1380957],
+          center: [-26.3231769,31.1380957], // TODO: @refac Make the map center a bit more dynamic? With GPS?
           zoom: 15,
           tms: true
         });
         // Add basemap
         const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
 
-        this.gps = new LeafletGPS(this.leMap)
-
         Leaflet.tileLayer(url).addTo(this.leMap);
       },
-      loadStructures() {
-        if (this.structuresLayer) {
+      renderEntitiesLayer() {
+        let entitiesLayer = window.douma.data.irs.entitiesLayer
+
+        if (this.entitiesLayer) {
           return
         }
 
@@ -101,21 +90,18 @@
         this.structuresLayer.addTo(this.leMap)
         this.leMap.fitBounds(this.structuresLayer.getBounds())
 
-        // listen for when structure is selected from list
-        // so the structure on the map can be recoloured when saved
-        document.addEventListener('selectList', (e) => {
-          this.$store.commit('irs:setActiveLayer', this.getLayerIdForStructure(e.detail))
-        }, false);
+        // // listen for when structure is selected from list
+        // // so the structure on the map can be recoloured when saved
+        // document.addEventListener('selectList', (e) => {
+        //   this.$store.commit('irs:setActiveLayer', this.getLayerIdForStructure(e.detail))
+        // }, false);
       },
-      renderStructuresAgain() {
-        if (this.structuresLayer) {
-          this.structuresLayer.remove()
-          this.structuresLayer = null  
-        }
-        this.loadStructures()
-      },
-      redrawStructures() {
-        
+      // Responds to a $watch on `$store.state.irs.activeAction`, and will find the layer for 
+      // the `osm_id` of the current `activeAction`, then redraw it
+      redrawEntityLayer() {
+        const layer = window.douma.data.irs.entitiesLayer
+
+
         if (this.$store.state.irs.activeLayer) {
           structures.get(this.$store.state.irs.activeStructure).then((structure) => {
             actions.get(structure.action).then((action) => {

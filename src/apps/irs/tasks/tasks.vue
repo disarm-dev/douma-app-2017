@@ -38,6 +38,7 @@
         const aoi = 'lubombo'
         
         // Load everything you need
+        // TODO: @debug Actually need to load data, not just fake it
         const allEntities = require('../../../data_bootstrap/structures_5.json')
         const allActions = require('../../../data_bootstrap/actions.json')
 
