@@ -4,8 +4,7 @@
     <no-active-structure v-if="!$store.state.irs.activeAction" />
 
     <div v-else class="form">
-      {{$store.state.irs.activeAction}}
-<!--       <div class="md-title">Structure: {{action.id}}</div>
+      <div class="md-title">Entity: {{action.id}}</div>
 
       <form novalidate @submit.stop.prevent="submit">
 
@@ -27,13 +26,16 @@
         
         
         <div>
-          <md-checkbox v-model="action.actioned">Actioned?</md-checkbox>
+          <label>Action status</label>
+            <md-radio v-model="action.actioned" id="my-test1" name="my-test-group1" md-value="1">My beautiful radio</md-radio>
+          <md-radio v-model="action.actioned" id="my-test2" name="my-test-group1" md-value="2">Another radio</md-radio>
+          <md-radio v-model="action.actioned" id="my-test3" name="my-test-group1" md-value="3">Another another radio</md-radio>
         </div>
 
         <md-button type="submit" class="md-raised md-accent">Save</md-button>
       </form>
     </div>
- -->  </div>
+  </div>
 </template>
 
 <script>
@@ -45,6 +47,7 @@
   import {structures, actions} from '../../../db'
 
   export default {
+    name: 'IrsForm',
     data() {
       return {
         // Action should be a copy of the activeAction, so that updating only
@@ -69,6 +72,10 @@
       // }).catch((err) => console.log(err))
     },
     methods: {
+      submit() {
+        console.log('submit')
+        // if (action)
+      }
     }
   }
 </script>
