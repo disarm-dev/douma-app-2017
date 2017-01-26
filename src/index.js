@@ -34,7 +34,7 @@ configureThemes()
 
 // Make DOUMA App
 const InitialiseDOUMA = Vue.component('app', App)
-DOUMA = new InitialiseDOUMA({router, store}).$mount('#app')
+const DOUMA = new InitialiseDOUMA({router, store}).$mount('#app')
 
 // Setup global listeners for network state (online/offline)
 // TODO: @refac Do we need to listen to online status, and if so, where do we want to do it?
