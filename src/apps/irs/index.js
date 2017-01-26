@@ -29,8 +29,7 @@ export default {
       let index = state.irs.structures.findIndex((s) => s._id === structure._id)
       structure.actioned = action.actioned
       Vue.set(state.irs.structures, index, structure)
-    },
-    random: state => console.log(state)
+    }
   },
   actions: {}
 }
