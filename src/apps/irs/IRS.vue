@@ -13,6 +13,7 @@
   import DumaTabs from '../../components/Tabs.vue'
 
   export default {
+    name: 'IrsRoot',
     components: {
       DumaTabs
     },

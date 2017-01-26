@@ -22,6 +22,7 @@
 
 <script>
   export default {
+    name: 'IrsTasks',
     data() {
       return {
         aCount: 0,
