@@ -37,7 +37,7 @@
         let entitiesLayer = window.douma.data.irs.entitiesLayer
         const entities = window.douma.data.irs.entities
 
-        if (this.entitiesLayer) {
+        if (entitiesLayer) {
           return
         }
 
