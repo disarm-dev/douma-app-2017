@@ -5,8 +5,22 @@
       <div>Count of loaded data/tasks/actions, etc: {{actionsCount}}</div>
     </div>
 
-    <p>Please select an Area of Interest: </p>
-    <p>(For now is REGION, but can will include Locality, Village, Tinkhundla)</p>
+    <p>Please select a Scale and then an Area of Interest: </p>
+
+    <md-input-container>
+      <label for="spatialScale">Spatial scale</label>
+      <md-select name="spatialScale" v-model="spatialScale">
+        <md-option value="Region">Region</md-option>
+        <md-option value="Locality">Locality</md-option>
+        <md-option value="Inkhundla">Inkhundla</md-option>
+        <md-option value="Village">Village</md-option>
+        <md-option value="Cluster">Cluster</md-option>
+        <md-option value="Homestead">Homestead</md-option>
+        <md-option value="Household">Household</md-option>
+        <md-option value="Structure">Structure</md-option>
+        <md-option value="Room">Room</md-option>
+      </md-select>
+    </md-input-container>
     <md-input-container>
       <label for="region">Region</label>
       <md-select name="region" v-model="region">
@@ -25,6 +39,7 @@
     name: 'IrsTasks',
     data() {
       return {
+        spatialScale: '',
         region: ''
       }
     },

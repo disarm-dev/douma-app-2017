@@ -1,6 +1,7 @@
 <template>
   <div class="irs-list">
     <div class="md-title">Entities (really Actions!) ({{sortedActions.length}})</div>
+    <md-input v-model='thing'>SEARCH</md-input>
     <md-list class="md-dense">
       <md-list-item  
         v-for="action in sortedActions" 
@@ -14,6 +15,11 @@
 
 <script>
   export default {
+    data() {
+      return {
+        thing: 'nothing'
+      }
+    },
     computed: {
       sortedActions(){
         return this.$store.state.irs.actions.sort(action => !action.actioned)
