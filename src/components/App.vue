@@ -71,7 +71,7 @@
     methods: {
       navigate(name) {
         this.$router.push({name})
-        this.$material.setCurrentTheme(name)
+        this.$material.setCurrentTheme(name) // TODO: @fix Need to avoid setting themes that don't exist
         this.toggleSideNav()
       },
       toggleSideNav() {

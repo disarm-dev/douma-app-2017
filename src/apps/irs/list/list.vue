@@ -11,6 +11,9 @@
         :style='{width: taskStat.unvisited + "%"}'></span>
     </div>
 
+    <md-chips v-model="searchOptions" md-input-placeholder="Add filter/search option">
+      <template scope="chip">{{ chip.value }}</template>
+    </md-chips>
 
     <md-input-container>
       <label>Search</label>
@@ -50,6 +53,7 @@
   export default {
     data() {
       return {
+        searchOptions: [],
         searchTerm: ''
       }
     },
