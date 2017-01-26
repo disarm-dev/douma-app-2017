@@ -27,7 +27,8 @@
       ],
       "type": "Polygon"
     },
-    "osm_way_id": "428727337",
+    "osm_id": "428727337",
+    "region": "lubombo",
     "riskmax": 0.001169,
     "riskmean": 0.001169,
     "riskmin": 0.001169,
@@ -61,7 +62,8 @@
       ],
       "type": "Polygon"
     },
-    "osm_way_id": "428727338",
+    "osm_id": "428727338",
+    "region": "lubombo",
     "riskmax": 0.001249,
     "riskmean": 0.001249,
     "riskmin": 0.001249,
@@ -95,7 +97,8 @@
       ],
       "type": "Polygon"
     },
-    "osm_way_id": "428727339",
+    "osm_id": "428727339",
+    "region": "lubombo",
     "riskmax": 0.001249,
     "riskmean": 0.001249,
     "riskmin": 0.001249,
@@ -129,7 +132,8 @@
       ],
       "type": "Polygon"
     },
-    "osm_way_id": "428727340",
+    "osm_id": "428727340",
+    "region": "lubombo",
     "riskmax": 0.001249,
     "riskmean": 0.001249,
     "riskmin": 0.001249,
@@ -163,7 +167,8 @@
       ],
       "type": "Polygon"
     },
-    "osm_way_id": "428727341",
+    "osm_id": "428727341",
+    "region": "smoewhere_else",
     "riskmax": 0.001249,
     "riskmean": 0.001249,
     "riskmin": 0.001249,

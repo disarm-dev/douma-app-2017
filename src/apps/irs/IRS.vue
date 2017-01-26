@@ -9,6 +9,7 @@
     </div>
   </div>
 </template>
+
 <script>
   import DumaTabs from '../../components/Tabs.vue'
 
@@ -45,6 +46,6 @@
     }
   }
 </script>
+
 <style>
-  
 </style>
