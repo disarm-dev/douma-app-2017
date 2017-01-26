@@ -23,13 +23,11 @@
           <md-input type="time" v-model="action.time"></md-input>
         </md-input-container>
 
-        
-        
         <div>
           <label>Action status</label>
-            <md-radio v-model="action.actioned" id="my-test1" name="my-test-group1" md-value="1">My beautiful radio</md-radio>
-          <md-radio v-model="action.actioned" id="my-test2" name="my-test-group1" md-value="2">Another radio</md-radio>
-          <md-radio v-model="action.actioned" id="my-test3" name="my-test-group1" md-value="3">Another another radio</md-radio>
+          <md-radio v-model="action.actioned" name="actioned" md-value="successfulVisit">Visited, sprayed</md-radio>
+          <md-radio v-model="action.actioned" name="actioned" md-value="unsuccessfulVisit">Visited, unsprayed</md-radio>
+          <md-radio v-model="action.actioned" name="actioned" md-value="unvisited">Unvisited</md-radio>
         </div>
 
         <md-button type="submit" class="md-raised md-accent">Save</md-button>
@@ -73,8 +71,10 @@
     },
     methods: {
       submit() {
-        console.log('submit')
-        // if (action)
+        // TODO: @feature Want to validate before commiting?
+        console.log('this')
+        // this.$store.dispatch('irs:setActiveAction', this.action)
+        // this.$store.dispatch("irs:updateActiveAction", this.action)
       }
     }
   }

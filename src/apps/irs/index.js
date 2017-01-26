@@ -21,6 +21,7 @@ export default {
       context.commit('irs:setActiveAction', action)
     },
     "irs:updateActiveAction": (context, actionClone) => {
+      console.log('updateActiveAction', actionClone)
       // If actionClone has an action_id then find the existing action in Actions by ID
       // Then `update` the Actions array <<<=== OR TASKS?
       // Otherwise `create` a new Action (should get an ID from kinto-js)
