@@ -1,5 +1,5 @@
 <template>
-  <div id="app" v-md-theme="(theme ? theme : 'default')">
+  <div id="app">
     <md-toolbar>
       <md-button class="md-icon-button" @click="toggleSideNav">
         <md-icon>menu</md-icon>
@@ -71,6 +71,7 @@
     methods: {
       navigate(name) {
         this.$router.push({name})
+        this.$material.setCurrentTheme(name)
         this.toggleSideNav()
       },
       toggleSideNav() {

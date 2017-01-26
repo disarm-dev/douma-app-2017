@@ -1,17 +1,21 @@
+// Vue
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+// Material CSS
 import './fonts/Roboto.css'
 import './fonts/MaterialIcons.css'
 
-import configureTheme from './config/theme'
+// Configuration and setup
+import configureThemes from './config/theme'
 import App from './components/App.vue'
 import getRouter from './router'
 import store from './store'
 
-if (DOUMA_DEV_MODE) console.info('DOUMA version: ' + COMMIT_HASH)
+// Keep track of what version we're working on
+console.info('DOUMA version: ' + COMMIT_HASH)
 
-// Nasty global storage
+// Create some very useful and simple global storage
 window.douma = {
     data: {
       irs: {
@@ -22,32 +26,17 @@ window.douma = {
     }
   } // TODO: @refac Don't use this global
 
-
+// Make a `router` for the `store`
 let router = getRouter(store)
 
-configureTheme()
+// Create a bunch of themes matching the routes
+configureThemes()
 
-let DOUMA = Vue.component('app', App)
-const handleTheme = (route) => {
-  if (route.name.indexOf('foci') >= 0) {
-    DOUMA.theme = 'cyan'
-  } else if (route.name.indexOf('irs') >= 0) {
-    DOUMA.theme = 'indigo'
-  } else if (route.name.indexOf('cases') >= 0) {
-    DOUMA.theme = 'teal'
-  } else {
-    DOUMA.theme = 'default'
-  }
-}
+// Make DOUMA App
+const InitialiseDOUMA = Vue.component('app', App)
+DOUMA = new InitialiseDOUMA({router, store}).$mount('#app')
 
-DOUMA = new DOUMA({router, store}).$mount('#app')
-
-handleTheme(router.currentRoute)
-
-router.afterEach((route) => {
-  handleTheme(route)
-})
-
+// Setup global listeners for network state (online/offline)
 // TODO: @refac Do we need to listen to online status, and if so, where do we want to do it?
 DOUMA.$store.commit('meta:setOnline', navigator.onLine)
 window.addEventListener("offline", e => DOUMA.$store.commit('meta:setOnline', false));
