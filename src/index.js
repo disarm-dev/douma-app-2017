@@ -11,6 +11,18 @@ import store from './store'
 
 if (DOUMA_DEV_MODE) console.info('DOUMA version: ' + COMMIT_HASH)
 
+// Nasty global storage
+window.douma = {
+    data: {
+      irs: {
+        leMap: {},
+        entities: [],
+        entitiesLayer: null
+      }
+    }
+  } // TODO: @refac Don't use this global
+
+
 let router = getRouter(store)
 
 configureTheme()

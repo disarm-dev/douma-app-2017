@@ -1,12 +1,12 @@
 <template>
   <div class="irs-list">
-    <div class="md-title">Structures ({{structures.length}})</div>
+    <div class="md-title">Entities (really Actions!) ({{sortedActions.length}})</div>
     <md-list class="md-dense">
       <md-list-item  
-        v-for="structure in structuresSortedByAction" 
-        @click="setActiveStructure(structure._id)" 
-        :class="{actioned: structure.actioned,  'not-actioned': !structure.actioned}">
-        <md-icon>{{structure.actioned ? 'done'  : 'warning' }}</md-icon> <span>{{structure._id}}</span>
+        v-for="action in sortedActions" 
+        @click="setActiveAction(action)" 
+        :class="{actioned: action.actioned,  'not-actioned': !action.actioned}">
+        <md-icon>{{action.actioned ? 'done'  : 'warning' }}</md-icon> <span>{{action.id}}</span>
       </md-list-item>
     </md-list>
   </div>
@@ -14,22 +14,14 @@
 
 <script>
   export default {
-    data() {
-      return {
-        structures: this.$store.state.irs.structures
-      }
-    },
     computed: {
-      structuresSortedByAction(){
-        return this.structures.sort (o => !o.actioned)
+      sortedActions(){
+        return this.$store.state.irs.actions.sort(action => !action.actioned)
       }
     },
     methods: {
-      setActiveStructure(structureId) {
-        const event = new CustomEvent('selectList', { 'detail': structureId });
-        document.dispatchEvent(event)
-
-        this.$store.commit('irs:setActiveStructure', structureId)
+      setActiveAction(action) {
+        this.$store.commit('irs:setActiveAction', action)
         this.$router.push({name: 'irs:form'})
       }
     }

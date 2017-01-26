@@ -2,7 +2,7 @@
   <div class="tasks">
     <div class='md-title'>IRS Progress records</div>
     <div class="structures">
-      <div>Count of loaded data/tasks/actions, etc: {{aCount}}</div>
+      <div>Count of loaded data/tasks/actions, etc: {{actionsCount}}</div>
     </div>
 
     <p>Please select an Area of Interest: </p>
@@ -25,11 +25,13 @@
     name: 'IrsTasks',
     data() {
       return {
-        aCount: 0,
         region: ''
       }
     },
     computed: {
+      actionsCount() {
+        return this.$store.state.irs.actions.length
+      }
     },
     methods: {
       loadTasks() {
@@ -63,11 +65,10 @@
             return Object.assign(matched_entity.properties, action) 
           }
         })
-
         // Store filtered Entities not in $store. Global anyone?
-        this.$store.state.actions = filteredActions
-        this.$store.state.activeAction = null
-        window.douma = {data: {irs: {entities: filteredEntities}}} // TODO: @refac Don't use this global
+        this.$store.state.irs.actions = filteredActions
+        this.$store.state.irs.activeAction = null
+        window.douma.data.irs.entities = filteredEntities
       }
     }
   }

@@ -1,10 +1,11 @@
 <template>
   <div>
     
-    <no-active-structure v-if="!$store.state.irs.activeStructure" />
+    <no-active-structure v-if="!$store.state.irs.activeAction" />
 
     <div v-else class="form">
-      <div class="md-title">Structure: {{structure.id}}</div>
+      {{$store.state.irs.activeAction}}
+<!--       <div class="md-title">Structure: {{action.id}}</div>
 
       <form novalidate @submit.stop.prevent="submit">
 
@@ -32,7 +33,7 @@
         <md-button type="submit" class="md-raised md-accent">Save</md-button>
       </form>
     </div>
-  </div>
+ -->  </div>
 </template>
 
 <script>
@@ -46,10 +47,9 @@
   export default {
     data() {
       return {
-        // Structure should be a copy of the activeStructure, so that updating only
+        // Action should be a copy of the activeAction, so that updating only
         // takes place once 'submitted'
-        structure: {},
-        action: {}
+        action: Object.assign({}, this.$store.state.irs.activeAction)
       }
     },
     components: {
@@ -69,27 +69,6 @@
       // }).catch((err) => console.log(err))
     },
     methods: {
-      submit(e) {
-        let {_id, _rev, actioned, by, date, time} = this.action
-        date = moment(`${date} ${time}`).toDate()
-        actions.put({
-          _id,
-          _rev,
-          actioned,
-          by,
-          date
-        }).then((res) => {
-          this.action._rev = res.rev
-          this.$store.commit('irs:updateStructure', {structure: this.structure, action: this.action})
-        }).catch(err => console.log(err))
-
-        // Looks crazy, but needed to update map
-        this.$store.commit('irs:setActiveStructure', '')
-        setTimeout(() => {
-          this.$store.commit('irs:setActiveStructure', this.structure._id)  
-        })
-        this.$router.push({ name: 'irs:map'})
-      }
     }
   }
 </script>

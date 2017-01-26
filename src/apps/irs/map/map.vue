@@ -7,60 +7,49 @@
   import 'leaflet/dist/leaflet.css'
 
   export default {
-    data() {
-      return {
-        leMap: null
-      }
-    },
-    computed: {
-      structures () { return this.$store.state.irs.structures },
-    },
     mounted() {
       this.createMap()
     },
-    // activated() {
-    //   this.renderEntitiesLayer()
-    // },
-    watch: {
-      '$store.state.irs.activeAction': 'redrawEntityLayer',
+    activated() {
+      this.renderEntitiesLayer()
     },
+    // watch: {
+    //   '$store.state.irs.activeAction': 'redrawEntityLayer',
+    // },
     methods: {
       createMap(){
         // Configure basic map
-        this.leMap = Leaflet.map('irs-map', {
+        let leMap = Leaflet.map('irs-map', {
           center: [-26.3231769,31.1380957], // TODO: @refac Make the map center a bit more dynamic? With GPS?
           zoom: 15,
           tms: true
         });
+
         // Add basemap
         const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
+        Leaflet.tileLayer(url).addTo(leMap);
 
-        Leaflet.tileLayer(url).addTo(this.leMap);
+        window.douma.data.irs.leMap = leMap
       },
+
       renderEntitiesLayer() {
+        let leMap = window.douma.data.irs.leMap
         let entitiesLayer = window.douma.data.irs.entitiesLayer
+        const entities = window.douma.data.irs.entities
 
         if (this.entitiesLayer) {
           return
         }
 
-        if (!this.$store.state.irs.structures || this.$store.state.irs.structures.length === 0) {
+        if (entities.length === 0) {
           return
         }
 
-        this.structuresFeatureCollection = {
+        const entitiesFeatureCollection = {
           type: "FeatureCollection",
-          features: this.$store.state.irs.structures.map((s) => {
-            let {geometry, ...properties} = s
-            return {
-              type: 'Feature',
-              geometry,
-              properties
-            }
-          })
+          features: entities
         }
-
-        this.structuresLayer = Leaflet.geoJSON(this.structuresFeatureCollection, {
+        entitiesLayer = Leaflet.geoJSON(entitiesFeatureCollection, {
           style: (feature) => {
             return this.colourStructure(feature)
           },
@@ -68,13 +57,11 @@
             // Make sure each feature has its layerId set as a property. This way
             // the feature alone can be passed for editing, and have the specific
             // GeoJSON layer update when editing is finished.
-
             feature.properties.layerId = L.stamp(layer)
 
 
             layer.on('click', () => {
-              this.$store.commit('irs:setActiveLayer', feature.properties.layerId)
-              this.$store.commit('irs:setActiveStructure', feature.properties._id)
+              this.$store.dispatch('irs:setActiveActionById', feature.properties.id) // This is the related Action's ID
               this.$router.push({name: 'irs:form'})
             })
 
@@ -87,14 +74,10 @@
           }
         })
 
-        this.structuresLayer.addTo(this.leMap)
-        this.leMap.fitBounds(this.structuresLayer.getBounds())
+        entitiesLayer.addTo(leMap)
+        leMap.fitBounds(entitiesLayer.getBounds())
 
-        // // listen for when structure is selected from list
-        // // so the structure on the map can be recoloured when saved
-        // document.addEventListener('selectList', (e) => {
-        //   this.$store.commit('irs:setActiveLayer', this.getLayerIdForStructure(e.detail))
-        // }, false);
+        window.douma.data.irs.entitiesLayer = entitiesLayer
       },
       // Responds to a $watch on `$store.state.irs.activeAction`, and will find the layer for 
       // the `osm_id` of the current `activeAction`, then redraw it
