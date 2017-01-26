@@ -44,9 +44,9 @@
         // Filter Entities for AOI
         const filteredEntities = allEntities.filter((entity) => {
           // TODO: @data Make sure structure/entities have `region` set
-          return entity.region == aoi
+          return entity.properties.region == aoi
         })
-        const filteredEntitiesOSMIDs = filteredEntities.map(entity => entity.osm_id)
+        const filteredEntitiesOSMIDs = filteredEntities.map(entity => entity.properties.osm_id)
 
         // Find Actions that match filtered Entities
         const filteredActions = allActions.filter((action) => {
@@ -55,12 +55,11 @@
 
         // Copy properties from filtered Actions to filtered Entities
         filteredActions.forEach((action) => {
-          const matched_entity = filteredEntities.find(entity => entity.osm_id === action.osm_id)
+          const matched_entity = filteredEntities.find(entity => entity.properties.osm_id === action.osm_id)
 
           if (matched_entity) {
             // TODO: @refac Could ignore unrequired properties in Object.assign below
-            // TODO: @refac BEWARE this is custom for firebase export style
-            return Object.assign(matched_entity, action) 
+            return Object.assign(matched_entity.properties, action) 
           }
         })
 
