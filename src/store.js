@@ -7,14 +7,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     user: {name: 'Poor Original Bob', email: 'bob@bob.com'},
-    online: null,
-    irs: {
-      actions:[],
-      mapReRenderCount: 0,
-      structures: [], // StructuresCollection
-      activeStructure: '', // StructureModel from StructuresCollection
-      activeLayer: null
-    }
+    online: null
   },
   mutations: {
     'meta:setOnline': (state, online) => {

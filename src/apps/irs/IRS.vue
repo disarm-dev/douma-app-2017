@@ -11,6 +11,7 @@
 </template>
 <script>
   import DumaTabs from '../../components/Tabs.vue'
+  import prepareApp from './index.js'
 
   export default {
     components: {
@@ -41,6 +42,9 @@
           }
         ]
       }
+    },
+    beforeCreate() {
+      prepareApp(this.$store.state)
     }
   }
 </script>
