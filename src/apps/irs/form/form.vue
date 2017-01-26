@@ -72,9 +72,8 @@
     methods: {
       submit() {
         // TODO: @feature Want to validate before commiting?
-        console.log('this')
-        // this.$store.dispatch('irs:setActiveAction', this.action)
-        // this.$store.dispatch("irs:updateActiveAction", this.action)
+        this.$store.dispatch("irs:updateActiveAction", this.action)
+        history.back()
       }
     }
   }

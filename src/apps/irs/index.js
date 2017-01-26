@@ -17,14 +17,16 @@ export default {
       // When we save, we can check for an existing action_id - if nothing, 
       // can add one - and then `create` rather than `update` the Action
       if (!action) action = {osm_id: osm_id}
-      console.log(action)
       context.commit('irs:setActiveAction', action)
     },
     "irs:updateActiveAction": (context, actionClone) => {
-      console.log('updateActiveAction', actionClone)
-      // If actionClone has an action_id then find the existing action in Actions by ID
-      // Then `update` the Actions array <<<=== OR TASKS?
-      // Otherwise `create` a new Action (should get an ID from kinto-js)
+      let originalActionIndex = context.state.tasks.findIndex(task => task.osm_id === actionClone.osm_id)
+
+      if (originalActionIndex > -1) {
+        context.state.tasks.splice(originalActionIndex, 1, actionClone)
+        // TODO: @feature Need to also persist to Kinto store somehow
+      }
+
     }
   }
 }

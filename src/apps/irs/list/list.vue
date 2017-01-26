@@ -28,7 +28,7 @@
         :class="actionClass(task)">
         <md-icon>help</md-icon>
         <span>
-          {{task.actioned}}
+          {{task.actioned}} ({{task.osm_id}})
         </span>
       </md-list-item>
     </md-list>
@@ -41,7 +41,7 @@
         :class="actionClass(task)">
         <md-icon>{{task.actioned ? 'done'  : 'warning' }}</md-icon>
         <span>
-          {{task.actioned}}
+          {{task.actioned}} ({{task.osm_id}})
         </span>
       </md-list-item>
     </md-list>
@@ -61,7 +61,7 @@
       sortedTasks(){
         return this.$store.state.irs.tasks
           .filter(task => task.actioned !== 'unvisited')
-          .sort(task => !task.actioned)
+          .sort( (a, b) => a.actioned > b.actioned)
       },
       visitedSuccess() {
         return this.$store.state.irs.tasks.filter(task => task.actioned == 'successfulVisit')
