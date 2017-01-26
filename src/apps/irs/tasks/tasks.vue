@@ -30,7 +30,14 @@
         <md-option value="shiselweni">Shiselweni</md-option>
       </md-select>
     </md-input-container>
-    <md-button @click='loadTasks'>Load tasks</md-button>
+    <div style='width: 200px; height: 20px;'>
+      <span style='background: green; width: 25%; height: 100%; display: block; float: left;'></span>
+      <span style='background: #cacaca; width: 75%; height: 100%; display: block; float: left;'></span> 
+    </div>
+    <div style='float: left;'>25% complete</div>
+    <div>
+      <md-button @click='loadTasks'>Load tasks</md-button>
+    </div>
   </div>
 </template>
 
