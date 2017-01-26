@@ -61,7 +61,7 @@
 
 
             layer.on('click', () => {
-              this.$store.dispatch('irs:setActiveActionById', feature.properties.id) // This is the related Action's ID
+              this.$store.dispatch('irs:setActiveActionByOSMId', feature.properties.osm_id) // This is the related Action's ID
               this.$router.push({name: 'irs:form'})
             })
 
@@ -99,9 +99,9 @@
         }
       },
       colourStructure(structureFeature){
-        if (structureFeature.properties.actioned == true) {
+        if (structureFeature.properties.actioned == 'successfulVisit') {
           return {color: 'green'}
-        } else if (structureFeature.properties.actioned == false) {
+        } else if (structureFeature.properties.actioned == 'unsuccessfulVisit') {
           return {color: 'red'}
         } else {
           return {color: 'orange'}
