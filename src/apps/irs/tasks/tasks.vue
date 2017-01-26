@@ -78,7 +78,7 @@
         // Build blank Actions for Entities without Actions
         const tasks = entitiesInAoi.map(entity => {
           const relatedAction = actionsInAoi.find(action => action.osm_id === entity.properties.osm_id)
-
+          console.log(relatedAction)
           if (relatedAction){
             return relatedAction;
           } else {
@@ -90,7 +90,7 @@
         })
 
         // Copy properties from Actions in AOI to Entities in AOI
-        actionsInAoi.forEach((action) => {
+        tasks.forEach((action) => {
           const matched_entity = entitiesInAoi.find(entity => entity.properties.osm_id === action.osm_id)
 
           if (matched_entity) {
@@ -101,7 +101,8 @@
 
         // Store filtered Entities not in $store. Global anyone?
         this.$store.state.irs.tasks = tasks
-        this.$store.state.irs.actions = actionsInAoi
+        // TODO: @refac Can remove `Actions` from $store (check `sync.vue` first)
+        // this.$store.state.irs.actions = actionsInAoi
         this.$store.state.irs.activeAction = null
         window.douma.data.irs.entities = entitiesInAoi
       }
