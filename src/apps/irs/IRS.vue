@@ -10,7 +10,7 @@
   </div>
 </template>
 <script>
-  import DumaTabs from './Tabs.vue'
+  import DumaTabs from '../../components/Tabs.vue'
 
   export default {
     components: {
