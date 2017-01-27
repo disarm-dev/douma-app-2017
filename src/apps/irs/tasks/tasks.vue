@@ -59,8 +59,8 @@
     methods: {
       loadTasks() {
         // Get user input
-        // const aoi = this.region
-        const aoi = 'lubombo'
+        const aoi = this.region
+        // const aoi = 'lubombo'
         
         // Load everything you need
         // TODO: @debug Actually need to load data, not just fake it
@@ -69,7 +69,6 @@
 
         // Filter Entities for AOI
         const entitiesInAoi = allEntities.filter((entity) => {
-          // TODO: @data Make sure structure/entities have `region` set
           return entity.properties.region == aoi
         })
 

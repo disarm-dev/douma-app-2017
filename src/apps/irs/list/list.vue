@@ -79,6 +79,9 @@
             const distance = turf.distance(this.userCoords, task.centroid)
             task.distance = distance
             return task
+          }).sort((a, b) => { 
+            console.log(a,b)
+            return a.distance > b.distance
           })
         } else {
           return this.$store.state.irs.tasks
@@ -89,10 +92,7 @@
         let tasks = this.tasksWithDistance
 
         if (this.filterBy) {
-          console.log('filter')
-          tasks = tasks.filter((task) => {
-            return task.actioned == this.filterBy
-          })
+          tasks = tasks.filter((task) => task.actioned == this.filterBy)
         }
 
         return tasks
@@ -103,11 +103,6 @@
           groupedFilteredTasks[groupType] = this.filteredTasks.filter(task => task.actioned == groupType)          
         })
         return groupedFilteredTasks
-      },
-      sortedTasks(){
-        return this.$store.state.irs.tasks
-          .filter(task => task.actioned !== 'unvisited')
-          .sort( (a, b) => a.actioned > b.actioned)
       },
       visitedSuccess() {
         return this.$store.state.irs.tasks.filter(task => task.actioned == 'successfulVisit')
@@ -132,7 +127,7 @@
       },
       userCoords() {
         const userCoordsMarker = window.douma.data.irs.userCoordsMarker
-        if (!userCoordsMarker) return console.warn('Need to set location by clicking on map')
+        if (!userCoordsMarker) return console.warn('For distance calculations, need to set location by clicking on map')
         return userCoordsMarker.toGeoJSON()
       }
     },
