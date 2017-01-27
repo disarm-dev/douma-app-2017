@@ -12,19 +12,20 @@
   "dependencies": {
     "alpaca": "^1.5.22",
     "bootstrap": "^3.3.7",
-    "firebase": "^3.5.3",
     "geojson-coords": "^0.0.0",
     "handlebars": "^4.0.5",
     "jquery": "^3.1.1",
+    "kinto": "^7.1.0",
     "leaflet": "^1.0.1",
     "leaflet-draw": "^0.4.7",
     "leaflet.vectorgrid": "^1.1.0",
+    "moment": "^2.17.1",
     "turf": "^3.0.14",
-    "vue": "^2.0.1",
-    "vue-material": "^0.4.1",
+    "uuid": "^3.0.1",
+    "vue": "^2.1.10",
+    "vue-material": "^0.6.3",
     "vue-router": "^2.0.1",
-    "vuex": "^2.0.0",
-    "vuex-router-sync": "^3.0.0"
+    "vuex": "^2.1.1"
   },
   "devDependencies": {
     "babel-core": "^6.18.2",
@@ -34,7 +35,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.19.0",
     "babel-preset-es2015": "^6.18.0",
     "copy-webpack-plugin": "^4.0.1",
-    "cross-env": "^3.0.0",
+    "cross-env": "^3.1.4",
     "css-loader": "^0.25.0",
     "file-loader": "^0.9.0",
     "handlebars": "^4.0.5",
@@ -42,9 +43,9 @@
     "style-loader": "^0.13.1",
     "surge": "^0.18.0",
     "sw-precache": "^4.2.3",
-    "vue-loader": "^9.7.0",
-    "webpack": "^2.1.0-beta.25",
-    "webpack-dev-server": "^2.1.0-beta.0",
-    "webpack-visualizer-plugin": "^0.1.5"
+    "vue-loader": "^10.0.4",
+    "vue-template-compiler": "^2.1.10",
+    "webpack": "^2.2.0",
+    "webpack-dev-server": "^2.2.0"
   }
 }

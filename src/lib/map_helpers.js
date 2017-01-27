@@ -2,7 +2,7 @@ import turf from 'turf'
 import geoCoords from 'geojson-coords'
 
 export default {
-  // TODO: is this `buildFeatureCollection` duplicated in models.js?
+  // TODO: @refac is this `buildFeatureCollection` duplicated in models.js?
   buildFeatureCollection (array) { 
     // Takes array of geometries from firebase
     let output = {
@@ -16,7 +16,7 @@ export default {
       // Remove duplicate
       delete obj.properties.geometry
 
-      // TODO: Remove this `casePresent` for-debugging-only property
+      // TODO: @debug Remove this `casePresent` for-debugging-only property
       obj.properties.casePresent = Math.random() >= 0.5 // random boolean, was `!!(i.actioned)`
 
       return obj

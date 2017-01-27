@@ -1,7 +1,10 @@
 var path = require('path')
 var webpack = require('webpack')
-var Visualizer = require('webpack-visualizer-plugin')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
+
+var commitHash = require('child_process')
+  .execSync('git rev-parse HEAD')
+  .toString();
 
 module.exports = {
   entry: './src/index.js',
@@ -16,7 +19,7 @@ module.exports = {
         test: /\.(eot|ttf|woff|woff2)$/,
         loader: 'file-loader'
       },
-      { 
+      {
         test: /\.css$/,
         loader: "style-loader!css-loader"
       },
@@ -57,7 +60,13 @@ module.exports = {
     historyApiFallback: true,
     noInfo: true
   },
-  devtool: '#eval-source-map'
+  devtool: '#eval-source-map',
+  plugins: [
+    new webpack.DefinePlugin({
+      "COMMIT_HASH": JSON.stringify(commitHash),
+      'DOUMA_DEV_MODE': process.env.NODE_ENV !== 'production'
+    })
+  ]
 }
 
 if (process.env.NODE_ENV === 'production') {
@@ -87,6 +96,5 @@ if (process.env.NODE_ENV === 'production') {
         { from: 'src/manifest.json' },
         { from: 'src/index.html' },
     ]),
-    new Visualizer(),
   ])
 }

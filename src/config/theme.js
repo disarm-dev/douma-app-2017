@@ -5,20 +5,20 @@ import 'vue-material/dist/vue-material.css'
 export default function () {
   Vue.use(VueMaterial)
 
-  Vue.material.theme.registerAll({
+  Vue.material.registerTheme({
     default: {
       primary: 'green',
       accent: 'amber'
     },
-    cyan: {
+    foci: {
       primary: 'cyan',
       accent: 'pink'
     },
-    indigo: {
+    irs: {
       primary: 'indigo',
       accent: 'pink'
     },
-    teal: {
+    cases: {
       primary: 'teal',
       accent: 'orange'
     }

@@ -1,5 +1,5 @@
-{
-  "428727337": {
+[
+  {
     "geometry": {
       "coordinates": [
         [
@@ -27,17 +27,17 @@
       ],
       "type": "Polygon"
     },
-    "osm_way_id": "428727337",
-    "riskmax": 0.001169,
-    "riskmean": 0.001169,
-    "riskmin": 0.001169,
-    "risksum": 0,
-    "actionBy": "Person A",
-    "actionDate": "2016-07-15",
-    "actionTime": "04:48",
-    "actioned": true
+    "properties": {
+      "osm_id": "428727337",
+      "region": "lubombo",
+      "riskmax": 0.001169,
+      "riskmean": 0.001169,
+      "riskmin": 0.001169,
+      "risksum": 0
+    },
+    "type": "Feature"
   },
-  "428727338": {
+  {
     "geometry": {
       "coordinates": [
         [
@@ -65,17 +65,17 @@
       ],
       "type": "Polygon"
     },
-    "osm_way_id": "428727338",
-    "riskmax": 0.001249,
-    "riskmean": 0.001249,
-    "riskmin": 0.001249,
-    "risksum": 0,
-    "actionBy": "Person A",
-    "actionDate": "2016-07-15",
-    "actionTime": "04:48",
-    "actioned": true
+    "properties": {
+      "osm_id": "428727338",
+      "region": "lubombo",
+      "riskmax": 0.001249,
+      "riskmean": 0.001249,
+      "riskmin": 0.001249,
+      "risksum": 0
+    },
+    "type": "Feature"
   },
-  "428727339": {
+  {
     "geometry": {
       "coordinates": [
         [
@@ -103,17 +103,17 @@
       ],
       "type": "Polygon"
     },
-    "osm_way_id": "428727339",
-    "riskmax": 0.001249,
-    "riskmean": 0.001249,
-    "riskmin": 0.001249,
-    "risksum": 0,
-    "actionBy": "Person A",
-    "actionDate": "2016-07-15",
-    "actionTime": "04:28",
-    "actioned": true
+    "properties": {
+      "osm_id": "428727339",
+      "region": "lubombo",
+      "riskmax": 0.001249,
+      "riskmean": 0.001249,
+      "riskmin": 0.001249,
+      "risksum": 0
+    },
+    "type": "Feature"
   },
-  "428727340": {
+  {
     "geometry": {
       "coordinates": [
         [
@@ -141,17 +141,17 @@
       ],
       "type": "Polygon"
     },
-    "osm_way_id": "428727340",
-    "riskmax": 0.001249,
-    "riskmean": 0.001249,
-    "riskmin": 0.001249,
-    "risksum": 0,
-    "actionBy": "Person A",
-    "actionDate": "2016-07-15",
-    "actionTime": "04:29",
-    "actioned": true
+    "properties": {
+      "osm_id": "428727340",
+      "region": "lubombo",
+      "riskmax": 0.001249,
+      "riskmean": 0.001249,
+      "riskmin": 0.001249,
+      "risksum": 0
+    },
+    "type": "Feature"
   },
-  "428727341": {
+  {
     "geometry": {
       "coordinates": [
         [
@@ -179,10 +179,14 @@
       ],
       "type": "Polygon"
     },
-    "osm_way_id": "428727341",
-    "riskmax": 0.001249,
-    "riskmean": 0.001249,
-    "riskmin": 0.001249,
-    "risksum": 0
+    "properties": {
+      "osm_id": "428727341",
+      "region": "smoewhere_else",
+      "riskmax": 0.001249,
+      "riskmean": 0.001249,
+      "riskmin": 0.001249,
+      "risksum": 0
+    },
+    "type": "Feature"
   }
-}
+]

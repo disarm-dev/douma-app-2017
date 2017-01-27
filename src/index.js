@@ -1,42 +1,58 @@
+// Vue
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import { sync } from 'vuex-router-sync'
+
+// Material CSS
 import './fonts/Roboto.css'
 import './fonts/MaterialIcons.css'
 
-import configure from './config'
+// Configuration and setup
+import configureThemes from './config/theme'
 import App from './components/App.vue'
-import router from './router'
+import getRouter from './router'
 import store from './store'
 
-configure()
+// Keep track of what version we're working on
+console.info('DOUMA version: ' + COMMIT_HASH)
 
-sync(store, router)
+// Create some very useful and simple global storage
+window.douma = {
+    data: {
+      irs: {
+        entities: [],
+        entitiesLayer: null,
 
-let DOUMA = Vue.component('app', App)
-const handleTheme = (route) => {
-  if (route.name.indexOf('foci') >= 0) {
-    DOUMA.theme = 'cyan'
-  } else if (route.name.indexOf('irs') >= 0) {
-    DOUMA.theme = 'indigo'
-  } else if (route.name.indexOf('cases') >= 0) {
-    DOUMA.theme = 'teal'
-  } else {
-    DOUMA.theme = 'default'
-  }
-}
+        // Leaflet Map
+        leMap: null,
+        userCoordsMarker: null,
+      }
+    }
+  } // TODO: @refac Don't use this global
 
-DOUMA = new DOUMA({router, store}).$mount('#app')
+// Make a `router` for the `store`
+// TODO: @refac Can we make the router instanciatian simpler so we can reuse the router module, e.g. in the $store
+let router = getRouter(store)
 
-handleTheme(router.currentRoute)
+// Create a bunch of themes matching the routes
+configureThemes()
 
-router.afterEach((route) => {
-  handleTheme(route)
-})
+// Make DOUMA App
+const InitialiseDOUMA = Vue.component('app', App)
+const DOUMA = new InitialiseDOUMA({router, store}).$mount('#app')
 
-if ('serviceWorker' in navigator) {
+// Setup global listeners for network state (online/offline)
+// TODO: @refac Do we need to listen to online status, and if so, where do we want to do it?
+DOUMA.$store.commit('meta:setOnline', navigator.onLine)
+window.addEventListener("offline", e => DOUMA.$store.commit('meta:setOnline', false));
+window.addEventListener("online", e => DOUMA.$store.commit('meta:setOnline', true));
+
+
+// 
+// SERVICE WORKER
+// 
+
+if ('serviceWorker' in navigator && !DOUMA_DEV_MODE) {
   navigator.serviceWorker.register('/service-worker.js').then(function(reg) {
-
     reg.onupdatefound = function() {
       var installingWorker = reg.installing;
       installingWorker.onstatechange = function() {

@@ -1,0 +1,25 @@
+[
+  {
+    "actionDate": "2017-10-18",
+    "osm_id": "428727337",
+    "by": "Person A",
+    "actioned": "successfulVisit",
+    "last_modified": 1485332250523,
+    "id": "0b7cfae4-aca2-4795-b24c-50bd0c31a985",
+    "schema": 1485264099622
+  },
+  {
+    "actioned": "unsuccessfulVisit",
+    "osm_id": "428727338",
+    "id": "cb4ac748-267b-4119-aac3-57e7d52547b6",
+    "last_modified": 1485278953855,
+    "schema": 1485264099622
+  },
+  {
+    "actioned": "unvisited",
+    "osm_id": "428727341",
+    "id": "cb4ac748-267b-4119-aac3-57e7d5245243",
+    "last_modified": 1485278953855,
+    "schema": 1485264099622
+  }
+]
