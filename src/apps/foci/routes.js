@@ -19,23 +19,33 @@ const foci = [
       name: 'foci',
       redirect: '/foci/monitor',
       component: FociContainer,
+      meta: {
+        title: 'Foci'
+      },
       children: [
         {
           path: 'monitor',
           name: 'foci:monitor',
           redirect: 'monitor/list',
+          meta: {
+            title: 'Monitor'
+          }
         },
         {
           path: 'monitor/list',
           name: 'foci:monitor:list',
           component: MonitorList,
+          meta: {
+            title: 'Monitor'
+          }
         },
         {
           path: 'monitor/map',
           name: 'foci:monitor:map',
           component: MonitorMap,
           meta: {
-            keepRouteAlive: true
+            keepRouteAlive: true,
+            title: 'Map'
           }
         },
 
@@ -44,7 +54,8 @@ const foci = [
           name: 'foci:identify',
           component: IdentifyMapGuessFoci,
           meta: {
-            keepRouteAlive: true
+            keepRouteAlive: true,
+            title: 'Identify'
           }
         },
 
@@ -52,33 +63,51 @@ const foci = [
           path: 'investigate',
           name: 'foci:investigate',
           redirect: 'investigate/detail',
+          meta: {
+            title: 'Detail'
+          }
         },
         {
           path: 'investigate/detail',
           name: 'foci:investigate:detail',
-          component: InvestigateDetail
+          component: InvestigateDetail,
+          meta: {
+            title: 'Detail'
+          }
         },
         {
           path: 'investigate/form',
           name: 'foci:investigate:form',
-          component: InvestigateForm
+          component: InvestigateForm,
+          meta: {
+            title: 'Form'
+          }
         },
         {
           path: 'investigate/map',
           name: 'foci:investigate:map',
-          component: InvestigateMap
+          component: InvestigateMap,
+          meta: {
+            title: 'Map'
+          }
         },
 
         {
           path: 'classify/form',
           name: 'foci:classify',
-          component: ClassifyForm
+          component: ClassifyForm,
+          meta: {
+            title: 'Form'
+          }
         },
 
         {
           path: 'respond',
           name: 'foci:respond',
-          component: RespondForm
+          component: RespondForm,
+          meta: {
+            title: 'Form'
+          }
         }
       ]
     }

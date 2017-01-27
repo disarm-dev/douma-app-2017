@@ -5,7 +5,9 @@ const gps = [
     path: '/gps',
     name: 'gps',
     component: GPSExample,
-
+    meta: {
+      title: 'GPS'
+    }
   }
 ]
 

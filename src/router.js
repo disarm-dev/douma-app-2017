@@ -18,6 +18,9 @@ export default function getRouter(store) {
     {
       path: '/',
       redirect: '/profile',
+      meta: {
+        title: 'DOUMA'
+      },
       component: EmptyContainer,
       children: [].concat(IRSRoutes, FociRoutes, GPSRoutes, MetaRoutes, CasesRoutes)
     }
@@ -39,6 +42,20 @@ export default function getRouter(store) {
       return next({name: 'meta:login'})
     } 
     return next()
+  })
+
+  router.afterEach((to, from) => {
+    let string = null
+    if (router.app && router.app.$route) {
+      
+      router.app.$route.matched.map((r, i) => {
+        string = (string ? string +  ' > ' + r.meta.title : r.meta.title)
+
+        
+      })
+      console.log(string)
+      store.state.breadCrumbs = string
+    }    
   })
 
   return router;
