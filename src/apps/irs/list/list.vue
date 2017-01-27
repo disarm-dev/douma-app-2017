@@ -27,9 +27,7 @@
         @click="setActiveAction(task)" 
         :class="actionClass(task)">
         <md-icon>help</md-icon>
-        <span>
-          {{task.actioned}} ({{task.osm_id}})
-        </span>
+        <entity-entry :task='task'></entity-entry>
       </md-list-item>
     </md-list>
 
@@ -40,9 +38,7 @@
         @click="setActiveAction(task)" 
         :class="actionClass(task)">
         <md-icon>{{task.actioned ? 'done'  : 'warning' }}</md-icon>
-        <span>
-          {{task.actioned}} ({{task.osm_id}})
-        </span>
+        <entity-entry :task='task'></entity-entry>
       </md-list-item>
     </md-list>
 
@@ -53,9 +49,7 @@
         @click="setActiveAction(task)" 
         :class="actionClass(task)">
         <md-icon>{{task.actioned ? 'done'  : 'warning' }}</md-icon>
-        <span>
-          {{task.actioned}} ({{task.osm_id}})
-        </span>
+        <entity-entry :task='task'></entity-entry>
       </md-list-item>
     </md-list>
 
@@ -63,11 +57,13 @@
 </template>
 
 <script>
+  import EntityEntry from './entity-entry.vue'
   import turf from 'turf'
   window.turf = turf
 
   export default {
     name: 'IrsList',
+    components: {'entity-entry': EntityEntry},
     data() {
       return {
         searchOptions: [],
@@ -77,10 +73,23 @@
       }
     },
     computed: {
+      tasksWithDistance() {
+        if (this.userCoords) {
+          return this.$store.state.irs.tasks.map((task) => {
+            const distance = turf.distance(this.userCoords, task.centroid)
+            task.distance = distance
+            return task
+          })
+        } else {
+          return this.$store.state.irs.tasks
+        }
+
+      },
       filteredTasks() {
-        let tasks = this.$store.state.irs.tasks
+        let tasks = this.tasksWithDistance
 
         if (this.filterBy) {
+          console.log('filter')
           tasks = tasks.filter((task) => {
             return task.actioned == this.filterBy
           })
@@ -120,6 +129,11 @@
           visitedUnsuccess: visitedUnsuccess,
           unvisited: 100 - (visitedSuccess + visitedUnsuccess)
         }
+      },
+      userCoords() {
+        const userCoordsMarker = window.douma.data.irs.userCoordsMarker
+        if (!userCoordsMarker) return console.warn('Need to set location by clicking on map')
+        return userCoordsMarker.toGeoJSON()
       }
     },
     methods: {
@@ -141,14 +155,11 @@
         }
       },
       findClosestTask() {
-        const userCoordsMarker = window.douma.data.irs.userCoordsMarker
-        if (!window.douma.data.irs.userCoordsMarker) return console.warn('Need to set location by clicking on map')
-
-        const userCoords = window.douma.data.irs.userCoordsMarker.toGeoJSON()
+        if (!this.userCoords) return console.warn('Need to set location by clicking on map')
 
         // Get all the entities
         const distanceArray = this.filteredTasks.map((task) => {
-          const distance = turf.distance(userCoords, task.centroid, 'kilometers')
+          const distance = turf.distance(this.userCoords, task.centroid, 'kilometers')
           return {
             task_id: task.id,
             osm_id: task.osm_id,
