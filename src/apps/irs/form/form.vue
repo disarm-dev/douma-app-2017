@@ -43,8 +43,6 @@
 </template>
 
 <script>
-  import moment from 'moment'
-
   import NoActiveStructure from '../no-active-structure.vue'
 
   import {structures, actions} from '../../../db'
@@ -53,34 +51,33 @@
     name: 'IrsForm',
     data() {
       return {
-        // Action should be a copy of the activeAction, so that updating only
-        // takes place once 'submitted'
-        action: Object.assign({}, this.$store.state.irs.activeAction)
+        action: {}
       }
     },
     components: {
       NoActiveStructure
     },
-    mounted() {
-      // structures.get(this.$store.state.irs.activeStructure).then((structure) => {
-      //   this.structure = structure
-      //   actions.get(structure.action).then((action) => {
-      //     let date = moment(action.date)
-      //     this.action = Object.assign(action, {
-      //       date: date.format('YYYY-MM-DD'),
-      //       time: date.format('HH:mm')
-      //     })
-      //   }).catch((err) => console.log(err))
-      // }).catch((err) => console.log(err))
+    watch: {
+      // form is mounted before action is set
+      // so we watch it and copy  
+      '$store.state.irs.activeAction': 'setAction'
     },
     methods: {
+      setAction() {
+        // Action should be a copy of the activeAction, so that updating only
+        // takes place once 'submitted'
+        this.action = Object.assign({}, this.$store.state.irs.activeAction)
+      },
       cancel() {
-        history.back()
+        this.$store.commit("irs:setActiveAction", null)
       },
       submit() {
         // TODO: @feature Want to validate before commiting?
+
         this.$store.commit("irs:updateActiveAction", this.action)
-        history.back()
+        setTimeout(() => {
+          this.$store.commit("irs:setActiveAction", null)
+        }, 200) // TODO @fix Replace magic number with proper solution
       }
     }
   }

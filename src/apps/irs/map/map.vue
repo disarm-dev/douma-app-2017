@@ -80,8 +80,6 @@
             layer.on('click', (e) => {
               L.DomEvent.stopPropagation(e)
               this.$store.dispatch('irs:setActiveActionByOSMId', feature.properties.osm_id) // This is the related Action's ID
-              // TODO: @refac Try to avoid navigating unless certain there's a matching Task
-              this.$router.push({name: 'irs:form'})
             })
 
             // layer.on('contextmenu', (e) => {
