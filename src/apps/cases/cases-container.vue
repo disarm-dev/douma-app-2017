@@ -10,7 +10,7 @@
   </div>
 </template>
 <script>
-  import DumaTabs from './Tabs.vue'
+  import DumaTabs from '../../components/Tabs.vue'
 
   export default {
     components: {
@@ -22,7 +22,7 @@
           {
             title: 'Monitor Cases',
             name: 'cases:monitor'
-          },
+          }
         ]
       }
     }
