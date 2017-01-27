@@ -1,42 +1,7 @@
 <template>
-  <div style='padding: 5px;'>{{allEntities}}</div>
-<!--   <div class="tasks">
-    <template v-if='tasksCount <= 0'>
-      <div class='md-title'>Load IRS tasks</div>
-      <p>Please select a Scale and then an Area of Interest: </p>
-
-      <md-input-container>
-        <label for="spatialScale">Spatial scale</label>
-        <md-select name="spatialScale" v-model="spatialScale">
-          <md-option value="Region">Region</md-option>
-          <md-option value="Locality">Locality</md-option>
-          <md-option value="Inkhundla">Inkhundla</md-option>
-          <md-option value="Village">Village</md-option>
-          <md-option value="Cluster">Cluster</md-option>
-          <md-option value="Homestead">Homestead</md-option>
-          <md-option value="Household">Household</md-option>
-          <md-option value="Structure">Structure</md-option>
-          <md-option value="Room">Room</md-option>
-        </md-select>
-      </md-input-container>
-      <md-input-container>
-        <label for="region">Region</label>
-        <md-select name="region" v-model="region">
-          <md-option value="hhohho">Hhohho</md-option>
-          <md-option value="lubombo">Lubombo</md-option>
-          <md-option value="manzini">Manzini</md-option>
-          <md-option value="shiselweni">Shiselweni</md-option>
-        </md-select>
-      </md-input-container>
-
-      <div>
-        <md-button class='md-raised md-accent' @click='loadTasks'>Load tasks</md-button>
-      </div>
-      
-    </template>
-    <irs-list v-else></irs-list>
-  </div>
- --></template>
+  <div style='padding: 15px;'>{{allEntities}}</div>
+  <!-- <pre style="font-family: Courier;background: #f4f4f4;border: solid 1px #e1e1e1;float: left;width: auto;">{{allEntities}}</pre> -->
+</template>
 
 <script>
   import turf from '@turf/turf'
@@ -54,10 +19,17 @@
     },
     computed: {
       allEntities() {
-        const all = require('../../../data_bootstrap/structures.json')
-        const bc = new BaseCollection()
-        const array = bc.firebaseObjectToArray(all)
-        return array
+        const entities = require('../../../data_bootstrap/structures_orig.json')
+        const geojson = entities.map((entity) => {
+          let newEntity = Object.assign({}, {properties: entity})
+          newEntity.geometry = newEntity.properties.geometry
+          delete newEntity.properties.geometry
+          return newEntity
+        })
+
+        const data = geojson//.slice(0,2)
+                      return data
+        // return JSON.stringify(data, null,' ')
       },
       tasksCount() {
         return this.$store.state.irs.tasks.length
