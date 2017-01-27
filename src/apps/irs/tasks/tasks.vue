@@ -1,5 +1,6 @@
 <template>
-  <div class="tasks">
+  <div style='padding: 5px;'>{{allEntities}}</div>
+<!--   <div class="tasks">
     <template v-if='tasksCount <= 0'>
       <div class='md-title'>Load IRS tasks</div>
       <p>Please select a Scale and then an Area of Interest: </p>
@@ -35,11 +36,12 @@
     </template>
     <irs-list v-else></irs-list>
   </div>
-</template>
+ --></template>
 
 <script>
   import turf from '@turf/turf'
   import IrsList from '../list/list.vue'
+  import {BaseCollection} from '../../../lib/models.js'
 
   export default {
     name: 'IrsTasks',
@@ -47,10 +49,16 @@
     data() {
       return {
         spatialScale: '',
-        region: ''
+        region: '',
       }
     },
     computed: {
+      allEntities() {
+        const all = require('../../../data_bootstrap/structures.json')
+        const bc = new BaseCollection()
+        const array = bc.firebaseObjectToArray(all)
+        return array
+      },
       tasksCount() {
         return this.$store.state.irs.tasks.length
       }
@@ -63,7 +71,7 @@
         
         // Load everything you need
         // TODO: @debug Actually need to load data, not just fake it
-        const allEntities = require('../../../data_bootstrap/structures_5.json')
+        const allEntities = require('../../../data_bootstrap/structures.json')
         const allActions = require('../../../data_bootstrap/actions.json')
 
         // Filter Entities for AOI
