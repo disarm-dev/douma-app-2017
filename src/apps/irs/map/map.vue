@@ -27,12 +27,23 @@
         leMap = Leaflet.map('irs-map', {
           center: [-26.3231769,31.1380957], // TODO: @refac Make the map center a bit more dynamic? With GPS?
           zoom: 15,
-          tms: true
+          tms: true,
+          tap: true
         });
 
         // Add basemap
         const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
         Leaflet.tileLayer(url).addTo(leMap);
+
+        leMap.on('click', (e) => {
+          let userCoordsMarker = window.douma.data.irs.userCoordsMarker 
+
+          if (userCoordsMarker) userCoordsMarker.remove()
+          userCoordsMarker = L.marker(e.latlng)
+          userCoordsMarker.addTo(leMap);
+
+          window.douma.data.irs.userCoordsMarker = userCoordsMarker
+        })
 
         window.douma.data.irs.leMap = leMap
       },
@@ -66,7 +77,8 @@
             // GeoJSON layer update when editing is finished.
             // feature.properties.layerId = L.stamp(layer)
 
-            layer.on('click', () => {
+            layer.on('click', (e) => {
+              L.DomEvent.stopPropagation(e)
               this.$store.dispatch('irs:setActiveActionByOSMId', feature.properties.osm_id) // This is the related Action's ID
               // TODO: @refac Try to avoid navigating unless certain there's a matching Task
               this.$router.push({name: 'irs:form'})

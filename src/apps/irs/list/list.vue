@@ -2,7 +2,10 @@
   <div class="irs-list">
     <div class="md-title">Tasks ({{$store.state.irs.tasks.length}})</div>
     <!-- TODO: @debug Remove this "tasks reset" button -->
-    <div><md-button class='md-raised md-warn' @click='unloadTasks'>unLoad tasks</md-button></div>
+    <div>
+      <md-button class='md-raised md-primary' @click='findClosestTask'>Find closest {{filterBy ? filterBy : 'all'}}</md-button>
+      <md-button class='md-raised md-warn' @click='unloadTasks'>unLoad tasks</md-button>
+    </div>
 
     <div style='width: 100%; height: 20px; background: #cacaca'>
       <span @click='addFilterBy("successfulVisit")' style='background: green; height: 100%; display: block; float: left;'
@@ -17,10 +20,10 @@
       <template scope="chip">{{ chip.value }}</template>
     </md-chips>
 
-    <md-subheader>Unvisited ({{filteredTasks.unvisited.length}})</md-subheader>
+    <md-subheader>Unvisited ({{groupedFilteredTasks.unvisited.length}})</md-subheader>
     <md-list class="md-dense">
       <md-list-item  
-        v-for="task in filteredTasks.unvisited" 
+        v-for="task in groupedFilteredTasks.unvisited" 
         @click="setActiveAction(task)" 
         :class="actionClass(task)">
         <md-icon>help</md-icon>
@@ -30,10 +33,10 @@
       </md-list-item>
     </md-list>
 
-    <md-subheader>Visited unsuccessfully ({{filteredTasks.unsuccessfulVisit.length}})</md-subheader>
+    <md-subheader>Visited unsuccessfully ({{groupedFilteredTasks.unsuccessfulVisit.length}})</md-subheader>
     <md-list class="md-dense">
       <md-list-item  
-        v-for="task in filteredTasks.unsuccessfulVisit" 
+        v-for="task in groupedFilteredTasks.unsuccessfulVisit" 
         @click="setActiveAction(task)" 
         :class="actionClass(task)">
         <md-icon>{{task.actioned ? 'done'  : 'warning' }}</md-icon>
@@ -43,10 +46,10 @@
       </md-list-item>
     </md-list>
 
-    <md-subheader>Visited successfully ({{filteredTasks.successfulVisit.length}})</md-subheader>
+    <md-subheader>Visited successfully ({{groupedFilteredTasks.successfulVisit.length}})</md-subheader>
     <md-list class="md-dense">
       <md-list-item  
-        v-for="task in filteredTasks.successfulVisit" 
+        v-for="task in groupedFilteredTasks.successfulVisit" 
         @click="setActiveAction(task)" 
         :class="actionClass(task)">
         <md-icon>{{task.actioned ? 'done'  : 'warning' }}</md-icon>
@@ -60,6 +63,9 @@
 </template>
 
 <script>
+  import turf from 'turf'
+  window.turf = turf
+
   export default {
     name: 'IrsList',
     data() {
@@ -73,7 +79,6 @@
     computed: {
       filteredTasks() {
         let tasks = this.$store.state.irs.tasks
-        let filteredTasks = {}
 
         if (this.filterBy) {
           tasks = tasks.filter((task) => {
@@ -81,11 +86,14 @@
           })
         }
 
-
+        return tasks
+      },
+      groupedFilteredTasks() {
+        let groupedFilteredTasks = {}
         this.groupTypes.forEach( (groupType) => {
-          filteredTasks[groupType] = tasks.filter(task => task.actioned == groupType)          
+          groupedFilteredTasks[groupType] = this.filteredTasks.filter(task => task.actioned == groupType)          
         })
-        return filteredTasks
+        return groupedFilteredTasks
       },
       sortedTasks(){
         return this.$store.state.irs.tasks
@@ -131,6 +139,29 @@
         } else if (task.actioned == 'unvisited') {
           return 'unknown-action'
         }
+      },
+      findClosestTask() {
+        const userCoordsMarker = window.douma.data.irs.userCoordsMarker
+        if (!window.douma.data.irs.userCoordsMarker) return console.warn('Need to set location by clicking on map')
+
+        const userCoords = window.douma.data.irs.userCoordsMarker.toGeoJSON()
+
+        // Get all the entities
+        const distanceArray = this.filteredTasks.map((task) => {
+          const distance = turf.distance(userCoords, task.centroid, 'kilometers')
+          return {
+            task_id: task.id,
+            osm_id: task.osm_id,
+            distance: distance
+          }
+        })
+        .sort((a, b) => {return a.distance > b.distance})
+        
+        const closest_osm_id = distanceArray[0].osm_id
+        if (!closest_osm_id) return console.warn("Cannot find any nearby entity")
+        
+        this.$store.dispatch('irs:setActiveActionByOSMId', closest_osm_id)
+        this.$router.push({name: "irs:form"})
       },
       unloadTasks() {
         // TODO: @debug Remove these temporary things

@@ -19,9 +19,12 @@ console.info('DOUMA version: ' + COMMIT_HASH)
 window.douma = {
     data: {
       irs: {
-        leMap: null,
         entities: [],
-        entitiesLayer: null
+        entitiesLayer: null,
+
+        // Leaflet Map
+        leMap: null,
+        userCoordsMarker: null,
       }
     }
   } // TODO: @refac Don't use this global

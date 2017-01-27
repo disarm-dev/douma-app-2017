@@ -38,6 +38,7 @@
 </template>
 
 <script>
+  import turf from 'turf'
   import IrsList from '../list/list.vue'
 
   export default {
@@ -80,14 +81,17 @@
 
         // Build blank Actions for Entities without Actions
         const tasks = entitiesInAoi.map(entity => {
+          const centroid = turf.centroid(entity.geometry)
           const relatedAction = actionsInAoi.find(action => action.osm_id === entity.properties.osm_id)
 
           if (relatedAction){
-            return relatedAction;
+            relatedAction.centroid = centroid
+            return relatedAction
           } else {
             return {
               osm_id: entity.properties.osm_id,
-              actioned: 'unvisited'
+              actioned: 'unvisited',
+              centroid: centroid
             }
           }
         })
