@@ -157,7 +157,6 @@
       findClosestTask() {
         if (!this.userCoords) return console.warn('Need to set location by clicking on map')
 
-        // Get all the entities
         const distanceArray = this.filteredTasks.map((task) => {
           const distance = turf.distance(this.userCoords, task.centroid, 'kilometers')
           return {
