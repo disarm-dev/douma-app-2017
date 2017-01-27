@@ -1,6 +1,5 @@
 var path = require('path')
 var webpack = require('webpack')
-var Visualizer = require('webpack-visualizer-plugin')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
 
 var commitHash = require('child_process')
@@ -97,6 +96,5 @@ if (process.env.NODE_ENV === 'production') {
         { from: 'src/manifest.json' },
         { from: 'src/index.html' },
     ]),
-    new Visualizer(),
   ])
 }
