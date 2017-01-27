@@ -31,5 +31,5 @@ export default {
 }
 
 
-// TODO: @feature WHERE SHOULD WE PUT A FUNCTION THAT CREATES COLOURS FROM TEXT?
+// TODO: @feature Do we need a function that returns colours from text - e.g. for charts, etc?
 // e.g. 'visited' => #70b170

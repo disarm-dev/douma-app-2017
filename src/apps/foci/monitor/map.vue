@@ -85,7 +85,7 @@
       //       onEachFeature: (feature, layer) => {
       //         layer.on({
       //           click: (e) => {
-      //             e.target.setStyle({color: 'orange'}) // TODO: @wtf Be serious
+      //             e.target.setStyle({color: 'orange'})
       //             feature.properties.casePresent = !(feature.properties.casePresent)
       //           }
       //         })

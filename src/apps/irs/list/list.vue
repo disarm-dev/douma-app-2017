@@ -175,7 +175,7 @@
         this.$router.push({name: "irs:form"})
       },
       unloadTasks() {
-        // TODO: @debug Remove these temporary things
+        // TODO: @debug Do we need the unloadTasks method at all, or is it just for debug?
         this.$store.commit("irs:reset")
         window.douma.data.irs.entities = []
         if (window.douma.data.irs.entitiesLayer) {
