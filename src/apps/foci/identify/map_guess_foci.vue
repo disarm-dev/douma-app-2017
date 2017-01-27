@@ -17,7 +17,7 @@
   import 'leaflet-draw'
   import 'leaflet-draw/dist/leaflet.draw.css'
 
-  import geoCoords from 'geojson-coords'
+  import geoCoords from '@mapbox/geojson-coords'
   import MapHelpers from '../../../lib/map_helpers.js'
 
   export default {

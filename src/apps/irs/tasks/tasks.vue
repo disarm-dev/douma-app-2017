@@ -64,7 +64,7 @@
         
         // Load everything you need
         // TODO: @debug Actually need to load data, not just fake it
-        const allEntities = require('../../../data_bootstrap/structures.json')
+        const allEntities = require('../../../data_bootstrap/structures.json').slice(0,20)
         const allActions = require('../../../data_bootstrap/actions.json')
 
         // Filter Entities for AOI

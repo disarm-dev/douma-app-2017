@@ -1,5 +1,5 @@
 import turf from '@turf/turf'
-import geoCoords from 'geojson-coords'
+import geoCoords from '@mapbox/geojson-coords'
 
 export default {
   // TODO: @refac is this `buildFeatureCollection` duplicated in models.js?
