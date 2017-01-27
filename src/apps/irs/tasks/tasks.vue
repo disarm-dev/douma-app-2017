@@ -38,7 +38,7 @@
 </template>
 
 <script>
-  import turf from 'turf'
+  import turf from '@turf/turf'
   import IrsList from '../list/list.vue'
 
   export default {

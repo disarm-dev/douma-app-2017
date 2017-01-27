@@ -58,7 +58,7 @@
 
 <script>
   import EntityEntry from './entity-entry.vue'
-  import turf from 'turf'
+  import turf from '@turf/turf'
   window.turf = turf
 
   export default {

@@ -1,4 +1,4 @@
-import turf from 'turf'
+import turf from '@turf/turf'
 import geoCoords from 'geojson-coords'
 
 export default {
