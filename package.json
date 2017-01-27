@@ -10,10 +10,10 @@
     "deploy": "surge dist"
   },
   "dependencies": {
+    "@mapbox/geojson-coords": "^0.0.0",
     "@turf/turf": "^3.8.0",
     "alpaca": "^1.5.22",
     "bootstrap": "^3.3.7",
-    "geojson-coords": "^0.0.0",
     "handlebars": "^4.0.5",
     "jquery": "^3.1.1",
     "kinto": "^7.1.0",
@@ -41,7 +41,6 @@
     "handlebars": "^4.0.5",
     "json-loader": "^0.5.4",
     "style-loader": "^0.13.1",
-    "surge": "^0.18.0",
     "sw-precache": "^4.2.3",
     "vue-loader": "^10.0.4",
     "vue-template-compiler": "^2.1.10",
