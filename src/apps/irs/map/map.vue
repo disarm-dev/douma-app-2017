@@ -39,7 +39,12 @@
           let userCoordsMarker = window.douma.data.irs.userCoordsMarker 
 
           if (userCoordsMarker) userCoordsMarker.remove()
-          userCoordsMarker = L.marker(e.latlng)
+          const userCoordsIcon = L.icon({
+            iconUrl: '/assets/user-location-marker.svg',
+            iconSize: [25, 25]
+          })
+
+          userCoordsMarker = L.marker(e.latlng, {icon: userCoordsIcon})
           userCoordsMarker.addTo(leMap);
 
           window.douma.data.irs.userCoordsMarker = userCoordsMarker
