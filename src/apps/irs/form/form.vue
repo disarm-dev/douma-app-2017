@@ -36,7 +36,7 @@
         </div>
 
         <md-button type="submit" class="md-raised md-accent">Save</md-button>
-        <md-button @click.stop.prevent class="md-raised md-warn">Cancel</md-button>
+        <md-button @click.stop.prevent="cancel()" class="md-raised md-warn">Cancel</md-button>
       </form>
     </div>
   </div>
@@ -74,7 +74,9 @@
       // }).catch((err) => console.log(err))
     },
     methods: {
-      click() {console.log('cancel')},
+      cancel() {
+        history.back()
+      },
       submit() {
         // TODO: @feature Want to validate before commiting?
         this.$store.commit("irs:updateActiveAction", this.action)
