@@ -103,20 +103,10 @@
         })
         return groupedFilteredTasks
       },
-      visitedSuccess() {
-        return this.$store.state.irs.tasks.filter(task => task.actioned == 'successfulVisit')
-      },
-      visitedUnsuccess() {
-        return this.$store.state.irs.tasks.filter(task => task.actioned == 'unsuccessfulVisit')
-      },
-      unvisited() {
-        return this.$store.state.irs.tasks.filter(task => task.actioned == 'unvisited')
-      },
       taskStat() {
         const total = this.$store.state.irs.tasks.length
-        const visitedSuccess = (this.visitedSuccess.length / total) * 100
-        const visitedUnsuccess = (this.visitedUnsuccess.length / total) * 100
-
+        const visitedSuccess = (this.groupedFilteredTasks.successfulVisit.length / total) * 100
+        const visitedUnsuccess = (this.groupedFilteredTasks.unsuccessfulVisit.length / total) * 100
 
         return {
           visitedSuccess: visitedSuccess,
