@@ -14,10 +14,10 @@
 <script>
   export default {
     mounted() {
-        // actions.list().then( (res) => {
-        //   // TODO: @refac Can remove `Actions` from $store (check `sync.vue` first)
-        //   this.$store.state.irs.actions = res.data
-        // })
+        actions.list().then( (res) => {
+          // TODO: @refac Can remove `Actions` from $store (check `sync.vue` first)
+          this.$store.state.irs.actions = res.data
+        })
     },
     computed: {
       recordsCount() {
