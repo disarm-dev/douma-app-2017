@@ -5,11 +5,9 @@
     <div class='md-body-1'>Synchronise your data with the server.</div>
     <br>
     <div v-if="!$store.state.online" class='md-body-1'>You need to be connected to the internet to synchronise. </div>
-    <md-button v-if="syncing.length === 0" :disabled="!$store.state.online" @click="sync">Sync</md-button>
-    <div v-if="syncing.length > 0">
-      <div class='md-title'>Syncing...</div>
-    </div>
-    <md-button @click='deleteActions()' class='md-button md-raised md-warn'>Delete all Actions</md-button>
+    <md-button @click="sync" :disabled="!$store.state.online" >Sync</md-button>
+    <md-button @click='deleteActions' class='md-button md-raised md-warn'>Delete all Actions</md-button>
+    <md-progress v-show='inProgress' md-indeterminate></md-progress>
   </div>
 </template>
 <script>
@@ -19,7 +17,7 @@
   export default {
     data() {
       return {
-        syncing: []
+        inProgress: false
       }
     },
     mounted() {
@@ -38,18 +36,25 @@
     },
     methods: {
       sync() {
+        this.inProgress = true
         actions.sync(syncOptions).then(r => {
           console.log(r)
-          actions.list().then( (res) => this.$store.state.irs.actions = res.data )
+          actions.list()
+            .then( (res) => {
+              this.$store.state.irs.actions = res.data
+              this.inProgress = false
+            })
         }) 
       },
       deleteActions() {
         actions.list().then((res) => {
-          console.log(res.data)
           return Promise.all(res.data.map((action) => {
+            console.log('here')
             return actions.delete(action.id)
           }))
-        })
+        }).then(() => {
+          actions.list().then(res => this.$store.state.irs.actions = res.data)
+        }).catch((error) => console.error(error))
       }
     }
   }
