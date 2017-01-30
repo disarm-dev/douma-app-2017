@@ -9,36 +9,52 @@ const irs = [
   {
     path: '/irs',
     name: 'irs',
+    meta: {
+      title: 'IRS Progress'
+    },
     component: IRSContainer,
     redirect: '/irs/tasks',
     children: [
       {
         path: 'tasks',
         name: 'irs:tasks',
-        component: IRSTasks
+        component: IRSTasks,
+        meta: {
+          title: 'Tasks'
+        }
       },
       {
         path: 'map',
         name: 'irs:map',
         component: IRSMap,
         meta: {
+          title: 'Map',
           keepRouteAlive: true
         }
       },
       {
         path: 'list',
         name: 'irs:list',
-        component: IRSList
+        component: IRSList,
+        meta: {
+          title: 'List'
+        }
       },
       {
         path: 'form',
         name: 'irs:form',
-        component: IRSForm
+        component: IRSForm,
+        meta: {
+          title: 'Form'
+        }
       },
       {
         path: 'sync',
         name: 'irs:sync',
-        component: IRSSync
+        component: IRSSync,
+        meta: {
+          title: 'Sync'
+        }
       }
     ]
   }

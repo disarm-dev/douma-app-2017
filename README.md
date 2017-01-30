@@ -26,3 +26,6 @@ npm run service-worker
 npm run deploy 
 ```
 
+## Service Worker
+
+Disable the service worker in production by appending `?sw=false` to the url.

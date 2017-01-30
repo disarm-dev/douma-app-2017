@@ -5,7 +5,7 @@
         <md-icon>menu</md-icon>
       </md-button>
       <!-- <h2 class="md-title" style="flex: 1; padding-left: 0.5em;">NMCP Swaziland | DiSARM</h2> -->
-      <h2 class="md-title" style="flex: 1">DOUMA > {insert breadcrumbs}</h2> 
+      <h2 class="md-title" style="flex: 1">{{$store.state.breadCrumbs}}</h2> 
       <!-- TODO: @feature Need to add breadcrumbs in each app -->
     </md-toolbar>
 

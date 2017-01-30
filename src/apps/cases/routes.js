@@ -7,18 +7,25 @@ const cases = [
     name: 'cases',
     redirect: '/cases/monitor',
     component: CasesContainer,
+    meta: {
+      title: 'Cases'
+    },
     children: [
       {
         path: 'monitor',
         name: 'cases:monitor',
-        component: CasesRoot
+        component: CasesRoot,
+        meta: {
+          title: 'Monitor'
+        }
       },
       {
         path: 'monitor/map',
         name: 'cases:monitor:map',
         component: CasesRoot,
         meta: {
-          keepRouteAlive: true
+          keepRouteAlive: true,
+          title: 'Map'
         }
       }
     ]

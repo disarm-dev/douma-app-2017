@@ -138,7 +138,6 @@
       },
       setActiveAction(action) {
         this.$store.commit('irs:setActiveAction', action)
-        this.$router.push({name: 'irs:form'})
       },
       actionClass(task) {
         if (task.actioned == 'successfulVisit') {
@@ -166,7 +165,6 @@
         if (!closest_osm_id) return console.warn("Cannot find any nearby entity")
         
         this.$store.dispatch('irs:setActiveActionByOSMId', closest_osm_id)
-        this.$router.push({name: "irs:form"})
       },
       unloadTasks() {
         // TODO: @debug Do we need the unloadTasks method at all, or is it just for debug?

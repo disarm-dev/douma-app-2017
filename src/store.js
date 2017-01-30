@@ -10,6 +10,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   modules: {irs, foci},
   state: {
+    breadCrumbs: 'DOUMA',
     user: {name: 'Poor Original Bob', email: 'bob@bob.com'},
     online: null
   },
