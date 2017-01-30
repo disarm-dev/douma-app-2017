@@ -9,6 +9,7 @@
     <div v-if="syncing.length > 0">
       <div class='md-title'>Syncing...</div>
     </div>
+    <md-button @click='deleteActions()' class='md-button md-raised md-warn'>Delete all Actions</md-button>
   </div>
 </template>
 <script>
@@ -23,6 +24,7 @@
     },
     mounted() {
         actions.list().then( (res) => {
+          // TODO: @refac Can remove `Actions` from $store (check `sync.vue` first)
           this.$store.state.irs.actions = res.data
         })
     },
@@ -40,35 +42,14 @@
           console.log(r)
           actions.list().then( (res) => this.$store.state.irs.actions = res.data )
         }) 
-        // this.syncing.push({name: 'structures'})
-        // let strucSync = PouchDB.sync('structures', 'http://localhost:5984/structures')
-        //   .on('complete', (info) => {
-        //     console.log('complete', info)
-        //     let index = this.syncing.findIndex(({name}) => name === 'structures')
-        //     this.syncing.splice(index, 1)
-        //     strucSync.cancel();
-        //   })
-        //   .on('change', (info) => {
-        //     console.log('change', info)
-        //   })
-        //   .on('error', (err) => {
-        //     console.log('error', info)
-        //   });
-
-        // this.syncing.push({name: 'actions'})
-        // let actionSync = PouchDB.sync('actions', 'http://localhost:5984/actions')
-        //   .on('complete', (info) => {
-        //     console.log('complete', info)
-        //     let index = this.syncing.findIndex(({name}) => name === 'actions')
-        //     this.syncing.splice(index, 1)
-        //     actionSync.cancel();
-        //   })
-        //   .on('change', (info) => {
-        //     console.log('change', info)
-        //   })
-        //   .on('error', (err) => {
-        //     console.log('error', info)
-        //   });
+      },
+      deleteActions() {
+        actions.list().then((res) => {
+          console.log(res.data)
+          return Promise.all(res.data.map((action) => {
+            return actions.delete(action.id)
+          }))
+        })
       }
     }
   }

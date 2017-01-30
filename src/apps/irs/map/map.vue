@@ -66,10 +66,23 @@
           return
         }
 
+        // Copy properties from Actions in AOI to Entities in AOI
+        let entityTasks = this.tasks.map((task) => {
+          const matched_entity = entities.find(entity => entity.properties.osm_id === task.osm_id)
+
+          if (matched_entity) {
+            // TODO: @refac Could ignore unrequired properties in Object.assign below
+            Object.assign(matched_entity.properties, task) 
+          }
+
+          return matched_entity
+        })
+
         const entitiesFeatureCollection = {
           type: "FeatureCollection",
-          features: entities
+          features: entityTasks
         }
+
         entitiesLayer = Leaflet.geoJSON(entitiesFeatureCollection, {
           style: (feature) => {
             return {

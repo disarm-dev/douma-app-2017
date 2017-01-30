@@ -38,7 +38,6 @@
 </template>
 
 <script>
-  import turf from '@turf/turf'
   import IrsList from '../list/list.vue'
   import {BaseCollection} from '../../../lib/models.js'
 
@@ -60,58 +59,7 @@
       loadTasks() {
         // Get user input
         const aoi = this.region
-        // const aoi = 'lubombo'
-        
-        // Load everything you need
-        // TODO: @debug Actually need to load data, not just fake it
-        const allEntities = require('../../../data_bootstrap/structures.json').slice(0,50)
-        const allActions = require('../../../data_bootstrap/actions.json')
-
-        // Filter Entities for AOI
-        const entitiesInAoi = allEntities.filter((entity) => {
-          return entity.properties.region == aoi
-        })
-
-        const entitiesInAoiOsmIds = entitiesInAoi.map(entity => entity.properties.osm_id)
-
-        // Find Actions that match Entities in AOI
-        const actionsInAoi = allActions.filter((action) => {
-          return entitiesInAoiOsmIds.includes(action.osm_id)
-        })
-
-        // Build blank Actions for Entities without Actions
-        const tasks = entitiesInAoi.map(entity => {
-          const centroid = turf.centroid(entity.geometry)
-          const relatedAction = actionsInAoi.find(action => action.osm_id === entity.properties.osm_id)
-
-          if (relatedAction){
-            relatedAction.centroid = centroid
-            return relatedAction
-          } else {
-            return {
-              osm_id: entity.properties.osm_id,
-              actioned: 'unvisited',
-              centroid: centroid
-            }
-          }
-        })
-
-        // Copy properties from Actions in AOI to Entities in AOI
-        tasks.forEach((action) => {
-          const matched_entity = entitiesInAoi.find(entity => entity.properties.osm_id === action.osm_id)
-
-          if (matched_entity) {
-            // TODO: @refac Could ignore unrequired properties in Object.assign below
-            return Object.assign(matched_entity.properties, action) 
-          }
-        })
-
-        // Store filtered Entities not in $store. Global anyone?
-        this.$store.state.irs.tasks = tasks
-        // TODO: @refac Can remove `Actions` from $store (check `sync.vue` first)
-        // this.$store.state.irs.actions = actionsInAoi
-        this.$store.state.irs.activeAction = null
-        window.douma.data.irs.entities = entitiesInAoi
+        this.$store.dispatch('irs:buildTasks', aoi)
       }
     }
   }
