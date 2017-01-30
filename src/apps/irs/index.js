@@ -76,7 +76,6 @@ export default {
         window.douma.data.irs.entities = entitiesInAoi
         
       })
-
     },
     "irs:setActiveActionByOSMId": (context, osm_id) => {
       let action = context.state.tasks.find(task => task.osm_id === osm_id)

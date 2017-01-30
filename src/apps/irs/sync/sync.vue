@@ -10,10 +10,8 @@
     <md-progress v-show='$store.state.irs.syncInProgress' md-indeterminate></md-progress>
   </div>
 </template>
-<script>
-  import {structures, actions, syncOptions} from '../../../db'
-  import Vue from 'vue'
 
+<script>
   export default {
     mounted() {
         // actions.list().then( (res) => {
