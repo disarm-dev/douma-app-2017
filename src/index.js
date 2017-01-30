@@ -51,7 +51,22 @@ window.addEventListener("online", e => DOUMA.$store.commit('meta:setOnline', tru
 // SERVICE WORKER
 // 
 
-if ('serviceWorker' in navigator && !DOUMA_DEV_MODE) {
+function getParameterByName(name, url) {
+  if (!url) {
+    url = window.location.href;
+  }
+  name = name.replace(/[\[\]]/g, "\\$&");
+  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+      results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+let res = getParameterByName('sw');
+let disableSW = res === 'false'
+
+if ('serviceWorker' in navigator && !DOUMA_DEV_MODE && !disableSW) {
   navigator.serviceWorker.register('/service-worker.js').then(function(reg) {
     reg.onupdatefound = function() {
       var installingWorker = reg.installing;
