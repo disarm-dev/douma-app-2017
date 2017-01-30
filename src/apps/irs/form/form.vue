@@ -73,11 +73,7 @@
       },
       submit() {
         // TODO: @feature Want to validate before commiting?
-
-        this.$store.commit("irs:updateActiveAction", this.action)
-        setTimeout(() => {
-          this.$store.commit("irs:setActiveAction", null)
-        }, 200) // TODO @fix Replace magic number with proper solution
+        this.$store.dispatch("irs:updateActiveAction", this.action)
       }
     }
   }
