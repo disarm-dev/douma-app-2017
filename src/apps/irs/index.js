@@ -16,7 +16,7 @@ export default {
     "irs:setActions": (state, actions) => {
       state.actions = actions
     },
-    "irs:setActiveAction": (state, action) => {
+    "irs:setActiveTask": (state, action) => {
       state.activeAction = action
     },
     "irs:setTasks": (state, tasks) => {
@@ -74,16 +74,16 @@ export default {
         })
 
         context.commit('irs:setTasks', tasks)
-        // context.commit('irs:setActiveAction', null)
+        // context.commit('irs:setActiveTask', null)
         
         // Store filtered Entities not in $store. Global anyone?
         window.douma.data.irs.entities = entitiesInAoi
         
       })
     },
-    "irs:setActiveActionByOSMId": (context, osm_id) => {
+    "irs:setActiveTaskByOSMId": (context, osm_id) => {
       let action = context.state.tasks.find(task => task.osm_id === osm_id)
-      context.commit('irs:setActiveAction', action)
+      context.commit('irs:setActiveTask', action)
     },
     "irs:updateActiveAction": (context, taskClone) => {
       let existingTaskIndex = context.state.tasks.findIndex(task => task.osm_id === taskClone.osm_id)
@@ -106,7 +106,7 @@ export default {
 
       // TODO @fix Replace magic number with proper solution
       setTimeout(() => {
-        context.commit("irs:setActiveAction", null)
+        context.commit("irs:setActiveTask", null)
       }, 100)
     },
     "irs:sync": (context) => {

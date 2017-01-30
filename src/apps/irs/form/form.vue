@@ -66,7 +66,7 @@
         this.action = Object.assign({}, this.$store.state.irs.activeAction)
       },
       cancel() {
-        this.$store.commit("irs:setActiveAction", null)
+        this.$store.commit("irs:setActiveTask", null)
       },
       submit() {
         // TODO: @feature Want to validate before commiting?

@@ -24,7 +24,7 @@
     <md-list class="md-dense">
       <md-list-item  
         v-for="task in groupedFilteredTasks.unvisited" 
-        @click="setActiveAction(task)" 
+        @click="setActiveTask(task)" 
         :class="actionClass(task)">
         <md-icon>help</md-icon>
         <entity-entry :task='task'></entity-entry>
@@ -35,7 +35,7 @@
     <md-list class="md-dense">
       <md-list-item  
         v-for="task in groupedFilteredTasks.unsuccessfulVisit" 
-        @click="setActiveAction(task)" 
+        @click="setActiveTask(task)" 
         :class="actionClass(task)">
         <md-icon>{{task.actioned ? 'done'  : 'warning' }}</md-icon>
         <entity-entry :task='task'></entity-entry>
@@ -46,7 +46,7 @@
     <md-list class="md-dense">
       <md-list-item  
         v-for="task in groupedFilteredTasks.successfulVisit" 
-        @click="setActiveAction(task)" 
+        @click="setActiveTask(task)" 
         :class="actionClass(task)">
         <md-icon>{{task.actioned ? 'done'  : 'warning' }}</md-icon>
         <entity-entry :task='task'></entity-entry>
@@ -125,9 +125,8 @@
         if (this.filterBy === filterType) return this.filterBy = null 
         this.filterBy = filterType
       },
-      setActiveAction(action) {
-        console.log('really?')
-        this.$store.commit('irs:setActiveAction', action)
+      setActiveTask(action) {
+        this.$store.commit('irs:setActiveTask', action)
       },
       actionClass(task) {
         if (task.actioned == 'successfulVisit') {
@@ -154,7 +153,7 @@
         const closest_osm_id = distanceArray[0].osm_id
         if (!closest_osm_id) return console.warn("Cannot find any nearby entity")
         
-        this.$store.dispatch('irs:setActiveActionByOSMId', closest_osm_id)
+        this.$store.dispatch('irs:setActiveTaskByOSMId', closest_osm_id)
       },
       finishTasks() {
         this.$store.dispatch("irs:finishTasks")
