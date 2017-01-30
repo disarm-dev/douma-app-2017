@@ -59,7 +59,8 @@
       loadTasks() {
         // Get user input
         const aoi = this.region
-        this.$store.dispatch('irs:buildTasks', aoi)
+        this.$store.commit('irs:setAoi', aoi)
+        this.$store.dispatch('irs:buildTasks')
       }
     }
   }

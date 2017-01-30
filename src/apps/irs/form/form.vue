@@ -45,8 +45,6 @@
 <script>
   import NoActiveStructure from '../no-active-structure.vue'
 
-  import {structures, actions} from '../../../db'
-
   export default {
     name: 'IrsForm',
     data() {
@@ -58,12 +56,11 @@
       NoActiveStructure
     },
     watch: {
-      // form is mounted before action is set
-      // so we watch it and copy  
-      '$store.state.irs.activeAction': 'setAction'
+      // Form is mounted before Task is set so we watch and clone it
+      '$store.state.irs.activeAction': 'setTask'
     },
     methods: {
-      setAction() {
+      setTask() {
         // Action should be a copy of the activeAction, so that updating only
         // takes place once 'submitted'
         this.action = Object.assign({}, this.$store.state.irs.activeAction)

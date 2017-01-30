@@ -1,10 +1,10 @@
 <template>
   <div class="irs-list">
     <div class="md-title">Tasks ({{$store.state.irs.tasks.length}})</div>
-    <!-- TODO: @debug Remove this "tasks reset" button -->
     <div>
       <md-button class='md-raised md-primary' @click='findClosestTask'>Find closest {{filterBy ? filterBy : 'all'}}</md-button>
-      <md-button class='md-raised md-warn' @click='unloadTasks'>unLoad tasks</md-button>
+      <md-button class='md-raised md-warn' @click='finishTasks'>Finish tasks</md-button>
+      <md-progress v-show='$store.state.irs.syncInProgress' md-indeterminate></md-progress>
     </div>
 
     <div style='width: 100%; height: 20px; background: #cacaca'>
@@ -126,6 +126,7 @@
         this.filterBy = filterType
       },
       setActiveAction(action) {
+        console.log('really?')
         this.$store.commit('irs:setActiveAction', action)
       },
       actionClass(task) {
@@ -155,14 +156,8 @@
         
         this.$store.dispatch('irs:setActiveActionByOSMId', closest_osm_id)
       },
-      unloadTasks() {
-        // TODO: @debug Do we need the unloadTasks method at all, or is it just for debug?
-        this.$store.commit("irs:reset")
-        window.douma.data.irs.entities = []
-        if (window.douma.data.irs.entitiesLayer) {
-          window.douma.data.irs.entitiesLayer.remove()
-          window.douma.data.irs.entitiesLayer = null
-        }
+      finishTasks() {
+        this.$store.dispatch("irs:finishTasks")
       }
     }
   }

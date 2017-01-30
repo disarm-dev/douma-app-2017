@@ -10,9 +10,11 @@ const syncOptions = {
 }
 const db = new Kinto(syncOptions)
 
+// TODO: @data Need to get structures as part of RShiny data package output
+// TODO: @refac Rename structures to `entities`
 const structures = require('./data_bootstrap/structures_5.json')
-const actions = db.collection('actions')
 
+const actions = db.collection('actions')
 
 window.db = {
   structures, actions, syncOptions

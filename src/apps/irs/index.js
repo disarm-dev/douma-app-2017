@@ -5,20 +5,38 @@ export default {
   state: {
     actions: [],
     tasks: [],
-    activeAction: null
+    activeAction: null,
+    aoi: null,
+    syncInProgress: false
   },
   mutations: {
+    "irs:setAoi": (state, aoi) => {
+      state.aoi = aoi
+    },
+    "irs:setActions": (state, actions) => {
+      state.actions = actions
+    },
     "irs:setActiveAction": (state, action) => {
       state.activeAction = action
     },
     "irs:setTasks": (state, tasks) => {
       state.tasks = tasks
     },
+    "irs:reset": (state) => {
+      state.tasks = []
+      state.actions = []
+      state.activeAction = null
+    },
+    "irs:setSyncInProgress": (state, syncState) => {
+      state.syncInProgress = !!(syncState)
+    }
   },
   actions: {
-    "irs:buildTasks": (context, aoi) => {
+    "irs:buildTasks": (context) => {
+      // TODO: @refac Could build the Tasks from Actions in either a Db or Model class, rather than here
       // TODO: @debug Actually need to load structures data, not just fake it
       const allEntities = require('../../data_bootstrap/structures.json').slice(0,50)
+      const aoi = context.state.aoi
 
       DB.actions.list().then((result, error) => {
         // Filter Entities for AOI
@@ -52,8 +70,7 @@ export default {
         })
 
         context.commit('irs:setTasks', tasks)
-        // context.state.irs.tasks = tasks
-        context.commit('irs:setActiveAction', null)
+        // context.commit('irs:setActiveAction', null)
         
         // Store filtered Entities not in $store. Global anyone?
         window.douma.data.irs.entities = entitiesInAoi
@@ -89,10 +106,48 @@ export default {
         context.commit("irs:setActiveAction", null)
       }, 100)
     },
-    "irs:reset": (state) => {
-      state.tasks = []
-      state.activeAction = null
+    "irs:sync": (context) => {
+      context.commit("irs:setSyncInProgress", true)
+      return new Promise((resolve, reject) => {
+        DB.actions.sync(DB.syncOptions).then(r => {
+        DB.actions
+          .list()
+          .then( (res) => {
+            context.commit('irs:setActions', res.data)
+            context.dispatch('irs:buildTasks')
+            context.commit("irs:setSyncInProgress", false)
+            resolve("synced")
+          })
+        })
+      }) 
     },
+    "irs:deleteAllActions": (context) => {
+      DB.actions.list().then((res) => {
+        // Delete all in parallel
+        return Promise.all(res.data.map((action) => {
+          return DB.actions.delete(action.id)
+        }))
+      }).then(() => {
+        // Reset Actions
+        DB.actions.list().then((res) => {
+          context.commit("irs:setActions", res.data)
+        })
+      }).catch((error) => console.error(error))
+    },
+    "irs:finishTasks": (context) => {
+      context.commit("irs:setSyncInProgress", true)
+
+      context.dispatch("irs:sync").then(() => {
+        context.commit("irs:reset")
+        window.douma.data.irs.entities = []
+        if (window.douma.data.irs.entitiesLayer) {
+          window.douma.data.irs.entitiesLayer.remove()
+          window.douma.data.irs.entitiesLayer = null
+        }
+
+        context.commit("irs:setSyncInProgress", false)
+      })
+    }
   }
 }
 
