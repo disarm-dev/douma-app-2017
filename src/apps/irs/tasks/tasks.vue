@@ -29,7 +29,7 @@
       </md-input-container>
 
       <div>
-        <md-button class='md-raised md-accent' @click='loadTasks'>Load tasks</md-button>
+        <md-button class='md-raised md-accent' @click='loadTasks'>Search for clusters</md-button>
       </div>
       
     </template>
@@ -64,7 +64,7 @@
         
         // Load everything you need
         // TODO: @debug Actually need to load data, not just fake it
-        const allEntities = require('../../../data_bootstrap/structures.json').slice(0,20)
+        const allEntities = require('../../../data_bootstrap/structures.json').slice(0,50)
         const allActions = require('../../../data_bootstrap/actions.json')
 
         // Filter Entities for AOI
