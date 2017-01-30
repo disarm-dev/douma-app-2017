@@ -5,10 +5,9 @@
     <div class='md-body-1'>Synchronise your data with the server.</div>
     <br>
     <div v-if="!$store.state.online" class='md-body-1'>You need to be connected to the internet to synchronise. </div>
-    <md-button v-if="syncing.length === 0" :disabled="!$store.state.online" @click="sync">Sync</md-button>
-    <div v-if="syncing.length > 0">
-      <div class='md-title'>Syncing...</div>
-    </div>
+    <md-button @click="sync" :disabled="!$store.state.online" >Sync</md-button>
+    <md-button @click='deleteActions' class='md-button md-raised md-warn'>Delete all Actions</md-button>
+    <md-progress v-show='inProgress' md-indeterminate></md-progress>
   </div>
 </template>
 <script>
@@ -18,11 +17,12 @@
   export default {
     data() {
       return {
-        syncing: []
+        inProgress: false
       }
     },
     mounted() {
         actions.list().then( (res) => {
+          // TODO: @refac Can remove `Actions` from $store (check `sync.vue` first)
           this.$store.state.irs.actions = res.data
         })
     },
@@ -36,39 +36,25 @@
     },
     methods: {
       sync() {
+        this.inProgress = true
         actions.sync(syncOptions).then(r => {
           console.log(r)
-          actions.list().then( (res) => this.$store.state.irs.actions = res.data )
+          actions.list()
+            .then( (res) => {
+              this.$store.state.irs.actions = res.data
+              this.inProgress = false
+            })
         }) 
-        // this.syncing.push({name: 'structures'})
-        // let strucSync = PouchDB.sync('structures', 'http://localhost:5984/structures')
-        //   .on('complete', (info) => {
-        //     console.log('complete', info)
-        //     let index = this.syncing.findIndex(({name}) => name === 'structures')
-        //     this.syncing.splice(index, 1)
-        //     strucSync.cancel();
-        //   })
-        //   .on('change', (info) => {
-        //     console.log('change', info)
-        //   })
-        //   .on('error', (err) => {
-        //     console.log('error', info)
-        //   });
-
-        // this.syncing.push({name: 'actions'})
-        // let actionSync = PouchDB.sync('actions', 'http://localhost:5984/actions')
-        //   .on('complete', (info) => {
-        //     console.log('complete', info)
-        //     let index = this.syncing.findIndex(({name}) => name === 'actions')
-        //     this.syncing.splice(index, 1)
-        //     actionSync.cancel();
-        //   })
-        //   .on('change', (info) => {
-        //     console.log('change', info)
-        //   })
-        //   .on('error', (err) => {
-        //     console.log('error', info)
-        //   });
+      },
+      deleteActions() {
+        actions.list().then((res) => {
+          return Promise.all(res.data.map((action) => {
+            console.log('here')
+            return actions.delete(action.id)
+          }))
+        }).then(() => {
+          actions.list().then(res => this.$store.state.irs.actions = res.data)
+        }).catch((error) => console.error(error))
       }
     }
   }
