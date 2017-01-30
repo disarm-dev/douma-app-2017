@@ -80,8 +80,7 @@
             task.distance = distance
             return task
           }).sort((a, b) => { 
-            console.log(a,b)
-            return a.distance > b.distance
+            return a.distance - b.distance
           })
         } else {
           return this.$store.state.irs.tasks
