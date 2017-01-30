@@ -12,7 +12,7 @@
       this.renderEntitiesLayer()
     },
     computed: {
-      activeAction() { return this.$store.state.irs.activeAction },
+      activeTask() { return this.$store.state.irs.activeTask },
       tasks() { return this.$store.state.irs.tasks } 
     },
     watch: {
@@ -66,7 +66,7 @@
           return
         }
 
-        // Copy properties from Actions in AOI to Entities in AOI
+        // Copy properties from Tasks in AOI to Entities in AOI
         let entityTasks = this.tasks.map((task) => {
           const matched_entity = entities.find(entity => entity.properties.osm_id === task.osm_id)
 
@@ -97,7 +97,7 @@
 
             layer.on('click', (e) => {
               L.DomEvent.stopPropagation(e)
-              this.$store.dispatch('irs:setActiveTaskByOSMId', feature.properties.osm_id) // This is the related Action's ID
+              this.$store.dispatch('irs:setActiveTaskByOSMId', feature.properties.osm_id) // This is the related Task's ID
               // TODO: @refac Try to avoid navigating unless certain there's a matching Task, i.e. the previous line could set null
               this.$router.push({name: 'irs:form'})
             })
@@ -117,15 +117,15 @@
       },
 
       // Responds to a $watch on `$store.state.irs.tasks`, and will find the layer for 
-      // the `osm_id` of the current `activeAction`, then redraw it
+      // the `osm_id` of the current `activeTask`, then redraw it
       redrawEntityLayer() {
         const leMap = window.douma.data.irs.leMap
-        if (!this.activeAction) return
+        if (!this.activeTask) return
 
-        let layer = this.getLayerIdForOsmId(this.activeAction.osm_id)
+        let layer = this.getLayerIdForOsmId(this.activeTask.osm_id)
         layer.remove()
 
-        layer.options.color = this.colourForActioned(this.activeAction.actioned)
+        layer.options.color = this.colourForActioned(this.activeTask.actioned)
         leMap.addLayer(layer)
       },
 

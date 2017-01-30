@@ -6,7 +6,7 @@ const syncOptions = {
     Authorization: "Basic " + "basicauth:842ba3f6b700d048458dcdb203805df2df12877819389513352cad3afb92bf0c"
   },
   bucket: 'disthing',
-  collection: 'actions'
+  collection: 'tasks'
 }
 const db = new Kinto(syncOptions)
 
@@ -14,12 +14,12 @@ const db = new Kinto(syncOptions)
 // TODO: @refac Rename structures to `entities`
 const structures = require('./data_bootstrap/structures_5.json')
 
-const actions = db.collection('actions')
+const tasks = db.collection('tasks')
 
 window.db = {
-  structures, actions, syncOptions
+  structures, tasks, syncOptions
 }
 
 export {
-  structures, actions, syncOptions
+  structures, tasks, syncOptions
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :style="containerStyle">
+    <div v-show='!$store.state.irs.activeTask'>
       <duma-tabs :routes="links"></duma-tabs>
       <div>
         <keep-alive>
@@ -9,7 +9,7 @@
         <router-view v-if='!this.$route.meta.keepRouteAlive'></router-view>
       </div>
     </div>
-    <irs-form :style="formStyle"></irs-form>
+    <irs-form v-show='$store.state.irs.activeTask'></irs-form>
   </div>
 </template>
 
@@ -22,16 +22,6 @@
     components: {
       DumaTabs,
       IrsForm
-    },
-    computed: {
-      // We can't use v-if to display form, as this destroys the keep-alive on the map
-      // So we hide the from with css instead
-      containerStyle() {
-        return {display: this.$store.state.irs.activeAction ? 'none' : 'block'}
-      },
-      formStyle() {
-        return {display: this.$store.state.irs.activeAction ? 'block' : 'none'}
-      }
     },
     data() {
       return {
