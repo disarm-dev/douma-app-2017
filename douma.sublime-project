@@ -18,7 +18,8 @@
     "todoreview": {
         "exclude_folders": [
             "*.git*",
-            "*node_modules*"
+            "*node_modules*",
+            "*dist*"
         ]
     }
   }

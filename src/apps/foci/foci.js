@@ -4,6 +4,7 @@ import {StructuresCollection, FociCollection} from '../../lib/models.js'
 import fociExamples from '../../data_bootstrap/foci.json'
 import firebaseStructures from '../../data_bootstrap/structures.json'
 
+// TODO: @refac Redo this to be same as IRS approach (e.g. as index.js)
 export default function (state) {
     const defaultState = {
       mapBounds: {}, // TODO: @feature Check if mapBounds needed here
@@ -12,5 +13,4 @@ export default function (state) {
       structures: new StructuresCollection(firebaseStructures),
     }
     state.foci = defaultState
-    if (DOUMA_DEV_MODE) console.log('mounted FOCI with', defaultState) // TODO: @debug remove debug statement
 }

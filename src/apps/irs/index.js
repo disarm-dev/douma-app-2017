@@ -25,15 +25,11 @@ export default {
   actions: {
     "irs:setActiveActionByOSMId": (context, osm_id) => {
       let action = context.state.tasks.find(task => task.osm_id === osm_id)
-      // TODO: @refac Want a better way to create a new Action? E.g. explicit `create` method
-      // When we save, we can check for an existing action_id - if nothing, 
-      // can add one - and then `create` rather than `update` the Action
-      // if (!action) action = {osm_id: osm_id}
       context.commit('irs:setActiveAction', action)
     },
   }
 }
 
 
-// TODO: @feature WHERE SHOULD WE PUT A FUNCTION THAT CREATES COLOURS FROM TEXT?
+// TODO: @feature Do we need a function that returns colours from text - e.g. for charts, etc?
 // e.g. 'visited' => #70b170

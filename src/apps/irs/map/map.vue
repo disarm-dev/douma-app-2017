@@ -39,7 +39,12 @@
           let userCoordsMarker = window.douma.data.irs.userCoordsMarker 
 
           if (userCoordsMarker) userCoordsMarker.remove()
-          userCoordsMarker = L.marker(e.latlng)
+          const userCoordsIcon = L.icon({
+            iconUrl: '/assets/user-location-marker.svg',
+            iconSize: [25, 25]
+          })
+
+          userCoordsMarker = L.marker(e.latlng, {icon: userCoordsIcon})
           userCoordsMarker.addTo(leMap);
 
           window.douma.data.irs.userCoordsMarker = userCoordsMarker
@@ -80,7 +85,7 @@
             layer.on('click', (e) => {
               L.DomEvent.stopPropagation(e)
               this.$store.dispatch('irs:setActiveActionByOSMId', feature.properties.osm_id) // This is the related Action's ID
-              // TODO: @refac Try to avoid navigating unless certain there's a matching Task
+              // TODO: @refac Try to avoid navigating unless certain there's a matching Task, i.e. the previous line could set null
               this.$router.push({name: 'irs:form'})
             })
 
