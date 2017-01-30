@@ -13,9 +13,6 @@ export default {
     "irs:setAoi": (state, aoi) => {
       state.aoi = aoi
     },
-    "irs:setActions": (state, actions) => {
-      state.actions = actions
-    },
     "irs:setActiveTask": (state, action) => {
       state.activeAction = action
     },
@@ -116,7 +113,7 @@ export default {
         DB.actions
           .list()
           .then( (res) => {
-            context.commit('irs:setActions', res.data)
+            context.commit('irs:setTasks', res.data)
             context.commit("irs:setSyncInProgress", false)
             resolve("synced")
           })
@@ -132,7 +129,7 @@ export default {
       }).then(() => {
         // Reset Actions
         DB.actions.list().then((res) => {
-          context.commit("irs:setActions", res.data)
+          context.commit("irs:setTasks", res.data)
         })
       }).catch((error) => console.error(error))
     },
