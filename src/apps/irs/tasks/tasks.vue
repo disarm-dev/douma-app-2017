@@ -39,7 +39,6 @@
 
 <script>
   import IrsList from '../list/list.vue'
-  import {BaseCollection} from '../../../lib/models.js'
 
   export default {
     name: 'IrsTasks',
@@ -58,8 +57,7 @@
     methods: {
       loadTasks() {
         // Get user input
-        const aoi = this.region
-        this.$store.commit('irs:setAoi', aoi)
+        this.$store.commit('irs:setAoi', this.region)
         this.$store.dispatch('irs:buildTasks')
       }
     }

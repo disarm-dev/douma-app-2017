@@ -29,6 +29,10 @@ export default {
     },
     "irs:setSyncInProgress": (state, syncState) => {
       state.syncInProgress = !!(syncState)
+    },
+    "irs:updateTask": (state, task) => {
+      let index = state.tasks.findIndex(t => t.id == task.id)
+      state.tasks.splice(index, 1, task)
     }
   },
   actions: {
@@ -113,7 +117,6 @@ export default {
           .list()
           .then( (res) => {
             context.commit('irs:setActions', res.data)
-            context.dispatch('irs:buildTasks')
             context.commit("irs:setSyncInProgress", false)
             resolve("synced")
           })
@@ -146,7 +149,19 @@ export default {
 
         context.commit("irs:setSyncInProgress", false)
       })
-    }
+    },
+    "irs:createTask": (context, task) => {
+      DB.actions.create(task).then(() => {
+        context.state.tasks.push(task)
+      })      
+    },
+    "irs:updateTask": (context, task) => {
+      context.commit("irs:updateTask", task)
+    },
+    "irs:deleteTask": (context, task) => {
+      let index = context.state.tasks.findIndex(t => t.id == task.id)
+      context.state.tasks.splice(index, 1)
+    },
   }
 }
 
