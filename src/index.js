@@ -67,6 +67,7 @@ function getParameterByName(name, url) {
 let res = getParameterByName('sw');
 let disableSW = res === 'false'
 
+// TODO: @refac Need to be clearer about the logic for activating SW below!
 if ('serviceWorker' in navigator && !DOUMA_DEV_MODE && !disableSW) {
   navigator.serviceWorker.register('/service-worker.js').then(function(reg) {
     reg.onupdatefound = function() {

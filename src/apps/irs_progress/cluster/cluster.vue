@@ -29,9 +29,6 @@
       // TODO: @fix What is vue-router doing with our params? Why not setting as props?
       cluster_id() {
         return this.$route.params.cluster_id
-      },
-      task_id() {
-        return this.$route.params.task_id
       }
     },
     methods: {

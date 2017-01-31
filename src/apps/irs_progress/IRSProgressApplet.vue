@@ -4,6 +4,6 @@
 
 <script>
   export default {
-    name: 'IrsProgressRoot'
+    name: 'IrsProgressApplet'
   }
 </script>

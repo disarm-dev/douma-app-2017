@@ -21,10 +21,9 @@ export default function getRouter(store) {
       },
       component: AppletContainer,
       // children: [].concat(IRSProgressRoutes, FociRoutes, GPSRoutes, MetaRoutes, CasesRoutes)
-      children: [].concat(IRSProgressRoutes)
     }
-  ]
-
+  ].concat(IRSProgressRoutes)
+  
   Vue.use(VueRouter)
 
   const router = new VueRouter({
@@ -33,7 +32,7 @@ export default function getRouter(store) {
   })
 
   router.beforeEach((to, from, next) => {
-    if (to) {
+    if (to.name) {
       const theme = to.name.split(/:/)[0]
       router.app.$material.setCurrentTheme(theme) // TODO: @fix Need to avoid setting themes that don't exist
     }
@@ -49,8 +48,6 @@ export default function getRouter(store) {
   })
 
   router.afterEach((to, from) => {
-    console.log(to)
-
     // "/irs_progress/clusters/search"            ['irs_progress:']-> "Clusters Search" // Includes Results
     // "/irs_progress/clusters"                   ['irs_progress:']-> "Clusters List"
     // "/irs_progress/clusters/map"               ['irs_progress:']-> "Clusters Map"

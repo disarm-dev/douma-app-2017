@@ -43,7 +43,7 @@
 </template>
 
 <script>
-  import NoActiveStructure from '../no-active-structure.vue'
+  import NoActiveStructure from './no-active-structure.vue'
 
   export default {
     name: 'IrsForm',

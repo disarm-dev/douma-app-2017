@@ -24,13 +24,13 @@
       </md-toolbar>
 
       <md-list>
-
+      <!-- TODO: @refac Render these links dynamically, based on permissions, etc. Maybe grey-out disabled ones. -->
         <md-list-item @click="navigate('irs')">
           <md-icon>gps_fixed</md-icon><span>IRS Targeting+Tracking</span>
         </md-list-item>
         
         <md-list-item @click="navigate('irs_progress')">
-          <md-icon>send</md-icon><span>IRS Progress</span>
+          <md-icon>insert_chart</md-icon><span>IRS Progress</span>
         </md-list-item>
 
         <md-list-item @click="navigate('foci')">
@@ -50,12 +50,12 @@
         <md-list-item @click="navigate('meta:profile')">
           <md-icon>person</md-icon><span>Meta</span>
         </md-list-item>
-
       </md-list>
     </md-sidenav>    
 
     <div>
-      <router-view ></router-view>
+      <!-- Most likely to contain the AppletContainer -->
+      <router-view></router-view>
     </div>
   </div>
 </template>
