@@ -1,32 +1,32 @@
-import IRSContainer from './IRS.vue'
-import IRSTasks from './tasks/tasks.vue'
-import IRSMap from './map/map.vue'
-import IRSList from './list/list.vue'
-import IRSForm from './form/form.vue'
-import IRSSync from './sync/sync.vue'
+import IRSProgressContainer from './IRSProgress.vue'
+import IRSProgressTasks from './tasks/tasks.vue'
+import IRSProgressMap from './map/map.vue'
+import IRSProgressList from './list/list.vue'
+import IRSProgressForm from './form/form.vue'
+import IRSProgressSync from './sync/sync.vue'
 
-const irs = [
+export default [
   {
-    path: '/irs',
-    name: 'irs',
+    path: '/irs_progress',
+    name: 'irs_progress',
     meta: {
-      title: 'IRS Progress'
+      title: 'IRSProgress Progress'
     },
-    component: IRSContainer,
-    redirect: '/irs/tasks',
+    component: IRSProgressContainer,
+    redirect: '/irs_progress/tasks',
     children: [
       {
         path: 'tasks',
-        name: 'irs:tasks',
-        component: IRSTasks,
+        name: 'irs_progress:tasks',
+        component: IRSProgressTasks,
         meta: {
           title: 'Tasks'
         }
       },
       {
         path: 'map',
-        name: 'irs:map',
-        component: IRSMap,
+        name: 'irs_progress:map',
+        component: IRSProgressMap,
         meta: {
           title: 'Map',
           keepRouteAlive: true
@@ -34,24 +34,24 @@ const irs = [
       },
       {
         path: 'list',
-        name: 'irs:list',
-        component: IRSList,
+        name: 'irs_progress:list',
+        component: IRSProgressList,
         meta: {
           title: 'List'
         }
       },
       {
         path: 'form',
-        name: 'irs:form',
-        component: IRSForm,
+        name: 'irs_progress:form',
+        component: IRSProgressForm,
         meta: {
           title: 'Form'
         }
       },
       {
         path: 'sync',
-        name: 'irs:sync',
-        component: IRSSync,
+        name: 'irs_progress:sync',
+        component: IRSProgressSync,
         meta: {
           title: 'Sync'
         }
@@ -60,4 +60,3 @@ const irs = [
   }
 ]
 
-export default irs

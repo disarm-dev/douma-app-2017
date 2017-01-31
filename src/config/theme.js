@@ -14,7 +14,7 @@ export default function () {
       primary: 'cyan',
       accent: 'pink'
     },
-    irs: {
+    irs_progress: {
       primary: 'indigo',
       accent: 'pink'
     },

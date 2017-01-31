@@ -20,18 +20,18 @@
       </div>
       
     </template>
-    <irs-list v-else></irs-list>
+    <irs-progress-list v-else></irs-progress-list>
   </div>
 </template>
 
 <script>
   import Multiselect from 'vue-multiselect'
-  import IrsList from '../list/list.vue'
+  import IrsProgressList from '../list/list.vue'
 
   export default {
     name: 'IrsTasks',
     components: {
-      'irs-list': IrsList,
+      'irs-progress-list': IrsProgressList,
       'multiselect': Multiselect
     },
     data() {
