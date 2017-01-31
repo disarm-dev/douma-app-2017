@@ -43,9 +43,9 @@ const DOUMA = new InitialiseDOUMA({router, store}).$mount('#douma')
 
 // Setup global listeners for network state (online/offline)
 // TODO: @refac Do we need to listen to online status, and if so, where do we want to do it?
-DOUMA.$store.commit('meta:setOnline', navigator.onLine)
-window.addEventListener("offline", e => DOUMA.$store.commit('meta:setOnline', false));
-window.addEventListener("online", e => DOUMA.$store.commit('meta:setOnline', true));
+// DOUMA.$store.commit('meta:setOnline', navigator.onLine)
+// window.addEventListener("offline", e => DOUMA.$store.commit('meta:setOnline', false));
+// window.addEventListener("online", e => DOUMA.$store.commit('meta:setOnline', true));
 
 
 // 

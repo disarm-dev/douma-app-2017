@@ -3,12 +3,14 @@ import * as DB from '../../db.js'
 
 export default {
   state: {
+    activeTask: null,
+    activeCluster: null,
+
     // INPUTS
     aoi: null,
     // DATA
     clusters: [],
     tasks: [],
-    activeTask: null,
     // SYNC
     syncInProgress: false
   },

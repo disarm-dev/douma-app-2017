@@ -1,6 +1,6 @@
 <template>
   <div>
-    Cluster #XXXXX - map or list (current Tasks list)
+    <md-button>Edit form for Cluster # {{cluster_id}} - map or list (current Tasks list)</md-button>
     <cluster-map v-show="view === 'map'"></cluster-map>
     <cluster-list v-show="view === 'list'"></cluster-list>
     <md-button @click='cancel'>Cancel</md-button>
@@ -13,15 +13,19 @@
 
   export default {
     name: 'Cluster',
+    props: ['cluster_id'],
     components: {ClusterMap, ClusterList},
     data() {
       return {
         view: 'map'
       }
     },
+    mounted() {
+      console.log(this.cluster_id)
+    },
     methods: {
       cancel() {
-        console.log('cancel')
+        this.$router.go(-1)
       }
     }
   }  
