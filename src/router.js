@@ -34,6 +34,9 @@ export default function getRouter(store) {
   })
 
   router.beforeEach((to, from, next) => {
+    const theme = to.name.split(/:/)[0]
+    router.app.$material.setCurrentTheme(theme) // TODO: @fix Need to avoid setting themes that don't exist
+
     if (!store.state.user) {
       store.state.previousRoute = to
       if (to.name === 'meta:login') {
