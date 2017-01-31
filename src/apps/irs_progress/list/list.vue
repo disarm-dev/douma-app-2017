@@ -1,10 +1,10 @@
 <template>
   <div class="irs-list">
-    <div class="md-title">Tasks ({{$store.state.irs.tasks.length}})</div>
+    <div class="md-title">Tasks ({{$store.state.irs_progress.tasks.length}})</div>
     <div>
       <md-button class='md-raised md-primary' @click='findClosestTask'>Find closest {{filterBy ? filterBy : 'all'}}</md-button>
       <md-button class='md-raised md-warn' @click='finishTasks'>Finish tasks</md-button>
-      <md-progress v-show='$store.state.irs.syncInProgress' md-indeterminate></md-progress>
+      <md-progress v-show='$store.state.irs_progress.syncInProgress' md-indeterminate></md-progress>
     </div>
 
     <div style='width: 100%; height: 20px; background: #cacaca'>
@@ -75,7 +75,7 @@
     computed: {
       tasksWithDistance() {
         if (this.userCoords) {
-          return this.$store.state.irs.tasks.map((task) => {
+          return this.$store.state.irs_progress.tasks.map((task) => {
             const distance = turf.distance(this.userCoords, task.centroid)
             task.distance = distance
             return task
@@ -83,7 +83,7 @@
             return a.distance - b.distance
           })
         } else {
-          return this.$store.state.irs.tasks
+          return this.$store.state.irs_progress.tasks
         }
 
       },
@@ -104,7 +104,7 @@
         return groupedFilteredTasks
       },
       taskStat() {
-        const total = this.$store.state.irs.tasks.length
+        const total = this.$store.state.irs_progress.tasks.length
         const visitedSuccess = (this.groupedFilteredTasks.successfulVisit.length / total) * 100
         const visitedUnsuccess = (this.groupedFilteredTasks.unsuccessfulVisit.length / total) * 100
 

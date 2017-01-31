@@ -16,7 +16,7 @@
       </multiselect>
 
       <div>
-        <md-button class='md-raised md-accent'>Search for clusters</md-button>
+        <md-button @click='loadTasks' class='md-raised md-accent'>Search for clusters</md-button>
       </div>
       
     </template>
@@ -38,7 +38,7 @@
       return {
         searchDefinition: [],
         spatialScale: '',
-        region: '',
+        region: 'lubombo',
         options: [
           { 
             locationType: 'Region',
@@ -61,7 +61,7 @@
     },
     computed: {
       tasksCount() {
-        return this.$store.state.irs.tasks.length
+        return this.$store.state.irs_progress.tasks.length
       }
     },
     methods: {

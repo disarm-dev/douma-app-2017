@@ -32,7 +32,7 @@ export default {
   },
   actions: {
     "irs:buildTasks": (context) => {
-      // Aim is to set $state.irs.tasks with 
+      // Aim is to set $state.irs_progress.tasks with 
       // 1) only Tasks relevant to the AOI, and
       // 2) no Entities in AOI without a Task 
 

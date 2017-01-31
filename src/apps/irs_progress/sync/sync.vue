@@ -7,7 +7,7 @@
     <div v-if="!$store.state.online" class='md-body-1'>You need to be connected to the internet to synchronise. </div>
     <md-button @click="sync" :disabled="!$store.state.online" >Sync and set tasks</md-button>
     <md-button @click='deleteTasks' class='md-button md-raised md-warn'>Delete all Tasks</md-button>
-    <md-progress v-show='$store.state.irs.syncInProgress' md-indeterminate></md-progress>
+    <md-progress v-show='$store.state.irs_progress.syncInProgress' md-indeterminate></md-progress>
   </div>
 </template>
 
@@ -15,10 +15,10 @@
   export default {
     computed: {
       recordsCount() {
-        return this.$store.state.irs.tasks.length
+        return this.$store.state.irs_progress.tasks.length
       },
       unsyncedCount() {
-        return this.$store.state.irs.tasks.filter( (i) => i._status !== 'synced' ).length
+        return this.$store.state.irs_progress.tasks.filter( (i) => i._status !== 'synced' ).length
       }
     },
     methods: {

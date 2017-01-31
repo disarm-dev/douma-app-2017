@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 
 import EmptyContainer from './components/empty.vue'
 
-import IRSRoutes from './apps/irs/routes'
+import IRSRoutes from './apps/irs_progress/routes'
 import FociRoutes from './apps/foci/routes'
 import GPSRoutes from './apps/gps/routes'
 import MetaRoutes from './apps/meta/routes'

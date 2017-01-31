@@ -12,8 +12,8 @@
       this.renderEntitiesLayer()
     },
     computed: {
-      activeTask() { return this.$store.state.irs.activeTask },
-      tasks() { return this.$store.state.irs.tasks } 
+      activeTask() { return this.$store.state.irs_progress.activeTask },
+      tasks() { return this.$store.state.irs_progress.tasks } 
     },
     watch: {
       'tasks': 'redrawEntityLayer'
@@ -116,7 +116,7 @@
         leMap.fitBounds(entitiesLayer.getBounds())
       },
 
-      // Responds to a $watch on `$store.state.irs.tasks`, and will find the layer for 
+      // Responds to a $watch on `$store.state.irs_progress.tasks`, and will find the layer for 
       // the `osm_id` of the current `activeTask`, then redraw it
       redrawEntityLayer() {
         const leMap = window.douma.data.irs.leMap

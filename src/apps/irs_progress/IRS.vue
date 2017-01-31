@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-show='!$store.state.irs.activeTask'>
+    <div v-show='!$store.state.irs_progress.activeTask'>
       <duma-tabs :routes="links"></duma-tabs>
       <div>
         <keep-alive>
@@ -9,7 +9,7 @@
         <router-view v-if='!this.$route.meta.keepRouteAlive'></router-view>
       </div>
     </div>
-    <irs-form v-show='$store.state.irs.activeTask'></irs-form>
+    <irs-form v-show='$store.state.irs_progress.activeTask'></irs-form>
   </div>
 </template>
 

@@ -2,13 +2,13 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import {Structures} from './lib/models.js'
 
-import irs from './apps/irs'
+import irs_progress from './apps/irs_progress'
 import foci from './apps/foci'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-  modules: {irs, foci},
+  modules: {irs_progress, foci},
   state: {
     breadCrumbs: 'DOUMA',
     user: {name: 'Poor Original Bob', email: 'bob@bob.com'},
