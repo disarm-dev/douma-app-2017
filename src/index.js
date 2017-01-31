@@ -9,8 +9,8 @@ import './fonts/MaterialIcons.css'
 // Configuration and setup
 import configureThemes from './config/theme'
 import configureServiceWorker from './config/service-worker'
+import configureRouter from './router'
 import Douma from './components/Douma.vue'
-import {createRouter} from './router'
 import store from './store'
 
 // Keep track of what version we're working on
@@ -36,7 +36,7 @@ configureThemes()
 
 // Make DOUMA App
 const InitialiseDOUMA = Vue.component('douma', Douma)
-const router = createRouter()
+const router = configureRouter()
 const DOUMA = new InitialiseDOUMA({
   router, store
 }).$mount('#douma')

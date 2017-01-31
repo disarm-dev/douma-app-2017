@@ -11,7 +11,7 @@ import IRSProgressRoutes from './apps/irs_progress/routes'
 // import MetaRoutes from './apps/meta/routes'
 // import CasesRoutes from './apps/cases/routes'
 
-export function createRouter(){
+export default () => {
   // Configure routes for all Applets
   const routes = [
     {
