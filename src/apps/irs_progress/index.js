@@ -3,9 +3,15 @@ import * as DB from '../../db.js'
 
 export default {
   state: {
-    tasks: [],
     activeTask: null,
+    activeCluster: null,
+
+    // INPUTS
     aoi: null,
+    // DATA
+    clusters: [],
+    tasks: [],
+    // SYNC
     syncInProgress: false
   },
   mutations: {

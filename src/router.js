@@ -1,28 +1,27 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import EmptyContainer from './components/empty.vue'
+import AppletContainer from './components/applet.vue'
 
 import IRSProgressRoutes from './apps/irs_progress/routes'
-import FociRoutes from './apps/foci/routes'
-import GPSRoutes from './apps/gps/routes'
-import MetaRoutes from './apps/meta/routes'
-import CasesRoutes from './apps/cases/routes'
+// import FociRoutes from './apps/foci/routes'
+// import GPSRoutes from './apps/gps/routes'
+// import MetaRoutes from './apps/meta/routes'
+// import CasesRoutes from './apps/cases/routes'
 
 
 export default function getRouter(store) {
 
   const routes = [
-    // ROOT redirects to the profile page, which lists out the apps 
-    // available for the user to select
     {
       path: '/',
       redirect: '/profile',
       meta: {
         title: 'DOUMA'
       },
-      component: EmptyContainer,
-      children: [].concat(IRSProgressRoutes, FociRoutes, GPSRoutes, MetaRoutes, CasesRoutes)
+      component: AppletContainer,
+      // children: [].concat(IRSProgressRoutes, FociRoutes, GPSRoutes, MetaRoutes, CasesRoutes)
+      children: [].concat(IRSProgressRoutes)
     }
   ]
 
@@ -34,6 +33,11 @@ export default function getRouter(store) {
   })
 
   router.beforeEach((to, from, next) => {
+    if (to) {
+      const theme = to.name.split(/:/)[0]
+      router.app.$material.setCurrentTheme(theme) // TODO: @fix Need to avoid setting themes that don't exist
+    }
+
     if (!store.state.user) {
       store.state.previousRoute = to
       if (to.name === 'meta:login') {
@@ -45,17 +49,16 @@ export default function getRouter(store) {
   })
 
   router.afterEach((to, from) => {
-    let string = null
-    if (router.app && router.app.$route) {
-      
-      router.app.$route.matched.map((r, i) => {
-        string = (string ? string +  ' > ' + r.meta.title : r.meta.title)
+    console.log(to)
 
-        
-      })
-      console.log(string)
-      store.state.breadCrumbs = string
-    }    
+    // "/irs_progress/clusters/search"            ['irs_progress:']-> "Clusters Search" // Includes Results
+    // "/irs_progress/clusters"                   ['irs_progress:']-> "Clusters List"
+    // "/irs_progress/clusters/map"               ['irs_progress:']-> "Clusters Map"
+    // "/irs_progress/clusters/222"               ['irs_progress:']-> "Clusters List/Map > Cluster 222 > Tasks List"
+    // "/irs_progress/clusters/222/map"           ['irs_progress:']-> "Clusters List/Map > Cluster 222 > Tasks Map"
+    // "/irs_progress/clusters/222/task/444"      ['irs_progress:']-> "Clusters List/Map > Cluster 222 > Tasks List/Map > Task 444"
+    // "/irs_progress/clusters/222/task/444/form" ['irs_progress:']-> "Clusters List/Map > Cluster 222 > Tasks List/Map > Edit Task 444"
+
   })
 
   return router;
