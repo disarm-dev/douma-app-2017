@@ -1,4 +1,4 @@
-// import IRSProgressContainer from './IRSProgressContainer.vue'
+import IRSProgressContainer from './IRSProgressContainer.vue'
 // import IRSProgressTasks from './tasks/tasks.vue'
 // import IRSProgressMap from './map/map.vue'
 // import IRSProgressList from './list/list.vue'
@@ -15,33 +15,43 @@ export default [
     meta: {
       title: 'IRSProgress'
     },
-    redirect: '/irs_progress/clusters'
-  },{
-    path: '/irs_progress/clusters',
-    name: 'irs_progress:clusters',
-    component: ClustersList,
-    meta: {
-      title: 'Clusters'
+    component: IRSProgressContainer,
+    redirect: '/irs_progress/clusters',
+    children: [
+      {
+        path: '/irs_progress/clusters',
+        name: 'irs_progress:clusters',
+        component: ClustersList,
+        meta: {
+          title: 'Clusters'
+        },
+        children: [
+          {
+            path: '/irs_progress/clusters/:cluster_id',
+            props: true,
+            name: 'irs_progress:cluster',
+            component: Cluster,
+            meta: {
+              title: 'Cluster'
+            },
+            children: [
+              {
+                path: '/irs_progress/clusters/:cluster_id/task/:task_id',
+                props: true,
+                name: 'irs_progress:task',
+                component: Task,
+                meta: {
+                  title: 'Task'
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],{
+      path: '*',
+      redirect: '/irs_progress'
     }
-  },{
-    path: '/irs_progress/clusters/:cluster_id',
-    props: true,
-    name: 'irs_progress:cluster',
-    component: Cluster,
-    meta: {
-      title: 'Cluster'
-    }
-  },{
-    path: '/irs_progress/clusters/:cluster_id/task/:task_id',
-    props: true,
-    name: 'irs_progress:task',
-    component: Task,
-    meta: {
-      title: 'Task'
-    }
-  },{
-    path: '*',
-    redirect: '/irs_progress'
   }
 ]
 
