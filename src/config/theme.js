@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.css'
 
-export default function () {
+export default () => {
   Vue.use(VueMaterial)
 
   Vue.material.registerTheme({
