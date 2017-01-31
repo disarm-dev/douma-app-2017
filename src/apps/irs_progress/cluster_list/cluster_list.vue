@@ -14,6 +14,7 @@
 
 <script>
   export default {
+    name: 'Clusters',
     data() {
       return {
         clusters: [

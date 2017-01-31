@@ -8,6 +8,7 @@
 
 <script>
   export default {
+    name: 'Task',
     computed: {
       task_id() {
         return this.$route.params.task_id
