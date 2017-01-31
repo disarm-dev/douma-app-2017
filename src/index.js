@@ -8,14 +8,14 @@ import './fonts/MaterialIcons.css'
 
 // Configuration and setup
 import configureThemes from './config/theme'
-import App from './components/App.vue'
+import Douma from './components/Douma.vue'
 import getRouter from './router'
 import store from './store'
 
 // Keep track of what version we're working on
 console.info('DOUMA version: ' + COMMIT_HASH)
 
-// Create some very useful and simple global storage
+// Create some very useful and simple global storage, especially for Maps
  // TODO: @refac Replace `douma.data` global with something else. Another global of some kind?
 window.douma = {
     data: {
@@ -38,8 +38,8 @@ let router = getRouter(store)
 configureThemes()
 
 // Make DOUMA App
-const InitialiseDOUMA = Vue.component('app', App)
-const DOUMA = new InitialiseDOUMA({router, store}).$mount('#app')
+const InitialiseDOUMA = Vue.component('douma', Douma)
+const DOUMA = new InitialiseDOUMA({router, store}).$mount('#douma')
 
 // Setup global listeners for network state (online/offline)
 // TODO: @refac Do we need to listen to online status, and if so, where do we want to do it?

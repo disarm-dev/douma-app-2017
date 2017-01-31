@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div>
     <md-toolbar>
       <md-button class="md-icon-button" @click="toggleSideNav">
         <md-icon>menu</md-icon>
@@ -62,6 +62,7 @@
 
 <script>
   export default {
+    name: 'DOUMA',
     props: ['theme'],
     data() {
       return {

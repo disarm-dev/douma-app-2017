@@ -1,28 +1,27 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import EmptyContainer from './components/empty.vue'
+import AppletContainer from './components/applet.vue'
 
 import IRSProgressRoutes from './apps/irs_progress/routes'
-import FociRoutes from './apps/foci/routes'
-import GPSRoutes from './apps/gps/routes'
-import MetaRoutes from './apps/meta/routes'
-import CasesRoutes from './apps/cases/routes'
+// import FociRoutes from './apps/foci/routes'
+// import GPSRoutes from './apps/gps/routes'
+// import MetaRoutes from './apps/meta/routes'
+// import CasesRoutes from './apps/cases/routes'
 
 
 export default function getRouter(store) {
 
   const routes = [
-    // ROOT redirects to the profile page, which lists out the apps 
-    // available for the user to select
     {
       path: '/',
       redirect: '/profile',
       meta: {
         title: 'DOUMA'
       },
-      component: EmptyContainer,
-      children: [].concat(IRSProgressRoutes, FociRoutes, GPSRoutes, MetaRoutes, CasesRoutes)
+      component: AppletContainer,
+      // children: [].concat(IRSProgressRoutes, FociRoutes, GPSRoutes, MetaRoutes, CasesRoutes)
+      children: [].concat(IRSProgressRoutes)
     }
   ]
 
