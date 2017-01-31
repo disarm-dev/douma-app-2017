@@ -4,6 +4,7 @@ import IRSProgressMap from './map/map.vue'
 import IRSProgressList from './list/list.vue'
 import IRSProgressForm from './form/form.vue'
 import IRSProgressSync from './sync/sync.vue'
+import IRSProgressClustersList from './cluster_list/cluster_list.vue'
 
 export default [
   {
@@ -13,7 +14,7 @@ export default [
       title: 'IRSProgress Progress'
     },
     component: IRSProgressContainer,
-    redirect: '/irs_progress/tasks',
+    redirect: '/irs_progress/clusters',
     children: [
       {
         path: 'tasks',
@@ -54,6 +55,14 @@ export default [
         component: IRSProgressSync,
         meta: {
           title: 'Sync'
+        }
+      },
+      {
+        path: 'clusters',
+        name: 'irs_progress:clusters',
+        component: IRSProgressClustersList,
+        meta: {
+          title: 'Clusters'
         }
       }
     ]
