@@ -33,8 +33,10 @@ export default function getRouter(store) {
   })
 
   router.beforeEach((to, from, next) => {
-    // const theme = to.name.split(/:/)[0]
-    // router.app.$material.setCurrentTheme(theme) // TODO: @fix Need to avoid setting themes that don't exist
+    if (to) {
+      const theme = to.name.split(/:/)[0]
+      router.app.$material.setCurrentTheme(theme) // TODO: @fix Need to avoid setting themes that don't exist
+    }
 
     if (!store.state.user) {
       store.state.previousRoute = to
@@ -52,8 +54,6 @@ export default function getRouter(store) {
       
       router.app.$route.matched.map((r, i) => {
         string = (string ? string +  ' > ' + r.meta.title : r.meta.title)
-
-        
       })
       // console.log(string)
       store.state.breadCrumbs = string
