@@ -8,10 +8,10 @@ import './fonts/MaterialIcons.css'
 
 // Configuration and setup
 import configureThemes from './config/theme'
+import configureServiceWorker from './config/service-worker'
 import Douma from './components/Douma.vue'
 import {createRouter} from './router'
 import store from './store'
-import configureServiceWorker from './config/service-worker'
 
 // Keep track of what version we're working on
 console.info('DOUMA version: ' + COMMIT_HASH)
@@ -41,5 +41,5 @@ const DOUMA = new InitialiseDOUMA({
   router, store
 }).$mount('#douma')
 
-
+// ServiceWorker
 configureServiceWorker()
