@@ -24,12 +24,17 @@
       </md-toolbar>
 
       <md-list>
-        <md-list-item @click="navigate('foci')">
-          <md-icon>filter_center_focus</md-icon><span>Foci</span>
-        </md-list-item>
 
         <md-list-item @click="navigate('irs')">
+          <md-icon>gps_fixed</md-icon><span>IRS Targeting+Tracking</span>
+        </md-list-item>
+        
+        <md-list-item @click="navigate('irs_progress')">
           <md-icon>send</md-icon><span>IRS Progress</span>
+        </md-list-item>
+
+        <md-list-item @click="navigate('foci')">
+          <md-icon>filter_center_focus</md-icon><span>Foci</span>
         </md-list-item>
 
         <md-list-item @click="navigate('cases')">

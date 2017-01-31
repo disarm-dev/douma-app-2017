@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 
 import EmptyContainer from './components/empty.vue'
 
-import IRSRoutes from './apps/irs/routes'
+import IRSProgressRoutes from './apps/irs_progress/routes'
 import FociRoutes from './apps/foci/routes'
 import GPSRoutes from './apps/gps/routes'
 import MetaRoutes from './apps/meta/routes'
@@ -22,7 +22,7 @@ export default function getRouter(store) {
         title: 'DOUMA'
       },
       component: EmptyContainer,
-      children: [].concat(IRSRoutes, FociRoutes, GPSRoutes, MetaRoutes, CasesRoutes)
+      children: [].concat(IRSProgressRoutes, FociRoutes, GPSRoutes, MetaRoutes, CasesRoutes)
     }
   ]
 
