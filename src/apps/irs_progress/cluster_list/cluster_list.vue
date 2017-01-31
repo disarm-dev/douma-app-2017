@@ -1,6 +1,6 @@
 <template>
-  <div style="margin: 0 auto; max-width: 700px;">
-    <span class="md-headline">Clusters</span>
+  <div>
+    <h2>List of Clusters</h2>
     <md-list>
       <md-list-item v-for="cluster in clusters">
         <router-link :to="{name: 'irs_progress:cluster', params: {cluster_id: cluster.id}}">

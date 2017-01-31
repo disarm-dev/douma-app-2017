@@ -1,10 +1,9 @@
 <template>
   <div>
-    <router-link :to="{name: 'irs_progress:task', params: {cluster_id: 1212, task_id: 14123123}}">
-      <md-button>Edit form for Cluster # {{cluster_id}} - map or list (current Tasks list)</md-button>
+    <h2>List of tasks</h2>
+    <router-link tag='md-button' v-for='task in tasks' :to="{name: 'irs_progress:task', params: {cluster_id: cluster_id, task_id: task.id}}">
+      Edit {{task.name}}
     </router-link>
-    <cluster-map v-show="view === 'map'"></cluster-map>
-    <cluster-list v-show="view === 'list'"></cluster-list>
     <md-button @click='cancel'>Cancel</md-button>
   </div>
 </template>
@@ -15,11 +14,24 @@
 
   export default {
     name: 'Cluster',
-    props: ['cluster_id'],
     components: {ClusterMap, ClusterList},
     data() {
       return {
-        view: 'map'
+        tasks: [
+          {id: 334341, name: 'electrotonus' },
+          {id: 334342, name: 'stockannet' },
+          {id: 334343, name: 'propagandist' },
+          {id: 334344, name: 'unendued' },
+        ]
+      }
+    },
+    computed: {
+      // TODO: @fix What is vue-router doing with our params? Why not setting as props?
+      cluster_id() {
+        return this.$route.params.cluster_id
+      },
+      task_id() {
+        return this.$route.params.task_id
       }
     },
     methods: {

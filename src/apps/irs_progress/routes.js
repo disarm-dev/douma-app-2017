@@ -1,4 +1,4 @@
-import IRSProgressContainer from './IRSProgressContainer.vue'
+// import IRSProgressContainer from './IRSProgressContainer.vue'
 // import IRSProgressTasks from './tasks/tasks.vue'
 // import IRSProgressMap from './map/map.vue'
 // import IRSProgressList from './list/list.vue'
@@ -15,7 +15,6 @@ export default [
     meta: {
       title: 'IRSProgress'
     },
-    component: IRSProgressContainer,
     redirect: '/irs_progress/clusters'
   },{
     path: '/irs_progress/clusters',
