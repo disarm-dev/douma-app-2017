@@ -4,23 +4,48 @@ import IRSProgressApplet from './IRSProgressApplet.vue'
 // import IRSProgressList from './list/list.vue'
 // import IRSProgressForm from './form/form.vue'
 // import IRSProgressSync from './sync/sync.vue'
-import ClustersList from './cluster_list/cluster_list.vue'
-import Cluster from './cluster/cluster.vue'
+import ClustersList from './clusters/list.vue'
+import ClustersEdit from './clusters/edit.vue'
+import ClustersMap from './clusters/map.vue'
+import ClustersSearch from './clusters/search.vue'
+import Cluster from './cluster/list.vue'
 import Task from './task/task.vue'
 
 export default [
   {
-    // Applet root
     path: '/irs_progress',
-    redirect: '/irs_progress/clusters'
-  },{
-    path: '/irs_progress/clusters',
-    name: 'irs_progress:clusters',
+    redirect: '/irs_progress/clusters',
     component: IRSProgressApplet,
-    meta: {
-      title: 'Clusters'
-    },
-    children: []
+    children: [
+      {
+        path: 'clusters',
+        name: 'irs_progress:clusters:list',
+        component: ClustersList
+      },{
+        path: 'clusters/edit',
+        name: 'irs_progress:clusters:edit',
+        component: ClustersEdit
+      },{
+        path: 'clusters/search',
+        name: 'irs_progress:clusters:search',
+        component: ClustersSearch
+      },{
+        path: 'clusters/map',
+        name: 'irs_progress:clusters:map'
+      },{
+        path: 'clusters/:cluster_id',
+        name: 'irs_progress:task:list'
+      },{
+        path: 'clusters/:cluster_id/map',
+        name: 'irs_progress:task:map'
+      },{
+        path: 'clusters/:cluster_id/tasks/:task_id',
+        name: 'irs_progress:task:view'
+      },{
+        path: 'clusters/:cluster_id/tasks/:task_id/edit',
+        name: 'irs_progress:task:edit'
+      }
+    ]
   }
 ]
 

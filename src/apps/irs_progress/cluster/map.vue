@@ -1,3 +1,3 @@
 <template>
-  <div>MAP</div>
+  <div>MAP individual cluster</div>
 </template>
