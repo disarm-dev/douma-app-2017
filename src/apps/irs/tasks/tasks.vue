@@ -16,7 +16,7 @@
       </multiselect>
 
       <div>
-        <md-button class='md-raised md-accent' @click='loadTasks'>Search for clusters</md-button>
+        <md-button class='md-raised md-accent'>Search for clusters</md-button>
       </div>
       
     </template>
@@ -43,17 +43,17 @@
           { 
             locationType: 'Region',
             locations: [
-              {name: 'Lubombo'}, {name: 'Shiselweni'}
+              {name: 'Lubombo', locationType: 'Region'}, {name: 'Shiselweni', locationType: 'Region'}
             ]
           },{ 
             locationType: 'Inkhundla',
             locations: [
-              {name: 'Good one'}, {name: 'Other one'}
+              {name: 'Good one', locationType: 'Inkhundla'}, {name: 'Other one', locationType: 'Inkhundla'}
             ]
           },{ 
             locationType: 'Locality',
             locations: [
-              {name: 'Some Bend'}, {name: 'Small Bend'}
+              {name: 'Some Bend', locationType: 'Locality'}, {name: 'Small Bend', locationType: 'Locality'}
             ]
           }
         ]
@@ -66,7 +66,6 @@
     },
     methods: {
       loadTasks() {
-        // Get user input
         this.$store.commit('irs:setAoi', this.region)
         this.$store.dispatch('irs:buildTasks')
       }
