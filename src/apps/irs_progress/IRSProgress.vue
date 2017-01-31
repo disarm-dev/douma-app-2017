@@ -28,15 +28,15 @@
         links: [
           {
             title: 'Tasks',
-            name: 'irs:tasks'
+            name: 'irs_progress:tasks'
           },
           {
             title: 'Map',
-            name: 'irs:map'
+            name: 'irs_progress:map'
           },
           {
             title: 'Sync',
-            name: 'irs:sync'
+            name: 'irs_progress:sync'
           }
         ]
       }

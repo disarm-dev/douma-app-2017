@@ -66,8 +66,8 @@
     },
     methods: {
       loadTasks() {
-        this.$store.commit('irs:setAoi', this.region)
-        this.$store.dispatch('irs:buildTasks')
+        this.$store.commit('irs_progress:setAoi', this.region)
+        this.$store.dispatch('irs_progress:buildTasks')
       }
     }
   }

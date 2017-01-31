@@ -9,29 +9,29 @@ export default {
     syncInProgress: false
   },
   mutations: {
-    "irs:setAoi": (state, aoi) => {
+    "irs_progress:setAoi": (state, aoi) => {
       state.aoi = aoi
     },
-    "irs:setActiveTask": (state, task) => {
+    "irs_progress:setActiveTask": (state, task) => {
       state.activeTask = task
     },
-    "irs:setTasks": (state, tasks) => {
+    "irs_progress:setTasks": (state, tasks) => {
       state.tasks = tasks
     },
-    "irs:reset": (state) => {
+    "irs_progress:reset": (state) => {
       state.tasks = []
       state.activeTask = null
     },
-    "irs:setSyncInProgress": (state, syncState) => {
+    "irs_progress:setSyncInProgress": (state, syncState) => {
       state.syncInProgress = !!(syncState)
     },
-    "irs:updateTaskState": (state, task) => {
+    "irs_progress:updateTaskState": (state, task) => {
       let index = state.tasks.findIndex(t => t.id == task.id)
       state.tasks.splice(index, 1, task)
     }
   },
   actions: {
-    "irs:buildTasks": (context) => {
+    "irs_progress:buildTasks": (context) => {
       // Aim is to set $state.irs_progress.tasks with 
       // 1) only Tasks relevant to the AOI, and
       // 2) no Entities in AOI without a Task 
@@ -86,34 +86,34 @@ export default {
           console.log(res)
           const tasksFromPromises = res.map((r) => r.data)
           const tasks = tasksExisting.concat(tasksFromPromises)
-          context.commit('irs:setTasks', tasks)
+          context.commit('irs_progress:setTasks', tasks)
           
           // Store filtered Entities not in $store. Global anyone?
-          window.douma.data.irs.entities = entitiesInAoi
+          window.douma.data.irs_progress.entities = entitiesInAoi
         })
 
         
       })
     },
-    "irs:setActiveTaskByOSMId": (context, osm_id) => {
+    "irs_progress:setActiveTaskByOSMId": (context, osm_id) => {
       let foundTask = context.state.tasks.find(task => task.osm_id === osm_id)
-      context.commit('irs:setActiveTask', foundTask)
+      context.commit('irs_progress:setActiveTask', foundTask)
     },
-    "irs:sync": (context) => {
-      context.commit("irs:setSyncInProgress", true)
+    "irs_progress:sync": (context) => {
+      context.commit("irs_progress:setSyncInProgress", true)
       return new Promise((resolve, reject) => {
         DB.tasks.sync(DB.syncOptions).then(r => {
         DB.tasks
           .list()
           .then( (res) => {
-            context.commit('irs:setTasks', res.data)
-            context.commit("irs:setSyncInProgress", false)
+            context.commit('irs_progress:setTasks', res.data)
+            context.commit("irs_progress:setSyncInProgress", false)
             resolve("synced")
           })
         })
-      }).catch( () => context.commit("irs:setSyncInProgress", false) )
+      }).catch( () => context.commit("irs_progress:setSyncInProgress", false) )
     },
-    "irs:deleteAllTasks": (context) => {
+    "irs_progress:deleteAllTasks": (context) => {
       DB.tasks.list().then((res) => {
         // Delete all in parallel
         return Promise.all(res.data.map((task) => {
@@ -122,39 +122,39 @@ export default {
       }).then(() => {
         // Reset Tasks
         DB.tasks.list().then((res) => {
-          context.commit("irs:setTasks", res.data)
+          context.commit("irs_progress:setTasks", res.data)
         })
       }).catch((error) => console.error(error))
     },
-    "irs:finishTasks": (context) => {
-      context.commit("irs:setSyncInProgress", true)
+    "irs_progress:finishTasks": (context) => {
+      context.commit("irs_progress:setSyncInProgress", true)
 
-      context.dispatch("irs:sync").then(() => {
-        context.commit("irs:reset")
-        window.douma.data.irs.entities = []
-        if (window.douma.data.irs.entitiesLayer) {
-          window.douma.data.irs.entitiesLayer.remove()
-          window.douma.data.irs.entitiesLayer = null
+      context.dispatch("irs_progress:sync").then(() => {
+        context.commit("irs_progress:reset")
+        window.douma.data.irs_progress.entities = []
+        if (window.douma.data.irs_progress.entitiesLayer) {
+          window.douma.data.irs_progress.entitiesLayer.remove()
+          window.douma.data.irs_progress.entitiesLayer = null
         }
 
-        context.commit("irs:setSyncInProgress", false)
+        context.commit("irs_progress:setSyncInProgress", false)
       })
     },
-    "irs:createTask": (context, task) => {
+    "irs_progress:createTask": (context, task) => {
       DB.tasks.create(task).then(() => {
         context.state.tasks.push(task)
       })      
     },
-    "irs:updateActiveTask": (context, taskClone) => {
+    "irs_progress:updateActiveTask": (context, taskClone) => {
       delete taskClone.distance // TODO: @feature Maybe want to use this to validate proximity to structure when record created
 
       DB.tasks.update(taskClone).then((res) => {
-        context.commit("irs:updateTaskState", res.data)
-        context.commit("irs:setActiveTask", null)
+        context.commit("irs_progress:updateTaskState", res.data)
+        context.commit("irs_progress:setActiveTask", null)
       }).catch((error) => console.error(error))
     },
 
-    "irs:deleteTask": (context, task) => {
+    "irs_progress:deleteTask": (context, task) => {
       let index = context.state.tasks.findIndex(t => t.id == task.id)
       context.state.tasks.splice(index, 1)
     },

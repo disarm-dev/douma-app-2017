@@ -66,11 +66,11 @@
         this.task = Object.assign({}, this.$store.state.irs_progress.activeTask)
       },
       cancel() {
-        this.$store.commit("irs:setActiveTask", null)
+        this.$store.commit("irs_progress:setActiveTask", null)
       },
       submit() {
         // TODO: @feature Want to validate before commiting?
-        this.$store.dispatch("irs:updateActiveTask", this.task)
+        this.$store.dispatch("irs_progress:updateActiveTask", this.task)
       }
     }
   }

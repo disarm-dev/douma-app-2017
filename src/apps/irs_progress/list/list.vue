@@ -115,7 +115,7 @@
         }
       },
       userCoords() {
-        const userCoordsMarker = window.douma.data.irs.userCoordsMarker
+        const userCoordsMarker = window.douma.data.irs_progress.userCoordsMarker
         if (!userCoordsMarker) return console.warn('For distance calculations, need to set location by clicking on map')
         return userCoordsMarker.toGeoJSON()
       }
@@ -126,7 +126,7 @@
         this.filterBy = filterType
       },
       setActiveTask(action) {
-        this.$store.commit('irs:setActiveTask', action)
+        this.$store.commit('irs_progress:setActiveTask', action)
       },
       actionClass(task) {
         if (task.actioned == 'successfulVisit') {
@@ -153,10 +153,10 @@
         const closest_osm_id = distanceArray[0].osm_id
         if (!closest_osm_id) return console.warn("Cannot find any nearby entity")
         
-        this.$store.dispatch('irs:setActiveTaskByOSMId', closest_osm_id)
+        this.$store.dispatch('irs_progress:setActiveTaskByOSMId', closest_osm_id)
       },
       finishTasks() {
-        this.$store.dispatch("irs:finishTasks")
+        this.$store.dispatch("irs_progress:finishTasks")
       }
     }
   }

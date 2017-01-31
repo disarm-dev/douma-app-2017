@@ -23,12 +23,12 @@
     },
     methods: {
       sync() {
-        this.$store.dispatch('irs:sync').then(() => {
-          this.$store.dispatch('irs:buildTasks')
+        this.$store.dispatch('irs_progress:sync').then(() => {
+          this.$store.dispatch('irs_progress:buildTasks')
         })
       },
       deleteTasks() {
-        this.$store.dispatch('irs:deleteAllTasks')
+        this.$store.dispatch('irs_progress:deleteAllTasks')
       }
     }
   }
