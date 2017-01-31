@@ -49,15 +49,16 @@ export default function getRouter(store) {
   })
 
   router.afterEach((to, from) => {
-    let string = null
-    if (router.app && router.app.$route) {
-      
-      router.app.$route.matched.map((r, i) => {
-        string = (string ? string +  ' > ' + r.meta.title : r.meta.title)
-      })
-      // console.log(string)
-      store.state.breadCrumbs = string
-    }    
+    console.log(to)
+
+    // "/irs_progress/clusters/search"            ['irs_progress:']-> "Clusters Search" // Includes Results
+    // "/irs_progress/clusters"                   ['irs_progress:']-> "Clusters List"
+    // "/irs_progress/clusters/map"               ['irs_progress:']-> "Clusters Map"
+    // "/irs_progress/clusters/222"               ['irs_progress:']-> "Clusters List/Map > Cluster 222 > Tasks List"
+    // "/irs_progress/clusters/222/map"           ['irs_progress:']-> "Clusters List/Map > Cluster 222 > Tasks Map"
+    // "/irs_progress/clusters/222/task/444"      ['irs_progress:']-> "Clusters List/Map > Cluster 222 > Tasks List/Map > Task 444"
+    // "/irs_progress/clusters/222/task/444/form" ['irs_progress:']-> "Clusters List/Map > Cluster 222 > Tasks List/Map > Edit Task 444"
+
   })
 
   return router;
