@@ -13,6 +13,10 @@ import configureRouter from './router'
 import Douma from './components/Douma.vue'
 import store from './store'
 
+// Keep track of Errors
+import Raven from 'raven-js'
+Raven.config('https://05f42524abca4b84ba7a9b9d05fb620a@sentry.io/134727').install()
+
 // Keep track of what version we're working on
 console.info('DOUMA version: ' + COMMIT_HASH)
 
