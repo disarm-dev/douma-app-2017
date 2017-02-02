@@ -41,7 +41,13 @@ export default [
             path: 'map',
             name: 'irs_progress:clusters:map',
             component: ClustersMap
-          },{
+          }
+        ],
+        path: 'tasks',
+        name: 'irs_progress:tasks',
+        redirect: 'tasks/list',
+        children: [
+          {
             path: ':cluster_id',
             redirect: ':cluster_id/list',
             props: true,
