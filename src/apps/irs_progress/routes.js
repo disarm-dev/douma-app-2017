@@ -15,9 +15,6 @@ import TasksMap from './tasks/map.vue'
 import TaskView from './task/view.vue'
 import TaskEdit from './task/edit.vue'
 
-// import Cluster from './cluster/list.vue'
-// import Task from './task/task.vue'
-
 export default [
   {
     path: '/irs_progress',
