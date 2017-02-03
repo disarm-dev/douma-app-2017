@@ -5,6 +5,7 @@ import ClustersEdit from './clusters/edit.vue'
 import ClustersMap from './clusters/map.vue'
 import ClustersSearch from './clusters/search.vue'
 
+import ClusterComponent from './cluster/component.vue'
 import ClusterView from './cluster/view.vue'
 import ClusterMap from './cluster/map.vue'
 
@@ -13,7 +14,6 @@ import TasksMap from './tasks/map.vue'
 
 import TaskView from './task/view.vue'
 import TaskEdit from './task/edit.vue'
-import TaskForm from './task/form.vue'
 
 // import Cluster from './cluster/list.vue'
 // import Task from './task/task.vue'
@@ -22,78 +22,54 @@ export default [
   {
     path: '/irs_progress',
     name: 'irs_progress',
-    redirect: '/irs_progress/clusters',
+    redirect: 'irs_progress/clusters'
+  },{
+    path: '/irs_progress/clusters',
+    name: 'irs_progress:clusters',
+    redirect: 'irs_progress/clusters/list',    
     component: IRSProgressApplet,
+    meta: { breadcrumb: 'Clusters' },
     children: [
       {
-        path: 'clusters',
-        name: 'irs_progress:clusters',
-        redirect: 'clusters/list',    
-      },{
-        path: 'clusters/list',
+        path: 'list',
         name: 'irs_progress:clusters:list',
         component: ClustersList,
+        meta: { breadcrumb: 'List' }
       },{
-        path: 'clusters/map',
+        path: 'map',
         name: 'irs_progress:clusters:map',
         component: ClustersMap,
+        meta: { breadcrumb: 'Map' }
       },{
-        path: 'clusters/search',
+        path: 'search',
         name: 'irs_progress:clusters:search',
         component: ClustersSearch,
+        meta: { breadcrumb: 'Search' }
       },{
-        path: 'clusters/edit',
+        path: 'edit',
         name: 'irs_progress:clusters:edit',
         component: ClustersEdit,
-      },
-
-
-      {
-        path: 'clusters/:cluster_id',
-        name: 'irs_progress:cluster',
-        redirect: '/irs_progress/clusters/:cluster_id/view',
+        meta: { breadcrumb: 'Edit' }
       },{
-        path: 'clusters/:cluster_id/view',
-        name: 'irs_progress:cluster:view',
-        component: ClusterView,
-        props: true
-      },{
-        path: 'clusters/:cluster_id/map',
-        name: 'irs_progress:cluster:map',
-        component: ClusterMap,
-        props: true
-      },
-
-
-      {
-        path: 'clusters/:cluster_id/tasks',
-        name: 'irs_progress:tasks',
-        redirect: '/irs_progress/clusters/tasks/list',
-      },{
-        path: 'clusters/:cluster_id/tasks/list',
-        name: 'irs_progress:tasks:list',
-        component: TasksList,
-      },{
-        path: 'clusters/:cluster_id/tasks/map',
-        name: 'irs_progress:tasks:map',
-        component: TasksMap,
-      },
-
-
-      {
-        path: 'clusters/:cluster_id/tasks/:task_id',
-        name: 'irs_progress:task',
-        redirect: '/irs_progress/clusters/:cluster_id/tasks/:task_id/view',
-      },{
-        path: 'clusters/:cluster_id/tasks/:task_id/view',
-        name: 'irs_progress:task:view',
-        component: TaskView,
-      },{
-        path: 'clusters/:cluster_id/tasks/:task_id/form',
-        name: 'irs_progress:task:form',
-        component: TaskForm,
+        path: ':cluster_id',
+        name: 'irs_progress:clusters:view',
+        component: IRSProgressApplet,
+        children: [
+          {
+            path: 'view',
+            name: 'irs_progress:cluster:view',
+            component: ClusterView,
+            meta: { prependBreadcrumb: 'cluster_id', breadcrumb: 'View'},
+            props: true
+          },{
+            path: 'map',
+            name: 'irs_progress:cluster:map',
+            component: ClusterMap,
+            meta: { prependBreadcrumb: 'cluster_id', breadcrumb: 'Map'},
+            props: true
+          }
+        ]
       }
-
     ]
   }
 ]
