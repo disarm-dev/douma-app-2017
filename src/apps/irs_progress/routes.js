@@ -34,7 +34,6 @@ export default [
         path: 'list',
         name: 'irs_progress:clusters:list',
         component: ClustersList,
-        meta: { breadcrumb: 'List' }
       },{
         path: 'map',
         name: 'irs_progress:clusters:map',
@@ -61,7 +60,6 @@ export default [
             path: 'view',
             name: 'irs_progress:cluster:view',
             component: ClusterView,
-            meta: { breadcrumb: 'View'},
             props: true
           },{
             path: 'map',
@@ -80,7 +78,6 @@ export default [
                 path: 'list', // /irs_progress/clusters/:cluster_id/tasks/list
                 name: 'irs_progress:tasks:list',
                 component: TasksList,
-                meta: { breadcrumb: 'List'}
               },{
                 path: 'map',
                 name: 'irs_progress:tasks:map',
@@ -97,7 +94,6 @@ export default [
                     path: 'view',
                     name: 'irs_progress:task:view',
                     component: TaskView,
-                    meta: { breadcrumb: 'View'}
                   },{
                     path: 'edit',
                     name: 'irs_progress:task:edit',
