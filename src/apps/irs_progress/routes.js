@@ -17,6 +17,7 @@ import TaskEdit from './task/edit.vue'
 export default [
   {
     path: '/irs_progress',
+    name: 'irs_progress',
     redirect: '/irs_progress/clusters',
     component: IRSProgressApplet,
     children: [
@@ -42,7 +43,8 @@ export default [
             name: 'irs_progress:clusters:map',
             component: ClustersMap
           }
-        ],
+        ]
+      },{
         path: 'tasks',
         name: 'irs_progress:tasks',
         redirect: 'tasks/list',
@@ -80,69 +82,3 @@ export default [
     ]
   }
 ]
-
-//   ,{
-//     path: '/irs_progress/clusters/:cluster_id',
-//     props: true,
-//     name: 'irs_progress:cluster',
-//     component: Cluster,
-//     meta: {
-//       title: 'Cluster'
-//     }
-//   },{
-//     path: '/irs_progress/clusters/:cluster_id/task/:task_id',
-//     props: true,
-//     name: 'irs_progress:task',
-//     component: Task,
-//     meta: {
-//       title: 'Task'
-//     }
-//   },{
-//     path: '*',
-//     redirect: '/irs_progress'
-//   }
-// ]
-
-
-      // {
-      //   path: 'tasks',
-      //   name: 'irs_progress:tasks',
-      //   component: IRSProgressTasks,
-      //   meta: {
-      //     title: 'Tasks'
-      //   }
-      // },
-      // {
-      //   path: 'map',
-      //   name: 'irs_progress:map',
-      //   component: IRSProgressMap,
-      //   meta: {
-      //     title: 'Map',
-      //     keepRouteAlive: true
-      //   }
-      // },
-      // {
-      //   path: 'list',
-      //   name: 'irs_progress:list',
-      //   component: IRSProgressList,
-      //   meta: {
-      //     title: 'List'
-      //   }
-      // },
-      // {
-      //   path: 'form',
-      //   name: 'irs_progress:form',
-      //   component: IRSProgressForm,
-      //   meta: {
-      //     title: 'Form'
-      //   }
-      // },
-      // {
-      //   path: 'sync',
-      //   name: 'irs_progress:sync',
-      //   component: IRSProgressSync,
-      //   meta: {
-      //     title: 'Sync'
-      //   }
-      // },
-
