@@ -44,20 +44,21 @@ export default () => {
   })
   
   router.afterEach((to, from) => {
-    // ROOT URL: irs_progress/
-    // "clusters"                    ---> 'list'
-    // "clusters/list"               ['irs_progress:clusters:list']   -> "Cluster List" // Current locally-stored Clusters
-    // "clusters/edit"               ['irs_progress:clusters:edit']   -> "Cluster Edit" // Which Clusters to get local data for
-    // "clusters/search"             ['irs_progress:clusters:search'] -> "Cluster Search" // Includes Results (remote + local)
-    // "clusters/map"                ['irs_progress:clusters:map']    -> "Cluster Map"
+    // ROOT URL: irs_progress/ {IRSProgressApplet}
+    // "clusters"                    ---> 'list'                                                                                          ClusterParentView
+    // "clusters/list"               ['irs_progress:clusters:list']   -> "Clusters List" // Current locally-stored Clusters               ClustersList / <clusters-list>
+    // "clusters/map"                ['irs_progress:clusters:map']    -> "Clusters Map"
+    // "clusters/search"             ['irs_progress:clusters:search'] -> "Clusters Search" // Includes Results (remote + local)
+    // "clusters/edit"               ['irs_progress:clusters:edit']   -> "Clusters Edit" // Which Clusters to get local data for
     // "clusters/222"                ---> 'view'
-    // "clusters/222/view"           ['irs_progress:cluster:view']
-    // "clusters/222/map"            ['irs_progress:cluster:map']       -> "Cluster List/Map > Cluster 222 > Tasks Map"
-    // "clusters/222/tasks"          ['irs_progress:tasks:list']      -> "Cluster List/Map > Cluster 222 > Tasks List"
-    // "clusters/222/tasks/map"      ['irs_progress:tasks:map']      -> "Cluster List/Map > Cluster 222 > Tasks List"
-    // "clusters/222/tasks/444"      ['irs_progress:task:view']      -> "Cluster List/Map > Cluster 222 > Tasks List/Map > Task 444"
-    // "clusters/222/task/444/form"  ['irs_progress:task:edit']      -> "Cluster List/Map > Cluster 222 > Tasks List/Map > Edit Task 444"
-    // "clusters/222/task/444/map"   ['irs_progress:task:map']      -> "Cluster List/Map > Cluster 222 > Tasks List/Map > Edit Task 444"
+    // "clusters/222/view"           ['irs_progress:cluster:view']    -> "Clusters > 222 "
+    // "clusters/222/map"            ['irs_progress:cluster:map']     -> "Clusters > 222 Map"
+    // "clusters/222/tasks"          ---> 'list'
+    // "clusters/222/tasks/list"     ['irs_progress:tasks:list']      -> "Clusters > 222 > Tasks List"
+    // "clusters/222/tasks/map"      ['irs_progress:tasks:map']       -> "Clusters > 222 > Tasks Map"
+    // "clusters/222/tasks/444"      ---> 'view'
+    // "clusters/222/tasks/444/view" ['irs_progress:task:view']       -> "Cluster > Cluster 222 > Tasks > 444"
+    // "clusters/222/tasks/444/form" ['irs_progress:task:edit']       -> "Cluster > Cluster 222 > Tasks > 444 Edit"
   })
 
   return router;
