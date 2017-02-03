@@ -44,6 +44,7 @@ export default () => {
   })
   
   router.afterEach((to, from) => {
+    // breadcrumbsFor(to)
     // ROOT URL: irs_progress/ {IRSProgressApplet}
     // "clusters"                    ---> 'list'                                                                                          ClusterParentView
     // "clusters/list"               ['irs_progress:clusters:list']   -> "Clusters List" // Current locally-stored Clusters               ClustersList / <clusters-list>
