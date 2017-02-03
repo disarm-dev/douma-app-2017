@@ -3,10 +3,9 @@ import Kinto from 'kinto'
 const syncOptions = {
   remote: "https://kinto.dev.mozaws.net/v1",
   headers: {
-    Authorization: "Basic " + "basicauth:842ba3f6b700d048458dcdb203805df2df12877819389513352cad3afb92bf0c"
+    Authorization: "Basic " + "Ym9iOnNlY3JldA=="
   },
-  bucket: 'disthing',
-  collection: 'tasks'
+  bucket: 'disarm'
 }
 const db = new Kinto(syncOptions)
 

@@ -4,6 +4,6 @@
 
 <script>
   export default {
-    name: 'EmptyComponent'
+    name: 'ContainerComponent'
   }
 </script>
