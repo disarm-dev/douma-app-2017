@@ -1,8 +1,8 @@
 <template>
   <div>
-    <router-link v-for="bread in crumbs" :to="bread.route">
-      {{bread.title}}
-    </router-link>
+    <template v-for="(bread, index) in crumbs">
+      <router-link :to="bread.route"> {{bread.title}} </router-link><span v-if='index !== (crumbs.length - 1)'> > </span>
+    </template>
   </div>
 </template>
 <script>
