@@ -1,11 +1,11 @@
 import IRSProgressApplet from './IRSProgressApplet.vue'
+import EmptyComponent from '../../components/empty_component.vue'
 
 import ClustersList from './clusters/list.vue'
 import ClustersEdit from './clusters/edit.vue'
 import ClustersMap from './clusters/map.vue'
 import ClustersSearch from './clusters/search.vue'
 
-import ClusterComponent from './cluster/component.vue'
 import ClusterView from './cluster/view.vue'
 import ClusterMap from './cluster/map.vue'
 
@@ -52,7 +52,7 @@ export default [
       },{
         path: ':cluster_id',
         name: 'irs_progress:clusters:view',
-        component: IRSProgressApplet,
+        component: EmptyComponent,
         redirect: '/irs_progress/clusters/:cluster_id/view',
         meta: { prependBreadcrumb: 'cluster_id', breadcrumb: '' },
         children: [
@@ -71,7 +71,7 @@ export default [
             path: 'tasks',
             name: 'irs_progress:tasks',
             redirect: '/irs_progress/clusters/:cluster_id/tasks/list',
-            component: IRSProgressApplet,
+            component: EmptyComponent,
             meta: { breadcrumb: 'Tasks' },
             children: [
               {
@@ -87,7 +87,7 @@ export default [
                 path: ':task_id',
                 name: 'irs_progress:task',
                 redirect: '/irs_progress/clusters/:cluster_id/tasks/:task_id/view',
-                component: IRSProgressApplet,
+                component: EmptyComponent,
                 meta: { prependBreadcrumb: 'task_id', breadcrumb: ''},
                 children: [
                   {

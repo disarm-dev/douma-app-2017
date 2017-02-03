@@ -4,6 +4,6 @@
 
 <script>
   export default {
-    name: 'ClusterComponent'
+    name: 'EmptyComponent'
   }
 </script>
