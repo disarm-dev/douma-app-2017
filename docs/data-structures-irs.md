@@ -1,18 +1,8 @@
-# Data structures
+# Data structures for IRS
 
 ## Clusters
 
-Clusters are delivered in two different formats: Clusters (local/full) and ClustersSearchResults.
-
-### Clusters (local)
-
-A local cluster is 'fat' with all tasks and structures attached to it. It is meant for offline storage and contains all the info needed to deal with that cluster. 
-
-Packaging the tasks and structures in the cluster reduces the number of requests needed to get all the necessary data from the server.
-
-The number of tasks will match the number of structures for IRS purposes.
-
-The local clusters will be persisted.
+A spatially-defined and contiguous group of Tasks (and by reference, Structures).
 
 Example a single Cluster: 
 
@@ -28,41 +18,18 @@ Example a single Cluster:
         village: "..." // String or null
     },
     polygon: {}, // GeoJSON object,
-    tasks: [], // array of Tasks (incl. only Structure ID)
-    structures: [] // array of Structures
+    task_ids: [], // array of Tasks (incl. only Structure ID)
+    structure_points: [] // array of Structures IDs with centroids (GeoJSON FC?)
 }
 
 ```
 
 
-#### ClustersSearchResults
+## Tasks
 
-A search result cluster only contains the information necessary to identify the cluster, and display quickly on a map.
+A Task is an action made on a spatial entity. For the sake of IRS a task is linked to a Structure. It does not contain any spatial data, just a reference to a Structure. 
 
-The search result cluster is sent as a response to a search query from the client. 
-
-Example:
-
-```js
-
-{
-    id: '123124',
-    name: '...',
-    location: {},
-    polygon: {},
-    task_ids: [], // Array of IDs
-    structure_points: [] // Array of Structure centroids
-}
-
-```
-
-
-
-## Task
-
-Tasks describes actions made to a spatial entity. For the sake of IRS a task is linked to a structure. It does not contain any spatial data, just a reference to a structure. 
-
-Multiple tasks can be attached to a structure.
+Structures can be references by multiple Tasks.
 
 Example:
 
