@@ -51,12 +51,12 @@ export default [
         name: 'irs_progress:clusters:view',
         component: ContainerComponent,
         redirect: '/irs_progress/clusters/:cluster_id/view',
-        meta: { prependBreadcrumb: 'cluster_id', breadcrumb: '' },
         children: [
           {
             path: 'view',
             name: 'irs_progress:cluster:view',
             component: ClusterView,
+            meta: { prependBreadcrumb: 'cluster_id', breadcrumb: '' },
             props: true
           },{
             path: 'map',

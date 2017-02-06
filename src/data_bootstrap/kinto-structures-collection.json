@@ -1,0 +1,39 @@
+// JSON schema
+{
+  "type": "object",
+  "properties": {
+    "actionDate": {
+      "type": "string",
+      "title": "actionDate",
+      "description": "actionDate"
+    },
+    "osm_id": {
+      "type": "string",
+      "title": "osm_id",
+      "description": "osm_id"
+    },
+    "by": {
+      "type": "string",
+      "title": "by",
+      "description": "by"
+    },
+    "actioned": {
+      "type": "string",
+      "title": "actioned",
+      "description": "actioned"
+    }
+  }
+}
+
+// UI schema
+{
+  "ui:order": [
+    "osm_id",
+    "by",
+    "actioned",
+    "actionDate"
+  ],
+  "actionDate": {
+    "ui:widget": "date"
+  }
+}

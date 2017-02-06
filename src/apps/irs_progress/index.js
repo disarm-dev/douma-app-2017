@@ -24,6 +24,9 @@ export default {
     "irs_progress:setTasks": (state, tasks) => {
       state.tasks = tasks
     },
+    "irs_progress:setStructures": (state, structures) => {
+      state.structures = structures
+    },
     "irs_progress:reset": (state) => {
       state.tasks = []
       state.activeTask = null
@@ -37,6 +40,24 @@ export default {
     }
   },
   actions: {
+    "irs_progress:retrieveStructures": (context) => {
+      DB.structures
+        // .sync()
+        // .then(() => DB.structures.list())
+        .list()
+        .then((result) => {
+          context.commit('irs_progress:setStructures', result.data)
+        })
+    },
+    "irs_progress:retrieveTasks": (context) => {
+      DB.tasks
+        // .sync()
+        // .then(() => DB.tasks.list())
+        .list()
+        .then((result) => {
+          context.commit('irs_progress:setTasks', result.data)
+        })
+    },
     "irs_progress:buildTasks": (context) => {
       // Aim is to set $state.irs_progress.tasks with 
       // 1) only Tasks relevant to the AOI, and
@@ -51,8 +72,8 @@ export default {
       DB.tasks.sync().then(() => {
         console.log('syncing...')
         return DB.tasks.list()
-      }).then((result, error) => {
-        console.log('...syncing done')
+      }).then((result) => {
+        console.log('...syncing TASKS done')
         // Filter Entities for AOI
         const entitiesInAoi = allEntities.filter((entity) => {
           return entity.properties.region == aoi

@@ -1,9 +1,11 @@
 <template>
   <div>
-    <h2>List of tasks</h2>
-    <router-link tag='md-button' v-for='task in tasks' :to="{name: 'irs_progress:task', params: {cluster_id: cluster_id, task_id: task.id}}">
-      Edit {{task.name}}
-    </router-link>
+    <h2>Cluster - not using this?</h2>
+    <ul>
+      <router-link :tag='li' v-for='task in tasks' :to="{name: 'irs_progress:task', params: {cluster_id: cluster_id, task_id: task.id}}">
+        Edit {{task.name}}
+      </router-link>
+    </ul>
     <md-button @click='cancel'>Cancel</md-button>
   </div>
 </template>
