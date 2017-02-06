@@ -2,6 +2,7 @@ Stuff the server can serve
 Done by R + plumber?
 
 
+
 GET /clusters - return all Clusters, without Tasks
 GET /clusters/search - return Clusters which match search object [use an existing, standardised structure, e.g. Kinto or Mongo syntax]
 GET /clusters/:id - return single Cluster
