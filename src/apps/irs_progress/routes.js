@@ -50,26 +50,27 @@ export default [
         path: ':cluster_id',
         name: 'irs_progress:clusters:view',
         component: ContainerComponent,
+        meta: { prependBreadcrumb: 'cluster_id', breadcrumb: '' },
         redirect: '/irs_progress/clusters/:cluster_id/view',
         children: [
           {
             path: 'view',
             name: 'irs_progress:cluster:view',
             component: ClusterView,
-            meta: { prependBreadcrumb: '', breadcrumb: 'Cluster', appendBreadcrumb: 'cluster_id' },
+            meta: { prependBreadcrumb: '', breadcrumb: 'Tasks', appendBreadcrumb: '' },
             props: true,
           },{
             path: 'map',
             name: 'irs_progress:cluster:map',
             component: ClusterMap,
-            meta: { prependBreadcrumb: 'cluster_id', breadcrumb: 'Map'},
+            meta: { prependBreadcrumb: '', breadcrumb: 'Map'},
             props: true
           },{
             path: 'tasks',
             name: 'irs_progress:tasks',
             redirect: '/irs_progress/clusters/:cluster_id/tasks/list',
             component: ContainerComponent,
-            meta: { prependBreadcrumb: '', breadcrumb: 'Cluster', appendBreadcrumb: 'cluster_id' },
+            meta: { prependBreadcrumb: '', breadcrumb: 'Tasks', appendBreadcrumb: '' },
             children: [
               {
                 path: 'list', // /irs_progress/clusters/:cluster_id/tasks/list
@@ -86,7 +87,7 @@ export default [
                 name: 'irs_progress:task',
                 redirect: '/irs_progress/clusters/:cluster_id/tasks/:task_id/view',
                 component: ContainerComponent,
-                meta: { prependBreadcrumb: '', breadcrumb: 'Task', appendBreadcrumb: 'task_id'},
+                meta: { prependBreadcrumb: '', breadcrumb: '', appendBreadcrumb: 'task_id'},
                 children: [
                   {
                     path: 'view',
