@@ -9,7 +9,7 @@ window.db = DB
 export default {
   state: {
     // EDITING
-    activeTask: null,
+    active_task: null,
 
     // DATA
     clusters: [],
@@ -21,8 +21,8 @@ export default {
   },
   mutations: {
     // EDITING
-    "irs_progress:setActiveTask": (state, task) => {
-      state.activeTask = task
+    "irs_progress:set_active_task": (state, task) => {
+      state.active_task = task
     },
     "irs_progress:updateTaskState": (state, task) => { // For the map?
       let index = state.tasks.findIndex(t => t.id == task.id)
@@ -165,9 +165,10 @@ export default {
         
       // })
     },
-    "irs_progress:setActiveTaskByOSMId": (context, osm_id) => {
+    "irs_progress:set_active_task_by_osm_id": (context, osm_id) => {
+      // TODO: @check Do this `find` on the $store rather than DB?
       let foundTask = context.state.tasks.find(task => task.osm_id === osm_id)
-      context.commit('irs_progress:setActiveTask', foundTask)
+      context.commit('irs_progress:set_active_task', foundTask)
     },
 
 
@@ -217,7 +218,7 @@ export default {
 
       // DB.tasks.update(taskClone).then((res) => {
       //   context.commit("irs_progress:updateTaskState", res.data)
-      //   context.commit("irs_progress:setActiveTask", null)
+      //   context.commit("irs_progress:set_active_task", null)
       // }).catch((error) => console.error(error))
     },
   }
