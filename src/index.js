@@ -28,16 +28,16 @@ console.info('DOUMA version: ' + COMMIT_HASH)
 // Create some very useful and simple global storage, especially for Maps
 // TODO: @refac Replace `douma.data` global with something else. Another global of some kind?
 window.douma = {
-    data: {
-      irs_progress: {
-        entities: [],
-        entitiesLayer: null,
+  data: {
+    irs_progress: {
+      entities: [],
+      entitiesLayer: null,
 
-        // Leaflet Map
-        leMap: null,
-        userCoordsMarker: null,
-      }
+      // Leaflet Map
+      leMap: null,
+      userCoordsMarker: null,
     }
+  }
 }
 
 // Create a bunch of themes matching the routes
