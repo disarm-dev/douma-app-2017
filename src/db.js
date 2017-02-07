@@ -7,15 +7,6 @@ DB.version(1).stores({
   spatial_entities: 'id'
 })
 
-const clusters = DB.clusters
-const tasks = DB.tasks
-const spatial_entities = DB.spatial_entities
+window.db = DB
 
-
-window.DB = {
-  clusters, tasks, spatial_entities
-}
-
-export {
-  DB
-}
+export default DB

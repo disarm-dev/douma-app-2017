@@ -17,7 +17,6 @@ import store from './store'
 import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
 
-// TODO: @fix Get Raven working and sending errors, if we want error-reporting
 Raven
   .config('https://05f42524abca4b84ba7a9b9d05fb620a@sentry.io/134727')
   .addPlugin(RavenVue, Vue)

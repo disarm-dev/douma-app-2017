@@ -45,14 +45,21 @@ export default {
     // LOCAL DB
     // 
 
-    "irs_progress:loadClusters": (context) => {
-      DB.clusters
-      // DB.clusters.allDocs({include_docs: true}).then((res) => console.log(res.rows))
-      // DB.clusters.find({ selector: { id: cluster_id }
-      // }).then((res) => console.log('found:', res.docs))
+    "irs_progress:loadLocalData": (context) => {
+      // TODO: @feature Any reason to want to have more control over these 'load' things?, i.e. use the Promises?
+      context.dispatch('irs_progress:loadClusters')
+      context.dispatch('irs_progress:loadTasks')
+      context.dispatch('irs_progress:loadSpatialEntities')
     },
-    // loadClusters: (context)  => DB.clusters.allDocs() // Mango
-    // loadTasks: (context, cluster_id) => {db.clusters.find({selector:{name: 'thing'}}).then((res) => console.table(res.docs))
+    "irs_progress:loadClusters": (context) => {
+      DB.clusters.toArray().then((res) => console.table(res))
+    },
+    "irs_progress:loadTasks": (context) => {
+      DB.tasks.toArray().then((res) => console.table(res))
+    },
+    "irs_progress:loadSpatialEntities": (context) => {
+      DB.spatial_entities.toArray().then((res) => console.table(res))
+    },
 
     // 
     // REMOTE DB
@@ -66,11 +73,11 @@ export default {
     // "irs_progress:searchClusters": (context, searchObject) => {
     // },
     "irs_progress:retrieveClusters": (context) => {
-      DB.clusters
-        .list()
-        .then((result) => {
-          context.commit('irs_progress:setClusters', result.data)
-        })
+      // DB.clusters
+      //   .list()
+      //   .then((result) => {
+      //     context.commit('irs_progress:setClusters', result.data)
+      //   })
     },
     "irs_progress:retrieveStructures": (context) => {
       // DB.structures
@@ -82,13 +89,13 @@ export default {
       //   })
     },
     "irs_progress:retrieveTasks": (context) => {
-      DB.tasks
-        // .sync()
-        // .then(() => DB.tasks.list())
-        .list()
-        .then((result) => {
-          context.commit('irs_progress:setTasks', result.data)
-        })
+      // DB.tasks
+      //   // .sync()
+      //   // .then(() => DB.tasks.list())
+      //   .list()
+      //   .then((result) => {
+      //     context.commit('irs_progress:setTasks', result.data)
+      //   })
     },
     "irs_progress:buildTasks": (context) => {
       // Aim is to set $state.irs_progress.tasks with 
@@ -101,58 +108,58 @@ export default {
       // TODO: @debug Actually need to load structures data, not just fake it
       const aoi = context.state.aoi
 
-      DB.tasks.sync().then(() => {
-        console.log('syncing...')
-        return DB.tasks.list()
-      }).then((result) => {
-        console.log('...syncing TASKS done')
-        // Filter Entities for AOI
-        const entitiesInAoi = allEntities.filter((entity) => {
-          return entity.properties.region == aoi
-        })
+      // DB.tasks.sync().then(() => {
+      //   console.log('syncing...')
+      //   return DB.tasks.list()
+      // }).then((result) => {
+      //   console.log('...syncing TASKS done')
+      //   // Filter Entities for AOI
+      //   const entitiesInAoi = allEntities.filter((entity) => {
+      //     return entity.properties.region == aoi
+      //   })
 
-        const entitiesInAoiOsmIds = entitiesInAoi.map(entity => entity.properties.osm_id)
+      //   const entitiesInAoiOsmIds = entitiesInAoi.map(entity => entity.properties.osm_id)
 
-        // Find Tasks that match Entities in AOI
-        const tasksInAoi = result.data.filter((task) => {
-          return entitiesInAoiOsmIds.includes(task.osm_id)
-        })
+      //   // Find Tasks that match Entities in AOI
+      //   const tasksInAoi = result.data.filter((task) => {
+      //     return entitiesInAoiOsmIds.includes(task.osm_id)
+      //   })
 
-        // Build Tasks array, incl. empty Tasks for Entities without existing Actions
-        let tasksExisting = []
-        let tasksToCreate = []
+      //   // Build Tasks array, incl. empty Tasks for Entities without existing Actions
+      //   let tasksExisting = []
+      //   let tasksToCreate = []
 
-        entitiesInAoi.forEach(entity => {
-          // TODO: @feature Replace geospatial filter with much faster attribute-based filter
-          const centroid = turf.centroid(entity.geometry)
-          const relatedTask = tasksInAoi.find(task => task.osm_id === entity.properties.osm_id)
+      //   entitiesInAoi.forEach(entity => {
+      //     // TODO: @feature Replace geospatial filter with much faster attribute-based filter
+      //     const centroid = turf.centroid(entity.geometry)
+      //     const relatedTask = tasksInAoi.find(task => task.osm_id === entity.properties.osm_id)
 
-          if (relatedTask){
-            relatedTask.centroid = centroid
-            tasksExisting.push(relatedTask)
-          } else {
-            tasksToCreate.push(
-              DB.tasks.create({
-                osm_id: entity.properties.osm_id,
-                actioned: 'unvisited',
-                centroid: centroid
-              })
-            )
-          }
-        })
+      //     if (relatedTask){
+      //       relatedTask.centroid = centroid
+      //       tasksExisting.push(relatedTask)
+      //     } else {
+      //       tasksToCreate.push(
+      //         DB.tasks.create({
+      //           osm_id: entity.properties.osm_id,
+      //           actioned: 'unvisited',
+      //           centroid: centroid
+      //         })
+      //       )
+      //     }
+      //   })
 
-        Promise.all(tasksToCreate).then((res) => {
-          console.log(res)
-          const tasksFromPromises = res.map((r) => r.data)
-          const tasks = tasksExisting.concat(tasksFromPromises)
-          context.commit('irs_progress:setTasks', tasks)
+      //   Promise.all(tasksToCreate).then((res) => {
+      //     console.log(res)
+      //     const tasksFromPromises = res.map((r) => r.data)
+      //     const tasks = tasksExisting.concat(tasksFromPromises)
+      //     context.commit('irs_progress:setTasks', tasks)
           
-          // Store filtered Entities not in $store. Global anyone?
-          window.douma.data.irs_progress.entities = entitiesInAoi
-        })
+      //     // Store filtered Entities not in $store. Global anyone?
+      //     window.douma.data.irs_progress.entities = entitiesInAoi
+      //   })
 
         
-      })
+      // })
     },
     "irs_progress:setActiveTaskByOSMId": (context, osm_id) => {
       let foundTask = context.state.tasks.find(task => task.osm_id === osm_id)
@@ -161,31 +168,31 @@ export default {
 
 
     "irs_progress:sync": (context) => {
-      context.commit("irs_progress:setSyncInProgress", true)
-      return new Promise((resolve, reject) => {
-        DB.tasks.sync().then(r => {
-        DB.tasks
-          .list()
-          .then( (res) => {
-            context.commit('irs_progress:setTasks', res.data)
-            context.commit("irs_progress:setSyncInProgress", false)
-            resolve("synced")
-          })
-        })
-      }).catch( () => context.commit("irs_progress:setSyncInProgress", false) )
+      // context.commit("irs_progress:setSyncInProgress", true)
+      // return new Promise((resolve, reject) => {
+      //   DB.tasks.sync().then(r => {
+      //   DB.tasks
+      //     .list()
+      //     .then( (res) => {
+      //       context.commit('irs_progress:setTasks', res.data)
+      //       context.commit("irs_progress:setSyncInProgress", false)
+      //       resolve("synced")
+      //     })
+      //   })
+      // }).catch( () => context.commit("irs_progress:setSyncInProgress", false) )
     },
     "irs_progress:deleteAllTasks": (context) => {
-      DB.tasks.list().then((res) => {
-        // Delete all in parallel
-        return Promise.all(res.data.map((task) => {
-          return DB.tasks.delete(task.id)
-        }))
-      }).then(() => {
-        // Reset Tasks
-        DB.tasks.list().then((res) => {
-          context.commit("irs_progress:setTasks", res.data)
-        })
-      }).catch((error) => console.error(error))
+      // DB.tasks.list().then((res) => {
+      //   // Delete all in parallel
+      //   return Promise.all(res.data.map((task) => {
+      //     return DB.tasks.delete(task.id)
+      //   }))
+      // }).then(() => {
+      //   // Reset Tasks
+      //   DB.tasks.list().then((res) => {
+      //     context.commit("irs_progress:setTasks", res.data)
+      //   })
+      // }).catch((error) => console.error(error))
     },
     "irs_progress:finishTasks": (context) => {
       context.commit("irs_progress:setSyncInProgress", true)
@@ -204,10 +211,10 @@ export default {
     "irs_progress:updateActiveTask": (context, taskClone) => {
       delete taskClone.distance // TODO: @feature Maybe want to use this to validate proximity to structure when record created
 
-      DB.tasks.update(taskClone).then((res) => {
-        context.commit("irs_progress:updateTaskState", res.data)
-        context.commit("irs_progress:setActiveTask", null)
-      }).catch((error) => console.error(error))
+      // DB.tasks.update(taskClone).then((res) => {
+      //   context.commit("irs_progress:updateTaskState", res.data)
+      //   context.commit("irs_progress:setActiveTask", null)
+      // }).catch((error) => console.error(error))
     },
   }
 }
