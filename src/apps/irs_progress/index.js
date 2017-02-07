@@ -41,10 +41,24 @@ export default {
     },
   },
   actions: {
-    // searchClusters -> get selected fields for Clusters
-    // getClustersFromRemote -> remoteDB.read().filter() => store_locally() // Mango
-    // getClustersFromLocal  -> DB.clusters // Mango
+    // 
+    // LOCAL DB
+    // 
 
+    "irs_progress:loadClusters": (context) => {
+      DB.clusters.allDocs({include_docs: true}).then((res) => console.log(res.rows))
+      // DB.clusters.find({ selector: { id: cluster_id }
+      // }).then((res) => console.log('found:', res.docs))
+    },
+    // loadClusters: (context)  => DB.clusters.allDocs() // Mango
+    // loadTasks: (context, cluster_id) => {db.clusters.find({selector:{name: 'thing'}}).then((res) => console.table(res.docs))
+
+    // 
+    // REMOTE DB
+    // 
+    // searchClusters -> get selected fields for Clusters
+    // getClustersFromRemote -> 
+    
 
 
 
@@ -186,11 +200,6 @@ export default {
         context.commit("irs_progress:setSyncInProgress", false)
       })
     },
-    "irs_progress:createTask": (context, task) => {
-      DB.tasks.create(task).then(() => {
-        context.state.tasks.push(task)
-      })      
-    },
     "irs_progress:updateActiveTask": (context, taskClone) => {
       delete taskClone.distance // TODO: @feature Maybe want to use this to validate proximity to structure when record created
 
@@ -198,10 +207,6 @@ export default {
         context.commit("irs_progress:updateTaskState", res.data)
         context.commit("irs_progress:setActiveTask", null)
       }).catch((error) => console.error(error))
-    },
-    "irs_progress:deleteTask": (context, task) => {
-      let index = context.state.tasks.findIndex(t => t.id == task.id)
-      context.state.tasks.splice(index, 1)
     },
   }
 }

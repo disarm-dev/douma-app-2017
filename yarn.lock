@@ -4392,6 +4392,20 @@ pouchdb-find@0.10.4:
     pouchdb-upsert "~2.0.1"
     spark-md5 "0.0.5"
 
+pouchdb-find@^0.10.5:
+  version "0.10.5"
+  resolved "https://registry.yarnpkg.com/pouchdb-find/-/pouchdb-find-0.10.5.tgz#34f285b8a56496a98f9cef2e1a1f6a0aac4eae8b"
+  dependencies:
+    argsarray "0.0.1"
+    debug "^2.1.0"
+    inherits "^2.0.1"
+    is-array "^1.0.1"
+    pouchdb-collate "^1.2.0"
+    pouchdb-extend "^0.1.2"
+    pouchdb-promise "5.4.0"
+    pouchdb-upsert "~2.0.1"
+    spark-md5 "2.0.2"
+
 pouchdb-json@6.1.1:
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/pouchdb-json/-/pouchdb-json-6.1.1.tgz#5a252c6299ee01040f7b03529253781b42d6f74d"
@@ -5116,6 +5130,10 @@ source-map@^0.5.0, source-map@^0.5.3, source-map@^0.5.6, source-map@~0.5.0, sour
 spark-md5@0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/spark-md5/-/spark-md5-0.0.5.tgz#931da5e3b951d06527e9b7d90dfff578b6fcdc8e"
+
+spark-md5@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/spark-md5/-/spark-md5-2.0.2.tgz#37b763847763ae7e7acef2ca5233d01e649a78b7"
 
 spark-md5@3.0.0:
   version "3.0.0"
