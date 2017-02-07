@@ -1,5 +1,5 @@
 import turf from '@turf/turf'
-import * as DB from '../../db.js'
+import DB from '../../db.js'
 
 export default {
   state: {
@@ -46,7 +46,7 @@ export default {
     // 
 
     "irs_progress:loadClusters": (context) => {
-      
+      DB.clusters
       // DB.clusters.allDocs({include_docs: true}).then((res) => console.log(res.rows))
       // DB.clusters.find({ selector: { id: cluster_id }
       // }).then((res) => console.log('found:', res.docs))
