@@ -1,0 +1,374 @@
+[
+  {
+    "id": "ace4fcab-a4d7-4902-8184-dd39978eb8d2",
+    "name": "troubadourist",
+    "location": {
+      "country": "swz",
+      "region": "Hhohho",
+      "locality": "noisome",
+      "village": "skunkbush",
+    },
+    "cluster_collection_id": "6b7743c8-49c6-4722-a320-9cbe79fce890",
+    "polygon": {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": {},
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  31.137635707855225,
+                  -26.322195696558122
+                ],
+                [
+                  31.137083172798157,
+                  -26.322609201609765
+                ],
+                [
+                  31.137839555740356,
+                  -26.322955390750145
+                ],
+                [
+                  31.138349175453182,
+                  -26.3224649558292
+                ],
+                [
+                  31.137635707855225,
+                  -26.322195696558122
+                ]
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    "task_ids": [
+      "33f230d9-2e21-4826-83f1-ef571e0a4d59",
+      "38f1849b-a9e8-4ea8-bdfa-70fe4b095ebe",
+      "f55037ef-b54c-4470-ad09-f48321ad3d14",
+      "104a6864-57f8-40ce-ac27-10a6812d1391"
+    ],
+    "spatial_entity_centroids": [
+      {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "properties": {
+              "spatial_entity_id": "3f2bc1d9-dc9d-467a-a014-7dea72ef6252",
+              "spatial_entity_type": "osm_structure"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                31.137764453887936,
+                -26.323200607431797
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "properties": {
+              "spatial_entity_id": "05d11c73-e5dd-4fed-ba11-efae5ed600aa",
+              "spatial_entity_type": "osm_structure"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                31.13828480243683,
+                -26.32252265416299
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ea2ad1e0-ed57-4d1b-8dac-dfb1aa10025c",
+    "name": "scharf",
+    "location": {
+      "country": "swz",
+      "region": "Hhohho",
+      "locality": "thermochemical",
+      "village": "hevi",
+    },
+    "cluster_collection_id": "5ab7a2d4-0573-44c2-8eec-059717107a35",
+    "polygon": {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": {},
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  31.137635707855225,
+                  -26.322195696558122
+                ],
+                [
+                  31.137083172798157,
+                  -26.322609201609765
+                ],
+                [
+                  31.137839555740356,
+                  -26.322955390750145
+                ],
+                [
+                  31.138349175453182,
+                  -26.3224649558292
+                ],
+                [
+                  31.137635707855225,
+                  -26.322195696558122
+                ]
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    "task_ids": [
+      "f990c1e1-2a31-4dac-ae35-a90651334348",
+      "1f6815a5-b335-4f0f-96db-17bb5852eb5c",
+      "2d1a66ce-0578-43be-a958-3dd15a55b78a",
+      "54a1f0a9-a4eb-433d-adbd-4d9e17ff6086"
+    ],
+    "spatial_entity_centroids": [
+      {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "properties": {
+              "spatial_entity_id": "575f9f36-cd96-40fd-8f27-d59b42912fc9",
+              "spatial_entity_type": "osm_structure"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                31.137764453887936,
+                -26.323200607431797
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "properties": {
+              "spatial_entity_id": "dfa57f6b-02f4-48b2-a519-54bdb651b32e",
+              "spatial_entity_type": "osm_structure"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                31.13828480243683,
+                -26.32252265416299
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "b40e0d05-720d-4a47-9e45-ec5d098cd387",
+    "name": "compressure",
+    "location": {
+      "country": "swz",
+      "region": "Hhohho",
+      "locality": "septime",
+      "village": "sinsyne",
+    },
+    "cluster_collection_id": "ccf96351-022d-4abb-8d12-677c145846e1",
+    "polygon": {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": {},
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  31.137635707855225,
+                  -26.322195696558122
+                ],
+                [
+                  31.137083172798157,
+                  -26.322609201609765
+                ],
+                [
+                  31.137839555740356,
+                  -26.322955390750145
+                ],
+                [
+                  31.138349175453182,
+                  -26.3224649558292
+                ],
+                [
+                  31.137635707855225,
+                  -26.322195696558122
+                ]
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    "task_ids": [
+      "ecc162fd-0743-4bc7-8a15-d8d394b06e5b",
+      "365ca3cc-ea17-47ce-be2d-1ba525238666",
+      "561734c2-e36f-42b5-93d6-ad852b3a83c2",
+      "102067ba-22d9-4c74-98ff-ff0a8afe2c78"
+    ],
+    "spatial_entity_centroids": [
+      {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "properties": {
+              "spatial_entity_id": "e893c7c7-44a2-44d0-905e-138489a5db59",
+              "spatial_entity_type": "osm_structure"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                31.137764453887936,
+                -26.323200607431797
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "properties": {
+              "spatial_entity_id": "a0d01be9-22b5-424d-bdfa-47cecce36b3c",
+              "spatial_entity_type": "osm_structure"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                31.13828480243683,
+                -26.32252265416299
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ff013b71-3a8b-4391-be72-2f280d5fcb2f",
+    "name": "antenatal",
+    "location": {
+      "country": "swz",
+      "region": "Hhohho",
+      "locality": "octingentenary",
+      "village": "catarrhous",
+    },
+    "cluster_collection_id": "da08b313-0b98-4b1a-826c-46b5cd05a3d5",
+    "polygon": {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": {},
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  31.137635707855225,
+                  -26.322195696558122
+                ],
+                [
+                  31.137083172798157,
+                  -26.322609201609765
+                ],
+                [
+                  31.137839555740356,
+                  -26.322955390750145
+                ],
+                [
+                  31.138349175453182,
+                  -26.3224649558292
+                ],
+                [
+                  31.137635707855225,
+                  -26.322195696558122
+                ]
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    "task_ids": [
+      "eb14b584-ca3f-44f2-a881-afb48aeb6cc9",
+      "e82c73db-3301-4fe7-8bab-90792591ca50",
+      "e1f8a9f2-8155-412d-8696-edb6c072ef79",
+      "d30a42c8-c977-4873-afcf-eea6215dea4a"
+    ],
+    "spatial_entity_centroids": [
+      {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "properties": {
+              "spatial_entity_id": "f8074a22-b554-4616-a553-dfe20e169668",
+              "spatial_entity_type": "osm_structure"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                31.137764453887936,
+                -26.323200607431797
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "properties": {
+              "spatial_entity_id": "f05ab328-a176-4a9f-8ee3-7912e15add8f",
+              "spatial_entity_type": "osm_structure"
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                31.13828480243683,
+                -26.32252265416299
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+]
