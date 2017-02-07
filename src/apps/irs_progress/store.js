@@ -70,24 +70,29 @@ export default {
       DB.spatial_entities.toArray().then((res) => context.commit("irs_progress:set_spatial_entities", res))
     },
     "irs_progress:seed_local_data": (context) => {
+      const clusters = require('../../data_bootstrap/clusters.json')
+      const tasks = require('../../data_bootstrap/tasks.json')
+      const spatial_entities = require('../../data_bootstrap/spatial_entities.json')
+      console.log('cleared, resetting...')
+      context.dispatch("irs_progress:save_local_clusters", clusters)
+      context.dispatch("irs_progress:save_local_tasks", tasks)
+      context.dispatch("irs_progress:save_local_spatial_entities", spatial_entities)
+    },
+    "irs_progress:clear_local_data": (context) => {
       DB.clusters.clear().then(DB.tasks.clear()).then(DB.spatial_entities.clear()).then(() => {
-        const clusters = require('../../data_bootstrap/clusters.json')
-        const tasks = require('../../data_bootstrap/tasks.json')
-        const spatial_entities = require('../../data_bootstrap/spatial_entities.json')
-        console.log('cleared, resetting...')
-        context.dispatch("irs_progress:save_local_clusters", clusters)
-        context.dispatch("irs_progress:save_local_tasks", tasks)
-        context.dispatch("irs_progress:save_local_spatial_entities", spatial_entities)
+        context.commit("irs_progress:set_clusters", null)
+        context.commit("irs_progress:set_tasks", null)
+        context.commit("irs_progress:set_spatial_entities", null)
       })
     },
     "irs_progress:save_local_clusters": (context, clusters) => {
-      DB.clusters.bulkAdd(clusters).then( res => console.log(res) )
+      DB.clusters.bulkAdd(clusters).then( res => context.commit("irs_progress:set_clusters", clusters) )
     },
     "irs_progress:save_local_tasks": (context, tasks) => {
-      DB.tasks.bulkAdd(tasks).then( res => console.log(res) )
+      DB.tasks.bulkAdd(tasks).then( res => context.commit("irs_progress:set_tasks", tasks) )
     },
     "irs_progress:save_local_spatial_entities": (context, spatial_entities) => {
-      DB.spatial_entities.bulkAdd(spatial_entities).then( res => console.log(res) )
+      DB.spatial_entities.bulkAdd(spatial_entities).then( res => context.commit("irs_progress:set_spatial_entities", spatial_entities) )
     },
 
 
