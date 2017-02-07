@@ -1,5 +1,7 @@
 import turf from '@turf/turf'
 import DB from '../../db.js'
+// TODO: @debug Remove rough global for DB
+window.db = DB
 
 export default {
   state: {
