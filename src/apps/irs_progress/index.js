@@ -46,7 +46,8 @@ export default {
     // 
 
     "irs_progress:loadClusters": (context) => {
-      DB.clusters.allDocs({include_docs: true}).then((res) => console.log(res.rows))
+      
+      // DB.clusters.allDocs({include_docs: true}).then((res) => console.log(res.rows))
       // DB.clusters.find({ selector: { id: cluster_id }
       // }).then((res) => console.log('found:', res.docs))
     },
@@ -72,13 +73,13 @@ export default {
         })
     },
     "irs_progress:retrieveStructures": (context) => {
-      DB.structures
-        // .sync()
-        // .then(() => DB.structures.list())
-        .list()
-        .then((result) => {
-          context.commit('irs_progress:setStructures', result.data)
-        })
+      // DB.structures
+      //   // .sync()
+      //   // .then(() => DB.structures.list())
+      //   .list()
+      //   .then((result) => {
+      //     context.commit('irs_progress:setStructures', result.data)
+      //   })
     },
     "irs_progress:retrieveTasks": (context) => {
       DB.tasks
@@ -162,7 +163,7 @@ export default {
     "irs_progress:sync": (context) => {
       context.commit("irs_progress:setSyncInProgress", true)
       return new Promise((resolve, reject) => {
-        DB.tasks.sync(DB.syncOptions).then(r => {
+        DB.tasks.sync().then(r => {
         DB.tasks
           .list()
           .then( (res) => {

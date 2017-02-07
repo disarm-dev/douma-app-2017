@@ -1,9 +1,16 @@
-import PouchDB from 'pouchdb'
-PouchDB.plugin(require('pouchdb-find'))
+import Dexie from 'dexie';
 
-const clusters = new PouchDB('clusters')
-const tasks = new PouchDB('tasks')
-const spatial_entities = new PouchDB('spatial_entities')
+const db = new Dexie('irs_progress');
+db.version(1).stores({
+  clusters: 'id', 
+  tasks: 'id', 
+  spatial_entities: 'id'
+})
+
+const clusters = db.clusters
+const tasks = db.tasks
+const spatial_entities = db.spatial_entities
+
 
 window.DB = {
   clusters, tasks, spatial_entities
