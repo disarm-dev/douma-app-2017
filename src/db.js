@@ -1,25 +1,13 @@
-import Kinto from 'kinto'
+import PouchDB from 'pouchdb'
 
-const syncOptions = {
-  remote: "https://kinto.dev.mozaws.net/v1",
-  headers: {
-    Authorization: "Basic " + "Ym9iOnNlY3JldA=="
-  },
-  bucket: 'disarm'
-}
-const db = new Kinto(syncOptions)
-
-// TODO: @data Need to get structures as part of RShiny data package output
-// TODO: @refac Rename structures to `entities`
-// const structures = require('./data_bootstrap/structures_5.json')
-const structures = db.collection('structures')
-
-const tasks = db.collection('tasks')
+const clusters = new PouchDB('clusters')
+const tasks = new PouchDB('tasks')
+const spatial_entities = new PouchDB('spatial_entities')
 
 window.db = {
-  structures, tasks, syncOptions
+  clusters, tasks, spatial_entities
 }
 
 export {
-  structures, tasks, syncOptions
+  clusters, tasks, spatial_entities
 }

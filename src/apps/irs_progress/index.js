@@ -3,23 +3,30 @@ import * as DB from '../../db.js'
 
 export default {
   state: {
+    // EDITING
     activeTask: null,
-    activeCluster: null,
 
-    // INPUTS
-    aoi: null,
     // DATA
     clusters: [],
     tasks: [],
+    structures: [],
+
     // SYNC
     syncInProgress: false
   },
   mutations: {
-    "irs_progress:setAoi": (state, aoi) => {
-      state.aoi = aoi
-    },
+    // EDITING
     "irs_progress:setActiveTask": (state, task) => {
       state.activeTask = task
+    },
+    "irs_progress:updateTaskState": (state, task) => { // For the map?
+      let index = state.tasks.findIndex(t => t.id == task.id)
+      state.tasks.splice(index, 1, task)
+    },
+
+    // DATA
+    "irs_progress:setClusters": (state, clusters) => {
+      state.clusters = clusters
     },
     "irs_progress:setTasks": (state, tasks) => {
       state.tasks = tasks
@@ -27,19 +34,29 @@ export default {
     "irs_progress:setStructures": (state, structures) => {
       state.structures = structures
     },
-    "irs_progress:reset": (state) => {
-      state.tasks = []
-      state.activeTask = null
-    },
+    
+    // SYNC
     "irs_progress:setSyncInProgress": (state, syncState) => {
       state.syncInProgress = !!(syncState)
     },
-    "irs_progress:updateTaskState": (state, task) => {
-      let index = state.tasks.findIndex(t => t.id == task.id)
-      state.tasks.splice(index, 1, task)
-    }
   },
   actions: {
+    // searchClusters -> get selected fields for Clusters
+    // getClustersFromRemote -> remoteDB.read().filter() => store_locally() // Mango
+    // getClustersFromLocal  -> DB.clusters // Mango
+
+
+
+
+    // "irs_progress:searchClusters": (context, searchObject) => {
+    // },
+    "irs_progress:retrieveClusters": (context) => {
+      DB.clusters
+        .list()
+        .then((result) => {
+          context.commit('irs_progress:setClusters', result.data)
+        })
+    },
     "irs_progress:retrieveStructures": (context) => {
       DB.structures
         // .sync()
@@ -126,6 +143,8 @@ export default {
       let foundTask = context.state.tasks.find(task => task.osm_id === osm_id)
       context.commit('irs_progress:setActiveTask', foundTask)
     },
+
+
     "irs_progress:sync": (context) => {
       context.commit("irs_progress:setSyncInProgress", true)
       return new Promise((resolve, reject) => {
@@ -180,7 +199,6 @@ export default {
         context.commit("irs_progress:setActiveTask", null)
       }).catch((error) => console.error(error))
     },
-
     "irs_progress:deleteTask": (context, task) => {
       let index = context.state.tasks.findIndex(t => t.id == task.id)
       context.state.tasks.splice(index, 1)
