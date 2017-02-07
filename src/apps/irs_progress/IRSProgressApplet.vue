@@ -7,7 +7,7 @@
     name: 'IrsProgressApplet',
     mounted() {
       // Launch the IRS Progress app, by loading the local data
-      this.$store.dispatch('irs_progress:loadLocalData')
+      this.$store.dispatch('irs_progress:load_local_data')
     }
   }
 </script>

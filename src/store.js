@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import {Structures} from './lib/models.js'
 
-import irs_progress from './apps/irs_progress'
+import irs_progress from './apps/irs_progress/store'
 import foci from './apps/foci'
 
 Vue.use(Vuex)

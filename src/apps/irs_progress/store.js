@@ -1,5 +1,8 @@
+// Store for IRS-Progress 
+
 import turf from '@turf/turf'
 import DB from '../../db.js'
+
 // TODO: @debug Remove rough global for DB
 window.db = DB
 
@@ -11,10 +14,10 @@ export default {
     // DATA
     clusters: [],
     tasks: [],
-    structures: [],
+    spatial_entities: [],
 
     // SYNC
-    syncInProgress: false
+    sync_in_progress: false
   },
   mutations: {
     // EDITING
@@ -27,19 +30,19 @@ export default {
     },
 
     // DATA
-    "irs_progress:setClusters": (state, clusters) => {
+    "irs_progress:set_clusters": (state, clusters) => {
       state.clusters = clusters
     },
-    "irs_progress:setTasks": (state, tasks) => {
+    "irs_progress:set_tasks": (state, tasks) => {
       state.tasks = tasks
     },
-    "irs_progress:setStructures": (state, structures) => {
-      state.structures = structures
+    "irs_progress:set_spatial_entities": (state, spatial_entities) => {
+      state.spatial_entities = spatial_entities
     },
     
     // SYNC
     "irs_progress:setSyncInProgress": (state, syncState) => {
-      state.syncInProgress = !!(syncState)
+      state.sync_in_progress = !!(syncState)
     },
   },
   actions: {
@@ -47,20 +50,19 @@ export default {
     // LOCAL DB
     // 
 
-    "irs_progress:loadLocalData": (context) => {
-      // TODO: @feature Any reason to want to have more control over these 'load' things?, i.e. use the Promises?
-      context.dispatch('irs_progress:loadClusters')
-      context.dispatch('irs_progress:loadTasks')
-      context.dispatch('irs_progress:loadSpatialEntities')
+    "irs_progress:load_local_data": (context) => {
+      context.dispatch('irs_progress:load_clusters')
+      context.dispatch('irs_progress:load_tasks')
+      context.dispatch('irs_progress:load_spatial_entities')
     },
-    "irs_progress:loadClusters": (context) => {
-      DB.clusters.toArray().then((res) => console.table(res))
+    "irs_progress:load_clusters": (context) => {
+      DB.clusters.toArray().then((res) => context.commit("irs_progress:set_clusters", res))
     },
-    "irs_progress:loadTasks": (context) => {
-      DB.tasks.toArray().then((res) => console.table(res))
+    "irs_progress:load_tasks": (context) => {
+      DB.tasks.toArray().then((res) => context.commit("irs_progress:set_tasks", res))
     },
-    "irs_progress:loadSpatialEntities": (context) => {
-      DB.spatial_entities.toArray().then((res) => console.table(res))
+    "irs_progress:load_spatial_entities": (context) => {
+      DB.spatial_entities.toArray().then((res) => context.commit("irs_progress:set_spatial_entities", res))
     },
 
     // 
