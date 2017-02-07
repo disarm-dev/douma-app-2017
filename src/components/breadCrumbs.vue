@@ -15,8 +15,10 @@
             let title
             let route
 
-            if (match.meta.hasOwnProperty('prependBreadcrumb')) {
+            if (match.meta.hasOwnProperty('prependBreadcrumb') && match.meta.prependBreadcrumb !== '') {
               title = this.$route.params[match.meta.prependBreadcrumb] + " " + match.meta.breadcrumb
+            } else if (match.meta.hasOwnProperty('appendBreadcrumb') && match.meta.appendBreadcrumb !== '') {
+              title = match.meta.breadcrumb + " " + this.$route.params[match.meta.appendBreadcrumb]
             } else {
               title = match.meta.breadcrumb
             }

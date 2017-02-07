@@ -56,25 +56,26 @@ export default [
             path: 'view',
             name: 'irs_progress:cluster:view',
             component: ClusterView,
-            meta: { prependBreadcrumb: 'cluster_id', breadcrumb: '' },
-            props: true
+            meta: { prependBreadcrumb: '', breadcrumb: 'Cluster', appendBreadcrumb: 'cluster_id' },
+            props: true,
           },{
             path: 'map',
             name: 'irs_progress:cluster:map',
             component: ClusterMap,
-            meta: { breadcrumb: 'Map'},
+            meta: { prependBreadcrumb: 'cluster_id', breadcrumb: 'Map'},
             props: true
           },{
             path: 'tasks',
             name: 'irs_progress:tasks',
             redirect: '/irs_progress/clusters/:cluster_id/tasks/list',
             component: ContainerComponent,
-            meta: { breadcrumb: 'Tasks' },
+            meta: { prependBreadcrumb: '', breadcrumb: 'Cluster', appendBreadcrumb: 'cluster_id' },
             children: [
               {
                 path: 'list', // /irs_progress/clusters/:cluster_id/tasks/list
                 name: 'irs_progress:tasks:list',
                 component: TasksList,
+                meta: { breadcrumb: 'List'}
               },{
                 path: 'map',
                 name: 'irs_progress:tasks:map',
@@ -85,12 +86,13 @@ export default [
                 name: 'irs_progress:task',
                 redirect: '/irs_progress/clusters/:cluster_id/tasks/:task_id/view',
                 component: ContainerComponent,
-                meta: { prependBreadcrumb: 'task_id', breadcrumb: ''},
+                meta: { prependBreadcrumb: '', breadcrumb: 'Task', appendBreadcrumb: 'task_id'},
                 children: [
                   {
                     path: 'view',
                     name: 'irs_progress:task:view',
                     component: TaskView,
+                    meta: { breadcrumb: 'View'}
                   },{
                     path: 'edit',
                     name: 'irs_progress:task:edit',
