@@ -69,6 +69,30 @@ export default {
     "irs_progress:load_spatial_entities": (context) => {
       DB.spatial_entities.toArray().then((res) => context.commit("irs_progress:set_spatial_entities", res))
     },
+    "irs_progress:seed_local_data": (context) => {
+      DB.clusters.clear().then(DB.tasks.clear()).then(DB.spatial_entities.clear()).then(() => {
+        const clusters = require('../../data_bootstrap/clusters.json')
+        const tasks = require('../../data_bootstrap/tasks.json')
+        const spatial_entities = require('../../data_bootstrap/spatial_entities.json')
+        console.log('cleared, resetting...')
+        context.dispatch("irs_progress:save_local_clusters", clusters)
+        context.dispatch("irs_progress:save_local_tasks", tasks)
+        context.dispatch("irs_progress:save_local_spatial_entities", spatial_entities)
+      })
+    },
+    "irs_progress:save_local_clusters": (context, clusters) => {
+      DB.clusters.bulkAdd(clusters).then( res => console.log(res) )
+    },
+    "irs_progress:save_local_tasks": (context, tasks) => {
+      DB.tasks.bulkAdd(tasks).then( res => console.log(res) )
+    },
+    "irs_progress:save_local_spatial_entities": (context, spatial_entities) => {
+      DB.spatial_entities.bulkAdd(spatial_entities).then( res => console.log(res) )
+    },
+
+
+
+
     "irs_progress:update_active_task": (context, taskClone) => {
       delete taskClone.distance // TODO: @feature Maybe want to use this to validate proximity to structure when record created
 
