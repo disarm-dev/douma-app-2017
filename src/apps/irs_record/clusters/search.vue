@@ -18,11 +18,13 @@
 
     <md-list>
       <md-list-item 
-        v-for='cluster in clusters_search_results'
-        @click.native="">
+        v-for='(cluster, index) in clusters_search_results'>
+        <md-checkbox v-model='keep_these_cluster_ids[index]'></md-checkbox>
         {{cluster.name}} {{cluster._id}}
       </md-list-item>
     </md-list>
+
+    <md-button :disabled='keep_these_cluster_ids.length === 0' @click.native='keep'>Keep these</md-button>
 
   </div>
 </template>
@@ -39,6 +41,7 @@
       return {
         search_definition: [],
         clusters_search_results: [],
+        keep_these_cluster_ids: [],
         options: [
           { 
             location_type_label: 'Region',
@@ -70,6 +73,9 @@
       clear() { 
         this.clusters_search_results = [] 
         this.search_definition = [] 
+      },
+      keep() {
+        console.log(this.keep_these_cluster_ids)
       }
     }
   }
