@@ -39,7 +39,7 @@ Example:
 {
     id: '0e234567-e537-4d4e-b351-9f68e373e526',
     structure_id: '4d9690b7-2e19-47ce-ac89-d41ac653b6d0',
-    type: 'irs_progress',    
+    type: 'irs_record',    
     attributes: {
         // information collected from the form
         status: 'unvisited'

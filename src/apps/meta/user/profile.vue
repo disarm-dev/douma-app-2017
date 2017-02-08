@@ -28,7 +28,7 @@
     },
     data() {
       return {
-        allowedApps: ['irs_progress', 'foci']
+        allowedApps: ['irs_record', 'foci']
       }
     },
     computed: {

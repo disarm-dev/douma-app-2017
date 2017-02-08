@@ -1,25 +1,12 @@
-import Kinto from 'kinto'
+import Dexie from 'dexie';
 
-const syncOptions = {
-  remote: "https://kinto.dev.mozaws.net/v1",
-  headers: {
-    Authorization: "Basic " + "Ym9iOnNlY3JldA=="
-  },
-  bucket: 'disarm'
-}
-const db = new Kinto(syncOptions)
+const DB = new Dexie('irs_record');
 
-// TODO: @data Need to get structures as part of RShiny data package output
-// TODO: @refac Rename structures to `entities`
-// const structures = require('./data_bootstrap/structures_5.json')
-const structures = db.collection('structures')
+// Create stores for each collection, including setting primary key.
+DB.version(1).stores({
+  clusters: 'id', 
+  tasks: 'id', 
+  spatial_entities: 'id'
+})
 
-const tasks = db.collection('tasks')
-
-window.db = {
-  structures, tasks, syncOptions
-}
-
-export {
-  structures, tasks, syncOptions
-}
+export default DB

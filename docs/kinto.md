@@ -1,4 +1,4 @@
-Take a deep breath
+# Take a deep breath
 
 ```
 curl -X "GET" "https://kinto.dev.mozaws.net/v1/" \
