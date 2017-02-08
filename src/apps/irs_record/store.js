@@ -70,15 +70,24 @@ export default {
       DB.spatial_entities.toArray().then((res) => context.commit("irs_record:set_spatial_entities", res))
     },
 
-    "irs_record:seed_local_data": (context) => {
+    "irs_record:seed_local_data_from_files": (context) => {
+      const clusters = require('./_seed_data/clusters.json')
+      const tasks = require('./_seed_data/tasks.json')
+      const spatial_entities = require('./_seed_data/spatial_entities.json')
+
+      context.dispatch("irs_record:save_local_clusters", clusters)
+      context.dispatch("irs_record:save_local_tasks", tasks)
+      context.dispatch("irs_record:save_local_spatial_entities", spatial_entities)
+    },
+    "irs_record:seed_local_data_from_remote": (context) => {
       context.dispatch("irs_record:get_remote_clusters")
-        .then((clusters) => context.dispatch("irs_record:save_local_clusters", clusters))
+        .then((res) => context.dispatch("irs_record:save_local_clusters", res.data))
 
       context.dispatch("irs_record:get_remote_tasks")
-        .then((tasks) => context.dispatch("irs_record:save_local_tasks", tasks))
+        .then((res) => context.dispatch("irs_record:save_local_tasks", res.data))
 
       context.dispatch("irs_record:get_remote_spatial_entities")
-        .then((spatial_entities) => context.dispatch("irs_record:save_local_spatial_entities", spatial_entities))
+        .then((res) => context.dispatch("irs_record:save_local_spatial_entities", res.data))
     },
     "irs_record:clear_local_data": (context) => {
       DB.clusters.clear().then(DB.tasks.clear())
@@ -90,12 +99,15 @@ export default {
         })
     },
     "irs_record:save_local_clusters": (context, clusters) => {
+      if (!clusters) return
       DB.clusters.bulkAdd(clusters).then(res => context.commit("irs_record:set_clusters", clusters))
     },
     "irs_record:save_local_tasks": (context, tasks) => {
+      if (!tasks) return
       DB.tasks.bulkAdd(tasks).then(res => context.commit("irs_record:set_tasks", tasks))
     },
     "irs_record:save_local_spatial_entities": (context, spatial_entities) => {
+      if (!spatial_entities) return
       DB.spatial_entities.bulkAdd(spatial_entities).then(res => context.commit("irs_record:set_spatial_entities", spatial_entities))
     },
 
@@ -137,12 +149,12 @@ export default {
     },
     "irs_record:get_remote_tasks": (context, filters) => {
       // req.params.filters.task_ids = filters.task_ids
-      return fetch(`${DOUMA_API_URL}/tasks?ids=[1,2,3,4]`)
+      return fetch(`${DOUMA_API_URL}/tasks`)
         .then(res => res.json())
     },
     "irs_record:get_remote_spatial_entities": (context, filters) => {
       // req.params.filters.spatial_entity_ids = filters.spatial_entity_ids
-      return fetch(`${DOUMA_API_URL}/spatial_entities?ids=[1,2,3,4]`)
+      return fetch(`${DOUMA_API_URL}/spatial_entities`)
         .then(res => res.json())
     },
     "irs_record:sync_local_tasks": (context, filters) => {

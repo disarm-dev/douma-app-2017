@@ -45,22 +45,10 @@
               {name: 'Hhohho', location_type: 'region'}
             ]
           },{ 
-            location_type_label: 'Inkhundla',
-            locations: [
-              {name: 'Inkhundla1', location_type: 'inkhundla'},
-              {name: 'Inkhundla2', location_type: 'inkhundla'},
-              {name: 'Inkhundla3', location_type: 'inkhundla'},
-              {name: 'Inkhundla4', location_type: 'inkhundla'},
-              {name: 'Inkhundla5', location_type: 'inkhundla'}
-            ]
-          },{ 
             location_type_label: 'Locality',
             locations: [
               {name: 'Locality1', location_type: 'locality'},
-              {name: 'Locality2', location_type: 'locality'},
-              {name: 'Locality3', location_type: 'locality'},
-              {name: 'Locality4', location_type: 'locality'},
-              {name: 'Locality5', location_type: 'locality'}
+              {name: 'Locality2', location_type: 'locality'}
             ]
           }
         ]
