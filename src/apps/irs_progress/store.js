@@ -70,10 +70,11 @@ export default {
       DB.spatial_entities.toArray().then((res) => context.commit("irs_progress:set_spatial_entities", res))
     },
     "irs_progress:seed_local_data": (context) => {
+      // TODO: @debug Remove seed_data functions, replace with live data!
       const clusters = require('./_seed_data/clusters.json')
       const tasks = require('./_seed_data/tasks.json')
       const spatial_entities = require('./_seed_data/spatial_entities.json')
-      console.log('cleared, resetting...')
+
       context.dispatch("irs_progress:save_local_clusters", clusters)
       context.dispatch("irs_progress:save_local_tasks", tasks)
       context.dispatch("irs_progress:save_local_spatial_entities", spatial_entities)
@@ -128,8 +129,9 @@ export default {
       const promise = new Promise((resolve, reject) => resolve())
       return promise
     },
-    "irs_progress:send_local_tasks": (context) => console.log('send_local_tasks'),
-
+    "irs_progress:send_local_tasks": (context) => {
+      console.log('send_local_tasks')
+    },
     "irs_progress:deleteAllTasks": (context) => {
       // DB.tasks.list().then((res) => {
       //   // Delete all in parallel
