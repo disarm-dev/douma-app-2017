@@ -5,7 +5,7 @@ Vue.use(VueRouter)
 import store from './store'
 
 import AppletContainer from './components/applet.vue'
-import IRSProgressRoutes from './apps/irs_progress/routes'
+import IRSProgressRoutes from './apps/irs_record/routes'
 // import FociRoutes from './apps/foci/routes'
 // import GPSRoutes from './apps/gps/routes'
 // import MetaRoutes from './apps/meta/routes'
@@ -45,21 +45,21 @@ export default () => {
   
   router.afterEach((to, from) => {
     // breadcrumbsFor(to)
-    // ROOT URL: irs_progress/ {IRSProgressApplet}
+    // ROOT URL: irs_record/ {IRSProgressApplet}
     // "clusters"                    ---> 'list'                                                                                          ClusterParentView
-    // "clusters/list"               ['irs_progress:clusters:list']   -> "Clusters List" // Current locally-stored Clusters               ClustersList / <clusters-list>
-    // "clusters/map"                ['irs_progress:clusters:map']    -> "Clusters Map"
-    // "clusters/search"             ['irs_progress:clusters:search'] -> "Clusters Search" // Includes Results (remote + local)
-    // "clusters/edit"               ['irs_progress:clusters:edit']   -> "Clusters Edit" // Which Clusters to get local data for
+    // "clusters/list"               ['irs_record:clusters:list']   -> "Clusters List" // Current locally-stored Clusters               ClustersList / <clusters-list>
+    // "clusters/map"                ['irs_record:clusters:map']    -> "Clusters Map"
+    // "clusters/search"             ['irs_record:clusters:search'] -> "Clusters Search" // Includes Results (remote + local)
+    // "clusters/edit"               ['irs_record:clusters:edit']   -> "Clusters Edit" // Which Clusters to get local data for
     // "clusters/222"                ---> 'view'
-    // "clusters/222/view"           ['irs_progress:cluster:view']    -> "Clusters > 222 "
-    // "clusters/222/map"            ['irs_progress:cluster:map']     -> "Clusters > 222 Map"
+    // "clusters/222/view"           ['irs_record:cluster:view']    -> "Clusters > 222 "
+    // "clusters/222/map"            ['irs_record:cluster:map']     -> "Clusters > 222 Map"
     // "clusters/222/tasks"          ---> 'list'
-    // "clusters/222/tasks/list"     ['irs_progress:tasks:list']      -> "Clusters > 222 > Tasks List"
-    // "clusters/222/tasks/map"      ['irs_progress:tasks:map']       -> "Clusters > 222 > Tasks Map"
+    // "clusters/222/tasks/list"     ['irs_record:tasks:list']      -> "Clusters > 222 > Tasks List"
+    // "clusters/222/tasks/map"      ['irs_record:tasks:map']       -> "Clusters > 222 > Tasks Map"
     // "clusters/222/tasks/444"      ---> 'view'
-    // "clusters/222/tasks/444/view" ['irs_progress:task:view']       -> "Cluster > Cluster 222 > Tasks > 444"
-    // "clusters/222/tasks/444/form" ['irs_progress:task:edit']       -> "Cluster > Cluster 222 > Tasks > 444 Edit"
+    // "clusters/222/tasks/444/view" ['irs_record:task:view']       -> "Cluster > Cluster 222 > Tasks > 444"
+    // "clusters/222/tasks/444/form" ['irs_record:task:edit']       -> "Cluster > Cluster 222 > Tasks > 444 Edit"
   })
 
   return router;

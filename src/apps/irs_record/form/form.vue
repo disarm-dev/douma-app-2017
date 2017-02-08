@@ -1,7 +1,7 @@
 <template>
   <div>
     
-    <no-active-structure v-if="!$store.state.irs_progress.activeTask" />
+    <no-active-structure v-if="!$store.state.irs_record.activeTask" />
 
     <div v-else class="form">
       <div class="md-title">Entity: {{task.id}}</div>
@@ -57,20 +57,20 @@
     },
     watch: {
       // Form is mounted before Task is set so we watch and clone it
-      '$store.state.irs_progress.activeTask': 'setTask'
+      '$store.state.irs_record.activeTask': 'setTask'
     },
     methods: {
       setTask() {
         // Task should be a copy of the activeTask, so that updating only
         // takes place once 'submitted'
-        this.task = Object.assign({}, this.$store.state.irs_progress.activeTask)
+        this.task = Object.assign({}, this.$store.state.irs_record.activeTask)
       },
       cancel() {
-        this.$store.commit("irs_progress:setActiveTask", null)
+        this.$store.commit("irs_record:setActiveTask", null)
       },
       submit() {
         // TODO: @feature Want to validate before commiting?
-        this.$store.dispatch("irs_progress:updateActiveTask", this.task)
+        this.$store.dispatch("irs_record:updateActiveTask", this.task)
       }
     }
   }

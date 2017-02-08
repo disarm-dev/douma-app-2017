@@ -29,7 +29,7 @@ console.info('DOUMA version: ' + COMMIT_HASH)
 // TODO: @refac Replace `douma.data` global with something else. Another global of some kind?
 window.douma = {
   data: {
-    irs_progress: {
+    irs_record: {
       entities: [],
       entitiesLayer: null,
 

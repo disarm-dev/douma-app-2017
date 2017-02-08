@@ -12,15 +12,15 @@
       this.renderEntitiesLayer()
     },
     computed: {
-      activeTask() { return this.$store.state.irs_progress.activeTask },
-      tasks() { return this.$store.state.irs_progress.tasks } 
+      activeTask() { return this.$store.state.irs_record.activeTask },
+      tasks() { return this.$store.state.irs_record.tasks } 
     },
     watch: {
       'tasks': 'redrawEntityLayer'
     },
     methods: {
       createMap(){
-        let leMap = window.douma.data.irs_progress.leMap
+        let leMap = window.douma.data.irs_record.leMap
         if (leMap) return
 
         // Configure basic map
@@ -36,7 +36,7 @@
         Leaflet.tileLayer(url).addTo(leMap);
 
         leMap.on('click', (e) => {
-          let userCoordsMarker = window.douma.data.irs_progress.userCoordsMarker 
+          let userCoordsMarker = window.douma.data.irs_record.userCoordsMarker 
 
           if (userCoordsMarker) userCoordsMarker.remove()
           const userCoordsIcon = L.icon({
@@ -47,16 +47,16 @@
           userCoordsMarker = L.marker(e.latlng, {icon: userCoordsIcon})
           userCoordsMarker.addTo(leMap);
 
-          window.douma.data.irs_progress.userCoordsMarker = userCoordsMarker
+          window.douma.data.irs_record.userCoordsMarker = userCoordsMarker
         })
 
-        window.douma.data.irs_progress.leMap = leMap
+        window.douma.data.irs_record.leMap = leMap
       },
 
       renderEntitiesLayer() {
-        let leMap = window.douma.data.irs_progress.leMap
-        let entitiesLayer = window.douma.data.irs_progress.entitiesLayer
-        const entities = window.douma.data.irs_progress.entities
+        let leMap = window.douma.data.irs_record.leMap
+        let entitiesLayer = window.douma.data.irs_record.entitiesLayer
+        const entities = window.douma.data.irs_record.entities
 
         if (entitiesLayer) {
           return
@@ -97,29 +97,29 @@
 
             layer.on('click', (e) => {
               L.DomEvent.stopPropagation(e)
-              this.$store.dispatch('irs_progress:setActiveTaskByOSMId', feature.properties.osm_id) // This is the related Task's ID
+              this.$store.dispatch('irs_record:setActiveTaskByOSMId', feature.properties.osm_id) // This is the related Task's ID
               // TODO: @refac Try to avoid navigating unless certain there's a matching Task, i.e. the previous line could set null
-              this.$router.push({name: 'irs_progress:form'})
+              this.$router.push({name: 'irs_record:form'})
             })
 
             // layer.on('contextmenu', (e) => {
-            //   this.$store.commit('irs_progress:setActiveStructure', feature.properties)
+            //   this.$store.commit('irs_record:setActiveStructure', feature.properties)
             //   const changedStructured = Object.assign(feature.properties, {actioned: !feature.properties.actioned})
-            //   this.$store.commit('irs_progress:updateStructure', changedStructured)
+            //   this.$store.commit('irs_record:updateStructure', changedStructured)
             // })
 
           }
         })
 
-        window.douma.data.irs_progress.entitiesLayer = entitiesLayer
+        window.douma.data.irs_record.entitiesLayer = entitiesLayer
         entitiesLayer.addTo(leMap)
         leMap.fitBounds(entitiesLayer.getBounds())
       },
 
-      // Responds to a $watch on `$store.state.irs_progress.tasks`, and will find the layer for 
+      // Responds to a $watch on `$store.state.irs_record.tasks`, and will find the layer for 
       // the `osm_id` of the current `activeTask`, then redraw it
       redrawEntityLayer() {
-        const leMap = window.douma.data.irs_progress.leMap
+        const leMap = window.douma.data.irs_record.leMap
         if (!this.activeTask) return
 
         let layer = this.getLayerIdForOsmId(this.activeTask.osm_id)
@@ -140,7 +140,7 @@
       },
 
       getLayerIdForOsmId(osm_id) {
-        const entitiesLayer = window.douma.data.irs_progress.entitiesLayer
+        const entitiesLayer = window.douma.data.irs_record.entitiesLayer
 
         let layer = entitiesLayer.getLayers().find((layer) => {
           return layer.feature.properties.osm_id === osm_id

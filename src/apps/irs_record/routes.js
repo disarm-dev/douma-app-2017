@@ -17,86 +17,86 @@ import TaskEdit from './task/edit.vue'
 
 export default [
   {
-    path: '/irs_progress',
-    name: 'irs_progress',
-    redirect: '/irs_progress/clusters'
+    path: '/irs_record',
+    name: 'irs_record',
+    redirect: '/irs_record/clusters'
   },{
-    path: '/irs_progress/clusters',
-    name: 'irs_progress:clusters',
-    redirect: '/irs_progress/clusters/list',    
+    path: '/irs_record/clusters',
+    name: 'irs_record:clusters',
+    redirect: '/irs_record/clusters/list',    
     component: IRSProgressApplet,
     meta: { breadcrumb: 'Clusters' },
     children: [
       {
         path: 'list',
-        name: 'irs_progress:clusters:list',
+        name: 'irs_record:clusters:list',
         component: ClustersList,
       },{
         path: 'map',
-        name: 'irs_progress:clusters:map',
+        name: 'irs_record:clusters:map',
         component: ClustersMap,
         meta: { breadcrumb: 'Map' }
       },{
         path: 'search',
-        name: 'irs_progress:clusters:search',
+        name: 'irs_record:clusters:search',
         component: ClustersSearch,
         meta: { breadcrumb: 'Search' }
       },{
         path: 'edit',
-        name: 'irs_progress:clusters:edit',
+        name: 'irs_record:clusters:edit',
         component: ClustersEdit,
         meta: { breadcrumb: 'Edit' }
       },{
         path: ':cluster_id',
-        name: 'irs_progress:clusters:view',
+        name: 'irs_record:clusters:view',
         component: ContainerComponent,
         meta: { prependBreadcrumb: 'cluster_id', breadcrumb: '' },
-        redirect: '/irs_progress/clusters/:cluster_id/view',
+        redirect: '/irs_record/clusters/:cluster_id/view',
         children: [
           {
             path: 'view',
-            name: 'irs_progress:cluster:view',
+            name: 'irs_record:cluster:view',
             component: ClusterView,
             meta: { prependBreadcrumb: '', breadcrumb: 'Tasks', appendBreadcrumb: '' },
             props: true,
           },{
             path: 'map',
-            name: 'irs_progress:cluster:map',
+            name: 'irs_record:cluster:map',
             component: ClusterMap,
             meta: { prependBreadcrumb: '', breadcrumb: 'Map'},
             props: true
           },{
             path: 'tasks',
-            name: 'irs_progress:tasks',
-            redirect: '/irs_progress/clusters/:cluster_id/tasks/list',
+            name: 'irs_record:tasks',
+            redirect: '/irs_record/clusters/:cluster_id/tasks/list',
             component: ContainerComponent,
             meta: { prependBreadcrumb: '', breadcrumb: 'Tasks', appendBreadcrumb: '' },
             children: [
               {
-                path: 'list', // /irs_progress/clusters/:cluster_id/tasks/list
-                name: 'irs_progress:tasks:list',
+                path: 'list', // /irs_record/clusters/:cluster_id/tasks/list
+                name: 'irs_record:tasks:list',
                 component: TasksList,
                 meta: { breadcrumb: 'List'}
               },{
                 path: 'map',
-                name: 'irs_progress:tasks:map',
+                name: 'irs_record:tasks:map',
                 component: TasksMap,
                 meta: { breadcrumb: 'Map'}
               },{
                 path: ':task_id',
-                name: 'irs_progress:task',
-                redirect: '/irs_progress/clusters/:cluster_id/tasks/:task_id/view',
+                name: 'irs_record:task',
+                redirect: '/irs_record/clusters/:cluster_id/tasks/:task_id/view',
                 component: ContainerComponent,
                 meta: { prependBreadcrumb: '', breadcrumb: '', appendBreadcrumb: 'task_id'},
                 children: [
                   {
                     path: 'view',
-                    name: 'irs_progress:task:view',
+                    name: 'irs_record:task:view',
                     component: TaskView,
                     meta: { breadcrumb: 'View'}
                   },{
                     path: 'edit',
-                    name: 'irs_progress:task:edit',
+                    name: 'irs_record:task:edit',
                     component: TaskEdit,
                     meta: { breadcrumb: 'Edit'}
                   }

@@ -68,7 +68,7 @@
     },
     methods: {
       search() {
-        this.$store.dispatch("irs_progress:search_remote_clusters", {locations: this.search_definition})
+        this.$store.dispatch("irs_record:search_remote_clusters", {locations: this.search_definition})
           .then((clusters_search_results) => {
             // console.log(clusters_search_results)
             this.clusters_search_results = clusters_search_results
