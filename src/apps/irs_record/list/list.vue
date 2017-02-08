@@ -2,17 +2,17 @@
   <div class="irs-list">
     <div class="md-title">Tasks ({{$store.state.irs_record.tasks.length}})</div>
     <div>
-      <md-button class='md-raised md-primary' @click='findClosestTask'>Find closest {{filterBy ? filterBy : 'all'}}</md-button>
-      <md-button class='md-raised md-warn' @click='finishTasks'>Finish tasks</md-button>
+      <md-button class='md-raised md-primary' @click.native='findClosestTask'>Find closest {{filterBy ? filterBy : 'all'}}</md-button>
+      <md-button class='md-raised md-warn' @click.native='finishTasks'>Finish tasks</md-button>
       <md-progress v-show='$store.state.irs_record.syncInProgress' md-indeterminate></md-progress>
     </div>
 
     <div style='width: 100%; height: 20px; background: #cacaca'>
-      <span @click='addFilterBy("successfulVisit")' style='background: green; height: 100%; display: block; float: left;'
+      <span @click.native='addFilterBy("successfulVisit")' style='background: green; height: 100%; display: block; float: left;'
         :style='{width: taskStat.visitedSuccess + "%"}'></span>
-      <span @click='addFilterBy("unsuccessfulVisit")' style='background: red; height: 100%; display: block; float: left;'
+      <span @click.native='addFilterBy("unsuccessfulVisit")' style='background: red; height: 100%; display: block; float: left;'
         :style='{width: taskStat.visitedUnsuccess + "%"}'></span>
-      <span @click='addFilterBy("unvisited")' style='background: orange; height: 100%; display: block; float: left;'
+      <span @click.native='addFilterBy("unvisited")' style='background: orange; height: 100%; display: block; float: left;'
         :style='{width: taskStat.unvisited + "%"}'></span>
     </div>
 
@@ -24,7 +24,7 @@
     <md-list class="md-dense">
       <md-list-item  
         v-for="task in groupedFilteredTasks.unvisited" 
-        @click="setActiveTask(task)" 
+        @click.native="setActiveTask(task)" 
         :class="actionClass(task)">
         <md-icon>help</md-icon>
         <entity-entry :task='task'></entity-entry>
@@ -35,7 +35,7 @@
     <md-list class="md-dense">
       <md-list-item  
         v-for="task in groupedFilteredTasks.unsuccessfulVisit" 
-        @click="setActiveTask(task)" 
+        @click.native="setActiveTask(task)" 
         :class="actionClass(task)">
         <md-icon>{{task.actioned ? 'done'  : 'warning' }}</md-icon>
         <entity-entry :task='task'></entity-entry>
@@ -46,7 +46,7 @@
     <md-list class="md-dense">
       <md-list-item  
         v-for="task in groupedFilteredTasks.successfulVisit" 
-        @click="setActiveTask(task)" 
+        @click.native="setActiveTask(task)" 
         :class="actionClass(task)">
         <md-icon>{{task.actioned ? 'done'  : 'warning' }}</md-icon>
         <entity-entry :task='task'></entity-entry>

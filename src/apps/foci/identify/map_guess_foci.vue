@@ -1,6 +1,6 @@
 <template>
   <div class='fab-container'>
-    <md-button class="md-fab md-accent" v-show='!fociGuess' @click="guessFoci()">
+    <md-button class="md-fab md-accent" v-show='!fociGuess' @click.native="guessFoci()">
       <md-icon style="color: white">border_outer</md-icon>
     </md-button>
     <md-button class="md-fab md-primary" v-show='fociGuess'>

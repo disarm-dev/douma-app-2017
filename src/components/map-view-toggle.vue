@@ -1,5 +1,5 @@
 <template>
-  <md-button @click='toggleView'>{{otherView}}</md-button>
+  <md-button @click.native='toggleView'>{{otherView}}</md-button>
 </template>
 
 <script>

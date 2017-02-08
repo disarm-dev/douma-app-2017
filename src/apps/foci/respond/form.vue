@@ -17,7 +17,7 @@
               <md-textarea></md-textarea>
             </md-input-container>
           </div>
-          <md-button class="md-accent md-raised" @click="save">Save</md-button>
+          <md-button class="md-accent md-raised" @click.native="save">Save</md-button>
         </md-card-content>
       </md-card>
 

@@ -1,13 +1,13 @@
 <template>
   <div class='fab-container'>
-    <md-button class="md-fab md-clean" @click="$router.push({name: 'foci:monitor:map'})">
+    <md-button class="md-fab md-clean" @click.native="$router.push({name: 'foci:monitor:map'})">
       <md-icon>location_on</md-icon>
     </md-button>
     <div class="monitor-list">    
       <div class="md-title">Recent foci</div>
       <md-list class="md-double-line">
         
-        <md-list-item v-for='foci in focis' @click="goToFoci(foci)">
+        <md-list-item v-for='foci in focis' @click.native="goToFoci(foci)">
           <md-icon class="md-primary">blur_on</md-icon>
 
           <div class="md-list-text-container">
@@ -24,7 +24,7 @@
           12 new cases found outside existing focis
         </md-card-header>
         <md-card-actions>
-          <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:identify'})">Identify new foci</md-button>
+          <md-button class='md-raised md-accent' @click.native="$router.push({name: 'foci:identify'})">Identify new foci</md-button>
         </md-card-actions>
       </md-card>
 

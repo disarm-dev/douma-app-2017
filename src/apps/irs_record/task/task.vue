@@ -1,8 +1,8 @@
 <template>
   <div>
     <div>Task view - form for {{task_id}}</div>
-    <md-button @click='save'>Save</md-button>
-    <md-button @click='cancel' class='md-warn'>Cancel</md-button>
+    <md-button @click.native='save'>Save</md-button>
+    <md-button @click.native='cancel' class='md-warn'>Cancel</md-button>
   </div>
 </template>
 

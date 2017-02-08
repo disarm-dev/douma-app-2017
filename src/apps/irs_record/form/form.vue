@@ -36,7 +36,7 @@
         </div>
 
         <md-button type="submit" class="md-raised md-accent">Save</md-button>
-        <md-button @click.stop.prevent="cancel()" class="md-raised md-warn">Cancel</md-button>
+        <md-button @click.native.stop.prevent="cancel()" class="md-raised md-warn">Cancel</md-button>
       </form>
     </div>
   </div>

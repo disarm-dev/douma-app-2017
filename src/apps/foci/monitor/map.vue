@@ -1,6 +1,6 @@
 <template>
   <div class='fab-container'>
-    <md-button class="md-fab md-clean" @click="$router.push({name: 'foci:monitor:list'})">
+    <md-button class="md-fab md-clean" @click.native="$router.push({name: 'foci:monitor:list'})">
       <md-icon>list</md-icon>
     </md-button>
     <div id="monitor-map"></div>

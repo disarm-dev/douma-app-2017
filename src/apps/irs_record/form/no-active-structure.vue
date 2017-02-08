@@ -5,7 +5,7 @@
     </div>
     <h1 class="md-title">You don't have an active Task.</h1>  
     <h2 class="md-subheading">Please head to the tasks list or map page to select one</h2>
-    <md-button class='md-raised md-accent' @click="$router.push({name: 'irs_record:tasks'})">Tasks</md-button>
-    <md-button class='md-raised md-accent' @click="$router.push({name: 'irs_record:map'})">Map</md-button>
+    <md-button class='md-raised md-accent' @click.native="$router.push({name: 'irs_record:tasks'})">Tasks</md-button>
+    <md-button class='md-raised md-accent' @click.native="$router.push({name: 'irs_record:map'})">Map</md-button>
   </div>
 </template>

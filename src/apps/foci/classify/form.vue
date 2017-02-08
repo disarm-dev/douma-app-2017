@@ -13,7 +13,7 @@
             <md-radio v-model="activeFoci.classification" md-value="residual">Residual, active</md-radio>
             <md-radio v-model="activeFoci.classification" md-value="inactive">Inactive</md-radio>
           </div>
-          <md-button class="md-accent md-raised" @click="save">Save</md-button>
+          <md-button class="md-accent md-raised" @click.native="save">Save</md-button>
         </md-card-content>
       </md-card>
 

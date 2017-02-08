@@ -19,7 +19,7 @@
           </md-input-container>
 
           <p class="md-body-1">
-            <a @click="$router.push({name: 'meta:resetpassword'})">Forgot your password?</a>
+            <a @click.native="$router.push({name: 'meta:resetpassword'})">Forgot your password?</a>
           </p>
 
           <md-button type="submit" class="md-raised md-primary login-button" :disabled="disabled">Login</md-button>
@@ -27,7 +27,7 @@
         <hr />
         <div>
           <p class="md-body-1 text-center">Don't have an account?</p>
-          <md-button class="login-button md-raised md-accent" @click="$router.push({name: 'meta:newuser'})">Sign up</md-button>
+          <md-button class="login-button md-raised md-accent" @click.native="$router.push({name: 'meta:newuser'})">Sign up</md-button>
         </div>
       </md-card-content>
     </md-card>

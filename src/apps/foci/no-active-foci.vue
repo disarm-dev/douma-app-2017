@@ -5,7 +5,7 @@
     </div>
     <h1 class="md-title">You don't have an active foci.</h1>  
     <h2 class="md-subheading">Please head to the monitoring page to start selecting or creating one</h2>
-    <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:monitor'})">Monitor</md-button>
+    <md-button class='md-raised md-accent' @click.native="$router.push({name: 'foci:monitor'})">Monitor</md-button>
   </div>
 </template>
 

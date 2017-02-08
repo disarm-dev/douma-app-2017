@@ -12,7 +12,7 @@
           </md-input-container>
 
           <md-button v-if="!sentEmail" :disabled="sentEmail" class="center-button md-primary md-raised" type="submit">Reset password</md-button>
-          <md-button v-if="sentEmail" class="center-button md-secondary md-raised" @click="back">Go back</md-button>
+          <md-button v-if="sentEmail" class="center-button md-secondary md-raised" @click.native="back">Go back</md-button>
         </form>
       </md-card-content>
     </md-card>

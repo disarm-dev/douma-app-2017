@@ -2,7 +2,7 @@
   <div>
     <div v-show="!editing">
       <div id="alpaca-form"></div>
-      <md-button class='md-raised md-accent' @click="$router.push({name: 'foci:investigate:detail'})">Save
+      <md-button class='md-raised md-accent' @click.native="$router.push({name: 'foci:investigate:detail'})">Save
       </md-button>
     </div>
 

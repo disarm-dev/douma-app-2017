@@ -13,8 +13,8 @@
       <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
     </multiselect>
 
-    <md-button @click='search'>Search</md-button>
-    <md-button @click='clear'>Clear</md-button>
+    <md-button @click.native='search'>Search</md-button>
+    <md-button @click.native='clear'>Clear</md-button>
 
     <ul>
       <li v-for='cluster in clusters_search_results'>{{cluster.name}}</li>

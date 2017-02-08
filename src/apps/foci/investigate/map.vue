@@ -2,7 +2,7 @@
   <no-active-foci v-if='!$store.getters['foci:activeFoci']' />
   <div v-else class='fab-container'>
     <div class="fab-buttons">
-      <md-button class="md-fab md-clean" @click="$router.push({name: 'foci:investigate:detail'})">
+      <md-button class="md-fab md-clean" @click.native="$router.push({name: 'foci:investigate:detail'})">
         <md-icon>info_outline</md-icon>
       </md-button>
       <md-button class="md-fab md-clean md-accent">
