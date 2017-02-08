@@ -16,7 +16,7 @@
     <md-button @click='search'>Search</md-button>
 
     <ul>
-      <li v-for='cluster in $store.state.irs_progress.clusters_search_results'>{{cluster.name}}</li>
+      <li v-for='cluster in clusters_search_results'>{{cluster.name}}</li>
     </ul>
 
   </div>
@@ -33,6 +33,7 @@
     data() {
       return {
         search_definition: [],
+        clusters_search_results: [],
         options: [
           { 
             location_type_label: 'Region',
@@ -67,6 +68,11 @@
     methods: {
       search() {
         this.$store.dispatch("irs_progress:search_remote_clusters", {locations: this.search_definition})
+          .then((clusters_search_results) => {
+            // console.log(clusters_search_results)
+            this.clusters_search_results = clusters_search_results
+          })
+
       }
     }
   }
