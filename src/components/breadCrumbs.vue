@@ -45,6 +45,6 @@
 <style scoped>
   .crumb {
     color: white !important;
-    text-decoration: underline !important;
+    /*text-decoration: underline !important;*/
   }    
 </style>
