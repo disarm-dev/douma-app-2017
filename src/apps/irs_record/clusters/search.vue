@@ -19,8 +19,8 @@
     <md-list>
       <md-list-item 
         v-for='(cluster, index) in clusters_search_results'>
-        <md-checkbox v-model='keep_these_cluster_ids[index]'></md-checkbox>
-        {{cluster.name}} {{cluster._id}}
+        <input type="checkbox" :id="cluster._id" :value="cluster._id" v-model="keep_these_cluster_ids">
+        <label :for="cluster._id">{{cluster.name}} - {{cluster._id}}</label>
       </md-list-item>
     </md-list>
 
