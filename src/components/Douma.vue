@@ -1,7 +1,7 @@
 <template>
   <div>
     <md-toolbar>
-      <md-button class="md-icon-button" @click.native="toggleSideNav">
+      <md-button class="md-icon-button" v-on:click.native="toggleSideNav">
         <md-icon>menu</md-icon>
       </md-button>
       <!-- <h2 class="md-title" style="flex: 1; padding-left: 0.5em;">NMCP Swaziland | DiSARM</h2> -->

@@ -13,12 +13,16 @@
       <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
     </multiselect>
 
-    <md-button @click.native='search'>Search</md-button>
-    <md-button @click.native='clear'>Clear</md-button>
+    <md-button :disabled='search_definition.length === 0' @click.native='search'>Search</md-button>
+    <md-button :disabled='search_definition.length === 0' @click.native='clear'>Clear</md-button>
 
-    <ul>
-      <li v-for='cluster in clusters_search_results'>{{cluster.name}}</li>
-    </ul>
+    <md-list>
+      <md-list-item 
+        v-for='cluster in clusters_search_results'
+        @click.native="">
+        {{cluster.name}} {{cluster._id}}
+      </md-list-item>
+    </md-list>
 
   </div>
 </template>
@@ -64,8 +68,8 @@
 
       },
       clear() { 
-        // this.search
         this.clusters_search_results = [] 
+        this.search_definition = [] 
       }
     }
   }
