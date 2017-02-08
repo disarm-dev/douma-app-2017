@@ -65,9 +65,7 @@ module.exports = {
     new webpack.DefinePlugin({
       "COMMIT_HASH": JSON.stringify(commitHash),
       "DOUMA_DEV_MODE": process.env.NODE_ENV !== 'production',
-      // "DOUMA_API_URL": "'http://localhost:3000'"
-      "DOUMA_API_URL": "'http://10.0.0.101:3000'"
-      // "DOUMA_API_URL": "'https://douma-api.herokuapp.com'"
+      DOUMA_API_URL: process.env.NODE_ENV === 'production' ? "'https://douma-api.herokuapp.com'" : "'http://10.0.0.101:3000'"
     })
   ]
 }
@@ -76,12 +74,6 @@ if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#cheap-source-map'
   // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"',
-        DOUMA_API_URL: "'https://douma-api.herokuapp.com'"
-      }
-    }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
