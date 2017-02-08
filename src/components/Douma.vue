@@ -26,7 +26,7 @@
       <md-list>
       <!-- TODO: @refac Render these links dynamically, based on permissions, etc. Maybe grey-out disabled ones. -->
         <md-list-item @click="navigate('irs')">
-          <md-icon>gps_fixed</md-icon><span>IRS Review</span>
+          <md-icon>view_compact</md-icon><span>IRS Review</span>
         </md-list-item>
         
         <md-list-item @click="navigate('irs')">
@@ -36,6 +36,8 @@
         <md-list-item @click="navigate('irs_record')">
           <md-icon>insert_chart</md-icon><span>IRS Record</span>
         </md-list-item>
+
+        <md-divider class="md-inset"></md-divider>
 
         <md-list-item @click="navigate('foci')">
           <md-icon>filter_center_focus</md-icon><span>Foci</span>

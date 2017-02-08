@@ -1,7 +1,7 @@
 <template>
   <div>
     <template v-for="(bread, index) in crumbs">
-      <router-link :to="bread.route"> {{bread.title}} </router-link><span v-if='index !== (crumbs.length - 1)'> > </span>
+      <router-link :to="bread.route" class='crumb'> {{bread.title}} </router-link><span v-if='index !== (crumbs.length - 1)'> > </span>
     </template>
   </div>
 </template>
@@ -42,7 +42,9 @@
   }
 </script>
 
-<style>
-    
-
+<style scoped>
+  .crumb {
+    color: white !important;
+    text-decoration: underline !important;
+  }    
 </style>
