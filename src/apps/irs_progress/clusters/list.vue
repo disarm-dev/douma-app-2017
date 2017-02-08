@@ -1,9 +1,9 @@
 <template>
   <div>
-    <h2>List of Clusters</h2>
+    <h2>List of LOCAL Clusters</h2>
     <md-list>
       <md-list-item v-for="cluster in $store.state.irs_progress.clusters" @click="$router.push({name: 'irs_progress:cluster:view', params: {cluster_id: cluster.id}})">
-        <md-icon>move_to_inbox</md-icon> <span>Cluster id {{cluster.id}}</span>
+        <md-icon>move_to_inbox</md-icon> <span>{{cluster.name}} - {{cluster.id}}</span>
       </md-list-item>
     </md-list>
 
