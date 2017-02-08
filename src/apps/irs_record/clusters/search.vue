@@ -19,12 +19,12 @@
     <md-list>
       <md-list-item 
         v-for='(cluster, index) in clusters_search_results'>
-        <input type="checkbox" :id="cluster._id" :value="cluster._id" v-model="keep_these_cluster_ids">
+        <input type="checkbox" :id="cluster._id" :value="cluster" v-model="keep_these_clusters">
         <label :for="cluster._id">{{cluster.name}} - {{cluster._id}}</label>
       </md-list-item>
     </md-list>
 
-    <md-button :disabled='keep_these_cluster_ids.length === 0' @click.native='keep'>Keep these</md-button>
+    <md-button :disabled='keep_these_clusters.length === 0' @click.native='keep'>Keep these</md-button>
 
   </div>
 </template>
@@ -41,7 +41,7 @@
       return {
         search_definition: [],
         clusters_search_results: [],
-        keep_these_cluster_ids: [],
+        keep_these_clusters: [],
         options: [
           { 
             location_type_label: 'Region',
@@ -63,7 +63,7 @@
     },
     methods: {
       search() {
-        this.$store.dispatch("irs_record:search_remote_clusters", {locations: this.search_definition})
+        this.$store.dispatch("irs_record:search_remote_clusters", this.search_definition)
           .then((clusters_search_results) => {
             // console.log(clusters_search_results)
             this.clusters_search_results = clusters_search_results
@@ -75,7 +75,11 @@
         this.search_definition = [] 
       },
       keep() {
-        console.log(this.keep_these_cluster_ids)
+        this.$store.dispatch("irs_record:get_remote_clusters", this.keep_these_clusters.map((cluster) => cluster._id)).then((res) => {
+          this.$store.dispatch("irs_record:save_local_clusters", res.data)
+          console.table(res.data)
+        })
+        this.$store.dispatch("irs_record:get_matching_tasks_spatial_entities_for_clusters", this.keep_these_clusters)
       }
     }
   }

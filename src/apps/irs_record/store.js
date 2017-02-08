@@ -125,13 +125,13 @@ export default {
 
 
     // REMOTE DATA + DB
-    "irs_record:search_remote_clusters": (context, filters) => {
+    "irs_record:search_remote_clusters": (context, locations) => {
       // req.params.filters.location = filters.location
-      if (filters.locations.length === 0) {
+      if (locations.length === 0) {
         return
       }
 
-      const params = JSON.stringify(filters.locations)
+      const params = JSON.stringify(locations)
       const url = `${DOUMA_API_URL}/clusters?locations=${params}`
       console.log(url)
 
@@ -142,20 +142,41 @@ export default {
           return(clusters_search_results)
         })
     },
-    "irs_record:get_remote_clusters": (context, filters) => {
+    "irs_record:get_remote_clusters": (context, ids) => {
       // req.params.filters.cluster_ids = filters.cluster_ids
-      return fetch(`${DOUMA_API_URL}/clusters`)
+      const params = JSON.stringify(ids)
+
+      return fetch(`${DOUMA_API_URL}/clusters?ids=${params}`)
         .then(res => res.json())
     },
-    "irs_record:get_remote_tasks": (context, filters) => {
+    "irs_record:get_remote_tasks": (context, task_ids) => {
       // req.params.filters.task_ids = filters.task_ids
-      return fetch(`${DOUMA_API_URL}/tasks`)
+      const params = JSON.stringify(task_ids)
+
+      return fetch(`${DOUMA_API_URL}/tasks?ids=${params}`)
         .then(res => res.json())
     },
-    "irs_record:get_remote_spatial_entities": (context, filters) => {
+    "irs_record:get_remote_spatial_entities": (context, spatial_entity_ids) => {
       // req.params.filters.spatial_entity_ids = filters.spatial_entity_ids
-      return fetch(`${DOUMA_API_URL}/spatial_entities`)
+      const params = JSON.stringify(spatial_entity_ids)
+
+      return fetch(`${DOUMA_API_URL}/spatial_entities?ids=${params}`)
         .then(res => res.json())
+    },
+    "irs_record:get_matching_tasks_spatial_entities_for_clusters": (context, clusters) => {
+      const tasks_params = clusters.reduce((prev, current)=> prev.concat(current.task_ids), [])
+      const spatial_entity_params = clusters.reduce((prev, current)=> prev.concat(current.spatial_entity_ids), [])
+
+      context.dispatch("irs_record:get_remote_tasks", tasks_params).then((res) => {
+        console.table(res.data)
+        context.dispatch("irs_record:save_local_tasks", res.data)
+      })
+
+      context.dispatch("irs_record:get_remote_spatial_entities", spatial_entity_params).then((res) => {
+        console.table(res.data)
+        context.dispatch("irs_record:save_local_spatial_entities", res.data)
+      })
+
     },
     "irs_record:sync_local_tasks": (context, filters) => {
       console.log('GET REMOTE & RESOLVE CONFLICTS')
