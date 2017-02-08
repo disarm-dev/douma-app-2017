@@ -70,9 +70,9 @@ export default {
       DB.spatial_entities.toArray().then((res) => context.commit("irs_progress:set_spatial_entities", res))
     },
     "irs_progress:seed_local_data": (context) => {
-      const clusters = require('../../data_bootstrap/clusters.json')
-      const tasks = require('../../data_bootstrap/tasks.json')
-      const spatial_entities = require('../../data_bootstrap/spatial_entities.json')
+      const clusters = require('./_seed_data/clusters.json')
+      const tasks = require('./_seed_data/tasks.json')
+      const spatial_entities = require('./_seed_data/spatial_entities.json')
       console.log('cleared, resetting...')
       context.dispatch("irs_progress:save_local_clusters", clusters)
       context.dispatch("irs_progress:save_local_tasks", tasks)
