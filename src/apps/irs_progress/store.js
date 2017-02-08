@@ -12,6 +12,7 @@ export default {
     active_task: null,
 
     // DATA
+    clusters_search_results: [],
     clusters: [],
     tasks: [],
     spatial_entities: [],
@@ -30,6 +31,9 @@ export default {
     },
 
     // DATA
+    "irs_progress:set_clusters_search_results": (state, clusters) => {
+      state.clusters_search_results = clusters
+    },
     "irs_progress:set_clusters": (state, clusters) => {
       state.clusters = clusters
     },
@@ -124,11 +128,11 @@ export default {
       const url = `http://10.0.0.101:3000/clusters?locations=${params}`
       console.log(url)
 
-      return fetch(url)
+      fetch(url)
         .then(res => res.json())
         .then(json => {
           const clusters_search_results = json.data
-          return(clusters_search_results)
+          context.commit('irs_progress:set_clusters_search_results', clusters_search_results)
         })
     },
     "irs_progress:get_remote_clusters": (context, filters) => {
