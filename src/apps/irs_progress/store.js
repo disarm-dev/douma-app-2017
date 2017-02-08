@@ -12,6 +12,7 @@ export default {
     active_task: null,
 
     // DATA
+    clusters_search_results: [],
     clusters: [],
     tasks: [],
     spatial_entities: [],
@@ -30,6 +31,9 @@ export default {
     },
 
     // DATA
+    "irs_progress:set_clusters_search_results": (state, clusters) => {
+      state.clusters_search_results = clusters
+    },
     "irs_progress:set_clusters": (state, clusters) => {
       state.clusters = clusters
     },
@@ -39,7 +43,7 @@ export default {
     "irs_progress:set_spatial_entities": (state, spatial_entities) => {
       state.spatial_entities = spatial_entities
     },
-    
+
     // SYNC
     "irs_progress:setSyncInProgress": (state, syncState) => {
       state.sync_in_progress = !!(syncState)
@@ -69,31 +73,34 @@ export default {
     "irs_progress:load_spatial_entities": (context) => {
       DB.spatial_entities.toArray().then((res) => context.commit("irs_progress:set_spatial_entities", res))
     },
-    "irs_progress:seed_local_data": (context) => {
-      // TODO: @debug Remove seed_data functions, replace with live data!
-      const clusters = require('./_seed_data/clusters.json')
-      const tasks = require('./_seed_data/tasks.json')
-      const spatial_entities = require('./_seed_data/spatial_entities.json')
 
-      context.dispatch("irs_progress:save_local_clusters", clusters)
-      context.dispatch("irs_progress:save_local_tasks", tasks)
-      context.dispatch("irs_progress:save_local_spatial_entities", spatial_entities)
+    "irs_progress:seed_local_data": (context) => {
+      context.dispatch("irs_progress:get_remote_clusters")
+        .then((clusters) => context.dispatch("irs_progress:save_local_clusters", clusters))
+
+      context.dispatch("irs_progress:get_remote_tasks")
+        .then((tasks) => context.dispatch("irs_progress:save_local_tasks", tasks))
+
+      context.dispatch("irs_progress:get_remote_spatial_entities")
+        .then((spatial_entities) => context.dispatch("irs_progress:save_local_spatial_entities", spatial_entities))
     },
     "irs_progress:clear_local_data": (context) => {
-      DB.clusters.clear().then(DB.tasks.clear()).then(DB.spatial_entities.clear()).then(() => {
-        context.commit("irs_progress:set_clusters", null)
-        context.commit("irs_progress:set_tasks", null)
-        context.commit("irs_progress:set_spatial_entities", null)
-      })
+      DB.clusters.clear().then(DB.tasks.clear())
+        .then(DB.spatial_entities.clear())
+        .then(() => {
+          context.commit("irs_progress:set_clusters", null)
+          context.commit("irs_progress:set_tasks", null)
+          context.commit("irs_progress:set_spatial_entities", null)
+        })
     },
     "irs_progress:save_local_clusters": (context, clusters) => {
-      DB.clusters.bulkAdd(clusters).then( res => context.commit("irs_progress:set_clusters", clusters) )
+      DB.clusters.bulkAdd(clusters).then(res => context.commit("irs_progress:set_clusters", clusters))
     },
     "irs_progress:save_local_tasks": (context, tasks) => {
-      DB.tasks.bulkAdd(tasks).then( res => context.commit("irs_progress:set_tasks", tasks) )
+      DB.tasks.bulkAdd(tasks).then(res => context.commit("irs_progress:set_tasks", tasks))
     },
     "irs_progress:save_local_spatial_entities": (context, spatial_entities) => {
-      DB.spatial_entities.bulkAdd(spatial_entities).then( res => context.commit("irs_progress:set_spatial_entities", spatial_entities) )
+      DB.spatial_entities.bulkAdd(spatial_entities).then(res => context.commit("irs_progress:set_spatial_entities", spatial_entities))
     },
 
 
@@ -110,28 +117,64 @@ export default {
 
 
     // REMOTE DATA + DB
-    // searchClusters -> get selected fields for Clusters
-    // getClustersFromRemote -> 
+    "irs_progress:search_remote_clusters": (context, filters) => {
+      // req.params.filters.location = filters.location
 
+      if (filters.locations.length === 0) {
+        return context.commit("irs_progress:set_clusters_search_results", null)
+      }
+
+      const params = JSON.stringify(filters.locations)
+      const url = `http://10.0.0.101:3000/clusters?locations=${params}`
+      console.log(url)
+
+      fetch(url)
+        .then(res => res.json())
+        .then(json => {
+          const clusters_search_results = json.data
+          context.commit('irs_progress:set_clusters_search_results', clusters_search_results)
+        })
+    },
+    "irs_progress:get_remote_clusters": (context, filters) => {
+      // req.params.filters.cluster_ids = filters.cluster_ids
+      return fetch('http://10.0.0.101:3000/clusters')
+        .then(res => res.json())
+    },
+    "irs_progress:get_remote_tasks": (context, filters) => {
+      // req.params.filters.task_ids = filters.task_ids
+      return fetch('http://10.0.0.101:3000/tasks')
+        .then(res => res.json())
+    },
+    "irs_progress:get_remote_spatial_entities": (context, filters) => {
+      // req.params.filters.spatial_entity_ids = filters.spatial_entity_ids
+      return fetch('http://10.0.0.101:3000/spatial_entities')
+        .then(res => res.json())
+    },
+    "irs_progress:sync_local_tasks": (context, filters) => {
+      console.log('GET REMOTE & RESOLVE CONFLICTS')
+      context.dispatch("irs_progress:get_remote_tasks")
+        .then(context.dispatch("irs_progress:post_local_tasks"))
+    },
 
 
     // 
     // SYNC
     // 
-    "irs_progress:sync_tasks": (context) => {
-      context.dispatch("irs_progress:request_remote_tasks")
-      .then(context.dispatch("irs_progress:send_local_tasks")
-      )
-    },
     "irs_progress:request_remote_tasks": (context) => {
       console.log('request_remote_tasks')
-      // TODO: @debug Just need to return a Promise
+        // TODO: @debug Just need to return a Promise
       const promise = new Promise((resolve, reject) => resolve())
       return promise
     },
     "irs_progress:send_local_tasks": (context) => {
       console.log('send_local_tasks')
     },
+
+
+
+
+
+
     "irs_progress:deleteAllTasks": (context) => {
       // DB.tasks.list().then((res) => {
       //   // Delete all in parallel
@@ -159,9 +202,8 @@ export default {
         context.commit("irs_progress:setSyncInProgress", false)
       })
     },
+
   }
 }
-
-
-// TODO: @feature Do we need a function that returns colours from text - e.g. for charts, etc?
-// e.g. 'visited' => #70b170
+  // TODO: @feature Do we need a function that returns colours from text - e.g. for charts, etc?
+  // e.g. 'visited' => #70b170

@@ -6,7 +6,7 @@
       :options="options" 
       :multiple="true" 
       group-values="locations" 
-      group-label="location_type" 
+      group-label="location_type_label" 
       placeholder="Search for Clusters by location" 
       track-by="name" 
       label="name">
@@ -15,6 +15,9 @@
 
     <md-button @click='search'>Search</md-button>
 
+    <ul>
+      <li v-for='cluster in $store.state.irs_progress.clusters_search_results'>{{cluster.name}}</li>
+    </ul>
 
   </div>
 </template>
@@ -32,19 +35,30 @@
         search_definition: [],
         options: [
           { 
-            location_type: 'Region',
+            location_type_label: 'Region',
             locations: [
-              {name: 'Lubombo', location_type: 'Region'}, {name: 'Shiselweni', location_type: 'Region'}
+              {name: 'Lubombo', location_type: 'region'}, 
+              {name: 'Shiselweni', location_type: 'region'},
+              {name: 'Manzini', location_type: 'region'},
+              {name: 'Hhohho', location_type: 'region'}
             ]
           },{ 
-            location_type: 'Inkhundla',
+            location_type_label: 'Inkhundla',
             locations: [
-              {name: 'Good one', location_type: 'Inkhundla'}, {name: 'Other one', location_type: 'Inkhundla'}
+              {name: 'Inkhundla1', location_type: 'inkhundla'},
+              {name: 'Inkhundla2', location_type: 'inkhundla'},
+              {name: 'Inkhundla3', location_type: 'inkhundla'},
+              {name: 'Inkhundla4', location_type: 'inkhundla'},
+              {name: 'Inkhundla5', location_type: 'inkhundla'}
             ]
           },{ 
-            location_type: 'Locality',
+            location_type_label: 'Locality',
             locations: [
-              {name: 'Some Bend', location_type: 'Locality'}, {name: 'Small Bend', location_type: 'Locality'}
+              {name: 'Locality1', location_type: 'locality'},
+              {name: 'Locality2', location_type: 'locality'},
+              {name: 'Locality3', location_type: 'locality'},
+              {name: 'Locality4', location_type: 'locality'},
+              {name: 'Locality5', location_type: 'locality'}
             ]
           }
         ]
@@ -52,7 +66,8 @@
     },
     methods: {
       search() {
-        console.log('Go search for', this.search_definition)
+        this.$store.dispatch("irs_progress:search_remote_clusters", {locations: this.search_definition})
+
       }
     }
   }
