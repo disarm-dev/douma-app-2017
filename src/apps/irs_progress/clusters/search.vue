@@ -14,6 +14,7 @@
     </multiselect>
 
     <md-button @click='search'>Search</md-button>
+    <md-button @click='clear'>Clear</md-button>
 
     <ul>
       <li v-for='cluster in clusters_search_results'>{{cluster.name}}</li>
@@ -73,6 +74,10 @@
             this.clusters_search_results = clusters_search_results
           })
 
+      },
+      clear() { 
+        // this.search
+        this.clusters_search_results = [] 
       }
     }
   }

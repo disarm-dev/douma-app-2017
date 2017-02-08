@@ -115,13 +115,12 @@ export default {
     // REMOTE DATA + DB
     "irs_progress:search_remote_clusters": (context, filters) => {
       // req.params.filters.location = filters.location
-
       if (filters.locations.length === 0) {
-        return context.commit("irs_progress:set_clusters_search_results", null)
+        return
       }
 
       const params = JSON.stringify(filters.locations)
-      const url = `http://10.0.0.101:3000/clusters?locations=${params}`
+      const url = `${DOUMA_API_URL}/clusters?locations=${params}`
       console.log(url)
 
       return fetch(url)
@@ -133,17 +132,17 @@ export default {
     },
     "irs_progress:get_remote_clusters": (context, filters) => {
       // req.params.filters.cluster_ids = filters.cluster_ids
-      return fetch('http://10.0.0.101:3000/clusters')
+      return fetch(`${DOUMA_API_URL}/clusters`)
         .then(res => res.json())
     },
     "irs_progress:get_remote_tasks": (context, filters) => {
       // req.params.filters.task_ids = filters.task_ids
-      return fetch('http://10.0.0.101:3000/tasks')
+      return fetch(`${DOUMA_API_URL}/tasks?ids=[1,2,3,4]`)
         .then(res => res.json())
     },
     "irs_progress:get_remote_spatial_entities": (context, filters) => {
       // req.params.filters.spatial_entity_ids = filters.spatial_entity_ids
-      return fetch('http://10.0.0.101:3000/spatial_entities')
+      return fetch(`${DOUMA_API_URL}/spatial_entities?ids=[1,2,3,4]`)
         .then(res => res.json())
     },
     "irs_progress:sync_local_tasks": (context, filters) => {
