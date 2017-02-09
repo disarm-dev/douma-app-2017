@@ -29,7 +29,7 @@
           <md-icon>view_compact</md-icon><span>IRS Review</span>
         </md-list-item>
         
-        <md-list-item @click.native="navigate('irs')">
+        <md-list-item @click.native="navigate('irs_plan')">
           <md-icon>gps_fixed</md-icon><span>IRS Plan</span>
         </md-list-item>
         

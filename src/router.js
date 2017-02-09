@@ -6,6 +6,7 @@ import store from './store'
 
 import AppletContainer from './components/applet.vue'
 import IRSProgressRoutes from './apps/irs_record/routes'
+import IRSPlanningRoutes from './apps/irs_plan/routes'
 // import FociRoutes from './apps/foci/routes'
 // import GPSRoutes from './apps/gps/routes'
 // import MetaRoutes from './apps/meta/routes'
@@ -18,7 +19,7 @@ export default () => {
       path: '/',
       redirect: '/profile',
     }
-  ].concat(IRSProgressRoutes)
+  ].concat(IRSProgressRoutes, IRSPlanningRoutes)
   
   // Instantiate `router`
   const router = new VueRouter({
