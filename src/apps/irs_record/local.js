@@ -4,22 +4,39 @@ import DB from './db.js'
 
 
 const clusters = {
-  create_cluster: (cluster) => {},
-  read_clusters: () => {},
-  delete_clusters: () => {},
+  create: (clusters) => {
+    return DB.clusters.bulkAdd(clusters)
+  },
+  read: () => {
+    return DB.clusters.toArray()
+  },
+  delete: () => {},
+  clear: () => {
+    return DB.clusters.clear()
+  }
 }
 
 const tasks = {
-  _create_tasks: (tasks) => {},
+  create: (tasks) => {
+    return DB.tasks.bulkAdd(tasks)
+  },
   read_tasks: () => {},
   update_task: (task) => {},
-  _delete_tasks: () => {}
+  _delete_tasks: () => {},
+  clear: () => {
+    return DB.tasks.clear()
+  }
 }
 
 const spatial_entities = {
-  _create_spatial_entities: () => {},
+  create: (spatial_entities) => {
+    return DB.spatial_entities.bulkAdd(spatial_entities)
+  },
   read_spatial_entities: () => {},
-  _delete_spatial_entities: () => {}
+  _delete_spatial_entities: () => {},
+  clear: () => {
+    return DB.spatial_entities.clear()
+  }
 }
 
 

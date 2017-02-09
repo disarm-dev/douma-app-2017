@@ -53,15 +53,6 @@ let old = {
       context.dispatch("irs_record:get_remote_spatial_entities")
         .then((res) => context.dispatch("irs_record:save_local_spatial_entities", res.data))
     },
-    "irs_record:clear_local_data": (context) => {
-      DB.clusters.clear().then(DB.tasks.clear())
-        .then(DB.spatial_entities.clear())
-        .then(() => {
-          context.commit("irs_record:set_clusters", null)
-          context.commit("irs_record:set_tasks", null)
-          context.commit("irs_record:set_spatial_entities", null)
-        })
-    },
     "irs_record:save_local_clusters": (context, clusters) => {
       if (!clusters) return
       DB.clusters.bulkAdd(clusters).then(res => context.commit("irs_record:set_clusters", clusters))
@@ -253,12 +244,34 @@ export default {
     
   },
   actions: {
+    // SYNC
     "irs_record:search_clusters": (context, locations) => {
       Sync.search_clusters(locations)
-        .then((results) => {
-          context.commit("irs_record:set_clusters_search_results", results)
+        .then((result) => {
+          context.commit("irs_record:set_clusters_search_results", result)
         })
         .catch((e) => console.error(e))
+    },
+    "irs_record:set_clusters_from_local": (context) => {
+      Sync.read_local_clusters().then((result) => {
+        context.commit("irs_record:set_clusters", result)
+      })
+    },
+    "irs_record:open_clusters": (context, clusters) => {
+      context.commit("irs_record:set_sync_in_progress", true)
+
+      Sync.open_clusters(clusters).then(() =>
+        context.commit("irs_record:set_sync_in_progress", false)
+      ).catch(error => console.error(error))
+    },
+    "irs_record:clear_local_dbs": (context) => {
+      Sync.clear_local_dbs()
+      .then(() => {
+        context.commit("irs_record:set_clusters", null)
+        context.commit("irs_record:set_tasks", null)
+        context.commit("irs_record:set_spatial_entities", null)
+      })
     }
-  }
+  },
+
 }
