@@ -246,11 +246,8 @@ export default {
   actions: {
     // SYNC
     "irs_record:search_clusters": (context, locations) => {
-      Sync.search_clusters(locations)
-        .then((result) => {
-          context.commit("irs_record:set_clusters_search_results", result)
-        })
-        .catch((e) => console.error(e))
+      return Sync.search_clusters(locations)
+        // .catch((e) => console.error(e))
     },
     "irs_record:set_clusters_from_local": (context) => {
       Sync.read_local_clusters().then((result) => {
