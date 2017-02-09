@@ -1,8 +1,7 @@
 // Store for IRS-Progress 
 
 import turf from '@turf/turf'
-// import DB from './db.js'
-import {Clusters, Tasks, SpatialEntities} from './collections.js'
+import Sync from './sync.js'
 
 // TODO: @debug Remove rough global for DB
 window.db = DB
@@ -234,5 +233,3 @@ export default {
 
   }
 }
-  // TODO: @feature Do we need a function that returns colours from text - e.g. for charts, etc?
-  // e.g. 'visited' => #70b170
