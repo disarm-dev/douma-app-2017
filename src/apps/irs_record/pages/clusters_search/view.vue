@@ -10,13 +10,14 @@
       group-label="location_type_label" 
       placeholder="Search for Clusters by location" 
       track-by="name" 
-      label="name">
+      label="name"
+      @input="on_input">
       <span slot="noResult">Uh-oh! No matching search terms. Try changing what you typed.</span>
     </multiselect>
 
     <md-button :disabled='search_definition.length === 0' @click.native='search'>Search</md-button>
     <md-button :disabled='search_definition.length === 0' @click.native='clear'>Clear</md-button>
-    <md-button :disabled='clusters_to_open.length === 0' @click.native='keep'>Keep these</md-button>
+    <md-button :disabled='clusters_to_open.length === 0' @click.native='keep'>Keep these ({{clusters_to_open.length}})</md-button>
     <md-button @click.native="toggle_view">{{toggle_to_view}}</md-button>
 
 
@@ -82,6 +83,12 @@
       },
       toggle_view() {
         this.$router.push({name: `irs_record:clusters_search:${this.toggle_to_view}`})
+      },
+      on_input(search_query, id) {
+        if (this.search_definition.length) {
+          this.search_results = []
+        }
+
       }
     }
   }

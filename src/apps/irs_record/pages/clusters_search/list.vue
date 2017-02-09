@@ -34,7 +34,8 @@
         } else {
           clusters_to_open.push(cluster)
         }
-        console.log('Do something with', clusters_to_open)
+
+        this.$store.dispatch("irs_record:open_clusters", clusters_to_open)
       }
     }
   }
