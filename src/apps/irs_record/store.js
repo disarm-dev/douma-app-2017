@@ -4,47 +4,11 @@ import turf from '@turf/turf'
 import Sync from './sync.js'
 
 // TODO: @debug Remove rough global for DB
+let DB = {}
 window.db = DB
 
-export default {
-  state: {
-    // EDITING
-    active_task: null,
+let old = {
 
-    // DATA
-    clusters: [],
-    tasks: [],
-    spatial_entities: [],
-
-    // SYNC
-    sync_in_progress: false
-  },
-  mutations: {
-    // EDITING
-    "irs_record:set_active_task": (state, task) => {
-      state.active_task = task
-    },
-    "irs_record:update_task_state": (state, task) => { // For the map?
-      let index = state.tasks.findIndex(t => t.id == task.id)
-      state.tasks.splice(index, 1, task)
-    },
-
-    // DATA
-    "irs_record:set_clusters": (state, clusters) => {
-      state.clusters = clusters
-    },
-    "irs_record:set_tasks": (state, tasks) => {
-      state.tasks = tasks
-    },
-    "irs_record:set_spatial_entities": (state, spatial_entities) => {
-      state.spatial_entities = spatial_entities
-    },
-
-    // SYNC
-    "irs_record:setSyncInProgress": (state, syncState) => {
-      state.sync_in_progress = !!(syncState)
-    },
-  },
   actions: {
     // EDITING
     "irs_record:set_active_task_by_osm_id": (context, osm_id) => {
@@ -126,21 +90,27 @@ export default {
 
     // REMOTE DATA + DB
     "irs_record:search_remote_clusters": (context, locations) => {
-      // req.params.filters.location = filters.location
-      if (locations.length === 0) {
-        return
-      }
+      Sync.search_clusters(locations).then(() => {})
 
-      const params = JSON.stringify(locations)
-      const url = `${DOUMA_API_URL}/clusters?locations=${params}`
-      console.log(url)
+      // // req.params.filters.location = filters.location
+      // if (locations.length === 0) {
+      //   return
+      // }
 
-      return fetch(url)
-        .then(res => res.json())
-        .then(json => {
-          const clusters_search_results = json.data
-          return(clusters_search_results)
-        })
+      // const params = JSON.stringify(locations)
+      // const url = `${DOUMA_API_URL}/clusters?locations=${params}`
+      // console.log(url)
+
+      // return fetch(url)
+      //   .then(res => res.json())
+      //   .then(json => {
+      //     const clusters_search_results = json.data
+      //     return(clusters_search_results)
+      //   })
+
+
+
+
     },
     "irs_record:get_remote_clusters": (context, ids) => {
       // req.params.filters.cluster_ids = filters.cluster_ids
@@ -231,5 +201,64 @@ export default {
       })
     },
 
+  }
+}
+
+export default {
+  state: {
+    // EDITING
+    active_task: null,
+
+    // DATA
+    clusters: [],
+    tasks: [],
+    spatial_entities: [],
+
+    // SYNC
+    sync_in_progress: false,
+
+    // STATE-STATE
+    clusters_search_results: []
+  },
+  mutations: {
+    // EDITING
+    "irs_record:set_active_task": (state, task) => {
+      state.active_task = task
+    },
+    "irs_record:update_task_state": (state, task) => { // For the map?
+      let index = state.tasks.findIndex(t => t.id == task.id)
+      state.tasks.splice(index, 1, task)
+    },
+
+    // DATA
+    "irs_record:set_clusters": (state, clusters) => {
+      state.clusters = clusters
+    },
+    "irs_record:set_tasks": (state, tasks) => {
+      state.tasks = tasks
+    },
+    "irs_record:set_spatial_entities": (state, spatial_entities) => {
+      state.spatial_entities = spatial_entities
+    },
+
+    // SYNC
+    "irs_record:set_sync_in_progress": (state, sync_state) => {
+      state.sync_in_progress = !!(sync_state)
+    },
+
+    // STATE-STATE
+    "irs_record:set_clusters_search_results": (state, clusters_search_results) => {
+      state.clusters_search_results = clusters_search_results
+    }
+    
+  },
+  actions: {
+    "irs_record:search_clusters": (context, locations) => {
+      Sync.search_clusters(locations)
+        .then((results) => {
+          context.commit("irs_record:set_clusters_search_results", results)
+        })
+        .catch((e) => console.error(e))
+    }
   }
 }

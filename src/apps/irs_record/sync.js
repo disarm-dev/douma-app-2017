@@ -4,7 +4,13 @@ import RemoteDB from './remote.js'
 
 export default {
   // Search
-  search_clusters: () => {},
+  search_clusters: (locations) => {
+    if (locations.length === 0) {
+      throw new Error("No locations provided for search")
+    }
+
+   return RemoteDB.clusters.read({locations}) // returns a promise
+  },
   
   // Cluster management (incl. Task sync)
   open_clusters: (clusters) => {},
