@@ -1,7 +1,8 @@
 // Store for IRS-Progress 
 
 import turf from '@turf/turf'
-import DB from '../../db.js'
+// import DB from './db.js'
+import {Clusters, Tasks, SpatialEntities} from './collections.js'
 
 // TODO: @debug Remove rough global for DB
 window.db = DB
@@ -64,7 +65,7 @@ export default {
       DB.clusters.toArray().then((res) => context.commit("irs_record:set_clusters", res))
     },
     "irs_record:load_tasks": (context) => {
-      DB.tasks.toArray().then((res) => context.commit("irs_record:set_tasks", res))
+      Tasks.loadAll().then((res) => context.commit("irs_record:set_tasks", res))
     },
     "irs_record:load_spatial_entities": (context) => {
       DB.spatial_entities.toArray().then((res) => context.commit("irs_record:set_spatial_entities", res))
