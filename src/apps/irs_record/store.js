@@ -260,9 +260,10 @@ export default {
     "irs_record:open_clusters": (context, clusters) => {
       context.commit("irs_record:set_sync_in_progress", true)
 
-      Sync.open_clusters(clusters).then(() =>
+      Sync.open_clusters(clusters).then(() => {
         context.commit("irs_record:set_sync_in_progress", false)
-      ).catch(error => console.error(error))
+        context.dispatch('irs_record:set_clusters_from_local')
+      }).catch(error => console.error(error))
     },
     "irs_record:clear_local_dbs": (context) => {
       Sync.clear_local_dbs()
