@@ -1,51 +1,14 @@
 // Store for IRS-Progress 
 
 import turf from '@turf/turf'
-// import DB from './db.js'
-import {Clusters, Tasks, SpatialEntities} from './collections.js'
+import Sync from './sync.js'
 
 // TODO: @debug Remove rough global for DB
+let DB = {}
 window.db = DB
 
-export default {
-  state: {
-    // EDITING
-    active_task: null,
+let old = {
 
-    // DATA
-    clusters: [],
-    tasks: [],
-    spatial_entities: [],
-
-    // SYNC
-    sync_in_progress: false
-  },
-  mutations: {
-    // EDITING
-    "irs_record:set_active_task": (state, task) => {
-      state.active_task = task
-    },
-    "irs_record:update_task_state": (state, task) => { // For the map?
-      let index = state.tasks.findIndex(t => t.id == task.id)
-      state.tasks.splice(index, 1, task)
-    },
-
-    // DATA
-    "irs_record:set_clusters": (state, clusters) => {
-      state.clusters = clusters
-    },
-    "irs_record:set_tasks": (state, tasks) => {
-      state.tasks = tasks
-    },
-    "irs_record:set_spatial_entities": (state, spatial_entities) => {
-      state.spatial_entities = spatial_entities
-    },
-
-    // SYNC
-    "irs_record:setSyncInProgress": (state, syncState) => {
-      state.sync_in_progress = !!(syncState)
-    },
-  },
   actions: {
     // EDITING
     "irs_record:set_active_task_by_osm_id": (context, osm_id) => {
@@ -90,15 +53,6 @@ export default {
       context.dispatch("irs_record:get_remote_spatial_entities")
         .then((res) => context.dispatch("irs_record:save_local_spatial_entities", res.data))
     },
-    "irs_record:clear_local_data": (context) => {
-      DB.clusters.clear().then(DB.tasks.clear())
-        .then(DB.spatial_entities.clear())
-        .then(() => {
-          context.commit("irs_record:set_clusters", null)
-          context.commit("irs_record:set_tasks", null)
-          context.commit("irs_record:set_spatial_entities", null)
-        })
-    },
     "irs_record:save_local_clusters": (context, clusters) => {
       if (!clusters) return
       DB.clusters.bulkAdd(clusters).then(res => context.commit("irs_record:set_clusters", clusters))
@@ -127,21 +81,27 @@ export default {
 
     // REMOTE DATA + DB
     "irs_record:search_remote_clusters": (context, locations) => {
-      // req.params.filters.location = filters.location
-      if (locations.length === 0) {
-        return
-      }
+      Sync.search_clusters(locations).then(() => {})
 
-      const params = JSON.stringify(locations)
-      const url = `${DOUMA_API_URL}/clusters?locations=${params}`
-      console.log(url)
+      // // req.params.filters.location = filters.location
+      // if (locations.length === 0) {
+      //   return
+      // }
 
-      return fetch(url)
-        .then(res => res.json())
-        .then(json => {
-          const clusters_search_results = json.data
-          return(clusters_search_results)
-        })
+      // const params = JSON.stringify(locations)
+      // const url = `${DOUMA_API_URL}/clusters?locations=${params}`
+      // console.log(url)
+
+      // return fetch(url)
+      //   .then(res => res.json())
+      //   .then(json => {
+      //     const clusters_search_results = json.data
+      //     return(clusters_search_results)
+      //   })
+
+
+
+
     },
     "irs_record:get_remote_clusters": (context, ids) => {
       // req.params.filters.cluster_ids = filters.cluster_ids
@@ -234,5 +194,84 @@ export default {
 
   }
 }
-  // TODO: @feature Do we need a function that returns colours from text - e.g. for charts, etc?
-  // e.g. 'visited' => #70b170
+
+export default {
+  state: {
+    // EDITING
+    active_task: null,
+
+    // DATA
+    clusters: [],
+    tasks: [],
+    spatial_entities: [],
+
+    // SYNC
+    sync_in_progress: false,
+
+    // STATE-STATE
+    clusters_search_results: []
+  },
+  mutations: {
+    // EDITING
+    "irs_record:set_active_task": (state, task) => {
+      state.active_task = task
+    },
+    "irs_record:update_task_state": (state, task) => { // For the map?
+      let index = state.tasks.findIndex(t => t.id == task.id)
+      state.tasks.splice(index, 1, task)
+    },
+
+    // DATA
+    "irs_record:set_clusters": (state, clusters) => {
+      state.clusters = clusters
+    },
+    "irs_record:set_tasks": (state, tasks) => {
+      state.tasks = tasks
+    },
+    "irs_record:set_spatial_entities": (state, spatial_entities) => {
+      state.spatial_entities = spatial_entities
+    },
+
+    // SYNC
+    "irs_record:set_sync_in_progress": (state, sync_state) => {
+      state.sync_in_progress = !!(sync_state)
+    },
+
+    // STATE-STATE
+    "irs_record:set_clusters_search_results": (state, clusters_search_results) => {
+      state.clusters_search_results = clusters_search_results
+    }
+    
+  },
+  actions: {
+    // SYNC
+    "irs_record:search_clusters": (context, locations) => {
+      Sync.search_clusters(locations)
+        .then((result) => {
+          context.commit("irs_record:set_clusters_search_results", result)
+        })
+        .catch((e) => console.error(e))
+    },
+    "irs_record:set_clusters_from_local": (context) => {
+      Sync.read_local_clusters().then((result) => {
+        context.commit("irs_record:set_clusters", result)
+      })
+    },
+    "irs_record:open_clusters": (context, clusters) => {
+      context.commit("irs_record:set_sync_in_progress", true)
+
+      Sync.open_clusters(clusters).then(() =>
+        context.commit("irs_record:set_sync_in_progress", false)
+      ).catch(error => console.error(error))
+    },
+    "irs_record:clear_local_dbs": (context) => {
+      Sync.clear_local_dbs()
+      .then(() => {
+        context.commit("irs_record:set_clusters", null)
+        context.commit("irs_record:set_tasks", null)
+        context.commit("irs_record:set_spatial_entities", null)
+      })
+    }
+  },
+
+}

@@ -1,0 +1,82 @@
+// Called by $store, coordinates local and remote activity
+import LocalDB from './local.js'
+import RemoteDB from './remote.js'
+
+export default {
+  // Search
+  search_clusters: (locations) => {
+    if (locations.length === 0) {
+      throw new Error("No locations provided for search")
+    }
+
+   return RemoteDB.clusters.read({locations}) // returns a promise
+  },
+  
+  // Cluster management (incl. Task sync)
+  open_clusters: (clusters) => {
+    // For each Cluster
+    // Get related RemoteRB Tasks
+    // Create Tasks in LocalDB
+    // Return Tasks back to the $store
+    // Get related RemoteRB SEs
+    // Create SEs in LocalDB
+    // Return SEs back to the $store
+    const clusters_promise = LocalDB.clusters.create(clusters)
+
+
+    const task_promises = clusters.map((cluster) => {
+      return new Promise((resolve, reject) => {
+        RemoteDB.tasks.read(cluster.task_ids)
+        .then(res => LocalDB.tasks.create(res))
+        .then(() => resolve())
+        .catch(error => reject(error))
+      })
+    })
+
+    const spatial_entity_promises = clusters.map((cluster) => {
+      return new Promise((resolve, reject) => {
+        RemoteDB.spatial_entities.read(cluster.spatial_entity_ids)
+        .then(res => LocalDB.spatial_entities.create(res))
+        .then(() => resolve())
+        .catch(error => reject(error))
+      })
+    })
+
+    const all_promises = [].concat(
+      clusters_promise, task_promises, spatial_entity_promises
+    )
+
+    return Promise.all(all_promises)
+
+    // if all Tasks successfully found in RemoteRB AND stored in LocalDB
+    // if all SpatialEntities successfully found in RemoteRB AND stored in LocalDB
+    // resolve()
+  },
+  _open_cluster: (cluster) => {
+
+
+
+    // resolve({tasks: tasks, spatial_entities: spatial_entities})
+
+    // return promise
+  },
+  close_clusters: (clusters) => {},
+  
+  // Update task
+  update_task: (task) => {},
+  
+  // Setting initial state for views
+  read_local_clusters: () => {
+    return LocalDB.clusters.read()
+  },
+  set_tasks_spatial_entities_for_cluster: (cluster_id) => {},
+
+  clear_local_dbs: () => {
+    const promises = [
+      LocalDB.clusters.clear(),
+      LocalDB.tasks.clear(),
+      LocalDB.spatial_entities.clear(),
+    ]
+    return Promise.all(promises)
+  }
+}

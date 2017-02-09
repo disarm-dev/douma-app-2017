@@ -1,4 +1,4 @@
-import IRSProgressApplet from './IRSProgressApplet.vue'
+import IrsRecordApplet from './IrsRecordApplet.vue'
 import ContainerComponent from '../../components/container-component.vue'
 
 import ClustersList from './clusters/list.vue'
@@ -24,7 +24,7 @@ export default [
     path: '/irs_record/clusters',
     name: 'irs_record:clusters',
     redirect: '/irs_record/clusters/list',    
-    component: IRSProgressApplet,
+    component: IrsRecordApplet,
     meta: { breadcrumb: 'Clusters' },
     children: [
       {
