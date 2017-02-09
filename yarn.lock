@@ -4273,9 +4273,9 @@ vue-loader@^10.0.4:
     vue-style-loader "^1.0.0"
     vue-template-es2015-compiler "^1.2.2"
 
-vue-material@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/vue-material/-/vue-material-0.7.0.tgz#ff7e8e7768901b41728f950d20227e2bda1af524"
+vue-material@^0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/vue-material/-/vue-material-0.7.1.tgz#2ed25eb1e2054c21fe323361604c92f40ef5ada1"
   dependencies:
     vue "^2.1.10"
 

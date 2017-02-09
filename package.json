@@ -24,7 +24,7 @@
     "raven-js": "^3.10.0",
     "uuid": "^3.0.1",
     "vue": "^2.1.10",
-    "vue-material": "^0.7.0",
+    "vue-material": "^0.7.1",
     "vue-multiselect": "next",
     "vue-router": "^2.0.1",
     "vuex": "^2.1.1"

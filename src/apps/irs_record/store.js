@@ -1,7 +1,7 @@
 // Store for IRS-Progress 
 
 import turf from '@turf/turf'
-import Sync from './sync.js'
+import Sync from './data/sync.js'
 
 // TODO: @debug Remove rough global for DB
 let DB = {}
