@@ -35,11 +35,13 @@ export default [
       {
         path: 'map',
         name: 'irs_record:clusters_search:map',
-        component: ClustersSearchMap
+        component: ClustersSearchMap,
+        meta: {type: 'map'}
       },{
         path: 'list',
         name: 'irs_record:clusters_search:list',
-        component: ClustersSearchList
+        component: ClustersSearchList,
+        meta: {type: 'list'}
       }
     ]
   },{
@@ -51,11 +53,13 @@ export default [
       {
         path: 'map',
         name: 'irs_record:clusters:map',
-        component: ClustersMap
+        component: ClustersMap,
+        meta: {type: 'map'}
       },{
         path: 'list',
         name: 'irs_record:clusters:list',
-        component: ClustersList
+        component: ClustersList,
+        meta: {type: 'list'}
       }
     ]
   },{
@@ -73,11 +77,13 @@ export default [
         path: 'map',
         name: 'irs_record:tasks_view:map',
         component: TasksMap,
+        meta: {type: 'map'},
         props: true
       },{
         path: 'list',
         name: 'irs_record:tasks_view:list',
         component: TasksList,
+        meta: {type: 'list'},
         props: true
       }
     ]

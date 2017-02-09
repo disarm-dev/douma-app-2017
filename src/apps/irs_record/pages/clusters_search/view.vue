@@ -11,15 +11,16 @@
       placeholder="Search for Clusters by location" 
       track-by="name" 
       label="name">
-      <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
+      <span slot="noResult">Uh-oh! No matching search terms. Try changing what you typed.</span>
     </multiselect>
 
     <md-button :disabled='search_definition.length === 0' @click.native='search'>Search</md-button>
     <md-button :disabled='search_definition.length === 0' @click.native='clear'>Clear</md-button>
     <md-button :disabled='clusters_to_open.length === 0' @click.native='keep'>Keep these</md-button>
+    <md-button @click.native="toggle_view">{{toggle_to_view}}</md-button>
 
 
-    <router-view :search_results='search_results'></router-view>
+    <router-view></router-view>
 
   </div>
 
@@ -58,6 +59,15 @@
         ]
       }
     },
+    computed: {
+      toggle_to_view() {
+        if (this.$route.meta && this.$route.meta.type === 'map') {
+          return 'list'
+        } else {
+          return 'map'
+        }
+      }
+    },
     methods: {
       search() {
         this.$store.dispatch("irs_record:search_clusters", this.search_definition)        
@@ -69,9 +79,18 @@
       },
       keep() {
         this.$store.dispatch("irs_record:open_clusters", this.clusters_to_open)
+      },
+      toggle_view() {
+        this.$router.push({name: `irs_record:clusters_search:${this.toggle_to_view}`})
       }
     }
   }
 
 </script>
+
+<style scoped>
+  .container {
+    z-index: 100;
+  }
+</style>
 
