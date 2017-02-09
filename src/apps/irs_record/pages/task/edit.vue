@@ -12,6 +12,7 @@
 
 <script>
   export default {
-    name: 'TaskEdit'
+    name: 'TaskEdit',
+    props: ['cluster_id', 'task_id']
   }
-</script
+</script>

@@ -19,7 +19,8 @@ import TaskView from './pages/task/view.vue'
 import TaskShow from './pages/task/show.vue'
 import TaskEdit from './pages/task/edit.vue'
 
-const definitions = [
+
+export default [
   {
     path: '/irs_record',
     name: 'irs_record',
@@ -56,44 +57,40 @@ const definitions = [
   },{
     path: '/irs_record/clusters/:cluster_id',
     name: 'irs_record:cluster_view',
-    component: ClusterView,
-    redirect: '/irs_record/clusters/:cluster_id/show',
-    children: [
-      {
-        path: 'show',
-        name: 'irs_record:cluster:show',
-        component: ClusterShow
-      }
-    ]
+    redirect: '/irs_record/clusters/:cluster_id/tasks',
   },{
     path: '/irs_record/clusters/:cluster_id/tasks',
     name: 'irs_record:clusters:tasks_view',
     component: TasksView,
+    props: true,
     redirect: '/irs_record/clusters/:cluster_id/tasks/map',
     children: [
       {
         path: 'map',
-        component: TasksMap
+        component: TasksMap,
+        props: true
       },{
         path: 'list',
-        component: TasksList
+        component: TasksList,
+        props: true
       }
     ]
   },{
     path: '/irs_record/clusters/:cluster_id/tasks/:task_id',
     name: 'irs_record:clusters:task_view',
     component: TaskView,
+    props: true,
     redirect: '/irs_record/clusters/:cluster_id/tasks/:task_id/show',
     children: [
       {
         path: 'show',
-        component: TaskShow
+        component: TaskShow,
+        props: true
       },{
         path: 'edit',
-        component: TaskEdit
+        component: TaskEdit,
+        props: true
       }
     ]
   }
 ]
-
-export default definitions

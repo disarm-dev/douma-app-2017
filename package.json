@@ -4,7 +4,7 @@
   "author": "DiSARM Team",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server  --content-base src/ --inline --hot --host 0.0.0.0",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --content-base src/ --inline --hot --host 0.0.0.0",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "service-worker": "sw-precache --root=dist --maximum-file-size-to-cache-in-bytes=14194304 --navigate-fallback=index.html",
     "deploy": "surge dist"
@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "babel-core": "^6.18.2",
-    "babel-loader": "^6.2.8",
+    "babel-loader": "^6.2.10",
     "babel-plugin-transform-class-properties": "^6.19.0",
     "babel-plugin-transform-es2015-arrow-functions": "^6.8.0",
     "babel-plugin-transform-object-rest-spread": "^6.19.0",
@@ -44,9 +44,9 @@
     "json-loader": "^0.5.4",
     "style-loader": "^0.13.1",
     "sw-precache": "^4.2.3",
-    "vue-loader": "^10.0.4",
+    "vue-loader": "^10.3.0",
     "vue-template-compiler": "^2.1.10",
     "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.2.0"
+    "webpack-dev-server": "^2.3.0"
   }
 }

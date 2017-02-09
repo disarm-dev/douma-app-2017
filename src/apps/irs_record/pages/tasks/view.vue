@@ -7,6 +7,7 @@
 
 <script>
   export default {
-    name: 'TasksView'
+    name: 'TasksView',
+    props: ['cluster_id']
   }
-</script
+</script>

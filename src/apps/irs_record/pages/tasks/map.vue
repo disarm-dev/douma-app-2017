@@ -12,6 +12,7 @@
 
 <script>
   export default {
-    name: 'TasksMap'
+    name: 'TasksMap',
+    props: ['cluster_id']
   }
-</script
+</script>

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>ClustersList</h1>
     <h2>List of LOCAL Clusters</h2>
     <md-list>
       <md-list-item v-for="cluster in $store.state.irs_record.clusters" @click.native="$router.push({name: 'irs_record:cluster:view', params: {cluster_id: cluster._id}})">
@@ -20,6 +21,6 @@
 
 <script>
   export default {
-    name: 'Clusters'
+    name: 'ClustersList'
   }
 </script>

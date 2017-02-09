@@ -12,6 +12,7 @@
 <script>
   export default {
     name: 'TaskShow',
+    props: ['cluster_id', 'task_id'],
     computed: {
       task() {
         return this.$store.state.irs_record.tasks.find((task) => task.id === this.$route.params.task_id)
