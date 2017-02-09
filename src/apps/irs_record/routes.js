@@ -34,9 +34,11 @@ export default [
     children: [
       {
         path: 'map',
+        name: 'irs_record:clusters_search:map',
         component: ClustersSearchMap
       },{
         path: 'list',
+        name: 'irs_record:clusters_search:list',
         component: ClustersSearchList
       }
     ]
@@ -48,9 +50,11 @@ export default [
     children: [
       {
         path: 'map',
+        name: 'irs_record:clusters:map',
         component: ClustersMap
       },{
         path: 'list',
+        name: 'irs_record:clusters:list',
         component: ClustersList
       }
     ]
@@ -60,34 +64,38 @@ export default [
     redirect: '/irs_record/clusters/:cluster_id/tasks',
   },{
     path: '/irs_record/clusters/:cluster_id/tasks',
-    name: 'irs_record:clusters:tasks_view',
+    name: 'irs_record:tasks_view',
     component: TasksView,
     props: true,
     redirect: '/irs_record/clusters/:cluster_id/tasks/map',
     children: [
       {
         path: 'map',
+        name: 'irs_record:tasks_view:map',
         component: TasksMap,
         props: true
       },{
         path: 'list',
+        name: 'irs_record:tasks_view:list',
         component: TasksList,
         props: true
       }
     ]
   },{
     path: '/irs_record/clusters/:cluster_id/tasks/:task_id',
-    name: 'irs_record:clusters:task_view',
+    name: 'irs_record:task_view',
     component: TaskView,
     props: true,
     redirect: '/irs_record/clusters/:cluster_id/tasks/:task_id/show',
     children: [
       {
         path: 'show',
+        name: 'irs_record:task_view:show',
         component: TaskShow,
         props: true
       },{
         path: 'edit',
+        name: 'irs_record:task_view:edit',
         component: TaskEdit,
         props: true
       }
