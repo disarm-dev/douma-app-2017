@@ -2,6 +2,10 @@
   <div>
     <h1>ClusterView</h1>
     <router-view></router-view>
+    <md-button @click.native="$router.push({name: 'irs_record:clusters_search'})">Search</md-button>
+    <md-button @click.native="$router.push({name: 'irs_record:clusters:list'})">List</md-button>
+    <md-button @click.native="$router.push({name: 'irs_record:clusters:map'})">Map</md-button>
+    <md-button @click.native="$router.push({name: 'irs_record:clusters:edit'})">Edit</md-button>
   </div>
 </template>
 
