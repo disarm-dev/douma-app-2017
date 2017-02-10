@@ -6,8 +6,8 @@
       <template v-for='key in Object.keys(task)'>
         <md-list-item>
           <div class="md-list-text-container">
-            <span>{{task[key]}}</span>
             <span>{{key}}</span>
+            <span>{{task[key]}}</span>
           </div>
         </md-list-item>
       </template>

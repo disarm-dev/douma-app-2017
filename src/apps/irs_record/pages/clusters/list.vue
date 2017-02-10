@@ -13,5 +13,13 @@
 <script>
   export default {
     name: 'ClustersList',
+    computed: {
+      unsynced_tasks(cluster) {
+        this.$store.state.irs_record.clusters.filter
+        // load tasks
+        // find synced
+        // add unsynced_count to each Cluster
+      }
+    }
   }
 </script>

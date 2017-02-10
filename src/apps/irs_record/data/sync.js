@@ -27,7 +27,13 @@ export default {
     const task_promises = clusters.map((cluster) => {
       return new Promise((resolve, reject) => {
         RemoteDB.tasks.read(cluster.task_ids)
-        .then(res => LocalDB.tasks.create(res))
+        .then(res => {
+          res = res.map(task => {
+            task._sync_status = 'synced'
+            return task
+          })
+          LocalDB.tasks.create(res)
+        })
         .then(() => resolve())
         .catch(error => reject(error))
       })
