@@ -9,33 +9,40 @@
   export default {
     computed: {
       crumbs() {
-        return this.$route.matched
-          .filter((match) => match.meta.hasOwnProperty('breadcrumb'))
-          .map((match) => {
-            let title
-            let route
+        let string = this.$route.matched[this.$route.matched.length - 1].path
+        let params = this.$route.params
 
-            if (match.meta.hasOwnProperty('prependBreadcrumb') && match.meta.prependBreadcrumb !== '') {
-              title = this.$route.params[match.meta.prependBreadcrumb] + " " + match.meta.breadcrumb
-            } else if (match.meta.hasOwnProperty('appendBreadcrumb') && match.meta.appendBreadcrumb !== '') {
-              title = match.meta.breadcrumb + " " + this.$route.params[match.meta.appendBreadcrumb]
-            } else {
-              title = match.meta.breadcrumb
-            }
+        console.log(string, params)
 
-            route = match.path.split('/').map((part) => {
-              if (part.indexOf(':') === 0) {
-                return this.$route.params[part.slice(1,part.length)]
-              } else {
-                return part
-              }
-            }).join("/")
+        let array = string.split('/')
+        array = array.splice(1, array.length)
 
-            return {
-              title: title,
-              route: route
-            }
+        array = array.map((elem) => {
+          return get_param_value(elem)
         })
+
+        let result = array.map((part, i) => {
+          return {
+            title: part,
+            route: '/' + build_path(part, i + 1)
+          }
+        })
+
+
+        function get_param_value(title){
+          if (title.indexOf(':') === 0) {
+             title = title.replace(/\:/, '')
+             return params[title]
+           } 
+          return title
+        }
+
+        function build_path(part, index) {
+          let newArray = array.slice(0, index)
+          return newArray.join('/')
+        }
+
+        return result.splice(1, result.length)
       }
     }
 
