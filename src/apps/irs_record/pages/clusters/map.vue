@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>ClustersMap</h1>
     <div id='map'></div>
   </div>
 </template>
@@ -78,6 +77,6 @@
 
 <style scoped>
   #map {
-    min-height: 85vh;
+    min-height: calc(100vh - 64px);
   }
 </style>

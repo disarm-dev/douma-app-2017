@@ -1,14 +1,19 @@
 <template>
-  <div>
-    <h1>ClustersView</h1>
-    <md-button @click.native="$router.push({name: 'irs_record:clusters_search'})">Search</md-button>
-    <md-button @click.native="$router.push({name: 'irs_record:clusters:edit'})">Edit</md-button>
-    <md-button @click.native="toggle_view">{{toggle_to_view}}</md-button>
+  <div style='position: relative'>
+    <md-speed-dial style='z-index: 10000' md-open="click" md-direction="bottom" class="md-fab-top-right" md-theme="light-blue">
+      <md-button class="md-fab" md-fab-trigger>
+        <md-icon md-icon-morph>event</md-icon>
+        <md-icon>add</md-icon>
+      </md-button>
 
-    <md-button @click.native="$store.dispatch('irs_record:sync_tasks')" class='md-warn'>SYNC</md-button>
-    <md-button @click.native="$store.dispatch('irs_record:clear_local_dbs')" class='md-accent'>CLEAR LOCAL</md-button>
-    <md-button @click.native="$store.dispatch('irs_record:seed_local_data_from_files')" class='md-accent'>SEED from FILES</md-button>
-    <md-button @click.native="$store.dispatch('irs_record:seed_local_data_from_remote')" class='md-accent'>SEED from REMOTE</md-button>
+      <md-button class="md-fab md-primary md-mini md-clean" @click.native='toggle_view'>
+        <md-icon>note_add</md-icon>
+      </md-button>
+
+      <md-button class="md-fab md-primary md-mini md-clean" @click.native='$router.push({name: "irs_record:clusters_search"})'>
+        <md-icon>alarm_add</md-icon>
+      </md-button>
+    </md-speed-dial>
 
     <router-view></router-view>
 
