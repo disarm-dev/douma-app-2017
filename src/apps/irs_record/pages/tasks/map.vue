@@ -17,7 +17,7 @@
       return {
         map: {},
         tasks_layer: null,
-        clusters_layer: null
+        cluster_layer: null
       }
     },
     watch: {
@@ -38,6 +38,11 @@
 
         const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
 
+        this.map.on('dblclick', (a,b,c) => {
+          // console.log(a,b,c)
+          this.$router.push({name: 'irs_record:clusters'})
+        })
+
         Leaflet.tileLayer(url).addTo(this.map)
       },
       draw_clusters() {
@@ -47,25 +52,26 @@
           this.cluster_layer = null
         }
 
-        const clusters = this.$store.state.irs_record.clusters.map(cluster => cluster.polygon)
-        if (!clusters) return 
+        const cluster = this.$store.state.irs_record.clusters.find(cluster => cluster._id === this.cluster_id)
+        if (!cluster) return 
 
         // Create GeoJSON for Cluster
 
-        this.cluster_layer = L.geoJSON(clusters, {
+        this.cluster_layer = L.geoJSON(cluster.polygon, {
           style: (feature, layer) => {
-            return { color: 'lightblue' }
-          },
-          onEachFeature: (feature, layer) => {
-            layer.on('click', () => {
-              this.$router.push({name: 'irs_record:clusters'})
-            })
+            return { 
+              fillColor: false,
+              fillOpacity: 0,
+              color: "lightblue",
+              weight: 5,
+              dashArray: "10, 10",
+              clickable: false
+            }
           }
-
         })
         this.map
           .addLayer(this.cluster_layer)
-          // .fitBounds(this.cluster_layer.getBounds())
+          .fitBounds(this.cluster_layer.getBounds())
       },
       draw_tasks() {
         // Remove if exists
@@ -103,7 +109,7 @@
 
         this.map
           .addLayer(this.tasks_layer)
-          .fitBounds(this.tasks_layer.getBounds())
+          // .fitBounds(this.tasks_layer.getBounds())
       },
       select_task(task) {
         this.$router.push({name: 'irs_record:task', params: {cluster_id: this.cluster_id, task_id: task._id}})
