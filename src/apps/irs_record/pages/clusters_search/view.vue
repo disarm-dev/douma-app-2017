@@ -73,7 +73,7 @@
     },
     methods: {
       search() {
-        this.$store.dispatch("irs_record:search_clusters", this.search_definition)        
+        this.$store.dispatch("irs_record:search_clusters", this.search_definition)
           .then(result => this.search_results = result)
       },
       clear() { 
@@ -82,6 +82,7 @@
       },
       keep() {
         this.$store.dispatch("irs_record:open_clusters", this.clusters_to_open)
+          .then(() => this.$router.push({name: 'irs_record:clusters'}))
       },
       toggle_view() {
         this.$router.push({name: `irs_record:clusters_search:${this.toggle_to_view}`})

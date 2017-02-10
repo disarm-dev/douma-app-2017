@@ -246,8 +246,14 @@ export default {
   actions: {
     // SYNC
     "irs_record:search_clusters": (context, locations) => {
+      context.commit("irs_record:set_sync_in_progress", true)
+
       return Sync.search_clusters(locations)
-        // .catch((e) => console.error(e))
+        .then((res) => {
+          context.commit("irs_record:set_sync_in_progress", false)
+          return res
+        })
+        .catch((e) => console.error(e))
     },
     "irs_record:set_clusters_from_local": (context) => {
       return Sync.read_local_clusters().then((result) => {
@@ -259,9 +265,10 @@ export default {
     "irs_record:open_clusters": (context, clusters) => {
       context.commit("irs_record:set_sync_in_progress", true)
 
-      Sync.open_clusters(clusters).then(() => {
+      Sync.open_clusters(clusters).then((res) => {
+        console.log(res)
         context.commit("irs_record:set_sync_in_progress", false)
-        context.dispatch('irs_record:set_clusters_from_local')
+        return context.dispatch('irs_record:set_clusters_from_local')
       }).catch(error => console.error(error))
     },
     "irs_record:clear_local_dbs": (context) => {
