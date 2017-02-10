@@ -107,7 +107,7 @@ export default [
         component: TaskView,
         meta: {breadcrumb: 'Task', appendBreadcrumb: 'task_id'},
         props: true,
-        redirect: '/irs_record/clusters/:cluster_id/tasks/:task_id/show',
+        redirect: '/irs_record/clusters/:cluster_id/tasks/:task_id/edit',
         children: [
           {
             path: 'show',

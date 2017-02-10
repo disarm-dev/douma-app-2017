@@ -55,7 +55,9 @@ export default {
   close_clusters: (clusters) => {},
   
   // Update task
-  update_task: (task) => {},
+  update_task: (task) => {
+    return LocalDB.tasks.update(task)
+  },
   
   // Get Tasks and SpatialEntities for a Cluster
   tasks_for_cluster: (cluster_id) => {

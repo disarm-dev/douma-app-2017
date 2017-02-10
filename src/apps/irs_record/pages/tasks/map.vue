@@ -94,10 +94,13 @@
 
         this.tasks_layer = L.geoJSON(tasks_geojson, {
           style: (feature, layer) => {
-            if (feature.properties.original_task.properties.status === 'unvisited') {
+            switch (feature.properties.original_task.properties.status) {
+              case 'unvisited': 
                 return { color: 'purple' }
-            } else {
+              case 'visited_successful':
                 return { color: 'green' }
+              case 'visited_unsuccessful':
+                return { color: 'red' }
             }
           },
           onEachFeature: (feature, layer) => {

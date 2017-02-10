@@ -283,6 +283,9 @@ export default {
           context.commit("irs_record:set_tasks", tasks)
       })
 
+    },
+    "irs_record:update_task": (context, task) => {
+      return Sync.update_task(task)
     }
   },
 
