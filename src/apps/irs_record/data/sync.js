@@ -58,7 +58,9 @@ export default {
     // if all SpatialEntities successfully found in RemoteRB AND stored in LocalDB
     // resolve()
   },
-  close_clusters: (clusters) => {},
+  close_clusters: (clusters) => {
+        
+  },
   
   // Update task
   update_task: (task) => {
