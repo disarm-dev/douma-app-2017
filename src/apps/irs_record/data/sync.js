@@ -65,8 +65,23 @@ export default {
   read_local_clusters: () => {
     return LocalDB.clusters.read()
   },
-  set_tasks_spatial_entities_for_cluster: (cluster_id) => {},
+  get_tasks_and_spatial_entities_for_cluster: (cluster) => {
+    console.log('cluster')
+    return new Promise((resolve, reject) => {
+      const task_ids = cluster.task_ids
+      const spatial_entity_ids = cluster.spatial_entity_ids
 
+      Promise.all([
+        LocalDB.tasks.read(task_ids),
+        LocalDB.spatial_entities.read(spatial_entity_ids)
+      ]).then((result_array) => {
+        resolve({tasks: result_array[0], spatial_entities: result_array[1]})
+      })
+
+    })
+  },
+
+  // Clear DBs - for reset and debugging
   clear_local_dbs: () => {
     const promises = [
       LocalDB.clusters.clear(),

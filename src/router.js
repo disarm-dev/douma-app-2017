@@ -29,10 +29,6 @@ export default () => {
 
   // Add the guards
   router.beforeEach((to, from, next) => {
-    if (to.name) {
-      const theme = to.name.split(/:/)[0]
-      router.app.$material.setCurrentTheme(theme) // TODO: @fix Need to avoid setting themes that don't exist
-    }
 
     if (!store.state.user) {
       store.state.previousRoute = to
@@ -41,7 +37,14 @@ export default () => {
       }
       return next({name: 'meta:login'})
     } 
-    return next()
+
+    if (to.name) {
+      const theme = to.name.split(/:/)[0]
+      router.app.$material.setCurrentTheme(theme) // TODO: @fix Need to avoid setting themes that don't exist
+    }
+
+    next()
+
   })
   
   router.afterEach((to, from) => {

@@ -13,11 +13,9 @@
   export default {
     name: 'TasksView',
     props: ['cluster_id'],
-    computed: {
-      tasks() {
-        const cluster = this.$store.state.irs_record.clusters.find(cluster => cluster._id === cluster_id)
-        return this.$store.state.irs_record.tasks.filter(task => this.cluster.task_ids.includes(task._id))
-      }
+    mounted() {
+      // Find Cluster from URL params, and get matching Tasks and Spatial Entities. Need to wait until parent calls `mounted()` to ensure $store.clusters is set 
+      this.$store.dispatch("irs_record:set_tasks_and_spatial_entities_for_cluster", this.cluster_id)
     }
   }
 </script>

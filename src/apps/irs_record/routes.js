@@ -1,4 +1,4 @@
-import IrsRecordApplet from './IrsRecordApplet.vue'
+import IrsRecordApplet from './irs_record_applet.vue'
 
 import ClustersSearchView from './pages/clusters_search/view.vue'
 import ClustersSearchMap from './pages/clusters_search/map.vue'
@@ -17,6 +17,7 @@ import TaskView from './pages/task/view.vue'
 import TaskShow from './pages/task/show.vue'
 import TaskEdit from './pages/task/edit.vue'
 
+import store from '../../store'
 
 export default [
   {
@@ -24,6 +25,12 @@ export default [
     name: 'irs_record',
     redirect: '/irs_record/clusters',
     component: IrsRecordApplet,
+    beforeEnter: (to, from, next) => {
+      // Bootstrap initial data for thisApplet
+      store.dispatch('irs_record:set_clusters_from_local').then(() => {
+        next()
+      })
+    },
     children: [
       {
         path: '/irs_record/clusters/search',

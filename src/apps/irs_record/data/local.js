@@ -20,7 +20,11 @@ const tasks = {
   create: (tasks) => {
     return DB.tasks.bulkAdd(tasks)
   },
-  read_tasks: () => {},
+  read: (ids) => {
+    return DB.tasks.filter((task) => {
+      return ids.includes(task._id)
+    }).toArray()
+  },
   update_task: (task) => {},
   _delete_tasks: () => {},
   clear: () => {
@@ -32,7 +36,11 @@ const spatial_entities = {
   create: (spatial_entities) => {
     return DB.spatial_entities.bulkAdd(spatial_entities)
   },
-  read_spatial_entities: () => {},
+  read: (ids) => {
+    return DB.spatial_entities.filter((spatial_entity) => {
+      return ids.includes(spatial_entity._id)
+    }).toArray()
+  },
   _delete_spatial_entities: () => {},
   clear: () => {
     return DB.spatial_entities.clear()

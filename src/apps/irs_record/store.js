@@ -250,8 +250,10 @@ export default {
         // .catch((e) => console.error(e))
     },
     "irs_record:set_clusters_from_local": (context) => {
-      Sync.read_local_clusters().then((result) => {
-        context.commit("irs_record:set_clusters", result)
+      return Sync.read_local_clusters().then((result) => {
+        return new Promise((resolve, reject) => {
+          resolve(context.commit("irs_record:set_clusters", result))
+        })
       })
     },
     "irs_record:open_clusters": (context, clusters) => {
@@ -269,6 +271,19 @@ export default {
         context.commit("irs_record:set_tasks", null)
         context.commit("irs_record:set_spatial_entities", null)
       })
+    },
+    "irs_record:set_tasks_and_spatial_entities_for_cluster": (context, cluster_id) => {
+
+      const cluster = context.state.clusters.find(cluster => cluster._id === cluster_id)
+
+      if (!cluster) throw new Error(`Cannot find Cluster for id ${cluster_id}`)
+
+      return Sync.get_tasks_and_spatial_entities_for_cluster(cluster)
+        .then((result) => {
+          context.commit("irs_record:set_tasks", result.tasks)
+          context.commit("irs_record:set_spatial_entities", result.spatial_entities)
+      })
+
     }
   },
 
