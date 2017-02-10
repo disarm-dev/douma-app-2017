@@ -20,6 +20,8 @@
     <md-button :disabled='clusters_to_open.length === 0' @click.native='keep'>Keep these ({{clusters_to_open.length}})</md-button>
     <md-button @click.native="toggle_view">{{toggle_to_view}}</md-button>
 
+    <md-progress :md-indeterminate='$store.state.irs_record.sync_in_progress'></md-progress>
+
 
     <router-view></router-view>
 
