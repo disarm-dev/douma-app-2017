@@ -1,18 +1,24 @@
 <template>
   <div style='position: relative'>
-    <md-speed-dial style='z-index: 10000' md-open="click" md-direction="bottom" class="md-fab-top-right" md-theme="light-blue">
+    
+    <md-speed-dial style='z-index: 10000' md-open="click" md-direction="bottom" class="md-fab-top-right">
       <md-button class="md-fab" md-fab-trigger>
-        <md-icon md-icon-morph>event</md-icon>
-        <md-icon>add</md-icon>
+        <md-icon md-icon-morph>close</md-icon>
+        <md-icon>menu</md-icon>
       </md-button>
 
-      <md-button class="md-fab md-primary md-mini md-clean" @click.native='toggle_view'>
-        <md-icon>note_add</md-icon>
+      <md-button class="md-fab md-primary md-mini md-clean" @click.native="navigate('map')">
+        <md-icon>map</md-icon>
       </md-button>
 
-      <md-button class="md-fab md-primary md-mini md-clean" @click.native='$router.push({name: "irs_record:clusters_search"})'>
-        <md-icon>alarm_add</md-icon>
+      <md-button class="md-fab md-primary md-mini md-clean" @click.native="navigate('list')">
+        <md-icon>list</md-icon>
       </md-button>
+
+      <md-button class="md-fab md-primary md-mini md-clean" @click.native="navigate('edit')">
+        <md-icon>mode_edit</md-icon>
+      </md-button>
+
     </md-speed-dial>
 
     <router-view></router-view>
@@ -33,6 +39,9 @@
       }
     },
     methods: {
+      navigate(route) {
+        this.$router.push({name: `irs_record:clusters:${route}`})
+      },
       toggle_view() {
         this.$router.push({name: `irs_record:clusters:${this.toggle_to_view}`})
       }
