@@ -34,8 +34,6 @@
         } else {
           clusters_to_open.push(cluster)
         }
-
-        this.$store.dispatch("irs_record:open_clusters", clusters_to_open)
       }
     }
   }

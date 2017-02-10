@@ -1,7 +1,9 @@
 <template>
   <div>
     <h1>TasksList</h1>
-    {{$store.state.irs_record.tasks.length}}
+    <md-list>
+      <md-list-item v-for='task in $store.state.irs_record.tasks'>{{task._id}}</md-list-item>
+    </md-list>
   </div>
 </template>
 

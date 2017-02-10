@@ -1,5 +1,5 @@
 <template>
-  <div class='container'>
+  <div>
     <h1>ClustersSearchView</h1>
     <h2>Search for new Clusters</h2>
 
@@ -96,8 +96,5 @@
 </script>
 
 <style scoped>
-  .container {
-    z-index: 100;
-  }
 </style>
 
