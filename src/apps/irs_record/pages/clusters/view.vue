@@ -7,11 +7,11 @@
       </md-button>
 
       <md-button class="md-fab md-primary md-mini md-clean" @click.native='toggle_view'>
-        <md-icon>note_add</md-icon>
+        <md-icon>{{toggle_to_view}}</md-icon>
       </md-button>
 
       <md-button class="md-fab md-primary md-mini md-clean" @click.native='$router.push({name: "irs_record:clusters_search"})'>
-        <md-icon>alarm_add</md-icon>
+        <md-icon>search</md-icon>
       </md-button>
     </md-speed-dial>
 
