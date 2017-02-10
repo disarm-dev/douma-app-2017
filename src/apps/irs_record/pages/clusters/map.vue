@@ -69,7 +69,7 @@
           .fitBounds(this.search_results_layer.getBounds())
       },
       select_cluster(cluster) {
-        this.$router.push({name: 'irs_record:tasks', params: {cluster_id: cluster._id}})
+        this.$router.push({name: 'irs_record:cluster', params: {cluster_id: cluster._id}})
       }
     }
   }

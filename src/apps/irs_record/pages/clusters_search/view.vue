@@ -20,6 +20,8 @@
     <md-button :disabled='clusters_to_open.length === 0' @click.native='keep'>Keep these ({{clusters_to_open.length}})</md-button>
     <md-button @click.native="toggle_view">{{toggle_to_view}}</md-button>
 
+    <md-progress :md-indeterminate='$store.state.irs_record.sync_in_progress'></md-progress>
+
 
     <router-view></router-view>
 
@@ -71,7 +73,7 @@
     },
     methods: {
       search() {
-        this.$store.dispatch("irs_record:search_clusters", this.search_definition)        
+        this.$store.dispatch("irs_record:search_clusters", this.search_definition)
           .then(result => this.search_results = result)
       },
       clear() { 
@@ -80,6 +82,7 @@
       },
       keep() {
         this.$store.dispatch("irs_record:open_clusters", this.clusters_to_open)
+          .then(() => this.$router.push({name: 'irs_record:clusters'}))
       },
       toggle_view() {
         this.$router.push({name: `irs_record:clusters_search:${this.toggle_to_view}`})
