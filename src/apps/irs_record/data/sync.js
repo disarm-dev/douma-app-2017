@@ -14,13 +14,15 @@ export default {
   
   // Cluster management (incl. Task sync)
   open_clusters: (clusters) => {
-    // For each Cluster
+    // For each Cluster already in memory
     // Get related RemoteRB Tasks
-    // Create Tasks in LocalDB
-    // Return Tasks back to the $store
-    // Get related RemoteRB SEs
-    // Create SEs in LocalDB
-    // Return SEs back to the $store
+    // Add Tasks as property to Cluster
+    // For each Task
+    // Get related SpatialEntities
+    // Add each SpatialEntities as property on relevant Task
+    // Create Clusters in LocalDB
+    // Return Clusters for $store to set on $store.state
+
     const clusters_promise = LocalDB.clusters.create(clusters)
 
 
