@@ -11,7 +11,7 @@
     name: 'TaskView',
     props: ['cluster_id', 'task_id'],
     mounted() {
-      this.$store.dispatch("irs_record:set_tasks_and_spatial_entities_for_cluster", this.cluster_id)
+      this.$store.dispatch("irs_record:set_tasks_for_cluster", this.cluster_id)
     },
     computed: {
       task() {

@@ -67,7 +67,7 @@ export default {
   read_local_clusters: () => {
     return LocalDB.clusters.read()
   },
-  get_tasks: (cluster) => {
+  get_tasks_for_cluster: (cluster) => {
     return new Promise((resolve, reject) => {
       const task_ids = cluster.task_ids
       const spatial_entity_ids = cluster.spatial_entity_ids

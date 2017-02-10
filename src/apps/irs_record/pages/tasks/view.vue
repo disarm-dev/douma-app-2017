@@ -12,7 +12,7 @@
     props: ['cluster_id'],
     mounted() {
       // Find Cluster from URL params, and get matching Tasks and Spatial Entities. Need to wait until parent calls `mounted()` to ensure $store.clusters is set 
-      this.$store.dispatch("irs_record:set_tasks_and_spatial_entities_for_cluster", this.cluster_id)
+      this.$store.dispatch("irs_record:set_tasks_for_cluster", this.cluster_id)
     },
     computed: {
       toggle_to_view() {
