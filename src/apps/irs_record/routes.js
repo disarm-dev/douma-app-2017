@@ -113,13 +113,13 @@ export default [
             path: 'show',
             name: 'irs_record:task:show',
             component: TaskShow,
-            meta: {breadcrumb: 'Show'},
+            meta: {type: 'show', breadcrumb: 'Show'},
             props: true
           },{
             path: 'edit',
             name: 'irs_record:task:edit',
             component: TaskEdit,
-            meta: {breadcrumb: 'Edit'},
+            meta: {type: 'edit', breadcrumb: 'Edit'},
             props: true
           }
         ]
