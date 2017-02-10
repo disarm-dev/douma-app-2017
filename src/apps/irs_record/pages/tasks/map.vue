@@ -39,10 +39,8 @@
         Leaflet.tileLayer(url).addTo(this.map)
       },
       draw_tasks() {
-        console.log('draw')
         // Remove if exists
         if (this.tasks_layer) {
-          console.log('removeLayer')
           this.map.removeLayer(this.tasks_layer)
           this.tasks_layer = null
         }
@@ -74,14 +72,11 @@
           }
         })
 
-        console.log(this.tasks_layer)
         this.map
           .addLayer(this.tasks_layer)
           .fitBounds(this.tasks_layer.getBounds())
       },
       select_task(task) {
-        console.log('do something with', task._id)
-        // task.properties.status = 'something else'
         this.$router.push({name: 'irs_record:task', params: {cluster_id: this.cluster_id, task_id: task._id}})
       }
     }

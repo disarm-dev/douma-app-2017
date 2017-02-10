@@ -49,7 +49,6 @@
           return newArray.join('/')
         }
 
-        console.log(result)
         this.crumbs = result.splice(1, result.length)
       }
     }
