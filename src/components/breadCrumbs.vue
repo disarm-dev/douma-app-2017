@@ -41,7 +41,7 @@
              title = title.replace(/\:/, '')
              return params[title]
            } 
-          return title
+          return title[0].toUpperCase() + title.substr(1)
         }
 
         function build_path(part, index) {
