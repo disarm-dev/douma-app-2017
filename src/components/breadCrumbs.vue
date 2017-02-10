@@ -1,12 +1,18 @@
 <template>
   <div>
     <template v-for="(bread, index) in crumbs">
-      <router-link :to="bread.route" class='crumb'> {{bread.title}} </router-link><span v-if='index !== (crumbs.length - 1)'> > </span>
+      <router-link :to="bread.route" class='crumb'> {{bread.title}} </router-link>
+      <span v-if='index !== (crumbs.length - 1)'> > </span>
     </template>
   </div>
 </template>
+
 <script>
   export default {
+    mounted() {
+      // TODO: @never Don't remove. No idea why it's needed.
+      this.crumbs
+    },
     computed: {
       crumbs() {
         let string = this.$route.matched[this.$route.matched.length - 1].path
