@@ -278,10 +278,9 @@ export default {
 
       if (!cluster) throw new Error(`Cannot find Cluster for id ${cluster_id}`)
 
-      return Sync.get_tasks_and_spatial_entities_for_cluster(cluster)
-        .then((result) => {
-          context.commit("irs_record:set_tasks", result.tasks)
-          context.commit("irs_record:set_spatial_entities", result.spatial_entities)
+      return Sync.get_tasks(cluster)
+        .then((tasks) => {
+          context.commit("irs_record:set_tasks", tasks)
       })
 
     }
