@@ -16,7 +16,8 @@
     data() {
       return {
         map: {},
-        tasks_layer: null
+        tasks_layer: null,
+        clusters_layer: null
       }
     },
     watch: {
@@ -24,6 +25,7 @@
     },
     mounted() {
       this.create_map()
+      this.draw_clusters()
       this.draw_tasks()
     },
     methods: {
@@ -37,6 +39,33 @@
         const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
 
         Leaflet.tileLayer(url).addTo(this.map)
+      },
+      draw_clusters() {
+        // Remove if exists
+        if (this.cluster_layer) {
+          this.map.removeLayer(this.cluster_layer)
+          this.cluster_layer = null
+        }
+
+        const clusters = this.$store.state.irs_record.clusters.map(cluster => cluster.polygon)
+        if (!clusters) return 
+
+        // Create GeoJSON for Cluster
+
+        this.cluster_layer = L.geoJSON(clusters, {
+          style: (feature, layer) => {
+            return { color: 'lightblue' }
+          },
+          onEachFeature: (feature, layer) => {
+            layer.on('click', () => {
+              this.$router.push({name: 'irs_record:clusters'})
+            })
+          }
+
+        })
+        this.map
+          .addLayer(this.cluster_layer)
+          // .fitBounds(this.cluster_layer.getBounds())
       },
       draw_tasks() {
         // Remove if exists

@@ -56,7 +56,7 @@
 
         this.search_results_layer = L.geoJSON(geojson_search_results, {
           style: (feature, layer) => {
-              return { color: 'green' }
+              return { color: 'lightblue' }
           },
           onEachFeature: (feature, layer) => {
             layer.on('click', () => {
