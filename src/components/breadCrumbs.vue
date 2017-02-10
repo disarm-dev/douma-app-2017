@@ -9,16 +9,18 @@
 
 <script>
   export default {
-    mounted() {
-      // TODO: @never Don't remove. No idea why it's needed.
-      this.crumbs
+    data() { 
+      return { 
+        crumbs: [] 
+      }
     },
-    computed: {
-      crumbs() {
+    watch: { 
+      '$route': 'set_crumbs' 
+    },
+    methods: {
+      set_crumbs() {
         let string = this.$route.matched[this.$route.matched.length - 1].path
         let params = this.$route.params
-
-        console.log(string, params)
 
         let array = string.split('/')
         array = array.splice(1, array.length)
@@ -34,7 +36,6 @@
           }
         })
 
-
         function get_param_value(title){
           if (title.indexOf(':') === 0) {
              title = title.replace(/\:/, '')
@@ -48,7 +49,8 @@
           return newArray.join('/')
         }
 
-        return result.splice(1, result.length)
+        console.log(result)
+        this.crumbs = result.splice(1, result.length)
       }
     }
 
