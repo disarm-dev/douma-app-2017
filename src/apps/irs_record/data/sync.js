@@ -52,19 +52,15 @@ export default {
     // if all SpatialEntities successfully found in RemoteRB AND stored in LocalDB
     // resolve()
   },
-  _open_cluster: (cluster) => {
-
-
-
-    // resolve({tasks: tasks, spatial_entities: spatial_entities})
-
-    // return promise
-  },
   close_clusters: (clusters) => {},
   
   // Update task
   update_task: (task) => {},
   
+  // Get Tasks and SpatialEntities for a Cluster
+  tasks_for_cluster: (cluster_id) => {
+  },
+
   // Setting initial state for views
   read_local_clusters: () => {
     return LocalDB.clusters.read()
