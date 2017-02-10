@@ -31,7 +31,7 @@
 
         let result = array.map((part, i) => {
           return {
-            title: part,
+            title: part[0].toUpperCase() + title.substr(1),
             route: '/' + build_path(part, i + 1)
           }
         })
@@ -41,7 +41,7 @@
              title = title.replace(/\:/, '')
              return params[title]
            } 
-          return title[0].toUpperCase() + title.substr(1)
+          return title
         }
 
         function build_path(part, index) {
