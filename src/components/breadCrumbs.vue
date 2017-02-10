@@ -31,7 +31,7 @@
 
         let result = array.map((part, i) => {
           return {
-            title: part[0].toUpperCase() + title.substr(1),
+            title: part[0].toUpperCase() + part.substr(1),
             route: '/' + build_path(part, i + 1)
           }
         })
