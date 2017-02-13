@@ -36,7 +36,7 @@ export default {
           })
           LocalDB.tasks.create(res)
         })
-        .then(() => resolve())
+        .then((res) => resolve(res))
         .catch(error => reject(error))
       })
     })
@@ -45,7 +45,7 @@ export default {
       return new Promise((resolve, reject) => {
         RemoteDB.spatial_entities.read(cluster.spatial_entity_ids)
         .then(res => LocalDB.spatial_entities.create(res))
-        .then(() => resolve())
+        .then((res) => resolve(res))
         .catch(error => reject(error))
       })
     })
