@@ -1,7 +1,23 @@
 <template>
-  <div>
-    <h1>TasksView</h1>
-    <md-button @click.native="toggle_view">{{toggle_to_view}}</md-button>
+  <div style="position:relative">
+    
+    <md-speed-dial style='z-index: 10000' md-open="click" md-direction="bottom" class="md-fab-top-right">
+      <md-button class="md-fab" md-fab-trigger>
+        <md-icon md-icon-morph>close</md-icon>
+        <md-icon>menu</md-icon>
+      </md-button>
+
+      <md-button class="md-fab md-primary md-mini md-clean" @click.native="navigate('map')">
+        <md-icon>map</md-icon>
+      </md-button>
+
+      <md-button class="md-fab md-primary md-mini md-clean" @click.native="navigate('list')">
+        <md-icon>list</md-icon>
+      </md-button>
+
+
+    </md-speed-dial>
+
     <router-view></router-view>
   </div>
 </template>
@@ -26,6 +42,9 @@
     methods: {
       toggle_view() {
         this.$router.push({name: `irs_record:tasks:${this.toggle_to_view}`, params: {cluster_id: this.cluster_id}})
+      },
+      navigate(route) {
+        this.$router.push({name: `irs_record:tasks:${route}`, params: {cluster_id: this.cluster_id}})
       },
     }
   }

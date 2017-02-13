@@ -93,5 +93,6 @@
 <style scoped>
   #map {
     min-height: 85vh;
+    z-index: 0;
   }
 </style>
