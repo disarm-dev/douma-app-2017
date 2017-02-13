@@ -81,7 +81,7 @@ export default [
       },{
         path: '/irs_record/clusters/:cluster_id',
         name: 'irs_record:cluster',
-        redirect: '/irs_record/clusters/:cluster_id/show',
+        redirect: '/irs_record/clusters/:cluster_id/tasks',
         component: ClusterView,
         meta: {},
         props: true,
@@ -91,50 +91,50 @@ export default [
             name: 'irs_record:cluster:show',
             component: ClusterShow,
             props: true
-          }
-        ]
-      },{
-        path: '/irs_record/clusters/:cluster_id/tasks',
-        name: 'irs_record:tasks',
-        redirect: '/irs_record/clusters/:cluster_id/tasks/map',
-        component: TasksView,
-        meta: {},
-        props: true,
-        children: [
-          {
-            path: 'map',
-            name: 'irs_record:tasks:map',
-            component: TasksMap,
-            meta: {type: 'map'},
-            props: true
           },{
-            path: 'list',
-            name: 'irs_record:tasks:list',
-            component: TasksList,
-            meta: {type: 'list'},
-            props: true
-          }
-        ]
-      },{
-        path: '/irs_record/clusters/:cluster_id/tasks/:task_id',
-        name: 'irs_record:task',
-        component: TaskView,
-        meta: {},
-        props: true,
-        redirect: '/irs_record/clusters/:cluster_id/tasks/:task_id/edit',
-        children: [
-          {
-            path: 'show',
-            name: 'irs_record:task:show',
-            component: TaskShow,
-            meta: {type: 'show'},
-            props: true
+            path: '/irs_record/clusters/:cluster_id/tasks',
+            name: 'irs_record:tasks',
+            redirect: '/irs_record/clusters/:cluster_id/tasks/map',
+            component: TasksView,
+            meta: {},
+            props: true,
+            children: [
+              {
+                path: 'map',
+                name: 'irs_record:tasks:map',
+                component: TasksMap,
+                meta: {type: 'map'},
+                props: true
+              },{
+                path: 'list',
+                name: 'irs_record:tasks:list',
+                component: TasksList,
+                meta: {type: 'list'},
+                props: true
+              }
+            ]
           },{
-            path: 'edit',
-            name: 'irs_record:task:edit',
-            component: TaskEdit,
-            meta: {type: 'edit'},
-            props: true
+            path: '/irs_record/clusters/:cluster_id/tasks/:task_id',
+            name: 'irs_record:task',
+            component: TaskView,
+            meta: {},
+            props: true,
+            redirect: '/irs_record/clusters/:cluster_id/tasks/:task_id/edit',
+            children: [
+              {
+                path: 'show',
+                name: 'irs_record:task:show',
+                component: TaskShow,
+                meta: {type: 'show'},
+                props: true
+              },{
+                path: 'edit',
+                name: 'irs_record:task:edit',
+                component: TaskEdit,
+                meta: {type: 'edit'},
+                props: true
+              }
+            ]
           }
         ]
       }
