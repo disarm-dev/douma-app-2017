@@ -85,7 +85,6 @@
         } else {
           clusters_to_open.push(cluster)
         }
-        console.log('Do something with', clusters_to_open)
       }
     }
   }
