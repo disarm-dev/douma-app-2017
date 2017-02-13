@@ -3,9 +3,7 @@
 import turf from '@turf/turf'
 import Sync from './data/sync.js'
 
-// TODO: @debug Remove rough global for DB
-let DB = {}
-window.db = DB
+window.sync = Sync
 
 let old = {
 

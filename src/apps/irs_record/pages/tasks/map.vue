@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <h1>TasksMap</h1>
-    <div id='map'></div>
-  </div>
+  <div id='map'></div>
 </template>
 
 
@@ -123,6 +120,7 @@
 
 <style scoped>
   #map {
-    min-height: 85vh;
+    height: calc(100vh - 64px);
+    z-index: 0;
   }
 </style>
