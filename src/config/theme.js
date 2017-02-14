@@ -21,6 +21,10 @@ export default () => {
     cases: {
       primary: 'teal',
       accent: 'orange'
+    },
+    meta: {
+      primary: 'pink',
+      accent: 'blue'
     }
   })
 }

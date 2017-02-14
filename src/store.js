@@ -10,8 +10,15 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   modules: {irs_record, foci},
   state: {
-    breadCrumbs: 'DOUMA',
-    user: {name: 'Poor Original Bob', email: 'bob@bob.com'},
+    user: {
+      name: 'Super Bob', 
+      email: 'bob@bob.com', 
+      team_id: 'disarm-swz-team',
+      allowed_apps: {
+        read: ['irs_review', 'irs_plan', 'irs_record'], 
+        // write: ['irs_review', 'irs_plan', 'irs_record'], 
+      }
+    },
     online: null
   },
   mutations: {

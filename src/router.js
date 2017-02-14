@@ -9,7 +9,7 @@ import IRSRecordRoutes from './apps/irs_record/routes'
 import IRSPlanningRoutes from './apps/irs_plan/routes'
 // import FociRoutes from './apps/foci/routes'
 // import GPSRoutes from './apps/gps/routes'
-// import MetaRoutes from './apps/meta/routes'
+import MetaRoutes from './apps/meta/routes'
 // import CasesRoutes from './apps/cases/routes'
 
 export default () => {
@@ -17,9 +17,9 @@ export default () => {
   const routes = [
     {
       path: '/',
-      redirect: '/profile',
+      redirect: '/meta',
     }
-  ].concat(IRSRecordRoutes, IRSPlanningRoutes)
+  ].concat(IRSRecordRoutes, IRSPlanningRoutes, MetaRoutes)
   
   // Instantiate `router`
   const router = new VueRouter({

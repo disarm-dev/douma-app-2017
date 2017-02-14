@@ -1,67 +1,56 @@
-import Profile from './user/profile.vue'
-import Login from './user/login.vue'
-import Logout from './user/logout.vue'
-import ResetPassword from './user/resetPassword.vue'
-import NewUser from './user/newUser.vue'
-import SyncStatus from './sync/status.vue'
-import AOIMap from './aoi/map.vue'
+import MetaApplet from './meta_applet.vue'
+
+import Profile from './pages/user/profile.vue'
+import Login from './pages/user/login.vue'
+import Logout from './pages/user/logout.vue'
+import ResetPassword from './pages/user/resetPassword.vue'
+import NewUser from './pages/user/newUser.vue'
+import SyncStatus from './pages/sync/status.vue'
+import AOIMap from './pages/aoi/map.vue'
 
 const meta = [
   {
-    path: 'profile',
-    name: 'meta:profile',
-    component: Profile,
-    meta: {
-      title: 'Profile'
-    }
-  },
-  {
-    path: 'login',
-    name: 'meta:login',
-    component: Login,
-    meta: {
-      title: 'Login'
-    }
-  },
-  { 
-    path: 'logout',
-    name: 'meta:logout',
-    component: Logout,
-    meta: {
-      title: 'Logout'
-    }
-  },
-  { 
-    path: 'reset_password',
-    name: 'meta:resetpassword',
-    component: ResetPassword,
-    meta: {
-      title: 'Reset password'
-    }
-  },
-  { 
-    path: 'newuser',
-    name: 'meta:newuser',
-    component: NewUser,
-    meta: {
-      title: 'Sign up'
-    }
-  },
-  {
-    path: 'sync',
-    name: 'meta:sync',
-    component: SyncStatus,
-    meta: {
-      title: 'Sync'
-    }
-  },
-  {
-    path: 'aoi',
-    name: 'meta:aoi',
-    component: AOIMap,
-    meta: {
-      title: 'AOI'
-    }
+    path: '/meta',
+    redirect: '/meta/profile',
+    component: MetaApplet,
+    children: [
+      {
+        path: 'profile',
+        name: 'meta:profile',
+        component: Profile,
+        meta: {}
+      },
+      {
+        path: 'login',
+        name: 'meta:login',
+        component: Login,
+      },
+      { 
+        path: 'logout',
+        name: 'meta:logout',
+        component: Logout,
+      },
+      { 
+        path: 'reset_password',
+        name: 'meta:resetpassword',
+        component: ResetPassword,
+      },
+      { 
+        path: 'newuser',
+        name: 'meta:newuser',
+        component: NewUser,
+      },
+      {
+        path: 'sync',
+        name: 'meta:sync',
+        component: SyncStatus,
+      },
+      {
+        path: 'aoi',
+        name: 'meta:aoi',
+        component: AOIMap,
+      }
+    ]
   }
 ]
 
