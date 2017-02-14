@@ -8,6 +8,6 @@ export default [
     path: '/irs_plan',
     name: 'irs_plan',
     component: Clusterer,
-    meta: { breadcrumb: 'IRS Plan' }
+    meta: {title: 'IRS Plan', icon: 'gps_fixed'}
   }
 ]

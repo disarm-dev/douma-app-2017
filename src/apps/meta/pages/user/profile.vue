@@ -3,10 +3,12 @@
 
     <md-card>
       <md-card-content>
+        <md-subheader>DOUMA Team ID</md-subheader>
+        <p class="profile-text">{{$store.state.user.team_id}}</p>
         <md-subheader>Name</md-subheader>
-        <p class="profile-text">{{user.name}}</p>
+        <p class="profile-text">{{$store.state.user.name}}</p>
         <md-subheader>Email</md-subheader>
-        <p class="profile-text">{{user.email}}</p>
+        <p class="profile-text">{{$store.state.user.email}}</p>
 
         <md-button class="md-raised md-accent" @click.native="logout">Logout</md-button>
         <md-button class="md-raised" @click.native="resetPassword">Reset password</md-button>
@@ -16,7 +18,7 @@
     <md-card>
       <md-card-content>
         <md-subheader>You can use the following pieces/apps:</md-subheader>
-        <md-button v-for='app in allowedApps' class='md-raised md-primary' @click.native="$router.push(app)">{{app}}</md-button>
+        <md-button v-for='app in $store.state.user.allowed_apps.read' class='md-raised md-primary' @click.native="$router.push(`/${app}`)">{{app}}</md-button>
       </md-card-content>
     </md-card>
 
@@ -24,17 +26,8 @@
 
 <script>
   export default {
+    name: 'ProfileView',
     mounted() {
-    },
-    data() {
-      return {
-        allowedApps: ['irs_record', 'foci']
-      }
-    },
-    computed: {
-      user(){
-        return this.$store.state.user
-      }
     },
     methods: {
       logout() {

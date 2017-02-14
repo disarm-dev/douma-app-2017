@@ -24,31 +24,8 @@
       </md-toolbar>
 
       <md-list>
-      <!-- TODO: @refac Render these links dynamically, based on permissions, etc. Maybe grey-out disabled ones. -->
-        <md-list-item @click.native="navigate('irs')">
-          <md-icon>view_compact</md-icon><span>IRS Review</span>
-        </md-list-item>
-        
-        <md-list-item @click.native="navigate('irs_plan')">
-          <md-icon>gps_fixed</md-icon><span>IRS Plan</span>
-        </md-list-item>
-        
-        <md-list-item @click.native="navigate('irs_record')">
-          <md-icon>insert_chart</md-icon><span>IRS Record</span>
-        </md-list-item>
-
-        <md-divider class="md-inset"></md-divider>
-
-        <md-list-item @click.native="navigate('foci')">
-          <md-icon>filter_center_focus</md-icon><span>Foci</span>
-        </md-list-item>
-
-        <md-list-item @click.native="navigate('cases')">
-          <md-icon>featured_play_list</md-icon><span>Cases</span>
-        </md-list-item>
-
-        <md-list-item @click.native="navigate('gps')">
-          <md-icon>gps_fixed</md-icon><span>GPS</span>
+        <md-list-item v-for='applet in applets' @click.native="navigate(applet.name)">
+          <md-icon>{{applet.icon}}</md-icon><span>{{applet.title}}</span>
         </md-list-item>
 
         <md-divider class="md-inset"></md-divider>
@@ -57,7 +34,7 @@
           <md-icon>person</md-icon><span>Meta</span>
         </md-list-item>
       </md-list>
-    </md-sidenav>    
+    </md-sidenav>
 
     <div>
       <!-- Most likely to contain the AppletContainer -->
@@ -81,6 +58,19 @@
       }
     },
     computed: {
+      applets() {
+        // { short: 'foci', icon: 'filter_center_focus', title:' Foci' },
+        // { short: 'cases', icon: 'featured_play_list', title:' Cases' },
+        // { short: 'gps', icon: 'gps_fixed', title:' GPS' },
+
+        const applet_decorations = this.$router.options.routes.map((route) => {
+          return {...route.meta, name: route.name}
+        })
+
+        return this.$store.state.user.allowed_apps.read.map((app) => {
+          return applet_decorations.find((i) => i.name === app)
+        })
+      },
       user() {
         return this.$store.state.user
       }

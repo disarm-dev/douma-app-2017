@@ -4,7 +4,7 @@
 
 <script>
   export default {
-    name: 'IrsRecordApplet'
+    name: 'IrsMonitorApplet'
   }
 </script>
 
