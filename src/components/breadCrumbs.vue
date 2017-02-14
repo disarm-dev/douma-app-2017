@@ -20,8 +20,13 @@
     watch: { 
       '$route': 'set_crumbs' 
     },
+    mounted() {
+      this.set_crumbs()
+    },
     methods: {
       set_crumbs() {
+        if(this.$route.matched.length === 0) { return }
+
         const applet_decorations = this.$router.options.routes.map((route) => {
           return {...route.meta, name: route.name}
         })
