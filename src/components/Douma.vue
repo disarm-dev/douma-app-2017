@@ -24,7 +24,7 @@
       </md-toolbar>
 
       <md-list>
-        <md-list-item v-for='applet in applets' @click.native="navigate(applet.short)">
+        <md-list-item v-for='applet in applets' @click.native="navigate(applet.name)">
           <md-icon>{{applet.icon}}</md-icon><span>{{applet.title}}</span>
         </md-list-item>
 
@@ -59,17 +59,16 @@
     },
     computed: {
       applets() {
-        const applet_decorations = [
-          { short: 'irs_review', icon: 'view_compact', title:' IRS Review' },
-          { short: 'irs_plan', icon: 'gps_fixed', title:' IRS Plan' },
-          { short: 'irs_record', icon: 'insert_chart', title:' IRS Record' },
-          { short: 'foci', icon: 'filter_center_focus', title:' Foci' },
-          { short: 'cases', icon: 'featured_play_list', title:' Cases' },
-          { short: 'gps', icon: 'gps_fixed', title:' GPS' },
-        ]
+        // { short: 'foci', icon: 'filter_center_focus', title:' Foci' },
+        // { short: 'cases', icon: 'featured_play_list', title:' Cases' },
+        // { short: 'gps', icon: 'gps_fixed', title:' GPS' },
+
+        const applet_decorations = this.$router.options.routes.map((route) => {
+          return {...route.meta, name: route.name}
+        })
 
         return this.$store.state.user.allowed_apps.read.map((app) => {
-          return applet_decorations.find((i) => i.short === app)
+          return applet_decorations.find((i) => i.name === app)
         })
       },
       user() {

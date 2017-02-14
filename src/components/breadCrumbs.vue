@@ -1,7 +1,10 @@
 <template>
   <div>
     <template v-for="(bread, index) in crumbs">
-      <router-link :to="bread.route" class='crumb'> {{bread.title}} </router-link>
+      <router-link :to="bread.route" class='crumb'> 
+        <md-icon v-if='bread.icon'>{{bread.icon}}</md-icon>
+        {{bread.title}}
+      </router-link>
       <span v-if='index !== (crumbs.length - 1)'> > </span>
     </template>
   </div>
@@ -19,17 +22,31 @@
     },
     methods: {
       set_crumbs() {
-        let string = this.$route.matched[this.$route.matched.length - 1].path
-        let params = this.$route.params
+        const applet_decorations = this.$router.options.routes.map((route) => {
+          return {...route.meta, name: route.name}
+        })
+
+        let string = `${this.$route.matched[this.$route.matched.length - 1].path}`
 
         let array = string.split('/')
+        let params = this.$route.params
+
         array = array.splice(1, array.length)
+
 
         array = array.map((elem) => {
           return get_param_value(elem)
         })
 
         let result = array.map((part, i) => {
+          if (i == 0) {
+            const applet = applet_decorations.find((i) => i.name === part)
+            return {
+              title: applet.title, 
+              icon: applet.icon,
+              route: '/' + build_path(part, i + 1)
+            }
+          }
           return {
             title: part[0].toUpperCase() + part.substr(1),
             route: '/' + build_path(part, i + 1)
@@ -49,7 +66,7 @@
           return newArray.join('/')
         }
 
-        this.crumbs = result.splice(1, result.length)
+        this.crumbs = result
       }
     }
 

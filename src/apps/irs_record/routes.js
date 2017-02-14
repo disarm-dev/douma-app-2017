@@ -28,6 +28,7 @@ export default [
     name: 'irs_record',
     redirect: '/irs_record/clusters',
     component: IrsRecordApplet,
+    meta: {title: 'IRS Record', icon: 'insert_chart'},
     beforeEnter: (to, from, next) => {
       // Bootstrap initial data for thisApplet
       store.dispatch('irs_record:set_clusters_from_local').then(() => {

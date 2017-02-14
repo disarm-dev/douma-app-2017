@@ -5,8 +5,9 @@ Vue.use(VueRouter)
 import store from './store'
 
 import AppletContainer from './components/applet.vue'
-import IRSRecordRoutes from './apps/irs_record/routes'
+import IRSMonitorRoutes from './apps/irs_monitor/routes'
 import IRSPlanningRoutes from './apps/irs_plan/routes'
+import IRSRecordRoutes from './apps/irs_record/routes'
 // import FociRoutes from './apps/foci/routes'
 // import GPSRoutes from './apps/gps/routes'
 import MetaRoutes from './apps/meta/routes'
@@ -19,7 +20,7 @@ export default () => {
       path: '/',
       redirect: '/meta',
     }
-  ].concat(IRSRecordRoutes, IRSPlanningRoutes, MetaRoutes)
+  ].concat(IRSMonitorRoutes, IRSPlanningRoutes, IRSRecordRoutes, MetaRoutes)
   
   // Instantiate `router`
   const router = new VueRouter({
@@ -29,7 +30,6 @@ export default () => {
 
   // Add the guards
   router.beforeEach((to, from, next) => {
-
     if (!store.state.user) {
       store.state.previousRoute = to
       if (to.name === 'meta:login') {

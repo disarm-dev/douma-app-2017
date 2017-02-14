@@ -14,6 +14,14 @@ export default () => {
       primary: 'cyan',
       accent: 'pink'
     },
+    irs_monitor: {
+      primary: 'indigo',
+      accent: 'pink'
+    },
+    irs_plan: {
+      primary: 'indigo',
+      accent: 'pink'
+    },
     irs_record: {
       primary: 'indigo',
       accent: 'pink'
