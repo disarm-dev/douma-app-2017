@@ -2,18 +2,27 @@
 import LocalDB from './local.js'
 import RemoteDB from './remote.js'
 
-export default {
+class Sync {
+
+  // constructor(team_id){
+  //   this.RemoteDB = new RemoteDBClass(team_id)
+  // }
+
+  config(team_id) {
+    this.team_id = team_id
+  }
+
   // Search
-  search_clusters: (locations) => {
+  search_clusters(locations) {
     if (locations.length === 0) {
       throw new Error("No locations provided for search")
     }
 
    return RemoteDB.clusters.read({locations}) // returns a promise
-  },
+  }
   
   // Cluster management (incl. Task sync)
-  open_clusters: (clusters) => {
+  open_clusters(clusters) {
     // For each Cluster already in memory
     // Get related RemoteRB Tasks
     // Add Tasks as property to Cluster
@@ -59,25 +68,27 @@ export default {
     // if all Tasks successfully found in RemoteRB AND stored in LocalDB
     // if all SpatialEntities successfully found in RemoteRB AND stored in LocalDB
     // resolve()
-  },
-  close_clusters: (clusters) => {
+  }
+  close_clusters(clusters) {
         
-  },
+  }
   
   // Update task
-  update_task: (task) => {
+  update_task(task) {
     return LocalDB.tasks.update(task)
-  },
+  }
   
   // Get Tasks and SpatialEntities for a Cluster
-  tasks_for_cluster: (cluster_id) => {
-  },
+  tasks_for_cluster(cluster_id) {
+    this.ahin
+  }
 
   // Setting initial state for views
-  read_local_clusters: () => {
+  read_local_clusters() {
     return LocalDB.clusters.read()
-  },
-  get_tasks_for_cluster: (cluster) => {
+  }
+
+  get_tasks_for_cluster(cluster) {
     return new Promise((resolve, reject) => {
       const task_ids = cluster.task_ids
       const spatial_entity_ids = cluster.spatial_entity_ids
@@ -97,10 +108,10 @@ export default {
       })
 
     })
-  },
+  }
 
   // Clear DBs - for reset and debugging
-  clear_local_dbs: () => {
+  clear_local_dbs() {
     const promises = [
       LocalDB.clusters.clear(),
       LocalDB.tasks.clear(),
@@ -109,3 +120,5 @@ export default {
     return Promise.all(promises)
   }
 }
+
+export default new Sync()

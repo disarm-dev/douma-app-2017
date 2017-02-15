@@ -1,9 +1,13 @@
-// Store for IRS-Progress 
+// Store for 'IRS Record' applet
 
 import turf from '@turf/turf'
-import Sync from './data/sync.js'
+import SyncClass from './data/sync.js'
 
-window.sync = Sync
+
+const Sync = new SyncClass({team_id: '12345'})
+// const Sync = new SyncClass(this.$store.state.user.team_id)
+
+window.Sync = Sync
 
 let old = {
 

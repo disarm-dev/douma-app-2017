@@ -1,14 +1,20 @@
 // Manages remote DB calls
 
+class RemoteDBClass {
+  constructor(team_id){
+    this.team_id = team_id
+  }
+}
+
 const clusters = {
   read: (filters) => {
     let url = ''
     if (filters.locations) {
       const params = JSON.stringify(filters.locations)
-      url = DOUMA_API_URL + `/clusters?locations=${params}`
+      url = DOUMA_API_URL + `/clusters?locations=${params}&team_id=${this.team_id}`
     } else if (filters.cluster_ids) {
       const params = JSON.stringify(filters.cluster_ids)
-      url = DOUMA_API_URL + `/clusters?ids=${params}`
+      url = DOUMA_API_URL + `/clusters?ids=${params}&team_id=${this.team_id}`
     }
 
     return new Promise((resolve, reject) => {
@@ -56,4 +62,6 @@ const spatial_entities = {
 }
 
 
-export default { clusters, tasks, spatial_entities }
+// export default { clusters, tasks, spatial_entities }
+
+export default RemoteDBClass
