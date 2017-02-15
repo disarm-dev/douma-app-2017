@@ -4,7 +4,10 @@
 
 <script>
   export default {
-    name: 'IrsRecordApplet'
+    name: 'IrsRecordApplet',
+    mounted() {
+      this.$store.dispatch('irs_record:set_team_id', this.$store.state.user.team_id)
+    }
   }
 </script>
 

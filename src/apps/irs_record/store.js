@@ -1,9 +1,9 @@
-// Store for IRS-Progress 
+// Store for 'IRS Record' applet
 
 import turf from '@turf/turf'
 import Sync from './data/sync.js'
 
-window.sync = Sync
+window.Sync = Sync
 
 let old = {
 
@@ -201,7 +201,6 @@ export default {
     // DATA
     clusters: [],
     tasks: [],
-    spatial_entities: [],
 
     // SYNC
     sync_in_progress: false,
@@ -243,6 +242,10 @@ export default {
   },
   actions: {
     // SYNC
+    "irs_record:set_team_id": (context, team_id) => {
+      console.log('Setting team id:', team_id)
+      Sync.config(team_id)
+    },
     "irs_record:search_clusters": (context, locations) => {
       context.commit("irs_record:set_sync_in_progress", true)
 

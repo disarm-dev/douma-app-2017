@@ -1,19 +1,25 @@
 // Called by $store, coordinates local and remote activity
 import LocalDB from './local.js'
-import RemoteDB from './remote.js'
+import RemoteDBClass from './remote.js'
 
-export default {
+class Sync {
+
+  config(team_id) {
+    this.RemoteDB = new RemoteDBClass(team_id)
+    this.team_id = team_id
+  }
+
   // Search
-  search_clusters: (locations) => {
+  search_clusters(locations) {
     if (locations.length === 0) {
       throw new Error("No locations provided for search")
     }
 
-   return RemoteDB.clusters.read({locations}) // returns a promise
-  },
+   return this.RemoteDB.read_clusters({locations}) // returns a promise
+  }
   
   // Cluster management (incl. Task sync)
-  open_clusters: (clusters) => {
+  open_clusters(clusters) {
     // For each Cluster already in memory
     // Get related RemoteRB Tasks
     // Add Tasks as property to Cluster
@@ -28,13 +34,13 @@ export default {
 
     const task_promises = clusters.map((cluster) => {
       return new Promise((resolve, reject) => {
-        RemoteDB.tasks.read(cluster.task_ids)
+        this.RemoteDB.read_tasks(cluster.task_ids)
         .then(res => {
           res = res.map(task => {
             task._sync_status = 'synced'
             return task
           })
-          LocalDB.tasks.create(res)
+          return LocalDB.tasks.create(res)
         })
         .then((res) => resolve(res))
         .catch(error => reject(error))
@@ -43,7 +49,7 @@ export default {
 
     const spatial_entity_promises = clusters.map((cluster) => {
       return new Promise((resolve, reject) => {
-        RemoteDB.spatial_entities.read(cluster.spatial_entity_ids)
+        this.RemoteDB.read_spatial_entities(cluster.spatial_entity_ids)
         .then(res => LocalDB.spatial_entities.create(res))
         .then((res) => resolve(res))
         .catch(error => reject(error))
@@ -55,29 +61,22 @@ export default {
     )
 
     return Promise.all(all_promises)
-
-    // if all Tasks successfully found in RemoteRB AND stored in LocalDB
-    // if all SpatialEntities successfully found in RemoteRB AND stored in LocalDB
-    // resolve()
-  },
-  close_clusters: (clusters) => {
+  }
+  close_clusters(clusters) {
         
-  },
+  }
   
   // Update task
-  update_task: (task) => {
+  update_task(task) {
     return LocalDB.tasks.update(task)
-  },
+  }
   
-  // Get Tasks and SpatialEntities for a Cluster
-  tasks_for_cluster: (cluster_id) => {
-  },
-
   // Setting initial state for views
-  read_local_clusters: () => {
+  read_local_clusters() {
     return LocalDB.clusters.read()
-  },
-  get_tasks_for_cluster: (cluster) => {
+  }
+
+  get_tasks_for_cluster(cluster) {
     return new Promise((resolve, reject) => {
       const task_ids = cluster.task_ids
       const spatial_entity_ids = cluster.spatial_entity_ids
@@ -90,17 +89,17 @@ export default {
         const joinedTasks = results.tasks.map((task) => {
           return {
             ...task,
-            spatial_entity: results.spatial_entities.find(s => s._id === task.spatial_entity_id)
+            spatial_entity: results.spatial_entities.find(s => s.properties.osm_id === task.spatial_entity_id)
           }
         })
         resolve(joinedTasks)
       })
 
     })
-  },
+  }
 
   // Clear DBs - for reset and debugging
-  clear_local_dbs: () => {
+  clear_local_dbs() {
     const promises = [
       LocalDB.clusters.clear(),
       LocalDB.tasks.clear(),
@@ -109,3 +108,5 @@ export default {
     return Promise.all(promises)
   }
 }
+
+export default new Sync()
