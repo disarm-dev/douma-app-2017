@@ -30,16 +30,16 @@ export default {
       state.foci.activeFoci.properties.responses = responses
     },
   },
-  getters: {
-    'foci:activeFoci': (state) => {
-      var id;
-      if (!state.foci.activeFoci) return false
-      if (state.foci.activeFoci.hasOwnProperty('id')) {
-        id = state.foci.activeFoci.id
-      } else {
-        id = state.foci.activeFoci.properties.id
-      }
-      return {model: state.foci.focis.getModel(id), feature: state.foci.focis.getFeature(id)}
-    }
-  }
+  // getters: {
+  //   'foci:activeFoci': (state) => {
+  //     var id;
+  //     if (!state.foci.activeFoci) return false
+  //     if (state.foci.activeFoci.hasOwnProperty('id')) {
+  //       id = state.foci.activeFoci.id
+  //     } else {
+  //       id = state.foci.activeFoci.properties.id
+  //     }
+  //     return {model: state.foci.focis.getModel(id), feature: state.foci.focis.getFeature(id)}
+  //   }
+  // }
 }
