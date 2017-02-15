@@ -266,8 +266,7 @@ export default {
     "irs_record:open_clusters": (context, clusters) => {
       context.commit("irs_record:set_sync_in_progress", true)
 
-      Sync.open_clusters(clusters).then((res) => {
-        console.log(res)
+      Sync.open_clusters(clusters).then(() => {
         context.commit("irs_record:set_sync_in_progress", false)
         return context.dispatch('irs_record:set_clusters_from_local')
       }).catch(error => console.error(error))
@@ -284,7 +283,7 @@ export default {
 
       const cluster = context.state.clusters.find(cluster => cluster._id === cluster_id)
 
-      if (!cluster) throw new Error(`Cannot find Cluster for id ${cluster_id}`)
+      if (!cluster) throw new Error(`Cannot find Cluster for id ${cluster_id} - have you navigated to view a Cluster that does not exist?`)
 
       return Sync.get_tasks_for_cluster(cluster)
         .then((tasks) => {
