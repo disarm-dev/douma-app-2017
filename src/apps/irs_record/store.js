@@ -1,11 +1,7 @@
 // Store for 'IRS Record' applet
 
 import turf from '@turf/turf'
-import SyncClass from './data/sync.js'
-
-
-const Sync = new SyncClass({team_id: '12345'})
-// const Sync = new SyncClass(this.$store.state.user.team_id)
+import Sync from './data/sync.js'
 
 window.Sync = Sync
 
@@ -247,6 +243,10 @@ export default {
   },
   actions: {
     // SYNC
+    "irs_record:set_team_id": (context, team_id) => {
+      console.log('Setting team id:', team_id)
+      Sync.config(team_id)
+    },
     "irs_record:search_clusters": (context, locations) => {
       context.commit("irs_record:set_sync_in_progress", true)
 

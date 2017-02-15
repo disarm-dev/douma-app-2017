@@ -1,14 +1,11 @@
 // Called by $store, coordinates local and remote activity
 import LocalDB from './local.js'
-import RemoteDB from './remote.js'
+import RemoteDBClass from './remote.js'
 
 class Sync {
 
-  // constructor(team_id){
-  //   this.RemoteDB = new RemoteDBClass(team_id)
-  // }
-
   config(team_id) {
+    this.RemoteDB = new RemoteDBClass(team_id)
     this.team_id = team_id
   }
 
@@ -18,7 +15,7 @@ class Sync {
       throw new Error("No locations provided for search")
     }
 
-   return RemoteDB.clusters.read({locations}) // returns a promise
+   return this.RemoteDB.read_clusters({locations}) // returns a promise
   }
   
   // Cluster management (incl. Task sync)
@@ -37,7 +34,9 @@ class Sync {
 
     const task_promises = clusters.map((cluster) => {
       return new Promise((resolve, reject) => {
-        RemoteDB.tasks.read(cluster.task_ids)
+        console.log('cluster.task_ids')
+        console.log(cluster.task_ids)
+        this.RemoteDB.read_tasks(cluster.task_ids)
         .then(res => {
           res = res.map(task => {
             task._sync_status = 'synced'
@@ -52,7 +51,9 @@ class Sync {
 
     const spatial_entity_promises = clusters.map((cluster) => {
       return new Promise((resolve, reject) => {
-        RemoteDB.spatial_entities.read(cluster.spatial_entity_ids)
+        console.log('cluster.spatial_entity_ids')
+        console.log(cluster.spatial_entity_ids)
+        this.RemoteDB.read_spatial_entities(cluster.spatial_entity_ids)
         .then(res => LocalDB.spatial_entities.create(res))
         .then((res) => resolve(res))
         .catch(error => reject(error))
@@ -62,6 +63,8 @@ class Sync {
     const all_promises = [].concat(
       clusters_promise, task_promises, spatial_entity_promises
     )
+    console.log('all_promises')
+    console.log(all_promises)
 
     return Promise.all(all_promises)
 
@@ -80,7 +83,7 @@ class Sync {
   
   // Get Tasks and SpatialEntities for a Cluster
   tasks_for_cluster(cluster_id) {
-    this.ahin
+    
   }
 
   // Setting initial state for views
