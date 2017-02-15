@@ -4,7 +4,7 @@
     <md-card>
       <md-card-content>
         <md-subheader>DOUMA Team ID</md-subheader>
-        <p class="profile-text">{{$store.state.user.team_id}}</p>
+        <p class="profile-text">{{$store.state.team_id}}</p>
         <md-subheader>Name</md-subheader>
         <p class="profile-text">{{$store.state.user.name}}</p>
         <md-subheader>Email</md-subheader>
@@ -32,8 +32,6 @@
 <script>
   export default {
     name: 'ProfileView',
-    mounted() {
-    },
     methods: {
       logout() {
         this.$router.push({name: 'meta:logout'})

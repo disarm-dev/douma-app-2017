@@ -10,20 +10,22 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   modules: {irs_record, foci},
   state: {
-    user: {
-      name: 'Super Bob', 
-      email: 'bob@bob.com', 
-      team_id: 'disarm-swz-team',
-      allowed_apps: {
-        read: ['irs_monitor', 'irs_plan', 'irs_record'], 
-        // write: ['irs_monitor', 'irs_plan', 'irs_record'], 
-      }
-    },
+    user: null,
+    team_id: null,
     online: null
   },
   mutations: {
+    'meta:login_user': (state, user) => {
+      state.user = user
+    },
+    'meta:set_team_id': (state, team_id) => {
+      state.team_id = team_id
+    },
     'meta:setOnline': (state, online) => {
       state.online = online
+    },
+    'meta:toast': (state, toast) => {
+      state.toast = toast
     }
   }
 })

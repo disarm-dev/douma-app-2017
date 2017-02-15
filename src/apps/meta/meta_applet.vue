@@ -4,7 +4,10 @@
 
 <script>
   export default {
-    name: 'MetaApplet'
+    name: 'MetaApplet',
+    mounted(){
+      console.log('mounted')
+    }
   }
 </script>
 

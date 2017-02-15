@@ -67,6 +67,7 @@
           return {...route.meta, name: route.name}
         })
 
+        if (!this.$store.state.user) return
         return this.$store.state.user.allowed_apps.read.map((app) => {
           return applet_decorations.find((i) => i.name === app)
         })

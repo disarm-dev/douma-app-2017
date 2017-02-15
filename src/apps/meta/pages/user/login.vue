@@ -8,7 +8,20 @@
             <md-icon class="login-icon">person</md-icon>
             <p class="md-body-1 login-text">{{msg}}</p>
           </div>
+
           <md-input-container>
+            <label>Team ID</label>
+            <md-input v-model='team_id'></md-input>
+          </md-input-container>
+
+          <md-list>
+            <md-list-item v-for='user in users' @click.native='fake_login(user)'>
+              {{user.name}}
+            </md-list-item>
+          </md-list>
+
+
+<!--           <md-input-container>
             <label>Email</label>
             <md-input type="email" v-model.trim="email"></md-input>
           </md-input-container>
@@ -29,7 +42,7 @@
           <p class="md-body-1 text-center">Don't have an account?</p>
           <md-button class="login-button md-raised md-accent" @click.native="$router.push({name: 'meta:newuser'})">Sign up</md-button>
         </div>
-      </md-card-content>
+ -->      </md-card-content>
     </md-card>
 
   </div>
@@ -44,10 +57,37 @@
         msg: 'Please login below',
         disabled: false,
         email: '',
-        password: ''
+        password: '',
+        team_id: 'swz-team',
+        users: [
+          {
+            name: 'Sprayer Bob', 
+            fake_password: 'malaria',
+            email: 'sprayer@bob.com', 
+            allowed_apps: {
+              read: ['irs_record'], 
+              write: ['irs_record']
+            }
+          },{
+            name: 'Manager Bob', 
+            fake_password: 'malaria',
+            email: 'manager@bob.com', 
+            allowed_apps: {
+              read: ['irs_monitor', 'irs_plan', 'irs_record'], 
+              write: ['irs_monitor', 'irs_plan', 'irs_record']
+            }
+          }
+        ]
       }
     },
     methods: {
+      fake_login(user){
+        this.msg = "Loading..."
+        this.disabled = true
+        this.$store.commit('meta:login_user', user)
+        this.$store.commit('meta:set_team_id', this.team_id)
+        this.$router.push({name: 'meta:profile'})
+      },
       login() {
         this.msg = "Loading..."
         this.disabled = true
