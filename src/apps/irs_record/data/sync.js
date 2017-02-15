@@ -34,15 +34,13 @@ class Sync {
 
     const task_promises = clusters.map((cluster) => {
       return new Promise((resolve, reject) => {
-        console.log('cluster.task_ids')
-        console.log(cluster.task_ids)
         this.RemoteDB.read_tasks(cluster.task_ids)
         .then(res => {
           res = res.map(task => {
             task._sync_status = 'synced'
             return task
           })
-          LocalDB.tasks.create(res)
+          return LocalDB.tasks.create(res)
         })
         .then((res) => resolve(res))
         .catch(error => reject(error))
@@ -51,8 +49,6 @@ class Sync {
 
     const spatial_entity_promises = clusters.map((cluster) => {
       return new Promise((resolve, reject) => {
-        console.log('cluster.spatial_entity_ids')
-        console.log(cluster.spatial_entity_ids)
         this.RemoteDB.read_spatial_entities(cluster.spatial_entity_ids)
         .then(res => LocalDB.spatial_entities.create(res))
         .then((res) => resolve(res))
@@ -63,14 +59,8 @@ class Sync {
     const all_promises = [].concat(
       clusters_promise, task_promises, spatial_entity_promises
     )
-    console.log('all_promises')
-    console.log(all_promises)
 
     return Promise.all(all_promises)
-
-    // if all Tasks successfully found in RemoteRB AND stored in LocalDB
-    // if all SpatialEntities successfully found in RemoteRB AND stored in LocalDB
-    // resolve()
   }
   close_clusters(clusters) {
         
@@ -81,11 +71,6 @@ class Sync {
     return LocalDB.tasks.update(task)
   }
   
-  // Get Tasks and SpatialEntities for a Cluster
-  tasks_for_cluster(cluster_id) {
-    
-  }
-
   // Setting initial state for views
   read_local_clusters() {
     return LocalDB.clusters.read()
@@ -104,7 +89,7 @@ class Sync {
         const joinedTasks = results.tasks.map((task) => {
           return {
             ...task,
-            spatial_entity: results.spatial_entities.find(s => s._id === task.spatial_entity_id)
+            spatial_entity: results.spatial_entities.find(s => s.properties.osm_id === task.spatial_entity_id)
           }
         })
         resolve(joinedTasks)

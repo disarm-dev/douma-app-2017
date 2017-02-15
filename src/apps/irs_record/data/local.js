@@ -2,7 +2,6 @@
 
 import DB from './db.js'
 
-
 const clusters = {
   create: (clusters) => {
     return DB.clusters.bulkAdd(clusters)
@@ -40,7 +39,7 @@ const spatial_entities = {
   },
   read: (ids) => {
     return DB.spatial_entities.filter((spatial_entity) => {
-      return ids.includes(spatial_entity._id)
+      return ids.includes(spatial_entity.properties.osm_id)
     }).toArray()
   },
   _delete_spatial_entities: () => {},

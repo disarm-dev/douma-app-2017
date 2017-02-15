@@ -201,7 +201,6 @@ export default {
     // DATA
     clusters: [],
     tasks: [],
-    spatial_entities: [],
 
     // SYNC
     sync_in_progress: false,
