@@ -27,7 +27,8 @@
     "vue-material": "^0.7.1",
     "vue-multiselect": "next",
     "vue-router": "^2.0.1",
-    "vuex": "^2.1.1"
+    "vuex": "^2.1.1",
+    "whatwg-fetch": "^2.0.2"
   },
   "devDependencies": {
     "babel-core": "^6.18.2",

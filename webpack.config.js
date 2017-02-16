@@ -7,7 +7,7 @@ var commitHash = require('child_process')
   .toString();
 
 module.exports = {
-  entry: './src/index.js',
+  entry: ['whatwg-fetch', './src/index.js'],
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/',
