@@ -98,6 +98,17 @@ class Sync {
     })
   }
 
+  get_proportion_visited_for_cluster(cluster){
+    this.get_tasks_for_cluster(cluster)
+    .then((res) => {
+      const tasks_count = res.length
+      const visited_count = res.filter((r) => {
+        return r.properties.status !== 'unvisited'
+      }).length
+      console.log(visited_count/tasks_count)
+    })
+  }
+
   // Clear DBs - for reset and debugging
   clear_local_dbs() {
     const promises = [
