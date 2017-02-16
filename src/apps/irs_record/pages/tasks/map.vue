@@ -2,7 +2,6 @@
   <div id='map'></div>
 </template>
 
-
 <script>
   import Leaflet from 'leaflet'
   import 'leaflet/dist/leaflet.css'
@@ -91,14 +90,23 @@
 
         this.tasks_layer = L.geoJSON(tasks_geojson, {
           style: (feature, layer) => {
+            let base_style = {
+              weight: 0.8
+            }
+            
             switch (feature.properties.original_task.properties.status) {
               case 'unvisited': 
-                return { color: 'purple' }
+                base_style.color = 'purple'
+                break
               case 'visited_successful':
-                return { color: 'green' }
+                base_style.color = 'green'
+                break
               case 'visited_unsuccessful':
-                return { color: 'red' }
+                base_style.color = 'red'
+                break
             }
+
+            return base_style
           },
           onEachFeature: (feature, layer) => {
             layer.on('click', () => {
