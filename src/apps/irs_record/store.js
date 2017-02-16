@@ -8,7 +8,6 @@ window.Sync = Sync
 export default {
   state: {
     // EDITING
-   // active_task: null,
 
     // DATA
     clusters: [],
@@ -22,13 +21,6 @@ export default {
   },
   mutations: {
     // EDITING
-    "irs_record:set_active_task": (state, task) => {
-      state.active_task = task
-    },
-    "irs_record:update_task_state": (state, task) => { // For the map?
-      let index = state.tasks.findIndex(t => t.id == task.id)
-      state.tasks.splice(index, 1, task)
-    },
 
     // DATA
     "irs_record:set_clusters": (state, clusters) => {
