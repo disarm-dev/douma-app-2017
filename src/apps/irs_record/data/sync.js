@@ -1,6 +1,6 @@
 // Called by $store, coordinates local and remote activity
-import LocalDB from './local.js'
-import RemoteDBClass from './remote.js'
+import LocalDB from '../../../lib/local.js'
+import RemoteDBClass from '../../../lib/remote.js'
 
 class Sync {
 
@@ -34,7 +34,7 @@ class Sync {
 
     const task_promises = clusters.map((cluster) => {
       return new Promise((resolve, reject) => {
-        this.RemoteDB.read_tasks(cluster.task_ids)
+        this.RemoteDB.read_tasks({task_ids: cluster.task_ids})
         .then(res => {
           res = res.map(task => {
             task._sync_status = 'synced'

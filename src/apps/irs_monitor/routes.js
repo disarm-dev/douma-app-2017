@@ -1,19 +1,21 @@
-import IrsMonitorApplet from './irs_monitor_applet.vue'
+import IrsMonitorApplet from './applet.vue'
 
-import Show from './pages/show.vue'
+import DashboardView from './pages/dashboard/view.vue'
+
+import store from '../../store'
 
 export default [
   {
     path: '/irs_monitor',
-    redirect: '/irs_monitor/show',
     name: 'irs_monitor',
+    redirect: '/irs_monitor/view',
     component: IrsMonitorApplet,
-    meta: { title: 'IRS Monitor', icon: 'view_compact'},
+    meta: {title: 'IRS Monitor', icon: 'dashboard'},
     children: [
       {
-        path: 'show',
-        name: 'irs_monitor:show',
-        component: Show,
+        path: '/irs_monitor/view',
+        name: "irs_monitor:view",
+        component: DashboardView,
         meta: {}
       }
     ]
