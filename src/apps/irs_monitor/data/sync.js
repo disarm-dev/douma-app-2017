@@ -13,6 +13,10 @@ class Sync {
   get_clusters() {
     return this.RemoteDB.read_clusters()
   }
+
+  get_tasks() {
+    return this.RemoteDB.read_tasks()
+  }
 }
 
 export default new Sync()

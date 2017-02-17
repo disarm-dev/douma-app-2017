@@ -7,7 +7,7 @@
       <div class="box">
         <md-card :md-theme="'default'" class="md-primary">
           
-          <p class="big-number">58</p>
+          <p class="big-number">{{clusters}}</p>
 
           <md-card-header>
             <div class="md-title">Number of clusters</div>
@@ -24,7 +24,7 @@
       <div class="box">
         <md-card md-theme="foci" class="md-primary">
           
-          <p class="big-number">1625</p>
+          <p class="big-number">{{tasks}}</p>
 
           <md-card-header>
             <div class="md-title">Number of tasks</div>
@@ -41,7 +41,7 @@
       <div class="box">
         <md-card md-theme="meta" class="md-primary">
           
-          <p class="big-number">594361</p>
+          <p class="big-number">593198</p>
 
           <md-card-header>
             <div class="md-title">Number of structures</div>
@@ -67,6 +67,16 @@
     data() {
       return {
         stuff: ["default", "foci", "irs_monitor", "irs_plan", "irs_record", "irs_tasker", "cases", "meta"]
+      }
+    },
+    computed: {
+      clusters() {
+        let clusters = this.$store.state.irs_monitor.clusters
+        return clusters ? clusters.length : 'Loading...'
+      },
+      tasks() {
+        let tasks = this.$store.state.irs_monitor.tasks
+        return tasks ? tasks.length : 'Loading...'
       }
     }
   }

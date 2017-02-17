@@ -3,7 +3,9 @@
 import DB from './db.js'
 
 const clusters = {
-  create: (clusters) => {},
+  create: (clusters) => {
+    return DB.clusters.bulkAdd(clusters)
+  },
   read: () => {
     return DB.clusters.toArray()
   },
