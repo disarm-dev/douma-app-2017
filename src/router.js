@@ -21,7 +21,7 @@ export default () => {
       path: '/',
       redirect: '/meta',
     }
-  ].concat(IRSMonitorRoutes, IRSPlanningRoutes, IRSRecordRoutes, MetaRoutes, {
+  ].concat(IRSMonitorRoutes, IRSPlanningRoutes, IRSRecordRoutes, IRSTaskerRoutes, MetaRoutes, {
     path: '*',
     redirect: 'meta/profile'
   })
