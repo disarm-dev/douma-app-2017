@@ -9,7 +9,9 @@ const clusters = {
   read: () => {
     return DB.clusters.toArray()
   },
-  delete: () => {},
+  delete: (cluster) => {
+    return DB.clusters.delete(cluster._id)
+  },
   clear: () => {
     return DB.clusters.clear()
   }
@@ -27,7 +29,13 @@ const tasks = {
   update: (task) => {
     return DB.tasks.update(task._id, task)
   },
-  _delete_tasks: () => {},
+  bulk_update: (tasks) => {
+    return DB.tasks.bulkPut(tasks)
+  },
+  delete: (tasks) => {
+    let ids = tasks.map(t => t._id) 
+    return DB.tasks.bulkDelete(ids)
+  },
   clear: () => {
     return DB.tasks.clear()
   }
@@ -42,7 +50,10 @@ const spatial_entities = {
       return ids.includes(spatial_entity.properties.osm_id)
     }).toArray()
   },
-  _delete_spatial_entities: () => {},
+  delete: (spatial_entities) => {
+    let ids = spatial_entities.map(s => s._id) 
+    return DB.spatial_entities.bulkDelete(ids)
+  },
   clear: () => {
     return DB.spatial_entities.clear()
   }

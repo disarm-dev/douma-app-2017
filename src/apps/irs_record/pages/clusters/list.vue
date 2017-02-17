@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div>
     <h1>ClustersList</h1>
     <md-list v-if='clusters_with_sync_counts' class="md-double-line">
@@ -15,6 +15,11 @@
           <md-icon class='md-warn'>cloud_upload</md-icon> 
           Sync
         </md-button>
+
+        <md-button v-else @click.native.stop='close(cluster)' >
+          <md-icon class='md-warn'>close</md-icon> 
+          Close
+        </md-button>
       </md-list-item>
     </md-list>
     <div v-else>Wait for it...</div>
@@ -25,19 +30,7 @@
   export default {
     name: 'ClustersList',
     mounted(){
-      const all_clusters = this.$store.state.irs_record.clusters
-      const promises = all_clusters.map((cluster) => {
-        return Sync.get_unsynced_tasks_for_cluster(cluster)
-      })
-
-      return Promise.all(promises).then((results) => {
-        console.table(results)
-        results.forEach((result) => {
-          let cluster = all_clusters.find(c => c._id === result.cluster_id)
-          cluster.unsynced_tasks = result.unsynced_tasks
-          this.clusters_with_sync_counts.push(cluster)
-        })
-      })
+      this.set_clusters_with_sync_counts()
     },
     data() {
       return {
@@ -45,9 +38,35 @@
       }
     },
     methods: {
+      set_clusters_with_sync_counts() {
+        console.log('set clusters')
+        // TODO: @refac Move unsynced_tasks count to $store
+        this.clusters_with_sync_counts = []
+
+        const all_clusters = this.$store.state.irs_record.clusters
+        const promises = all_clusters.map((cluster) => {
+          return Sync.get_unsynced_tasks_for_cluster(cluster)
+        })
+
+        Promise.all(promises).then((results) => {
+          // console.table(results)
+          results.forEach((result) => {
+            let cluster = all_clusters.find(c => c._id === result.cluster_id)
+            cluster.unsynced_tasks = result.unsynced_tasks
+            this.clusters_with_sync_counts.push(cluster)
+          })
+        })
+      },
       sync(cluster) {
-        // Sync.
-        console.log('sync', cluster._id)
+        this.$store.dispatch('irs_record:sync_tasks', cluster.unsynced_tasks)
+          .then(() => {
+            this.set_clusters_with_sync_counts()
+          })
+      },
+      close(cluster) {
+        this.$store.dispatch('irs_record:close_cluster', cluster).then(() => {
+          this.set_clusters_with_sync_counts()
+        })
       }
     }
   }

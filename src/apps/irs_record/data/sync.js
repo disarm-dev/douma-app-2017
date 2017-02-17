@@ -62,8 +62,26 @@ class Sync {
 
     return Promise.all(all_promises)
   }
-  close_clusters(clusters) {
-        
+
+  close_cluster(cluster) {     
+    return this.get_unsynced_tasks_for_cluster(cluster).then(({cluster_id, unsynced_tasks}) => {
+      if (unsynced_tasks.length === 0 ) {
+        const cluster_promise = LocalDB.clusters.delete(cluster)
+
+        const task_promises = LocalDB.tasks.delete(unsynced_tasks)
+
+        // TODO: @feature delete spatial entities on close
+        // const spatial_entity_promises = LocalDB.spatial_entities.delete()
+
+        const all_promises = [].concat(
+          cluster_promise, task_promises //, spatial_entity_promises
+        )
+
+        return Promise.all(all_promises)
+      } else {
+        throw new Error('Big problem! trying to close cluster with unsynced tasks')  
+      }
+    })
   }
   
   // Update task
@@ -122,9 +140,20 @@ class Sync {
   }
 
   // Sync local and remote
-  sync_task(task){
-    // this.RemoteDB.tasks
-    return LocalDB.tasks.update(task)
+  sync_tasks(tasks){
+    return this.RemoteDB.update_tasks(tasks)
+    .then((response) => {
+      console.log(response)
+      
+      let modified_tasks = tasks.filter((task) => {
+        return response.modified.includes(task._id)
+      }).map((task) => {
+        task._sync_status = 'synced'
+        return task
+      })
+
+      return LocalDB.tasks.bulk_update(modified_tasks)
+    })
   }
 
   // Clear DBs - for reset and debugging

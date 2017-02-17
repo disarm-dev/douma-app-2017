@@ -75,6 +75,13 @@ export default {
         return context.dispatch('irs_record:set_clusters_from_local')
       }).catch(error => console.error(error))
     },
+
+    "irs_record:close_cluster": (context, cluster) => {
+      return Sync.close_cluster(cluster).then(() => {
+        return context.dispatch('irs_record:set_clusters_from_local')
+      })
+    },
+
     "irs_record:clear_local_dbs": (context) => {
       Sync.clear_local_dbs()
       .then(() => {
@@ -98,6 +105,9 @@ export default {
     "irs_record:update_task": (context, task) => {
       task._sync_status = 'unsynced'
       return Sync.update_task(task)
+    },
+    "irs_record:sync_tasks": (context, tasks) => {
+      return Sync.sync_tasks(tasks)
     }
   },
 
