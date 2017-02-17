@@ -55,7 +55,6 @@
         Leaflet.tileLayer(url).addTo(this.map)
       },
       draw_clusters() {
-        console.log('draw_clusters')
         // Remove if exists
         let redrawing
 
@@ -72,7 +71,8 @@
 
         // Create GeoJSON from search_results
         const geojson_search_results = this.$store.state.irs_tasker.clusters.map(cluster => {
-          cluster.polygon.properties.original_cluster = cluster
+          const cluster_clone = JSON.parse(JSON.stringify(cluster))
+          cluster.polygon.properties.original_cluster = cluster_clone
           return cluster.polygon
         })
 

@@ -32,11 +32,10 @@
       download_clusters() {
         this.$store.dispatch("irs_tasker:download_clusters")
       },
-      clear() {
-        this.$store.dispatch("irs_tasker:clear_clusters")
-      },
       upload() {
-        // TODO: @feature upload
+        this.$store.dispatch("irs_tasker:update_clusters_with_spray_teams").then(() => {
+          // Do a snackbar
+        })
       }
     }
   }

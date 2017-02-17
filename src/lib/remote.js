@@ -6,13 +6,13 @@ class RemoteDBClass {
   }
 
   read_clusters(filters) {
-    let url = DOUMA_API_URL + '/clusters' 
+    let url = DOUMA_API_URL + `/clusters?team_id=${this.team_id}` 
     if (filters.locations) {
       const params = JSON.stringify(filters.locations)
-      url += `?locations=${params}`//&team_id=${this.team_id}`
+      url += `&locations=${params}`
     } else if (filters.cluster_ids) {
       const params = JSON.stringify(filters.cluster_ids)
-      url += `?ids=${params}`//&team_id=${this.team_id}`
+      url += `&ids=${params}`
     }
 
     return new Promise((resolve, reject) => {
@@ -26,16 +26,26 @@ class RemoteDBClass {
   }
 
   update_clusters(clusters) {
-    let url = DOUMA_API_URL + `/clusters?team_id=${this.team_id}`
-    console.log(url)
+    console.log(clusters)
+    const url = DOUMA_API_URL + `/clusters?team_id=${this.team_id}`
+    const options = {
+      body: JSON.stringify(clusters), 
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      method: 'PUT'
+    }
+    return fetch(url, options)
+      .then((res) => res.json()) 
   }
 
   read_tasks(filters) {
-    let url = DOUMA_API_URL + '/tasks' 
+    let url = DOUMA_API_URL + '/tasks?team_id=${this.team_id}' 
     
     if (filters.task_ids) {
       const params = JSON.stringify(filters.task_ids)
-      url += `?ids=${params}`//&team_id=${this.team_id}`
+      url += `&ids=${params}`
     }
     
 
@@ -50,7 +60,7 @@ class RemoteDBClass {
   }
 
   update_tasks(tasks) {
-    const url = DOUMA_API_URL + `/tasks`//?team_id=${this.team_id}`
+    const url = DOUMA_API_URL + `/tasks?team_id=${this.team_id}`
     const options = {
       body: JSON.stringify(tasks), 
       headers: {
@@ -65,7 +75,8 @@ class RemoteDBClass {
 
   read_spatial_entities(spatial_entity_ids) {
     const params = JSON.stringify(spatial_entity_ids)
-    const url = DOUMA_API_URL + `/spatial_entities?ids=${params}`//&team_id=${this.team_id}`
+    let url = DOUMA_API_URL + `/spatial_entities?team_id=${this.team_id}`
+    url += `&ids=${params}`
 
     return new Promise((resolve, reject) => {
       fetch(url)

@@ -34,7 +34,7 @@ class Sync {
   }
 
   update_clusters(clusters) {
-    // return this.RemoteDB.clusters.update(clusters)
+    return this.RemoteDB.update_clusters(clusters)
   }
 }
 

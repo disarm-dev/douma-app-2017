@@ -38,13 +38,13 @@ export default {
     },
     "irs_tasker:save_cluster": (context, cluster) => {
       const cluster_index = context.state.clusters.findIndex(c => c._id === cluster._id)
-
-      return Sync.save_cluster(cluster).then(() => {
-        context.state.clusters.splice(cluster_index, 1, cluster)
-      })
+      context.state.clusters.splice(cluster_index, 1, cluster)
     },
-    "irs_tasker:update_clusters_with_spray_teams": (context, clusters) => {
-      // return Sync.update_clusters(clusters)
+    "irs_tasker:update_clusters_with_spray_teams": (context) => {
+      const clusters = context.state.clusters.map(cluster => {
+        return cluster.polygon.properties.original_cluster
+      })
+      return Sync.update_clusters(clusters)
     },
   },
 }
