@@ -16,17 +16,17 @@ class Sync {
 
   // Get all clusters from remote
   get_clusters() {
-    let clusters_cache
+    // let clusters_cache
 
-    return this.RemoteDB.read_clusters()
-    .then((clusters) => {
-      clusters_cache = clusters
-      return LocalDB.clusters.create(clusters)
-    }).then(() => {
-      return clusters_cache
-    }).catch((problem) => {
-      console.log('Error fetching get_clusters, might be pre-existing Clusters in LocalDB')
-    })
+    return this.RemoteDB.read_clusters({})
+    // .then((clusters) => {
+    //   clusters_cache = clusters
+    //   return LocalDB.clusters.create(clusters)
+    // }).then(() => {
+    //   return clusters_cache
+    // }).catch((problem) => {
+    //   console.log('Error fetching get_clusters, might be pre-existing Clusters in LocalDB')
+    // })
   }
 
   clear_clusters() {
