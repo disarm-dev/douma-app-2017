@@ -15,6 +15,11 @@
           <md-icon class='md-warn'>cloud_upload</md-icon> 
           Sync
         </md-button>
+
+        <md-button v-else @click.native.stop='close(cluster)' >
+          <md-icon class='md-warn'>close</md-icon> 
+          Close
+        </md-button>
       </md-list-item>
     </md-list>
     <div v-else>Wait for it...</div>
@@ -44,7 +49,7 @@
         })
 
         Promise.all(promises).then((results) => {
-          console.table(results)
+          // console.table(results)
           results.forEach((result) => {
             let cluster = all_clusters.find(c => c._id === result.cluster_id)
             cluster.unsynced_tasks = result.unsynced_tasks
@@ -57,6 +62,11 @@
           .then(() => {
             this.set_clusters_with_sync_counts()
           })
+      },
+      close(cluster) {
+        this.$store.dispatch('irs_record:close_cluster', cluster).then(() => {
+          this.set_clusters_with_sync_counts()
+        })
       }
     }
   }

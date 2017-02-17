@@ -75,6 +75,13 @@ export default {
         return context.dispatch('irs_record:set_clusters_from_local')
       }).catch(error => console.error(error))
     },
+
+    "irs_record:close_cluster": (context, cluster) => {
+      return Sync.close_cluster(cluster).then(() => {
+        return context.dispatch('irs_record:set_clusters_from_local')
+      })
+    },
+
     "irs_record:clear_local_dbs": (context) => {
       Sync.clear_local_dbs()
       .then(() => {
