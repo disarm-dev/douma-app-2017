@@ -103,9 +103,10 @@
       },
       assign_spray_team(original_cluster) {
         if(!this.selected_spray_team) return
-        const cluster_index = this.$store.state.irs_tasker.clusters.findIndex(c => c._id === original_cluster._id)
+
         original_cluster.spray_team_id = this.selected_spray_team.id
-        this.$store.state.irs_tasker.clusters.splice(cluster_index, 1, original_cluster)
+
+        this.$store.dispatch("irs_tasker:save_cluster", original_cluster)
       },
       select_spray_team(spray_team){
         this.selected_spray_team = spray_team

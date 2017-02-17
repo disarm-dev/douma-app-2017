@@ -27,12 +27,16 @@
 <script>
   export default {
     name: 'TaskerView',
+    mounted() {
+      console.log('set_clusters_from_local')
+      this.$store.dispatch("irs_tasker:set_clusters_from_local")
+    },
     methods: {
       download_clusters() {
         this.$store.dispatch("irs_tasker:download_clusters")
       },
       clear() {
-        // TODO: @feature clear
+        this.$store.dispatch("irs_tasker:clear_clusters")
       },
       upload() {
         // TODO: @feature upload
