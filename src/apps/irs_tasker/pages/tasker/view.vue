@@ -11,8 +11,8 @@
         <md-icon>file_download</md-icon>
       </md-button>
 
-      <md-button class="md-fab md-primary md-mini md-clean" @click.native="navigate('edit')">
-        <md-icon>mode_edit</md-icon>
+      <md-button class="md-fab md-primary md-mini md-clean" @click.native="clear">
+        <md-icon>delete</md-icon>
       </md-button>
 
     </md-speed-dial>

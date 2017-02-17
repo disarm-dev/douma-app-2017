@@ -1,5 +1,16 @@
 <template>
-  <div id='map'></div>
+  <div style='position: relative;'>
+    <div id='map'></div>
+    <md-menu id='spray_team_selector' md-direction="bottom right">
+      <md-button md-menu-trigger class='md-raised'>
+        {{ selector_title }}
+      </md-button>
+
+      <md-menu-content>
+        <md-menu-item v-for='spray_team in spray_team_options' @selected='select_spray_team(spray_team)'>{{spray_team.name}}</md-menu-item>
+      </md-menu-content>
+    </md-menu>
+  </div>
 </template>
 
 <script>
@@ -10,9 +21,14 @@
     name: 'TaskerMap',
     data() {
       return {
+        spray_team_options: [
+          { id: 'spray_team_1', name: 'Spray team 1'},
+          { id: 'spray_team_2', name: 'Spray team 2'},
+          { id: 'spray_team_3', name: 'Spray team 3'}
+        ],
         map: {},
         search_results_layer: null,
-        spray_team_id: 'spray_team_1'
+        selected_spray_team: null
       }
     },
     watch: {
@@ -20,6 +36,11 @@
     },
     mounted() {
       this.create_map()
+    },
+    computed: {
+      selector_title() {
+        return this.selected_spray_team ? this.selected_spray_team.name : "Select spray team"
+      }
     },
     methods: {
       create_map() {
@@ -61,6 +82,8 @@
             switch(feature.properties.original_cluster.spray_team_id){
               case 'no team': style = { color: 'grey' }; break
               case 'spray_team_1': style = { color: 'green' }; break
+              case 'spray_team_2': style = { color: 'blue' }; break
+              case 'spray_team_3': style = { color: 'orange' }; break
               default: style = {color: 'red'}
             }
             return style
@@ -68,7 +91,7 @@
           onEachFeature: (feature, layer) => {
             layer.on('click', () => {
               // let cluster = Object.assign({}, feature.properties)
-              this.assign_spray_team(feature.properties.original_cluster, this.spray_team_id)
+              this.assign_spray_team(feature.properties.original_cluster)
             })
           }
         })
@@ -78,10 +101,14 @@
         if (!redrawing) this.map.fitBounds(search_results_layer.getBounds())
         this.search_results_layer = search_results_layer
       },
-      assign_spray_team(original_cluster, spray_team_id) {
+      assign_spray_team(original_cluster) {
+        if(!this.selected_spray_team) return
         const cluster_index = this.$store.state.irs_tasker.clusters.findIndex(c => c._id === original_cluster._id)
-        original_cluster.spray_team_id = spray_team_id
+        original_cluster.spray_team_id = this.selected_spray_team.id
         this.$store.state.irs_tasker.clusters.splice(cluster_index, 1, original_cluster)
+      },
+      select_spray_team(spray_team){
+        this.selected_spray_team = spray_team
       }
     }
   }
@@ -92,4 +119,12 @@
     min-height: calc(100vh - 64px);
     z-index: 0;
   }
+
+  #spray_team_selector {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 1;    
+  }
+
 </style>
