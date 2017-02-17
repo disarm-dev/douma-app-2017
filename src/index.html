@@ -6,6 +6,17 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#E91E63">
     <title>DOUMA</title>
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+    <script>
+      var OneSignal = window.OneSignal || [];
+      OneSignal.push(["init", {
+        appId: "086b4b63-cd72-4ad8-b852-d8d17e26bb44",
+        autoRegister: true,
+        notifyButton: {
+          enable: true /* Set to false to hide */
+        }
+      }]);
+    </script>
   </head>
   <style type="text/css">
     .sk-fading-circle {
