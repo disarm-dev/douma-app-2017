@@ -15,8 +15,8 @@
       <span slot="noResult">Uh-oh! No matching search terms. Try changing what you typed.</span>
     </multiselect>
 
-    <md-button :disabled='search_definition.length === 0' @click.native='search'>Search</md-button>
-    <md-button :disabled='search_definition.length === 0' @click.native='clear'>Clear</md-button>
+    <md-button @click.native='search'>Search</md-button>
+    <md-button :disabled='search_results.length === 0' @click.native='clear'>Clear</md-button>
     <md-button :disabled='clusters_to_open.length === 0' @click.native='open_clusters'>Keep these ({{clusters_to_open.length}})</md-button>
     <md-button @click.native="toggle_view">{{toggle_to_view}}</md-button>
 

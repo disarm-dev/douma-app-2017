@@ -11,11 +11,12 @@ class Sync {
 
   // Search
   search_clusters(locations) {
-    if (locations.length === 0) {
-      throw new Error("No locations provided for search")
+    let filters = {}
+    if (locations.length) {
+      filters.locations = locations
     }
 
-   return this.RemoteDB.read_clusters({locations}) // returns a promise
+   return this.RemoteDB.read_clusters(filters) // returns a promise
   }
   
   // Cluster management (incl. Task sync)
