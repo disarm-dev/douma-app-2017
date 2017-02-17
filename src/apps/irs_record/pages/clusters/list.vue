@@ -25,6 +25,7 @@
   export default {
     name: 'ClustersList',
     mounted(){
+      // TODO: @refac Move unsynced_tasks count to $store
       const all_clusters = this.$store.state.irs_record.clusters
       const promises = all_clusters.map((cluster) => {
         return Sync.get_unsynced_tasks_for_cluster(cluster)
@@ -47,7 +48,8 @@
     methods: {
       sync(cluster) {
         // Sync.
-        console.log('sync', cluster._id)
+        // console.log('sync', cluster._id)
+        this.$store.dispatch('irs_record:sync_tasks', cluster.unsynced_tasks)
       }
     }
   }

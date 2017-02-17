@@ -62,8 +62,8 @@ class Sync {
 
     return Promise.all(all_promises)
   }
-  close_clusters(clusters) {
-        
+
+  close_clusters(clusters) {     
   }
   
   // Update task
@@ -122,9 +122,14 @@ class Sync {
   }
 
   // Sync local and remote
-  sync_task(task){
-    // this.RemoteDB.tasks
-    return LocalDB.tasks.update(task)
+  sync_tasks(tasks){
+    this.RemoteDB.update_tasks(tasks)
+    .then((response) => {
+      console.log(response)
+      // for all successful IDS
+      // set _sync_status = 'synced'
+      // return LocalDB.tasks.update(task)
+    })
   }
 
   // Clear DBs - for reset and debugging

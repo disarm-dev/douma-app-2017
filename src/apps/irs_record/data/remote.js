@@ -39,8 +39,21 @@ class RemoteDBClass {
     })
   }
 
-  update_task(task) {
-    
+  update_tasks(tasks) {
+    const url = DOUMA_API_URL + `/tasks?team_id=${this.team_id}`
+    const options = {
+      body: JSON.stringify(tasks), 
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      method: 'PUT'
+    }
+    return fetch(url, options)
+      .then((res) => {
+        console.log(res)
+        res.json()
+      }) 
   }
 
   read_spatial_entities(spatial_entity_ids) {

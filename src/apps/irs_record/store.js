@@ -98,6 +98,9 @@ export default {
     "irs_record:update_task": (context, task) => {
       task._sync_status = 'unsynced'
       return Sync.update_task(task)
+    },
+    "irs_record:sync_tasks": (context, tasks) => {
+      return Sync.sync_tasks(tasks)
     }
   },
 
