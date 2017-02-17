@@ -1,6 +1,6 @@
 import Dexie from 'dexie';
 
-const DB = new Dexie('irs_record');
+const DB = new Dexie('irs');
 
 // Create stores for each collection, including setting primary key.
 DB.version(1).stores({

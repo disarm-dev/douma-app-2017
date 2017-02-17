@@ -25,6 +25,11 @@ class RemoteDBClass {
     })
   }
 
+  update_clusters(clusters) {
+    let url = DOUMA_API_URL + `/clusters?team_id=${this.team_id}`
+    console.log(url)
+  }
+
   read_tasks(filters) {
     let url = DOUMA_API_URL + '/tasks' 
     

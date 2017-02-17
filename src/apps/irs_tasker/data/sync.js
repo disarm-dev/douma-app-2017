@@ -1,6 +1,6 @@
 // Called by $store, coordinates local and remote activity
-import LocalDB from './local.js'
-import RemoteDBClass from './remote.js'
+import LocalDB from '../../../lib/local.js'
+import RemoteDBClass from '../../../lib/remote.js'
 
 class Sync {
 
