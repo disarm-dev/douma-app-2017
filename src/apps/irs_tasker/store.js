@@ -14,7 +14,7 @@ export default {
     },
   },
   actions: {
-    'irs_monitor:configure_sync': (context, team_id) => {
+    'irs_tasker:configure_sync': (context, team_id) => {
       Sync.config(team_id)
     },
     "irs_tasker:set_clusters_from_local": (context) => {
@@ -37,10 +37,10 @@ export default {
       })
     },
     "irs_tasker:save_cluster": (context, cluster) => {
-      const cluster_index = context.state.irs_tasker.clusters.findIndex(c => c._id === cluster._id)
+      const cluster_index = context.state.clusters.findIndex(c => c._id === cluster._id)
 
       return Sync.save_cluster(cluster).then(() => {
-        context.state.irs_tasker.clusters.splice(cluster_index, 1, cluster)
+        context.state.clusters.splice(cluster_index, 1, cluster)
       })
     },
     "irs_tasker:update_clusters_with_spray_teams": (context, clusters) => {
