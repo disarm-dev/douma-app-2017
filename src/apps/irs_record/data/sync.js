@@ -114,13 +114,17 @@ class Sync {
       this.get_tasks_for_cluster(cluster)
         .then((res) => {
           const tasks = res.filter((r) => {
-            console.log(r._sync_status)
             return r._sync_status !== 'synced'
           })
-          console.log(tasks)
-          resolve(tasks)
+          resolve({cluster_id: cluster._id, unsynced_tasks: tasks})
         })
     })
+  }
+
+  // Sync local and remote
+  sync_task(task){
+    // this.RemoteDB.tasks
+    return LocalDB.tasks.update(task)
   }
 
   // Clear DBs - for reset and debugging
