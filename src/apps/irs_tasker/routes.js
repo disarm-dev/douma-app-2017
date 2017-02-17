@@ -1,5 +1,3 @@
-import IrsTaskerApplet from './applet.vue'
-
 import TaskerView from './pages/tasker/view.vue'
 import TaskerMap from './pages/tasker/map.vue'
 
