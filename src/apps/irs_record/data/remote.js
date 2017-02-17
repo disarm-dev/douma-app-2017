@@ -50,10 +50,7 @@ class RemoteDBClass {
       method: 'PUT'
     }
     return fetch(url, options)
-      .then((res) => {
-        console.log(res)
-        res.json()
-      }) 
+      .then((res) => res.json()) 
   }
 
   read_spatial_entities(spatial_entity_ids) {

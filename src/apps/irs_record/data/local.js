@@ -27,6 +27,9 @@ const tasks = {
   update: (task) => {
     return DB.tasks.update(task._id, task)
   },
+  bulk_update: (tasks) => {
+    return DB.tasks.bulkPut(tasks)
+  },
   _delete_tasks: () => {},
   clear: () => {
     return DB.tasks.clear()

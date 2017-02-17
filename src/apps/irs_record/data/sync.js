@@ -123,12 +123,18 @@ class Sync {
 
   // Sync local and remote
   sync_tasks(tasks){
-    this.RemoteDB.update_tasks(tasks)
+    return this.RemoteDB.update_tasks(tasks)
     .then((response) => {
       console.log(response)
-      // for all successful IDS
-      // set _sync_status = 'synced'
-      // return LocalDB.tasks.update(task)
+      
+      let modified_tasks = tasks.filter((task) => {
+        return response.modified.includes(task._id)
+      }).map((task) => {
+        task._sync_status = 'synced'
+        return task
+      })
+
+      return LocalDB.tasks.bulk_update(modified_tasks)
     })
   }
 
