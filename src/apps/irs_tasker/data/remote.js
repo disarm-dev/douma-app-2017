@@ -6,7 +6,7 @@ class RemoteDBClass {
   }
 
   read_clusters(filters) {
-    let url = DOUMA_API_URL + '/clusters'
+    let url = DOUMA_API_URL + `/clusters`//?team_id=${this.team_id}`
     // if (filters.locations) {
     //   const params = JSON.stringify(filters.locations)
     //   url = url + `/clusters?locations=${params}&team_id=${this.team_id}`
@@ -24,6 +24,11 @@ class RemoteDBClass {
         })
         .catch((error) => reject(error))
     })
+  }
+
+  update_clusters(clusters) {
+    let url = DOUMA_API_URL + `/clusters?team_id=${this.team_id}`
+    console.log(url)
   }
 }
 

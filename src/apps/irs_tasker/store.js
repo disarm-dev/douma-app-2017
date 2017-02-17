@@ -14,17 +14,36 @@ export default {
     },
   },
   actions: {
+    "irs_tasker:set_clusters_from_local": (context) => {
+      return Sync.load_clusters().then(clusters => {
+        context.commit("irs_tasker:set_clusters", clusters)
+      })
+    },
     "irs_tasker:download_clusters": (context, clusters) => {
-      const team_id = 1 // TODO: @debug Remove this fake team_id
-      Sync.config(team_id)
-      Sync.get_clusters({}).then((clusters) => {
-        console.table(clusters)
-        clusters.forEach(cluster => {
-          cluster.spray_team_id = null
-        })
+      Sync.config(context.state.meta.team_id)
+      
+      return Sync.get_clusters({}).then((clusters) => {
+        // clusters.forEach(cluster => {
+        //   cluster.spray_team_id = null
+        // })
         context.commit("irs_tasker:set_clusters", clusters)
       })
         
-    }
+    },
+    "irs_tasker:clear_clusters": (context) => {
+      return Sync.clear_clusters().then(() => {
+        context.commit("irs_tasker:set_clusters", [])
+      })
+    },
+    "irs_tasker:save_cluster": (context, cluster) => {
+      const cluster_index = context.state.irs_tasker.clusters.findIndex(c => c._id === cluster._id)
+
+      return Sync.save_cluster(cluster).then(() => {
+        context.state.irs_tasker.clusters.splice(cluster_index, 1, cluster)
+      })
+    },
+    "irs_tasker:update_clusters_with_spray_teams": (context, clusters) => {
+      // return Sync.update_clusters(clusters)
+    },
   },
 }
