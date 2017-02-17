@@ -67,13 +67,13 @@
           return {...route.meta, name: route.name}
         })
 
-        if (!this.$store.state.user) return
-        return this.$store.state.user.allowed_apps.read.map((app) => {
+        if (!this.$store.state.meta.user) return
+        return this.$store.state.meta.user.allowed_apps.read.map((app) => {
           return applet_decorations.find((i) => i.name === app)
         })
       },
       user() {
-        return this.$store.state.user
+        return this.$store.state.meta.user
       }
     },
     methods: {
