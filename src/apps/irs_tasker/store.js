@@ -14,14 +14,15 @@ export default {
     },
   },
   actions: {
+    'irs_monitor:configure_sync': (context, team_id) => {
+      Sync.config(team_id)
+    },
     "irs_tasker:set_clusters_from_local": (context) => {
       return Sync.load_clusters().then(clusters => {
         context.commit("irs_tasker:set_clusters", clusters)
       })
     },
     "irs_tasker:download_clusters": (context, clusters) => {
-      Sync.config(context.state.meta.team_id)
-      
       return Sync.get_clusters({}).then((clusters) => {
         // clusters.forEach(cluster => {
         //   cluster.spray_team_id = null

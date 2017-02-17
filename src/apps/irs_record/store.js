@@ -46,8 +46,7 @@ export default {
   },
   actions: {
     // SYNC
-    "irs_record:set_team_id": (context, team_id) => {
-      console.log('Setting team id:', team_id)
+    "irs_record:configure_sync": (context, team_id) => {
       Sync.config(team_id)
     },
     "irs_record:search_clusters": (context, locations) => {
