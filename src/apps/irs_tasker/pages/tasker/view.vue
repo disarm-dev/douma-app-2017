@@ -15,6 +15,10 @@
         <md-icon>delete</md-icon>
       </md-button>
 
+      <md-button class="md-fab md-primary md-mini md-clean" @click.native="upload">
+        <md-icon>cloud_upload</md-icon>
+      </md-button>
+
     </md-speed-dial>
     <router-view></router-view>
   </div>
@@ -25,8 +29,13 @@
     name: 'TaskerView',
     methods: {
       download_clusters() {
-        // console.log('download_clusters')
         this.$store.dispatch("irs_tasker:download_clusters")
+      },
+      clear() {
+        // TODO: @feature clear
+      },
+      upload() {
+        // TODO: @feature upload
       }
     }
   }
