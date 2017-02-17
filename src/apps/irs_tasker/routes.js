@@ -11,7 +11,7 @@ export default [
     name: 'irs_tasker',
     redirect: '/irs_tasker/map',
     component: TaskerView,
-    meta: {title: 'IRS Tasker', icon: 'person'},
+    meta: {title: 'IRS Tasker', icon: 'assignment_ind'},
     children: [
       {
         path: '/irs_tasker/map',

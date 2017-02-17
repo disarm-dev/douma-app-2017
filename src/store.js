@@ -9,10 +9,6 @@ import meta from './apps/meta/store'
 
 Vue.use(Vuex)
 
-// Bootstrap user from localstorage
-console.log('bootstrap user')
-const user = JSON.parse(localStorage.getItem('douma-user'))
-
 const store = new Vuex.Store({
   modules: {irs_record, irs_tasker, foci, meta},
   state: {
