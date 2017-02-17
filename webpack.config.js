@@ -90,8 +90,6 @@ if (process.env.NODE_ENV === 'production') {
         { from: 'src/CNAME' },
         { from: 'src/favicon.ico' },
         { from: 'src/manifest.json' },
-        { from: 'src/OneSignalSDKUpdaterWorker.js' },
-        { from: 'src/OneSignalSDKWorker.js' },
         { from: 'src/index.html' },
     ]),
   ])
