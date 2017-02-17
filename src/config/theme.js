@@ -26,6 +26,10 @@ export default () => {
       primary: 'indigo',
       accent: 'pink'
     },
+    irs_tasker: {
+      primary: 'indigo',
+      accent: 'pink'
+    },
     cases: {
       primary: 'teal',
       accent: 'orange'

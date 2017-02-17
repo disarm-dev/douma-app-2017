@@ -6,6 +6,7 @@
   export default {
     name: 'IrsRecordApplet',
     mounted() {
+      // TODO: @fix Remove this duplicate setting of team_id?
       this.$store.dispatch('irs_record:set_team_id', this.$store.state.team_id)
     }
   }
