@@ -11,7 +11,7 @@ class Sync {
 
   // Get all clusters
   get_clusters() {
-    this.RemoteDB.read_clusters()
+    return this.RemoteDB.read_clusters()
   }
 }
 

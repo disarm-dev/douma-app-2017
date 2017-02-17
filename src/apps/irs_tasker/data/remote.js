@@ -6,15 +6,16 @@ class RemoteDBClass {
   }
 
   read_clusters(filters) {
-    let url = DOUMA_API_URL
-    if (filters.locations) {
-      const params = JSON.stringify(filters.locations)
-      url = url + `/clusters?locations=${params}&team_id=${this.team_id}`
-    } else if (filters.cluster_ids) {
-      const params = JSON.stringify(filters.cluster_ids)
-      url = url + `/clusters?ids=${params}&team_id=${this.team_id}`
-    }
+    let url = DOUMA_API_URL + '/clusters'
+    // if (filters.locations) {
+    //   const params = JSON.stringify(filters.locations)
+    //   url = url + `/clusters?locations=${params}&team_id=${this.team_id}`
+    // } else if (filters.cluster_ids) {
+    //   const params = JSON.stringify(filters.cluster_ids)
+    //   url = url + `/clusters?ids=${params}&team_id=${this.team_id}`
+    // }
 
+    console.log('fetch', url)
     return new Promise((resolve, reject) => {
       fetch(url)
         .then(res => res.json())

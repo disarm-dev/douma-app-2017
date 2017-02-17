@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <div id='map'></div>
-  </div>
+  <div id='map'></div>
 </template>
 
 <script>
@@ -69,7 +67,8 @@
           .fitBounds(this.search_results_layer.getBounds())
       },
       select_cluster(cluster) {
-        this.$router.push({name: 'irs_tasker:cluster', params: {cluster_id: cluster._id}})
+        console.log('assign spray_team id to', cluster)
+        // this.$router.push({name: 'irs_tasker:cluster', params: {cluster_id: cluster._id}})
       }
     }
   }
