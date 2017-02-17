@@ -5,9 +5,6 @@
 <script>
   export default {
     name: 'MetaApplet',
-    mounted(){
-      console.log('mounted')
-    }
   }
 </script>
 

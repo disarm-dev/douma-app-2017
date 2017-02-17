@@ -91,12 +91,12 @@
       login() {
         this.msg = "Loading..."
         this.disabled = true
-        this.$store.state.user = {name: 'Poor Relogged-in Bob', email: 'bob@bob.com'}
+        this.$store.commit('meta:login_user', user)
         this.continue()
       },
       continue() {
-        if (this.$store.state.previousRoute) {
-          let {name} = this.$store.state.previousRoute
+        if (this.$store.state.meta.previousRoute) {
+          let {name} = this.$store.state.meta.previousRoute
           this.$router.push({name})  
         } else {
           this.$router.push({name: 'root'})  
