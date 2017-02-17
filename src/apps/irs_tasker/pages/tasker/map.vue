@@ -11,15 +11,15 @@
     data() {
       return {
         map: {},
-        search_results_layer: null
+        search_results_layer: null,
+        spray_team_id: 'spray_team_1'
       }
     },
     watch: {
-      '$store.state.irs_tasker.clusters': 'draw_search_results',
+      '$store.state.irs_tasker.clusters': 'draw_clusters',
     },
     mounted() {
       this.create_map()
-      this.draw_search_results()
     },
     methods: {
       create_map() {
@@ -33,9 +33,13 @@
 
         Leaflet.tileLayer(url).addTo(this.map)
       },
-      draw_search_results() {
+      draw_clusters() {
+        console.log('draw_clusters')
         // Remove if exists
+        let redrawing
+
         if (this.search_results_layer) {
+          redrawing = true
           this.map.removeLayer(this.search_results_layer)
           this.search_results_layer = null
         }
@@ -51,24 +55,33 @@
           return cluster.polygon
         })
 
-        this.search_results_layer = L.geoJSON(geojson_search_results, {
+        const search_results_layer = L.geoJSON(geojson_search_results, {
           style: (feature, layer) => {
-              return { color: 'lightblue' }
+            let style
+            switch(feature.properties.original_cluster.spray_team_id){
+              case 'no team': style = { color: 'grey' }; break
+              case 'spray_team_1': style = { color: 'green' }; break
+              default: style = {color: 'red'}
+            }
+            return style
           },
           onEachFeature: (feature, layer) => {
             layer.on('click', () => {
-              let cluster = Object.assign({}, feature.properties)
-              this.select_cluster(cluster.original_cluster)
+              // let cluster = Object.assign({}, feature.properties)
+              this.assign_spray_team(feature.properties.original_cluster, this.spray_team_id)
             })
           }
         })
         this.map
-          .addLayer(this.search_results_layer)
-          .fitBounds(this.search_results_layer.getBounds())
+          .addLayer(search_results_layer)
+
+        if (!redrawing) this.map.fitBounds(search_results_layer.getBounds())
+        this.search_results_layer = search_results_layer
       },
-      select_cluster(cluster) {
-        console.log('assign spray_team id to', cluster)
-        // this.$router.push({name: 'irs_tasker:cluster', params: {cluster_id: cluster._id}})
+      assign_spray_team(original_cluster, spray_team_id) {
+        const cluster_index = this.$store.state.irs_tasker.clusters.findIndex(c => c._id === original_cluster._id)
+        original_cluster.spray_team_id = spray_team_id
+        this.$store.state.irs_tasker.clusters.splice(cluster_index, 1, original_cluster)
       }
     }
   }
