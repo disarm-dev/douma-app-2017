@@ -20,7 +20,10 @@ export default () => {
       path: '/',
       redirect: '/meta',
     }
-  ].concat(IRSMonitorRoutes, IRSPlanningRoutes, IRSRecordRoutes, MetaRoutes)
+  ].concat(IRSMonitorRoutes, IRSPlanningRoutes, IRSRecordRoutes, MetaRoutes, {
+    path: '*',
+    redirect: 'meta/profile'
+  })
   
   // Instantiate `router`
   const router = new VueRouter({
