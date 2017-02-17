@@ -39,7 +39,7 @@
       </div>
 
       <div class="box">
-        <md-card md-theme="irs_monitor" class="md-primary">
+        <md-card md-theme="meta" class="md-primary">
           
           <p class="big-number">594361</p>
 
