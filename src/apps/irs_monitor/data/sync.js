@@ -1,6 +1,6 @@
 // Called by $store, coordinates local and remote activity
-import LocalDB from './local.js'
-import RemoteDBClass from './remote.js'
+import LocalDB from '../../../lib/local.js'
+import RemoteDBClass from '../../../lib/remote.js'
 
 class Sync {
 
@@ -11,11 +11,11 @@ class Sync {
 
   // Get all clusters
   get_clusters() {
-    return this.RemoteDB.read_clusters()
+    return this.RemoteDB.read_clusters({})
   }
 
   get_tasks() {
-    return this.RemoteDB.read_tasks()
+    return this.RemoteDB.read_tasks({})
   }
 }
 
