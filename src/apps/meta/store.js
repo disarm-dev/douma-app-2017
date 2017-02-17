@@ -1,6 +1,5 @@
 // Store for 'Meta' applet
 
-
 // Bootstrap user from localstorage
 const user = JSON.parse(localStorage.getItem('douma-user'))
 

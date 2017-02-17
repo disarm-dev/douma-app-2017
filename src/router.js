@@ -31,7 +31,7 @@ export default () => {
 
   // Add the guards
   router.beforeEach((to, from, next) => {
-    console.log(to, from)
+    // console.log(to, from)
     if (!store.state.meta.user) {
       store.state.meta.previousRoute = to
       if (to.name === 'meta:login') {
