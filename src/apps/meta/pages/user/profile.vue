@@ -4,11 +4,11 @@
     <md-card>
       <md-card-content>
         <md-subheader>DOUMA Team ID</md-subheader>
-        <p class="profile-text">{{$store.state.team_id}}</p>
+        <p class="profile-text">{{$store.state.meta.team_id}}</p>
         <md-subheader>Name</md-subheader>
-        <p class="profile-text">{{$store.state.user.name}}</p>
+        <p class="profile-text">{{$store.state.meta.user.name}}</p>
         <md-subheader>Email</md-subheader>
-        <p class="profile-text">{{$store.state.user.email}}</p>
+        <p class="profile-text">{{$store.state.meta.user.email}}</p>
 
         <md-button class="md-raised md-accent" @click.native="logout">Logout</md-button>
         <md-button class="md-raised" @click.native="resetPassword">Reset password</md-button>
@@ -18,7 +18,7 @@
     <md-card>
       <md-card-content>
         <md-subheader>You can use the following pieces/apps:</md-subheader>
-        <md-button v-for='app in $store.state.user.allowed_apps.read' class='md-raised md-primary' @click.native="$router.push(`/${app}`)">{{app}}</md-button>
+        <md-button v-for='app in $store.state.meta.user.allowed_apps.read' class='md-raised md-primary' @click.native="$router.push(`/${app}`)">{{app}}</md-button>
       </md-card-content>
 
       <md-card-content>

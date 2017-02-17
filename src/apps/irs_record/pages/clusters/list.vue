@@ -1,32 +1,53 @@
 <template>
   <div>
     <h1>ClustersList</h1>
-    <md-list class="md-double-line">
-      <md-list-item v-for="cluster in $store.state.irs_record.clusters" @click.native="$router.push({name: 'irs_record:cluster', params: {cluster_id: cluster._id}})">
+    <md-list v-if='clusters_with_sync_counts' class="md-double-line">
+      <md-list-item v-for="cluster in clusters_with_sync_counts" @click.native="$router.push({name: 'irs_record:cluster', params: {cluster_id: cluster._id}})">
         <div class="md-list-text-container">
-          <md-icon>move_to_inbox</md-icon> <span>{{cluster.name}} - {{cluster._id}}</span>
-          <md-progress :md-progress="progress"></md-progress>
+          <span>
+            {{cluster.name}} - {{cluster._id}} 
+            <template v-if='cluster.unsynced_tasks.length > 0'>
+              [{{cluster.unsynced_tasks.length}} unsynced]
+            </template>
+          </span>
         </div>
+        <md-button v-if='cluster.unsynced_tasks.length > 0' @click.native.stop='sync(cluster)' >
+          <md-icon class='md-warn'>cloud_upload</md-icon> 
+          Sync
+        </md-button>
       </md-list-item>
     </md-list>
-
+    <div v-else>Wait for it...</div>
   </div>
 </template>
 
 <script>
   export default {
     name: 'ClustersList',
+    mounted(){
+      const all_clusters = this.$store.state.irs_record.clusters
+      const promises = all_clusters.map((cluster) => {
+        return Sync.get_unsynced_tasks_for_cluster(cluster)
+      })
+
+      return Promise.all(promises).then((results) => {
+        console.table(results)
+        results.forEach((result) => {
+          let cluster = all_clusters.find(c => c._id === result.cluster_id)
+          cluster.unsynced_tasks = result.unsynced_tasks
+          this.clusters_with_sync_counts.push(cluster)
+        })
+      })
+    },
     data() {
       return {
-        progress: 50
+        clusters_with_sync_counts: []
       }
     },
-    computed: {
-      unsynced_tasks(cluster) {
-        this.$store.state.irs_record.clusters.filter
-        // load tasks
-        // find synced
-        // add unsynced_count to each Cluster
+    methods: {
+      sync(cluster) {
+        // Sync.
+        console.log('sync', cluster._id)
       }
     }
   }

@@ -20,7 +20,10 @@ export default () => {
       path: '/',
       redirect: '/meta',
     }
-  ].concat(IRSMonitorRoutes, IRSPlanningRoutes, IRSRecordRoutes, MetaRoutes)
+  ].concat(IRSMonitorRoutes, IRSPlanningRoutes, IRSRecordRoutes, MetaRoutes, {
+    path: '*',
+    redirect: 'meta/profile'
+  })
   
   // Instantiate `router`
   const router = new VueRouter({
@@ -30,8 +33,9 @@ export default () => {
 
   // Add the guards
   router.beforeEach((to, from, next) => {
-    if (!store.state.user) {
-      store.state.previousRoute = to
+
+    if (!store.state.meta.user) {
+      store.state.meta.previousRoute = to
       if (to.name === 'meta:login') {
         return next()
       }

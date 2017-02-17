@@ -40,7 +40,7 @@ class RemoteDBClass {
   }
 
   update_task(task) {
-
+    
   }
 
   read_spatial_entities(spatial_entity_ids) {

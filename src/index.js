@@ -1,3 +1,6 @@
+// fetch polyfill (needed for Safari only?)
+import 'whatwg-fetch'
+
 // Vue
 import Vue from 'vue'
 import VueRouter from 'vue-router'

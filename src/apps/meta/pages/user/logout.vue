@@ -6,7 +6,7 @@
           <div class="md-title">Are you sure you want to log out?</div>
         </md-card-header-text>
       </md-card-header>
-      <md-card-content v-if="!$store.state.online">
+      <md-card-content v-if="!$store.state.meta.online">
         <p >You are currently offline, if you log out now you will not have access to DOUMA until you get online and log back in again.</p>
       </md-card-content>
       <md-card-actions>
@@ -21,10 +21,12 @@
   export default {
     methods: {
       logout() {
+        this.$store.commit('meta:login_user', null)
+        this.$store.commit('meta:set_team_id', null)
         this.$router.push({name: 'meta:login'})
       },
       cancel() {
-        this.$router.push({name: 'meta:profile'})
+        this.$router.go(-1)
       }
     }
   }
