@@ -5,18 +5,17 @@ import RemoteDBClass from '../../../lib/remote.js'
 class Sync {
 
   config(team_id) {
-    this.RemoteDB = new RemoteDBClass(team_id)
     this.team_id = team_id
   }
 
   // Get all clusters
-  get_clusters() {
-    return this.RemoteDB.read_clusters({})
+  get_localities() {
+    const R_SERVER_URL = '' // TODO: @debug Point to a real R server
+    const url = R_SERVER_URL + `/localities?country_code=`
+    // return fetch()
+    return new Promise((resolve, reject) => resolve('All good!'))
   }
 
-  get_tasks() {
-    return this.RemoteDB.read_tasks({})
-  }
 }
 
 export default new Sync()
