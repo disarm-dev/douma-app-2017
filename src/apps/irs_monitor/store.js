@@ -1,4 +1,4 @@
-// Store for 'IRS Tasker' applet
+// Store for 'IRS Monitor' applet
 
 import Sync from './data/sync.js'
 

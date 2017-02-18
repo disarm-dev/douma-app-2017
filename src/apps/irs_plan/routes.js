@@ -1,13 +1,23 @@
-import ContainerComponent from '../../components/container-component.vue'
+import IrsPlanApplet from './applet.vue'
 
+// import DashboardView from './pages/dashboard/view.vue'
 
-import Clusterer from './clusterer.vue'
+import store from '../../store'
 
 export default [
   {
     path: '/irs_plan',
     name: 'irs_plan',
-    component: Clusterer,
-    meta: {title: 'IRS Plan', icon: 'gps_fixed'}
+    redirect: '/irs_plan/view',
+    component: IrsPlanApplet,
+    meta: {title: 'IRS Plan', icon: 'gps_fixed'},
+    children: [
+      {
+        path: '/irs_plan/view',
+        name: "irs_plan:view",
+        // component: DashboardView,
+        meta: {}
+      }
+    ]
   }
 ]
