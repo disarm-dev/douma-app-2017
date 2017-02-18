@@ -39,11 +39,13 @@
       },
       draw_search_results() {
         // Remove if exists
+        let redrawing
+
         if (this.search_results_layer) {
+          redrawing = true
           this.map.removeLayer(this.search_results_layer)
           this.search_results_layer = null
         }
-
         // Return unless there are search_results to render
         if (this.$parent.search_results.length === 0) {
           return
@@ -55,7 +57,7 @@
           return cluster.polygon
         })
 
-        this.search_results_layer = L.geoJSON(geojson_search_results, {
+        search_results_layer = L.geoJSON(geojson_search_results, {
           style: (feature, layer) => {
             // Is the feature already in the clusters_to_open array
             const included = this.$parent.clusters_to_open.includes(feature.properties.original_cluster)
@@ -74,8 +76,11 @@
           }
         })
         this.map
-          .addLayer(this.search_results_layer)
-          .fitBounds(this.search_results_layer.getBounds())
+          .addLayer(search_results_layer)
+
+        if (!redrawing) this.map.fitBounds(search_results_layer.getBounds())
+        this.search_results_layer = search_results_layer
+
       },
       add_or_remove_from_keep(cluster) {
         let clusters_to_open = this.$parent.clusters_to_open
