@@ -1,5 +1,6 @@
 <template>
   <div>
+    DiSARM >
     <template v-for="(bread, index) in crumbs">
       <router-link :to="bread.route" class='crumb'> 
         <md-icon v-if='bread.icon'>{{bread.icon}}</md-icon>
@@ -26,7 +27,6 @@
     methods: {
       set_crumbs() {
         if(this.$route.matched.length === 0) { return }
-
         const applet_decorations = this.$router.options.routes.map((route) => {
           return {...route.meta, name: route.name}
         })
