@@ -57,8 +57,9 @@ export default {
         })
         .catch((e) => console.error(e))
     },
-    "irs_record:set_clusters_from_local": (context) => {
-      return Sync.read_local_clusters().then((result) => {
+    "irs_record:set_clusters_from_local": (context, spray_team_id) => {
+      // spray_team_id = 3
+      return Sync.read_local_clusters({spray_team_id}).then((result) => {
         return new Promise((resolve, reject) => {
           resolve(context.commit("irs_record:set_clusters", result))
         })

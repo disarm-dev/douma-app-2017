@@ -6,8 +6,14 @@ const clusters = {
   create: (clusters) => {
     return DB.clusters.bulkAdd(clusters)
   },
-  read: () => {
-    return DB.clusters.toArray()
+  read: ({spray_team_id}) => {
+    if (spray_team_id) {
+      console.log(spray_team_id)
+      return DB.clusters.where({spray_team_id}).toArray()
+      // return DB.clusters.toArray()
+    } else {
+      return DB.clusters.toArray()
+    }
   },
   delete: (cluster) => {
     return DB.clusters.delete(cluster._id)

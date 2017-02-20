@@ -92,8 +92,9 @@ class Sync {
   }
   
   // Setting initial state for views
-  read_local_clusters() {
-    return LocalDB.clusters.read()
+  read_local_clusters(options) {
+    console.log(this.demo_instance_id)
+    return LocalDB.clusters.read(options)
   }
 
   get_tasks_for_cluster(cluster) {
