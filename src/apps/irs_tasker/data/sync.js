@@ -11,7 +11,7 @@ class Sync {
 
   // Load local clusters
   load_clusters() {
-    return LocalDB.clusters.read()
+    return LocalDB.clusters.read({})
   }
 
   // Get all clusters from remote
