@@ -14,10 +14,6 @@
             <div class="md-subhead">in Swaziland</div>
           </md-card-header>
 
-          <md-card-actions>
-            <md-button>Cool</md-button>
-          </md-card-actions>
-
         </md-card>
       </div>
 
@@ -31,10 +27,6 @@
             <div class="md-subhead">in Swaziland</div>
           </md-card-header>
 
-          <md-card-actions>
-            <md-button>Awesome</md-button>
-          </md-card-actions>
-
         </md-card>
       </div>
 
@@ -47,10 +39,6 @@
             <div class="md-title">Number of structures</div>
             <div class="md-subhead">in Swaziland</div>
           </md-card-header>
-
-          <md-card-actions>
-            <md-button>Great</md-button>
-          </md-card-actions>
 
         </md-card>
       </div>
