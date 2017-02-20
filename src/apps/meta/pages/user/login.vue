@@ -58,7 +58,7 @@
         disabled: false,
         email: '',
         password: '',
-        demo_instance_id: 'swz-team',
+        demo_instance_id: 'office',
         users: [
           {
             name: 'Edgar Sprayer', 
