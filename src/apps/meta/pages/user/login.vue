@@ -11,7 +11,7 @@
 
           <md-input-container>
             <label>Team ID</label>
-            <md-input v-model='team_id'></md-input>
+            <md-input v-model='demo_instance_id'></md-input>
           </md-input-container>
 
           <md-list>
@@ -58,18 +58,18 @@
         disabled: false,
         email: '',
         password: '',
-        team_id: 'swz-team',
+        demo_instance_id: 'swz-team',
         users: [
           {
-            name: 'Sprayer Bob', 
+            name: 'Edgar Sprayer', 
             fake_password: 'malaria',
             email: 'sprayer@bob.com', 
             allowed_apps: {
-              read: ['irs_record'], 
+              read: ['irs_monitor', 'irs_record'], 
               write: ['irs_record']
             }
           },{
-            name: 'Manager Bob', 
+            name: 'Philile Manager', 
             fake_password: 'malaria',
             email: 'manager@bob.com', 
             allowed_apps: {
@@ -85,7 +85,7 @@
         this.msg = "Loading..."
         this.disabled = true
         this.$store.commit('meta:login_user', user)
-        this.$store.commit('meta:set_team_id', this.team_id)
+        this.$store.commit('meta:set_demo_instance_id', this.demo_instance_id)
         this.$router.push({name: 'meta:profile'})
       },
       login() {

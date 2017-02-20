@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>ClustersSearchMap</h1>
     <div id='map'></div>
   </div>
 </template>
@@ -10,7 +9,7 @@
   import 'leaflet/dist/leaflet.css'
 
   export default {
-    name: 'ClustersSearchMap',
+    name: 'ClustersMap',
     data() {
       return {
         map: {},
@@ -18,12 +17,11 @@
       }
     },
     watch: {
-      '$parent.search_results': 'draw_search_results',
-      '$parent.clusters_to_open': 'draw_search_results',
+      '$store.state.irs_plan.localities': 'draw_localities',
     },
     mounted() {
       this.create_map()
-      this.draw_search_results()
+      this.draw_localities()
     },
     methods: {
       create_map() {
@@ -37,59 +35,41 @@
 
         Leaflet.tileLayer(url).addTo(this.map)
       },
-      draw_search_results() {
-        let redrawing
-
+      draw_localities() {
+        // Remove if exists
         if (this.search_results_layer) {
-          redrawing = true
           this.map.removeLayer(this.search_results_layer)
           this.search_results_layer = null
         }
+
         // Return unless there are search_results to render
-        if (this.$parent.search_results.length === 0) {
+        if (this.$store.state.irs_plan.localities.length === 0) {
           return
         }
 
         // Create GeoJSON from search_results
-        const geojson_search_results = this.$parent.search_results.map(cluster => {
+        const geojson_search_results = this.$store.state.irs_plan.localities.map(cluster => {
           cluster.polygon.properties.original_cluster = cluster
           return cluster.polygon
         })
 
-        const local_search_results_layer = L.geoJSON(geojson_search_results, {
+        this.search_results_layer = L.geoJSON(geojson_search_results, {
           style: (feature, layer) => {
-            // Is the feature already in the clusters_to_open array
-            const included = this.$parent.clusters_to_open.includes(feature.properties.original_cluster)
-
-            if (included) {
-              return { color: 'green' }
-            } else {
-              return { color: 'grey' }
-            }
+              return { color: 'lightblue' }
           },
           onEachFeature: (feature, layer) => {
             layer.on('click', () => {
               let cluster = Object.assign({}, feature.properties)
-              this.add_or_remove_from_keep(cluster.original_cluster)
+              this.select_cluster(cluster.original_cluster)
             })
           }
         })
-
         this.map
-          .addLayer(local_search_results_layer)
-
-        if (!redrawing) this.map.fitBounds(local_search_results_layer.getBounds())
-        this.search_results_layer = local_search_results_layer
-
+          .addLayer(this.search_results_layer)
+          .fitBounds(this.search_results_layer.getBounds())
       },
-      add_or_remove_from_keep(cluster) {
-        let clusters_to_open = this.$parent.clusters_to_open
-        if (clusters_to_open.includes(cluster)) {
-          const index = clusters_to_open.findIndex(c => c._id === cluster._id)
-          clusters_to_open.splice(index, 1)
-        } else {
-          clusters_to_open.push(cluster)
-        }
+      select_cluster(cluster) {
+        this.$router.push({name: 'irs_plan:cluster', params: {cluster_id: cluster._id}})
       }
     }
   }
@@ -97,7 +77,7 @@
 
 <style scoped>
   #map {
-    min-height: 85vh;
+    min-height: calc(100vh - 64px);
     z-index: 0;
   }
 </style>

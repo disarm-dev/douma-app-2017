@@ -13,7 +13,7 @@ const meta = [
     path: '/meta',
     redirect: '/meta/profile',
     name: 'meta',
-    meta: {title: 'Meta', icon: 'person'},
+    meta: {title: 'User', icon: 'person'},
     component: MetaApplet,
     children: [
       {

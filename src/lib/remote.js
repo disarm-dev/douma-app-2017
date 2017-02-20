@@ -1,12 +1,12 @@
 // Manages remote DB calls
 
 class RemoteDBClass {
-  constructor(team_id){
-    this.team_id = team_id
+  constructor(demo_instance_id){
+    this.demo_instance_id = demo_instance_id
   }
 
   read_clusters(filters) {
-    let url = DOUMA_API_URL + `/clusters?team_id=${this.team_id}` 
+    let url = DOUMA_API_URL + `/clusters?demo_instance_id=${this.demo_instance_id}` 
     if (filters.locations) {
       const params = JSON.stringify(filters.locations)
       url += `&locations=${params}`
@@ -27,7 +27,7 @@ class RemoteDBClass {
 
   update_clusters(clusters) {
     console.log(clusters)
-    const url = DOUMA_API_URL + `/clusters?team_id=${this.team_id}`
+    const url = DOUMA_API_URL + `/clusters?demo_instance_id=${this.demo_instance_id}`
     const options = {
       body: JSON.stringify(clusters), 
       headers: {
@@ -41,7 +41,7 @@ class RemoteDBClass {
   }
 
   read_tasks(filters) {
-    let url = DOUMA_API_URL + '/tasks?team_id=${this.team_id}' 
+    let url = DOUMA_API_URL + '/tasks?demo_instance_id=${this.demo_instance_id}' 
     
     if (filters.task_ids) {
       const params = JSON.stringify(filters.task_ids)
@@ -60,7 +60,7 @@ class RemoteDBClass {
   }
 
   update_tasks(tasks) {
-    const url = DOUMA_API_URL + `/tasks?team_id=${this.team_id}`
+    const url = DOUMA_API_URL + `/tasks?demo_instance_id=${this.demo_instance_id}`
     const options = {
       body: JSON.stringify(tasks), 
       headers: {
@@ -75,7 +75,7 @@ class RemoteDBClass {
 
   read_spatial_entities(spatial_entity_ids) {
     const params = JSON.stringify(spatial_entity_ids)
-    let url = DOUMA_API_URL + `/spatial_entities?team_id=${this.team_id}`
+    let url = DOUMA_API_URL + `/spatial_entities?demo_instance_id=${this.demo_instance_id}`
     url += `&ids=${params}`
 
     return new Promise((resolve, reject) => {

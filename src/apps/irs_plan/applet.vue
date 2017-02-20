@@ -4,9 +4,9 @@
 
 <script>
   export default {
-    name: 'IrsRecordApplet',
+    name: 'IRSPlanApplet',
     mounted() {
-      this.$store.dispatch('irs_record:configure_sync', this.$store.state.meta.demo_instance_id)
+      this.$store.dispatch('irs_plan:set_demo_instance_id', this.$store.state.meta.demo_instance_id)
     }
   }
 </script>

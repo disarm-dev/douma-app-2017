@@ -4,12 +4,12 @@
 // Bootstrap user from localstorage
 console.warn('TODO: @refac bootstrap user')
 const user = JSON.parse(localStorage.getItem('douma-user'))
-const team_id = JSON.parse(localStorage.getItem('douma-team-id'))
+const demo_instance_id = JSON.parse(localStorage.getItem('douma-team-id'))
 
 export default {
   state: {
     user: user,
-    team_id: team_id,
+    demo_instance_id: demo_instance_id,
     online: null
   },
   mutations: {
@@ -17,9 +17,9 @@ export default {
       state.user = user
       localStorage.setItem("douma-user", JSON.stringify(state.user))
     },
-    'meta:set_team_id': (state, team_id) => {
-      state.team_id = team_id
-      localStorage.setItem("douma-team-id", JSON.stringify(state.team_id))
+    'meta:set_demo_instance_id': (state, demo_instance_id) => {
+      state.demo_instance_id = demo_instance_id
+      localStorage.setItem("douma-team-id", JSON.stringify(state.demo_instance_id))
     },
     'meta:setOnline': (state, online) => {
       state.online = online

@@ -19,7 +19,7 @@
     <md-card>
       <md-card-content>
         <md-subheader>DOUMA Team ID</md-subheader>
-        <p class="profile-text">{{$store.state.meta.team_id}}</p>
+        <p class="profile-text">{{$store.state.meta.demo_instance_id}}</p>
         <md-subheader>Name</md-subheader>
         <p class="profile-text">{{$store.state.meta.user.name}}</p>
         <md-subheader>Email</md-subheader>

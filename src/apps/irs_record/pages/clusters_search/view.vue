@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>ClustersSearchView</h1>
-    <h2>Search for new Clusters</h2>
+    <h2>Search for Clusters to save offline</h2>
 
     <multiselect v-model="search_definition" 
       :options="search_options" 
@@ -17,7 +17,7 @@
 
     <md-button @click.native='search'>Search</md-button>
     <md-button :disabled='search_results.length === 0' @click.native='clear'>Clear</md-button>
-    <md-button :disabled='clusters_to_open.length === 0' @click.native='open_clusters'>Keep these ({{clusters_to_open.length}})</md-button>
+    <md-button :disabled='clusters_to_open.length === 0' @click.native='open_clusters'>Save these {{clusters_to_open.length}} offline</md-button>
     <md-button @click.native="toggle_view">{{toggle_to_view}}</md-button>
 
     <md-progress :md-indeterminate='$store.state.irs_record.sync_in_progress'></md-progress>

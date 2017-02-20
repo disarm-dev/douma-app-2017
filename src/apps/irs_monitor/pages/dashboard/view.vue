@@ -10,10 +10,6 @@
             <div class="md-title">No structures</div>
           </md-card-header>
 
-          <md-card-actions>
-            <md-button>Cool</md-button>
-          </md-card-actions>
-
         </md-card>
       </div>
 

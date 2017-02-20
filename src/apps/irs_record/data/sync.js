@@ -4,9 +4,9 @@ import RemoteDBClass from '../../../lib/remote.js'
 
 class Sync {
 
-  config(team_id) {
-    this.RemoteDB = new RemoteDBClass(team_id)
-    this.team_id = team_id
+  config(demo_instance_id) {
+    this.RemoteDB = new RemoteDBClass(demo_instance_id)
+    this.demo_instance_id = demo_instance_id
   }
 
   // Search

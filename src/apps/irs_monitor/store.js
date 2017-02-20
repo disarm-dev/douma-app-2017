@@ -1,4 +1,4 @@
-// Store for 'IRS Tasker' applet
+// Store for 'IRS Monitor' applet
 
 import Sync from './data/sync.js'
 
@@ -19,8 +19,8 @@ export default {
     
   },
   actions: {
-    'irs_monitor:set_team_id': (context, team_id) => {
-      Sync.config(team_id)
+    'irs_monitor:set_demo_instance_id': (context, demo_instance_id) => {
+      Sync.config(demo_instance_id)
     },
     'irs_monitor:get_clusters': (context) => {
       console.log('getting clusters')
