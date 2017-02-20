@@ -12,8 +12,8 @@ class Sync {
     this.R_SERVER_URL = 'http://35.187.40.238:3000'
   }
 
-  config(team_id) {
-    this.team_id = team_id
+  config(demo_instance_id) {
+    this.demo_instance_id = demo_instance_id
   }
 
   // Get all clusters

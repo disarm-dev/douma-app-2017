@@ -44,8 +44,8 @@ export default {
   },
   actions: {
     // SYNC
-    "irs_record:configure_sync": (context, team_id) => {
-      Sync.config(team_id)
+    "irs_record:configure_sync": (context, demo_instance_id) => {
+      Sync.config(demo_instance_id)
     },
     "irs_record:search_clusters": (context, locations) => {
       context.commit("irs_record:set_sync_in_progress", true)

@@ -15,8 +15,8 @@ export default {
     },  
   },
   actions: {
-    'irs_plan:set_team_id': (context, team_id) => {
-      Sync.config(team_id)
+    'irs_plan:set_demo_instance_id': (context, demo_instance_id) => {
+      Sync.config(demo_instance_id)
     },
     'irs_plan:get_localities': (context) => {
       // console.log('getting clusters')

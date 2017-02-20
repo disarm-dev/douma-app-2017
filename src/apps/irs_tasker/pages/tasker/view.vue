@@ -25,7 +25,7 @@
     name: 'TaskerView',
     mounted() {
       console.log('set_clusters_from_local')
-      this.$store.dispatch('irs_tasker:configure_sync', this.$store.state.meta.team_id)
+      this.$store.dispatch('irs_tasker:configure_sync', this.$store.state.meta.demo_instance_id)
       this.$store.dispatch("irs_tasker:set_clusters_from_local")
     },
     methods: {

@@ -14,8 +14,8 @@ export default {
     },
   },
   actions: {
-    'irs_tasker:configure_sync': (context, team_id) => {
-      Sync.config(team_id)
+    'irs_tasker:configure_sync': (context, demo_instance_id) => {
+      Sync.config(demo_instance_id)
     },
     "irs_tasker:set_clusters_from_local": (context) => {
       return Sync.load_clusters().then(clusters => {
