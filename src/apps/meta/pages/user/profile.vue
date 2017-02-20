@@ -1,5 +1,20 @@
 <template>
   <div class='profile'>
+    <md-card style="margin: 1em 0;">
+      <md-card-content>
+        <md-subheader>Welcome to DiSARM</md-subheader>
+        <p>Some content here</p>
+      </md-card-content>
+      <md-card-content>
+        <md-subheader>You can use the following pieces/apps:</md-subheader>
+        <md-button v-for='app in $store.state.meta.user.allowed_apps.read' class='md-raised md-primary' @click.native="$router.push(`/${app}`)">{{app}}</md-button>
+      </md-card-content>
+
+      <md-card-content>
+        <md-subheader>Clear the IRS databases</md-subheader>
+        <md-button class='md-warn md-raised' @click.native='$store.dispatch("irs_record:clear_local_dbs")'>Clear</md-button>
+      </md-card-content>
+    </md-card>
 
     <md-card>
       <md-card-content>
@@ -12,18 +27,6 @@
 
         <md-button class="md-raised md-accent" @click.native="logout">Logout</md-button>
         <md-button class="md-raised" @click.native="resetPassword">Reset password</md-button>
-      </md-card-content>
-    </md-card>
-
-    <md-card>
-      <md-card-content>
-        <md-subheader>You can use the following pieces/apps:</md-subheader>
-        <md-button v-for='app in $store.state.meta.user.allowed_apps.read' class='md-raised md-primary' @click.native="$router.push(`/${app}`)">{{app}}</md-button>
-      </md-card-content>
-
-      <md-card-content>
-        <md-subheader>Clear the IRS databases</md-subheader>
-        <md-button class='md-warn md-raised' @click.native='$store.dispatch("irs_record:clear_local_dbs")'>Clear</md-button>
       </md-card-content>
     </md-card>
 
