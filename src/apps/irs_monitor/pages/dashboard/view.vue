@@ -7,7 +7,7 @@
       <div class="box">
         <md-card :md-theme="'default'" class="md-primary">
           
-          <p class="big-number">{{((structuresUnsuccessfullyVisited + structuresSuccessfullyVisited) / tasks) * 100}} %</p>
+          <p class="big-number">{{round(((structuresUnsuccessfullyVisited + structuresSuccessfullyVisited) / tasks) * 100)}} %</p>
 
           <md-card-header>
             <div class="md-title">Structures visited</div>
@@ -24,7 +24,7 @@
       <div class="box">
         <md-card :md-theme="'foci'" class="md-primary">
           
-          <p class="big-number">{{(structuresSuccessfullyVisited / tasks) * 100}} %</p>
+          <p class="big-number">{{round((structuresSuccessfullyVisited / tasks) * 100)}} %</p>
 
           <md-card-header>
             <div class="md-title">Structures successfully visited</div>
@@ -41,7 +41,7 @@
       <div class="box">
         <md-card :md-theme="'meta'" class="md-primary">
           
-          <p class="big-number">{{(structuresUnsuccessfullyVisited / tasks) * 100}} %</p>
+          <p class="big-number">{{round((structuresUnsuccessfullyVisited / tasks) * 100)}} %</p>
 
           <md-card-header>
             <div class="md-title">Structures unsuccessfully visited</div>
@@ -69,8 +69,10 @@
         stuff: ["default", "foci", "irs_monitor", "irs_plan", "irs_record", "irs_tasker", "cases", "meta"]
       }
     },
-    mounted() {
-      console.log
+    methods:{
+      round(num) {
+        return parseFloat(Math.round(num * 100) / 100).toFixed(2);
+      } 
     },
     computed: {
       structuresSuccessfullyVisited() {
