@@ -10,7 +10,7 @@
           </div>
 
           <md-input-container>
-            <label>Team ID</label>
+            <label>Demo instance ID</label>
             <md-input v-model='demo_instance_id'></md-input>
           </md-input-container>
 
