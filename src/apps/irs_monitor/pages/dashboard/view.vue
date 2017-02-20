@@ -2,8 +2,22 @@
   <div>
     <h1 class="md-display-1" style="padding: 0 1em;">IRS Monitor</h1>
     <div class="boxes">
-      
-    
+
+      <div class="box" v-if="tasks === 0">
+        <md-card :md-theme="'default'" class="md-primary">
+
+          <md-card-header>
+            <div class="md-title">No structures</div>
+          </md-card-header>
+
+          <md-card-actions>
+            <md-button>Cool</md-button>
+          </md-card-actions>
+
+        </md-card>
+      </div>
+
+      <template v-else>
       <div class="box">
         <md-card :md-theme="'default'" class="md-primary">
           
@@ -13,10 +27,6 @@
             <div class="md-title">Structures visited</div>
             <div class="md-subhead">in Swaziland</div>
           </md-card-header>
-
-          <md-card-actions>
-            <md-button>Cool</md-button>
-          </md-card-actions>
 
         </md-card>
       </div>
@@ -31,10 +41,6 @@
             <div class="md-subhead">in Swaziland</div>
           </md-card-header>
 
-          <md-card-actions>
-            <md-button>Cool</md-button>
-          </md-card-actions>
-
         </md-card>
       </div>
 
@@ -48,13 +54,9 @@
             <div class="md-subhead">in Swaziland</div>
           </md-card-header>
 
-          <md-card-actions>
-            <md-button>Cool</md-button>
-          </md-card-actions>
-
         </md-card>
       </div>
-
+      </template>
       
     </div>
 
