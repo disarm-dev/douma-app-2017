@@ -1,6 +1,11 @@
 <template>
   <div style='position: relative'>
-    
+    <h1>ClustersView</h1>
+    <p>Summary of your locally-laoded clusters {{$store.state.irs_record.clusters.length}}</p>
+
+    <md-button v-if='this.$store.state.irs_record.clusters.length === 0'>Search for Clusters to save offline</md-button>
+
+
     <md-speed-dial style='z-index: 10000' md-open="click" md-direction="bottom" class="md-fab-top-right">
       <md-button class="md-fab" md-fab-trigger>
         <md-icon md-icon-morph>close</md-icon>
