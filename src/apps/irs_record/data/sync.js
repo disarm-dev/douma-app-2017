@@ -12,11 +12,12 @@ class Sync {
   // Search
   search_clusters(locations) {
     let filters = {}
+
     if (locations.length) {
       filters.locations = locations
     }
 
-   return this.RemoteDB.read_clusters(filters) // returns a promise
+    return this.RemoteDB.read_clusters(filters) // returns a promise
   }
   
   // Cluster management (incl. Task sync)
