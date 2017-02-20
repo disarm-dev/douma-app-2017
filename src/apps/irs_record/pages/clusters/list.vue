@@ -39,22 +39,8 @@
     },
     methods: {
       set_clusters_with_sync_counts() {
-        console.log('set clusters')
-        // TODO: @refac Move unsynced_tasks count to $store
-        this.clusters_with_sync_counts = []
-
-        const all_clusters = this.$store.state.irs_record.clusters
-        const promises = all_clusters.map((cluster) => {
-          return Sync.get_unsynced_tasks_for_cluster(cluster)
-        })
-
-        Promise.all(promises).then((results) => {
-          // console.table(results)
-          results.forEach((result) => {
-            let cluster = all_clusters.find(c => c._id === result.cluster_id)
-            cluster.unsynced_tasks = result.unsynced_tasks
-            this.clusters_with_sync_counts.push(cluster)
-          })
+        this.$store.dispatch("irs_record:get_unsynced_tasks_for_cluster").then(res => {
+          this.clusters_with_sync_counts = res
         })
       },
       sync(cluster) {

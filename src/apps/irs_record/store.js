@@ -107,6 +107,24 @@ export default {
     },
     "irs_record:sync_tasks": (context, tasks) => {
       return Sync.sync_tasks(tasks)
+    },
+    "irs_record:get_unsynced_tasks_for_cluster": (context) => {
+      const all_clusters = context.state.clusters
+
+      const promises = all_clusters.map((cluster) => {
+        return Sync.get_unsynced_tasks_for_cluster(cluster)
+      })
+
+      return Promise.all(promises).then((results) => {
+        let clusters_with_sync_counts = []
+
+        results.forEach((result) => {
+          let cluster = all_clusters.find(c => c._id === result.cluster_id)
+          cluster.unsynced_tasks = result.unsynced_tasks
+          clusters_with_sync_counts.push(cluster)
+        })
+        return clusters_with_sync_counts
+      })
     }
   },
 
