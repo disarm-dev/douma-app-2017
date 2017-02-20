@@ -3,8 +3,6 @@
 import turf from '@turf/turf'
 import Sync from './data/sync.js'
 
-window.Sync = Sync
-
 export default {
   state: {
     // EDITING

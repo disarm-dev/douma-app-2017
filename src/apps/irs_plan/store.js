@@ -1,22 +1,19 @@
 // Store for 'IRS Plan' applet
 
 import Sync from './data/sync.js'
+window.Sync = Sync
 
 export default {
   state: {
     // DATA
-    localities: null,
-    clusters: null,
+    localities: [],
+    selected_localities: [],
+    clusters: [],
   },
   mutations: {
     'irs_plan:set_localities': (state, localities) => {
       state.localities = localities
-    },
-
-    // 'irs_plan:set_tasks': (state, tasks) => {
-    //   state.tasks = tasks
-    // }
-    
+    },  
   },
   actions: {
     'irs_plan:set_team_id': (context, team_id) => {
@@ -24,15 +21,29 @@ export default {
     },
     'irs_plan:get_localities': (context) => {
       // console.log('getting clusters')
-      Sync.get_localities().then((localities) => {
+      return Sync.get_localities().then((results) => {
+        // TODO: @refac Do this model stuff somewhere else
+
+        const localities = results.map((locality) => {
+          // locality.polygon.properties.original_locality = locality
+          // locality.polygon.properties.selected = true
+          return locality.polygon
+        })
+
         context.commit('irs_plan:set_localities', localities)
       })
     },
-    // 'irs_plan:get_tasks': (context) => {
-    //   console.log('getting tasks')
-    //   Sync.get_tasks().then((tasks) => {
-    //     context.commit('irs_plan:set_tasks', tasks)
-    //   })
-    // }
+    "irs_plan:start_clustering": (context) => {
+      const country_code = 'ZWE'
+      const dist_km = 0.25
+      const max_size = 50
+
+      const polygons = {
+        type: 'FeatureCollection',
+        features: context.state.localities
+      }
+
+      return Sync.get_clusters({country_code, polygons, dist_km, max_size})
+    } 
   }
 }
