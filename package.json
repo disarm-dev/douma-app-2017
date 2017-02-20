@@ -14,7 +14,7 @@
     "@turf/turf": "^3.8.0",
     "alpaca": "^1.5.22",
     "bootstrap": "^3.3.7",
-    "dexie": "^1.5.1",
+    "dexie": "v2.0.0-beta.10",
     "handlebars": "^4.0.5",
     "jquery": "^3.1.1",
     "leaflet": "^1.0.1",
