@@ -20,7 +20,8 @@
           <p class="big-number">{{round(((structuresUnsuccessfullyVisited + structuresSuccessfullyVisited) / tasks) * 100)}} %</p>
 
           <md-card-header>
-            <div class="md-title">Structures visited</div>
+            <!-- TODO: @debug Replace with real numbers -->
+            <div class="md-title">200 of 20000 structures visited</div>
             <div class="md-subhead">in Swaziland</div>
           </md-card-header>
 
