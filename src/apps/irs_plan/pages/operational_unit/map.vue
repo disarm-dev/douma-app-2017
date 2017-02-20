@@ -38,7 +38,6 @@
         Leaflet.tileLayer(url).addTo(this.map)
       },
       draw_localities() {
-        console.log('draw_localities')
         // Remove if exists
         let redrawing
         

@@ -13,7 +13,7 @@
     <label>Select risk threshold (i.e. cases per 1000 greater than this value)</label>
     <vue-slider v-bind="slider_options" v-model="risk_slider"></vue-slider>
     <div>Selected localities count = {{selected_localities.length}} </div>
-    <md-button class='md-raised md-accent' @click.native='start_clustering'>Start clustering</md-button>
+    <md-button v-if='selected_localities.length > 0' class='md-raised md-accent' @click.native='start_clustering'>Start clustering</md-button>
      <md-progress :md-indeterminate='$store.state.irs_record.sync_in_progress'></md-progress>
 
 
@@ -48,13 +48,16 @@
     },
     methods: {
       start_clustering() {
-        this.$store.dispatch("irs_plan:start_clustering")
+        if(this.selected_localities.length === 0) return
+
+        this.$store.commit("irs_plan:set_selected_localities", this.selected_localities)
+        this.$store.dispatch("irs_plan:start_clustering", this.country_code)
           .then((res) => {
-            console.log("Results from API", res)
-            // this.$router.push({name: 'irs_plan:clusters'})
+            this.$router.push({name: 'irs_plan:clusters'})
           })  
       },
       get_ous() {
+        this.$store.commit('irs_plan:set_localities', [])
         return this.$store.dispatch("irs_plan:get_ous", this.country_code)
       }
     }

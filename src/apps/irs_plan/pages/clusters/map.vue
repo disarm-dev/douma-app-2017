@@ -1,5 +1,6 @@
 <template>
   <div>
+    <md-button @click.native='load'>load</md-button>
     <div id='map'></div>
   </div>
 </template>
@@ -13,15 +14,15 @@
     data() {
       return {
         map: {},
-        search_results_layer: null
+        clusters_layer: null,
       }
     },
     watch: {
-      '$store.state.irs_plan.localities': 'draw_localities',
+      '$store.state.irs_plan.clusters': 'draw_clusters',
     },
     mounted() {
       this.create_map()
-      this.draw_localities()
+      this.draw_clusters()
     },
     methods: {
       create_map() {
@@ -35,38 +36,38 @@
 
         Leaflet.tileLayer(url).addTo(this.map)
       },
-      draw_localities() {
+      draw_clusters() {
         // Remove if exists
-        if (this.search_results_layer) {
-          this.map.removeLayer(this.search_results_layer)
-          this.search_results_layer = null
+        if (this.clusters_layer) {
+          this.map.removeLayer(this.clusters_layer)
+          this.clusters_layer = null
         }
 
         // Return unless there are search_results to render
-        if (this.$store.state.irs_plan.localities.length === 0) {
+        if (this.$store.state.irs_plan.clusters.length === 0) {
           return
         }
 
         // Create GeoJSON from search_results
-        const geojson_search_results = this.$store.state.irs_plan.localities.map(cluster => {
-          cluster.polygon.properties.original_cluster = cluster
-          return cluster.polygon
-        })
+        // const geojson_search_results = this.$store.state.irs_plan.clusters.map(cluster => {
+          // cluster.polygon.properties.original_cluster = cluster
+          // return cluster.polygon
+        // })
 
-        this.search_results_layer = L.geoJSON(geojson_search_results, {
+        this.clusters_layer = L.geoJSON(this.$store.state.irs_plan.clusters, {
           style: (feature, layer) => {
-              return { color: 'lightblue' }
+              return { color: 'yellow' }
           },
           onEachFeature: (feature, layer) => {
             layer.on('click', () => {
-              let cluster = Object.assign({}, feature.properties)
-              this.select_cluster(cluster.original_cluster)
+              // let cluster = Object.assign({}, feature.properties)
+              // this.select_cluster(cluster.original_cluster)
             })
           }
         })
         this.map
-          .addLayer(this.search_results_layer)
-          .fitBounds(this.search_results_layer.getBounds())
+          .addLayer(this.clusters_layer)
+          .fitBounds(this.clusters_layer.getBounds())
       },
       select_cluster(cluster) {
         this.$router.push({name: 'irs_plan:cluster', params: {cluster_id: cluster._id}})

@@ -4,13 +4,12 @@
 import LocalDB from '../../../lib/local.js'
 import RemoteDBClass from '../../../lib/remote.js'
 
-// import localities from './localities.json'
 
 class Sync {
 
   constructor() {
-    this.R_SERVER_URL = 'http://35.187.40.238:8080'
-    this.R_SERVER_URL = 'http://localhost:3001'
+    // this.R_SERVER_URL = 'http://35.187.40.238:8080'
+    this.R_SERVER_URL = 'http://localhost:3000'
   }
 
   config(demo_instance_id) {
@@ -19,13 +18,13 @@ class Sync {
 
   // Get all clusters
   get_ous(country_code) {
-    // const url = this.R_SERVER_URL + `/localities?country_code=${country_code}`
+    const url = this.R_SERVER_URL + `/localities?country_code=${country_code}`
 
-    // return fetch(url, {mode: 'cors'})
-    //   .then(res => res.json())
-    //   .catch(err => console.error(err))
-    const localities = require('./localities.json')
-    return new Promise((resolve, reject) => resolve(localities))
+    return fetch(url, {mode: 'cors'})
+      .then(res => res.json())
+      .catch(err => console.error(err))
+    // const localities = require('./localities.json')
+    // return new Promise((resolve, reject) => resolve(localities))
   }
 
   get_clusters(parameters) {
