@@ -22,7 +22,6 @@
     methods: {
       logout() {
         this.$store.commit('meta:login_user', null)
-        this.$store.commit('meta:set_demo_instance_id', null)
         this.$router.push({name: 'meta:login'})
       },
       cancel() {

@@ -50,15 +50,13 @@
 
 <script>
   export default {
-    mounted() {
-    },
     data() {
       return {
         msg: 'Please login below',
+        // demo_instance_id: , 
         disabled: false,
         email: '',
         password: '',
-        demo_instance_id: 'office',
         users: [
           {
             name: 'Edgar Sprayer', 
@@ -78,6 +76,16 @@
             }
           }
         ]
+      }
+    },
+    computed: {
+      demo_instance_id: {
+        get(){
+          return this.$store.state.meta.demo_instance_id
+        },
+        set(value){
+          return this.$store.commit("meta:set_demo_instance_id", value)
+        }
       }
     },
     methods: {
