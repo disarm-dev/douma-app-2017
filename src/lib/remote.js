@@ -41,7 +41,7 @@ class RemoteDBClass {
   }
 
   read_tasks(filters) {
-    let url = DOUMA_API_URL + '/tasks?demo_instance_id=${this.demo_instance_id}' 
+    let url = DOUMA_API_URL + `/tasks?demo_instance_id=${this.demo_instance_id}` 
     
     if (filters.task_ids) {
       const params = JSON.stringify(filters.task_ids)
