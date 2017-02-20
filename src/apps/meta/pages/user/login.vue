@@ -61,15 +61,15 @@
         team_id: 'swz-team',
         users: [
           {
-            name: 'Sprayer Bob', 
+            name: 'Edgar Sprayer', 
             fake_password: 'malaria',
             email: 'sprayer@bob.com', 
             allowed_apps: {
-              read: ['irs_record'], 
+              read: ['irs_monitor', 'irs_record'], 
               write: ['irs_record']
             }
           },{
-            name: 'Manager Bob', 
+            name: 'Philile Manager', 
             fake_password: 'malaria',
             email: 'manager@bob.com', 
             allowed_apps: {
