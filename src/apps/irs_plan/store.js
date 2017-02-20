@@ -18,9 +18,9 @@ export default {
     'irs_plan:set_demo_instance_id': (context, demo_instance_id) => {
       Sync.config(demo_instance_id)
     },
-    'irs_plan:get_localities': (context) => {
+    'irs_plan:get_ous': (context, country_code) => {
       // console.log('getting clusters')
-      return Sync.get_localities().then((results) => {
+      return Sync.get_ous(country_code).then((results) => {
         // TODO: @refac Do this model stuff somewhere else
 
         const localities = results.map((locality) => {
@@ -39,9 +39,8 @@ export default {
 
       const polygons = {
         type: 'FeatureCollection',
-        features: context.state.localities
+        features: context.state.localities.slice(0,2)
       }
-
       return Sync.get_clusters({country_code, polygons, dist_km, max_size})
     } 
   }
