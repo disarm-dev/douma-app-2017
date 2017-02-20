@@ -1,5 +1,6 @@
 <template>
-  <router-view></router-view>
+  <iframe id="i" src="http://10.0.0.107:7676" frameborder="0"></iframe>
+  <!-- <router-view></router-view> -->
 </template>
 
 <script>
@@ -12,6 +13,10 @@
 </script>
 
 <style scoped>
+  #i {
+    height: calc(100vh - 64px);
+    width: 100%;
+  }
   .container {
     margin: 10px;
   }
