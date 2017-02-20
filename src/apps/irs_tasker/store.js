@@ -42,7 +42,8 @@ export default {
     },
     "irs_tasker:update_clusters_with_spray_teams": (context) => {
       const clusters = context.state.clusters.map(cluster => {
-        return cluster.polygon.properties.original_cluster
+        delete cluster.polygon.properties.original_cluster
+        return cluster
       })
       return Sync.update_clusters(clusters)
     },

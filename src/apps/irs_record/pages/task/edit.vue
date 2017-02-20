@@ -6,6 +6,7 @@
       <md-radio v-model="task.properties.status" name="status" md-value="unvisited">Unvisited</md-radio>
       <md-radio v-model="task.properties.status" name="status" md-value="visited_successful">Visited, successful</md-radio>
       <md-radio v-model="task.properties.status" name="status" md-value="visited_unsuccessful">Visited, unsuccessful</md-radio>
+      <md-radio v-model="task.properties.status" name="status" md-value="visited_unsprayable">Visited, unsprayable</md-radio>
     </div>
 
     <md-button @click.native='save'><md-icon>save</md-icon><span>Save</span></md-button>

@@ -104,6 +104,9 @@
               case 'visited_unsuccessful':
                 base_style.color = 'red'
                 break
+              case 'visited_unsprayable':
+                base_style.color = 'orange'
+                break
             }
 
             return base_style
