@@ -4,12 +4,13 @@
 import LocalDB from '../../../lib/local.js'
 import RemoteDBClass from '../../../lib/remote.js'
 
-import localities from './localities.json'
+// import localities from './localities.json'
 
 class Sync {
 
   constructor() {
-    this.R_SERVER_URL = 'http://35.187.40.238:3000'
+    this.R_SERVER_URL = 'http://35.187.40.238:8080'
+    this.R_SERVER_URL = 'http://localhost:3001'
   }
 
   config(demo_instance_id) {
@@ -17,20 +18,18 @@ class Sync {
   }
 
   // Get all clusters
-  get_localities(country_code) {
-    // const url = this.R_SERVER_URL + `/localities?country_code=ZWE`
+  get_ous(country_code) {
+    // const url = this.R_SERVER_URL + `/localities?country_code=${country_code}`
 
-    // return fetch(url)
+    // return fetch(url, {mode: 'cors'})
     //   .then(res => res.json())
     //   .catch(err => console.error(err))
-
+    const localities = require('./localities.json')
     return new Promise((resolve, reject) => resolve(localities))
-
   }
 
   get_clusters(parameters) {
-    // const url = this.R_SERVER_URL + '/clusters'
-    const url = 'http://localhost:3000' + '/clusters'
+    const url = this.R_SERVER_URL + '/clusters'
 
     const options = {
       body: JSON.stringify({...parameters}), 
@@ -40,14 +39,13 @@ class Sync {
       mode: 'cors',
       method: 'POST'
     }
-
     return fetch(url, options)
-      // .then((res) => {
-      //   return res.json()
-      // }).catch(err => {
-      //   console.log("Some error instead")
-      //   console.error(err)
-      // })
+      .then((res) => {
+        return res.json()
+      }).catch(err => {
+        console.log("Some error instead")
+        console.error(err)
+      })
 
 
     // return new Promise((resolve, reject) => {

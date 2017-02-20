@@ -35,7 +35,7 @@
 
         const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
 
-        // Leaflet.tileLayer(url).addTo(this.map)
+        Leaflet.tileLayer(url).addTo(this.map)
       },
       draw_localities() {
         console.log('draw_localities')

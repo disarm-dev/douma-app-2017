@@ -8,6 +8,7 @@
         <md-option value="ZWE">Zimbabwe (Mat-South)</md-option>
       </md-select>
     </md-input-container>
+    <md-button @click.native='get_ous'>Get OUs</md-button>
 
     <label>Select risk threshold (i.e. cases per 1000 greater than this value)</label>
     <vue-slider v-bind="slider_options" v-model="risk_slider"></vue-slider>
@@ -27,12 +28,6 @@
   export default {
     name: 'OperationalUnitView',
     components: {vueSlider},
-    mounted() {
-      this.$store.dispatch("irs_plan:get_localities")
-    },
-    // watch: {
-    //   'risk_slider': 'filter_localities_by_risk'
-    // },
     data() {
       return {
         country_code: 'SWZ',
@@ -58,6 +53,9 @@
             console.log("Results from API", res)
             // this.$router.push({name: 'irs_plan:clusters'})
           })  
+      },
+      get_ous() {
+        return this.$store.dispatch("irs_plan:get_ous", this.country_code)
       }
     }
   }
