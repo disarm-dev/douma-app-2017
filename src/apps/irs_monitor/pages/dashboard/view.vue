@@ -2,15 +2,25 @@
   <div>
     <h1 class="md-display-1" style="padding: 0 1em;">IRS Monitor</h1>
     <div class="boxes">
-      
-    
+
+      <div class="box" v-if="tasks === 0">
+        <md-card :md-theme="'default'" class="md-primary">
+
+          <md-card-header>
+            <div class="md-title">No structures</div>
+          </md-card-header>
+
+        </md-card>
+      </div>
+
+      <template v-else>
       <div class="box">
         <md-card :md-theme="'default'" class="md-primary">
           
-          <p class="big-number">{{clusters}}</p>
+          <p class="big-number">{{round(((structuresUnsuccessfullyVisited + structuresSuccessfullyVisited) / tasks) * 100)}} %</p>
 
           <md-card-header>
-            <div class="md-title">Number of clusters</div>
+            <div class="md-title">Structures visited</div>
             <div class="md-subhead">in Swaziland</div>
           </md-card-header>
 
@@ -18,12 +28,12 @@
       </div>
 
       <div class="box">
-        <md-card md-theme="foci" class="md-primary">
+        <md-card :md-theme="'foci'" class="md-primary">
           
-          <p class="big-number">{{tasks}}</p>
+          <p class="big-number">{{round((structuresSuccessfullyVisited / tasks) * 100)}} %</p>
 
           <md-card-header>
-            <div class="md-title">Number of tasks</div>
+            <div class="md-title">Structures successfully visited</div>
             <div class="md-subhead">in Swaziland</div>
           </md-card-header>
 
@@ -31,18 +41,18 @@
       </div>
 
       <div class="box">
-        <md-card md-theme="meta" class="md-primary">
+        <md-card :md-theme="'meta'" class="md-primary">
           
-          <p class="big-number">593198</p>
+          <p class="big-number">{{round((structuresUnsuccessfullyVisited / tasks) * 100)}} %</p>
 
           <md-card-header>
-            <div class="md-title">Number of structures</div>
+            <div class="md-title">Structures unsuccessfully visited</div>
             <div class="md-subhead">in Swaziland</div>
           </md-card-header>
 
         </md-card>
       </div>
-
+      </template>
       
     </div>
 
@@ -57,14 +67,43 @@
         stuff: ["default", "foci", "irs_monitor", "irs_plan", "irs_record", "irs_tasker", "cases", "meta"]
       }
     },
+    methods:{
+      round(num) {
+        return parseFloat(Math.round(num * 100) / 100).toFixed(2);
+      } 
+    },
     computed: {
+      structuresSuccessfullyVisited() {
+        let count = this.$store.state.irs_monitor.tasks.filter((task) => {
+          if (!task.properties) return false
+          return task.properties.status === 'visited_successful'
+        })
+
+        return count ? count.length : 0
+      },
+      structuresUnsuccessfullyVisited() {
+        let count = this.$store.state.irs_monitor.tasks.filter((task) => {
+          if (!task.properties) return false
+          return task.properties.status === 'visited_unsuccessful'
+        })
+
+        return count ? count.length : 0
+      },
+      structuresUnvisited() {
+        let count = this.$store.state.irs_monitor.tasks.filter((task) => {
+          if (!task.properties) return false
+          return task.properties.status === 'unvisited'
+        })
+        return count ? count.length : 0
+      },
+
       clusters() {
         let clusters = this.$store.state.irs_monitor.clusters
         return clusters ? clusters.length : 'Loading...'
       },
       tasks() {
         let tasks = this.$store.state.irs_monitor.tasks
-        return tasks ? tasks.length : 'Loading...'
+        return tasks ? tasks.length : 0
       }
     }
   }
