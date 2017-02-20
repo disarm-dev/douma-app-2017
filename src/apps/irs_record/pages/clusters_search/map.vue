@@ -38,7 +38,6 @@
         Leaflet.tileLayer(url).addTo(this.map)
       },
       draw_search_results() {
-        // Remove if exists
         let redrawing
 
         if (this.search_results_layer) {
@@ -57,7 +56,7 @@
           return cluster.polygon
         })
 
-        search_results_layer = L.geoJSON(geojson_search_results, {
+        const local_search_results_layer = L.geoJSON(geojson_search_results, {
           style: (feature, layer) => {
             // Is the feature already in the clusters_to_open array
             const included = this.$parent.clusters_to_open.includes(feature.properties.original_cluster)
@@ -75,11 +74,12 @@
             })
           }
         })
-        this.map
-          .addLayer(search_results_layer)
 
-        if (!redrawing) this.map.fitBounds(search_results_layer.getBounds())
-        this.search_results_layer = search_results_layer
+        this.map
+          .addLayer(local_search_results_layer)
+
+        if (!redrawing) this.map.fitBounds(local_search_results_layer.getBounds())
+        this.search_results_layer = local_search_results_layer
 
       },
       add_or_remove_from_keep(cluster) {
