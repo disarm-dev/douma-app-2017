@@ -1,7 +1,6 @@
 // Store for 'IRS Plan' applet
 
 import Sync from './data/sync.js'
-window.Sync = Sync
 
 export default {
   state: {
