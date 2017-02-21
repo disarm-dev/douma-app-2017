@@ -17,6 +17,10 @@ class Sync {
   get_tasks() {
     return this.RemoteDB.read_tasks({})
   }
+
+  count_tasks(filter) {
+    return this.RemoteDB.count_tasks(filter)
+  }
 }
 
 export default new Sync()

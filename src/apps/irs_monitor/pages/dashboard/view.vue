@@ -68,6 +68,12 @@
         stuff: ["default", "foci", "irs_monitor", "irs_plan", "irs_record", "irs_tasker", "cases", "meta"]
       }
     },
+    mounted() {
+      this.$store.dispatch('irs_monitor:get_tasks_count')
+      this.$store.dispatch('irs_monitor:get_tasks_unvisited')
+      this.$store.dispatch('irs_monitor:get_tasks_successful')
+      this.$store.dispatch('irs_monitor:get_tasks_unsuccessful')
+    },
     methods:{
       round(num) {
         return parseFloat(Math.round(num * 100) / 100).toFixed(2);
@@ -75,36 +81,16 @@
     },
     computed: {
       structuresSuccessfullyVisited() {
-        let count = this.$store.state.irs_monitor.tasks.filter((task) => {
-          if (!task.properties) return false
-          return task.properties.status === 'visited_successful'
-        })
-
-        return count ? count.length : 0
+        return this.$store.state.irs_monitor.taskCounts.visited_successful
       },
       structuresUnsuccessfullyVisited() {
-        let count = this.$store.state.irs_monitor.tasks.filter((task) => {
-          if (!task.properties) return false
-          return task.properties.status === 'visited_unsuccessful'
-        })
-
-        return count ? count.length : 0
+        return this.$store.state.irs_monitor.taskCounts.visited_unsuccessful
       },
       structuresUnvisited() {
-        let count = this.$store.state.irs_monitor.tasks.filter((task) => {
-          if (!task.properties) return false
-          return task.properties.status === 'unvisited'
-        })
-        return count ? count.length : 0
-      },
-
-      clusters() {
-        let clusters = this.$store.state.irs_monitor.clusters
-        return clusters ? clusters.length : 'Loading...'
+        return this.$store.state.irs_monitor.taskCounts.unvisited
       },
       tasks() {
-        let tasks = this.$store.state.irs_monitor.tasks
-        return tasks ? tasks.length : 0
+        return this.$store.state.irs_monitor.taskCounts.total
       }
     }
   }
