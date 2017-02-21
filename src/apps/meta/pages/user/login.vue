@@ -59,6 +59,7 @@
         password: '',
         users: [
           {
+            id: 'edgar_sprayer_47',
             name: 'Edgar Sprayer', 
             fake_password: 'malaria',
             email: 'sprayer@bob.com', 
@@ -67,6 +68,7 @@
               write: ['irs_record']
             }
           },{
+            id: 'philile_manager_15',
             name: 'Philile Manager', 
             fake_password: 'malaria',
             email: 'manager@bob.com', 
