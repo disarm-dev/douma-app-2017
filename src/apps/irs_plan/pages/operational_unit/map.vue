@@ -18,7 +18,6 @@
       }
     },
     watch: {
-      // '$store.state.irs_plan.localities': 'draw_localities',
       'selected_localities': 'draw_localities',
     },
     mounted() {
@@ -53,11 +52,11 @@
         }
 
         let localities_geojson
-        if (this.selected_localities.length == 0) {
-          localities_geojson = this.$store.state.irs_plan.localities
-        } else {
+        // if (this.selected_localities.length == 0) {
+        //   localities_geojson = this.$store.state.irs_plan.localities
+        // } else {
           localities_geojson = this.selected_localities
-        }
+        // }
 
         const localities_layer = L.geoJSON(localities_geojson, {
           style: (feature, layer) => {

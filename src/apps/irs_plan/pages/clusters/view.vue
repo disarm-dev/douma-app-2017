@@ -7,6 +7,9 @@
 
 <script>
   export default {
-    name: 'ClustersView'
+    name: 'ClustersView',
+    mounted() {
+      this.$store.dispatch("irs_plan:load_clusters")
+    }
   }
 </script>

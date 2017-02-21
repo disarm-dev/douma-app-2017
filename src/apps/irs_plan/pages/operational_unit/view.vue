@@ -14,8 +14,7 @@
     <vue-slider v-bind="slider_options" v-model="risk_slider"></vue-slider>
     <div>Selected localities count = {{selected_localities.length}} </div>
     <md-button v-if='selected_localities.length > 0' class='md-raised md-accent' @click.native='start_clustering'>Start clustering</md-button>
-     <md-progress :md-indeterminate='$store.state.irs_record.sync_in_progress'></md-progress>
-
+    <md-progress :md-indeterminate='$store.state.irs_record.sync_in_progress'></md-progress>
 
     <router-view :selected_localities='selected_localities'></router-view>
   
@@ -35,7 +34,7 @@
         slider_options: {
           min: 0,
           max: 5,
-          interval: 0.1
+          interval: 0.5
         }
       }
     },
