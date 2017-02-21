@@ -16,18 +16,26 @@ class Sync {
 
   // Get OperationalUnits for given country_code
   get_ous(country_code) {
-    // let ous = JSON.parse(localStorage.getItem(`douma-${country_code}-ous`))
+    // TODO: @refac Cache offline assets better - ServiceWorker?
+    let ous
+    const country_key = `douma-${country_code}-ous`
 
-    // if(ous) return new Promise((resolve, reject) => resolve(ous))
+    try { ous = JSON.parse(localStorage.getItem(country_key)) }
+    catch (err){
+      ous = null
+      localStorage.setItem(country_key, null)
+    }
 
-    const url = this.R_SERVER_URL + `/localities?country_code=${country_code}`
+    if(ous) return Promise.resolve(ous)
+
+    const url = this.R_SERVER_URL + `/localities/${country_code.toLowerCase()}.geojson`
 
     return fetch(url, {mode: 'cors'})
       .then(res => res.json())
-      // .then(json => {
-        // console.log('save to localStorage')
-        // return JSON.stringify(localStorage.setItem(`douma-${country_code}-ous`, json))
-      // })
+      .then(json => {
+        localStorage.setItem(country_key, JSON.stringify(json))
+        return json
+      })
       .catch(err => console.error(err))
   }
 

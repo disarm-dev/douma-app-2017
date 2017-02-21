@@ -6,7 +6,6 @@ export default {
   state: {
     // DATA
     localities: [],
-    country_code: null,
     selected_localities: [],
     clusters: [],
   },
@@ -26,12 +25,9 @@ export default {
       Sync.config(demo_instance_id)
     },
     'irs_plan:get_ous': (context, country_code) => {
-      // console.log('getting clusters')
+      context.commit('irs_plan:set_localities', [])
       return Sync.get_ous(country_code).then((results) => {
-        // TODO: @refac Do this model stuff somewhere else
-
         const localities = results.features
-
         context.commit('irs_plan:set_localities', localities)
       })
     },

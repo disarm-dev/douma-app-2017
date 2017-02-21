@@ -47,6 +47,9 @@
       }
     },
     methods: {
+      get_ous() {
+        return this.$store.dispatch("irs_plan:get_ous", this.country_code)
+      },
       start_clustering() {
         if(this.selected_localities.length === 0) return
 
@@ -56,10 +59,6 @@
             this.$router.push({name: 'irs_plan:clusters'})
           })  
       },
-      get_ous() {
-        this.$store.commit('irs_plan:set_localities', [])
-        return this.$store.dispatch("irs_plan:get_ous", this.country_code)
-      }
     }
   }
 </script>
