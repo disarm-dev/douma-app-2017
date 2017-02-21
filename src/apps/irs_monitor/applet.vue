@@ -4,10 +4,7 @@
 
 <script>
   export default {
-    name: 'IrsMonitorApplet',
-    mounted() {
-      this.$store.dispatch('irs_monitor:set_demo_instance_id', this.$store.state.meta.demo_instance_id)
-    }
+    name: 'IrsMonitorApplet'
   }
 </script>
 
