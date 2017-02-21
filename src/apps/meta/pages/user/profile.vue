@@ -49,8 +49,8 @@
 <style>
   .profile {
     max-width: 500px;
-    margin: 1em auto;
-    padding: 0 0.5em;
+    margin: 0 auto;
+    padding: 1em 0.5em;
   }
 
   .profile-text {
