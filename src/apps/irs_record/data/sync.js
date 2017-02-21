@@ -17,9 +17,6 @@ class Sync {
       filters.locations = locations
     }
 
-    // TODO: @feature exclude cluster ids that are stored locally
-    // filter.exclude_cluster_ids = [ids]
-
     return this.RemoteDB.read_clusters(filters) // returns a promise
   }
   
