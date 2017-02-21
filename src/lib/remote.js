@@ -27,6 +27,9 @@ class RemoteDBClass {
     } else if (filters.cluster_ids) {
       const params = JSON.stringify(filters.cluster_ids)
       url += `&ids=${params}`
+    } else if (filters.exclude_cluster_ids) {
+      const params = JSON.stringify(filters.exclude_cluster_ids)
+      url += `&exclude_ids=${params}`
     }
 
     return new Promise((resolve, reject) => {
