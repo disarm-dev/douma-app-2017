@@ -23,6 +23,7 @@
     methods: {
       save() {
         // dispatch update action
+        this.task.user_id = this.$store.state.meta.user.id
         this.$store.dispatch("irs_record:update_task", this.task).then(() => {
           // navigate back
           this.$router.push({name: 'irs_record:tasks', params: {cluster_id: this.cluster_id}})
