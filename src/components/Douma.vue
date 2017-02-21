@@ -1,7 +1,7 @@
 <template>
   <div>
       <div class="douma-toolbar">
-      <md-toolbar >
+      <md-toolbar class="md-whiteframe-1dp" >
         <md-button class="md-icon-button" @click.native="toggleSideNav">
           <md-icon>menu</md-icon>
         </md-button>
@@ -95,7 +95,7 @@
   body {
     padding-top: 64px;
   }
-  
+
   .douma-toolbar {
     position: fixed;
     width: 100%;
