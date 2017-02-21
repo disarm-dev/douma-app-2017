@@ -5,6 +5,20 @@ class RemoteDBClass {
     this.demo_instance_id = demo_instance_id
   }
 
+  count_tasks(filters) {
+    let url = DOUMA_API_URL + `/tasks/count?demo_instance_id=${this.demo_instance_id}` 
+    url += ('&query=' + JSON.stringify(filters))
+
+    return new Promise((resolve, reject) => {
+      fetch(url)
+        .then(res => res.json())
+        .then(json => {
+          resolve(json)            
+        })
+        .catch((error) => reject(error))
+    })
+  }
+
   read_clusters(filters) {
     let url = DOUMA_API_URL + `/clusters?demo_instance_id=${this.demo_instance_id}` 
     if (filters.locations) {
