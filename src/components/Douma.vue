@@ -1,13 +1,16 @@
 <template>
   <div>
-    <md-toolbar>
-      <md-button class="md-icon-button" @click.native="toggleSideNav">
-        <md-icon>menu</md-icon>
-      </md-button>
-      <!-- <h2 class="md-title" style="flex: 1; padding-left: 0.5em;">NMCP Swaziland | DiSARM</h2> -->
-      <h2 class="md-title" style="flex: 1"><bread-crumbs></bread-crumbs></h2> 
-      <!-- TODO: @feature Need to add breadcrumbs in each app -->
-    </md-toolbar>
+      <div class="douma-toolbar">
+      <md-toolbar >
+        <md-button class="md-icon-button" @click.native="toggleSideNav">
+          <md-icon>menu</md-icon>
+        </md-button>
+        <!-- <h2 class="md-title" style="flex: 1; padding-left: 0.5em;">NMCP Swaziland | DiSARM</h2> -->
+        <h2 class="md-title" style="flex: 1"><bread-crumbs></bread-crumbs></h2> 
+        <!-- TODO: @feature Need to add breadcrumbs in each app -->
+      </md-toolbar>
+    </div>
+    
 
     <md-sidenav class="md-left" ref="sideNav">
       <md-toolbar class="md-medium">
@@ -88,6 +91,15 @@
   }
 </script>
 
-<style scoped>
-
+<style>
+  body {
+    padding-top: 64px;
+  }
+  
+  .douma-toolbar {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 5;
+  }
 </style>
