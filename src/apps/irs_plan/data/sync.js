@@ -4,27 +4,31 @@
 import LocalDB from '../../../lib/local.js'
 import RemoteDBClass from '../../../lib/remote.js'
 
-
 class Sync {
 
   constructor() {
-    // this.R_SERVER_URL = 'http://35.187.40.238:8080'
-    this.R_SERVER_URL = 'http://localhost:3000'
+    this.R_SERVER_URL = 'http://35.187.40.238:3000'
   }
 
   config(demo_instance_id) {
     this.demo_instance_id = demo_instance_id
   }
 
-  // Get all clusters
+  // Get OperationalUnits for given country_code
   get_ous(country_code) {
+    // let ous = JSON.parse(localStorage.getItem(`douma-${country_code}-ous`))
+
+    // if(ous) return new Promise((resolve, reject) => resolve(ous))
+
     const url = this.R_SERVER_URL + `/localities?country_code=${country_code}`
 
     return fetch(url, {mode: 'cors'})
       .then(res => res.json())
+      // .then(json => {
+        // console.log('save to localStorage')
+        // return JSON.stringify(localStorage.setItem(`douma-${country_code}-ous`, json))
+      // })
       .catch(err => console.error(err))
-    // const localities = require('./localities.json')
-    // return new Promise((resolve, reject) => resolve(localities))
   }
 
   get_clusters(parameters) {
@@ -45,24 +49,6 @@ class Sync {
         console.log("Some error instead")
         console.error(err)
       })
-
-
-    // return new Promise((resolve, reject) => {
-    //   var data = JSON.stringify(parameters);
-    //   var xhr = new XMLHttpRequest();
-    //   xhr.withCredentials = true;
-
-    //   xhr.addEventListener("readystatechange", function () {
-    //     if (this.readyState === this.DONE) {
-    //       resolve(this.responseText)
-    //     }
-    //   });
-
-    //   xhr.open("POST", url, true);
-    //   xhr.setRequestHeader("content-type", "application/json");
-
-    //   xhr.send(data);
-    // })
   }
 
 }
