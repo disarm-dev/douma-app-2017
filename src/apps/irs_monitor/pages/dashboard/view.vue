@@ -69,6 +69,7 @@
       }
     },
     mounted() {
+      this.$store.dispatch('irs_monitor:set_demo_instance_id', this.$store.state.meta.demo_instance_id)
       this.$store.dispatch('irs_monitor:get_tasks_count')
       this.$store.dispatch('irs_monitor:get_tasks_unvisited')
       this.$store.dispatch('irs_monitor:get_tasks_successful')
