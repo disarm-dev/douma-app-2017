@@ -46,6 +46,7 @@ export default {
         type: 'FeatureCollection', 
         features: context.state.selected_localities
       }
+
       polygons = remove_properties(polygons)
 
       return Sync.cluster_yourself({country_code, polygons, dist_km, max_size})
