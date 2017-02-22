@@ -44,7 +44,7 @@
     data() {
       return {
         can_start_clustering: true,
-        country_code: 'SWZ',
+        country_code: 'ZWE',
         risk_slider: 0,
         slider_options: {
           min: 1,
@@ -71,6 +71,7 @@
       get_ous() {
         return this.$store.dispatch("irs_plan:get_ous", this.country_code).then(res => {
           this.slider_options.max = res.length
+          this.risk_slider = res.length
         })
       },
       start_clustering() {
