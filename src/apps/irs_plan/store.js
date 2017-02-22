@@ -1,6 +1,8 @@
 // Store for 'IRS Plan' applet
 
 import Sync from './data/sync.js'
+import merge_polygons from '../../lib/map_helpers'
+
 
 export default {
   state: {
@@ -40,17 +42,13 @@ export default {
       const dist_km = 0.25
       const max_size = 50
 
-      const polygons = {
-        type: 'FeatureCollection',
-        features: context.state.selected_localities
-      }
+      const polygons = merge_polygons(context.state.selected_localities)
 
       return Sync.cluster_yourself({country_code, polygons, dist_km, max_size})
       .then(res => {
         context.commit("irs_plan:set_clusters", res)
         return res
     })
-      // .catch(err => console.error(err))
     } 
   }
 }
