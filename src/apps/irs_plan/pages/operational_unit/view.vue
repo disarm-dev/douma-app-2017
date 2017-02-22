@@ -71,7 +71,7 @@
       get_ous() {
         return this.$store.dispatch("irs_plan:get_ous", this.country_code).then(res => {
           this.slider_options.max = res.length
-          this.risk_slider = res.length
+          this.slider_options.value = res.length
         })
       },
       start_clustering() {
