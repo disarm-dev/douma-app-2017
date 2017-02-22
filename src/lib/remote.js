@@ -19,7 +19,7 @@ class RemoteDBClass {
     })
   }
 
-  read_clusters(filters) {
+  read_clusters(filters = {}) {
     let url = DOUMA_API_URL + `/clusters?demo_instance_id=${this.demo_instance_id}` 
     if (filters.locations) {
       const params = JSON.stringify(filters.locations)
