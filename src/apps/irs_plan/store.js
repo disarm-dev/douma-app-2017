@@ -29,6 +29,7 @@ export default {
       return Sync.get_ous(country_code).then((results) => {
         const localities = results.features
         context.commit('irs_plan:set_localities', localities)
+        return Promise.resolve(localities)
       })
     },
     'irs_plan:get_clusters': (context) => {
