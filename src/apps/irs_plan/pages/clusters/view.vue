@@ -9,7 +9,9 @@
   export default {
     name: 'ClustersView',
     mounted() {
-      this.$store.dispatch("irs_plan:load_clusters")
+      this.$store.dispatch("irs_plan:load_clusters").then(res => {
+        if(!res) this.$router.push({name:'irs_plan:operational_unit'})
+      })
     }
   }
 </script>

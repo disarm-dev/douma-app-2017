@@ -32,7 +32,6 @@ export default {
       })
     },
     'irs_plan:load_clusters': (context) => {
-      // console.log('wanna get some clusters. init. for demo_instance_id', context.rootState.meta.demo_instance_id)
       return Sync.load_clusters
     },
     'irs_plan:start_clustering': (context, country_code) => {
@@ -46,7 +45,7 @@ export default {
 
       return Sync.cluster_yourself({country_code, polygons, dist_km, max_size})
       .then(res => context.commit("irs_plan:set_clusters", res))
-      .catch(err => console.error(err))
+      // .catch(err => console.error(err))
     } 
   }
 }

@@ -59,9 +59,6 @@ class Sync {
     return fetch(url, options)
       .then((res) => {
         return res.json()
-      }).catch(err => {
-        console.log("Some error instead")
-        console.error(err)
       })
   }
 

@@ -17,6 +17,11 @@
     <md-progress :md-indeterminate='$store.state.irs_record.sync_in_progress'></md-progress>
 
     <router-view :selected_localities='selected_localities'></router-view>
+
+    <md-snackbar :md-position="snack_bar.vertical + ' ' + snack_bar.horizontal" ref="snackbar" :md-duration="snack_bar.duration">
+      <span>Cannot reach server.</span>
+      <!-- <md-button class="md-accent" md-theme="light-blue" @click.native="$refs.snackbar.close()">Retry</md-button> -->
+    </md-snackbar>
   
   </div>
 </template>
@@ -35,6 +40,11 @@
           min: 0,
           max: 5,
           interval: 0.5
+        },
+        snack_bar: {
+          vertical: 'top',
+          horizontal: 'center',
+          duration: 4000
         }
       }
     },
@@ -56,7 +66,10 @@
         this.$store.dispatch("irs_plan:start_clustering", this.country_code)
           .then((res) => {
             this.$router.push({name: 'irs_plan:clusters'})
-          })  
+          })
+          .catch(() => {
+            this.$refs.snackbar.open()
+          })
       },
     }
   }
