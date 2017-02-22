@@ -7,8 +7,7 @@ import RemoteDBClass from '../../../lib/remote.js'
 class Sync {
 
   constructor() {
-    // this.R_SERVER_URL = 'http://35.187.40.238:3000'
-    this.R_SERVER_URL = 'http://localhost:3000'
+    this.R_SERVER_URL = 'http://35.187.40.238:3000'
   }
 
   config(demo_instance_id) {

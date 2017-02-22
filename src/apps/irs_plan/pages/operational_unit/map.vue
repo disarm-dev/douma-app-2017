@@ -56,10 +56,6 @@
         const localities_layer = L.geoJSON(localities_geojson, {
           style: (feature, layer) => {
             let style = { color: 'lightblue' }  
-            // if (this.selected_localities.length !== 0) {
-            //   style.color = green
-            // }
-
             return style
           },
           onEachFeature: (feature, layer) => {
