@@ -13,7 +13,7 @@
 
       <md-card-content>
         <md-subheader>Clear the IRS databases</md-subheader>
-        <md-button class='md-warn md-raised' @click.native='$store.dispatch("irs_record:clear_local_dbs")'>Clear</md-button>
+        <md-button class='md-warn md-raised' id="clear" @click.native="openDialog()">Clear</md-button>
       </md-card-content>
     </md-card>
 
@@ -31,6 +31,17 @@
 
     <p class="version">version: {{ version .substring(0,6)}}</p>
 
+    <md-dialog md-open-from="#clear" md-close-to="#clear" ref="dialog">
+      <md-dialog-title>Wipe everything?</md-dialog-title>
+
+      <md-dialog-content>You are about to remove all local data. Are you absolutely sure you wish to proceed?</md-dialog-content>
+
+      <md-dialog-actions>
+        <md-button class="md-primary" @click.native="closeDialog()">Cancel</md-button>
+        <md-button class="md-primary" @click.native='clear()'>Clear database</md-button>
+      </md-dialog-actions>
+    </md-dialog>
+
 </template>
 
 <script>
@@ -47,7 +58,17 @@
       },
       resetPassword() {
         this.$router.push({name: 'meta:resetpassword'})
-      }
+      },
+      clear() {
+        this.$store.dispatch("root:wipe_everything")
+        this.$refs.dialog.close();
+      },
+      openDialog(ref) {
+      this.$refs.dialog.open();
+      },
+      closeDialog(ref) {
+        this.$refs.dialog.close();
+      },
     }
   }
 </script>

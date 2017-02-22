@@ -14,6 +14,12 @@ const store = new Vuex.Store({
   state: {
   },
   mutations: {
+  },
+  actions: {
+    'root:wipe_everything': (context) => {
+      context.dispatch('irs_record:clear_local_dbs')
+      localStorage.clear();
+    }
   }
 })
 
