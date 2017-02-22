@@ -1,56 +1,32 @@
 import turf from '@turf/turf'
-import geoCoords from '@mapbox/geojson-coords'
+import turfHelpers from '@turf/helpers'
+import clone from 'clone'
+import union from '@turf/union'
 
-export default {
-  // TODO: @refac is this `buildFeatureCollection` duplicated in models.js?
-  buildFeatureCollection (array) { 
-    // Takes array of geometries from firebase
-    let output = {
-      type: "FeatureCollection",
-      features: []
+
+const merge_binary = (polygons_array) => {
+  const just_geoms = polygons_array.map((l) => {
+    return { geometry: l.geometry, type: l.type, properties: {} }
+  })
+  const polygons_to_merge = turfHelpers.featureCollection(just_geoms)
+
+  // From Turf CHANGELOG for v3.0.1 (https://github.com/Turfjs/turf/blob/master/CHANGELOG.md)
+  var merged = clone(polygons_to_merge.features[0]), features = polygons_to_merge.features;
+  for (var i = 0, len = features.length; i < len; i++) {
+    var poly = features[i]
+    if (!poly.geometry) return
+    try {
+      merged = union(merged, poly)
     }
-
-    output.features = array.map((i, index) => {
-      let obj = { type: 'Feature', properties: i, geometry: i.geometry }
-
-      // Remove duplicate
-      delete obj.properties.geometry
-
-      // TODO: @debug Remove this `casePresent` for-debugging-only property
-      obj.properties.casePresent = Math.random() >= 0.5 // random boolean, was `!!(i.actioned)`
-
-      return obj
-    })
-
-    // Returns a FeatureCollection
-    return output 
-  },
-  // Doesn't return a FeatureCollection
-  convertPolygonsToCentroids (polygons) {
-    // Takes array of polygons
-    const centroids = polygons.features.map((polygon) => {
-      const centroidFeature = turf.centroid(polygon)
-      centroidFeature.properties = polygon.properties
-      return centroidFeature
-    })
-
-    // Returns FeatureCollection of centroids
-    return turf.featureCollection(centroids) 
-  },
-
-  guessFociBoundary (structuresFc) {
-    // Returns a FeatureCollection
-    // create convex hull
-    const caseCentroids = this.convertPolygonsToCentroids(structuresFc).features.filter((i) => i.properties.casePresent)
-    const caseCentroidsFeatureCollection = {
-      type: 'FeatureCollection', 
-      features: caseCentroids
+    catch (e) {
+      // console.log('Failed for', poly, 'with', e)
     }
-    const hull = turf.convex(caseCentroidsFeatureCollection)
-    // const bufferedHull = turf.buffer(hull, 15, 'metres')
+  }
 
-    // const simplified = this.simplifyPolygon(geoCoords(bufferedHull))
-
-    return hull
-  },
+  let polygons = turfHelpers.featureCollection(merged)
+  // TODO: @refac Make sure API can accept `features` as a single object as well as an array
+  // Create FeatureCollection by hand to ensure 'features' stays an array - required by the API?
+  return polygons.features = [polygons.features]
 }
+
+export default merge_binary
