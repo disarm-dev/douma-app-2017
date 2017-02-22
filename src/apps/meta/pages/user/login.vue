@@ -6,43 +6,25 @@
         <form novalidate @submit.stop.prevent="login">
           <div>
             <md-icon class="login-icon">person</md-icon>
-            <p class="md-body-1 login-text">{{msg}}</p>
           </div>
-
+          <p class="md-body-1 login-text">Welcome to the DiSARM demo.</p>
+          <p class="md-body-1">
+            For the purpose of the demo, below is an auto-generated Demo Account ID that will give you access to the DiSARM Intervention-Targeting Module.
+          </p>
+          <p class="md-body-1">
+            It is likely that you will want to show others (including the DiSARM Team) what you can do with the software. To do this, you can give those interested the same Demo Account ID that you have, so that they can view the same data you have been using.
+          </p>
           <md-input-container>
             <label>Demo instance ID</label>
             <md-input v-model='demo_instance_id'></md-input>
           </md-input-container>
-
           <md-list>
-            <md-list-item v-for='user in users' @click.native='fake_login(user)'>
-              {{user.name}}
+            <md-list-item v-for='user in users' >
+              {{user.name}} <md-button class="md-raised md-primary" @click.native="fake_login(user)">Login</md-button>
             </md-list-item>
           </md-list>
 
-
-<!--           <md-input-container>
-            <label>Email</label>
-            <md-input type="email" v-model.trim="email"></md-input>
-          </md-input-container>
-
-          <md-input-container>
-            <label>Password</label>
-            <md-input type="password" v-model="password"></md-input>
-          </md-input-container>
-
-          <p class="md-body-1">
-            <a @click.native="$router.push({name: 'meta:resetpassword'})">Forgot your password?</a>
-          </p>
-
-          <md-button type="submit" class="md-raised md-primary login-button" :disabled="disabled">Login</md-button>
-        </form>
-        <hr />
-        <div>
-          <p class="md-body-1 text-center">Don't have an account?</p>
-          <md-button class="login-button md-raised md-accent" @click.native="$router.push({name: 'meta:newuser'})">Sign up</md-button>
-        </div>
- -->      </md-card-content>
+     </md-card-content>
     </md-card>
 
   </div>
