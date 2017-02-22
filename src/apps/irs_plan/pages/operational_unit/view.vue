@@ -44,7 +44,7 @@
     data() {
       return {
         can_start_clustering: true,
-        country_code: 'ZWE',
+        country_code: 'SWZ',
         risk_slider: 0,
         slider_options: {
           min: 1,
