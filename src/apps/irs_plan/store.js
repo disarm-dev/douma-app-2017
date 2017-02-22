@@ -1,6 +1,7 @@
 // Store for 'IRS Plan' applet
 
 import Sync from './data/sync.js'
+import turfHelpers from '@turf/helpers'
 
 export default {
   state: {
@@ -40,10 +41,7 @@ export default {
       const dist_km = 0.25
       const max_size = 50
 
-      const polygons = {
-        type: 'FeatureCollection',
-        features: context.state.selected_localities
-      }
+      const polygons = turfHelpers.featureCollection(context.state.selected_localities)
 
       return Sync.cluster_yourself({country_code, polygons, dist_km, max_size})
       .then(res => {
