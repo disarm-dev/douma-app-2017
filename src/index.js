@@ -28,6 +28,8 @@ Raven
 // Keep track of what version we're working on
 console.info('DOUMA version: ' + COMMIT_HASH)
 
+window.COMMIT_HASH = COMMIT_HASH
+
 // Create some very useful and simple global storage, especially for Maps
 // TODO: @refac Replace `douma.data` global with something else. Another global of some kind?
 window.douma = {

@@ -2,7 +2,10 @@
   <div class='profile'>
     <md-card style="margin: 1em 0;">
       <md-card-content>
-        <md-subheader>Welcome to DiSARM</md-subheader>
+        <md-subheader>Welcome to DiSARM </md-subheader>
+
+        <span class="version">version: {{ version .substring(0,6)}}</span>
+
         <p>Some content here</p>
       </md-card-content>
       <md-card-content>
@@ -35,6 +38,11 @@
 <script>
   export default {
     name: 'ProfileView',
+    data() {
+      return {
+        version: COMMIT_HASH
+      }
+    },
     methods: {
       logout() {
         this.$router.push({name: 'meta:logout'})
@@ -55,6 +63,11 @@
 
   .profile-text {
     padding-left: 16px;
+  }
+
+  .version {
+    color: rgba(0,0,0,.54);
+    padding-left: 1.3em;
   }
 
 </style>
