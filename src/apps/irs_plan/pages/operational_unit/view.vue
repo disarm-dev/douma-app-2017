@@ -1,23 +1,36 @@
 <template>
   <div>
-    <h1>OperationalUnitView</h1>
-    <md-input-container>
-      <label for="country_code">Country</label>
-      <md-select name="country_code" v-model="country_code">
-        <md-option value="SWZ">Swaziland</md-option>
-        <md-option value="ZWE">Zimbabwe (Mat-South)</md-option>
-      </md-select>
-    </md-input-container>
-    <md-button @click.native='get_ous'>Get OUs</md-button>
-
-    <label>Select risk threshold (i.e. cases per 1000 greater than this value)</label>
-    <vue-slider v-bind="slider_options" v-model="risk_slider"></vue-slider>
-    <div>Selected localities count = {{selected_localities.length}} </div>
-    <md-button v-if='selected_localities.length > 0' class='md-raised md-accent' @click.native='start_clustering'>Start clustering</md-button>
-     <md-progress :md-indeterminate='$store.state.irs_record.sync_in_progress'></md-progress>
+    <div class='container'>    
+      <h1>OperationalUnitView</h1>
+      <md-input-container v-if='sorted_localities.length === 0'>
+        <label for="country_code">Country</label>
+        <md-select name="country_code" v-model="country_code">
+          <md-option value="SWZ">Swaziland</md-option>
+          <md-option value="ZWE">Zimbabwe (Mat-South)</md-option>
+        </md-select>
+        <md-button @click.native='get_ous'>Get OUs</md-button>
+      </md-input-container>
 
 
+      <!-- SELECTION SLIDER -->
+      <div v-if='sorted_localities.length > 0'>
+        <md-input-container
+          <label>Select number of localities (ordered ascending by risk)</label>
+          <vue-slider v-bind="slider_options" v-model="risk_slider"></vue-slider>
+
+          <!-- START CLYSTERING BUTTON -->
+          <md-button class='md-raised md-accent' :disabled='!can_start_clustering' @click.native='start_clustering'>Start clustering</md-button>
+          <md-progress :md-indeterminate='$store.state.meta.sync_in_progress'></md-progress>
+        </md-input-container>
+      </div>
+    </div>
+    <!-- ROUTER-VIEW -->
     <router-view :selected_localities='selected_localities'></router-view>
+
+    <!-- SNACKBAR -->
+    <md-snackbar :md-position="snack_bar.vertical + ' ' + snack_bar.horizontal" ref="snackbar" :md-duration="snack_bar.duration">
+      <span>Cannot reach server.</span>
+    </md-snackbar>
   
   </div>
 </template>
@@ -30,35 +43,64 @@
     components: {vueSlider},
     data() {
       return {
-        country_code: 'SWZ',
+        can_start_clustering: true,
+        country_code: 'ZWE',
         risk_slider: 0,
         slider_options: {
-          min: 0,
+          min: 1,
           max: 5,
-          interval: 0.1
+          value: 1,
+          interval: 1
+        },
+        snack_bar: {
+          vertical: 'top',
+          horizontal: 'center',
+          duration: 4000
         }
       }
     },
     computed: {
+      sorted_localities() {
+        return this.$store.state.irs_plan.localities.sort((a,b) => a.properties.MaxRisk - b.properties.MaxRisk).reverse()
+      },
       selected_localities() {
-        return this.$store.state.irs_plan.localities.filter(locality => {
-          return locality.properties.MaxRisk >= this.risk_slider
-        })
+        return this.sorted_localities.slice(0, this.risk_slider)
       }
     },
     methods: {
       get_ous() {
-        return this.$store.dispatch("irs_plan:get_ous", this.country_code)
+        return this.$store.dispatch("irs_plan:get_ous", this.country_code).then(res => {
+          this.slider_options.max = res.length
+          this.risk_slider = res.length
+        })
       },
       start_clustering() {
         if(this.selected_localities.length === 0) return
 
         this.$store.commit("irs_plan:set_selected_localities", this.selected_localities)
+
+        this.can_start_clustering = false
+
         this.$store.dispatch("irs_plan:start_clustering", this.country_code)
           .then((res) => {
-            this.$router.push({name: 'irs_plan:clusters'})
-          })  
+            this.can_start_clustering = true
+            if(res.error) {
+              this.$refs.snackbar.open()
+            } else {
+              this.$router.push({name: 'irs_plan:clusters'})
+            }
+          })
+          .catch(() => {
+            this.can_start_clustering = true
+            this.$refs.snackbar.open()
+          })
       },
     }
   }
 </script>
+
+<style>
+  .container {
+    margin: 10px;
+  }
+</style>

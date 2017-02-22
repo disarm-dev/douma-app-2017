@@ -7,11 +7,13 @@ import RemoteDBClass from '../../../lib/remote.js'
 class Sync {
 
   constructor() {
-    this.R_SERVER_URL = 'http://35.187.40.238:3000'
+    // this.R_SERVER_URL = 'http://35.187.40.238:3000'
+    this.R_SERVER_URL = 'http://localhost:3000'
   }
 
   config(demo_instance_id) {
     this.demo_instance_id = demo_instance_id
+    this.RemoteDB = new RemoteDBClass(this.demo_instance_id)
   }
 
   // Get OperationalUnits for given country_code
@@ -39,7 +41,11 @@ class Sync {
       .catch(err => console.error(err))
   }
 
-  get_clusters(parameters) {
+  get_clusters(country_code) {
+    return this.RemoteDB.read_clusters()
+  }
+
+  cluster_yourself(parameters) {
     const url = this.R_SERVER_URL + '/clusters'
 
     const options = {
@@ -53,9 +59,6 @@ class Sync {
     return fetch(url, options)
       .then((res) => {
         return res.json()
-      }).catch(err => {
-        console.log("Some error instead")
-        console.error(err)
       })
   }
 

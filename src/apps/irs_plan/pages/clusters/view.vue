@@ -7,6 +7,13 @@
 
 <script>
   export default {
-    name: 'ClustersView'
+    name: 'ClustersView',
+    mounted() {
+      if(this.$store.state.irs_plan.clusters.length === 0) {
+        this.$store.dispatch("irs_plan:get_clusters").then(res => {
+          if(res.length === 0) this.$router.push({name:'irs_plan:operational_unit'})
+        })
+      }
+    }
   }
 </script>
