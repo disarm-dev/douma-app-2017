@@ -24,29 +24,7 @@
             </md-list-item>
           </md-list>
 
-
-<!--           <md-input-container>
-            <label>Email</label>
-            <md-input type="email" v-model.trim="email"></md-input>
-          </md-input-container>
-
-          <md-input-container>
-            <label>Password</label>
-            <md-input type="password" v-model="password"></md-input>
-          </md-input-container>
-
-          <p class="md-body-1">
-            <a @click.native="$router.push({name: 'meta:resetpassword'})">Forgot your password?</a>
-          </p>
-
-          <md-button type="submit" class="md-raised md-primary login-button" :disabled="disabled">Login</md-button>
-        </form>
-        <hr />
-        <div>
-          <p class="md-body-1 text-center">Don't have an account?</p>
-          <md-button class="login-button md-raised md-accent" @click.native="$router.push({name: 'meta:newuser'})">Sign up</md-button>
-        </div>
- -->      </md-card-content>
+     </md-card-content>
     </md-card>
 
   </div>
