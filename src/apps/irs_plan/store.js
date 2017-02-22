@@ -2,6 +2,9 @@
 
 import Sync from './data/sync.js'
 import turfHelpers from '@turf/helpers'
+import merge from 'turf-merge'
+import turf from '@turf/turf'
+window.turf = turf
 
 export default {
   state: {
@@ -40,15 +43,33 @@ export default {
     'irs_plan:start_clustering': (context, country_code) => {
       const dist_km = 0.25
       const max_size = 50
+      let polygons
 
-      const polygons = turfHelpers.featureCollection(context.state.selected_localities)
+      try {
+        const just_geoms = context.state.selected_localities.map((l) => {
+          return { geometry: l.geometry, type: l.type, properties: {} }
+        })
+
+        const merged_polygons = merge(turfHelpers.featureCollection(just_geoms))
+        polygons = turfHelpers.featureCollection(merged_polygons)
+        // // TODO: @refac Make sure API can accept `features` as a single object as well as an array
+        // // Create FeatureCollection by hand to ensure 'features' stays an array - required by the API?
+        polygons.features = [polygons.features]
+      }
+      catch (e) {
+        console.log('Using multiple polygons')
+        polygons = {
+          type: 'FeatureCollection',
+          features: [context.state.selected_localities]
+        }
+      }
+      debugger
 
       return Sync.cluster_yourself({country_code, polygons, dist_km, max_size})
       .then(res => {
         context.commit("irs_plan:set_clusters", res)
         return res
     })
-      // .catch(err => console.error(err))
     } 
   }
 }
