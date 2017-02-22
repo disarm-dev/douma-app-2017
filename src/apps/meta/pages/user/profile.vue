@@ -2,13 +2,11 @@
   <div class='profile'>
     <md-card style="margin: 1em 0;">
       <md-card-content>
-        <md-subheader>Welcome to DiSARM </md-subheader>
+        <p class="md-title profile-title">Welcome to DiSARM </p>
 
-        
+        <md-subheader>Demo instance ID</md-subheader>
+        <p class="profile-text">{{$store.state.meta.demo_instance_id}}</p>
 
-        <p>Some content here</p>
-      </md-card-content>
-      <md-card-content>
         <md-subheader>You can use the following pieces/apps:</md-subheader>
         <md-button v-for='app in $store.state.meta.user.allowed_apps.read' class='md-raised md-primary' @click.native="$router.push(`/${app}`)">{{app}}</md-button>
       </md-card-content>
@@ -21,8 +19,6 @@
 
     <md-card>
       <md-card-content>
-        <md-subheader>DOUMA Team ID</md-subheader>
-        <p class="profile-text">{{$store.state.meta.demo_instance_id}}</p>
         <md-subheader>Name</md-subheader>
         <p class="profile-text">{{$store.state.meta.user.name}}</p>
         <md-subheader>Email</md-subheader>
@@ -61,6 +57,10 @@
     max-width: 500px;
     margin: 0 auto;
     padding: 1em 0.5em;
+  }
+
+  .profile-title {
+    padding: 8px 16px;
   }
 
   .profile-text {
