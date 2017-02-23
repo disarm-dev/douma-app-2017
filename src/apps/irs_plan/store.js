@@ -1,8 +1,7 @@
 // Store for 'IRS Plan' applet
 
 import Sync from './data/sync.js'
-import {remove_properties} from '../../lib/map_helpers'
-
+import {merge, remove_properties} from '../../lib/map_helpers'
 
 export default {
   state: {
