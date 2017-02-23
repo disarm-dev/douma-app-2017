@@ -56,6 +56,9 @@ export default {
         context.commit("irs_plan:set_clusters", res)
         return res
     })
+    },
+    'irs_plan:post_clusters': (context) => {
+      return Sync.post_clusters(context.state.clusters)
     } 
   }
 }

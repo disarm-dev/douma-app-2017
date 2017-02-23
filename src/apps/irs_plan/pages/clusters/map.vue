@@ -1,6 +1,6 @@
 <template>
   <div>
-    <md-button @click.native='load'>load</md-button>
+    <md-button @click.native='post'>post</md-button>
     <div id='map'></div>
   </div>
 </template>
@@ -51,7 +51,10 @@
         // Create GeoJSON from search_results
         const geojson_search_results = this.$store.state.irs_plan.clusters.map(cluster => {
           // cluster.polygon.properties.original_cluster = cluster
-          return cluster.polygon
+          if (cluster.hasOwnProperty('polygon')) {
+            return cluster.polygon  
+          }
+          return cluster.geometry
         })
 
         this.clusters_layer = L.geoJSON(geojson_search_results, {
@@ -72,6 +75,11 @@
       },
       select_cluster(cluster) {
         this.$router.push({name: 'irs_plan:cluster', params: {cluster_id: cluster._id}})
+      },
+      post() {
+        this.$store.dispatch('irs_plan:post_clusters').then((res) => {
+          console.log(res)
+        }).catch(console.log)
       }
     }
   }
