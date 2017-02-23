@@ -49,12 +49,12 @@
         }
 
         // Create GeoJSON from search_results
-        // const geojson_search_results = this.$store.state.irs_plan.clusters.map(cluster => {
+        const geojson_search_results = this.$store.state.irs_plan.clusters.map(cluster => {
           // cluster.polygon.properties.original_cluster = cluster
-          // return cluster.polygon
-        // })
+          return cluster.polygon
+        })
 
-        this.clusters_layer = L.geoJSON(this.$store.state.irs_plan.clusters, {
+        this.clusters_layer = L.geoJSON(geojson_search_results, {
           style: (feature, layer) => {
               return { color: 'yellow' }
           },
@@ -65,6 +65,7 @@
             })
           }
         })
+
         this.map
           .addLayer(this.clusters_layer)
           .fitBounds(this.clusters_layer.getBounds())
