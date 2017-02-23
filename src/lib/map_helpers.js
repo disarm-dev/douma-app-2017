@@ -1,3 +1,21 @@
+import union from '@turf/union'
+import clone from 'clone'
+
+const merge = (feature_collection) => {
+  var merged = clone(feature_collection.features[0]), features = feature_collection.features, broken = []
+  for (var i = 0, len = features.length; i < len; i++) {
+    var poly = features[i];
+    if (poly.geometry) {
+      try {
+        merged = union(merged, poly)
+      }
+      catch(e) {
+        broken.push(poly)
+      }
+    }
+  }
+  return broken.concat(merged)
+}
 
 const remove_properties = (feature_collection) => {
   feature_collection.features = feature_collection.features.map((feature) => {
@@ -10,4 +28,4 @@ const remove_properties = (feature_collection) => {
   return feature_collection
 }
 
-export {remove_properties}
+export {merge, remove_properties}
