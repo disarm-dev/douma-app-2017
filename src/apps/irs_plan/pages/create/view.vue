@@ -2,28 +2,36 @@
   <div>
     <div class='container'>    
       <h1>OperationalUnitView</h1>
-      <md-input-container v-if='sorted_localities.length === 0'>
-        <label for="country_code">Country</label>
-        <md-select name="country_code" v-model="country_code">
-          <md-option value="SWZ">Swaziland</md-option>
-          <md-option value="ZWE">Zimbabwe (Mat-South)</md-option>
-        </md-select>
-        <md-button @click.native='get_ous'>Get OUs</md-button>
-      </md-input-container>
-
-
-      <!-- SELECTION SLIDER -->
-      <div v-if='sorted_localities.length > 0'>
-        <md-input-container
-          <label>Select number of localities (ordered ascending by risk)</label>
-          <vue-slider v-bind="slider_options" v-model="risk_slider"></vue-slider>
-
-          <!-- START CLYSTERING BUTTON -->
-          <md-button class='md-raised md-accent' :disabled='!can_start_clustering' @click.native='start_clustering'>Start clustering</md-button>
-          <md-progress :md-indeterminate='$store.state.meta.sync_in_progress'></md-progress>
+      <div v-show="currentRoute === 'irs_plan:create:select_ous'">
+        <md-input-container v-if='sorted_localities.length === 0'>
+          <label for="country_code">Country</label>
+          <md-select name="country_code" v-model="country_code">
+            <md-option value="SWZ">Swaziland</md-option>
+            <md-option value="ZWE">Zimbabwe (Mat-South)</md-option>
+          </md-select>
+          <md-button @click.native='get_ous'>Get OUs</md-button>
         </md-input-container>
+
+
+        <!-- SELECTION SLIDER -->
+        <div v-if='sorted_localities.length > 0'>
+          <md-input-container
+            <label>Select number of localities (ordered ascending by risk)</label>
+            <vue-slider v-bind="slider_options" v-model="risk_slider"></vue-slider>
+
+            <!-- START CLYSTERING BUTTON -->
+            <md-button class='md-raised md-accent' :disabled='!can_start_clustering' @click.native='start_clustering'>Start clustering</md-button>
+            <md-progress :md-indeterminate='$store.state.meta.sync_in_progress'></md-progress>
+          </md-input-container>
+        </div>
       </div>
     </div>
+
+    <div v-show="currentRoute === 'irs_plan:create:preview'">
+      <md-button @click.native="$router.push({name: 'irs_plan:create:select_ous'})">Edit localities</md-button>
+      <md-button @click.native="post_clusters">Post clusters</md-button>
+    </div>
+
     <!-- ROUTER-VIEW -->
     <router-view :selected_localities='selected_localities'></router-view>
 
@@ -65,6 +73,9 @@
       },
       selected_localities() {
         return this.sorted_localities.slice(0, this.risk_slider)
+      },
+      currentRoute() {
+        return this.$route.name
       }
     },
     methods: {
@@ -90,7 +101,7 @@
             if(res.error) {
               this.$refs.snackbar.open()
             } else {
-              this.$router.push({name: 'irs_plan:clusters'})
+              this.$router.push({name: 'irs_plan:create:preview'})
             }
           })
           .catch(() => {
@@ -98,6 +109,12 @@
             this.$refs.snackbar.open()
           })
       },
+      post_clusters() {
+        this.$store.dispatch('irs_plan:post_clusters').then(() => {
+          console.log('posted clusters')  
+        })
+        
+      }
     }
   }
 </script>

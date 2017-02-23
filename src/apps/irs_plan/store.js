@@ -59,6 +59,9 @@ export default {
     },
     'irs_plan:post_clusters': (context) => {
       return Sync.post_clusters(context.state.clusters)
+    },
+    'irs_plan:delete_clusters': (context) => {
+      return Sync.delete_clusters()
     } 
   }
 }
