@@ -39,7 +39,7 @@
     },
     computed: {
       selector_title() {
-        return this.selected_spray_team ? this.selected_spray_team.name : "Select spray team"
+        return this.selected_spray_team ? this.selected_spray_team.name : "Select spray team to assign tasks"
       }
     },
     methods: {
