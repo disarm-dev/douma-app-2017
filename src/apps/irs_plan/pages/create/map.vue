@@ -9,7 +9,7 @@
   import 'leaflet/dist/leaflet.css'
 
   export default {
-    name: 'OperationalUnitMap',
+    name: 'SelectOUs',
     props: ['selected_localities'],
     data() {
       return {
