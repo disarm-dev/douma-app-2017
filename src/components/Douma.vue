@@ -20,6 +20,7 @@
         </div>
         <div v-if="user">
           <p @click.native="navigate('meta:profile')">Logged in: {{user.email}}</p>
+          <p >Demo instance: <i>{{$store.state.meta.demo_instance_id}}</i></p>
         </div>
         <div v-else>
           <p>Nope, not logged in.</p>

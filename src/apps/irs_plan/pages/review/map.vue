@@ -10,7 +10,7 @@
   import 'leaflet/dist/leaflet.css'
 
   export default {
-    name: 'ClustersMap',
+    name: 'ReviewMap',
     data() {
       return {
         map: {},

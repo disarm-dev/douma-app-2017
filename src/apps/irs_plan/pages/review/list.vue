@@ -1,9 +1,9 @@
 <template>
-  <h1>ClustersList</h1>
+  <h1>ReviewList</h1>
 </template>
 
 <script>
   export default {
-    name: 'ClustersList'
+    name: 'ReviewList'
   }
 </script>

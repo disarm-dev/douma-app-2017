@@ -46,7 +46,7 @@
             fake_password: 'malaria',
             email: 'sprayer@bob.com', 
             allowed_apps: {
-              read: ['irs_monitor', 'irs_record'], 
+              read: ['irs_record'], 
               write: ['irs_record']
             }
           },{
