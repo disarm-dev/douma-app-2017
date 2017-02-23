@@ -14,7 +14,10 @@ const merge = (feature_collection) => {
       }
     }
   }
-  return broken.concat(merged)
+  return {
+    type: 'FeatureCollection',
+    features: broken.concat(merged)
+  }
 }
 
 const remove_properties = (feature_collection) => {

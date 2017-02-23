@@ -47,6 +47,7 @@ export default {
       }
 
       polygons = remove_properties(polygons)
+      polygons = merge(polygons)
 
       return Sync.cluster_yourself({country_code, polygons, dist_km, max_size})
       .then(res => {

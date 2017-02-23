@@ -36,7 +36,7 @@
 </template>
 
 <script>
-  import vueSlider from 'vue-slider-component';
+  import vueSlider from 'vue-slider-component'
 
   export default {
     name: 'OperationalUnitView',
@@ -76,6 +76,9 @@
       },
       start_clustering() {
         if(this.selected_localities.length === 0) return
+
+        this.selected_localities = this.sorted_localities.slice(0, this.risk_slider)
+
 
         this.$store.commit("irs_plan:set_selected_localities", this.selected_localities)
 
