@@ -38,18 +38,18 @@ export default [
         ]
       },{
         path: '/irs_plan/create',
-        name: 'irs_plan:create'
+        name: 'irs_plan:create',
         component: CreateView,
         meta: {},
         children: [
           {
             path: 'select_ous',
-            name: 'irs_plan:create:select_ous'
+            name: 'irs_plan:create:select_ous',
             component: SelectOUs,
             meta: {}
           },{
             path: 'preview',
-            name: 'irs_plan:create:preview'
+            name: 'irs_plan:create:preview',
             component: Preview,
             meta: {}
           }
