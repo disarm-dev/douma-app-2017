@@ -1,7 +1,7 @@
 // Store for 'IRS Plan' applet
 
 import Sync from './data/sync.js'
-import {merge, remove_properties} from '../../lib/map_helpers'
+import {remove_properties} from '../../lib/map_helpers'
 
 export default {
   state: {
@@ -47,7 +47,6 @@ export default {
       }
 
       polygons = remove_properties(polygons)
-      polygons = merge(polygons)
 
       return Sync.cluster_yourself({country_code, polygons, dist_km, max_size})
       .then(res => {
