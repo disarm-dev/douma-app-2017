@@ -77,7 +77,7 @@
         }
       },
       can_login(){
-        return this.demo_instance_id.length > 9
+        return this.demo_instance_id.length > 5
       }
     },
     methods: {
