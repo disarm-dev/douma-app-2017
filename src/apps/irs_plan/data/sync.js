@@ -65,6 +65,10 @@ class Sync {
     return this.RemoteDB.post_clusters(clusters)
   }
 
+  delete_clusters(clusters) {
+    return this.RemoteDB.delete_clusters()
+  }
+
 }
 
 export default new Sync()
