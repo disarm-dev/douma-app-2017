@@ -7,7 +7,7 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server --content-base src/ --inline --hot --host 0.0.0.0",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "service-worker": "sw-precache --root=dist --maximum-file-size-to-cache-in-bytes=14194304 --navigate-fallback=index.html",
-    "deploy": "surge dist"
+    "build_deploy": "npm run build; npm run service-worker; surge dist/ https://douma-dev.surge.sh"
   },
   "dependencies": {
     "@mapbox/geojson-coords": "^0.0.0",
