@@ -22,9 +22,15 @@ npm run build
 # Create service worker
 npm run service-worker 
 
+# Build and deploy to surge
+npm run build_deploy 
+
 # Deploy to surge
 npm run deploy 
 ```
+
+Deployment to _surge_ will fail without the correct access. Obvs.
+
 
 ## Service Worker
 
