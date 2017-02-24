@@ -5,7 +5,8 @@
         <p class="md-title profile-title">Welcome to DiSARM </p>
 
         <md-subheader>You can use the following DiSARM applets:</md-subheader>
-        <md-button v-for='app in $store.state.meta.user.allowed_apps.read' class='md-raised md-primary' @click.native="$router.push(`/${app}`)">{{app}}</md-button>
+
+        <md-button v-for='app in $store.state.meta.user.allowed_apps.read' class='md-raised md-accent' @click.native="$router.push(`/${app}`)">{{app}}</md-button>
 
         <md-list class="md-double-line">
           <md-list-item>
@@ -27,7 +28,7 @@
         </md-list>
 
         <md-card-actions>
-          <md-button @click.native='logout' class='md-raised md-warn'>
+          <md-button @click.native='logout' class='md-raised md-primary'>
             Logout
           </md-button>
         </md-card-actions>
@@ -37,7 +38,7 @@
 
     <p class="debug-info">version: {{ version .substring(0,6)}}</p>
     <p class="debug-info">demo instance: {{$store.state.meta.demo_instance_id}}</p>
-    <md-button @click.native='openDialog()' class='md-dense debug-info'>clear local data</md-button>
+    <p @click='openDialog()' class='md-dense debug-info'>clear local data</p>
 
     <md-dialog md-open-from="#clear" md-close-to="#clear" ref="dialog">
       <md-dialog-title>Wipe everything?</md-dialog-title>
