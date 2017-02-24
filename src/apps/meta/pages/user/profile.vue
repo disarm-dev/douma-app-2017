@@ -4,32 +4,41 @@
       <md-card-content>
         <p class="md-title profile-title">Welcome to DiSARM </p>
 
-        <md-subheader>Demo instance ID</md-subheader>
-        <p class="profile-text">{{$store.state.meta.demo_instance_id}}</p>
+        <md-subheader>You can use the following DiSARM applets:</md-subheader>
 
-        <md-subheader>You can use the following pieces/apps:</md-subheader>
-        <md-button v-for='app in $store.state.meta.user.allowed_apps.read' class='md-raised md-primary' @click.native="$router.push(`/${app}`)">{{app}}</md-button>
-      </md-card-content>
+        <md-button v-for='app in $store.state.meta.user.allowed_apps.read' class='md-raised md-accent' @click.native="$router.push(`/${app}`)">{{app}}</md-button>
 
-      <md-card-content>
-        <md-subheader>Clear the IRS databases</md-subheader>
-        <md-button class='md-warn md-raised' id="clear" @click.native="openDialog()">Clear</md-button>
+        <md-list class="md-double-line">
+          <md-list-item>
+            <md-icon class="md-primary">person</md-icon>
+
+            <div class="md-list-text-container">
+              <span>{{$store.state.meta.user.name}}</span>
+              <span>Name</span>
+            </div>
+          </md-list-item>
+
+          <md-list-item>
+            <md-icon class="md-primary">email</md-icon>
+            <div class="md-list-text-container">
+              <span>{{$store.state.meta.user.email}}</span>
+              <span>Email</span>
+            </div>
+          </md-list-item>
+        </md-list>
+
+        <md-card-actions>
+          <md-button @click.native='logout' class='md-raised md-primary'>
+            Logout
+          </md-button>
+        </md-card-actions>
+
       </md-card-content>
     </md-card>
 
-    <md-card>
-      <md-card-content>
-        <md-subheader>Name</md-subheader>
-        <p class="profile-text">{{$store.state.meta.user.name}}</p>
-        <md-subheader>Email</md-subheader>
-        <p class="profile-text">{{$store.state.meta.user.email}}</p>
-
-        <md-button class="md-raised md-accent" @click.native="logout">Logout</md-button>
-        <md-button class="md-raised" @click.native="resetPassword">Reset password</md-button>
-      </md-card-content>
-    </md-card>
-
-    <p class="version">version: {{ version .substring(0,6)}}</p>
+    <p class="debug-info">version: {{ version .substring(0,6)}}</p>
+    <p class="debug-info">demo instance: {{$store.state.meta.demo_instance_id}}</p>
+    <p @click='openDialog()' class='md-dense debug-info'>clear local data</p>
 
     <md-dialog md-open-from="#clear" md-close-to="#clear" ref="dialog">
       <md-dialog-title>Wipe everything?</md-dialog-title>
@@ -64,7 +73,8 @@
         this.$refs.dialog.close();
       },
       openDialog(ref) {
-      this.$refs.dialog.open();
+        console.log(ref)
+        this.$refs.dialog.open();
       },
       closeDialog(ref) {
         this.$refs.dialog.close();
@@ -88,7 +98,7 @@
     padding-left: 16px;
   }
 
-  .version {
+  .debug-info {
     color: rgba(0,0,0,.54);
   }
 

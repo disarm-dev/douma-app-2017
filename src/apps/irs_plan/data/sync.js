@@ -7,7 +7,7 @@ import RemoteDBClass from '../../../lib/remote.js'
 class Sync {
 
   constructor() {
-    this.R_SERVER_URL = 'http://35.187.40.238:3000'
+    this.R_SERVER_URL = 'https://cluster.api.disarm.io'
   }
 
   config(demo_instance_id) {
@@ -59,6 +59,14 @@ class Sync {
       .then((res) => {
         return res.json()
       })
+  }
+
+  post_clusters(clusters) {
+    return this.RemoteDB.post_clusters(clusters)
+  }
+
+  delete_clusters(clusters) {
+    return this.RemoteDB.delete_clusters()
   }
 
 }

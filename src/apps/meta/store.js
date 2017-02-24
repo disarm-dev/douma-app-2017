@@ -1,24 +1,9 @@
 // Store for 'Meta' applet
+import {generate_demo_instance_id} from '../../lib/demo_instance_id'
 
 // Bootstrap user from localstorage
 const user = JSON.parse(localStorage.getItem('douma-user'))
 let demo_instance_id = JSON.parse(localStorage.getItem('douma-demo-instance-id'))
-
-function generate_demo_instance_id() {
-  const vowels = ["a","e","i","o","u"]
-  const consonants = ["b","c","d","f","g","h","j","k","l","m","n","p","q","r","s","t","v","x","w","y","z"]
-  let output = ''
-  for (let i = 1; i <= 8; i++) {
-    let character
-    if(i % 2 === 0) {
-      character = vowels[(Math.floor(Math.random() * vowels.length))]
-    } else {
-      character = consonants[(Math.floor(Math.random() * consonants.length))]
-    }
-    output += character
-  }
-  return output + '-' + new Date().getMilliseconds()
-}
 
 if (!demo_instance_id) { 
   demo_instance_id = generate_demo_instance_id()

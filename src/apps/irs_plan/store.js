@@ -35,7 +35,10 @@ export default {
     },
     'irs_plan:get_clusters': (context) => {
       Sync.config(context.rootState.meta.demo_instance_id)
-      return Sync.get_clusters()
+      return Sync.get_clusters().then((clusters) => {
+        context.commit('irs_plan:set_clusters', clusters)
+        return Promise.resolve(clusters)
+      })
     },
     'irs_plan:start_clustering': (context, country_code) => {
       const dist_km = 0.25
@@ -53,6 +56,12 @@ export default {
         context.commit("irs_plan:set_clusters", res)
         return res
     })
+    },
+    'irs_plan:post_clusters': (context) => {
+      return Sync.post_clusters(context.state.clusters)
+    },
+    'irs_plan:delete_clusters': (context) => {
+      return Sync.delete_clusters()
     } 
   }
 }

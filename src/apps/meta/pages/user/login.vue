@@ -17,10 +17,12 @@
           <md-input-container>
             <label>Demo instance ID</label>
             <md-input v-model='demo_instance_id'></md-input>
+            <md-button @click.native='generate_demo_instance_id'>Generate</md-button>
           </md-input-container>
+
           <md-list>
             <md-list-item v-for='user in users' >
-              {{user.name}} <md-button class="md-raised md-primary" @click.native="fake_login(user)">Login</md-button>
+              {{user.name}} <md-button :disabled='!can_login' class="md-raised md-primary" @click.native="fake_login(user)">Login</md-button>
             </md-list-item>
           </md-list>
 
@@ -31,11 +33,12 @@
 </template>
 
 <script>
+  import {generate_demo_instance_id} from '../../../../lib/demo_instance_id'
+
   export default {
     data() {
       return {
         msg: 'Please login below',
-        // demo_instance_id: , 
         disabled: false,
         email: '',
         password: '',
@@ -68,8 +71,13 @@
           return this.$store.state.meta.demo_instance_id
         },
         set(value){
+          // if (value == '') return // Don't set as blank
+          // if (value.length < 9) return
           return this.$store.commit("meta:set_demo_instance_id", value)
         }
+      },
+      can_login(){
+        return this.demo_instance_id.length > 9
       }
     },
     methods: {
@@ -85,6 +93,9 @@
         this.disabled = true
         this.$store.commit('meta:login_user', user)
         this.continue()
+      },
+      generate_demo_instance_id() {
+        return this.demo_instance_id = generate_demo_instance_id()
       },
       continue() {
         if (this.$store.state.meta.previousRoute) {

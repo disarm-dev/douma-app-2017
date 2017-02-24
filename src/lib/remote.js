@@ -104,6 +104,51 @@ class RemoteDBClass {
         })
     })
   }
+
+  post_clusters(clusters) {
+    let url = DOUMA_API_URL + `/clusters?demo_instance_id=${this.demo_instance_id}`
+    let options = {
+      body: JSON.stringify(clusters), 
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      method: 'POST'
+    }
+    return new Promise((resolve, reject) => {
+      fetch(url, options)
+        .then(res => res.json())
+        .then(json => {
+          resolve(json)            
+        })
+        .catch((error) => {
+          console.log(error)
+          reject(error)
+        })
+    })
+  }
+
+  delete_clusters() {
+    let url = DOUMA_API_URL + `/clusters?demo_instance_id=${this.demo_instance_id}`
+    let options = {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      method: 'DELETE'
+    }
+    return new Promise((resolve, reject) => {
+      fetch(url, options)
+        .then(res => res.json())
+        .then(json => {
+          resolve(json)            
+        })
+        .catch((error) => {
+          console.log(error)
+          reject(error)
+        })
+    })
+  }
 }
 
 export default RemoteDBClass
