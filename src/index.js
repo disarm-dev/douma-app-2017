@@ -24,6 +24,7 @@ Raven
   .config('https://05f42524abca4b84ba7a9b9d05fb620a@sentry.io/134727')
   .addPlugin(RavenVue, Vue)
   .install();
+Raven.setExtraContext({DOUMA_version: COMMIT_HASH})
 
 // Keep track of what version we're working on
 console.info('DOUMA version: ' + COMMIT_HASH)
