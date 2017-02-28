@@ -1,16 +1,15 @@
 // Manages local DB calls
 
 import DB from './db.js'
+window.DB = DB
 
 const clusters = {
   create: (clusters) => {
     return DB.clusters.bulkAdd(clusters)
   },
-  read: ({spray_team_id}) => {
-    if (spray_team_id) {
-      console.log(spray_team_id)
-      return DB.clusters.where({spray_team_id}).toArray()
-      // return DB.clusters.toArray()
+  read: (options) => {
+    if (options) {
+      return DB.clusters.where(options).toArray()
     } else {
       return DB.clusters.toArray()
     }

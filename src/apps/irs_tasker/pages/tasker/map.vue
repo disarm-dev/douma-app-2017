@@ -55,6 +55,7 @@
         Leaflet.tileLayer(url).addTo(this.map)
       },
       draw_clusters() {
+        console.log('draw_clusters irs_tasker')
         // Remove if exists
         let redrawing
 
@@ -72,8 +73,8 @@
         // Create GeoJSON from search_results
         const geojson_search_results = this.$store.state.irs_tasker.clusters.map(cluster => {
           const cluster_clone = JSON.parse(JSON.stringify(cluster))
-          cluster.polygon.properties.original_cluster = cluster_clone
-          return cluster.polygon
+          cluster.properties.original_cluster = cluster_clone
+          return cluster
         })
 
         const search_results_layer = L.geoJSON(geojson_search_results, {
@@ -106,7 +107,7 @@
 
         original_cluster.spray_team_id = this.selected_spray_team.id
 
-        this.$store.dispatch("irs_tasker:save_cluster", original_cluster)
+        this.$store.commit("irs_tasker:update_cluster", original_cluster)
       },
       select_spray_team(spray_team){
         this.selected_spray_team = spray_team

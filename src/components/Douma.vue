@@ -1,6 +1,10 @@
 <template>
   <div>
-      <div class="douma-toolbar">
+    <div class="douma-toolbar">
+      <template v-cloak>
+        <md-progress v-if='loading' class='md-accent' md-indeterminate></md-progress>
+      </template>
+      
       <md-toolbar class="md-whiteframe-1dp" >
         <md-button class="md-icon-button" @click.native="toggleSideNav">
           <md-icon>menu</md-icon>
@@ -10,7 +14,6 @@
         <!-- TODO: @feature Need to add breadcrumbs in each app -->
       </md-toolbar>
     </div>
-    
 
     <md-sidenav class="md-left" ref="sideNav">
       <md-toolbar class="md-medium">
@@ -40,6 +43,12 @@
       </md-list>
     </md-sidenav>
 
+    <!-- TODO: @feature INSERT SNACKBAR HERE -->
+    <md-snackbar md-position="top center" ref="snackbar" :md-duration="snackbar.duration">
+      <span>{{snackbar.message}}</span>
+      <md-button class="md-accent" md-theme="light-blue" @click.native="snackbar_action">Yes?</md-button>
+    </md-snackbar>
+
     <div>
       <!-- Most likely to contain the AppletContainer -->
       <router-view></router-view>
@@ -56,6 +65,9 @@
       BreadCrumbs
     },
     props: ['theme'],
+    watch: {
+      '$store.state.snackbar': 'snackbar_open'
+    },
     data() {
       return {
         showNav: true
@@ -78,6 +90,15 @@
       },
       user() {
         return this.$store.state.meta.user
+      },
+      snackbar() {
+        return {
+          ...this.$store.state.snackbar, 
+          duration: 7000
+        }
+      },
+      loading() {
+        return this.$store.state.loading
       }
     },
     methods: {
@@ -87,6 +108,14 @@
       },
       toggleSideNav() {
         this.$refs.sideNav.toggle();
+      },
+      snackbar_open() {
+        console.log('snackbar_open')
+        this.$refs.snackbar.open()
+      },
+      snackbar_action() {
+        this.$refs.snackbar.close()
+        this.snackbar.action()
       }
     }
   }
@@ -102,5 +131,9 @@
     width: 100%;
     top: 0;
     z-index: 5;
+  }
+
+  [v-cloak] {
+    display: none;
   }
 </style>
