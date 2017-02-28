@@ -8,6 +8,7 @@ class Sync {
 
   constructor() {
     this.R_SERVER_URL = 'https://cluster.api.disarm.io'
+    // this.R_SERVER_URL = 'http://localhost:4000'
   }
 
   config(demo_instance_id) {

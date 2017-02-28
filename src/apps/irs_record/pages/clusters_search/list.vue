@@ -8,7 +8,7 @@
         class='result'
         :class='{green: cluster.included}'>
         <md-icon>{{ cluster.included? 'check_box' : 'check_box_outline_blank'}}</md-icon>
-        <span>{{cluster.name}}</span>
+        <span>{{cluster._id}}</span>
       </md-list-item>
     </md-list>
   </div>
@@ -17,9 +17,10 @@
 <script>
   export default {
     name: 'ClustersSearchList',
+    props: ['clusters'],
     computed: {
       search_results() {
-        return this.$parent.search_results.map((r) => {
+        return this.clusters.map((r) => {
           r.included = this.$parent.clusters_to_open.includes(r)
           return r
         })

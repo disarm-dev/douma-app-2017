@@ -11,7 +11,11 @@
     name: 'TaskView',
     props: ['cluster_id', 'task_id'],
     mounted() {
-      this.$store.dispatch("irs_record:set_tasks_for_cluster", this.cluster_id)
+      const cluster = this.$store.state.irs_tasker.clusters.find(cluster => cluster._id === this.cluster_id)
+      this.$store.dispatch("irs_record:set_tasks_for_cluster", cluster)
+    },
+    watch: {
+      '$store.state.irs_record.tasks': 'set_tasks'
     },
     computed: {
       task() {
@@ -26,6 +30,9 @@
       },
     },
     methods: {
+      set_tasks() {
+        console.log('set_tasks')
+      },
       toggle_view() {
         this.$router.push({name: `irs_record:task:${this.toggle_to_view}`, params: {cluster_id: this.cluster_id, task_id: this.task_id}})
       },      

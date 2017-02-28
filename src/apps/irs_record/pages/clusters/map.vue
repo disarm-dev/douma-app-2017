@@ -10,6 +10,7 @@
 
   export default {
     name: 'ClustersMap',
+    props: ['clusters'],
     data() {
       return {
         map: {},
@@ -17,7 +18,7 @@
       }
     },
     watch: {
-      '$store.state.irs_record.clusters': 'draw_search_results',
+      'clusters': 'draw_search_results',
     },
     mounted() {
       this.create_map()
@@ -36,37 +37,36 @@
         Leaflet.tileLayer(url).addTo(this.map)
       },
       draw_search_results() {
+        let redrawing
         // Remove if exists
         if (this.search_results_layer) {
+          redrawing = true
           this.map.removeLayer(this.search_results_layer)
           this.search_results_layer = null
         }
 
         // Return unless there are search_results to render
-        if (this.$store.state.irs_record.clusters.length === 0) {
+        if (this.clusters.length === 0) {
           return
         }
 
-        // Create GeoJSON from search_results
-        const geojson_search_results = this.$store.state.irs_record.clusters.map(cluster => {
-          cluster.polygon.properties.original_cluster = cluster
-          return cluster.polygon
-        })
-
-        this.search_results_layer = L.geoJSON(geojson_search_results, {
+        const search_results_layer = L.geoJSON(this.clusters, {
           style: (feature, layer) => {
-              return { color: 'lightblue' }
+              return { color: '#F61FAB' }
           },
           onEachFeature: (feature, layer) => {
             layer.on('click', () => {
-              let cluster = Object.assign({}, feature.properties)
-              this.select_cluster(cluster.original_cluster)
+              this.select_cluster(feature)
             })
           }
         })
+
         this.map
-          .addLayer(this.search_results_layer)
-          .fitBounds(this.search_results_layer.getBounds())
+          .addLayer(search_results_layer)
+
+        if (!redrawing) this.map.fitBounds(search_results_layer.getBounds())
+        this.search_results_layer = search_results_layer
+
       },
       select_cluster(cluster) {
         this.$router.push({name: 'irs_record:cluster', params: {cluster_id: cluster._id}})

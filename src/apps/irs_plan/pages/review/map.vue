@@ -17,7 +17,7 @@
       }
     },
     watch: {
-      '$store.state.irs_plan.clusters': 'draw_clusters',
+      '$store.state.irs_tasker.clusters': 'draw_clusters',
     },
     mounted() {
       this.create_map()
@@ -43,20 +43,10 @@
         }
 
         // Return unless there are search_results to render
-        if (this.$store.state.irs_plan.clusters.length === 0) {
+        if (this.$store.state.irs_tasker.clusters.length === 0) {
           return
         }
-
-        // Create GeoJSON from search_results
-        const geojson_search_results = this.$store.state.irs_plan.clusters.map(cluster => {
-          // cluster.polygon.properties.original_cluster = cluster
-          if (cluster.hasOwnProperty('polygon')) {
-            return cluster.polygon  
-          }
-          return cluster.geometry
-        })
-
-        this.clusters_layer = L.geoJSON(geojson_search_results, {
+        this.clusters_layer = L.geoJSON(this.$store.state.irs_tasker.clusters, {
           style: (feature, layer) => {
               return { color: 'yellow' }
           },

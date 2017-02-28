@@ -10,7 +10,7 @@
     name: 'ClusterShow',
     props: ['cluster_id'],
     mounted() {
-      console.log(this.cluster)
+      console.log('ClusterShow', this.cluster)
     },
     computed: {
       cluster() {

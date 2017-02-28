@@ -5,8 +5,11 @@ class RemoteDBClass {
     this.demo_instance_id = demo_instance_id
   }
 
-  count_tasks(filters) {
-    let url = DOUMA_API_URL + `/tasks/count?demo_instance_id=${this.demo_instance_id}` 
+  // 
+  // CLUSTERS
+  // 
+  count_clusters(filters) {
+    let url = DOUMA_API_URL + `/clusters/count?demo_instance_id=${this.demo_instance_id}` 
     url += ('&query=' + JSON.stringify(filters))
 
     return new Promise((resolve, reject) => {
@@ -40,7 +43,6 @@ class RemoteDBClass {
   }
 
   update_clusters(clusters) {
-    console.log(clusters)
     const url = DOUMA_API_URL + `/clusters?demo_instance_id=${this.demo_instance_id}`
     const options = {
       body: JSON.stringify(clusters), 
@@ -52,57 +54,6 @@ class RemoteDBClass {
     }
     return fetch(url, options)
       .then((res) => res.json()) 
-  }
-
-  read_tasks(filters) {
-    let url = DOUMA_API_URL + `/tasks?demo_instance_id=${this.demo_instance_id}` 
-    
-    if (filters.task_ids) {
-      const params = JSON.stringify(filters.task_ids)
-      url += `&ids=${params}`
-    }
-    
-
-    return new Promise((resolve, reject) => {
-      fetch(url)
-        .then(res => res.json())
-        .then(json => {
-          resolve(json.data)            
-        })
-        .catch((error) => reject(error))
-    })
-  }
-
-  update_tasks(tasks) {
-    const url = DOUMA_API_URL + `/tasks?demo_instance_id=${this.demo_instance_id}`
-    const options = {
-      body: JSON.stringify(tasks), 
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      mode: 'cors',
-      method: 'PUT'
-    }
-    return fetch(url, options)
-      .then((res) => res.json()) 
-  }
-
-  read_spatial_entities(spatial_entity_ids) {
-    const params = JSON.stringify(spatial_entity_ids)
-    let url = DOUMA_API_URL + `/spatial_entities?demo_instance_id=${this.demo_instance_id}`
-    url += `&ids=${params}`
-
-    return new Promise((resolve, reject) => {
-      fetch(url)
-        .then(res => res.json())
-        .then(json => {
-          resolve(json.data)            
-        })
-        .catch((error) => {
-          console.log(error)
-          reject(error)
-        })
-    })
   }
 
   post_clusters(clusters) {
@@ -149,6 +100,78 @@ class RemoteDBClass {
         })
     })
   }
+
+
+  // 
+  // TASKS
+  // 
+  count_tasks(filters) {
+    let url = DOUMA_API_URL + `/tasks/count?demo_instance_id=${this.demo_instance_id}` 
+    url += ('&query=' + JSON.stringify(filters))
+
+    return new Promise((resolve, reject) => {
+      fetch(url)
+        .then(res => res.json())
+        .then(json => {
+          resolve(json)            
+        })
+        .catch((error) => reject(error))
+    })
+  }
+
+  read_tasks(filters) {
+    let url = DOUMA_API_URL + `/tasks?demo_instance_id=${this.demo_instance_id}` 
+    
+    if (filters.task_ids) {
+      const params = JSON.stringify(filters.task_ids)
+      url += `&ids=${params}`
+    }
+
+    return new Promise((resolve, reject) => {
+      fetch(url)
+        .then(res => res.json())
+        .then(json => {
+          resolve(json.data)            
+        })
+        .catch((error) => reject(error))
+    })
+  }
+
+  update_tasks(tasks) {
+    const url = DOUMA_API_URL + `/tasks?demo_instance_id=${this.demo_instance_id}`
+    const options = {
+      body: JSON.stringify(tasks), 
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      method: 'PUT'
+    }
+    return fetch(url, options)
+      .then((res) => res.json()) 
+  }
+
+  // 
+  // SPATIAL ENTITIES
+  // 
+  read_spatial_entities(filters) {
+    const params = JSON.stringify(filters.spatial_entity_ids)
+    let url = DOUMA_API_URL + `/spatial_entities?demo_instance_id=${this.demo_instance_id}`
+    url += `&ids=${params}`
+
+    return new Promise((resolve, reject) => {
+      fetch(url)
+        .then(res => res.json())
+        .then(json => {
+          resolve(json.data)            
+        })
+        .catch((error) => {
+          console.log(error)
+          reject(error)
+        })
+    })
+  }
+
 }
 
 export default RemoteDBClass

@@ -15,4 +15,10 @@ DB.version(2).stores({
   spatial_entities: '_id'
 })
 
+DB.version(3).stores({
+  clusters: '_id,spray_team_id,demo_instance_id',
+  tasks: '_id',
+  spatial_entities: '_id'
+})
+
 export default DB

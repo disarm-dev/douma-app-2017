@@ -17,7 +17,7 @@
       }
     },
     watch: {
-      '$store.state.irs_plan.clusters': 'draw_clusters',
+      '$store.state.irs_tasker.clusters': 'draw_clusters',
     },
     mounted() {
       this.create_map()
@@ -36,8 +36,11 @@
         Leaflet.tileLayer(url).addTo(this.map)
       },
       draw_clusters() {
+        let redrawing
+
         // Remove if exists
         if (this.clusters_layer) {
+          redrawing = true
           this.map.removeLayer(this.clusters_layer)
           this.clusters_layer = null
         }
@@ -47,16 +50,7 @@
           return
         }
 
-        // Create GeoJSON from search_results
-        const geojson_search_results = this.$store.state.irs_plan.clusters.map(cluster => {
-          // cluster.polygon.properties.original_cluster = cluster
-          if (cluster.hasOwnProperty('polygon')) {
-            return cluster.polygon  
-          }
-          return cluster.geometry
-        })
-
-        this.clusters_layer = L.geoJSON(geojson_search_results, {
+        const clusters_layer = L.geoJSON(this.$store.state.irs_plan.clusters, {
           style: (feature, layer) => {
               return { color: 'yellow' }
           },
@@ -69,8 +63,12 @@
         })
 
         this.map
-          .addLayer(this.clusters_layer)
-          .fitBounds(this.clusters_layer.getBounds())
+          .addLayer(clusters_layer)
+
+        if (!redrawing) this.map.fitBounds(clusters_layer.getBounds())
+        this.clusters_layer = clusters_layer
+
+
       }
     }
   }

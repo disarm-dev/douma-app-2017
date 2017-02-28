@@ -1,8 +1,13 @@
 // Called by $store, coordinates local and remote activity
-import LocalDB from '../../../lib/local.js'
-import RemoteDBClass from '../../../lib/remote.js'
+import LocalDB from '../../lib/local.js'
+import RemoteDBClass from '../../lib/remote.js'
+import flatten from 'array-flatten'
 
 class Sync {
+  constructor() {
+    const demo_instance_id = JSON.parse(localStorage.getItem('douma-demo-instance-id'))
+    this.RemoteDB = new RemoteDBClass(demo_instance_id)
+  }
 
   config(demo_instance_id) {
     this.RemoteDB = new RemoteDBClass(demo_instance_id)
@@ -31,38 +36,48 @@ class Sync {
     // Create Clusters in LocalDB
     // Return Clusters for $store to set on $store.state
 
-    const clusters_promise = LocalDB.clusters.create(clusters)
+    let task_ids = []
+    let spatial_entity_ids = []
 
+    clusters.map(cluster => {
+      task_ids.push(cluster.properties.task_ids)
+      spatial_entity_ids.push(cluster.properties.spatial_entity_ids)
+    })
 
-    const task_promises = clusters.map((cluster) => {
-      return new Promise((resolve, reject) => {
-        this.RemoteDB.read_tasks({task_ids: cluster.task_ids})
-        .then(res => {
-          res = res.map(task => {
-            task._sync_status = 'synced'
-            return task
-          })
-          return LocalDB.tasks.create(res)
+    task_ids = flatten(task_ids)
+    spatial_entity_ids = flatten(spatial_entity_ids)
+    const task_promise = new Promise((resolve, reject) => {
+      this.RemoteDB.read_tasks({task_ids})
+      .then(res => {
+        res = res.map(task => {
+          task._sync_status = 'synced'
+          return task
         })
-        .then((res) => resolve(res))
-        .catch(error => reject(error))
+        return LocalDB.tasks.create(res)
+      })
+      .then((res) => resolve(res))
+      .catch(error => {
+        resolve()
       })
     })
 
-    const spatial_entity_promises = clusters.map((cluster) => {
-      return new Promise((resolve, reject) => {
-        this.RemoteDB.read_spatial_entities(cluster.spatial_entity_ids)
-        .then(res => LocalDB.spatial_entities.create(res))
-        .then((res) => resolve(res))
-        .catch(error => reject(error))
+    const spatial_entity_promise = new Promise((resolve, reject) => {
+      this.RemoteDB.read_spatial_entities({spatial_entity_ids})
+      .then(res => {
+        return LocalDB.spatial_entities.create(res)
+      })
+      .then((res) => resolve(res))
+      .catch(error => {
+        resolve()
       })
     })
 
-    const all_promises = [].concat(
-      clusters_promise, task_promises, spatial_entity_promises
-    )
-
-    return Promise.all(all_promises)
+    return Promise.all([task_promise, spatial_entity_promise])
+      .then(() => {
+        const existing_ids = (JSON.parse(localStorage.getItem('douma-saved-cluster-ids'))|| [])
+        const saved_cluster_ids = clusters.map(cluster => cluster._id).concat(existing_ids)
+        localStorage.setItem('douma-saved-cluster-ids', JSON.stringify(saved_cluster_ids))
+      })
   }
 
   close_cluster(cluster) {     
@@ -93,14 +108,16 @@ class Sync {
   
   // Setting initial state for views
   read_local_clusters(options) {
-    console.log(this.demo_instance_id)
+    options = {...options, demo_instance_id: JSON.parse(localStorage.getItem('douma-demo-instance-id'))}
+    console.log('options', options)
+    window.LocalDB = LocalDB
     return LocalDB.clusters.read(options)
   }
 
   get_tasks_for_cluster(cluster) {
     return new Promise((resolve, reject) => {
-      const task_ids = cluster.task_ids
-      const spatial_entity_ids = cluster.spatial_entity_ids
+      const task_ids = cluster.properties.task_ids
+      const spatial_entity_ids = cluster.properties.spatial_entity_ids
 
       Promise.all([
         LocalDB.tasks.read(task_ids),
@@ -146,7 +163,7 @@ class Sync {
   sync_tasks(tasks){
     return this.RemoteDB.update_tasks(tasks)
     .then((response) => {
-      console.log(response)
+      console.log('sync_tasks response', response)
       
       let modified_tasks = tasks.filter((task) => {
         return response.modified.includes(task._id)

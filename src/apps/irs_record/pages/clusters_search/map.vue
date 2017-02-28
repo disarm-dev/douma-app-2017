@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <h1>ClustersSearchMap</h1>
-    <div id='map'></div>
-  </div>
+  <div id='map'></div>
 </template>
 
 <script>
@@ -11,19 +8,20 @@
 
   export default {
     name: 'ClustersSearchMap',
+    props: ['clusters'],
     data() {
       return {
         map: {},
-        search_results_layer: null
+        clusters_layer: null
       }
     },
     watch: {
-      '$parent.search_results': 'draw_search_results',
-      '$parent.clusters_to_open': 'draw_search_results',
+      'clusters': 'draw_clusters',
+      '$parent.clusters_to_open': 'draw_clusters',
     },
     mounted() {
       this.create_map()
-      this.draw_search_results()
+      this.draw_clusters()
     },
     methods: {
       create_map() {
@@ -37,29 +35,23 @@
 
         Leaflet.tileLayer(url).addTo(this.map)
       },
-      draw_search_results() {
+      draw_clusters() {
         let redrawing
 
-        if (this.search_results_layer) {
+        if (this.clusters_layer) {
           redrawing = true
-          this.map.removeLayer(this.search_results_layer)
-          this.search_results_layer = null
+          this.map.removeLayer(this.clusters_layer)
+          this.clusters_layer = null
         }
         // Return unless there are search_results to render
-        if (this.$parent.search_results.length === 0) {
+        if (this.clusters.length === 0) {
           return
         }
 
-        // Create GeoJSON from search_results
-        const geojson_search_results = this.$parent.search_results.map(cluster => {
-          cluster.polygon.properties.original_cluster = cluster
-          return cluster.polygon
-        })
-
-        const local_search_results_layer = L.geoJSON(geojson_search_results, {
+        const local_clusters_layer = L.geoJSON(this.clusters, {
           style: (feature, layer) => {
             // Is the feature already in the clusters_to_open array
-            const included = this.$parent.clusters_to_open.includes(feature.properties.original_cluster)
+            const included = this.$parent.clusters_to_open.includes(feature)
 
             if (included) {
               return { color: 'green' }
@@ -69,17 +61,16 @@
           },
           onEachFeature: (feature, layer) => {
             layer.on('click', () => {
-              let cluster = Object.assign({}, feature.properties)
-              this.add_or_remove_from_keep(cluster.original_cluster)
+              this.add_or_remove_from_keep(feature)
             })
           }
         })
 
         this.map
-          .addLayer(local_search_results_layer)
+          .addLayer(local_clusters_layer)
 
-        if (!redrawing) this.map.fitBounds(local_search_results_layer.getBounds())
-        this.search_results_layer = local_search_results_layer
+        if (!redrawing) this.map.fitBounds(local_clusters_layer.getBounds())
+        this.clusters_layer = local_clusters_layer
 
       },
       add_or_remove_from_keep(cluster) {

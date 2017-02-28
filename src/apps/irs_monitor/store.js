@@ -44,14 +44,22 @@ export default {
     'irs_monitor:set_demo_instance_id': (context, demo_instance_id) => {
       Sync.config(demo_instance_id)
     },
-
+    'irs_monitor:get_monitor_data': (context) => {
+      context.commit('root:set_loading', true)
+      return Promise.all([      
+        context.dispatch('irs_monitor:get_tasks_count'),
+        context.dispatch('irs_monitor:get_tasks_unvisited'),
+        context.dispatch('irs_monitor:get_tasks_successful'),
+        context.dispatch('irs_monitor:get_tasks_unsuccessful')
+      ]).then(() => context.commit('root:set_loading', false))
+    },
     'irs_monitor:get_tasks_count': (context) => {
-      Sync.count_tasks({}).then(({count}) => {
+      return Sync.count_tasks({}).then(({count}) => {
         context.commit('irs_monitor:set_tasks_count', count)
       })
     },
     'irs_monitor:get_tasks_unvisited': (context) => {
-      Sync.count_tasks({
+      return Sync.count_tasks({
         "properties.status": "unvisited"
       }).then(({count}) => {
         context.commit('irs_monitor:set_unvisited_count', count)
@@ -59,7 +67,7 @@ export default {
     },
 
     'irs_monitor:get_tasks_successful': (context) => {
-      Sync.count_tasks({
+      return Sync.count_tasks({
         "properties.status": "visited_successful"
       }).then(({count}) => {
         context.commit('irs_monitor:set_successful_count', count)
@@ -67,7 +75,7 @@ export default {
     },
 
     'irs_monitor:get_tasks_unsuccessful': (context) => {
-      Sync.count_tasks({
+      return Sync.count_tasks({
         "properties.status": "visited_unsuccessful"
       }).then(({count}) => {
         context.commit('irs_monitor:set_unsuccessful_count', count)

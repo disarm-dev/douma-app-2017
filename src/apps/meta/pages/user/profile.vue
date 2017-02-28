@@ -69,11 +69,12 @@
         this.$router.push({name: 'meta:resetpassword'})
       },
       clear() {
-        this.$store.dispatch("root:wipe_everything")
-        this.$refs.dialog.close();
+        this.$store.dispatch("root:wipe_everything").then(() => {
+          this.$refs.dialog.close();
+          this.$router.push({name: 'meta:login'})
+        })
       },
       openDialog(ref) {
-        console.log(ref)
         this.$refs.dialog.open();
       },
       closeDialog(ref) {

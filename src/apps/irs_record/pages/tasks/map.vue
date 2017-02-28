@@ -17,11 +17,12 @@
       }
     },
     watch: {
+      '$store.state.irs_tasker.clusters': 'draw_cluster',
       '$store.state.irs_record.tasks': 'draw_tasks',
     },
     mounted() {
       this.create_map()
-      this.draw_clusters()
+      this.draw_cluster()
       this.draw_tasks()
     },
     methods: {
@@ -34,26 +35,25 @@
 
         const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
 
-        this.map.on('dblclick', (a,b,c) => {
-          // console.log(a,b,c)
+        this.map.on('dblclick', () => {
           this.$router.push({name: 'irs_record:clusters'})
         })
 
         Leaflet.tileLayer(url).addTo(this.map)
       },
-      draw_clusters() {
+      draw_cluster() {
         // Remove if exists
         if (this.cluster_layer) {
           this.map.removeLayer(this.cluster_layer)
           this.cluster_layer = null
         }
 
-        const cluster = this.$store.state.irs_record.clusters.find(cluster => cluster._id === this.cluster_id)
+        const cluster = this.$store.state.irs_tasker.clusters.find(cluster => cluster._id === this.cluster_id)
         if (!cluster) return 
 
         // Create GeoJSON for Cluster
 
-        this.cluster_layer = L.geoJSON(cluster.polygon, {
+        this.cluster_layer = L.geoJSON(cluster, {
           style: (feature, layer) => {
             return { 
               fillColor: false,

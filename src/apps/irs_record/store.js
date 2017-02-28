@@ -1,7 +1,6 @@
 // Store for 'IRS Record' applet
 
-import turf from '@turf/turf'
-import Sync from './data/sync.js'
+import Sync from './sync.js'
 
 export default {
   state: {
@@ -10,9 +9,7 @@ export default {
     // DATA
     clusters: [],
     tasks: [],
-
-    // SYNC
-    sync_in_progress: false,
+    saved_cluster_ids: [],
 
     // STATE-STATE
     clusters_search_results: []
@@ -24,16 +21,14 @@ export default {
     "irs_record:set_clusters": (state, clusters) => {
       state.clusters = clusters
     },
+    'irs_record:set_saved_clusters': (state, cluster_ids) => {
+      state.saved_cluster_ids = cluster_ids
+    },
     "irs_record:set_tasks": (state, tasks) => {
       state.tasks = tasks
     },
     "irs_record:set_spatial_entities": (state, spatial_entities) => {
       state.spatial_entities = spatial_entities
-    },
-
-    // SYNC
-    "irs_record:set_sync_in_progress": (state, sync_state) => {
-      state.sync_in_progress = !!(sync_state)
     },
 
     // STATE-STATE
@@ -48,28 +43,30 @@ export default {
       Sync.config(demo_instance_id)
     },
     "irs_record:search_clusters": (context, locations) => {
-      context.commit("irs_record:set_sync_in_progress", true)
+      context.commit("root:set_loading", true)
 
       return Sync.search_clusters(locations)
         .then((res) => {
-          context.commit("irs_record:set_sync_in_progress", false)
+          context.commit("root:set_loading", false)
           return res
         })
         .catch((e) => console.error(e))
     },
-    "irs_record:set_clusters_from_local": (context, spray_team_id) => {
-      // spray_team_id = 3
-      return Sync.read_local_clusters({spray_team_id}).then((result) => {
+    "irs_record:set_clusters_from_local": (context) => {
+      return Sync.read_local_clusters({}).then((result) => {
         return new Promise((resolve, reject) => {
           resolve(context.commit("irs_record:set_clusters", result))
         })
       })
     },
+    'irs_record:load_saved_clusters': (context) => {
+      context.commit('irs_record:set_saved_clusters', (JSON.parse(localStorage.getItem('douma-saved-cluster-ids'))|| []))
+    },
     "irs_record:open_clusters": (context, clusters) => {
-      context.commit("irs_record:set_sync_in_progress", true)
+      context.commit("root:set_loading", true)
 
       return Sync.open_clusters(clusters).then(() => {
-        context.commit("irs_record:set_sync_in_progress", false)
+        context.commit("root:set_loading", false)
         return context.dispatch('irs_record:set_clusters_from_local')
       }).catch(error => console.error(error))
     },
@@ -88,11 +85,9 @@ export default {
         context.commit("irs_record:set_spatial_entities", null)
       })
     },
-    "irs_record:set_tasks_for_cluster": (context, cluster_id) => {
+    "irs_record:set_tasks_for_cluster": (context, cluster) => {
 
-      const cluster = context.state.clusters.find(cluster => cluster._id === cluster_id)
-
-      if (!cluster) throw new Error(`Cannot find Cluster for id ${cluster_id} - have you navigated to view a Cluster that does not exist?`)
+      if (!cluster) throw new Error(`Cannot find Cluster - have you passed one in?`)
 
       return Sync.get_tasks_for_cluster(cluster)
         .then((tasks) => {
@@ -107,9 +102,10 @@ export default {
     "irs_record:sync_tasks": (context, tasks) => {
       return Sync.sync_tasks(tasks)
     },
-    "irs_record:get_unsynced_tasks_for_cluster": (context) => {
-      const all_clusters = context.state.clusters
-
+    "irs_record:get_unsynced_tasks_for_cluster": (context, clusters) => {
+      if (clusters.length === 0) return
+      const saved_cluster_ids = (JSON.parse(localStorage.getItem('douma-saved-cluster-ids'))|| [])
+      const all_clusters = clusters.filter(c => saved_cluster_ids.includes(c._id))
       const promises = all_clusters.map((cluster) => {
         return Sync.get_unsynced_tasks_for_cluster(cluster)
       })

@@ -21,6 +21,7 @@ export default [
       {
         path: '/irs_plan/review',
         name: 'irs_plan:review',
+        redirect: '/irs_plan/review/map',
         component: ReviewView,
         meta: {},
         children: [
