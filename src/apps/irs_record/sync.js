@@ -1,8 +1,12 @@
 // Called by $store, coordinates local and remote activity
-import LocalDB from '../../../lib/local.js'
-import RemoteDBClass from '../../../lib/remote.js'
+import LocalDB from '../../lib/local.js'
+import RemoteDBClass from '../../lib/remote.js'
 
 class Sync {
+  constructor() {
+    const demo_instance_id = localStorage.getItem('douma-demo-instance-id')
+    this.RemoteDB = new RemoteDBClass(demo_instance_id)
+  }
 
   config(demo_instance_id) {
     this.RemoteDB = new RemoteDBClass(demo_instance_id)
