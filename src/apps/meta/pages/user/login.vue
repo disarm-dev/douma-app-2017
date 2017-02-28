@@ -25,7 +25,7 @@
               {{user.name}} <md-button :disabled='!can_login' class="md-raised md-primary" @click.native="fake_login(user)">Login</md-button>
             </md-list-item>
           </md-list>
-
+        </form>
      </md-card-content>
     </md-card>
 

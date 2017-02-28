@@ -50,7 +50,7 @@
         <md-button class="md-primary" @click.native='clear()'>Clear database</md-button>
       </md-dialog-actions>
     </md-dialog>
-
+  </div>
 </template>
 
 <script>
