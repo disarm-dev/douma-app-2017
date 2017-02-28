@@ -56,8 +56,7 @@
           },
           onEachFeature: (feature, layer) => {
             layer.on('click', () => {
-              let cluster = Object.assign({}, feature.properties)
-              this.select_cluster(cluster.original_cluster)
+              this.select_cluster(feature)
             })
           }
         })

@@ -3,5 +3,5 @@ export default {
   'douma-user': '',
   'douma-swz-ous': '',
   'douma-zwe-ous': '',
-  'douma-saved-clusters': ''
+  'douma-saved-cluster-ids': ''
 }

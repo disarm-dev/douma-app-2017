@@ -1,30 +1,9 @@
 <template>
   <div style='position: relative'>
     <h1>ClustersView</h1>
-    <p>Summary of your locally-saved clusters {{saved_clusters.length}}</p>
+    <p>You have {{saved_clusters.length}} locally-saved clusters </p>
 
-    <md-button v-if='need_to_search' @click.native='$router.push({name: "irs_record:clusters_search"})'>Search for Clusters to save offline</md-button>
-
-    <template v-else>
-<!--       <md-menu id='spray_team_selector' md-direction="top left">
-        <md-button md-menu-trigger class='md-raised'>
-          Select spray team
-        </md-button>
-
-        <md-menu-content>
-          <md-menu-item v-for='spray_team in spray_team_options' @selected='select_spray_team(spray_team)'>{{spray_team.name}}</md-menu-item>
-        </md-menu-content>
-      </md-menu>
- -->
-      <md-button v-if='spray_team' @click.native='show_all'>Show all</md-button>
-      <md-speed-dial style='z-index: 10000' md-open="click" md-direction="bottom" class="md-fab-top-right">
-        <md-button class="md-fab md-primary md-clean" @click.native='toggle_view'>
-          <md-icon>{{toggle_to_view}}</md-icon>
-        </md-button>
-      </md-speed-dial>
-
-    </template>
-
+    <md-button @click.native='$router.push({name: "irs_record:clusters_search"})'>Search for Clusters to save offline</md-button>
 
     <router-view :clusters='saved_clusters'></router-view>
 

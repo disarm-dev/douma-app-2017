@@ -56,7 +56,11 @@ class Sync {
         return LocalDB.tasks.create(res)
       })
       .then((res) => resolve(res))
-      .catch(error => reject(error))
+      .catch(error => {
+        console.log('error where I think it is')
+        debugger
+        resolve()
+      })
     })
 
     const spatial_entity_promise = new Promise((resolve, reject) => {
@@ -65,10 +69,23 @@ class Sync {
         return LocalDB.spatial_entities.create(res)
       })
       .then((res) => resolve(res))
-      .catch(error => reject(error))
+      .catch(error => {
+        console.log('error where I think it is')
+        debugger
+        resolve()
+      })
     })
 
     return Promise.all([task_promise, spatial_entity_promise])
+      .then(() => {
+        debugger
+        const existing_ids = (JSON.parse(localStorage.getItem('douma-saved-cluster-ids'))|| [])
+        const saved_cluster_ids = clusters.map(cluster => cluster._id).concat(existing_ids)
+        localStorage.setItem('douma-saved-cluster-ids', JSON.stringify(saved_cluster_ids))
+      })
+      .catch(error => {
+        debugger
+      })
   }
 
   close_cluster(cluster) {     
@@ -99,7 +116,9 @@ class Sync {
   
   // Setting initial state for views
   read_local_clusters(options) {
-    options = {...options, demo_instance_id: this.demo_instance_id}
+    options = {...options, demo_instance_id: JSON.parse(localStorage.getItem('douma-demo-instance-id'))}
+    console.log('options', options)
+    window.LocalDB = LocalDB
     return LocalDB.clusters.read(options)
   }
 
