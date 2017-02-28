@@ -15,7 +15,6 @@
         <md-icon>list</md-icon>
       </md-button>
 
-
     </md-speed-dial>
 
     <router-view></router-view>
@@ -26,9 +25,8 @@
   export default {
     name: 'TasksView',
     props: ['cluster_id'],
-    mounted() {
-      // Find Cluster from URL params, and get matching Tasks and Spatial Entities. Need to wait until parent calls `mounted()` to ensure $store.clusters is set 
-      this.$store.dispatch("irs_record:set_tasks_for_cluster", this.cluster_id)
+    watch: {
+      '$store.state.irs_tasker.clusters': 'set_tasks_for_cluster'
     },
     computed: {
       toggle_to_view() {
@@ -40,6 +38,11 @@
       }
     },
     methods: {
+      set_tasks_for_cluster() {
+        console.log('set_tasks_for_cluster')
+        const cluster = this.$store.state.irs_tasker.clusters.find(cluster => cluster._id === this.cluster_id)
+        if(cluster) this.$store.dispatch("irs_record:set_tasks_for_cluster", cluster)
+      },
       toggle_view() {
         this.$router.push({name: `irs_record:tasks:${this.toggle_to_view}`, params: {cluster_id: this.cluster_id}})
       },

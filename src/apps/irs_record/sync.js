@@ -130,7 +130,6 @@ class Sync {
             spatial_entity: results.spatial_entities.find(s => s.properties.osm_id === task.spatial_entity_id)
           }
         })
-        console.log('joinedTasks', joinedTasks)
         resolve(joinedTasks)
       })
 

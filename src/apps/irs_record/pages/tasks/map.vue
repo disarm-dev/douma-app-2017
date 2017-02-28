@@ -21,7 +21,7 @@
     },
     mounted() {
       this.create_map()
-      this.draw_clusters()
+      this.draw_cluster()
       this.draw_tasks()
     },
     methods: {
@@ -40,19 +40,19 @@
 
         Leaflet.tileLayer(url).addTo(this.map)
       },
-      draw_clusters() {
+      draw_cluster() {
         // Remove if exists
         if (this.cluster_layer) {
           this.map.removeLayer(this.cluster_layer)
           this.cluster_layer = null
         }
 
-        const cluster = this.$store.state.irs_record.clusters.find(cluster => cluster._id === this.cluster_id)
+        const cluster = this.$store.state.irs_tasker.clusters.find(cluster => cluster._id === this.cluster_id)
         if (!cluster) return 
 
         // Create GeoJSON for Cluster
 
-        this.cluster_layer = L.geoJSON(cluster.polygon, {
+        this.cluster_layer = L.geoJSON(cluster, {
           style: (feature, layer) => {
             return { 
               fillColor: false,

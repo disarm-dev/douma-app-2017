@@ -85,11 +85,9 @@ export default {
         context.commit("irs_record:set_spatial_entities", null)
       })
     },
-    "irs_record:set_tasks_for_cluster": (context, cluster_id) => {
+    "irs_record:set_tasks_for_cluster": (context, cluster) => {
 
-      const cluster = context.state.clusters.find(cluster => cluster._id === cluster_id)
-
-      if (!cluster) throw new Error(`Cannot find Cluster for id ${cluster_id} - have you navigated to view a Cluster that does not exist?`)
+      if (!cluster) throw new Error(`Cannot find Cluster - have you passed one in?`)
 
       return Sync.get_tasks_for_cluster(cluster)
         .then((tasks) => {
