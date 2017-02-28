@@ -55,7 +55,6 @@
         Leaflet.tileLayer(url).addTo(this.map)
       },
       draw_clusters() {
-        console.log('draw_clusters irs_tasker')
         // Remove if exists
         let redrawing
 
