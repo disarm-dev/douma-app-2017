@@ -71,16 +71,16 @@
         }
 
         // Create GeoJSON from search_results
-        const geojson_search_results = this.$store.state.irs_tasker.clusters.map(cluster => {
-          const cluster_clone = JSON.parse(JSON.stringify(cluster))
-          cluster.properties.original_cluster = cluster_clone
-          return cluster
-        })
+        // const geojson_search_results = this.$store.state.irs_tasker.clusters.map(cluster => {
+        //   // const cluster_clone = JSON.parse(JSON.stringify(cluster))
+        //   // cluster.properties.original_cluster = cluster_clone
+        //   return cluster
+        // })
 
-        const search_results_layer = L.geoJSON(geojson_search_results, {
+        const search_results_layer = L.geoJSON(this.$store.state.irs_tasker.clusters, {
           style: (feature, layer) => {
             let style
-            switch(feature.properties.original_cluster.spray_team_id){
+            switch(feature.properties.spray_team_id){
               case 'no team': style = { color: 'grey' }; break
               case 'spray_team_1': style = { color: 'green' }; break
               case 'spray_team_2': style = { color: 'blue' }; break
@@ -91,8 +91,7 @@
           },
           onEachFeature: (feature, layer) => {
             layer.on('click', () => {
-              // let cluster = Object.assign({}, feature.properties)
-              this.assign_spray_team(feature.properties.original_cluster)
+              this.assign_spray_team(feature)
             })
           }
         })
@@ -102,12 +101,12 @@
         if (!redrawing) this.map.fitBounds(search_results_layer.getBounds())
         this.search_results_layer = search_results_layer
       },
-      assign_spray_team(original_cluster) {
+      assign_spray_team(cluster) {
         if(!this.selected_spray_team) return
 
-        original_cluster.spray_team_id = this.selected_spray_team.id
+        cluster.properties.spray_team_id = this.selected_spray_team.id
 
-        this.$store.commit("irs_tasker:update_cluster", original_cluster)
+        this.$store.dispatch("irs_tasker:update_cluster", cluster)
       },
       select_spray_team(spray_team){
         this.selected_spray_team = spray_team

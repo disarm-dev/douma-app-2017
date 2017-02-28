@@ -4,10 +4,9 @@ import RemoteDBClass from '../../lib/remote.js'
 import IRSSync from '../irs/sync.js'
 
 class Sync {
-
-  config(demo_instance_id) {
+  constructor() {
+    const demo_instance_id = localStorage.getItem('douma-demo-instance-id')
     this.RemoteDB = new RemoteDBClass(demo_instance_id)
-    this.demo_instance_id = demo_instance_id
   }
 
   get_clusters() {
@@ -18,7 +17,11 @@ class Sync {
     return LocalDB.clusters.clear()
   }
 
-  update_clusters(clusters) {
+  update_cluster(cluster) {
+    return LocalDB.clusters.update(cluster)
+  }
+
+  update_clusters(clusters, options) {
     return this.RemoteDB.update_clusters(clusters)
   }
 }

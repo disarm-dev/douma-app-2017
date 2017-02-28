@@ -14,6 +14,9 @@ const clusters = {
       return DB.clusters.toArray()
     }
   },
+  update: (cluster) => {
+    return DB.clusters.update(cluster._id, cluster)
+  },
   delete: (cluster) => {
     return DB.clusters.delete(cluster._id)
   },
