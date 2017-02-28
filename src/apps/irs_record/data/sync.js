@@ -36,7 +36,7 @@ class Sync {
 
     const task_promises = clusters.map((cluster) => {
       return new Promise((resolve, reject) => {
-        this.RemoteDB.read_tasks({task_ids: cluster.task_ids})
+        this.RemoteDB.read_tasks({task_ids: cluster.properties.task_ids})
         .then(res => {
           res = res.map(task => {
             task._sync_status = 'synced'

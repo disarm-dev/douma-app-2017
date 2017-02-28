@@ -26,9 +26,11 @@ const store = new Vuex.Store({
   },
   actions: {
     'root:wipe_everything': (context) => {
-      context.dispatch('irs_record:clear_local_dbs');
+      context.dispatch('irs_record:clear_local_dbs').then(() => {
+        ['douma-user', 'douma-swz-ous', 'douma-zwe-ous'].forEach(i => localStorage.setItem(i, null))
+        context.commit('meta:login_user', null)
+      })
 
-      ['douma-user', 'douma-swz-ous', 'douma-zwe-ous'].forEach(i => localStorage.setItem(i, null))
     },
   }
 })
