@@ -1,7 +1,7 @@
 <template>
   <div style='position: relative'>
     <h1>ClustersView</h1>
-    <p>Summary of your locally-loaded clusters {{$store.state.irs_record.clusters.length}}</p>
+    <p>Summary of your locally-loaded clusters {{$store.state.irs_tasker.clusters.length}}</p>
 
     <md-button v-if='need_to_search'>Search for Clusters to save offline</md-button>
 
@@ -64,7 +64,7 @@
         }
       },
       need_to_search() {
-        return this.$store.state.irs_record.clusters.length === 0 && !this.spray_team
+        return this.$store.state.irs_tasker.clusters.length === 0 && !this.spray_team
       }
     },
     methods: {
