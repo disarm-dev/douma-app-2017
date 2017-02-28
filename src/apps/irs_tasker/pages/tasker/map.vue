@@ -55,9 +55,9 @@
         Leaflet.tileLayer(url).addTo(this.map)
       },
       draw_clusters() {
-        // Remove if exists
         let redrawing
 
+        // Remove if exists
         if (this.search_results_layer) {
           redrawing = true
           this.map.removeLayer(this.search_results_layer)
@@ -68,13 +68,6 @@
         if (this.$store.state.irs_tasker.clusters.length === 0) {
           return
         }
-
-        // Create GeoJSON from search_results
-        // const geojson_search_results = this.$store.state.irs_tasker.clusters.map(cluster => {
-        //   // const cluster_clone = JSON.parse(JSON.stringify(cluster))
-        //   // cluster.properties.original_cluster = cluster_clone
-        //   return cluster
-        // })
 
         const search_results_layer = L.geoJSON(this.$store.state.irs_tasker.clusters, {
           style: (feature, layer) => {
