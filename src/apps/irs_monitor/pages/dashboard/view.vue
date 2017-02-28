@@ -7,46 +7,50 @@
         <div class='md-headline'>Loading data</div>
       </div>
 
-      <template v-else>
-      <div class="box">
-        <md-card :md-theme="'default'" class="md-primary">
-          
-          <p class="big-number">{{round(((structuresUnsuccessfullyVisited + structuresSuccessfullyVisited) / tasks) * 100)}} %</p>
+      <template v-if='data_loaded && only_zeroes_returned'>
+        Only this, even if data loaded...
+      </template>
 
-          <md-card-header>
-            <!-- TODO: @debug Replace with real numbers -->
-            <div class="md-title">200 of 20000 structures visited</div>
-            <div class="md-subhead">in Swaziland</div>
-          </md-card-header>
+      <template v-if='data_loaded && !only_zeroes_returned'>
+        <div class="box">
+          <md-card :md-theme="'default'" class="md-primary">
+            
+            <p class="big-number">{{round(((structuresUnsuccessfullyVisited + structuresSuccessfullyVisited) / tasks_total) * 100)}} %</p>
 
-        </md-card>
-      </div>
+            <md-card-header>
+              <!-- TODO: @debug Replace with real numbers -->
+              <div class="md-title">n of n structures visited</div>
+              <div class="md-subhead">in Swaziland</div>
+            </md-card-header>
 
-      <div class="box">
-        <md-card :md-theme="'foci'" class="md-primary">
-          
-          <p class="big-number">{{round((structuresSuccessfullyVisited / tasks) * 100)}} %</p>
+          </md-card>
+        </div>
 
-          <md-card-header>
-            <div class="md-title">Structures successfully visited</div>
-            <div class="md-subhead">in Swaziland</div>
-          </md-card-header>
+        <div class="box">
+          <md-card :md-theme="'foci'" class="md-primary">
+            
+            <p class="big-number">{{round((structuresSuccessfullyVisited / tasks_total) * 100)}} %</p>
 
-        </md-card>
-      </div>
+            <md-card-header>
+              <div class="md-title">Structures successfully visited</div>
+              <div class="md-subhead">in Swaziland</div>
+            </md-card-header>
 
-      <div class="box">
-        <md-card :md-theme="'meta'" class="md-primary">
-          
-          <p class="big-number">{{round((structuresUnsuccessfullyVisited / tasks) * 100)}} %</p>
+          </md-card>
+        </div>
 
-          <md-card-header>
-            <div class="md-title">Structures unsuccessfully visited</div>
-            <div class="md-subhead">in Swaziland</div>
-          </md-card-header>
+        <div class="box">
+          <md-card :md-theme="'meta'" class="md-primary">
+            
+            <p class="big-number">{{round((structuresUnsuccessfullyVisited / tasks_total) * 100)}} %</p>
 
-        </md-card>
-      </div>
+            <md-card-header>
+              <div class="md-title">Structures unsuccessfully visited</div>
+              <div class="md-subhead">in Swaziland</div>
+            </md-card-header>
+
+          </md-card>
+        </div>
       </template>
       
     </div>
@@ -57,19 +61,14 @@
 <script>
   export default {
     name: 'DashboardView',
-    data() {
-      return {
-        data_loaded: false
-      }
-    },
     mounted() {
       this.$store.dispatch('irs_monitor:set_demo_instance_id', this.$store.state.meta.demo_instance_id)
       this.$store.dispatch('irs_monitor:get_monitor_data').then(() => this.data_loaded = true)
     },
-    methods:{
-      round(num) {
-        return parseFloat(Math.round(num * 100) / 100).toFixed(2);
-      } 
+    data() {
+      return {
+        data_loaded: false
+      }
     },
     computed: {
       structuresSuccessfullyVisited() {
@@ -81,9 +80,17 @@
       structuresUnvisited() {
         return this.$store.state.irs_monitor.taskCounts.unvisited
       },
-      tasks() {
+      tasks_total() {
         return this.$store.state.irs_monitor.taskCounts.total
+      },
+      only_zeroes_returned() {
+        return (this.$store.state.irs_monitor.taskCounts.total === 0)
       }
+    },
+    methods:{
+      round(num) {
+        return parseFloat(Math.round(num * 100) / 100).toFixed(2);
+      } 
     }
   }
 </script>
