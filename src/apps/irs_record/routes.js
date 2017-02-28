@@ -1,4 +1,4 @@
-import IrsRecordApplet from './irs_record_applet.vue'
+import IrsRecordApplet from './applet.vue'
 
 import ClustersSearchView from './pages/clusters_search/view.vue'
 import ClustersSearchMap from './pages/clusters_search/map.vue'

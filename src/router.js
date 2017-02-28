@@ -4,7 +4,6 @@ Vue.use(VueRouter)
 
 import store from './store'
 
-import AppletContainer from './components/applet.vue'
 import IRSMonitorRoutes from './apps/irs_monitor/routes'
 import IRSPlanningRoutes from './apps/irs_plan/routes'
 import IRSRecordRoutes from './apps/irs_record/routes'
