@@ -68,7 +68,7 @@ export default {
       })
     },
     'irs_record:load_saved_clusters': (context) => {
-      context.commit('irs_record:set_saved_clusters', localStorage.getItem('douma-saved-cluster-ids'))
+      context.commit('irs_record:set_saved_clusters', (JSON.parse(localStorage.getItem('douma-saved-cluster-ids'))|| []))
     },
     "irs_record:open_clusters": (context, clusters) => {
       context.commit("irs_record:set_sync_in_progress", true)
@@ -113,7 +113,7 @@ export default {
       return Sync.sync_tasks(tasks)
     },
     "irs_record:get_unsynced_tasks_for_cluster": (context) => {
-      const all_clusters = context.state.clusters
+      const all_clusters = context.state.clusters.filter(c => this.saved_cluster_ids.includes(c._id))
 
       const promises = all_clusters.map((cluster) => {
         return Sync.get_unsynced_tasks_for_cluster(cluster)

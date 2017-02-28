@@ -10,7 +10,7 @@
 
   export default {
     name: 'ClustersMap',
-    props: ['saved_clusters'],
+    props: ['clusters'],
     data() {
       return {
         map: {},
@@ -18,7 +18,7 @@
       }
     },
     watch: {
-      '$store.state.irs_tasker.clusters': 'draw_search_results',
+      'saved_clusters': 'draw_search_results',
     },
     mounted() {
       this.create_map()
@@ -46,11 +46,11 @@
         }
 
         // Return unless there are search_results to render
-        if (this.$store.state.irs_tasker.clusters.length === 0) {
+        if (this.saved_clusters.length === 0) {
           return
         }
 
-        const search_results_layer = L.geoJSON(this.$store.state.irs_tasker.clusters, {
+        const search_results_layer = L.geoJSON(this.saved_clusters, {
           style: (feature, layer) => {
               return { color: '#F61FAB' }
           },

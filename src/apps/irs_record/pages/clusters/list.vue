@@ -29,6 +29,7 @@
 <script>
   export default {
     name: 'ClustersList',
+    props: ['clusters'],
     mounted(){
       this.set_clusters_with_sync_counts()
     },
