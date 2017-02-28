@@ -9,6 +9,7 @@ export default {
     // DATA
     clusters: [],
     tasks: [],
+    saved_cluster_ids: [],
 
     // SYNC
     sync_in_progress: false,
@@ -22,6 +23,9 @@ export default {
     // DATA
     "irs_record:set_clusters": (state, clusters) => {
       state.clusters = clusters
+    },
+    'irs_record:set_saved_clusters': (state, cluster_ids) => {
+      state.saved_cluster_ids = cluster_ids
     },
     "irs_record:set_tasks": (state, tasks) => {
       state.tasks = tasks
@@ -62,6 +66,9 @@ export default {
           resolve(context.commit("irs_record:set_clusters", result))
         })
       })
+    },
+    'irs_record:load_saved_clusters': (context) => {
+      context.commit('irs_record:set_saved_clusters', localStorage.getItem('douma-saved-cluster-ids'))
     },
     "irs_record:open_clusters": (context, clusters) => {
       context.commit("irs_record:set_sync_in_progress", true)

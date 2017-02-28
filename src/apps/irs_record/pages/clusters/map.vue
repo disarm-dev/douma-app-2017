@@ -10,6 +10,7 @@
 
   export default {
     name: 'ClustersMap',
+    props: ['saved_clusters'],
     data() {
       return {
         map: {},

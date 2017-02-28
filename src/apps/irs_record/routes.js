@@ -7,7 +7,6 @@ import ClustersSearchList from './pages/clusters_search/list.vue'
 import ClustersView from './pages/clusters/view.vue'
 import ClustersMap from './pages/clusters/map.vue'
 import ClustersList from './pages/clusters/list.vue'
-import ClustersEdit from './pages/clusters/edit.vue'
 
 import ClusterView from './pages/cluster/view.vue'
 import ClusterShow from './pages/cluster/show.vue'
@@ -64,11 +63,6 @@ export default [
             name: 'irs_record:clusters:list',
             component: ClustersList,
             meta: {type: 'list'}
-          },{
-            path: 'edit',
-            name: 'irs_record:clusters:edit',
-            component: ClustersEdit,
-            meta: {}
           }
         ]
       },{

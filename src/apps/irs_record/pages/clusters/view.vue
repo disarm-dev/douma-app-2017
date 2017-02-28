@@ -1,7 +1,7 @@
 <template>
   <div style='position: relative'>
     <h1>ClustersView</h1>
-    <p>Summary of your locally-loaded clusters {{$store.state.irs_tasker.clusters.length}}</p>
+    <p>Summary of your locally-saved clusters {{saved_clusters.length}}</p>
 
     <md-button v-if='need_to_search'>Search for Clusters to save offline</md-button>
 
@@ -37,7 +37,7 @@
 
     </md-speed-dial>
 
-    <router-view></router-view>
+    <router-view :clusters='saved_clusters'></router-view>
 
   </div>
 </template>
@@ -56,6 +56,11 @@
       }
     },
     computed: {
+      saved_clusters() {
+        return this.$store.state.irs_tasker.clusters.filter(cluster => {
+          return this.$store.state.irs_record.saved_cluster_ids.includes(cluster._id)
+        })
+      },  
       toggle_to_view() {
         if (this.$route.meta && this.$route.meta.type === 'map') {
           return 'list'
