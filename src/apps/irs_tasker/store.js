@@ -1,6 +1,6 @@
 // Store for 'IRS Tasker' applet
 
-import Sync from './data/sync.js'
+import Sync from './sync.js'
 
 export default {
   state: {

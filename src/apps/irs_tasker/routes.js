@@ -1,8 +1,6 @@
 import TaskerView from './pages/tasker/view.vue'
 import TaskerMap from './pages/tasker/map.vue'
 
-import store from '../../store'
-
 export default [
   {
     path: '/irs_tasker',
