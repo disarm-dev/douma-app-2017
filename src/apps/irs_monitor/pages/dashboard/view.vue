@@ -3,14 +3,8 @@
     <h1 class="md-display-1" style="padding: 0 1em;">IRS Monitor</h1>
     <div class="boxes">
 
-      <div class="box" v-if="tasks === 0">
-        <md-card :md-theme="'default'" class="md-primary">
-
-          <md-card-header>
-            <div class="md-title">No structures</div>
-          </md-card-header>
-
-        </md-card>
+      <div v-if='!data_loaded'>
+        <div class='md-headline'>Loading data</div>
       </div>
 
       <template v-else>
@@ -65,15 +59,12 @@
     name: 'DashboardView',
     data() {
       return {
-        stuff: ["default", "foci", "irs_monitor", "irs_plan", "irs_record", "irs_tasker", "cases", "meta"]
+        data_loaded: false
       }
     },
     mounted() {
       this.$store.dispatch('irs_monitor:set_demo_instance_id', this.$store.state.meta.demo_instance_id)
-      this.$store.dispatch('irs_monitor:get_tasks_count')
-      this.$store.dispatch('irs_monitor:get_tasks_unvisited')
-      this.$store.dispatch('irs_monitor:get_tasks_successful')
-      this.$store.dispatch('irs_monitor:get_tasks_unsuccessful')
+      this.$store.dispatch('irs_monitor:get_monitor_data').then(() => this.data_loaded = true)
     },
     methods:{
       round(num) {
