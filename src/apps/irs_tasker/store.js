@@ -42,11 +42,8 @@ export default {
       return Sync.update_cluster(cluster).then(() => context.commit('irs_tasker:set_cluster', cluster))
     },
     "irs_tasker:update_clusters_with_spray_teams": (context) => {
-      const clusters = context.state.clusters.map(cluster => {
-        delete cluster.properties.original_cluster
-        return cluster
-      })
-      return Sync.update_clusters(clusters)
+      context.commit('root:set_loading', true)
+      return Sync.update_clusters(context.state.clusters).then(() => context.commit('root:set_loading', false))
     },
   },
 }
