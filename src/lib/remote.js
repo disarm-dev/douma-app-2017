@@ -127,7 +127,6 @@ class RemoteDBClass {
       const params = JSON.stringify(filters.task_ids)
       url += `&ids=${params}`
     }
-    
 
     return new Promise((resolve, reject) => {
       fetch(url)
@@ -156,8 +155,8 @@ class RemoteDBClass {
   // 
   // SPATIAL ENTITIES
   // 
-  read_spatial_entities(spatial_entity_ids) {
-    const params = JSON.stringify(spatial_entity_ids)
+  read_spatial_entities(filters) {
+    const params = JSON.stringify(filters.spatial_entity_ids)
     let url = DOUMA_API_URL + `/spatial_entities?demo_instance_id=${this.demo_instance_id}`
     url += `&ids=${params}`
 

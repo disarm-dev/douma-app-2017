@@ -46,11 +46,11 @@
         }
 
         // Return unless there are search_results to render
-        if (this.$store.state.irs_tasker.clusters.length === 0) {
+        if (this.$store.state.irs_plan.clusters.length === 0) {
           return
         }
 
-        const clusters_layer = L.geoJSON(this.$store.state.irs_tasker.clusters, {
+        const clusters_layer = L.geoJSON(this.$store.state.irs_plan.clusters, {
           style: (feature, layer) => {
               return { color: 'yellow' }
           },

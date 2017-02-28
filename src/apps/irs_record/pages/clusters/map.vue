@@ -18,7 +18,7 @@
       }
     },
     watch: {
-      'saved_clusters': 'draw_search_results',
+      'clusters': 'draw_search_results',
     },
     mounted() {
       this.create_map()
@@ -46,11 +46,11 @@
         }
 
         // Return unless there are search_results to render
-        if (this.saved_clusters.length === 0) {
+        if (this.clusters.length === 0) {
           return
         }
 
-        const search_results_layer = L.geoJSON(this.saved_clusters, {
+        const search_results_layer = L.geoJSON(this.clusters, {
           style: (feature, layer) => {
               return { color: '#F61FAB' }
           },

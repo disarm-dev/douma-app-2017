@@ -14,6 +14,7 @@
     "@turf/helpers": "^3.10.3",
     "@turf/turf": "^3.10.3",
     "alpaca": "^1.5.22",
+    "array-flatten": "^2.1.1",
     "bootstrap": "^3.3.7",
     "clone": "^2.1.0",
     "dexie": "v2.0.0-beta.10",

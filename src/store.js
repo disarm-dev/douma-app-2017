@@ -17,7 +17,6 @@ const store = new Vuex.Store({
   },
   mutations: {
     'root:set_snackbar': (state, snackbar) => {
-      // debugger
       state.snackbar = snackbar
     },
     'root:set_loading': (state, loading_bool) => {
@@ -29,6 +28,7 @@ const store = new Vuex.Store({
       context.dispatch('irs_record:clear_local_dbs').then(() => {
         ['douma-user', 'douma-swz-ous', 'douma-zwe-ous'].forEach(i => localStorage.setItem(i, null))
         context.commit('meta:login_user', null)
+        location.reload()
       })
 
     },

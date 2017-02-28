@@ -8,7 +8,7 @@ const clusters = {
     return DB.clusters.bulkAdd(clusters)
   },
   read: (options) => {
-    if (options) {
+    if (Object.keys(options).length !== 0) {
       return DB.clusters.where(options).toArray()
     } else {
       return DB.clusters.toArray()

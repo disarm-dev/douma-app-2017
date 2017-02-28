@@ -110,7 +110,6 @@
         this.$refs.sideNav.toggle();
       },
       snackbar_open() {
-        console.log('snackbar_open')
         this.$refs.snackbar.open()
       },
       snackbar_action() {

@@ -18,6 +18,7 @@ class Sync {
   }
 
   update_cluster_local(cluster) {
+    cluster._sync_status = 'unsynced'
     return LocalDB.clusters.update(cluster)
   }
 
