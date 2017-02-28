@@ -20,8 +20,6 @@ import TaskView from './pages/task/view.vue'
 import TaskShow from './pages/task/show.vue'
 import TaskEdit from './pages/task/edit.vue'
 
-import store from '../../store'
-
 export default [
   {
     path: '/irs_record',
@@ -29,12 +27,6 @@ export default [
     redirect: '/irs_record/clusters',
     component: IrsRecordApplet,
     meta: {title: 'IRS Record', icon: 'assignment'},
-    beforeEnter: (to, from, next) => {
-      // Bootstrap initial data for thisApplet
-      store.dispatch('irs_record:set_clusters_from_local').then(() => {
-        next()
-      })
-    },
     children: [
       {
         path: '/irs_record/clusters/search',
