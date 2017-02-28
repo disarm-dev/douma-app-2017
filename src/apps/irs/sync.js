@@ -4,7 +4,6 @@ import RemoteDBClass from '../../lib/remote.js'
 
 const IRSSync = {
   get_clusters({demo_instance_id, force_remote_refresh}) {
-    console.log('get_clusters')
     if (!force_remote_refresh) {
       return LocalDB.clusters.read({demo_instance_id})
     } else {

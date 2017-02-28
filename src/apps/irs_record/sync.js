@@ -57,8 +57,6 @@ class Sync {
       })
       .then((res) => resolve(res))
       .catch(error => {
-        console.log('error where I think it is')
-        debugger
         resolve()
       })
     })
@@ -70,21 +68,15 @@ class Sync {
       })
       .then((res) => resolve(res))
       .catch(error => {
-        console.log('error where I think it is')
-        debugger
         resolve()
       })
     })
 
     return Promise.all([task_promise, spatial_entity_promise])
       .then(() => {
-        debugger
         const existing_ids = (JSON.parse(localStorage.getItem('douma-saved-cluster-ids'))|| [])
         const saved_cluster_ids = clusters.map(cluster => cluster._id).concat(existing_ids)
         localStorage.setItem('douma-saved-cluster-ids', JSON.stringify(saved_cluster_ids))
-      })
-      .catch(error => {
-        debugger
       })
   }
 
@@ -124,8 +116,8 @@ class Sync {
 
   get_tasks_for_cluster(cluster) {
     return new Promise((resolve, reject) => {
-      const task_ids = cluster.task_ids
-      const spatial_entity_ids = cluster.spatial_entity_ids
+      const task_ids = cluster.properties.task_ids
+      const spatial_entity_ids = cluster.properties.spatial_entity_ids
 
       Promise.all([
         LocalDB.tasks.read(task_ids),
@@ -138,6 +130,7 @@ class Sync {
             spatial_entity: results.spatial_entities.find(s => s.properties.osm_id === task.spatial_entity_id)
           }
         })
+        console.log('joinedTasks', joinedTasks)
         resolve(joinedTasks)
       })
 
@@ -171,7 +164,7 @@ class Sync {
   sync_tasks(tasks){
     return this.RemoteDB.update_tasks(tasks)
     .then((response) => {
-      console.log(response)
+      console.log('sync_tasks response', response)
       
       let modified_tasks = tasks.filter((task) => {
         return response.modified.includes(task._id)

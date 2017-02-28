@@ -43,7 +43,6 @@ class RemoteDBClass {
   }
 
   update_clusters(clusters) {
-    console.log(clusters)
     const url = DOUMA_API_URL + `/clusters?demo_instance_id=${this.demo_instance_id}`
     const options = {
       body: JSON.stringify(clusters), 

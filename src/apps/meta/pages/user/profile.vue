@@ -75,7 +75,6 @@
         })
       },
       openDialog(ref) {
-        console.log(ref)
         this.$refs.dialog.open();
       },
       closeDialog(ref) {

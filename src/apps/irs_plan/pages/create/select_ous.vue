@@ -60,7 +60,7 @@
           },
           onEachFeature: (feature, layer) => {
             layer.on('click', () => {
-              console.log(feature)
+              console.log('click on feature', feature)
             })
           }
         })
