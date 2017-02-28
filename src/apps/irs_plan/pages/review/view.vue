@@ -7,7 +7,7 @@
 
       <div>
         <p>{{$store.state.irs_tasker.clusters.length}} clusters</p>
-        <p>Bunch of stats on clusters here</p>
+        <!-- TODO: @feature Bunch of stats on clusters here -->
         <router-view></router-view>
       </div>
     </div>
