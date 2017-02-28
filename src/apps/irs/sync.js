@@ -7,13 +7,13 @@ class IRSSync {
 
   get_clusters() {
     // Try to read from LocalDB
-    // If Clusters, then return and trigger a background refresh
+    // If Clusters, then return Clusters (??and trigger a background refresh)
     // If no Clusters, then trigger a background/foreground refresh
     // When refresh complete, notify user and ask if they want to update
   }
 
   _notify_user() {
-    
+
   }
 
 }
