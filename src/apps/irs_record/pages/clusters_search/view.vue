@@ -3,9 +3,8 @@
     <h1>ClustersSearchView</h1>
     <md-button :disabled='clusters_to_open.length === 0' @click.native='open_clusters'>Save these {{clusters_to_open.length}} offline</md-button>
     <md-button @click.native="toggle_view">{{toggle_to_view}}</md-button>
-    <md-progress :md-indeterminate='$store.state.irs_record.sync_in_progress'></md-progress>
 
-    <router-view></router-view>
+    <router-view :clusters='clusters_not_already_saved'></router-view>
 
   </div>
 </template>
@@ -21,12 +20,12 @@
         clusters_to_open: [],
       }
     },
-    mounted() {
-      this.$store.dispatch('irs_record:configure_sync', this.$store.state.meta.demo_instance_id)
-      .then(() => this.search())
-
-    },
     computed: {
+      clusters_not_already_saved() {
+        return this.$store.state.irs_tasker.clusters.filter(cluster => {
+          return !this.$store.state.irs_record.saved_cluster_ids.includes(cluster._id)
+        })        
+      },
       toggle_to_view() {
         if (this.$route.meta && this.$route.meta.type === 'map') {
           return 'list'

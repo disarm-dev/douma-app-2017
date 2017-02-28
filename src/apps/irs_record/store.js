@@ -11,9 +11,6 @@ export default {
     tasks: [],
     saved_cluster_ids: [],
 
-    // SYNC
-    sync_in_progress: false,
-
     // STATE-STATE
     clusters_search_results: []
   },
@@ -34,11 +31,6 @@ export default {
       state.spatial_entities = spatial_entities
     },
 
-    // SYNC
-    "irs_record:set_sync_in_progress": (state, sync_state) => {
-      state.sync_in_progress = !!(sync_state)
-    },
-
     // STATE-STATE
     "irs_record:set_clusters_search_results": (state, clusters_search_results) => {
       state.clusters_search_results = clusters_search_results
@@ -51,11 +43,11 @@ export default {
       Sync.config(demo_instance_id)
     },
     "irs_record:search_clusters": (context, locations) => {
-      context.commit("irs_record:set_sync_in_progress", true)
+      context.commit("root:set_loading", true)
 
       return Sync.search_clusters(locations)
         .then((res) => {
-          context.commit("irs_record:set_sync_in_progress", false)
+          context.commit("root:set_loading", false)
           return res
         })
         .catch((e) => console.error(e))
@@ -71,10 +63,10 @@ export default {
       context.commit('irs_record:set_saved_clusters', (JSON.parse(localStorage.getItem('douma-saved-cluster-ids'))|| []))
     },
     "irs_record:open_clusters": (context, clusters) => {
-      context.commit("irs_record:set_sync_in_progress", true)
+      context.commit("root:set_loading", true)
 
       return Sync.open_clusters(clusters).then(() => {
-        context.commit("irs_record:set_sync_in_progress", false)
+        context.commit("root:set_loading", false)
         return context.dispatch('irs_record:set_clusters_from_local')
       }).catch(error => console.error(error))
     },
