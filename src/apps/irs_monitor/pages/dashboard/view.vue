@@ -4,11 +4,11 @@
     <div class="boxes">
 
       <div v-if='!data_loaded'>
-        <div class='md-headline'>Loading data</div>
+        <div class='md-headline'>Loading data...</div>
       </div>
 
       <template v-if='data_loaded && only_zeroes_returned'>
-        Only this, even if data loaded...
+        <div class='md-headline'>No data found - have you created any Clusters yet?</div>
       </template>
 
       <template v-if='data_loaded && !only_zeroes_returned'>
