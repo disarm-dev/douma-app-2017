@@ -1,3 +1,5 @@
+<!-- TODO: @tidy Remove unused Tabs.vue when it's unused -->
+
 <template>
   <md-tabs @change="onTabChange" :md-centered="true">
     <md-tab v-for="(route, index) in routes" :md-label="route.title" :md-active="active == index"></md-tab>
