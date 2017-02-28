@@ -5,6 +5,11 @@
 
     <md-button @click.native='$router.push({name: "irs_record:clusters_search"})'>Search for Clusters to save offline</md-button>
 
+    <md-button class="md-fab md-primary md-clean" @click.native='toggle_view'>
+      <md-icon>{{toggle_to_view}}</md-icon>
+    </md-button>
+
+
     <router-view :clusters='saved_clusters'></router-view>
 
   </div>
@@ -57,3 +62,6 @@
     }
   }
 </script>
+
+<style scoped>
+</style>

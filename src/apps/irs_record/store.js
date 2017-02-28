@@ -102,9 +102,10 @@ export default {
     "irs_record:sync_tasks": (context, tasks) => {
       return Sync.sync_tasks(tasks)
     },
-    "irs_record:get_unsynced_tasks_for_cluster": (context) => {
-      const all_clusters = context.state.clusters.filter(c => this.saved_cluster_ids.includes(c._id))
-
+    "irs_record:get_unsynced_tasks_for_cluster": (context, clusters) => {
+      if (clusters.length === 0) return
+      const saved_cluster_ids = (JSON.parse(localStorage.getItem('douma-saved-cluster-ids'))|| [])
+      const all_clusters = clusters.filter(c => saved_cluster_ids.includes(c._id))
       const promises = all_clusters.map((cluster) => {
         return Sync.get_unsynced_tasks_for_cluster(cluster)
       })

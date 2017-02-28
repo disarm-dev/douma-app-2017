@@ -33,6 +33,9 @@
     mounted(){
       this.set_clusters_with_sync_counts()
     },
+    watch: {
+      'clusters': 'set_clusters_with_sync_counts',
+    },
     data() {
       return {
         clusters_with_sync_counts: []
@@ -40,7 +43,7 @@
     },
     methods: {
       set_clusters_with_sync_counts() {
-        this.$store.dispatch("irs_record:get_unsynced_tasks_for_cluster").then(res => {
+        this.$store.dispatch("irs_record:get_unsynced_tasks_for_cluster", this.$store.state.irs_tasker.clusters).then(res => {
           this.clusters_with_sync_counts = res
         })
       },
