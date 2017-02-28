@@ -39,11 +39,11 @@ export default {
       })
     },
     'irs_tasker:update_cluster': (context, cluster) => {
-      return Sync.update_cluster(cluster).then(() => context.commit('irs_tasker:set_cluster', cluster))
+      return Sync.update_cluster_local(cluster).then(() => context.commit('irs_tasker:set_cluster', cluster))
     },
     "irs_tasker:update_clusters_with_spray_teams": (context) => {
       context.commit('root:set_loading', true)
-      return Sync.update_clusters(context.state.clusters).then(() => context.commit('root:set_loading', false))
+      return Sync.update_clusters_remote(context.state.clusters).then(() => context.commit('root:set_loading', false))
     },
   },
 }

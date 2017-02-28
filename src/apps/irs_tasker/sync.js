@@ -17,11 +17,11 @@ class Sync {
     return LocalDB.clusters.clear()
   }
 
-  update_cluster(cluster) {
+  update_cluster_local(cluster) {
     return LocalDB.clusters.update(cluster)
   }
 
-  update_clusters(clusters, options) {
+  update_clusters_remote(clusters, options) {
     return this.RemoteDB.update_clusters(clusters)
   }
 }

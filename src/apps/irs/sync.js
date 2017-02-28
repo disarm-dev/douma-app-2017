@@ -35,8 +35,6 @@ const IRSSync = {
     // }).catch((problem) => {
     //   console.log('Error fetching get_clusters, might be pre-existing Clusters in LocalDB')
     // })
-
-
   },
   // _background_refresh(){
   //   return this.RemoteDB.count_clusters({})
@@ -49,7 +47,9 @@ const IRSSync = {
   // _notify_user() {
 
   // }
-
+  update_clusters(clusters) {
+    return LocalDB.clusters.create(clusters)
+  }
 
 
 }

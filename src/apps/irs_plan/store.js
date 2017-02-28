@@ -1,6 +1,7 @@
 // Store for 'IRS Plan' applet
 
 import Sync from './data/sync.js'
+import IRSSync from '../irs/sync.js'
 import {remove_properties} from '../../lib/map_helpers'
 
 export default {
@@ -58,7 +59,9 @@ export default {
     })
     },
     'irs_plan:post_clusters': (context) => {
-      return Sync.post_clusters(context.state.clusters)
+      const clusters = context.state.clusters
+      const demo_instance_id = context.rootState.meta.demo_instance_id
+      return Sync.post_clusters(clusters).then(() => IRSSync.update_clusters(clusters, {demo_instance_id}))
     },
     'irs_plan:delete_clusters': (context) => {
       return Sync.delete_clusters()
