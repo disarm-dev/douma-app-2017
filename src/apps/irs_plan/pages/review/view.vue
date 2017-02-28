@@ -6,7 +6,7 @@
       <md-button @click.native="redo_clustering">Redo clustering</md-button>
 
       <div>
-        <p>{{$store.state.irs_plan.clusters.length}} clusters</p>
+        <p>{{$store.state.irs_tasker.clusters.length}} clusters</p>
         <p>Bunch of stats on clusters here</p>
         <router-view></router-view>
       </div>
@@ -25,34 +25,21 @@
     name: 'ReviewView',
     computed: {
       clusters_available() {
-        return this.$store.state.irs_plan.clusters.length !== 0
+        return this.$store.state.irs_tasker.clusters.length !== 0
       }
     },
     mounted() {
-
-      // this.$store.dispatch("irs_tasker:get_clusters", {demo_instance_id: this.$store.state.meta.demo_instance_id})
-
-
-      if(this.$store.state.irs_plan.clusters.length === 0) {
-        this.loading = true
-        this.$store.dispatch("irs_plan:get_clusters").then((clusters) => {
-          this.loading = false
-          if (this.clusters_available) {
-            this.$router.push({name: 'irs_plan:review:map'})
-          }
-        })
-      }
+      this.$store.dispatch("irs_tasker:get_clusters", {demo_instance_id: this.$store.state.meta.demo_instance_id})
     },
     methods: {
       redo_clustering() {
         this.$store.dispatch('irs_plan:delete_clusters').then(() => {
-          this.$store.state.irs_plan.clusters = []
+          this.$store.state.irs_tasker.clusters = []
           this.$router.push({name: 'irs_plan:create:select_ous'})  
         })
       },
       do_clustering() {
         this.$router.push({name: 'irs_plan:create:select_ous'})
-        // send to clusters page
       }
     }
   }
