@@ -25,6 +25,9 @@
   export default {
     name: 'TasksView',
     props: ['cluster_id'],
+    mounted() {
+      if (this.$store.state.irs_tasker.clusters.length > 0) this.set_tasks_for_cluster()
+    },
     watch: {
       '$store.state.irs_tasker.clusters': 'set_tasks_for_cluster'
     },
