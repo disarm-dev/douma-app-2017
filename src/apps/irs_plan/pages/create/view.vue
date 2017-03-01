@@ -1,20 +1,29 @@
 <template>
   <div>
     <div class='container'>    
-      <h1>OperationalUnitView</h1>
+      <!-- <h1>OperationalUnitView</h1> -->
       <div v-show="currentRoute === 'irs_plan:create:select_ous'">
-        <md-input-container v-if='sorted_localities.length === 0'>
-          <label for="country_code">Country</label>
-          <md-select name="country_code" v-model="country_code">
-            <md-option value="SWZ">Swaziland</md-option>
-            <md-option value="ZWE">Zimbabwe (Mat-South)</md-option>
-          </md-select>
-          <md-button @click.native='get_ous'>Get OUs</md-button>
-        </md-input-container>
+        <h1>Select local areas to target Clustering</h1>
 
+
+        <div v-if='sorted_localities.length === 0'>
+          <p>
+            Select which country to load local areas for.
+          </p>
+          <i>You can select Zimbabwe, but please note that the later 'IRS Record' parts will not work. For full 'end-to-end' functioning, please work with Swaziland.</i>
+          <md-input-container>
+            <label for="country_code">Country</label>
+            <md-select name="country_code" v-model="country_code">
+              <md-option value="SWZ">Swaziland</md-option>
+              <md-option value="ZWE">Zimbabwe (Mat-South)</md-option>
+            </md-select>
+          </md-input-container>
+          <md-button class='md-primary md-raised' @click.native='get_ous'>Load areas</md-button>
+        </div>
 
         <!-- SELECTION SLIDER -->
         <div v-if='sorted_localities.length > 0'>
+          <p>The local areas are displayed below. Change the slider to select a number of areas to target. They are already sorted by risk, so the highest-risk areas will be included first.</p>
           <md-input-container
             <label>Select number of localities (ordered ascending by risk)</label>
             <vue-slider v-bind="slider_options" v-model="risk_slider"></vue-slider>

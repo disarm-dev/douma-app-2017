@@ -12,6 +12,7 @@
       </template>
 
       <template v-if='data_loaded && !only_zeroes_returned'>
+
         <div class="box">
           <md-card :md-theme="'default'" class="md-primary">
             
@@ -51,6 +52,8 @@
 
           </md-card>
         </div>
+
+
       </template>
       
     </div>

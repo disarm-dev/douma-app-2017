@@ -1,13 +1,16 @@
 <template>
   <div style='position: relative'>
-    <h1>ClustersView</h1>
-    <p>You have {{saved_clusters.length}} locally-saved clusters </p>
+    <div class='container'>
+      <h1>Clusters Review</h1>
+      <p>
+        This page lets you see which Clusters have saved to work with offline.
+        At the moment you have {{saved_clusters.length}} Clusters saved offline.
+      </p>
+      <p>Click on the Clusters in the map to start recording progress for each</p>
+      <md-button @click.native='$router.push({name: "irs_record:clusters_search"})'>Search for Clusters to save offline</md-button>
+      <md-button @click.native="toggle_view">{{toggle_to_view}}</md-button>
 
-    <md-button @click.native='$router.push({name: "irs_record:clusters_search"})'>Search for Clusters to save offline</md-button>
-
-    <md-button class="md-fab md-primary md-clean" @click.native='toggle_view'>
-      <md-icon>{{toggle_to_view}}</md-icon>
-    </md-button>
+    </div>
 
 
     <router-view :clusters='saved_clusters'></router-view>
@@ -64,4 +67,7 @@
 </script>
 
 <style scoped>
+.container {
+  margin: 10px;
+}
 </style>

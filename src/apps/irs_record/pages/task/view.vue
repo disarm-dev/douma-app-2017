@@ -1,9 +1,5 @@
 <template>
-  <div>
-    <h1>TaskView</h1>
-    <md-button @click.native="toggle_view">{{toggle_to_view}}</md-button>
-    <router-view :task="task"></router-view>
-  </div>
+  <router-view :task="task"></router-view>
 </template>
 
 <script>

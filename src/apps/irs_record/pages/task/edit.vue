@@ -1,16 +1,18 @@
 <template>
-  <div>
-    <h1>TaskEdit</h1>
+  <div class='container'>
+    <h1>Structure progress</h1>
+    <p>Use the buttons below to record the spray status of this structure.</p>
+    <i>Future versions can have more fields, custom-fields, etc.</i>
 
-    <div>
-      <md-radio v-model="task.properties.status" name="status" md-value="unvisited">Unvisited</md-radio>
-      <md-radio v-model="task.properties.status" name="status" md-value="visited_successful">Visited, successful</md-radio>
-      <md-radio v-model="task.properties.status" name="status" md-value="visited_unsuccessful">Visited, unsuccessful</md-radio>
-      <md-radio v-model="task.properties.status" name="status" md-value="visited_unsprayable">Visited, unsprayable</md-radio>
-    </div>
+    <form>
+      <p><md-radio v-model="task.properties.status" name="status" md-value="unvisited">Unvisited</md-radio></p>
+      <p><md-radio v-model="task.properties.status" name="status" md-value="visited_successful">Visited, successful</md-radio></p>
+      <p><md-radio v-model="task.properties.status" name="status" md-value="visited_unsuccessful">Visited, unsuccessful</md-radio></p>
+      <p><md-radio v-model="task.properties.status" name="status" md-value="visited_unsprayable">Visited, unsprayable</md-radio></p>
 
-    <md-button @click.native='save'><md-icon>save</md-icon><span>Save</span></md-button>
-    <md-button @click.native='cancel'><md-icon>cancel</md-icon><span>Cancel</span></md-button>
+      <md-button class='md-primary md-raised' @click.native='save'><md-icon>save</md-icon><span>Save</span></md-button>
+      <md-button @click.native='cancel'><md-icon>cancel</md-icon><span>Cancel</span></md-button>
+    </form>
 
   </div>
 </template>
@@ -35,3 +37,8 @@
     }
   }
 </script>
+
+
+<style scoped>
+  .container { margin: 10px; }
+</style>

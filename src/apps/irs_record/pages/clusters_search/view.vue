@@ -1,9 +1,11 @@
 <template>
   <div>
-    <h1>ClustersSearchView</h1>
-    <md-button :disabled='clusters_to_open.length === 0' @click.native='open_clusters'>Save these {{clusters_to_open.length}} offline</md-button>
+<div class='container'>    <h1>Select Clusters for offline</h1>
+    <p>Click on the Clusters in the map below to choose some to save for offline use.</p>
+    <p>You can also click the 'LIST' button see them as a list.</p>
+    <md-button class='md-accent md-raised' :disabled='clusters_to_open.length === 0' @click.native='open_clusters'>Save these {{clusters_to_open.length}} offline</md-button>
     <md-button @click.native="toggle_view">{{toggle_to_view}}</md-button>
-
+</div>
     <router-view :clusters='clusters_not_already_saved'></router-view>
 
   </div>
@@ -56,5 +58,6 @@
 </script>
 
 <style scoped>
+.container { margin: 10px; }
 </style>
 
