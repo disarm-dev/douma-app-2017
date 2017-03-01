@@ -103,7 +103,7 @@
         return this.$store.state.irs_monitor.clusterCount
       },
       only_zeroes_returned() {
-        return (this.$store.state.irs_monitor.taskCounts.total === 0)
+        return ((this.$store.state.irs_monitor.taskCounts.total === 0) && (this.$store.state.irs_monitor.clusterCount === 0))
       }
     },
     methods:{
