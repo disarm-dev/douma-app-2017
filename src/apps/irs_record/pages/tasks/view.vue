@@ -4,8 +4,8 @@
       <h1>Tasks for Cluster</h1>
       <p>The map below shows the structures within this Cluster. Click on the one you are currently attending to, in order to record progress against it.</p>
       <i>Future versions will have a user-location marker.</i>
-    </div>
-    <md-speed-dial style='z-index: 10000' md-open="click" md-direction="bottom" class="md-fab-top-right">
+    </div>    
+<!--     <md-speed-dial style='z-index: 10000' md-open="click" md-direction="bottom" class="md-fab-top-right">
       <md-button class="md-fab" md-fab-trigger>
         <md-icon md-icon-morph>close</md-icon>
         <md-icon>menu</md-icon>
@@ -19,7 +19,7 @@
         <md-icon>list</md-icon>
       </md-button>
 
-    </md-speed-dial>
+    </md-speed-dial> -->
 
     <router-view></router-view>
   </div>

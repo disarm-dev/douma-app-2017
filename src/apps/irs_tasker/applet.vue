@@ -1,8 +1,8 @@
 <template>
   <div>
-    <md-button class="md-primary" @click.native="upload">
+  <!--   <md-button class="md-primary" @click.native="upload">
       <md-icon>cloud_upload</md-icon> Upload
-    </md-button>
+    </md-button> -->
 
     <router-view></router-view>
   </div>
