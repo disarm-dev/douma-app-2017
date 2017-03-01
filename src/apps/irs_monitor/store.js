@@ -7,6 +7,7 @@ export default {
     // DATA
     clusters: null,
     tasks: null,
+    clusterCount: 0,
     taskCounts: {
       total: 0,
       unvisited: 0,
@@ -17,6 +18,10 @@ export default {
   mutations: {
     'irs_monitor:set_clusters': (state, clusters) => {
       state.clusters = clusters
+    },
+
+    'irs_monitor:set_clusters_count': (state, count) => {
+      state.clusterCount = count
     },
 
     'irs_monitor:set_tasks': (state, tasks) => {
@@ -47,11 +52,17 @@ export default {
     'irs_monitor:get_monitor_data': (context) => {
       context.commit('root:set_loading', true)
       return Promise.all([      
+        context.dispatch('irs_monitor:get_clusters_count'),
         context.dispatch('irs_monitor:get_tasks_count'),
         context.dispatch('irs_monitor:get_tasks_unvisited'),
         context.dispatch('irs_monitor:get_tasks_successful'),
         context.dispatch('irs_monitor:get_tasks_unsuccessful')
       ]).then(() => context.commit('root:set_loading', false))
+    },
+    'irs_monitor:get_clusters_count': (context) => {
+      return Sync.count_clusters({}).then(({count}) => {
+        context.commit('irs_monitor:set_clusters_count', count)
+      })
     },
     'irs_monitor:get_tasks_count': (context) => {
       return Sync.count_tasks({}).then(({count}) => {

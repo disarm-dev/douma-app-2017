@@ -21,6 +21,10 @@ class Sync {
   count_tasks(filter) {
     return this.RemoteDB.count_tasks(filter)
   }
+
+  count_clusters(filter) {
+    return this.RemoteDB.count_clusters(filter)
+  }
 }
 
 export default new Sync()
