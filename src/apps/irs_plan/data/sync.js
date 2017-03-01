@@ -7,8 +7,6 @@ import RemoteDBClass from '../../../lib/remote.js'
 class Sync {
 
   constructor() {
-    this.R_SERVER_URL = 'https://cluster.api.disarm.io'
-    // this.R_SERVER_URL = 'http://localhost:4000'
   }
 
   config(demo_instance_id) {
@@ -30,7 +28,7 @@ class Sync {
 
     if(ous) return Promise.resolve(ous)
 
-    const url = this.R_SERVER_URL + `/localities/${country_code.toLowerCase()}.geojson`
+    const url = R_SERVER_URL + `/localities/${country_code.toLowerCase()}.geojson`
 
     return fetch(url, {mode: 'cors'})
       .then(res => res.json())
@@ -46,7 +44,7 @@ class Sync {
   }
 
   cluster_yourself(parameters) {
-    const url = this.R_SERVER_URL + '/clusters'
+    const url = R_SERVER_URL + '/clusters'
 
     const options = {
       body: JSON.stringify({...parameters}), 
