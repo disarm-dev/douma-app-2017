@@ -112,6 +112,10 @@
       post_clusters() {
         this.$store.dispatch('irs_plan:post_clusters').then(() => {
           console.log('posted clusters')  
+          this.$router.push({name: 'irs_plan'})
+          setTimeout(() => {
+            location.reload()
+          }, 500)
         })
         
       }

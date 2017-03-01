@@ -1,7 +1,7 @@
 <template>
   <div style="position:relative">
     
-    <md-speed-dial style='z-index: 10000' md-open="click" md-direction="bottom" class="md-fab-top-right">
+<!--     <md-speed-dial style='z-index: 10000' md-open="click" md-direction="bottom" class="md-fab-top-right">
       <md-button class="md-fab" md-fab-trigger>
         <md-icon md-icon-morph>close</md-icon>
         <md-icon>menu</md-icon>
@@ -15,7 +15,7 @@
         <md-icon>list</md-icon>
       </md-button>
 
-    </md-speed-dial>
+    </md-speed-dial> -->
 
     <router-view></router-view>
   </div>
