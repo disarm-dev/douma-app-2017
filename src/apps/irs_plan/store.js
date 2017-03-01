@@ -65,9 +65,7 @@ export default {
       const clusters = context.state.clusters
       const demo_instance_id = context.rootState.meta.demo_instance_id
       return Sync.post_clusters(clusters).then(() => {
-        // IRSSync.update_clusters(clusters, {demo_instance_id})
-        // console.log('**trumpet** clusters posted. now reload')
-        // location.reload()
+        return IRSSync.get_clusters({demo_instance_id, force_refresh: true})
       })
     },
     'irs_plan:delete_clusters': (context) => {
