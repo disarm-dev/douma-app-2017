@@ -126,7 +126,9 @@
           })
       },
       post_clusters() {
+        this.$store.commit('root:set_loading', true)
         this.$store.dispatch('irs_plan:post_clusters').then(() => {
+          this.$store.commit('root:set_loading', false)
           console.log('posted clusters')  
           this.$router.push({name: 'irs_plan'})
           setTimeout(() => {

@@ -131,7 +131,7 @@
 
 <style scoped>
   #map {
-    height: calc(100vh - 64px);
+    height: calc(100vh - 260px);
     z-index: 0;
   }
 </style>

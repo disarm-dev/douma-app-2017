@@ -116,7 +116,7 @@
   .container { margin: 10px; }
 
   #map {
-    min-height: calc(100vh - 64px);
+    min-height: calc(100vh - 200px);
     z-index: 0;
   }
 
