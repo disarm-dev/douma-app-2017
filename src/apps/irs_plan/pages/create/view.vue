@@ -21,7 +21,6 @@
 
             <!-- START CLYSTERING BUTTON -->
             <md-button class='md-raised md-accent' :disabled='!can_start_clustering' @click.native='start_clustering'>Start clustering</md-button>
-            <md-progress :md-indeterminate='$store.state.meta.sync_in_progress'></md-progress>
           </md-input-container>
         </div>
       </div>
