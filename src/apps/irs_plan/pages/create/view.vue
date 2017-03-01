@@ -131,6 +131,7 @@
           this.$store.commit('root:set_loading', false)
           console.log('posted clusters')  
           this.$router.push({name: 'irs_plan'})
+          // TODO: @nasty setTimeout
           setTimeout(() => {
             location.reload()
           }, 500)
