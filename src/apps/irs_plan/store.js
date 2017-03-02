@@ -36,13 +36,13 @@ export default {
         return Promise.resolve(localities)
       })
     },
-    'irs_plan:get_clusters': (context) => {
-      Sync.config(context.rootState.meta.demo_instance_id)
-      return Sync.get_clusters().then((clusters) => {
-        context.commit('irs_plan:set_clusters', clusters)
-        return Promise.resolve(clusters)
-      })
-    },
+    // 'irs_plan:get_clusters': (context) => {
+    //   Sync.config(context.rootState.meta.demo_instance_id)
+    //   return Sync.get_clusters().then((clusters) => {
+    //     context.commit('irs_plan:set_clusters', clusters)
+    //     return Promise.resolve(clusters)
+    //   })
+    // },
     'irs_plan:start_clustering': (context, country_code) => {
       const dist_km = 0.25
       const max_size = 50
@@ -65,7 +65,7 @@ export default {
       const clusters = context.state.clusters
       const demo_instance_id = context.rootState.meta.demo_instance_id
       return Sync.post_clusters(clusters).then(() => {
-        return IRSSync.get_clusters({demo_instance_id, force_refresh: true})
+        return context.commit('irs:get_clusters')
       })
     },
     'irs_plan:delete_clusters': (context) => {

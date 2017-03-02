@@ -21,11 +21,11 @@
     name: 'ReviewView',
     computed: {
       clusters_available() {
-        return this.$store.state.irs_tasker.clusters.length !== 0
+        return this.$store.state.irs.clusters.length !== 0
       }
     },
     mounted() {
-      this.$store.dispatch("irs_tasker:get_clusters", {demo_instance_id: this.$store.state.meta.demo_instance_id})
+      this.$store.dispatch("irs:get_clusters")
     },
     methods: {
       redo_clustering() {

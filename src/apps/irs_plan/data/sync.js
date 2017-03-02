@@ -39,10 +39,6 @@ class Sync {
       .catch(err => console.error(err))
   }
 
-  get_clusters(country_code) {
-    return this.RemoteDB.read_clusters()
-  }
-
   cluster_yourself(parameters) {
     const url = R_SERVER_URL + '/clusters'
 
