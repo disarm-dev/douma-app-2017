@@ -20,6 +20,14 @@ export default {
       })
     },
 
+    'irs:update_clusters': (context) => {
+      console.log("TODO: @feature Implement update_clusters")
+    },
+
+    'irs:redo_clusters': (context) => {
+      return context.dispatch('irs:delete_clusters')
+    },
+
     'irs:delete_clusters': (context) => {
       context.commit('root:set_loading', true)
       let demo_instance_id = context.rootState.meta.demo_instance_id
