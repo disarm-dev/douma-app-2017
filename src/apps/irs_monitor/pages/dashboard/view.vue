@@ -14,7 +14,7 @@
       <template v-if='data_loaded && !only_zeroes_returned'>
 
         <div class="box">
-          <md-card :md-theme="'default'" class="md-primary">
+          <md-card>
             
             <p class="big-number">{{round(((structuresUnsuccessfullyVisited + structuresSuccessfullyVisited) / tasks_total) * 100)}} %</p>
 
@@ -28,7 +28,7 @@
         </div>
 
         <div class="box">
-          <md-card :md-theme="'foci'" class="md-primary">
+          <md-card>
             
             <p class="big-number">{{round((structuresSuccessfullyVisited / tasks_total) * 100)}} %</p>
 
@@ -41,7 +41,7 @@
         </div>
 
         <div class="box">
-          <md-card :md-theme="'meta'" class="md-primary">
+          <md-card>
             
             <p class="big-number">{{round((structuresUnsuccessfullyVisited / tasks_total) * 100)}} %</p>
 
@@ -54,7 +54,7 @@
         </div>
 
         <div class="box">
-          <md-card :md-theme="'meta'" class="md-primary">
+          <md-card>
             
             <p class="big-number">{{clusters_total}}</p>
 
