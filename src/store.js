@@ -1,77 +1,38 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {StructuresCollection, FociCollection} from './lib/models.js'
 
-// TODO: Remove bootstrapped data for dev
-import fociExamples from './bootstrap/foci.json'
-import firebaseStructures from './bootstrap/structures.json'
-
+import irs_record from './apps/irs_record/store'
+import irs_tasker from './apps/irs_tasker/store'
+import irs_plan from './apps/irs_plan/store'
+import irs_monitor from './apps/irs_monitor/store'
+import meta from './apps/meta/store'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
+  modules: {irs_record, irs_tasker, irs_plan, irs_monitor, meta},
   state: {
-    foci: {
-      mapBounds: {}, // TODO: Check if needed
-      focis: new FociCollection(fociExamples),
-      activeFoci: null,
-      structures: new StructuresCollection(firebaseStructures),
-    },
-    irs: {
-      structures: new StructuresCollection, // StructuresCollection
-      activeStructure: null, // StructureModel from StructuresCollection
-    }
+    snackbar: {},
+    loading: false
   },
   mutations: {
-    // TODO: Rename to setStructures
-    'foci:loadStructures': (state, structures) => {
-      state.foci.structures = new StructuresCollection(structures)
+    'root:set_snackbar': (state, snackbar) => {
+      state.snackbar = snackbar
     },
-    'foci:setActiveFoci': (state, foci) => {
-      state.foci.activeFoci = foci
-    },
-    'foci:setClassification': (state, classification) => {
-      state.foci.activeFoci.properties.classification = classification
-    },
-    'foci:setMapBounds': (state, bounds) => {
-      state.foci.mapBounds = bound
-    },
-    'foci:setResponses': (state, responses) => {
-      state.foci.activeFoci.properties.responses = responses
-    },
-
-
-    'irs:loadStructures': (state, structures) => {
-      state.irs.structures = new StructuresCollection(structures)
-    },
-    'irs:unloadStructures': (state) => {
-      state.irs.structures = new StructuresCollection
-    },
-    'irs:setActiveStructure': (state, structure) => {
-      state.irs.activeStructure = structure
-    },
-    'irs:updateStructure': (state, structureCopy) => {
-      // TODO: findIndex is not always available, most likely due to Vuex, fix
-      const index = state.irs.structures.findIndex(structureCopy)
-      Vue.set(state.irs.structures.models, index, structureCopy)
+    'root:set_loading': (state, loading_bool) => {
+      state.loading = loading_bool
     }
   },
-  getters: {
-    'foci:activeFoci': (state) => {
-      var id;
-      if (!state.foci.activeFoci) return false
-      if (state.foci.activeFoci.hasOwnProperty('id')) {
-        id = state.foci.activeFoci.id
-      } else {
-        id = state.foci.activeFoci.properties.id
-      }
-      return {model: state.foci.focis.getModel(id), feature: state.foci.focis.getFeature(id)}
+  actions: {
+    'root:wipe_everything': (context) => {
+      context.dispatch('irs_record:clear_local_dbs').then(() => {
+        ['douma-user', 'douma-swz-ous', 'douma-zwe-ous', 'douma-saved-cluster-ids'].forEach(i => localStorage.setItem(i, null))
+        context.commit('meta:login_user', null)
+        location.reload()
+      })
+
     },
-    'foci.focis': (state) => {
-      
-    }
   }
 })
-
 
 export default store

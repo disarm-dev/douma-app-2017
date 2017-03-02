@@ -1,35 +1,60 @@
+// fetch polyfill (needed for Safari only?)
+import 'whatwg-fetch'
+
+// Vue
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import { sync } from 'vuex-router-sync'
+
+// Material CSS
 import './fonts/Roboto.css'
 import './fonts/MaterialIcons.css'
 
-import configure from './config'
-import App from './components/App.vue'
-import router from './router'
+// Configuration and setup
+import configureThemes from './config/theme'
+import configureServiceWorker from './config/service-worker'
+import configureRouter from './router'
+import Douma from './components/Douma.vue'
 import store from './store'
 
-configure()
+// Keep track of Errors
+import Raven from 'raven-js'
+import RavenVue from 'raven-js/plugins/vue'
 
-sync(store, router)
+Raven
+  .config('https://05f42524abca4b84ba7a9b9d05fb620a@sentry.io/134727')
+  .addPlugin(RavenVue, Vue)
+  .install();
+Raven.setExtraContext({DOUMA_version: COMMIT_HASH})
 
-let DOUMA = Vue.component('app', App)
-const handleTheme = (route) => {
-  if (route.name.indexOf('foci') >= 0) {
-    DOUMA.theme = 'cyan'
-  } else if (route.name.indexOf('irs') >= 0) {
-    DOUMA.theme = 'indigo'
-  } else if (route.name.indexOf('cases') >= 0) {
-    DOUMA.theme = 'teal'
-  } else {
-    DOUMA.theme = 'default'
+// Keep track of what version we're working on
+console.info('DOUMA version: ' + COMMIT_HASH)
+
+window.COMMIT_HASH = COMMIT_HASH
+
+// Create some very useful and simple global storage, especially for Maps
+// TODO: @refac Replace `douma.data` global with something else. Another global of some kind?
+window.douma = {
+  data: {
+    irs_record: {
+      entities: [],
+      entitiesLayer: null,
+
+      // Leaflet Map
+      leMap: null,
+      userCoordsMarker: null,
+    }
   }
 }
 
-DOUMA = new DOUMA({router, store}).$mount('#app')
+// Create a bunch of themes matching the routes
+configureThemes()
 
-handleTheme(router.currentRoute)
+// Make DOUMA App
+const InitialiseDOUMA = Vue.component('douma', Douma)
+const router = configureRouter()
+const DOUMA = new InitialiseDOUMA({
+  router, store
+}).$mount('#douma')
 
-router.afterEach((route) => {
-  handleTheme(route)
-})
+// ServiceWorker
+configureServiceWorker()

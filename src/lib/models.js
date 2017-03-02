@@ -1,8 +1,3 @@
-// TODO: Do this
-// class StructureModel {
-
-// }
-
 export class BaseCollection {
 
   defaults = {}
@@ -14,7 +9,7 @@ export class BaseCollection {
     this.featureCollection = this.toFeatureCollection()
   }
 
-  firebaseObjectToArray (data) {
+  firebaseObjectToArray (data) { // TODO: @refac Remove this firebaseObjectToArray function?
     // data is an "object of objects"
     // MUST HAVE an INTEGER as the key
     let output = []
@@ -30,7 +25,7 @@ export class BaseCollection {
   _createModels (models = []) {
     return models.map((m, i) => {
       // Add default params to model
-      // TODO: Check whether these are real or debugging-only
+      // TODO: @debug Check whether these are real or debugging-only
       return Object.assign({}, this.defaults, m)
     }) 
   }
@@ -84,12 +79,13 @@ export class BaseCollection {
   }
 }
 
+// TODO: @important Rename `Structures` and anything similar to more general SpatialEntity
 export class StructuresCollection extends BaseCollection {
 
   constructor(models) {
     super(models, {
       actioned: false,
-      casePresent: true, //(() => {Math.random() >= 0.5})(), // TODO: fix, doesn't work
+      casePresent: true,
       actionBy: 'Person A',
       actionDate: new Date().toISOString().substring(0, 10),
       actionTime: new Date().getHours() + ':' + new Date().getMinutes(),

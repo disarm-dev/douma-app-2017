@@ -1,26 +1,37 @@
 # DOUMA
 
-![OfflineIcon.png](https://bitbucket.org/repo/7qBnaL/images/3197852267-OfflineIcon.png)
+DiSARM Offline Universal Multi-device Application
 
-> DiSARM Offline Universal Multi-device Application
+> "If your app isn’t a steak knife, it should be."
 
->> "If your app isn’t a steak knife, it should be."
+## Development
 
-## Deploying
+``` bash
+npm run dev
+```
+
+
+## Deployment
 
 Uses [surge.sh](http://surge.sh).
 
-## Build Setup
-
 ``` bash
-# install dependencies
-npm install
+# Build it
+npm run build 
 
-# serve with hot reload at localhost:8080
-npm run dev
+# Create service worker
+npm run service-worker 
 
-# build for production with minification
-npm run build
+# Build and deploy to surge
+npm run build_deploy 
+
+# Deploy to surge
+npm run deploy 
 ```
 
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
+Deployment to _surge_ will fail without the correct access. Obvs.
+
+
+## Service Worker
+
+Disable the service worker in production by appending `?sw=false` to the url.

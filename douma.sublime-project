@@ -14,6 +14,13 @@
         [
           "node_modules", "dist", "tmp.*", "|.git", "|.svn", "|.hg"
         ]
-      }
+      },
+    "todoreview": {
+        "exclude_folders": [
+            "*.git*",
+            "*node_modules*",
+            "*dist*"
+        ]
+    }
   }
 }

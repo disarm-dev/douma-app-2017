@@ -2,25 +2,41 @@ import Vue from 'vue'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.css'
 
-export default function () {
+export default () => {
   Vue.use(VueMaterial)
 
-  Vue.material.theme.registerAll({
+  Vue.material.registerTheme({
     default: {
       primary: 'green',
       accent: 'amber'
     },
-    cyan: {
+    foci: {
       primary: 'cyan',
       accent: 'pink'
     },
-    indigo: {
+    irs_monitor: {
       primary: 'indigo',
       accent: 'pink'
     },
-    teal: {
+    irs_plan: {
+      primary: 'indigo',
+      accent: 'pink'
+    },
+    irs_record: {
+      primary: 'indigo',
+      accent: 'pink'
+    },
+    irs_tasker: {
+      primary: 'indigo',
+      accent: 'pink'
+    },
+    cases: {
       primary: 'teal',
       accent: 'orange'
+    },
+    meta: {
+      primary: 'pink',
+      accent: 'blue'
     }
   })
 }

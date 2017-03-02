@@ -1,10 +1,13 @@
 var path = require('path')
 var webpack = require('webpack')
-var Visualizer = require('webpack-visualizer-plugin')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
 
+var commitHash = require('child_process')
+  .execSync('git rev-parse HEAD')
+  .toString();
+
 module.exports = {
-  entry: './src/index.js',
+  entry: ['whatwg-fetch', './src/index.js'],
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/',
@@ -16,7 +19,7 @@ module.exports = {
         test: /\.(eot|ttf|woff|woff2)$/,
         loader: 'file-loader'
       },
-      { 
+      {
         test: /\.css$/,
         loader: "style-loader!css-loader"
       },
@@ -57,18 +60,23 @@ module.exports = {
     historyApiFallback: true,
     noInfo: true
   },
-  devtool: '#eval-source-map'
+  devtool: '#eval-source-map',
+  plugins: [
+    new webpack.DefinePlugin({
+      "COMMIT_HASH": JSON.stringify(commitHash),
+      "DOUMA_DEV_MODE": process.env.NODE_ENV !== 'production',
+      DOUMA_API_URL: "'https://douma-api.herokuapp.com'",
+      // DOUMA_API_URL: "'http://douma-api.herokuapp.com'",
+      // DOUMA_API_URL: "'http://localhost:3000'"
+      R_SERVER_URL: "'https://cluster.api.disarm.io'"
+    })
+  ]
 }
 
 if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#cheap-source-map'
-  // http://vue-loader.vuejs.org/en/workflow/production.html
+  module.exports.resolve.alias['vue$'] = 'vue/dist/vue.min'
   module.exports.plugins = (module.exports.plugins || []).concat([
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
-    }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
@@ -81,10 +89,11 @@ if (process.env.NODE_ENV === 'production') {
         { from: 'src/index.html', to: '200.html' }
     ]),
     new CopyWebpackPlugin([
-        { from: 'src/assets/logo.png', to: 'assets/logo.png' },
+        { from: 'src/assets', to: 'assets' },
         { from: 'src/CNAME' },
+        { from: 'src/favicon.ico' },
+        { from: 'src/manifest.json' },
         { from: 'src/index.html' },
     ]),
-    new Visualizer(),
   ])
 }
