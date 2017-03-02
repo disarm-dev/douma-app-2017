@@ -68,7 +68,7 @@
 
 <style scoped>
   #map {
-    min-height: calc(100vh - 64px);
+    min-height: calc(100vh - 280px);
     z-index: 0;
   }
 </style>

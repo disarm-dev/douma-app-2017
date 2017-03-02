@@ -6,7 +6,7 @@ import IRSSync from '../irs/sync.js'
 export default {
   state: {
     // DATA
-    clusters: [],
+    clusters: [], // TODO: @nasty Change everything relying on this across whole of IRS - move to `irs/store.js`
     initCalled: false
   },
   mutations: {

@@ -17,7 +17,7 @@
       }
     },
     watch: {
-      '$store.state.irs_tasker.clusters': 'draw_cluster',
+      '$store.state.irs_tasker.clusters': 'draw_cluster', // TODO: @nasty Stop watching irs_tasker.clusters 
       '$store.state.irs_record.tasks': 'draw_tasks',
     },
     mounted() {
@@ -131,7 +131,7 @@
 
 <style scoped>
   #map {
-    height: calc(100vh - 64px);
+    height: calc(100vh - 260px);
     z-index: 0;
   }
 </style>

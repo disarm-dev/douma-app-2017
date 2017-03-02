@@ -88,7 +88,7 @@
 
 <style scoped>
   #map {
-    min-height: 85vh;
+    min-height: calc(100vh - 250px);
     z-index: 0;
   }
 </style>

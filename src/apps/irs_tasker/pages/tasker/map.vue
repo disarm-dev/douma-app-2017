@@ -1,5 +1,10 @@
 <template>
   <div style='position: relative;'>
+    <div class='container'>
+      <h1>Tasker</h1>
+      <p>This page allows a manager to assign each Cluster to a spray team.</p>
+      <i>This is currently not used in the 'IRS Record' section.</i>
+    </div>
     <div id='map'></div>
     <md-menu id='spray_team_selector' md-direction="bottom right">
       <md-button md-menu-trigger class='md-raised'>
@@ -108,8 +113,10 @@
 </script>
 
 <style scoped>
+  .container { margin: 10px; }
+
   #map {
-    min-height: calc(100vh - 64px);
+    min-height: calc(100vh - 200px);
     z-index: 0;
   }
 

@@ -1,6 +1,10 @@
 <template>
   <div>
-    <h1 class="md-display-1" style="padding: 0 1em;">IRS Monitor</h1>
+    <div class='container'>
+      <h1 class="md-display-1">IRS Monitor</h1>
+      <p>This page provides an overview of the activity on the current set of Clusters.</p>
+    </div>
+
     <div class="boxes">
 
       <div v-if='!data_loaded'>
@@ -115,6 +119,7 @@
 </script>
 
 <style>
+  .container {margin: 10px;}
   .boxes {
     display: flex;
     flex-wrap: wrap; 

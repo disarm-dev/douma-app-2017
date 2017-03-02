@@ -24,8 +24,9 @@
         <!-- SELECTION SLIDER -->
         <div v-if='sorted_localities.length > 0'>
           <p>The local areas are displayed below. Change the slider to select a number of areas to target. They are already sorted by risk, so the highest-risk areas will be included first.</p>
+          <p>The larger the number of areas selected, the longer the processing will take, and the larger the data created. For a quicker experience, choose a lower number.</p>
           <md-input-container
-            <label>Select number of localities (ordered ascending by risk)</label>
+            <label>Select number of localities</label>
             <vue-slider v-bind="slider_options" v-model="risk_slider"></vue-slider>
 
             <!-- START CLYSTERING BUTTON -->
@@ -36,8 +37,12 @@
     </div>
 
     <div v-show="currentRoute === 'irs_plan:create:preview'">
-      <md-button @click.native="$router.push({name: 'irs_plan:create:select_ous'})">Edit localities</md-button>
-      <md-button @click.native="post_clusters">Post clusters</md-button>
+      <div class="container">
+        <h1>Clustering preview</h1>
+        <p>Are you happy with these Clusters?</p>
+        <md-button class='md-primary md-raised' @click.native="post_clusters">YES (save)</md-button>
+        <md-button class='md-warn' @click.native="$router.push({name: 'irs_plan:create:select_ous'})">NO (start again)</md-button>
+      </div>
     </div>
 
     <!-- ROUTER-VIEW -->
@@ -103,6 +108,7 @@
 
         this.can_start_clustering = false
 
+        this.$store.commit("root:set_loading", true)
         this.$store.dispatch("irs_plan:start_clustering", this.country_code)
           .then((res) => {
             this.can_start_clustering = true
@@ -111,16 +117,21 @@
             } else {
               this.$router.push({name: 'irs_plan:create:preview'})
             }
+            this.$store.commit("root:set_loading", false)
           })
           .catch(() => {
             this.can_start_clustering = true
             this.$refs.snackbar.open()
+            this.$store.commit("root:set_loading", false)
           })
       },
       post_clusters() {
+        this.$store.commit('root:set_loading', true)
         this.$store.dispatch('irs_plan:post_clusters').then(() => {
+          this.$store.commit('root:set_loading', false)
           console.log('posted clusters')  
           this.$router.push({name: 'irs_plan'})
+          // TODO: @nasty setTimeout
           setTimeout(() => {
             location.reload()
           }, 500)
