@@ -1,21 +1,5 @@
 <template>
-  <div style='position: relative;'>
-    <div class='container'>
-      <h1>Tasker</h1>
-      <p>This page allows a manager to assign each Cluster to a spray team.</p>
-      <i>This is currently not used in the 'IRS Record' section.</i>
-    </div>
-    <div id='map'></div>
-    <md-menu id='spray_team_selector' md-direction="bottom right">
-      <md-button md-menu-trigger class='md-raised'>
-        {{ selector_title }}
-      </md-button>
-
-      <md-menu-content>
-        <md-menu-item v-for='spray_team in spray_team_options' @selected='select_spray_team(spray_team)'>{{spray_team.name}}</md-menu-item>
-      </md-menu-content>
-    </md-menu>
-  </div>
+  <div id='map'></div>
 </template>
 
 <script>
@@ -24,28 +8,18 @@
 
   export default {
     name: 'TaskerMap',
+    props: ['clusters', 'unsynced_clusters', 'selected_spray_team'],
     data() {
       return {
-        spray_team_options: [
-          { id: 'spray_team_1', name: 'Spray team 1'},
-          { id: 'spray_team_2', name: 'Spray team 2'},
-          { id: 'spray_team_3', name: 'Spray team 3'}
-        ],
         map: {},
         search_results_layer: null,
-        selected_spray_team: null
       }
     },
     watch: {
-      '$store.state.irs_tasker.clusters': 'draw_clusters',
+      'clusters': 'draw_clusters',
     },
     mounted() {
       this.create_map()
-    },
-    computed: {
-      selector_title() {
-        return this.selected_spray_team ? this.selected_spray_team.name : "Select spray team to assign tasks"
-      }
     },
     methods: {
       create_map() {
@@ -70,11 +44,11 @@
         }
 
         // Return unless there are search_results to render
-        if (this.$store.state.irs_tasker.clusters.length === 0) {
+        if (this.clusters.length === 0) {
           return
         }
 
-        const search_results_layer = L.geoJSON(this.$store.state.irs_tasker.clusters, {
+        const search_results_layer = L.geoJSON(this.clusters, {
           style: (feature, layer) => {
             let style
             switch(feature.properties.spray_team_id){
@@ -102,12 +76,8 @@
         if(!this.selected_spray_team) return
 
         cluster.properties.spray_team_id = this.selected_spray_team.id
-
-        this.$store.dispatch("irs_tasker:update_cluster", cluster)
+        this.$store.dispatch("irs:update_cluster", cluster)
       },
-      select_spray_team(spray_team){
-        this.selected_spray_team = spray_team
-      }
     }
   }
 </script>
