@@ -8,7 +8,7 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "service-worker": "sw-precache --config=sw-precache-config.js",
     "build_deploy_dev": "npm run build; npm run service-worker; surge dist/ https://douma-dev.surge.sh",
-    "build_deploy_prod": "npm run build; npm run service-worker; surge dist/ https://douma.disarm.io"
+    "build_deploy_prod": "npm run build; npm run service-worker; surge dist/ https://app.disarm.io"
   },
   "dependencies": {
     "@mapbox/geojson-coords": "^0.0.0",
