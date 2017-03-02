@@ -67,12 +67,6 @@
         can_start_clustering: true,
         country_code: 'SWZ',
         risk_slider: 0,
-        slider_options: {
-          min: 1,
-          max: 5,
-          value: 1,
-          interval: 1
-        },
         snack_bar: {
           vertical: 'top',
           horizontal: 'center',
@@ -89,26 +83,27 @@
       },
       currentRoute() {
         return this.$route.name
+      },
+      slider_options() {
+        return {
+          min: 1,
+          max: this.$store.state.irs_plan.localities.length,
+          value: 1,
+          interval: 1
+        }
       }
     },
     methods: {
       get_ous() {
-        return this.$store.dispatch("irs_plan:get_ous", this.country_code).then(res => {
-          this.slider_options.max = res.length
-          this.slider_options.value = res.length
-        })
+        return this.$store.dispatch("irs_plan:get_ous", this.country_code)
       },
       start_clustering() {
         if(this.selected_localities.length === 0) return
-
-        this.selected_localities = this.sorted_localities.slice(0, this.risk_slider)
-
 
         this.$store.commit("irs_plan:set_selected_localities", this.selected_localities)
 
         this.can_start_clustering = false
 
-        this.$store.commit("root:set_loading", true)
         this.$store.dispatch("irs_plan:start_clustering", this.country_code)
           .then((res) => {
             this.can_start_clustering = true
@@ -117,24 +112,15 @@
             } else {
               this.$router.push({name: 'irs_plan:create:preview'})
             }
-            this.$store.commit("root:set_loading", false)
           })
           .catch(() => {
             this.can_start_clustering = true
             this.$refs.snackbar.open()
-            this.$store.commit("root:set_loading", false)
           })
       },
       post_clusters() {
-        this.$store.commit('root:set_loading', true)
         this.$store.dispatch('irs_plan:post_clusters').then(() => {
-          this.$store.commit('root:set_loading', false)
-          console.log('posted clusters')  
           this.$router.push({name: 'irs_plan'})
-          // TODO: @nasty setTimeout
-          setTimeout(() => {
-            location.reload()
-          }, 500)
         })
         
       }
