@@ -18,7 +18,7 @@
       <template v-if='data_loaded && !only_zeroes_returned'>
 
         <div class="box">
-          <md-card :md-theme="'default'" class="md-primary">
+          <md-card>
             
             <p class="big-number">{{round(((structuresUnsuccessfullyVisited + structuresSuccessfullyVisited) / tasks_total) * 100)}} %</p>
 
@@ -32,7 +32,7 @@
         </div>
 
         <div class="box">
-          <md-card :md-theme="'foci'" class="md-primary">
+          <md-card>
             
             <p class="big-number">{{round((structuresSuccessfullyVisited / tasks_total) * 100)}} %</p>
 
@@ -45,7 +45,7 @@
         </div>
 
         <div class="box">
-          <md-card :md-theme="'meta'" class="md-primary">
+          <md-card>
             
             <p class="big-number">{{round((structuresUnsuccessfullyVisited / tasks_total) * 100)}} %</p>
 
@@ -56,6 +56,19 @@
 
           </md-card>
         </div>
+
+        <div class="box">
+          <md-card>
+            
+            <p class="big-number">{{clusters_total}}</p>
+
+            <md-card-header>
+              <div class="md-title">Clusters </div>
+              <div class="md-subhead">in Swaziland</div>
+            </md-card-header>
+
+          </md-card>
+        </div>        
 
 
       </template>
@@ -90,8 +103,11 @@
       tasks_total() {
         return this.$store.state.irs_monitor.taskCounts.total
       },
+      clusters_total() {
+        return this.$store.state.irs_monitor.clusterCount
+      },
       only_zeroes_returned() {
-        return (this.$store.state.irs_monitor.taskCounts.total === 0)
+        return ((this.$store.state.irs_monitor.taskCounts.total === 0) && (this.$store.state.irs_monitor.clusterCount === 0))
       }
     },
     methods:{
