@@ -26,6 +26,15 @@ class IRSSync  {
     })
   }
 
+  update_cluster_local(cluster) {
+    return LocalDB.clusters.update(cluster)
+  }
+
+  update_clusters_remote(clusters, options) {
+    const RemoteDB = new RemoteDBClass(options.demo_instance_id)
+    return RemoteDB.update_clusters(clusters)
+  }
+
   delete_clusters(demo_instance_id) {
     const RemoteDB = new RemoteDBClass(demo_instance_id)
     return RemoteDB.delete_clusters().then(() => {
