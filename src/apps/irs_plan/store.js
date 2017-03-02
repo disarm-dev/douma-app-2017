@@ -9,15 +9,22 @@ export default {
     // DATA
     localities: [],
     selected_localities: [],
-    clusters: [],
+    slider_options: {
+      min: 1,
+      max: 5,
+      value: 1,
+      interval: 1
+    }
   },
   mutations: {
     'irs_plan:set_localities': (state, localities) => {
       state.localities = localities
     },  
-    'irs_plan:set_clusters': (state, clusters) => {
-      state.clusters = clusters
+
+    'irs_plan:set_slider_options_max': (state, max) => {
+      state.slider_options.max = max
     },
+
     'irs_plan:set_selected_localities': (state, selected_localities) => {
       state.selected_localities = selected_localities
     }
@@ -36,13 +43,6 @@ export default {
         return Promise.resolve(localities)
       })
     },
-    // 'irs_plan:get_clusters': (context) => {
-    //   Sync.config(context.rootState.meta.demo_instance_id)
-    //   return Sync.get_clusters().then((clusters) => {
-    //     context.commit('irs_plan:set_clusters', clusters)
-    //     return Promise.resolve(clusters)
-    //   })
-    // },
     'irs_plan:start_clustering': (context, country_code) => {
       const dist_km = 0.25
       const max_size = 50
@@ -57,19 +57,18 @@ export default {
       return Sync.cluster_yourself({country_code, polygons, dist_km, max_size})
       .then(res => {
         context.commit('root:set_loading', false)
-        context.commit("irs_plan:set_clusters", res)
+        context.commit("irs:set_clusters", res)
         return res
     })
     },
     'irs_plan:post_clusters': (context) => {
-      const clusters = context.state.clusters
+      const clusters = context.rootState.irs.clusters
       const demo_instance_id = context.rootState.meta.demo_instance_id
+      context.commit('root:set_loading', true)
       return Sync.post_clusters(clusters).then(() => {
-        return context.commit('irs:get_clusters')
+        context.commit('root:set_loading', false)
+        return context.commit('irs:set_clusters', clusters)
       })
-    },
-    'irs_plan:delete_clusters': (context) => {
-      return Sync.delete_clusters()
-    } 
+    }
   }
 }

@@ -13,24 +13,21 @@ class IRSSync  {
         .then((clusters) => {
           clusters_cache = clusters.map(cluster => {
             cluster._sync_status = 'synced'
+            return cluster
           })
-          return LocalDB.clusters.create(clusters).then(() => {
-              return Promise.resolve(clusters)
+          return LocalDB.clusters.create(clusters_cache).then(() => {
+              return Promise.resolve(clusters_cache)
           })
         })
-        .then(() => clusters_cache)
       } else {
         return clusters
       }
     })
   }
 
-  update_clusters(clusters) {
-    return LocalDB.clusters.create(clusters)
-  }
-
-  delete_clusters(clusters) {
-    return this.RemoteDB.delete_clusters().then(() => {
+  delete_clusters(demo_instance_id) {
+    const RemoteDB = new RemoteDBClass(demo_instance_id)
+    return RemoteDB.delete_clusters().then(() => {
       return LocalDB.clusters.clear()
     })
   }
