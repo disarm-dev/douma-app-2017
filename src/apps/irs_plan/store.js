@@ -9,20 +9,10 @@ export default {
     // DATA
     localities: [],
     selected_localities: [],
-    slider_options: {
-      min: 1,
-      max: 5,
-      value: 1,
-      interval: 1
-    }
   },
   mutations: {
     'irs_plan:set_localities': (state, localities) => {
       state.localities = localities
-    },  
-
-    'irs_plan:set_slider_options_max': (state, max) => {
-      state.slider_options.max = max
     },
 
     'irs_plan:set_selected_localities': (state, selected_localities) => {
