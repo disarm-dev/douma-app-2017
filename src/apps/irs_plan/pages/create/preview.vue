@@ -1,5 +1,11 @@
 <template>
   <div>
+    <div class="container">
+      <h1>Clustering preview</h1>
+      <p>Are you happy with these Clusters?</p>
+      <md-button class='md-primary md-raised' @click.native="post_clusters">YES (save)</md-button>
+      <md-button class='md-warn' @click.native="$router.push({name: 'irs_plan:create:select_ous'})">NO (start again)</md-button>
+    </div>
     <div id='map'></div>
   </div>
 </template>
@@ -24,6 +30,11 @@
       this.draw_clusters()
     },
     methods: {
+      post_clusters() {
+        this.$store.dispatch('irs_plan:post_clusters').then(() => {
+          this.$router.push({name: 'irs_plan'})
+        })
+      }, 
       create_map() {
         this.map = Leaflet.map('map', {
           tms: true,
@@ -67,8 +78,6 @@
 
         if (!redrawing) this.map.fitBounds(clusters_layer.getBounds())
         this.clusters_layer = clusters_layer
-
-
       }
     }
   }
