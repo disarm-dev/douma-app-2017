@@ -49,6 +49,15 @@
       <md-button class="md-accent" md-theme="light-blue" @click.native="snackbar_action">Yes?</md-button>
     </md-snackbar>
 
+
+    <md-dialog-alert
+      :md-title="$store.state.sw_message.title"
+      :md-content="$store.state.sw_message.message"
+      md-ok-text="Ok"
+      ref="sw_dialog">
+    </md-dialog-alert>
+
+
     <div>
       <!-- Most likely to contain the AppletContainer -->
       <router-view></router-view>
@@ -66,7 +75,8 @@
     },
     props: ['theme'],
     watch: {
-      '$store.state.snackbar': 'snackbar_open'
+      '$store.state.snackbar': 'snackbar_open',
+      '$store.state.sw_message': 'sw_dialog_open'
     },
     data() {
       return {
@@ -108,6 +118,9 @@
       },
       toggleSideNav() {
         this.$refs.sideNav.toggle();
+      },
+      sw_dialog_open() {
+        this.$refs.sw_dialog.open()
       },
       snackbar_open() {
         this.$refs.snackbar.open()
