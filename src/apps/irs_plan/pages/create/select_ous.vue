@@ -26,11 +26,19 @@
         <vue-slider v-bind="slider_options" v-model="risk_slider"></vue-slider>
 
         <!-- START CLYSTERING BUTTON -->
-        <md-button class='md-raised md-accent' :disabled='!can_start_clustering' @click.native='start_clustering'>Start clustering</md-button>
+        <md-button class='md-raised md-accent' :disabled='!can_start_clustering' @click.native='confirm_clustering'>Start clustering</md-button>
       </md-input-container>
     </div>
         
     <div id='map'></div>
+
+    <md-dialog-confirm
+      :md-content="alert_content"
+      md-ok-text="Yes, cluster"
+      md-cancel-text="No, let me change"
+      @close="start_clustering"
+      ref="dialog">
+    </md-dialog-confirm>
   </div>
 </template>
 
@@ -45,9 +53,11 @@
     components: {vueSlider},
     data() {
       return {
+        confirm_large_clusters: false,
+        alert_content: '',
         can_start_clustering: true,
         country_code: 'SWZ',
-        risk_slider: 0,
+        risk_slider: 1,
         map: {},
         localities_layer: null
       }
@@ -64,7 +74,6 @@
         return {
           min: 1,
           max: this.$store.state.irs_plan.localities.length,
-          value: 1,
           interval: 1
         }
       },
@@ -72,16 +81,31 @@
         return this.sorted_localities.slice(0, this.risk_slider)
       },
       sorted_localities() {
-        return this.$store.state.irs_plan.localities.sort((a,b) => a.properties.MaxRisk - b.properties.MaxRisk).reverse()
+        return this.$store.state.irs_plan.localities.sort((a,b) => a.properties.MeanElev - b.properties.MeanElev)//.reverse()
       }
     },
     methods: {
       get_ous() {
-        return this.$store.dispatch("irs_plan:get_ous", this.country_code)
+        return this.$store.dispatch("irs_plan:get_ous", this.country_code).then(() => {
+          this.risk_slider = this.$store.state.irs_plan.localities.length
+        })
       },
-      start_clustering() {
-        if(this.selected_localities.length === 0) return
+      confirm_clustering() {
+        if(this.selected_localities.length === 0) {
+          return
+        } 
 
+        if (this.country_code === 'SWZ' &&  this.selected_localities.length > 155) {
+          this.alert_content = `You have selected ${this.selected_localities.length} areas to cluster. This could take a while. It will be faster if you select fewer areas. Do you want to continue?`
+          return this.$refs.dialog.open()
+        }
+
+        this.start_clustering() 
+      },
+      start_clustering(confirm_value) {
+        
+        if (confirm_value == 'cancel') return 
+        
         this.$store.commit("irs_plan:set_selected_localities", this.selected_localities)
 
         this.can_start_clustering = false

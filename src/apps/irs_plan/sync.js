@@ -28,7 +28,7 @@ class Sync {
 
     if(ous) return Promise.resolve(ous)
 
-    const url = R_SERVER_URL + `/localities/${country_code.toLowerCase()}.geojson`
+    const url = R_SERVER_URL + `/local_areas/${country_code.toLowerCase()}.geojson`
 
     return fetch(url, {mode: 'cors'})
       .then(res => res.json())
