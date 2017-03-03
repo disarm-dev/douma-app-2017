@@ -19,7 +19,7 @@
 
     <!-- SELECTION SLIDER -->
     <div v-if='sorted_localities.length > 0'>
-      <p>The local areas are displayed below. Change the slider to select a number of areas to target. They are already sorted by risk, so the highest-risk areas will be included first.</p>
+      <p>The local areas are displayed below. Change the slider to select a number of areas to target. For demonstration, they are already sorted by a proxy for risk (elevation), so the 'highest-risk' areas will be included first.</p>
       <p>The larger the number of areas selected, the longer the processing will take, and the larger the data created. For a quicker experience, choose a lower number.</p>
       <md-input-container
         <label>Select number of localities</label>

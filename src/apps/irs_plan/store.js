@@ -1,6 +1,6 @@
 // Store for 'IRS Plan' applet
 
-import Sync from './data/sync.js'
+import Sync from './sync.js'
 import IRSSync from '../irs/sync.js'
 import {remove_properties} from '../../lib/map_helpers'
 
