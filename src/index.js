@@ -57,4 +57,4 @@ const DOUMA = new InitialiseDOUMA({
 }).$mount('#douma')
 
 // ServiceWorker
-configureServiceWorker()
+configureServiceWorker(DOUMA)

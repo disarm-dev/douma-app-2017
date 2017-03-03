@@ -2,7 +2,7 @@
 // SERVICE WORKER
 // 
 
-export default () => {
+export default (DOUMA) => {
   const getParameterByName = (name, url) => {
     if (!url) {
       url = window.location.href;
@@ -31,13 +31,11 @@ export default () => {
                 // have been added to the cache.
                 // It's the perfect time to display a "New content is available; please refresh."
                 // message in the page's interface.
-                console.log('New or updated content is available.');
-                douma.sw = {title: 'Update available', message: "An update is available, please refresh"}
+                DOUMA.$store.commit("root:set_sw_message", {title: 'DiSARM has updated', message: "Please refresh browser to start using the newer version."})
               } else {
                 // At this point, everything has been precached.
                 // It's the perfect time to display a "Content is cached for offline use." message.
-                console.log('Content is now available offline!');
-                douma.sw = {title: 'Available offline', message: "Content is available offline"}
+                DOUMA.$store.commit("root:set_sw_message", {title: 'DiSARM can now go offline', message: "You can now go offline and use 'IRS Record'"})
               }
               break;
 

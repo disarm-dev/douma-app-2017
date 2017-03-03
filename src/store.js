@@ -13,7 +13,8 @@ const store = new Vuex.Store({
   modules: {irs, irs_record, irs_plan, irs_monitor, meta},
   state: {
     snackbar: {},
-    loading: false
+    loading: false,
+    sw_message: {}
   },
   mutations: {
     'root:set_snackbar': (state, snackbar) => {
@@ -21,6 +22,9 @@ const store = new Vuex.Store({
     },
     'root:set_loading': (state, loading_bool) => {
       state.loading = loading_bool
+    },
+    'root:set_sw_message': (state, sw_message) => {
+      state.sw_message = sw_message
     }
   },
   actions: {
