@@ -4,9 +4,6 @@ import Sync from './data/sync.js'
 
 export default {
   state: {
-    // DATA
-    clusters: null,
-    tasks: null,
     clusterCount: 0,
     taskCounts: {
       total: 0,
@@ -16,16 +13,8 @@ export default {
     }
   },
   mutations: {
-    'irs_monitor:set_clusters': (state, clusters) => {
-      state.clusters = clusters
-    },
-
     'irs_monitor:set_clusters_count': (state, count) => {
       state.clusterCount = count
-    },
-
-    'irs_monitor:set_tasks': (state, tasks) => {
-      state.tasks = tasks
     },
 
     'irs_monitor:set_tasks_count': (state, count) => {

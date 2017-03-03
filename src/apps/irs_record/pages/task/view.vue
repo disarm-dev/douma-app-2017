@@ -7,7 +7,7 @@
     name: 'TaskView',
     props: ['cluster_id', 'task_id'],
     mounted() {
-      const cluster = this.$store.state.irs_tasker.clusters.find(cluster => cluster._id === this.cluster_id)
+      const cluster = this.$store.state.irs.clusters.find(cluster => cluster._id === this.cluster_id)
       this.$store.dispatch("irs_record:set_tasks_for_cluster", cluster)
     },
     watch: {

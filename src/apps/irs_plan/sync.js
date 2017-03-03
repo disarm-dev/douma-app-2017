@@ -1,8 +1,8 @@
 // TODO: @refac None of this belongs in a Sync file - should be all in a remote file.
 // 
 // Called by $store, coordinates local and remote activity
-import LocalDB from '../../../lib/local.js'
-import RemoteDBClass from '../../../lib/remote.js'
+import LocalDB from '../../lib/local.js'
+import RemoteDBClass from '../../lib/remote.js'
 
 class Sync {
 
@@ -39,10 +39,6 @@ class Sync {
       .catch(err => console.error(err))
   }
 
-  get_clusters(country_code) {
-    return this.RemoteDB.read_clusters()
-  }
-
   cluster_yourself(parameters) {
     const url = R_SERVER_URL + '/clusters'
 
@@ -62,10 +58,6 @@ class Sync {
 
   post_clusters(clusters) {
     return this.RemoteDB.post_clusters(clusters)
-  }
-
-  delete_clusters(clusters) {
-    return this.RemoteDB.delete_clusters()
   }
 
 }

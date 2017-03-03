@@ -1,5 +1,11 @@
 <template>
   <div>
+    <div class="container">
+      <h1>Clustering preview</h1>
+      <p>Are you happy with these Clusters?</p>
+      <md-button class='md-primary md-raised' @click.native="post_clusters">YES (save)</md-button>
+      <md-button class='md-warn' @click.native="$router.push({name: 'irs_plan:create:select_ous'})">NO (start again)</md-button>
+    </div>
     <div id='map'></div>
   </div>
 </template>
@@ -17,13 +23,18 @@
       }
     },
     watch: {
-      '$store.state.irs_tasker.clusters': 'draw_clusters',
+      '$store.state.irs.clusters': 'draw_clusters',
     },
     mounted() {
       this.create_map()
       this.draw_clusters()
     },
     methods: {
+      post_clusters() {
+        this.$store.dispatch('irs_plan:post_clusters').then(() => {
+          this.$router.push({name: 'irs_plan'})
+        })
+      }, 
       create_map() {
         this.map = Leaflet.map('map', {
           tms: true,
@@ -46,11 +57,11 @@
         }
 
         // Return unless there are search_results to render
-        if (this.$store.state.irs_plan.clusters.length === 0) {
+        if (this.$store.state.irs.clusters.length === 0) {
           return
         }
 
-        const clusters_layer = L.geoJSON(this.$store.state.irs_plan.clusters, {
+        const clusters_layer = L.geoJSON(this.$store.state.irs.clusters, {
           style: (feature, layer) => {
               return { color: 'yellow' }
           },
@@ -67,8 +78,6 @@
 
         if (!redrawing) this.map.fitBounds(clusters_layer.getBounds())
         this.clusters_layer = clusters_layer
-
-
       }
     }
   }

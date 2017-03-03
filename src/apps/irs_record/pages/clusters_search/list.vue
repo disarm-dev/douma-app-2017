@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>ClustersSearchList</h1>
+    <!-- TODO: @feature use virtual scroll list instead -->
     <md-list>
       <md-list-item 
         v-for='cluster in search_results'

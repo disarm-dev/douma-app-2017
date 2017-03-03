@@ -4,10 +4,7 @@ import Sync from './sync.js'
 
 export default {
   state: {
-    // EDITING
-
     // DATA
-    clusters: [],
     tasks: [],
     saved_cluster_ids: [],
 
@@ -16,11 +13,6 @@ export default {
   },
   mutations: {
     // EDITING
-
-    // DATA
-    "irs_record:set_clusters": (state, clusters) => {
-      state.clusters = clusters
-    },
     'irs_record:set_saved_clusters': (state, cluster_ids) => {
       state.saved_cluster_ids = cluster_ids
     },
@@ -52,35 +44,29 @@ export default {
         })
         .catch((e) => console.error(e))
     },
-    "irs_record:set_clusters_from_local": (context) => {
-      return Sync.read_local_clusters({}).then((result) => {
-        return new Promise((resolve, reject) => {
-          resolve(context.commit("irs_record:set_clusters", result))
-        })
-      })
-    },
     'irs_record:load_saved_clusters': (context) => {
       context.commit('irs_record:set_saved_clusters', (JSON.parse(localStorage.getItem('douma-saved-cluster-ids'))|| []))
     },
     "irs_record:open_clusters": (context, clusters) => {
       context.commit("root:set_loading", true)
 
-      return Sync.open_clusters(clusters).then(() => {
+      return Sync.open_clusters(clusters).then((res) => {
         context.commit("root:set_loading", false)
-        return context.dispatch('irs_record:set_clusters_from_local')
+        context.dispatch('irs_record:load_saved_clusters')
+        return context.commit("irs:set_clusters", clusters)
       }).catch(error => console.error(error))
     },
 
     "irs_record:close_cluster": (context, cluster) => {
       return Sync.close_cluster(cluster).then(() => {
-        return context.dispatch('irs_record:set_clusters_from_local')
+        return context.dispatch('irs:get_clusters')
       })
     },
 
     "irs_record:clear_local_dbs": (context) => {
       Sync.clear_local_dbs()
       .then(() => {
-        context.commit("irs_record:set_clusters", null)
+        context.commit("irs:set_clusters", null)
         context.commit("irs_record:set_tasks", null)
         context.commit("irs_record:set_spatial_entities", null)
       })
@@ -102,6 +88,7 @@ export default {
     "irs_record:sync_tasks": (context, tasks) => {
       return Sync.sync_tasks(tasks)
     },
+
     "irs_record:get_unsynced_tasks_for_cluster": (context, clusters) => {
       if (clusters.length === 0) return
       const saved_cluster_ids = (JSON.parse(localStorage.getItem('douma-saved-cluster-ids'))|| [])

@@ -65,9 +65,8 @@ module.exports = {
     new webpack.DefinePlugin({
       "COMMIT_HASH": JSON.stringify(commitHash),
       "DOUMA_DEV_MODE": process.env.NODE_ENV !== 'production',
-      DOUMA_API_URL: "'https://douma-api.herokuapp.com'",
-      // DOUMA_API_URL: "'http://douma-api.herokuapp.com'",
-      // DOUMA_API_URL: "'http://localhost:3000'"
+      DOUMA_API_URL: "'https://douma.api.disarm.io'",
+      // DOUMA_API_URL: "'http://localhost:3000'",
       R_SERVER_URL: "'https://cluster.api.disarm.io'"
     })
   ]

@@ -48,7 +48,7 @@
           this.cluster_layer = null
         }
 
-        const cluster = this.$store.state.irs_tasker.clusters.find(cluster => cluster._id === this.cluster_id)
+        const cluster = this.$store.state.irs.clusters.find(cluster => cluster._id === this.cluster_id)
         if (!cluster) return 
 
         // Create GeoJSON for Cluster

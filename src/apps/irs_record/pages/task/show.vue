@@ -19,8 +19,6 @@
 <script>
   export default {
     name: 'TaskShow',
-    props: ['cluster_id', 'task_id', 'task'],
-    computed: {
-    }
+    props: ['cluster_id', 'task_id', 'task']
   }
 </script>
