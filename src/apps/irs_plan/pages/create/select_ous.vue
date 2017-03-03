@@ -81,7 +81,7 @@
         return this.sorted_localities.slice(0, this.risk_slider)
       },
       sorted_localities() {
-        return this.$store.state.irs_plan.localities.sort((a,b) => a.properties.MeanElev - b.properties.MeanElev)//.reverse()
+        return this.$store.state.irs_plan.localities.sort((a,b) => a.properties.MeanElev - b.properties.MeanElev).reverse()
       }
     },
     methods: {
