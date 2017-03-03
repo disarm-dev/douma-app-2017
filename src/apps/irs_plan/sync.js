@@ -1,6 +1,9 @@
 // TODO: @refac None of this belongs in a Sync file - should be all in a remote file.
 // 
 // Called by $store, coordinates local and remote activity
+import geobuf from "geobuf";
+import Pbf from "pbf";
+
 import LocalDB from '../../lib/local.js'
 import RemoteDBClass from '../../lib/remote.js'
 
@@ -37,6 +40,37 @@ class Sync {
         return json
       })
       .catch(err => console.error(err))
+  }
+
+  cluster_yourself_pbf(parameters) {
+    const url = R_SERVER_URL + '/clusters/pbf'
+
+    const options = {
+      body: JSON.stringify({...parameters}), 
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      method: 'POST'
+    }
+
+    return fetch(url, options).then((response) => {
+
+      if (!response.ok) {
+        return console.log('error')
+      }
+
+      return response.blob().then(blob => {
+        var reader = new FileReader()
+        return new Promise(resolve => {
+          reader.addEventListener("loadend", () => {
+            var pbf = new Pbf( reader.result )
+            return resolve(geobuf.decode(pbf))
+          })
+          reader.readAsArrayBuffer(blob)
+        })
+      })
+    })
   }
 
   cluster_yourself(parameters) {
