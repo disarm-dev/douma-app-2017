@@ -14,7 +14,7 @@
     },
     computed: {
       cluster() {
-        return this.$store.state.irs_record.clusters.find(cluster => cluster._id === this.cluster_id)
+        return this.$store.state.irs.clusters.find(cluster => cluster._id === this.cluster_id)
       }
     }
   }

@@ -73,13 +73,15 @@ class Sync {
     })
 
     return Promise.all([task_promise, spatial_entity_promise])
-      .then(() => {
+      .then((res) => {
         const existing_ids = (JSON.parse(localStorage.getItem('douma-saved-cluster-ids'))|| [])
         const saved_cluster_ids = clusters.map(cluster => cluster._id).concat(existing_ids)
         localStorage.setItem('douma-saved-cluster-ids', JSON.stringify(saved_cluster_ids))
+        return res
       })
   }
 
+  // DONE
   close_cluster(cluster) {     
     return this.get_unsynced_tasks_for_cluster(cluster).then(({cluster_id, unsynced_tasks}) => {
       if (unsynced_tasks.length === 0 ) {
@@ -104,14 +106,6 @@ class Sync {
   // Update task
   update_task(task) {
     return LocalDB.tasks.update(task)
-  }
-  
-  // Setting initial state for views
-  read_local_clusters(options) {
-    options = {...options, demo_instance_id: JSON.parse(localStorage.getItem('douma-demo-instance-id'))}
-    console.log('options', options)
-    window.LocalDB = LocalDB
-    return LocalDB.clusters.read(options)
   }
 
   get_tasks_for_cluster(cluster) {
@@ -158,7 +152,7 @@ class Sync {
         })
     })
   }
-
+  
   // Sync local and remote
   sync_tasks(tasks){
     return this.RemoteDB.update_tasks(tasks)

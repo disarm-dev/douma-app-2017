@@ -5,22 +5,6 @@
       <p>The map below shows the structures within this Cluster. Click on the one you are currently attending to, in order to record progress against it.</p>
       <i>Future versions will have a user-location marker.</i>
     </div>    
-<!--     <md-speed-dial style='z-index: 10000' md-open="click" md-direction="bottom" class="md-fab-top-right">
-      <md-button class="md-fab" md-fab-trigger>
-        <md-icon md-icon-morph>close</md-icon>
-        <md-icon>menu</md-icon>
-      </md-button>
-
-      <md-button class="md-fab md-primary md-mini md-clean" @click.native="navigate('map')">
-        <md-icon>map</md-icon>
-      </md-button>
-
-      <md-button class="md-fab md-primary md-mini md-clean" @click.native="navigate('list')">
-        <md-icon>list</md-icon>
-      </md-button>
-
-    </md-speed-dial> -->
-
     <router-view></router-view>
   </div>
 </template>
@@ -30,7 +14,7 @@
     name: 'TasksView',
     props: ['cluster_id'],
     mounted() {
-      if (this.$store.state.irs_tasker.clusters.length > 0) this.set_tasks_for_cluster()
+      if (this.$store.state.irs.clusters.length > 0) this.set_tasks_for_cluster()
     },
     watch: {
       '$store.state.irs_tasker.clusters': 'set_tasks_for_cluster'
@@ -47,7 +31,7 @@
     methods: {
       set_tasks_for_cluster() {
         console.log('set_tasks_for_cluster')
-        const cluster = this.$store.state.irs_tasker.clusters.find(cluster => cluster._id === this.cluster_id)
+        const cluster = this.$store.state.irs.clusters.find(cluster => cluster._id === this.cluster_id)
         if(cluster) this.$store.dispatch("irs_record:set_tasks_for_cluster", cluster)
       },
       toggle_view() {
