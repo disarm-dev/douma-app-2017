@@ -45,11 +45,11 @@ export default {
       polygons = remove_properties(polygons)
       context.commit('root:set_loading', true)
       return Sync.cluster_yourself_pbf({country_code, polygons, dist_km, max_size})
-      .then(res => {
-        context.commit('root:set_loading', false)
-        context.commit("irs:set_clusters", res)
-        return res
-    })
+        .then(res => {
+          context.commit('root:set_loading', false)
+          context.commit("irs:set_clusters", res)
+          return res
+        })
     },
     'irs_plan:post_clusters': (context) => {
       const clusters = context.rootState.irs.clusters

@@ -8,6 +8,8 @@
         <md-button @click.native="do_clustering">Do clustering</md-button>
       </div>
       <md-button v-if="clusters_available" @click.native="redo_clustering">Redo clustering</md-button>
+
+      <md-button v-if="clusters_available" :href='download_url' v-bind:download='download_filename' class="md-raised md-primary">Download shapefile</md-button>
     </div>
 
     <router-view v-if='clusters_available'></router-view>
@@ -18,19 +20,31 @@
 <script>
   export default {
     name: 'ReviewView',
+    mounted() {
+      this.$store.dispatch("irs:get_clusters")
+    },
     computed: {
       clusters_available() {
-        return this.$store.state.irs.clusters.length !== 0
+        return this.$store.state.irs.clusters.length > 0
       },
       clusters_count() {
         return this.$store.state.irs.clusters.length
       },
       demo_instance_id() {
         return this.$store.state.meta.demo_instance_id
+      },
+      download_url() {
+        if (!this.clusters_available) return
+        // TODO: @refac Move download URL creation to Sync or somewhere else that is not a view
+        const cluster_collection_id = this.$store.state.irs.clusters[0].properties.cluster_collection_id
+        return DOUMA_API_URL + '/clusters/shapefile?cluster_collection_id=' + cluster_collection_id
+      },
+      download_filename() {
+        if (!this.clusters_available) return
+        // TODO: @refac Move download filename creation to Sync or somewhere else that is not a view
+        const cluster_collection_id = this.$store.state.irs.clusters[0].properties.cluster_collection_id
+        return `clusters-${cluster_collection_id}.zip`
       }
-    },
-    mounted() {
-      this.$store.dispatch("irs:get_clusters")
     },
     methods: {
       redo_clustering() {
