@@ -27,9 +27,10 @@
     },
     mounted() {
       this.create_map()
-      // fetch('/assets/swz.clusters.sample.json').then((res) => res.json()).then((json) => {
-      //   this.draw_clusters(json)
-      // })
+      fetch('/assets/swz.clusters.sample.json').then((res) => res.json()).then((json) => {
+        window.json = json
+        this.draw_clusters(json)
+      })
     },
     methods: {
       post_clusters() {
@@ -43,43 +44,62 @@
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v9',
             center: [31.50484892885717, -26.543508675283874],
-            zoom: 7.34,
+            zoom: 7.34
         });
       },
       draw_clusters(json) {
-        let redrawing
-        const clusters_data = json
-
-        // Remove if exists
-        if (this.clusters_layer) {
-          redrawing = true
-          this.map.removeLayer(this.clusters_layer)
-          this.clusters_layer = null
-        }
-
-        // Return unless there are search_results to render
-        if (clusters_data.length === 0) {
-          return
-        }
-
-        const clusters_layer = L.geoJSON(clusters_data, {
-          style: (feature, layer) => {
-              return { color: 'yellow' }
-          },
-          onEachFeature: (feature, layer) => {
-            layer.on('click', () => {
-              // let cluster = Object.assign({}, feature.properties)
-              // this.select_cluster(cluster.original_cluster)
-            })
-          }
+        this.map.on('load', () => {
+          console.log('draw_clusters')
+          const clusters_layer = this.map.addLayer({
+            id: 'some_id', 
+            type: 'fill',
+            layout: {},
+            paint: {
+              'fill-color': '#088',
+              'fill-opacity': 0.8
+            },
+            source: {
+              type: 'geojson',
+              data: json
+            }
+          });
+          this.clusters_layer = clusters_layer
         })
-
-        this.map
-          .addLayer(clusters_layer)
-
-        if (!redrawing) this.map.fitBounds(clusters_layer.getBounds())
-        this.clusters_layer = clusters_layer
       }
+      // draw_clusters(json) {
+      //   let redrawing
+      //   const clusters_data = json
+
+      //   // Remove if exists
+      //   if (this.clusters_layer) {
+      //     redrawing = true
+      //     this.map.removeLayer(this.clusters_layer)
+      //     this.clusters_layer = null
+      //   }
+
+      //   // Return unless there are search_results to render
+      //   if (clusters_data.length === 0) {
+      //     return
+      //   }
+
+      //   const clusters_layer = L.geoJSON(clusters_data, {
+      //     style: (feature, layer) => {
+      //         return { color: 'yellow' }
+      //     },
+      //     onEachFeature: (feature, layer) => {
+      //       layer.on('click', () => {
+      //         // let cluster = Object.assign({}, feature.properties)
+      //         // this.select_cluster(cluster.original_cluster)
+      //       })
+      //     }
+      //   })
+
+      //   this.map
+      //     .addLayer(clusters_layer)
+
+      //   if (!redrawing) this.map.fitBounds(clusters_layer.getBounds())
+      //   this.clusters_layer = clusters_layer
+      // }
     }
   }
 </script>
