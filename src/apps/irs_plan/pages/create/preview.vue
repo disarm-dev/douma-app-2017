@@ -7,7 +7,6 @@
       <md-button class='md-warn' @click.native="$router.push({name: 'irs_plan:create:select_ous'})">NO (start again)</md-button>
     </div>
     <div id='map'></div>
-    <div id='map-overlay'></div>
   </div>
 </template>
 
@@ -27,6 +26,7 @@
       // '$store.state.irs.clusters': 'draw_clusters',
     },
     mounted() {
+      this.$store.commit('root:set_loading', true)
       this.create_map()
       fetch('/assets/swz.clusters.sample.json').then((res) => res.json()).then((json) => {
       // fetch('/assets/swz.all-clusters.geojson').then((res) => res.json()).then((json) => {
@@ -63,68 +63,73 @@
               type: 'geojson',
               data: json
             }
-          });
+          })
+
+          const clusters_layer_highlighted = this.map.addLayer({
+            id: 'clusters_layer_highlighted',
+            type: 'fill',
+            paint: {
+              "fill-outline-color": "#484896",
+              "fill-color": "#6e599f",
+              "fill-opacity": 0.75
+            },
+            source: {
+              type: 'geojson',
+              data: json
+            }
+          })
+          
           this.clusters_layer = clusters_layer
-        })
 
-        this.map.on('mousemove', e => {
-          var features = this.map.queryRenderedFeatures(e.point, {
-              layers: ['clusters_layer']
-          });
+          const popup = new mapboxgl.Popup({
+            closeButton: true
+          })
 
-          // Change the cursor style as a UI indicator.
-          this.map.getCanvas().style.cursor = features.length ? 'pointer' : '';
-        })
 
-        this.map.on('click', (e) => {
+          this.map.on('mousemove', e => {
+            var features = this.map.queryRenderedFeatures(e.point, {
+                layers: ['clusters_layer']
+            });
 
-          var features = this.map.queryRenderedFeatures(e.point, {
-              layers: ['clusters_layer']
-          });
+            // Change the cursor style as a UI indicator.
+            this.map.getCanvas().style.cursor = features.length ? 'pointer' : '';
+          })
 
-          // Change the cursor style as a UI indicator.
-          this.map.getCanvas().style.cursor = features.length ? 'pointer' : '';
+          this.map.on('click', (e) => {
 
-          // Remove things if no feature was found.
-          if (!features.length) {
-              popup.remove();
-              this.map.setFilter('clusters_layer_highlighted', ['in', 'COUNTY', '']);
-              overlay.style.display = 'none';
-              return;
-          }
+            var features = this.map.queryRenderedFeatures(e.point, {
+                layers: ['clusters_layer']
+            });
 
-          // Single out the first found feature on mouseove.
-          var feature = features[0];
+            // Change the cursor style as a UI indicator.
+            this.map.getCanvas().style.cursor = features.length ? 'pointer' : '';
 
-          // Query the counties layer visible in the map. Use the filter
-          // param to only collect results that share the same county name.
-          var relatedFeatures = this.map.querySourceFeatures('counties', {
-              sourceLayer: 'original',
-              filter: ['in', 'COUNTY', feature.properties.COUNTY]
-          });
+            // Remove things if no feature was found.
+            if (!features.length) {
+                popup.remove();
+                this.map.setFilter('clusters_layer_highlighted', ['!=', 'selected', 'true']);
+                overlay.style.display = 'none';
+                return;
+            }
 
-          // Render found features in an overlay.
-          overlay.innerHTML = '';
+            // Single out the first found feature on mouseove.
+            var feature = features[0];
+            debugger
+            feature.properties.selected = true
 
-          // Total the population of all features
-          var populationSum = relatedFeatures.reduce(function(memo, feature) {
-              return memo + feature.properties.population;
-          }, 0);
+            this.map.setFilter('clusters_layer_highlighted', ['==', 'selected', 'true']);
 
-          var title = document.createElement('strong');
-          title.textContent = feature.properties.COUNTY + ' (' + relatedFeatures.length + ' found)';
+            var title = document.createElement('strong');
+            title.textContent = feature.properties.ClusterID + ' (' + feature.properties.NumStructures + ' structures)';
 
-          var population = document.createElement('div');
-          population.textContent = 'Total population: ' + populationSum.toLocaleString();
 
-          overlay.appendChild(title);
-          overlay.appendChild(population);
-          overlay.style.display = 'block';
-
-          // Display a popup with the name of the county
-          popup.setLngLat(e.lngLat)
-              .setText(feature.properties.COUNTY)
-              .addTo(this.map);
+            // // Display a popup with the name of the cluster
+            popup.setLngLat(e.lngLat)
+                .setText(feature.properties.ClusterID)
+                .addTo(this.map);
+          })
+          this.$store.commit('root:set_loading', false)
+          
         });
 
       }
@@ -137,18 +142,5 @@
   #map {
     min-height: calc(100vh - 250px);
     z-index: 0;
-  }
-  
-  .map-overlay {
-      font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-      background-color: #fff;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.10);
-      border-radius: 3px;
-      position: absolute;
-      width: 25%;
-      top: 10px;
-      left: 10px;
-      padding: 10px;
-      display: none;
   }
 </style>
