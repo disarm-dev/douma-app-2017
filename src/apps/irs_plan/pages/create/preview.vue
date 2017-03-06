@@ -11,8 +11,8 @@
 </template>
 
 <script>
-  import Leaflet from 'leaflet'
-  import 'leaflet/dist/leaflet.css'
+  import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js'
+  import 'mapbox-gl/dist/mapbox-gl.css'
 
   export default {
     name: 'ReviewMap',
@@ -27,10 +27,9 @@
     },
     mounted() {
       this.create_map()
-      fetch('/assets/swz.clusters.sample.json').then((res) => res.json()).then((json) => {
-        window.json = json
-        this.draw_clusters(json)
-      })
+      // fetch('/assets/swz.clusters.sample.json').then((res) => res.json()).then((json) => {
+      //   this.draw_clusters(json)
+      // })
     },
     methods: {
       post_clusters() {
@@ -39,15 +38,13 @@
         })
       }, 
       create_map() {
-        this.map = Leaflet.map('map', {
-          tms: true,
-          center: [-26.3231769,31.1380957],
-          zoom: 10,
+        mapboxgl.accessToken = 'pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA';
+        this.map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v9',
+            center: [31.50484892885717, -26.543508675283874],
+            zoom: 7.34,
         });
-
-        const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
-
-        Leaflet.tileLayer(url).addTo(this.map)
       },
       draw_clusters(json) {
         let redrawing
@@ -89,7 +86,7 @@
 
 <style scoped>
   #map {
-    min-height: calc(100vh - 64px);
+    min-height: calc(100vh - 250px);
     z-index: 0;
   }
 </style>
