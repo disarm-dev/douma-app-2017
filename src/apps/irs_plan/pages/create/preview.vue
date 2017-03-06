@@ -11,8 +11,8 @@
 </template>
 
 <script>
-  import Leaflet from 'leaflet'
-  import 'leaflet/dist/leaflet.css'
+  import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js'
+  import 'mapbox-gl/dist/mapbox-gl.css'
 
   export default {
     name: 'ReviewMap',
@@ -23,11 +23,16 @@
       }
     },
     watch: {
-      '$store.state.irs.clusters': 'draw_clusters',
+      // '$store.state.irs.clusters': 'draw_clusters',
     },
     mounted() {
+      this.$store.commit('root:set_loading', true)
       this.create_map()
-      this.draw_clusters()
+      fetch('/assets/swz.clusters.sample.json').then((res) => res.json()).then((json) => {
+      // fetch('/assets/swz.all-clusters.geojson').then((res) => res.json()).then((json) => {
+        window.json = json
+        this.draw_clusters(json)
+      })
     },
     methods: {
       post_clusters() {
@@ -36,56 +41,106 @@
         })
       }, 
       create_map() {
-        this.map = Leaflet.map('map', {
-          tms: true,
-          center: [-26.3231769,31.1380957],
-          zoom: 10,
+        mapboxgl.accessToken = 'pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA';
+        this.map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v9',
+            center: [31.50484892885717, -26.543508675283874],
+            zoom: 7.34
+        });
+      },
+      draw_clusters(json) {
+        this.map.on('load', () => {
+          const clusters_layer = this.map.addLayer({
+            id: 'clusters_layer', 
+            type: 'fill',
+            layout: {},
+            paint: {
+              'fill-color': '#088',
+              'fill-opacity': 0.2
+            },
+            source: {
+              type: 'geojson',
+              data: json
+            }
+          })
+
+          const clusters_layer_highlighted = this.map.addLayer({
+            id: 'clusters_layer_highlighted',
+            type: 'fill',
+            paint: {
+              "fill-outline-color": "#484896",
+              "fill-color": "#6e599f",
+              "fill-opacity": 0.75
+            },
+            source: {
+              type: 'geojson',
+              data: json
+            }
+          })
+          
+          this.clusters_layer = clusters_layer
+
+          const popup = new mapboxgl.Popup({
+            closeButton: true
+          })
+
+
+          this.map.on('mousemove', e => {
+            var features = this.map.queryRenderedFeatures(e.point, {
+                layers: ['clusters_layer']
+            });
+
+            // Change the cursor style as a UI indicator.
+            this.map.getCanvas().style.cursor = features.length ? 'pointer' : '';
+          })
+
+          this.map.on('click', (e) => {
+
+            var features = this.map.queryRenderedFeatures(e.point, {
+                layers: ['clusters_layer']
+            });
+
+            // Change the cursor style as a UI indicator.
+            this.map.getCanvas().style.cursor = features.length ? 'pointer' : '';
+
+            // Remove things if no feature was found.
+            if (!features.length) {
+                popup.remove();
+                this.map.setFilter('clusters_layer_highlighted', ['!=', 'selected', 'true']);
+                overlay.style.display = 'none';
+                return;
+            }
+
+            // Single out the first found feature on mouseove.
+            var feature = features[0];
+            debugger
+            feature.properties.selected = true
+
+            this.map.setFilter('clusters_layer_highlighted', ['==', 'selected', 'true']);
+
+            var title = document.createElement('strong');
+            title.textContent = feature.properties.ClusterID + ' (' + feature.properties.NumStructures + ' structures)';
+
+
+            // // Display a popup with the name of the cluster
+            popup.setLngLat(e.lngLat)
+                .setText(feature.properties.ClusterID)
+                .addTo(this.map);
+          })
+          this.$store.commit('root:set_loading', false)
+          
         });
 
-        const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
-
-        Leaflet.tileLayer(url).addTo(this.map)
-      },
-      draw_clusters() {
-        let redrawing
-
-        // Remove if exists
-        if (this.clusters_layer) {
-          redrawing = true
-          this.map.removeLayer(this.clusters_layer)
-          this.clusters_layer = null
-        }
-
-        // Return unless there are search_results to render
-        if (this.$store.state.irs.clusters.length === 0) {
-          return
-        }
-
-        const clusters_layer = L.geoJSON(this.$store.state.irs.clusters, {
-          style: (feature, layer) => {
-              return { color: 'yellow' }
-          },
-          onEachFeature: (feature, layer) => {
-            layer.on('click', () => {
-              // let cluster = Object.assign({}, feature.properties)
-              // this.select_cluster(cluster.original_cluster)
-            })
-          }
-        })
-
-        this.map
-          .addLayer(clusters_layer)
-
-        if (!redrawing) this.map.fitBounds(clusters_layer.getBounds())
-        this.clusters_layer = clusters_layer
       }
+ 
     }
   }
 </script>
 
 <style scoped>
   #map {
-    min-height: calc(100vh - 64px);
+    min-height: calc(100vh - 250px);
     z-index: 0;
   }
 </style>
