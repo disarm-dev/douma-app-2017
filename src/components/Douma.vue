@@ -38,7 +38,7 @@
         <md-divider class="md-inset"></md-divider>
 
         <md-list-item @click.native="navigate('meta:profile')">
-          <md-icon>person</md-icon><span>Meta</span>
+          <md-icon>person</md-icon><span>User</span>
         </md-list-item>
       </md-list>
     </md-sidenav>
