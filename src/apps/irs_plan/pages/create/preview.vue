@@ -23,11 +23,14 @@
       }
     },
     watch: {
-      '$store.state.irs.clusters': 'draw_clusters',
+      // '$store.state.irs.clusters': 'draw_clusters',
     },
     mounted() {
       this.create_map()
-      this.draw_clusters()
+      fetch('/assets/swz.clusters.sample.json').then((res) => res.json()).then((json) => {
+        window.json = json
+        this.draw_clusters(json)
+      })
     },
     methods: {
       post_clusters() {
@@ -46,8 +49,9 @@
 
         Leaflet.tileLayer(url).addTo(this.map)
       },
-      draw_clusters() {
+      draw_clusters(json) {
         let redrawing
+        const clusters_data = json
 
         // Remove if exists
         if (this.clusters_layer) {
@@ -57,11 +61,11 @@
         }
 
         // Return unless there are search_results to render
-        if (this.$store.state.irs.clusters.length === 0) {
+        if (clusters_data.length === 0) {
           return
         }
 
-        const clusters_layer = L.geoJSON(this.$store.state.irs.clusters, {
+        const clusters_layer = L.geoJSON(clusters_data, {
           style: (feature, layer) => {
               return { color: 'yellow' }
           },
