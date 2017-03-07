@@ -2,7 +2,7 @@
   <div>
     <div class='container'><h1>Select local areas to target Clustering</h1></div>
 
-    <div v-if='sorted_localities.length === 0' class='container'>
+    <div v-if='localities_selected_by_risk.length === 0' class='container'>
       <p>
         Select which country to load local areas for.
       </p>
@@ -17,7 +17,7 @@
       <md-button class='md-primary md-raised' @click.native='get_ous'>Load areas</md-button>
     </div>
 
-    <div v-if='sorted_localities.length > 0' class='container'>
+    <div v-if='localities_selected_by_risk.length > 0' class='container'>
       <p>The local areas are displayed below. Change the slider to select a number of areas to target. For demonstration, they are already sorted by a proxy for risk (elevation), so the 'highest-risk' areas will be included first.</p>
       <p>The larger the number of areas selected, the longer the processing will take, and the larger the data created. For a quicker experience, choose a lower number.</p>
 
@@ -26,8 +26,10 @@
 
       <h3>Summary of area selected for Clustering</h3>
       <p>Selected local areas: {{risk_slider_value}}</p>
-      <p v-if='manual_locality_selection.added.length !== 0'>{{manual_locality_selection.added.length}} areas manually added</p>
-      <p v-if='manual_locality_selection.removed.length !== 0'>{{manual_locality_selection.removed.length}} areas manually removed</p>
+      <p v-if='$store.state.irs_plan.manually_selected_areas.add.length !== 0'>{{$store.state.irs_plan.manually_selected_areas.add.length}} areas clicked to manually add</p>
+      <p v-if='$store.state.irs_plan.manually_selected_areas.remove.length !== 0'>{{$store.state.irs_plan.manually_selected_areas.remove.length}} areas clicked to manually remove</p>
+      <p v-if='$store.state.irs_plan.manually_drawn_areas.add.length !== 0'>{{$store.state.irs_plan.manually_drawn_areas.add.length}} drawn areas to manually add</p>
+      <p v-if='$store.state.irs_plan.manually_drawn_areas.remove.length !== 0'>{{$store.state.irs_plan.manually_drawn_areas.remove.length}} drawn areas to manually remove</p>
 
       <!-- SELECT MAP DRAWING MODE -->
       <mark-mode-buttons></mark-mode-buttons>
@@ -60,82 +62,74 @@
     components: {vueSlider, MarkModeButtons},
     data() {
       return {
+        // The MAP
+        map: {},
+
+        // Control
         alert_content: '',
-        mark_mode: 'none',
         can_start_clustering: true,
+        
+        // Temporary state - should be elsewhere?
         country_code: 'SWZ',
-        risk_slider_value: 50,
+        
+        //  Slider
+        risk_slider_value: 0,
         slider_options: {
           min: 0,
-          max: 100,
+          max: 1,
           interval: 1,
           lazy: true,
           tooltip: 'always',
           formatter: '{value} local areas'
         },
-        map: {},
-        localities_layer: null,
-        manual_locality_selection: {
-          removed: [], // Array of Features
-          added: [] // Array of Features
-        }
       }
     },
-    watch: {
-      // 'selected_localities': 'draw_localities',
-      'risk_slider_value': 'watched'
-    },
     mounted() {
-      this.$nextTick(() => {
-        this.get_ous() // TODO: @debug Stop loading OUs in `mounted`
+      this.get_ous() // TODO: @debug Stop loading OUs in `mounted`
+
+      this.map = this.create_map()
+      this.map.on('load', () => { // Wait until map is ready to start drawing on it
+        this.$watch('_areas_to_render', this.draw_selected_areas)
+        this.draw_selected_areas()
       })
-      // this.create_map()
-      // this.add_localities_layer()
     },
     computed: {
-      // slider_options() {
-      //   return {
-      //     min: 0,
-      //     max: this.$store.state.irs_plan.localities.length,
-      //     interval: 1
-      //   }
-      // },
-      // selected_localities() {
-
-      //   const result = this.sorted_localities.map((locality, index) => {
-      //     locality.properties.selected = (index <= (this.risk_slider_value - 1)) ? 'yes' : 'no'
-      //     return locality
-      //   })
-
-      //   return result
-
-      // },
-      sorted_localities() {
-        return this.$store.state.irs_plan.localities.sort((a,b) => a.properties.MeanElev - b.properties.MeanElev)//.reverse()
+      localities_selected_by_risk() {
+        const sorted_localities = this.$store.state.irs_plan.localities.sort((a,b) => a.properties.MeanElev - b.properties.MeanElev)
+        const result = sorted_localities.slice(0, this.risk_slider_value)
+        console.log('result', result.length)
+        return result
+      },
+      _areas_to_render() {
+        const localities_selected_by_risk = JSON.parse(JSON.stringify(this.localities_selected_by_risk))
+        // const localities_to_add = this.$store.state.irs_plan.manually_selected_areas.add
+        // const localities_to_remove = this.$store.state.irs_plan.manually_selected_areas.remove
+        // const areas_to_add = this.$store.state.irs_plan.manually_drawn_areas.add
+        // const areas_to_remove = this.$store.state.irs_plan.manually_drawn_areas.remove
+        return localities_selected_by_risk
       }
     },
     methods: {
-      watched() {
-        console.log('watched')
+      watched(a,b) {
+        console.log('watched',a,b)
       },
       get_ous() {
         return this.$store.dispatch("irs_plan:get_ous", this.country_code).then(() => {
+          // Update slider UI
           const localities_length = this.$store.state.irs_plan.localities.length
-          this.$nextTick(() => {
-            this.$refs.slider.refresh()
-          })
-          // debugger
           this.risk_slider_value = localities_length
           this.slider_options.max = localities_length 
         })
       },
       confirm_clustering() {
-        if(this.selected_localities.length === 0) {
+        // TODO: @fix Watch something other than localities_selected_by_risk
+        if(this.localities_selected_by_risk.length === 0) {
           return
         } 
 
-        if (this.country_code === 'SWZ' &&  this.selected_localities.length > 155) {
-          this.alert_content = `You have selected ${this.selected_localities.length} areas to cluster. This could take a while. It will be faster if you select fewer areas. Do you want to continue?`
+        // TODO: @refac Check something different to stop large clustering
+        if (this.country_code === 'SWZ' &&  this.localities_selected_by_risk.length > 155) {
+          this.alert_content = `You have selected ${this.localities_selected_by_risk.length} areas to cluster. This could take a while. It will be faster if you select fewer areas. Do you want to continue?`
           return this.$refs.dialog.open()
         }
 
@@ -145,7 +139,7 @@
         
         if (confirm_value == 'cancel') return 
         
-        this.$store.commit("irs_plan:set_selected_localities", this.selected_localities)
+        this.$store.commit("irs_plan:set_areas_to_cluster", this._areas_to_render)
 
         this.can_start_clustering = false
 
@@ -164,120 +158,97 @@
           })
       },
       create_map() {
-        mapboxgl.accessToken = 'pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA';
-        this.map = new mapboxgl.Map({
+        mapboxgl.accessToken = 'pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
+        return new mapboxgl.Map({
             container: 'map',
             style: 'mapbox:// styles/mapbox/streets-v9',
             center: [31.50484892885717, -26.543508675283874],
             zoom: 7.34
-        });
-      },
-      add_localities_layer() {
-        this.map.on('load', () => {
-          const selected_localities_copy = this.selected_localities.slice()
-
-          this.localities_layer = this.map.addLayer({
-            id: 'localities_layer', 
-            type: 'fill',
-            layout: {},
-            paint: {
-              'fill-outline-color': 'grey',
-              "fill-opacity": {
-                  "property": "selected",
-                  "type": "categorical",
-                  "stops": [
-                      ['yes', 0.6],
-                      ['no', 0.1]
-                  ]
-              },
-              "fill-color": {
-                  "property": "selected",
-                  "type": "categorical",
-                  "stops": [
-                      ['yes', "red"],
-                      ['no', "blue"]
-                  ]
-              }
-                },
-            source: {
-              type: 'geojson',
-              data: {type:'FeatureCollection', features: selected_localities_copy}
-            }
-          })
-
-          const popup = new mapboxgl.Popup({
-            closeButton: true
-          })
-
-          this.map.on('mousemove', e => {
-            var features = this.map.queryRenderedFeatures(e.point, {
-                layers: ['localities_layer']
-            });
-
-            // Change the cursor style as a UI indicator.
-            this.map.getCanvas().style.cursor = features.length ? 'pointer' : '';
-          })
-
-          this.map.on('click', (e) => {
-
-            var features = this.map.queryRenderedFeatures(e.point, {
-                layers: ['localities_layer']
-            });
-
-            // // Remove things if no feature was found.
-            // if (!features.length) {
-            //     popup.remove();
-            //     this.map.setFilter('localities_layer_highlighted', ['!=', 'selected', 'true']);
-            //     overlay.style.display = 'none';
-            //     return;
-            // }
-
-            // Single out the first found feature on mouseove.
-            var feature = features[0];
-
-            // if (this.manual_locality_selection)
-
-
-            // feature.properties.selected = 'yes'
-
-            // this.map.setFilter('localities_layer_highlighted', ['==', 'selected', 'true']);
-
-            // var title = document.createElement('strong');
-            // title.textContent = feature.properties.ClusterID + ' (' + feature.properties.NumStructures + ' structures)';
-
-
-            // // Display a popup with the name of the cluster
-            popup.setLngLat(e.lngLat)
-                .setText(feature.properties.UniqLocCod)
-                .addTo(this.map);
-          })          
         })
       },
-      draw_localities() {
-        const selected_localities_copy = [...this.selected_localities] // Make a copy, otherwise Mapbox changes the value
+      _add_localities_layer() {
 
-        console.log('draw_localities', selected_localities_copy.length)
-        this.map
-          .getSource('localities_layer')
-          .setData({type: 'FeatureCollection', features: selected_localities_copy})
+        this.map.addLayer({
+          id: 'localities_layer', 
+          type: 'fill',
+          layout: {},
+          paint: {
+            'fill-outline-color': 'grey',
+            "fill-opacity": {
+                "property": "selected",
+                "type": "categorical",
+                "stops": [
+                    ['yes', 0.6],
+                    ['no', 0.1]
+                ]
+            },
+            "fill-color": {
+                "property": "selected",
+                "type": "categorical",
+                "stops": [
+                    ['yes', "red"],
+                    ['no', "blue"]
+                ]
+            }
+              },
+          source: {
+            type: 'geojson',
+            data: {type:'FeatureCollection', features: this._areas_to_render}
+          }
+        })
+
+        // const popup = new mapboxgl.Popup({
+        //   closeButton: true
+        // })
+
+        this.map.on('mousemove', e => {
+          var features = this.map.queryRenderedFeatures(e.point, {
+              layers: ['localities_layer']
+          });
+
+          // Change the cursor style as a UI indicator.
+          this.map.getCanvas().style.cursor = features.length ? 'pointer' : '';
+        })
+
+        this.map.on('click', (e) => {
+
+          var features = this.map.queryRenderedFeatures(e.point, {
+              layers: ['localities_layer']
+          });
+
+          // // Remove things if no feature was found.
+          // if (!features.length) {
+          //     popup.remove();
+          //     this.map.setFilter('localities_layer_highlighted', ['!=', 'selected', 'true']);
+          //     overlay.style.display = 'none';
+          //     return;
+          // }
+
+          // Single out the first found feature on mouseove.
+          var feature = features[0];
+
+          const current_state = feature.properties.selected
+          console.log(current_state, feature)
+          feature.properties.selected = true
+
+          // if (!this.$store.state.irs_plan.manually_selected_areas.add.includes(feature)) {
+          //   this.$store.commit('irs_plan:manually_add_area', locality)
+          // }
+          // if (!this.$store.state.irs_plan.manually_selected_areas.remove.includes(feature)) {
+          //   this.$store.commit('irs_plan:manually_remove_area', locality)
+          // }
+
+        })          
       },
-      add_remove_locality(locality) {
-        console.log('add/remove locality', locality)
-        // this.$router.push({name: 'irs_plan:locality', params: {locality_id: locality._id}})
-      },
-      mark_to_add() {
-        if (this.mark_mode === 'add') {
-          this.mark_mode = 'none'
-        } else {
-          this.mark_mode = 'add'
+      draw_selected_areas() {
+        // Add localities_layer on first render
+        if (!this.map.getSource('localities_layer')) {
+          this._add_localities_layer()
         }
-      },
-      mark_to_remove() {
-        if (this.mark_mode === 'remove') {
-          this.mark_mode = 'none'
-        } else {
-          this.mark_mode = 'remove'
-        }
+
+        // Otherwise re-render with different data
+        this.map.getSource('localities_layer').setData({type: 'FeatureCollection', features: this._areas_to_render})
+        console.log('done draw_selected_areas')
       }
     }
   }

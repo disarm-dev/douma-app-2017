@@ -8,19 +8,29 @@ export default {
   state: {
     // DATA
     localities: [],
-    selected_localities: [],
-    mark_mode: null
+    areas_to_cluster: [],
+
+    // INTERACTIVE CLUSTERING AREA SELECTION
+    manually_drawn_areas: {add: [], remove: []},
+    // manually_selected_areas: {add: [], remove: []},
+    map_mark_mode: null
   },
   mutations: {
     'irs_plan:set_localities': (state, localities) => {
       state.localities = localities
     },
-    'irs_plan:set_selected_localities': (state, selected_localities) => {
-      state.selected_localities = selected_localities
+    'irs_plan:set_areas_to_cluster': (state, areas_to_cluster) => {
+      state.areas_to_cluster = areas_to_cluster
     },
-    'irs_plan:set_mark_mode': (state, mark_mode) => {
-      state.mark_mode = mark_mode
-    }
+    'irs_plan:map_mark_mode': (state, map_mark_mode) => {
+      state.map_mark_mode = map_mark_mode
+    },
+    // 'irs_plan:manually_add_area': (state, area) => {
+    //   state.manually_selected_areas.add.push(area)
+    // },
+    // 'irs_plan:manually_remove_area': (state, area) => {
+    //   state.manually_selected_areas.remove.push(area)
+    // }
   },
   actions: {
     'irs_plan:set_demo_instance_id': (context) => {
@@ -28,8 +38,11 @@ export default {
     },
     'irs_plan:get_ous': (context, country_code) => {
       context.commit('root:set_loading', true)
-      context.commit('irs_plan:set_localities', [])
+
+      console.log('irs_plan:get_ous')
       return Sync.get_ous(country_code).then((results) => {
+        context.commit('irs_plan:set_localities', [])
+  
         const localities = results.features
         const max = localities.reduce((max, i) => {return i.properties.MeanElev > max ? i.properties.MeanElev : max}, 0)
 
@@ -41,15 +54,17 @@ export default {
         context.commit('root:set_loading', false)
         context.commit('irs_plan:set_localities', non_zero_elev_localities)
         return Promise.resolve(non_zero_elev_localities)
-      })
+      }).catch(err => console.error(err))
     },
     'irs_plan:start_clustering': (context, country_code) => {
+      console.log(context.state.areas_to_cluster)
+      return 
       const dist_km = 0.25
       const max_size = 50
 
       let polygons = {
         type: 'FeatureCollection', 
-        features: context.state.selected_localities
+        features: context.state.areas_to_cluster
       }
 
       polygons = remove_properties(polygons)
