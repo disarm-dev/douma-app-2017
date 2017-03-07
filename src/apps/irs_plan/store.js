@@ -28,9 +28,16 @@ export default {
       context.commit('irs_plan:set_localities', [])
       return Sync.get_ous(country_code).then((results) => {
         const localities = results.features
+        const max = localities.reduce((max, i) => {return i.properties.MeanElev > max ? i.properties.MeanElev : max}, 0)
+
+        const non_zero_elev_localities = localities.map(l => {
+          if (l.properties.MeanElev == 0) l.properties.MeanElev = max
+          return l
+        })
+
         context.commit('root:set_loading', false)
-        context.commit('irs_plan:set_localities', localities)
-        return Promise.resolve(localities)
+        context.commit('irs_plan:set_localities', non_zero_elev_localities)
+        return Promise.resolve(non_zero_elev_localities)
       })
     },
     'irs_plan:start_clustering': (context, country_code) => {
