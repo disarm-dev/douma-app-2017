@@ -9,14 +9,17 @@ export default {
     // DATA
     localities: [],
     selected_localities: [],
+    mark_mode: null
   },
   mutations: {
     'irs_plan:set_localities': (state, localities) => {
       state.localities = localities
     },
-
     'irs_plan:set_selected_localities': (state, selected_localities) => {
       state.selected_localities = selected_localities
+    },
+    'irs_plan:set_mark_mode': (state, mark_mode) => {
+      state.mark_mode = mark_mode
     }
   },
   actions: {

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h1>Select local areas to target Clustering</h1>
+    <div class='container'><h1>Select local areas to target Clustering</h1></div>
 
-    <div v-if='sorted_localities.length === 0'>
+    <div v-if='sorted_localities.length === 0' class='container'>
       <p>
         Select which country to load local areas for.
       </p>
@@ -17,17 +17,21 @@
       <md-button class='md-primary md-raised' @click.native='get_ous'>Load areas</md-button>
     </div>
 
-    <!-- SELECTION SLIDER -->
-    <div v-if='sorted_localities.length > 0'>
+    <div v-if='sorted_localities.length > 0' class='container'>
       <p>The local areas are displayed below. Change the slider to select a number of areas to target. For demonstration, they are already sorted by a proxy for risk (elevation), so the 'highest-risk' areas will be included first.</p>
       <p>The larger the number of areas selected, the longer the processing will take, and the larger the data created. For a quicker experience, choose a lower number.</p>
-      <md-input-container
-        <label>Select number of localities</label>
-        <vue-slider v-bind="slider_options" v-model="risk_slider"></vue-slider>
+        <!-- SELECTION SLIDER -->
+      <vue-slider v-bind="slider_options" v-model="risk_slider_value" ref='slider'></vue-slider>
 
-        <!-- START CLYSTERING BUTTON -->
-        <md-button class='md-raised md-accent' :disabled='!can_start_clustering' @click.native='confirm_clustering'>Start clustering</md-button>
-      </md-input-container>
+      <h3>Summary of area selected for Clustering</h3>
+      <p>Selected local areas: {{risk_slider_value}}</p>
+      <p v-if='manual_locality_selection.added.length !== 0'>{{manual_locality_selection.added.length}} areas manually added</p>
+      <p v-if='manual_locality_selection.removed.length !== 0'>{{manual_locality_selection.removed.length}} areas manually removed</p>
+
+      <!-- START CLUSTERING BUTTON -->
+      <mark-mode-buttons></mark-mode-buttons>
+
+      <md-button class='md-raised md-accent' :disabled='!can_start_clustering' @click.native='confirm_clustering'>Start clustering</md-button>
     </div>
 
     <div id='map'></div>
@@ -46,60 +50,81 @@
   import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js'
   import 'mapbox-gl/dist/mapbox-gl.css'
 
+  import MarkModeButtons from './mark_mode_buttons.vue'
   import vueSlider from 'vue-slider-component'
 
   export default {
     name: 'SelectOUs',
-    components: {vueSlider},
+    components: {vueSlider, MarkModeButtons},
     data() {
       return {
-        confirm_large_clusters: false,
         alert_content: '',
+        mark_mode: 'none',
         can_start_clustering: true,
         country_code: 'SWZ',
-        risk_slider: 0,
+        risk_slider_value: 50,
+        slider_options: {
+          min: 0,
+          max: 100,
+          interval: 1,
+          lazy: true,
+          tooltip: 'always',
+          formatter: '{value} local areas'
+        },
         map: {},
         localities_layer: null,
         manual_locality_selection: {
-          removed: [], // features
-          added: [] // features
+          removed: [], // Array of Features
+          added: [] // Array of Features
         }
       }
     },
     watch: {
-      'selected_localities': 'draw_localities',
+      // 'selected_localities': 'draw_localities',
+      'risk_slider_value': 'watched'
     },
     mounted() {
-      this.get_ous() // TODO: @debug Stop loading OUs in `mounted`
-      this.create_map()
-      this.add_localities_layer()
+      this.$nextTick(() => {
+        this.get_ous() // TODO: @debug Stop loading OUs in `mounted`
+      })
+      // this.create_map()
+      // this.add_localities_layer()
     },
     computed: {
-      slider_options() {
-        return {
-          min: 0,
-          max: this.$store.state.irs_plan.localities.length,
-          interval: 1
-        }
-      },
-      selected_localities() {
-        return this.sorted_localities.map((locality, index) => {
-          locality.properties.selected = (index <= (this.risk_slider - 1)) ? 'yes' : 'no'
-          console.log(locality.id, locality.properties.selected)
-          return locality
-        })
-      },
+      // slider_options() {
+      //   return {
+      //     min: 0,
+      //     max: this.$store.state.irs_plan.localities.length,
+      //     interval: 1
+      //   }
+      // },
+      // selected_localities() {
+
+      //   const result = this.sorted_localities.map((locality, index) => {
+      //     locality.properties.selected = (index <= (this.risk_slider_value - 1)) ? 'yes' : 'no'
+      //     return locality
+      //   })
+
+      //   return result
+
+      // },
       sorted_localities() {
         return this.$store.state.irs_plan.localities.sort((a,b) => a.properties.MeanElev - b.properties.MeanElev)//.reverse()
-      },
-      // computed_selection_area() {
-      //   return this.selected_localities// + this.manual_locality_selection.added - this.manual_locality_selection.removed
-      // }
+      }
     },
     methods: {
+      watched() {
+        console.log('watched')
+      },
       get_ous() {
         return this.$store.dispatch("irs_plan:get_ous", this.country_code).then(() => {
-          this.risk_slider = this.$store.state.irs_plan.localities.length
+          const localities_length = this.$store.state.irs_plan.localities.length
+          this.$nextTick(() => {
+            this.$refs.slider.refresh()
+          })
+          // debugger
+          this.risk_slider_value = localities_length
+          this.slider_options.max = localities_length 
         })
       },
       confirm_clustering() {
@@ -208,7 +233,10 @@
             // Single out the first found feature on mouseove.
             var feature = features[0];
 
-            // feature.properties.selected = true
+            // if (this.manual_locality_selection)
+
+
+            // feature.properties.selected = 'yes'
 
             // this.map.setFilter('localities_layer_highlighted', ['==', 'selected', 'true']);
 
@@ -234,6 +262,20 @@
       add_remove_locality(locality) {
         console.log('add/remove locality', locality)
         // this.$router.push({name: 'irs_plan:locality', params: {locality_id: locality._id}})
+      },
+      mark_to_add() {
+        if (this.mark_mode === 'add') {
+          this.mark_mode = 'none'
+        } else {
+          this.mark_mode = 'add'
+        }
+      },
+      mark_to_remove() {
+        if (this.mark_mode === 'remove') {
+          this.mark_mode = 'none'
+        } else {
+          this.mark_mode = 'remove'
+        }
       }
     }
   }
@@ -243,5 +285,8 @@
   #map {
     min-height: calc(100vh - 300px);
     z-index: 0;
+  }
+  .container {
+    margin: 10px;
   }
 </style>
