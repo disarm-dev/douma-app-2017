@@ -42,6 +42,12 @@ export default () => {
       return next({name: 'meta:login'})
     } 
 
+    if (to.meta.title) {
+      document.title = `DiSARM - ${to.meta.title}`
+    } else {
+      document.title = 'DiSARM'
+    }
+
     if (to.name) {
       const theme = to.name.split(/:/)[0]
       router.app.$material.setCurrentTheme(theme) // TODO: @fix Need to avoid setting themes that don't exist
