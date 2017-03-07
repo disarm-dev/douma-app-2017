@@ -29,7 +29,7 @@ export default [
             path: 'map',
             name: 'irs_plan:review:map',
             component: ReviewMap,
-            meta: {type: 'map'}
+            meta: {title: 'IRS - Review clusters', type: 'map'}
           },{
             path: 'list',
             name: 'irs_plan:review:list',
@@ -48,7 +48,7 @@ export default [
             path: 'select_ous',
             name: 'irs_plan:create:select_ous',
             component: SelectOUs,
-            meta: {}
+            meta: {title: 'IRS - Select areas'}
           },
           {
             path: 'preview',
