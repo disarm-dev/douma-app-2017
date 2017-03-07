@@ -59,7 +59,11 @@
         country_code: 'SWZ',
         risk_slider: 0,
         map: {},
-        localities_layer: null
+        localities_layer: null,
+        manual_locality_selection: {
+          removed: [], // features
+          added: [] // features
+        }
       }
     },
     watch: {
@@ -73,18 +77,24 @@
     computed: {
       slider_options() {
         return {
-          min: 1,
+          min: 0,
           max: this.$store.state.irs_plan.localities.length,
           interval: 1
         }
       },
       selected_localities() {
-        return this.sorted_localities.slice(0, this.risk_slider)
+        return this.sorted_localities.map((locality, index) => {
+          locality.properties.selected = (index <= (this.risk_slider - 1)) ? 'yes' : 'no'
+          console.log(locality.id, locality.properties.selected)
+          return locality
+        })
       },
       sorted_localities() {
-
         return this.$store.state.irs_plan.localities.sort((a,b) => a.properties.MeanElev - b.properties.MeanElev)//.reverse()
-      }
+      },
+      // computed_selection_area() {
+      //   return this.selected_localities// + this.manual_locality_selection.added - this.manual_locality_selection.removed
+      // }
     },
     methods: {
       get_ous() {
@@ -136,7 +146,6 @@
         });
       },
       add_localities_layer() {
-
         this.map.on('load', () => {
           const selected_localities_copy = this.selected_localities.slice()
 
@@ -145,20 +154,77 @@
             type: 'fill',
             layout: {},
             paint: {
-              'fill-color': '#088',
-              'fill-opacity': 0.2,
-              'fill-outline-color': 'purple'
-
-            },
+              'fill-outline-color': 'grey',
+              "fill-opacity": {
+                  "property": "selected",
+                  "type": "categorical",
+                  "stops": [
+                      ['yes', 0.6],
+                      ['no', 0.1]
+                  ]
+              },
+              "fill-color": {
+                  "property": "selected",
+                  "type": "categorical",
+                  "stops": [
+                      ['yes', "red"],
+                      ['no', "blue"]
+                  ]
+              }
+                },
             source: {
               type: 'geojson',
               data: {type:'FeatureCollection', features: selected_localities_copy}
             }
           })
+
+          const popup = new mapboxgl.Popup({
+            closeButton: true
+          })
+
+          this.map.on('mousemove', e => {
+            var features = this.map.queryRenderedFeatures(e.point, {
+                layers: ['localities_layer']
+            });
+
+            // Change the cursor style as a UI indicator.
+            this.map.getCanvas().style.cursor = features.length ? 'pointer' : '';
+          })
+
+          this.map.on('click', (e) => {
+
+            var features = this.map.queryRenderedFeatures(e.point, {
+                layers: ['localities_layer']
+            });
+
+            // // Remove things if no feature was found.
+            // if (!features.length) {
+            //     popup.remove();
+            //     this.map.setFilter('localities_layer_highlighted', ['!=', 'selected', 'true']);
+            //     overlay.style.display = 'none';
+            //     return;
+            // }
+
+            // Single out the first found feature on mouseove.
+            var feature = features[0];
+
+            // feature.properties.selected = true
+
+            // this.map.setFilter('localities_layer_highlighted', ['==', 'selected', 'true']);
+
+            // var title = document.createElement('strong');
+            // title.textContent = feature.properties.ClusterID + ' (' + feature.properties.NumStructures + ' structures)';
+
+
+            // // Display a popup with the name of the cluster
+            popup.setLngLat(e.lngLat)
+                .setText(feature.properties.UniqLocCod)
+                .addTo(this.map);
+          })          
         })
       },
       draw_localities() {
-        const selected_localities_copy = this.selected_localities.slice()
+        const selected_localities_copy = [...this.selected_localities] // Make a copy, otherwise Mapbox changes the value
 
         console.log('draw_localities', selected_localities_copy.length)
         this.map
