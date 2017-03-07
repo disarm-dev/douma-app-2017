@@ -29,7 +29,7 @@
         <md-button class='md-raised md-accent' :disabled='!can_start_clustering' @click.native='confirm_clustering'>Start clustering</md-button>
       </md-input-container>
     </div>
-        
+
     <div id='map'></div>
 
     <md-dialog-confirm
@@ -43,8 +43,8 @@
 </template>
 
 <script>
-  import Leaflet from 'leaflet'
-  import 'leaflet/dist/leaflet.css'
+  import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js'
+  import 'mapbox-gl/dist/mapbox-gl.css'
 
   import vueSlider from 'vue-slider-component'
 
@@ -57,7 +57,7 @@
         alert_content: '',
         can_start_clustering: true,
         country_code: 'SWZ',
-        risk_slider: 1,
+        risk_slider: 0,
         map: {},
         localities_layer: null
       }
@@ -66,8 +66,9 @@
       'selected_localities': 'draw_localities',
     },
     mounted() {
+      this.get_ous() // TODO: @debug Stop loading OUs in `mounted`
       this.create_map()
-      this.draw_localities()
+      this.add_localities_layer()
     },
     computed: {
       slider_options() {
@@ -81,7 +82,8 @@
         return this.sorted_localities.slice(0, this.risk_slider)
       },
       sorted_localities() {
-        return this.$store.state.irs_plan.localities.sort((a,b) => a.properties.MeanElev - b.properties.MeanElev).reverse()
+
+        return this.$store.state.irs_plan.localities.sort((a,b) => a.properties.MeanElev - b.properties.MeanElev)//.reverse()
       }
     },
     methods: {
@@ -125,50 +127,43 @@
           })
       },
       create_map() {
-        this.map = Leaflet.map('map', {
-          tms: true,
-          center: [-26.3231769,31.1380957],
-          zoom: 10,
+        mapboxgl.accessToken = 'pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA';
+        this.map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox:// styles/mapbox/streets-v9',
+            center: [31.50484892885717, -26.543508675283874],
+            zoom: 7.34
         });
+      },
+      add_localities_layer() {
 
-        const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
+        this.map.on('load', () => {
+          const selected_localities_copy = this.selected_localities.slice()
 
-        Leaflet.tileLayer(url).addTo(this.map)
+          this.localities_layer = this.map.addLayer({
+            id: 'localities_layer', 
+            type: 'fill',
+            layout: {},
+            paint: {
+              'fill-color': '#088',
+              'fill-opacity': 0.2,
+              'fill-outline-color': 'purple'
+
+            },
+            source: {
+              type: 'geojson',
+              data: {type:'FeatureCollection', features: selected_localities_copy}
+            }
+          })
+        })
       },
       draw_localities() {
-        // Remove if exists
-        let redrawing
-        
-        if (this.localities_layer) {
-          redrawing = true
-          this.map.removeLayer(this.localities_layer)
-          this.localities_layer = null
-        }
+        const selected_localities_copy = this.selected_localities.slice()
 
-        // Return unless there are search_results to render
-        if (this.$store.state.irs_plan.localities.length === 0) {
-          return
-        }
-
-        let localities_geojson = this.selected_localities
-
-        const localities_layer = L.geoJSON(localities_geojson, {
-          style: (feature, layer) => {
-            let style = { color: 'lightblue' }  
-            return style
-          },
-          onEachFeature: (feature, layer) => {
-            layer.on('click', () => {
-              console.log('click on feature', feature)
-            })
-          }
-        })
+        console.log('draw_localities', selected_localities_copy.length)
         this.map
-          .addLayer(localities_layer)
-
-        this.map.fitBounds(localities_layer.getBounds())
-
-        this.localities_layer = localities_layer      
+          .getSource('localities_layer')
+          .setData({type: 'FeatureCollection', features: selected_localities_copy})
       },
       add_remove_locality(locality) {
         console.log('add/remove locality', locality)
