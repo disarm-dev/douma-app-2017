@@ -20,7 +20,8 @@
     <div v-if='sorted_localities.length > 0' class='container'>
       <p>The local areas are displayed below. Change the slider to select a number of areas to target. For demonstration, they are already sorted by a proxy for risk (elevation), so the 'highest-risk' areas will be included first.</p>
       <p>The larger the number of areas selected, the longer the processing will take, and the larger the data created. For a quicker experience, choose a lower number.</p>
-        <!-- SELECTION SLIDER -->
+
+      <!-- SELECTION SLIDER -->
       <vue-slider v-bind="slider_options" v-model="risk_slider_value" ref='slider'></vue-slider>
 
       <h3>Summary of area selected for Clustering</h3>
@@ -28,9 +29,10 @@
       <p v-if='manual_locality_selection.added.length !== 0'>{{manual_locality_selection.added.length}} areas manually added</p>
       <p v-if='manual_locality_selection.removed.length !== 0'>{{manual_locality_selection.removed.length}} areas manually removed</p>
 
-      <!-- START CLUSTERING BUTTON -->
+      <!-- SELECT MAP DRAWING MODE -->
       <mark-mode-buttons></mark-mode-buttons>
 
+      <!-- START CLUSTERING BUTTON -->
       <md-button class='md-raised md-accent' :disabled='!can_start_clustering' @click.native='confirm_clustering'>Start clustering</md-button>
     </div>
 
