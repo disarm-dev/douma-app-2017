@@ -38,12 +38,16 @@
     components: {AreasMap, FormalBulk, FormalSingle, Draw, Result},
     props: [],
     watch: {'show_preview_local': 'proxy_show_preview'},
+    mounted() {
+      const country_code = 'SWZ' // TODO: @debug Change from hardcoded country_code
+      return this.$store.dispatch("irs_areas:load_formal_areas", country_code)
+    },
     data() {
       return {
         show_preview_local: false,
         // Actions
         actions: [
-          { title: 'Multiple', command: 'FormalBulk' }, 
+          { title: 'Multiple', command: 'FormalBulk' },
           { title: 'Single', command: 'FormalSingle' }, 
           { title: 'hand-draw', command: 'Draw' },
           { title: 'Result', command: 'Result' }
@@ -52,7 +56,7 @@
     },
     computed: {
       result_areas() {
-        return this.$store.getters["irs_areas/result_areas"]
+        return this.$store.getters["irs_areas:result_areas"]
       },
       show_preview() {
         return this.$store.state.irs_areas.show_preview
@@ -60,10 +64,10 @@
     },
     methods: {
       proxy_show_preview() {
-        this.$store.commit('irs_areas/set_show_preview', this.show_preview_local)
+        this.$store.commit('irs_areas:set_show_preview', this.show_preview_local)
       },
       set_action (action) {
-        this.$store.commit('irs_areas/set_selected_command', action.command)
+        this.$store.commit('irs_areas:set_selected_command', action.command)
       }
     }
   }
