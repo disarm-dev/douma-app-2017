@@ -65,7 +65,8 @@ class Sync {
         return new Promise(resolve => {
           reader.addEventListener("loadend", () => {
             var pbf = new Pbf( reader.result )
-            return resolve(geobuf.decode(pbf))
+            const buffer = geobuf.decode(pbf)
+            return resolve(buffer.features)
           })
           reader.readAsArrayBuffer(blob)
         })
