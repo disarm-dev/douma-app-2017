@@ -93,6 +93,9 @@ if (process.env.NODE_ENV === 'production') {
         { from: 'src/favicon.ico' },
         { from: 'src/manifest.json' },
         { from: 'src/index.html' },
+        // needed for offline analytics
+        { from: 'src/offline-analytics.js' },
+        { from: 'node_modules/sw-offline-google-analytics/build/offline-google-analytics-import.min.js' },
     ]),
   ])
 }
