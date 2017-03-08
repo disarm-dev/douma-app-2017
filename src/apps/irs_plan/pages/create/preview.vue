@@ -32,7 +32,7 @@
     methods: {
       post_clusters() {
         this.$store.dispatch('irs_plan:post_clusters').then(() => {
-          this.$router.push({name: 'irs_plan'})
+          this.$router.push({name: 'irs_plan:review'})
         })
       }, 
       create_map() {
