@@ -4,13 +4,14 @@ import Vuex from 'vuex'
 import irs from './apps/irs/store'
 import irs_record from './apps/irs_record/store'
 import irs_plan from './apps/irs_plan/store'
+import irs_areas from './apps/irs_plan/areas_store'
 import irs_monitor from './apps/irs_monitor/store'
 import meta from './apps/meta/store'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-  modules: {irs, irs_record, irs_plan, irs_monitor, meta},
+  modules: {irs, irs_record, irs_plan, irs_areas, irs_monitor, meta},
   state: {
     snackbar: {},
     loading: false,

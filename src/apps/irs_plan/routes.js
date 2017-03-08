@@ -1,5 +1,7 @@
 import IrsPlanApplet from './applet.vue'
 
+import Areas from './pages/areas/view.vue'
+
 import ReviewView from './pages/review/view.vue'
 import ReviewMap from './pages/review/map.vue'
 import ReviewList from './pages/review/list.vue'
@@ -14,10 +16,16 @@ export default [
   {
     path: '/irs_plan',
     name: 'irs_plan',
-    redirect: '/irs_plan/review',
+    redirect: '/irs_plan/areas',
     component: IrsPlanApplet,
     meta: {title: 'IRS Plan', icon: 'gps_fixed'},
     children: [
+      {
+        path: '/irs_plan/areas',
+        name: 'irs_plan:areas',
+        component: Areas,
+        meta: {title: 'Areas'},
+      },
       {
         path: '/irs_plan/review',
         name: 'irs_plan:review',
