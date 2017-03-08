@@ -5,9 +5,13 @@ export default {
   namespaced: true,
   state: {
     selected_command: 'result',
+    show_preview: false,
     informal_draw_stack: []
   },
   mutations: {
+    'set_show_preview': (state, show_preview) => {
+      state.show_preview = show_preview
+    },
     'push_informal_draw_stack': (state, stack_action) => {
       state.informal_draw_stack.push(stack_action)
     },
