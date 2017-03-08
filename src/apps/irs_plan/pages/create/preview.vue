@@ -23,16 +23,16 @@
       }
     },
     watch: {
-      // '$store.state.irs.clusters': 'draw_clusters',
+      '$store.state.irs.clusters': 'draw_clusters',
     },
     mounted() {
-      this.$store.commit('root:set_loading', true)
       this.create_map()
-      fetch('/assets/swz.clusters.sample.json').then((res) => res.json()).then((json) => {
-      // fetch('/assets/swz.all-clusters.geojson').then((res) => res.json()).then((json) => {
-        window.json = json
-        this.draw_clusters(json)
-      })
+      // this.$store.commit('root:set_loading', true)
+      // fetch('/_bootstrap/swz.clusters.sample.json').then((res) => res.json()).then((json) => {
+      // // fetch('/_bootstrap/swz.all-clusters.geojson').then((res) => res.json()).then((json) => {
+      //   this.$store.state.irs.clusters = json.features  
+      //   this.draw_clusters(json)
+      // })
     },
     methods: {
       post_clusters() {
@@ -49,7 +49,9 @@
             zoom: 7.34
         });
       },
-      draw_clusters(json) {
+      draw_clusters() {
+        const clusters = this.$store.state.irs.clusters
+
         this.map.on('load', () => {
           const clusters_layer = this.map.addLayer({
             id: 'clusters_layer', 
@@ -61,23 +63,23 @@
             },
             source: {
               type: 'geojson',
-              data: json
+              data: clusters
             }
           })
 
-          const clusters_layer_highlighted = this.map.addLayer({
-            id: 'clusters_layer_highlighted',
-            type: 'fill',
-            paint: {
-              "fill-outline-color": "#484896",
-              "fill-color": "#6e599f",
-              "fill-opacity": 0.75
-            },
-            source: {
-              type: 'geojson',
-              data: json
-            }
-          })
+          // const clusters_layer_highlighted = this.map.addLayer({
+          //   id: 'clusters_layer_highlighted',
+          //   type: 'fill',
+          //   paint: {
+          //     "fill-outline-color": "#484896",
+          //     "fill-color": "#6e599f",
+          //     "fill-opacity": 0.75
+          //   },
+          //   source: {
+          //     type: 'geojson',
+          //     data: clusters
+          //   }
+          // })
           
           this.clusters_layer = clusters_layer
 
@@ -114,7 +116,7 @@
 
             // Single out the first found feature on mouseove.
             var feature = features[0];
-            debugger
+
             feature.properties.selected = true
 
             this.map.setFilter('clusters_layer_highlighted', ['==', 'selected', 'true']);
@@ -128,7 +130,7 @@
                 .setText(feature.properties.ClusterID)
                 .addTo(this.map);
           })
-          this.$store.commit('root:set_loading', false)
+          // this.$store.commit('root:set_loading', false)
           
         });
 

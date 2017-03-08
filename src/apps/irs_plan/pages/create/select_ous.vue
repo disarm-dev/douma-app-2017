@@ -110,12 +110,9 @@
       }
     },
     methods: {
-      watched(a,b) {
-        console.log('watched',a,b)
-      },
       get_ous() {
         return this.$store.dispatch("irs_plan:get_ous", this.country_code).then(() => {
-          // Update slider UI
+          // Update slider UI to match localities
           const localities_length = this.$store.state.irs_plan.localities.length
           this.risk_slider_value = localities_length
           this.slider_options.max = localities_length 
