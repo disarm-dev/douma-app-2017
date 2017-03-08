@@ -3,16 +3,14 @@
 </template>
 
 <script>
-export default {
-
-  name: 'FormalSingle',
-
-  data () {
-    return {
-
-    };
+  export default {
+    name: 'FormalSingle',
+    props: ['formal_areas', 'show_preview'],
+    data () {
+      return {
+      }
+    }
   }
-};
 </script>
 
 <style lang="css" scoped>

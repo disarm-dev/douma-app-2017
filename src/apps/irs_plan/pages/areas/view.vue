@@ -10,7 +10,12 @@
       <div class="controls">
 
         <!-- DYNAMIC COMPONENT -->
-        <component :is='$store.state.irs_areas.selected_command' :result_areas='result_areas'></component>
+        <component 
+          :is='$store.state.irs_areas.selected_command' 
+          :formal_areas='formal_areas'
+          :informal_draw_stack='informal_draw_stack'
+          :show_preview='show_preview'
+        ></component>
         
         <md-checkbox v-if='$store.state.irs_areas.selected_command !== "Result"' v-model="show_preview_local">Show preview</md-checkbox>
       </div>
@@ -19,6 +24,8 @@
 
     <!-- DYNAMIC MAP -->
     <areas-map 
+      :formal_areas='formal_areas'
+      :informal_stack_result='informal_result_stack'
       :result_areas='result_areas'
       :show_preview='show_preview'
     ></areas-map>

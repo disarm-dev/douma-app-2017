@@ -66,11 +66,15 @@ export default {
 
     },
     'irs_areas:informal_draw_stack_result': (state) => {
-      // Add these all together in order
+      // Calculate result of informal_draw_stack
       return state.informal_draw_stack.reduce((sum, i) => sum + i.size, 0)
     },
     'irs_areas:result_areas': (state) => {
-      // Calculate the result from components
+      // Calculate the result from:
+      // 
+      // formal_bulk_result  formal_single_result
+      // MINUS informal stack removed areas
+      // PLUS informal stack add areas
       return ['always something new', 'in here']
     }
   },

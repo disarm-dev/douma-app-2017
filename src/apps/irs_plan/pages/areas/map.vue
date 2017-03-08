@@ -12,9 +12,9 @@
     mounted() {
       create_map()
     },
+    watch: {'formal_areas': 'redraw'},
     data() {
       return {
-
       }
     },
     computed: {
@@ -30,6 +30,9 @@
           center: [31.50484892885717, -26.543508675283874],
           zoom: 7.34
         })
+      },
+      redraw() {
+        console.log('redraw')
       }
     }
   }

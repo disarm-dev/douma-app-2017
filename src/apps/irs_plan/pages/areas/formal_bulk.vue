@@ -11,6 +11,7 @@
   export default {
     name: 'FormalBulk',
     components: {vueSlider},
+    props: ['formal_areas', 'show_preview'],
     data () {
       return {
         risk_slider_value: 0,
