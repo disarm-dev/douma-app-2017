@@ -17,7 +17,7 @@
       </md-button-toggle>
       <vue-slider class='date-slider' v-bind="slider" ref="slider" v-model="date"></vue-slider>
     </div>
-    <climate-map></climate-map>
+    <climate-map :layer='layer' :date='date'></climate-map>
   </div>
 </template>
 
@@ -56,8 +56,8 @@
       layers() {
         return this.$store.state.climate.layers
       },
-      selected_layer() {
-
+      layer() {
+        return this.$store.state.climate.selected_layer
       }
     },
     methods: {
@@ -65,7 +65,7 @@
         this.$store.commit('climate:select_layer', layer)
       },
       select_date() {
-        console.log(this.date)
+        this.$store.commit('climate:select_date', this.date)
       }
     }
 

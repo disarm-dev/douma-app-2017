@@ -8,13 +8,20 @@
 
   export default {
     name: 'ClimateMap',
+    props: ['date', 'layer'],
+    mounted() {
+      this.create_map()
+    },
+    watch: {'date': 'log_tile_url', 'layer': 'log_tile_url'},
     data () {
       return {
         map: {},
       }
     },
-    mounted() {
-      this.create_map()
+    computed: {
+      tile_url() {
+        return `/tiles/zwe/${this.layer.slug}/${this.date}/{z}/{x}/{y}.png`
+      }
     },
     methods: {
       create_map() {
@@ -25,6 +32,9 @@
             center: [29.555289514559178, -19.273592175411892],
             zoom: 5
         })
+      },
+      log_tile_url() {
+        console.log('map going to get', this.tile_url)
       }
     }
   }
