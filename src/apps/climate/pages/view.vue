@@ -1,22 +1,80 @@
 <template>
   <div>
-    Weather data for Zimbabwe
+    <h3>Weather data for Zimbabwe</h3>
+    <div class='slider-bar'>
+      <md-button-toggle md-single>
+        <md-button 
+          v-for='(layer, index) in layers' 
+          @click.native='select_layer(layer)'>
+          {{layer.title}}
+        </md-button>
+
+        <md-button 
+          @click.native='select_layer()'
+          class='md-accent'>
+          None
+        </md-button>
+      </md-button-toggle>
+      <vue-slider class='date-slider' v-bind="slider" ref="slider" v-model="date"></vue-slider>
+    </div>
     <climate-map></climate-map>
   </div>
 </template>
 
 <script>
   import ClimateMap from './map.vue'
+  import vueSlider from 'vue-slider-component'
 
   export default {
     name: 'ClimateView',
-    components: {ClimateMap},
+    components: {ClimateMap, vueSlider},
+    watch: {
+      'date': 'select_date'
+    },
     data () {
       return {
+        date: "2016-10-01",
+        slider: {
+          // piecewise: true,
+          tooltipDir: "bottom",
+          style: {
+            "margin": "0 10% 50px"
+          },
+          data: [
+            "2016-10-01",
+            "2016-10-02",
+            "2016-10-03",
+            "2016-10-04",
+            "2016-10-05",
+            "2016-10-06",
+            "2016-10-07"
+          ],
+        }
+      }
+    },
+    computed: {
+      layers() {
+        return this.$store.state.climate.layers
+      },
+      selected_layer() {
+
+      }
+    },
+    methods: {
+      select_layer(layer){
+        this.$store.commit('climate:select_layer', layer)
+      },
+      select_date() {
+        console.log(this.date)
       }
     }
+
   }
 </script>
 
 <style scoped>
+  .date-slider {
+    margin-top: 30px;
+    height: 20px;
+  }
 </style>

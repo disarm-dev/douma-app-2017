@@ -3,7 +3,9 @@
 </template>
 
 <script>
-  
+  import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js'
+  import 'mapbox-gl/dist/mapbox-gl.css'
+
   export default {
     name: 'ClimateMap',
     data () {
@@ -20,8 +22,8 @@
         this.map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox:// styles/mapbox/streets-v9',
-            center: [31.50484892885717, -26.543508675283874],
-            zoom: 7.34
+            center: [29.555289514559178, -19.273592175411892],
+            zoom: 5
         })
       }
     }
