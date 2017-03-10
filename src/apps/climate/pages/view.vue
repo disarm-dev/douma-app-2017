@@ -1,23 +1,28 @@
 <template>
   <div>
-    <h3>Weather data for Zimbabwe</h3>
-    <div class='slider-bar'>
-      <md-button-toggle md-single>
-        <md-button 
-          v-for='(layer, index) in layers' 
-          @click.native='select_layer(layer)'>
-          {{layer.title}}
-        </md-button>
+    <div class="container">
+      <h3>Weather data for Zimbabwe</h3>
+      <div class='slider-bar'>
+        <md-button-toggle md-single>
+          <md-button 
+            v-for='(layer, index) in layers' 
+            @click.native='select_layer(layer)'>
+            {{layer.title}}
+          </md-button>
 
-        <md-button 
-          @click.native='select_layer()'
-          class='md-accent'>
-          None
-        </md-button>
-      </md-button-toggle>
-      <vue-slider class='date-slider' v-bind="slider" ref="slider" v-model="date"></vue-slider>
+          <md-button 
+            @click.native='select_layer(null)'
+            class='md-accent md-toggle'>
+            None
+          </md-button>
+        </md-button-toggle>
+
+        <vue-slider class='date-slider' v-bind="slider" ref="slider" v-model="date"></vue-slider>
+      </div>
     </div>
+
     <climate-map :layer='layer' :date='date'></climate-map>
+
   </div>
 </template>
 
@@ -73,6 +78,10 @@
 </script>
 
 <style scoped>
+  .container {
+    margin: 10;
+  }
+
   .date-slider {
     margin-top: 30px;
     height: 20px;

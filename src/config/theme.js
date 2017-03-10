@@ -36,7 +36,7 @@ export default () => {
     },
     climate: {
       primary: 'blue',
-      accent: 'grey'
+      accent: 'brown'
     },
     meta: {
       primary: 'pink',

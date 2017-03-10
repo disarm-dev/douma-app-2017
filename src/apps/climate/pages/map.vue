@@ -12,10 +12,11 @@
     mounted() {
       this.create_map()
     },
-    watch: {'date': 'log_tile_url', 'layer': 'log_tile_url'},
+    watch: {'date': 'change_tile_layer', 'layer': 'change_tile_layer'},
     data () {
       return {
-        map: {},
+        map: null,
+        tile_layer: null
       }
     },
     computed: {
@@ -33,8 +34,14 @@
             zoom: 5
         })
       },
-      log_tile_url() {
+      change_tile_layer() {
+        if (!this.layer || !this.date) return
+
+        if (this.tile_layer) {
+          console.log('remove tile_layer')
+        }
         console.log('map going to get', this.tile_url)
+        this.tile_layer = 'layer got for ' + this.tile_url
       }
     }
   }
