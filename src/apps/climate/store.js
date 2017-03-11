@@ -4,10 +4,10 @@ export default {
     selected_date: null,
     selected_layer: null,
     layers: [
-      {title: 'Temperature', slug: 'lst'},
-      {title: 'Precipitation', slug: 'precip'},
-      {title: 'Wetness', slug: 'ndwi'},
-      {title: 'Vegetation', slug: 'ndvi'}
+      {title: 'Temperature', slug: 'LST'},
+      {title: 'Precipitation', slug: 'PRECIP'},
+      {title: 'Wetness', slug: 'EVI'},
+      {title: 'Vegetation', slug: 'NDVI'}
     ],
   },
   mutations: {

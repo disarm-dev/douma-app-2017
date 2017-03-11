@@ -21,7 +21,8 @@
     },
     computed: {
       tile_url() {
-        return `/tiles/zwe/${this.layer.slug}/${this.date}/{z}/{x}/{y}.png`
+        root = 'http://130.211.60.133:3000/processor/tiles/' //2016-01-01_PRECIP/1/1/1.png
+        return `${root}/${this.date}_${this.layer.slug}/{z}/{x}/{y}.png`
       }
     },
     methods: {
