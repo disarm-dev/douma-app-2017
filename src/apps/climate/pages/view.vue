@@ -29,6 +29,7 @@
 <script>
   import ClimateMap from './map.vue'
   import vueSlider from 'vue-slider-component'
+  import moment from 'moment'
 
   export default {
     name: 'ClimateView',
@@ -36,8 +37,13 @@
     watch: {
       'date': 'select_date'
     },
+    created() {
+      this.config_slider()
+    },
     data () {
       return {
+        earliest_date: '2015-01-01',
+        latest_date: '2017-03-01',
         date: "2016-10-01",
         slider: {
           // piecewise: true,
@@ -45,15 +51,7 @@
           style: {
             "margin": "0 10% 50px"
           },
-          data: [
-            "2016-10-01",
-            "2016-10-02",
-            "2016-10-03",
-            "2016-10-04",
-            "2016-10-05",
-            "2016-10-06",
-            "2016-10-07"
-          ],
+          data: []
         }
       }
     },
@@ -71,6 +69,21 @@
       },
       select_date() {
         this.$store.commit('climate:select_date', this.date)
+      },
+      config_slider() {
+        this.slider.data = this.dates_for_slider()
+        this.date = this.slider.data[this.slider.data.length - 1]
+      },
+      dates_for_slider() {
+        let task_date = moment(this.earliest_date).clone()
+        const latest_date = moment(this.latest_date)
+
+        let dates = []
+        while (task_date <= latest_date) {
+          dates.push(task_date.format("YYYY-MM-DD"))
+          task_date.add(1, 'M')
+        }
+        return dates
       }
     }
 
