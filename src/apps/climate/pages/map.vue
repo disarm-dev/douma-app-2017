@@ -21,8 +21,8 @@
     },
     computed: {
       tile_url() {
-        root = 'http://130.211.60.133:3000/processor/tiles/' //2016-01-01_PRECIP/1/1/1.png
-        return `${root}/${this.date}_${this.layer.slug}/{z}/{x}/{y}.png`
+        const root_url = WEATHER_API_URL
+        return `${root_url}/${this.date}_${this.layer.slug}/{z}/{x}/{y}.png`
       }
     },
     methods: {
@@ -34,15 +34,28 @@
             center: [29.555289514559178, -19.273592175411892],
             zoom: 5
         })
+
       },
       change_tile_layer() {
         if (!this.layer || !this.date) return
 
-        if (this.tile_layer) {
-          console.log('remove tile_layer')
+
+        const source = {
+          type: 'raster',
+          tiles: [
+              this.tile_url
+          ]
         }
-        console.log('map going to get', this.tile_url)
-        this.tile_layer = 'layer got for ' + this.tile_url
+
+        const layer = {
+          id: 'weather-layer',
+          source: 'weather-source',
+          type: 'raster'
+        }
+
+        this.map.addSource('weather-source', source)
+        this.map.addLayer(layer)
+        console.log('added')
       }
     }
   }
