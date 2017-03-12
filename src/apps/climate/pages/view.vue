@@ -5,16 +5,17 @@
       <div class='slider-bar'>
         <md-button-toggle md-single>
           <md-button 
+            @click.native='select_layer(null)'
+            class='md-accent md-toggle'>
+            None
+          </md-button>
+
+          <md-button 
             v-for='(layer, index) in layers' 
             @click.native='select_layer(layer)'>
             {{layer.title}}
           </md-button>
 
-          <md-button 
-            @click.native='select_layer(null)'
-            class='md-accent md-toggle'>
-            None
-          </md-button>
         </md-button-toggle>
 
         <vue-slider class='date-slider' v-bind="slider" ref="slider" v-model="date"></vue-slider>
@@ -44,7 +45,7 @@
       return {
         earliest_date: '2015-01-01',
         latest_date: '2017-03-01',
-        date: "2016-10-01",
+        date: null,
         slider: {
           // piecewise: true,
           tooltipDir: "bottom",
