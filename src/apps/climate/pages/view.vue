@@ -19,6 +19,14 @@
         </md-button-toggle>
 
         <vue-slider class='date-slider' v-bind="slider" ref="slider" v-model="date"></vue-slider>
+
+        <md-button @click.native="move_date('backward')" :disabled='this.date === this.earliest_date' class="md-icon-button">
+          <md-icon>navigate_before</md-icon>
+        </md-button>
+
+        <md-button @click.native="move_date('forward')" :disabled='this.date === this.latest_date' class="md-icon-button">
+          <md-icon>navigate_next</md-icon>
+        </md-button>
       </div>
     </div>
 
@@ -62,18 +70,6 @@
       },
       layer() {
         return this.$store.state.climate.selected_layer
-      }
-    },
-    methods: {
-      select_layer(layer){
-        this.$store.commit('climate:select_layer', layer)
-      },
-      select_date() {
-        this.$store.commit('climate:select_date', this.date)
-      },
-      config_slider() {
-        this.slider.data = this.dates_for_slider()
-        this.date = this.slider.data[this.slider.data.length - 1]
       },
       dates_for_slider() {
         let task_date = moment(this.earliest_date).clone()
@@ -86,6 +82,27 @@
         }
         return dates
       }
+    },
+    methods: {
+      select_layer(layer){
+        this.$store.commit('climate:select_layer', layer)
+      },
+      select_date() {
+        this.$store.commit('climate:select_date', this.date)
+      },
+      move_date(direction) {
+        let target_date = moment(this.date).clone()
+        if (direction == 'forward') {
+          target_date.add(1, 'M')
+        } else {
+          target_date.subtract(1, 'M')
+        }
+        this.date = target_date.format("YYYY-MM-DD")
+      },
+      config_slider() {
+        this.slider.data = this.dates_for_slider
+        this.date = this.slider.data[this.slider.data.length - 1]
+      },
     }
 
   }
