@@ -49,7 +49,7 @@
           this.tile_layer = null
         }
 
-        this.tile_layer = L.tileLayer(this.tile_url, {tms: true, opacity: 0.6})
+        this.tile_layer = L.tileLayer(this.tile_url, {tms: true})//, opacity: 0.6})
         this.tile_layer.addTo(this.map)
         
         // this.opacity_slider.setOpacityLayer(this.tile_layer)
