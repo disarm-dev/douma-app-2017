@@ -6,8 +6,8 @@ export default {
     layers: [
       {title: 'Temperature', slug: 'LST'},
       {title: 'Precipitation', slug: 'PRECIP'},
-      {title: 'Wetness', slug: 'EVI'},
-      {title: 'Vegetation', slug: 'NDVI'}
+      {title: 'Vegetation', slug: 'EVI'},
+      {title: 'Wetness', slug: 'NDWI'}
     ],
   },
   mutations: {
