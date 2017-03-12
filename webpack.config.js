@@ -67,7 +67,9 @@ module.exports = {
       "DOUMA_DEV_MODE": process.env.NODE_ENV !== 'production',
       DOUMA_API_URL: "'https://douma-api.herokuapp.com'",
       // DOUMA_API_URL: "'http://localhost:3000'",
-      R_SERVER_URL: "'https://cluster.api.disarm.io'"
+      // WEATHER_API_URL: "'https://weather.api.disarm.io/processor/tiles'",
+      WEATHER_API_URL: "'http://130.211.51.103:3000/processor/tiles'",
+      R_SERVER_URL: "'https://cluster.api.disarm.io'",
     })
   ]
 }
