@@ -3,7 +3,7 @@
     <vue-slider v-bind="slider_options" v-model="risk_slider"></vue-slider>
     <span>{{risk_slider}} clusters</span>
     <md-button @click.native="draw_localities()">draw_localities</md-button>
-    <md-button @click.native="draw_clusters()">draw_clusters</md-button>
+    <md-button @click.native.stop="draw_clusters()">draw_clusters</md-button>
     <div id="map"></div>
   </div>
 </template>
@@ -23,24 +23,17 @@
     data() {
       return {
         map: null,
-        _risk_slider: 1,
+        risk_slider: 1,
         slider_options: {
+          lazy: true,
           min: 1,
           max: 10,
           interval: 1
         }
       }
     },
-    computed: {
-      risk_slider: {
-        set(val) {
-          this.map.setFilter('clusters', ['<', 'cluster_id', val])
-          this._risk_slider = val
-        },
-        get() {
-          return this._risk_slider
-        }
-      }
+    watch: {
+      'risk_slider': 'change_risk_slider'
     },
     mounted() {
       this.draw_map()
@@ -53,10 +46,16 @@
           center: [31.5, -26.50], // starting position
           zoom: 8 // starting zoom
         });
+
+        this.map.on('render', e => {
+          if (this.loading && this.map.loaded()) {
+            this.$store.commit('root:set_loading', false)
+            this.loading = false
+          }
+        })
       },
       draw_localities() {
         if (!this.map.loaded()) return
-        console.log('draw', Localities)
 
         this.map.addLayer({
           'id': 'localities',
@@ -74,13 +73,15 @@
       draw_clusters() {
         if (!this.map.loaded()) return
 
+        this.$store.commit('root:set_loading', true)
+        this.loading = true
+
         fetch('/assets/swz.all-clusters.json')
         .then((res) => res.json())
         .then((clusters) => {
-          console.log(clusters.features[0], clusters.features[1])
           this.slider_options.max = clusters.features.length
 
-          this.map.addLayer({
+          let _cluster_layer = this.map.addLayer({
             'id': 'clusters',
             'type': 'line',
             'source': {
@@ -88,7 +89,14 @@
               'data': clusters
             }
           })
+
         }).catch(console.log)
+      },
+      change_risk_slider() {
+        this.$store.commit('root:set_loading', true)
+        this.loading = true
+
+        this.map.setFilter('clusters', ['<', 'cluster_id', this.risk_slider])
       }
     }
   }
