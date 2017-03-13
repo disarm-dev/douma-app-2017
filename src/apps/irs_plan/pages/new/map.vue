@@ -44,41 +44,38 @@
         });
       },
       draw_localities() {
+        if (!this.map.loaded()) return
         console.log('draw', Localities)
-        this.map.on('load', () => {
-          this.map.addLayer({
-            'id': 'localities',
-            'type': 'line',
-            'source': {
-              'type': 'geojson',
-              'data': Localities
-            },
-            'paint': {
-              'line-color': '#4FC3F7',
-              'line-opacity': 0.7
-            }
-          })
-          
+
+        this.map.addLayer({
+          'id': 'localities',
+          'type': 'line',
+          'source': {
+            'type': 'geojson',
+            'data': Localities
+          },
+          'paint': {
+            'line-color': '#4FC3F7',
+            'line-opacity': 0.7
+          }
         })
       },
       draw_clusters() {
-        let map = this.map
+        if (!this.map.loaded()) return
+
         fetch('/assets/swz.all-clusters.json')
         .then((res) => res.json())
         .then((clusters) => {
-          clusters.features = clusters.features.slice(0, 500)
           this.slider_options.max = clusters.features.length
-          window.clusters = clusters
 
-          map.on('load', () => {
-            map.addLayer({
-              'id': 'clusters',
-              'type': 'line',
-              'source': {
-                'type': 'geojson',
-                'data': clusters
-              }
-            })
+
+          this.map.addLayer({
+            'id': 'clusters',
+            'type': 'line',
+            'source': {
+              'type': 'geojson',
+              'data': clusters
+            }
           })
         }).catch(console.log)
       }
