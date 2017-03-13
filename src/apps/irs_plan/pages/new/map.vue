@@ -23,11 +23,22 @@
     data() {
       return {
         map: null,
-        risk_slider: 1,
+        _risk_slider: 1,
         slider_options: {
           min: 1,
           max: 10,
           interval: 1
+        }
+      }
+    },
+    computed: {
+      risk_slider: {
+        set(val) {
+          this.map.setFilter('clusters', ['<', 'cluster_id', val])
+          this._risk_slider = val
+        },
+        get() {
+          return this._risk_slider
         }
       }
     },
@@ -66,8 +77,8 @@
         fetch('/assets/swz.all-clusters.json')
         .then((res) => res.json())
         .then((clusters) => {
+          console.log(clusters.features[0], clusters.features[1])
           this.slider_options.max = clusters.features.length
-
 
           this.map.addLayer({
             'id': 'clusters',
