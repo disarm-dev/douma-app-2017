@@ -1,7 +1,7 @@
 <template>
   <div class="weather">
-    <opacity-slider :layer="tile_layer"></opacity-slider>
-    <legend-component :layer="layer" :country="country"></legend-component>
+    <opacity-slider v-if="selected_layer" :layer="tile_layer"></opacity-slider>
+    <legend-component v-if="selected_layer" :layer="layer" :country="country"></legend-component>
     <div id="weather-map"></div>
   </div>
 </template>
@@ -32,6 +32,9 @@
       tile_url() {
         const root_url = WEATHER_API_URL
         return `${root_url}/${this.country}/tile/${this.date}_${this.layer.slug}/{z}/{x}/{y}.png`
+      },
+      selected_layer() {
+        return this.$store.state.climate.selected_layer
       }
     },
     methods: {
