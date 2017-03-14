@@ -1,14 +1,19 @@
 <template>
-  <div id="weather-map"></div>
+  <div class="weather">
+    <opacity-slider :layer="tile_layer"></opacity-slider>
+    <div id="weather-map"></div>
+  </div>
 </template>
 
 <script>
   import Leaflet from 'leaflet'
   import 'leaflet/dist/leaflet.css'
+  import OpacitySlider from './opacitySlider.vue'
 
   export default {
     name: 'ClimateMap',
     props: ['date', 'layer'],
+    components: {OpacitySlider},
     mounted() {
       this.create_map()
     },
@@ -134,6 +139,10 @@
 </script>
 
 <style>
+  .weather {
+    position: relative;
+  }
+
   #weather-map {
     min-height: calc(100vh - 270px);
     z-index: 0;
