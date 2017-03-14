@@ -19,7 +19,7 @@
 export default {
 
   name: 'legend',
-  props: ['layer'],
+  props: ['layer', 'country'],
   data () {
     return {
       labels: [],
@@ -28,12 +28,15 @@ export default {
     };
   },
   watch: {'layer': 'update_legend'},
-  // mounted() {
-  //   this.update_legend()
-  // },
+  computed: {
+    palette_url() {
+      const root_url = WEATHER_API_URL
+      return `${root_url}/${this.country}/palettes/${this.layer.slug}_palette`
+    }
+  },
   methods: {
     update_legend() {
-      fetch('http://130.211.51.103:3000/processor/palettes/' + this.layer.slug + '_palette')
+      fetch(this.palette_url)
       .then(res => res.text())
       .then(res => {
         this.colors = []

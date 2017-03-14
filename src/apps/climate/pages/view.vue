@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <climate-map :layer='layer' :date='date'></climate-map>
+    <climate-map :layer='layer' :date='date' :country="country"></climate-map>
 
   </div>
 </template>
@@ -81,6 +81,9 @@
           task_date.add(1, 'M')
         }
         return dates
+      },
+      country() {
+        return this.$store.state.climate.country
       }
     },
     methods: {

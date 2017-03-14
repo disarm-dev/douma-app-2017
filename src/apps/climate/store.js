@@ -1,6 +1,7 @@
 
 export default {
   state: {
+    country: 'ZWE',
     selected_date: null,
     selected_layer: null,
     layers: [

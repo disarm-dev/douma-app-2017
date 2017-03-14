@@ -1,7 +1,7 @@
 <template>
   <div class="weather">
     <opacity-slider :layer="tile_layer"></opacity-slider>
-    <legend-component :layer="layer"></legend-component>
+    <legend-component :layer="layer" :country="country"></legend-component>
     <div id="weather-map"></div>
   </div>
 </template>
@@ -14,7 +14,7 @@
 
   export default {
     name: 'ClimateMap',
-    props: ['date', 'layer'],
+    props: ['date', 'layer', 'country'],
     components: {OpacitySlider, LegendComponent},
     mounted() {
       this.create_map()
@@ -31,7 +31,7 @@
     computed: {
       tile_url() {
         const root_url = WEATHER_API_URL
-        return `${root_url}/${this.date}_${this.layer.slug}/{z}/{x}/{y}.png`
+        return `${root_url}/${this.country}/tile/${this.date}_${this.layer.slug}/{z}/{x}/{y}.png`
       }
     },
     methods: {
