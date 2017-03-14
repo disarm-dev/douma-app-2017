@@ -60,8 +60,11 @@
           style: {
             "margin": "0 10% 50px"
           },
-          data: []
-        }
+          data: [],
+          formatter: (value) => {
+            return moment(value).format('YYYY-MMM')
+          }
+        },
       }
     },
     computed: {
