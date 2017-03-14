@@ -43,9 +43,9 @@
         this.$store.dispatch("irs_record:search_clusters", this.search_definition)
           .then(result => this.search_results = result)
       },
-      clear() { 
+      clear() {
         this.search_results = []
-        this.search_definition = [] 
+        this.search_definition = []
       },
       open_clusters() {
         this.$store.dispatch("irs_record:open_clusters", this.clusters_to_open)
@@ -60,6 +60,6 @@
 </script>
 
 <style scoped>
-.container { margin: 10px; }
+  .container { margin: 10px; }
 </style>
 
