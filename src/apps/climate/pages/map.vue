@@ -19,7 +19,11 @@
     mounted() {
       this.create_map().then(() => this.add_country_boundary())
     },
-    watch: {'date': 'change_tile_layer', 'layer': 'change_tile_layer'},
+    watch: {
+      'date': 'change_tile_layer', 
+      'layer': 'change_tile_layer',
+      'country': 'change_country'
+    },
     data () {
       return {
         map: null,
@@ -31,12 +35,12 @@
     },
     computed: {
       tile_url() {
-        if (this.layer.slug === 'RSK') {
-          return `https://storage.googleapis.com/pipeline-api/api/${this.country}/${this.date}/risk/standard/current-month/tiles/{z}/{x}/{y}.png`
+        if (this.layer.slug === 'RISK') {
+          return `https://storage.googleapis.com/pipeline-api/api/${this.country.slug}/${this.date}/risk/standard/current-month/tiles/{z}/{x}/{y}.png`
         }
 
         const root_url = WEATHER_API_URL
-        return `${root_url}/${this.country}/tile/${this.date}_${this.layer.slug}/{z}/{x}/{y}.png`
+        return `${root_url}/${this.country.slug}/tile/${this.date}_${this.layer.slug}/{z}/{x}/{y}.png`
       },
       selected_layer() {
         return this.$store.state.climate.selected_layer
@@ -45,8 +49,8 @@
     methods: {
       create_map() {
         this.map = Leaflet.map('weather-map', {
-          center: {lat: -18.656654486540006, lng: 29.575195312500004},
-          zoom: 6
+          center: this.country.center,
+          zoom: this.country.zoom
         });
 
         const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
@@ -55,7 +59,7 @@
         return Promise.resolve()
       },
       add_country_boundary() {
-        const country = this.$store.state.climate.country.toUpperCase()
+        const country = this.$store.state.climate.country.slug
         fetch(`/assets/countries/${country}.geojson`)
         .then((res) => {
           return res.json()
@@ -83,6 +87,9 @@
         this.tile_layer.addTo(this.map)
         if (this.country_boundary_layer) this.country_boundary_layer.bringToFront()
       },
+      change_country() {
+        this.map.setView(this.country.center, this.country.zoom)
+      }
     }
   }
 </script>

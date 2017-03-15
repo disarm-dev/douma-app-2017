@@ -2,6 +2,14 @@
   <div>
     <div class="container">
       <h3>Weather data for Zimbabwe</h3>
+
+      <md-input-container>
+        <label for="selected_country">Country</label>
+        <md-select name="selected_country" id="selected_country" v-model="country_slug" @selected="set_country">
+          <md-option v-for="country in country_options" :value="country.slug">{{country.title}}</md-option>
+        </md-select>
+      </md-input-container>
+
       <div class='slider-bar'>
         <md-button-toggle md-single>
           <md-button 
@@ -34,7 +42,7 @@
       </div>
     </div>
 
-    <climate-map :layer='layer' :date='date' :country="country"></climate-map>
+    <climate-map v-if="country" :layer='layer' :date='date' :country="country"></climate-map>
 
   </div>
 </template>
@@ -52,6 +60,7 @@
     },
     created() {
       this.config_slider()
+      this.$store.commit('climate:select_country', this.$store.state.climate.country_options[0].slug)
     },
     data () {
       return {
@@ -91,6 +100,12 @@
       },
       country() {
         return this.$store.state.climate.country
+      },
+      country_slug() {
+        return this.$store.state.climate.country.slug
+      },
+      country_options() {
+        return this.$store.state.climate.country_options
       }
     },
     methods: {
@@ -113,6 +128,9 @@
         this.slider.data = this.dates_for_slider
         this.date = this.slider.data[this.slider.data.length - 1]
       },
+      set_country(slug) {
+        this.$store.commit('climate:select_country', slug)
+      }
     }
 
   }
