@@ -42,25 +42,25 @@
       </div>
     </div>
 
-    <climate-map v-if="country" :layer='layer' :date='date' :country="country"></climate-map>
+    <rasters-map v-if="country" :layer='layer' :date='date' :country="country"></rasters-map>
 
   </div>
 </template>
 
 <script>
-  import ClimateMap from './map.vue'
+  import RastersMap from './map.vue'
   import vueSlider from 'vue-slider-component'
   import moment from 'moment'
 
   export default {
-    name: 'ClimateView',
-    components: {ClimateMap, vueSlider},
+    name: 'RastersView',
+    components: {RastersMap, vueSlider},
     watch: {
       'date': 'select_date'
     },
     created() {
       this.config_slider()
-      this.$store.commit('climate:select_country', this.$store.state.climate.country_options[0].slug)
+      this.$store.commit('rasters:select_country', this.$store.state.rasters.country_options[0].slug)
     },
     data () {
       return {
@@ -82,10 +82,10 @@
     },
     computed: {
       layers() {
-        return this.$store.state.climate.layers
+        return this.$store.state.rasters.layers
       },
       layer() {
-        return this.$store.state.climate.selected_layer
+        return this.$store.state.rasters.selected_layer
       },
       dates_for_slider() {
         let task_date = moment(this.earliest_date).clone()
@@ -99,21 +99,21 @@
         return dates
       },
       country() {
-        return this.$store.state.climate.country
+        return this.$store.state.rasters.country
       },
       country_slug() {
-        return this.$store.state.climate.country.slug
+        return this.$store.state.rasters.country.slug
       },
       country_options() {
-        return this.$store.state.climate.country_options
+        return this.$store.state.rasters.country_options
       }
     },
     methods: {
       select_layer(layer){
-        this.$store.commit('climate:select_layer', layer)
+        this.$store.commit('rasters:select_layer', layer)
       },
       select_date() {
-        this.$store.commit('climate:select_date', this.date)
+        this.$store.commit('rasters:select_date', this.date)
       },
       move_date(direction) {
         let target_date = moment(this.date).clone()
@@ -129,7 +129,7 @@
         this.date = this.slider.data[this.slider.data.length - 1]
       },
       set_country(slug) {
-        this.$store.commit('climate:select_country', slug)
+        this.$store.commit('rasters:select_country', slug)
       }
     }
 

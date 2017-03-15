@@ -13,7 +13,7 @@
   import LegendComponent from './legend.vue'
 
   export default {
-    name: 'ClimateMap',
+    name: 'RastersMap',
     props: ['date', 'layer', 'country'],
     components: {OpacitySlider, LegendComponent},
     mounted() {
@@ -43,7 +43,7 @@
         return `${root_url}/${this.country.slug}/tile/${this.date}_${this.layer.slug}/{z}/{x}/{y}.png`
       },
       selected_layer() {
-        return this.$store.state.climate.selected_layer
+        return this.$store.state.rasters.selected_layer
       }
     },
     methods: {
@@ -59,7 +59,7 @@
         return Promise.resolve()
       },
       add_country_boundary() {
-        const country = this.$store.state.climate.country.slug
+        const country = this.$store.state.rasters.country.slug
         fetch(`/assets/countries/${country}.geojson`)
         .then((res) => {
           return res.json()

@@ -58,8 +58,8 @@
             fake_password: 'malaria',
             email: 'manager@bob.com', 
             allowed_apps: {
-              read: ['irs_monitor', 'irs_plan', 'irs_tasker', 'irs_record', 'climate'], 
-              write: ['irs_monitor', 'irs_plan', 'irs_tasker', 'irs_record', 'climate']
+              read: ['irs_monitor', 'irs_plan', 'irs_tasker', 'irs_record', 'rasters'], 
+              write: ['irs_monitor', 'irs_plan', 'irs_tasker', 'irs_record', 'rasters']
             }
           }
         ]

@@ -19,13 +19,13 @@ export default {
     ],
   },
   mutations: {
-    'climate:select_date': (state, date) => {
+    'rasters:select_date': (state, date) => {
       state.selected_date = date
     },
-    'climate:select_layer': (state, layer) => {
+    'rasters:select_layer': (state, layer) => {
       state.selected_layer = layer
     },
-    'climate:select_country': (state, slug) => {
+    'rasters:select_country': (state, slug) => {
       const country = state.country_options.find((c) => c.slug == slug)
       state.country = country
     }
