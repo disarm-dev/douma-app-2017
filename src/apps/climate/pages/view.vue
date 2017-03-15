@@ -18,15 +18,19 @@
 
         </md-button-toggle>
 
-        <vue-slider class='date-slider' v-bind="slider" ref="slider" v-model="date"></vue-slider>
 
-        <md-button @click.native="move_date('backward')" :disabled='this.date === this.earliest_date' class="md-icon-button">
-          <md-icon>navigate_before</md-icon>
-        </md-button>
+        <div class='controls'>        
+          <vue-slider class='date-slider' v-bind="slider" ref="slider" v-model="date"></vue-slider>
+          <div class='nav_buttons'>
+            <md-button @click.native="move_date('backward')" :disabled='this.date === this.earliest_date' class="md-icon-button">
+              <md-icon>navigate_before</md-icon>
+            </md-button>
 
-        <md-button @click.native="move_date('forward')" :disabled='this.date === this.latest_date' class="md-icon-button">
-          <md-icon>navigate_next</md-icon>
-        </md-button>
+            <md-button @click.native="move_date('forward')" :disabled='this.date === this.latest_date' class="md-icon-button">
+              <md-icon>navigate_next</md-icon>
+            </md-button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -55,7 +59,7 @@
         latest_date: '2017-03-01',
         date: null,
         slider: {
-          // piecewise: true,
+          piecewise: true,
           tooltipDir: "bottom",
           style: {
             "margin": "0 10% 50px"
@@ -119,8 +123,23 @@
     margin: 10;
   }
 
+  .controls {
+
+  }
+
+  .nav_buttons {
+    
+  }
+
   .date-slider {
     margin-top: 30px;
     height: 20px;
+  }
+
+</style>
+
+<style>
+  .date-slider ul:not(.md-list)>li+li {
+    margin-top: 0px;
   }
 </style>

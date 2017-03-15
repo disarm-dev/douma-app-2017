@@ -1,7 +1,7 @@
 <template>
   <div class="legend-container">
     <div class="legend">
-      <p v-if="title"><b>{{title}}</b></p>
+      <p v-if="title" class='title'><b>{{title}}</b></p>
       <template v-for="(color, index) in colors">
         <div>
           <i :style="`background:  ${color} `"></i>
@@ -62,7 +62,7 @@ export default {
               label = Math.round(label / 5)
               break;
             case 'EVI':
-              this.title = 'Max daily mm'
+              this.title = '-1 to +1'
               let customRound = function(number, precision) {
                   var factor = Math.pow(10, precision);
                   var tempNumber = number * factor;
@@ -70,6 +70,9 @@ export default {
                   return roundedTempNumber / factor;
               }
               label = customRound(label, 3)
+              break;
+            case 'NDWI':
+              this.title = '-1 to +1'
               break;
           }
           return label
@@ -96,6 +99,11 @@ export default {
     line-height: 18px;
     color: #555;
     float: right;
+  }
+
+  .legend p {
+    margin-top: 0px;
+    margin-bottom: 5px;
   }
 
   .legend i {

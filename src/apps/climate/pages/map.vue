@@ -17,7 +17,7 @@
     props: ['date', 'layer', 'country'],
     components: {OpacitySlider, LegendComponent},
     mounted() {
-      this.create_map()
+      this.create_map().then(() => this.add_country_boundary())
     },
     watch: {'date': 'change_tile_layer', 'layer': 'change_tile_layer'},
     data () {
@@ -25,6 +25,7 @@
         map: null,
         legend: null,
         tile_layer: null,
+        country_boundary_layer: null,
         opacity_slider: null
       }
     },
@@ -47,6 +48,24 @@
         const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
 
         Leaflet.tileLayer(url).addTo(this.map)
+        return Promise.resolve()
+      },
+      add_country_boundary() {
+        const country = this.$store.state.climate.country.toUpperCase()
+        fetch(`/assets/countries/${country}.geojson`)
+        .then((res) => {
+          return res.json()
+        }).then((boundary) => {
+          this.country_boundary_layer = L.geoJSON(boundary, {
+            style: {
+              fill: false,
+              color: 'grey',
+              weight: 0.7,
+              clickable: false
+            }
+          })
+          this.country_boundary_layer.addTo(this.map)
+        }).catch()
       },
       change_tile_layer() {
         if (!this.layer || !this.date) return
@@ -58,6 +77,7 @@
 
         this.tile_layer = L.tileLayer(this.tile_url, {tms: true})
         this.tile_layer.addTo(this.map)
+        if (this.country_boundary_layer) this.country_boundary_layer.bringToFront()
       },
     }
   }
