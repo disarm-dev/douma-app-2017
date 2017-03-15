@@ -1,6 +1,11 @@
 
 export default {
   state: {
+    country_options: [
+      {title: 'Zimbabwe', slug:'ZWE', center: '', zoom: ''}, 
+      {title: 'Swaziland', slug:'SWZ', center: '', zoom: ''}
+    ],
+    country: 'ZWE',
     selected_date: null,
     selected_layer: null,
     layers: [
