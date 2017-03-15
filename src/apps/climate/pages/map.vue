@@ -31,6 +31,10 @@
     },
     computed: {
       tile_url() {
+        if (this.layer.slug === 'RSK') {
+          return `https://storage.googleapis.com/pipeline-api/api/${this.country}/${this.date}/risk/standard/current-month/tiles/{z}/{x}/{y}.png`
+        }
+
         const root_url = WEATHER_API_URL
         return `${root_url}/${this.country}/tile/${this.date}_${this.layer.slug}/{z}/{x}/{y}.png`
       },
