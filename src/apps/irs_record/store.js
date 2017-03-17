@@ -5,6 +5,7 @@ import Sync from './sync.js'
 export default {
   state: {
     // DATA
+    clusters: [],
     tasks: [],
     saved_cluster_ids: [],
 
@@ -13,6 +14,9 @@ export default {
   },
   mutations: {
     // EDITING
+    'irs_record:set_clusters': (state, clusters) => {
+      state.clusters = clusters
+    },
     'irs_record:set_saved_clusters': (state, cluster_ids) => {
       state.saved_cluster_ids = cluster_ids
     },
@@ -53,7 +57,7 @@ export default {
       return Sync.open_clusters(clusters).then((res) => {
         context.commit("root:set_loading", false)
         context.dispatch('irs_record:load_saved_clusters')
-        return context.commit("irs:set_clusters", clusters)
+        return context.commit("irs_record:set_clusters", clusters)
       }).catch(error => console.error(error))
     },
 

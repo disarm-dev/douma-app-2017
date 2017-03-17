@@ -1,8 +1,6 @@
 <template>
   <div style='position: relative;'>
-    <h1>TaskView</h1>
     <div class='container'>
-      <h1>Tasker</h1>
       <p>This page allows a manager to assign each Cluster to a spray team.</p>
       <i>This is currently not used in the 'IRS Record' section.</i>
     </div>

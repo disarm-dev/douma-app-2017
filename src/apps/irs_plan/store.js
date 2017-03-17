@@ -82,7 +82,8 @@ export default {
       context.commit('root:set_loading', true)
       return Sync.post_clusters(clusters).then(() => {
         context.commit('root:set_loading', false)
-        return context.commit('irs:set_clusters', clusters)
+        context.commit('irs:set_clusters', []) // TODO: @debug Remove
+        return context.dispatch('irs:get_clusters')
       })
     }
   }
