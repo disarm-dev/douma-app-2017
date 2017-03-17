@@ -6,7 +6,6 @@
       <p>
         Select which country to load local areas for.
       </p>
-      <i>You can select Zimbabwe, but please note that the later 'IRS Record' parts will not work. For full 'end-to-end' functioning, please work with Swaziland.</i>
       <md-input-container>
         <label for="country_code">Country</label>
         <md-select name="country_code" v-model="country_code">
