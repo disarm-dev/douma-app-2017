@@ -8,6 +8,8 @@ import CreateView from './pages/create/view.vue'
 import SelectOUs from './pages/create/select_ous.vue'
 import Preview from './pages/create/preview.vue'
 
+import NewMap from './pages/new/map.vue'
+
 import store from '../../store'
 
 export default [
@@ -57,6 +59,12 @@ export default [
             meta: {}
           }
         ]
+      },
+      {
+        path: '/irs_plan/new',
+        name: 'irs_plan:new',
+        component: NewMap,
+        meta: {}
       }
     ]
   }
