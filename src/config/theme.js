@@ -34,7 +34,7 @@ export default () => {
       primary: 'teal',
       accent: 'orange'
     },
-    climate: {
+    rasters: {
       primary: 'blue',
       accent: 'brown'
     },

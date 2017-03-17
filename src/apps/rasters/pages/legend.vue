@@ -8,7 +8,6 @@
           <span>{{labels[index]}}</span>
 
           <span v-if="labels[index + 1] !== undefined"> -  {{labels[index + 1]}}</span>
-          <span v-else> + </span>
         </div>
       </template>
     </div>
@@ -31,7 +30,7 @@ export default {
   computed: {
     palette_url() {
       const root_url = WEATHER_API_URL
-      return `${root_url}/${this.country}/palettes/${this.layer.slug}_palette`
+      return `${root_url}/${this.country.slug}/palettes/${this.layer.slug}_palette`
     }
   },
   methods: {
@@ -73,6 +72,10 @@ export default {
               break;
             case 'NDWI':
               this.title = '-1 to +1'
+              break;
+            case 'RISK':
+              this.title = 'Risk'
+              label = null
               break;
           }
           return label

@@ -6,14 +6,14 @@ import irs_record from './apps/irs_record/store'
 import irs_plan from './apps/irs_plan/store'
 import irs_monitor from './apps/irs_monitor/store'
 
-import climate from './apps/climate/store'
+import rasters from './apps/rasters/store'
 
 import meta from './apps/meta/store'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-  modules: {irs, irs_record, irs_plan, irs_monitor, climate, meta},
+  modules: {irs, irs_record, irs_plan, irs_monitor, rasters, meta},
   state: {
     snackbar: {},
     loading: false,
