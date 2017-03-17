@@ -10,7 +10,7 @@ import IRSRecordRoutes from './apps/irs_record/routes'
 import IRSTaskerRoutes from './apps/irs_tasker/routes'
 // import FociRoutes from './apps/foci/routes'
 // import GPSRoutes from './apps/gps/routes'
-import ClimateRoutes from './apps/climate/routes'
+import RastersRoutes from './apps/rasters/routes'
 
 import MetaRoutes from './apps/meta/routes'
 // import CasesRoutes from './apps/cases/routes'
@@ -22,7 +22,7 @@ export default () => {
       path: '/',
       redirect: '/irs_plan/new',
     }
-  ].concat(IRSMonitorRoutes, IRSPlanningRoutes, IRSTaskerRoutes, IRSRecordRoutes, ClimateRoutes, MetaRoutes, {
+  ].concat(IRSMonitorRoutes, IRSPlanningRoutes, IRSTaskerRoutes, IRSRecordRoutes, RastersRoutes, MetaRoutes, {
     path: '*',
     redirect: 'meta/profile'
   })

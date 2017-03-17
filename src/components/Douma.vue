@@ -78,6 +78,13 @@
       '$store.state.snackbar': 'snackbar_open',
       '$store.state.sw_message': 'sw_dialog_open'
     },
+    mounted() {
+      if (this.$store.state.meta.user.version !== COMMIT_HASH) {
+        console.log("Version has changed. Need to reload.")        
+        this.$store.commit('meta:login_user', null)
+        this.$router.push({name: 'meta:login'})
+      }
+    },
     data() {
       return {
         showNav: true
@@ -85,10 +92,6 @@
     },
     computed: {
       applets() {
-        // { short: 'foci', icon: 'filter_center_focus', title:' Foci' },
-        // { short: 'cases', icon: 'featured_play_list', title:' Cases' },
-        // { short: 'gps', icon: 'gps_fixed', title:' GPS' },
-
         const applet_decorations = this.$router.options.routes.map((route) => {
           return {...route.meta, name: route.name}
         })
