@@ -4,7 +4,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin')
 
 var commitHash = require('child_process')
   .execSync('git rev-parse HEAD')
-  .toString();
+  .toString().replace(/\n/, '');
 
 module.exports = {
   entry: ['whatwg-fetch', './src/index.js'],

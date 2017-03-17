@@ -42,25 +42,28 @@
         disabled: false,
         email: '',
         password: '',
+        // TODO: @refac Stop doing all the user stuff in here
         users: [
           {
             id: 'edgar_sprayer_47',
             name: 'Edgar Sprayer', 
             fake_password: 'malaria',
             email: 'sprayer@bob.com', 
+            version: COMMIT_HASH,
             allowed_apps: {
               read: ['irs_record'], 
               write: ['irs_record']
-            }
+            },
           },{
             id: 'philile_manager_15',
             name: 'Philile Manager', 
             fake_password: 'malaria',
             email: 'manager@bob.com', 
+            version: COMMIT_HASH,
             allowed_apps: {
               read: ['irs_monitor', 'irs_plan', 'irs_tasker', 'irs_record', 'rasters'], 
               write: ['irs_monitor', 'irs_plan', 'irs_tasker', 'irs_record', 'rasters']
-            }
+            },
           }
         ]
       }
