@@ -6,9 +6,9 @@
 
     <form>
       <p><md-radio v-model="task.properties.status" name="status" md-value="unvisited">Unvisited</md-radio></p>
-      <p><md-radio v-model="task.properties.status" name="status" md-value="visited_successful">Visited, successful</md-radio></p>
-      <p><md-radio v-model="task.properties.status" name="status" md-value="visited_unsuccessful">Visited, unsuccessful</md-radio></p>
-      <p><md-radio v-model="task.properties.status" name="status" md-value="visited_unsprayable">Visited, unsprayable</md-radio></p>
+      <p><md-radio v-model="task.properties.status" name="status" md-value="visited_successful">Visited and sprayed</md-radio></p>
+      <p><md-radio v-model="task.properties.status" name="status" md-value="visited_unsuccessful">Visited and not sprayed</md-radio></p>
+      <p><md-radio v-model="task.properties.status" name="status" md-value="visited_unsprayable">Visited, structure is unsprayable</md-radio></p>
 
       <md-button class='md-primary md-raised' @click.native='save'><md-icon>save</md-icon><span>Save</span></md-button>
       <md-button @click.native='cancel'><md-icon>cancel</md-icon><span>Cancel</span></md-button>
