@@ -12,6 +12,7 @@
     props: ['formal_areas', 'show_preview'],
     data () {
       return {
+        selected_uniqloccods: []
       }
     },
     mounted() {
@@ -32,43 +33,52 @@
       },
       draw_localities() {
         this.map.on('load', () => {
-          let fc = {
-            type: 'FeatureCollection',
-            features: SWZ_ous.features.map((f, i) => {
-              f.properties.selected = i % 2 == 0
-              return f
-            })
-          }
 
           this.map.addLayer({
             'id': 'localities',
             'type': 'fill',
             'source': {
               'type': 'geojson',
-              'data': fc
+              'data': SWZ_ous
             },
             "paint": {
-              'fill-color': {
-                property: 'selected',
-                type: 'categorical',
-                stops: [
-                    ['true', 'green'],
-                    ['false', 'red'],
-                ]
-              },
+              'fill-color': 'green',
               'fill-opacity': 0.7
             }
           })  
+
+
+          this.map.addLayer({
+            'id': 'localities_higlighted',
+            'type': 'fill',
+            'source': {
+              'type': 'geojson',
+              'data': SWZ_ous
+            },
+            "paint":{
+              'fill-color': 'red',
+              'fill-opacity': 0.3
+            },
+            "filter": ['in', 'UniqLocCod', '']
+          }) 
+
+
         })
       },
       handleClicks() {
         this.map.on('click', (e) => {
-          let map = this.map
-          debugger
-          var features = this.map.queryRenderedFeatures(e.point, {layers: ['localities']});
-          features.forEach((f) => {
-            f.properties.selected = !f.properties.selected
+          var clicked_features = this.map.queryRenderedFeatures(e.point, {layers: ['localities']});
+          clicked_features.forEach((f) => {
+            const UniqLocCod = f.properties.UniqLocCod
+            if (this.selected_uniqloccods.includes(UniqLocCod)) {
+              const index = this.selected_uniqloccods.findIndex(i => i === UniqLocCod)
+              this.selected_uniqloccods.splice(index, 1)
+            } else {
+              this.selected_uniqloccods.push(UniqLocCod)
+            }
           })
+
+          this.map.setFilter('localities_higlighted', ['in', 'UniqLocCod'].concat(this.selected_uniqloccods))
         })
       }
     }
@@ -77,19 +87,3 @@
 
 <style lang="css" scoped>
 </style>
-
-
-
-
-
-
-'circle-color': {
-      property: 'ethnicity',
-      type: 'categorical',
-      stops: [
-          ['White', '#fbb03b'],
-          ['Black', '#223b53'],
-          ['Hispanic', '#e55e5e'],
-          ['Asian', '#3bb2d0'],
-          ['Other', '#ccc']]
-  }
