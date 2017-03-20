@@ -1,12 +1,16 @@
 <template>
   <div>
     <div class="container">
+      <div style="background: fuschia;">
+        <p>There are x structures in the selected localities</p>
+      </div>
+
       <md-button-toggle md-single>
         <md-button v-for='action in actions' @click.native='set_action(action)'>
           {{action.title}}
         </md-button>
       </md-button-toggle>
-
+      
       <div class="controls">
 
         <!-- DYNAMIC COMPONENT -->
@@ -17,7 +21,7 @@
           :show_preview='show_preview'
         ></component>
         
-        <md-checkbox v-if='$store.state.irs_areas.selected_command !== "Result"' v-model="show_preview_local">Show preview</md-checkbox>
+        <!-- <md-checkbox v-if='$store.state.irs_areas.selected_command !== "Result"' v-model="show_preview_local">Show clusters</md-checkbox> -->
       </div>
 
     </div>
@@ -51,6 +55,9 @@
     },
     data() {
       return {
+        formal_areas: [],
+        informal_draw_stack: [],
+        informal_result_stack: [],
         show_preview_local: false,
         // Actions
         actions: [

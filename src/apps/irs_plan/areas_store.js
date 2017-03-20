@@ -13,6 +13,26 @@ export default {
     formal_areas: [],
     informal_draw_stack: []
   },
+  getters: {
+    'irs_areas:formal_bulk_result': (state) => {
+
+    },
+    'irs_areas:formal_single_result': (state) => {
+
+    },
+    'irs_areas:informal_draw_stack_result': (state) => {
+      // Calculate result of informal_draw_stack
+      return state.informal_draw_stack.reduce((sum, i) => sum + i.size, 0)
+    },
+    'irs_areas:result_areas': (state) => {
+      // Calculate the result from:
+      // 
+      // formal_bulk_result  formal_single_result
+      // MINUS informal stack removed areas
+      // PLUS informal stack add areas
+      return ['always something new', 'in here']
+    }
+  },
   mutations: {
     'irs_areas:set_show_preview': (state, show_preview) => {
       state.show_preview = show_preview
@@ -57,25 +77,5 @@ export default {
         return Promise.resolve(non_zero_elev_localities)
       }).catch(err => console.error(err))
     }
-  },
-  getters: {
-    'irs_areas:formal_bulk_result': (state) => {
-
-    },
-    'irs_areas:formal_single_result': (state) => {
-
-    },
-    'irs_areas:informal_draw_stack_result': (state) => {
-      // Calculate result of informal_draw_stack
-      return state.informal_draw_stack.reduce((sum, i) => sum + i.size, 0)
-    },
-    'irs_areas:result_areas': (state) => {
-      // Calculate the result from:
-      // 
-      // formal_bulk_result  formal_single_result
-      // MINUS informal stack removed areas
-      // PLUS informal stack add areas
-      return ['always something new', 'in here']
-    }
-  },
+  }
 }
