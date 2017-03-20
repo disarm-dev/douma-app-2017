@@ -29,8 +29,7 @@
       </md-input-container>
     </div>
     
-    <md-button class='md-primary md-raised' v-if="!risk_layer" @click.native='add_risk_layer'>Add Risk Layer</md-button>
-    <md-button class='md-primary md-raised' v-else @click.native='remove_risk_layer'>Add Risk Layer</md-button>
+    <md-button class='md-accent md-raised' @click.native='toggle_show_risk_layer'>{{this.show_risk_layer ? 'Hide' : 'Show'}} Risk Layer</md-button>
 
     <div style="position: relative;">
       <opacity-slider v-if="risk_layer" :layer="risk_layer"></opacity-slider>    
@@ -64,6 +63,7 @@
         can_start_clustering: true,
         country_code: 'SWZ',
         risk_slider: 1,
+        show_risk_layer: true,
         risk_layer: null,
         map: {},
         localities_layer: null
@@ -71,10 +71,12 @@
     },
     watch: {
       'selected_localities': 'draw_localities',
+      'country_code': 'add_risk_layer'
     },
     mounted() {
       this.create_map()
       this.draw_localities()
+      this.add_risk_layer()
     },
     computed: {
       slider_options() {
@@ -181,13 +183,23 @@
         console.log('add/remove locality', locality)
         // this.$router.push({name: 'irs_plan:locality', params: {locality_id: locality._id}})
       },
+      toggle_show_risk_layer() {
+        this.show_risk_layer = !this.show_risk_layer
+        this.add_risk_layer()
+      },
       add_risk_layer() {
-        const date = '2016-06-01' 
+        if (!this.show_risk_layer) {
+          if (this.risk_layer) {
+            return this.remove_risk_layer()
+          }
+          return
+        }
+
+        const date = '2015-04-01' 
         const url = `https://storage.googleapis.com/pipeline-api/api/${this.country_code}/${date}/risk/standard/current-month/tiles/{z}/{x}/{y}.png`
         
         if (this.risk_layer) {
-          this.map.removeLayer(this.risk_layer)
-          this.risk_layer = null
+          this.remove_risk_layer()
         }
 
         this.risk_layer = L.tileLayer(url, {tms: true})
