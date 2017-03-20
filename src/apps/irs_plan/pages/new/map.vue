@@ -13,7 +13,8 @@
   import MapboxGL from 'mapbox-gl/dist/mapbox-gl'
   import 'mapbox-gl/dist/mapbox-gl.css'
 
-  import Localities from '../../localities.json'
+  // import Localities from '../../localities.json'
+  var Localities = []
 
   MapboxGL.accessToken = 'pk.eyJ1Ijoibmljb2xhaWRhdmllcyIsImEiOiJjaXlhNWw1NnkwMDJoMndwMXlsaGo5NGJoIn0.T1wTBzV42MZ1O-2dy8SpOw'
 

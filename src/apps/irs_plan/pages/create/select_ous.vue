@@ -6,7 +6,6 @@
       <p>
         Select which country to load local areas for.
       </p>
-      <i>You can select Zimbabwe, but please note that the later 'IRS Record' parts will not work. For full 'end-to-end' functioning, please work with Swaziland.</i>
       <md-input-container>
         <label for="country_code">Country</label>
         <md-select name="country_code" v-model="country_code">
@@ -31,14 +30,16 @@
       <p v-if='$store.state.irs_plan.manually_drawn_areas.add.length !== 0'>{{$store.state.irs_plan.manually_drawn_areas.add.length}} drawn areas to manually add</p>
       <p v-if='$store.state.irs_plan.manually_drawn_areas.remove.length !== 0'>{{$store.state.irs_plan.manually_drawn_areas.remove.length}} drawn areas to manually remove</p>
 
-      <!-- SELECT MAP DRAWING MODE -->
-      <mark-mode-buttons></mark-mode-buttons>
-
       <!-- START CLUSTERING BUTTON -->
       <md-button class='md-raised md-accent' :disabled='!can_start_clustering' @click.native='confirm_clustering'>Start clustering</md-button>
     </div>
+    
+    <md-button class='md-accent md-raised' @click.native='toggle_show_risk_layer'>{{this.show_risk_layer ? 'Hide' : 'Show'}} Risk Layer</md-button>
 
-    <div id='map'></div>
+    <div style="position: relative;">
+      <opacity-slider v-if="risk_layer" :layer="risk_layer"></opacity-slider>    
+      <div id='map'></div>
+    </div>
 
     <md-dialog-confirm
       :md-content="alert_content"
@@ -56,10 +57,11 @@
 
   import MarkModeButtons from './mark_mode_buttons.vue'
   import vueSlider from 'vue-slider-component'
+  import OpacitySlider from '../../../../components/opacitySlider.vue'
 
   export default {
     name: 'SelectOUs',
-    components: {vueSlider, MarkModeButtons},
+    components: {vueSlider, OpacitySlider},
     data() {
       return {
         // The MAP
@@ -71,27 +73,21 @@
         
         // Temporary state - should be elsewhere?
         country_code: 'SWZ',
-        
-        //  Slider
-        risk_slider_value: 0,
-        slider_options: {
-          min: 0,
-          max: 1,
-          interval: 1,
-          lazy: true,
-          tooltip: 'always',
-          formatter: '{value} local areas'
-        },
+        risk_slider: 1,
+        show_risk_layer: true,
+        risk_layer: null,
+        map: {},
+        localities_layer: null
       }
     },
+    watch: {
+      'selected_localities': 'draw_localities',
+      'country_code': 'add_risk_layer'
+    },
     mounted() {
-      this.get_ous() // TODO: @debug Stop loading OUs in `mounted`
-
-      this.map = this.create_map()
-      this.map.on('load', () => { // Wait until map is ready to start drawing on it
-        this.$watch('_areas_to_render', this.draw_selected_areas)
-        this.draw_selected_areas()
-      })
+      this.create_map()
+      this.draw_localities()
+      this.add_risk_layer()
     },
     computed: {
       localities_selected_by_risk() {
@@ -237,15 +233,37 @@
 
         })          
       },
-      draw_selected_areas() {
-        // Add localities_layer on first render
-        if (!this.map.getSource('localities_layer')) {
-          this._add_localities_layer()
+      add_remove_locality(locality) {
+        console.log('add/remove locality', locality)
+        // this.$router.push({name: 'irs_plan:locality', params: {locality_id: locality._id}})
+      },
+      toggle_show_risk_layer() {
+        this.show_risk_layer = !this.show_risk_layer
+        this.add_risk_layer()
+      },
+      add_risk_layer() {
+        if (!this.show_risk_layer) {
+          if (this.risk_layer) {
+            return this.remove_risk_layer()
+          }
+          return
         }
 
-        // Otherwise re-render with different data
-        this.map.getSource('localities_layer').setData({type: 'FeatureCollection', features: this._areas_to_render})
-        console.log('done draw_selected_areas')
+        const date = '2015-04-01' 
+        const url = `https://storage.googleapis.com/pipeline-api/api/${this.country_code}/${date}/risk/standard/current-month/tiles/{z}/{x}/{y}.png`
+        
+        if (this.risk_layer) {
+          this.remove_risk_layer()
+        }
+
+        this.risk_layer = L.tileLayer(url, {tms: true})
+        this.risk_layer.addTo(this.map)
+      },
+      remove_risk_layer() {
+        if (this.risk_layer) {
+          this.map.removeLayer(this.risk_layer)
+          this.risk_layer = null
+        }        
       }
     }
   }
