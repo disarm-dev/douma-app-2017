@@ -9,7 +9,7 @@
 <script>
   import Leaflet from 'leaflet'
   import 'leaflet/dist/leaflet.css'
-  import OpacitySlider from './opacitySlider.vue'
+  import OpacitySlider from '../../../components/opacitySlider.vue'
   import LegendComponent from './legend.vue'
 
   export default {

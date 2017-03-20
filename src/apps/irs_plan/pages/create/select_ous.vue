@@ -28,8 +28,13 @@
         <md-button class='md-raised md-accent' :disabled='!can_start_clustering' @click.native='confirm_clustering'>Start clustering</md-button>
       </md-input-container>
     </div>
-        
-    <div id='map'></div>
+    
+    <md-button class='md-accent md-raised' @click.native='toggle_show_risk_layer'>{{this.show_risk_layer ? 'Hide' : 'Show'}} Risk Layer</md-button>
+
+    <div style="position: relative;">
+      <opacity-slider v-if="risk_layer" :layer="risk_layer"></opacity-slider>    
+      <div id='map'></div>
+    </div>
 
     <md-dialog-confirm
       :md-content="alert_content"
@@ -46,10 +51,11 @@
   import 'leaflet/dist/leaflet.css'
 
   import vueSlider from 'vue-slider-component'
+  import OpacitySlider from '../../../../components/opacitySlider.vue'
 
   export default {
     name: 'SelectOUs',
-    components: {vueSlider},
+    components: {vueSlider, OpacitySlider},
     data() {
       return {
         confirm_large_clusters: false,
@@ -57,16 +63,20 @@
         can_start_clustering: true,
         country_code: 'SWZ',
         risk_slider: 1,
+        show_risk_layer: true,
+        risk_layer: null,
         map: {},
         localities_layer: null
       }
     },
     watch: {
       'selected_localities': 'draw_localities',
+      'country_code': 'add_risk_layer'
     },
     mounted() {
       this.create_map()
       this.draw_localities()
+      this.add_risk_layer()
     },
     computed: {
       slider_options() {
@@ -172,6 +182,34 @@
       add_remove_locality(locality) {
         console.log('add/remove locality', locality)
         // this.$router.push({name: 'irs_plan:locality', params: {locality_id: locality._id}})
+      },
+      toggle_show_risk_layer() {
+        this.show_risk_layer = !this.show_risk_layer
+        this.add_risk_layer()
+      },
+      add_risk_layer() {
+        if (!this.show_risk_layer) {
+          if (this.risk_layer) {
+            return this.remove_risk_layer()
+          }
+          return
+        }
+
+        const date = '2015-04-01' 
+        const url = `https://storage.googleapis.com/pipeline-api/api/${this.country_code}/${date}/risk/standard/current-month/tiles/{z}/{x}/{y}.png`
+        
+        if (this.risk_layer) {
+          this.remove_risk_layer()
+        }
+
+        this.risk_layer = L.tileLayer(url, {tms: true})
+        this.risk_layer.addTo(this.map)
+      },
+      remove_risk_layer() {
+        if (this.risk_layer) {
+          this.map.removeLayer(this.risk_layer)
+          this.risk_layer = null
+        }        
       }
     }
   }
