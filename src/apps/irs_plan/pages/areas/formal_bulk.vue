@@ -28,7 +28,6 @@
 
         localities: [],
         localities_fc: null,
-        bulk_selected: [],
         risk_slider_value: SWZ_ous.features.length,
         slider_options: {
           min: 0,
@@ -44,6 +43,17 @@
     computed: {
       all_uniq_loc_cods() {
         return this.localities.map(l => l.properties.UniqLocCod)
+      },
+      bulk_selected() {
+        return this.localities
+          .filter(l => l.properties.risk < (this.risk_slider_value + 1)) // TODO: @debug remove when we are using risk (or proxy)
+          .map(l => l.properties.UniqLocCod)
+      },
+      result_localities() {
+        console.log('this.bulk_selected', this.bulk_selected)
+        console.log('this.localities_included_by_click', this.localities_included_by_click)
+        console.log('this.localities_excluded_by_click', this.localities_excluded_by_click)
+        return []
       }
     },
     mounted() {
@@ -59,7 +69,6 @@
         type: 'FeatureCollection',
         features: this.localities
       }
-      this.bulk_selected = this.all_uniq_loc_cods
 
       this.add_click_handler()
     },
@@ -153,7 +162,6 @@
       },
       update_from_slider() {
         if (this.map) {
-          this.bulk_selected = this.localities.filter(l => l.properties.risk < (this.risk_slider_value + 1)).map(l => l.properties.UniqLocCod)
           this.map.setFilter('bulk-included', ['in', 'UniqLocCod'].concat(this.bulk_selected))
           this.map.setFilter('bulk-excluded', ['!in', 'UniqLocCod'].concat(this.bulk_selected))
         }
@@ -180,11 +188,7 @@
           this.map.setFilter('single-included', ['in', 'UniqLocCod'].concat(this.localities_included_by_click))
           this.map.setFilter('single-excluded', ['in', 'UniqLocCod'].concat(this.localities_excluded_by_click))
         })
-      },
-//      getLocalities() {
-//        // TODO @debug fix when getting real attribute to sort by
-//        return this.localities.slice(0, this.risk_slider_value).map(l => l.properties.UniqLocCod)
-//      },
+      }
     }
   }
 </script>
