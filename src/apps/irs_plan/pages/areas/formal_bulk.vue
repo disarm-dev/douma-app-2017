@@ -23,8 +23,8 @@
       return {
         map: null,
         
-        included_localities: [],
-        excluded_localities: [],
+        click_included_localities: [],
+        click_excluded_localities: [],
 
         localities: [],
         bulk_selected: [],
@@ -41,7 +41,7 @@
       }
     },
     computed: {
-      AllUniqLocCods() {
+      all_uniq_loc_cods() {
         return this.localities.map(l => l.properties.UniqLocCod)
       }
     },
@@ -51,7 +51,7 @@
       this.handleClicks()
     },
     watch: {
-      'risk_slider_value': 'update'
+      'risk_slider_value': 'update_from_slider'
     },
     methods: {
       create_map() {
@@ -73,7 +73,7 @@
             return l
           })
 
-          let fc = {
+          let localities_fc = {
             type: 'FeatureCollection', 
             features: this.localities
           }
@@ -82,7 +82,7 @@
             'type': 'fill',
             'source': {
               'type': 'geojson',
-              'data': fc
+              'data': localities_fc
             },
             'paint': {
               'fill-outline-color': 'grey',
@@ -92,19 +92,19 @@
 
           // formal-bulk-included --> green
           // formal-bulk-excluded --> red
-          console.log(this.AllUniqLocCods)
+//          console.log(this.all_uniq_loc_cods)
           this.map.addLayer({
             'id': 'bulk-included',
             'type': 'fill',
             'source': {
               'type': 'geojson',
-              'data': fc
+              'data': localities_fc
             },
             "paint":{
               'fill-outline-color': 'grey',
               'fill-color': '#a6dba0',
             },
-            "filter": ['in', 'UniqLocCod'].concat(this.AllUniqLocCods)
+            "filter": ['in', 'UniqLocCod'].concat(this.all_uniq_loc_cods)
           })
 
           this.map.addLayer({
@@ -112,13 +112,13 @@
             'type': 'fill',
             'source': {
               'type': 'geojson',
-              'data': fc
+              'data': localities_fc
             },
             "paint":{
               'fill-outline-color': 'grey',
               'fill-color': '#c2a5cf',
             },
-            "filter": ['!in', 'UniqLocCod'].concat(this.AllUniqLocCods)
+            "filter": ['!in', 'UniqLocCod'].concat(this.all_uniq_loc_cods)
           })
 
           // single-included --> blue
@@ -129,7 +129,7 @@
             'type': 'fill',
             'source': {
               'type': 'geojson',
-              'data': fc
+              'data': localities_fc
             },
             "paint":{
               'fill-outline-color': 'grey',
@@ -143,20 +143,20 @@
             'type': 'fill',
             'source': {
               'type': 'geojson',
-              'data': fc
+              'data': localities_fc
             },
             "paint":{
               'fill-outline-color': 'grey',
               'fill-color': '#7b3294',
             },
-            "filter": ['!in', 'UniqLocCod'].concat(this.AllUniqLocCods)
+            "filter": ['!in', 'UniqLocCod'].concat(this.all_uniq_loc_cods)
           })
 
-          this.bulk_selected = this.AllUniqLocCods
+          this.bulk_selected = this.all_uniq_loc_cods
 
         })
       },
-      update() {
+      update_from_slider() {
         if (this.map) {
           this.bulk_selected = this.localities.filter(l => l.properties.risk < (this.risk_slider_value + 1)).map(l => l.properties.UniqLocCod)
           this.map.setFilter('bulk-included', ['in', 'UniqLocCod'].concat(this.bulk_selected))
@@ -175,7 +175,7 @@
             const UniqLocCod = f.properties.UniqLocCod
             
             let include = !this.bulk_selected.includes(UniqLocCod)
-            let arr_to_operate_on = include ? this.included_localities : this.excluded_localities
+            let arr_to_operate_on = include ? this.click_included_localities : this.click_excluded_localities
 
             if (arr_to_operate_on.includes(UniqLocCod)) {
               let index = arr_to_operate_on.findIndex(i => i === UniqLocCod)
@@ -186,8 +186,8 @@
            
           })
 
-          this.map.setFilter('single-included', ['in', 'UniqLocCod'].concat(this.included_localities))
-          this.map.setFilter('single-excluded', ['in', 'UniqLocCod'].concat(this.excluded_localities))
+          this.map.setFilter('single-included', ['in', 'UniqLocCod'].concat(this.click_included_localities))
+          this.map.setFilter('single-excluded', ['in', 'UniqLocCod'].concat(this.click_excluded_localities))
         })
       }
     }
