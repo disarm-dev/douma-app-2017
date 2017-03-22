@@ -21,7 +21,6 @@
           :show_preview='show_preview'
         ></component>
         
-        <!-- <md-checkbox v-if='$store.state.irs_plan.selected_command !== "Result"' v-model="show_preview_local">Show clusters</md-checkbox> -->
       </div>
 
     </div>
