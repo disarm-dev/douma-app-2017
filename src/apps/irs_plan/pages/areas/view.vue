@@ -27,12 +27,12 @@
     </div>
 
     <!-- DYNAMIC MAP -->
-    <areas-map 
+    <!-- <areas-map 
       :formal_areas='formal_areas'
       :informal_stack_result='informal_result_stack'
       :result_areas='result_areas'
       :show_preview='show_preview'
-    ></areas-map>
+    ></areas-map> -->
 
   </div>
 </template>
