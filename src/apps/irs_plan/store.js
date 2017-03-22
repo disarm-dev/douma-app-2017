@@ -63,6 +63,7 @@ export default {
       context.commit('root:set_loading', true)
       console.log('load_formal_areas')
 
+      Sync.config(context.rootState.meta.demo_instance_id)
       return Sync.get_ous(country_code).then((results) => {
         context.commit('irs_plan:set_formal_areas', [])
   
@@ -82,9 +83,9 @@ export default {
     'irs_plan:post_clusters': (context) => {
       const cluster_ids = context.rootState.irs.clusters.map(cluster => cluster.properties.cluster_id)
       const cluster_collection_id = context.rootState.irs.clusters[0].cluster_collection_id
-      const demo_instance_id = context.rootState.meta.demo_instance_id
 
       context.commit('root:set_loading', true)
+      Sync.config(context.rootState.meta.demo_instance_id)
       return Sync.post_clusters({cluster_ids, cluster_collection_id}).then(() => {
         context.commit('root:set_loading', false)
         context.commit('irs:set_clusters', []) // TODO: @debug Remove

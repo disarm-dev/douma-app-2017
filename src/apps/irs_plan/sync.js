@@ -1,4 +1,10 @@
+import RemoteDBClass from '../../lib/remote.js'
+
 class Sync {
+
+  config(demo_instance_id) {
+    this.RemoteDB = new RemoteDBClass(demo_instance_id)
+  }
 
   get_ous(country_code) {
     // TODO: @refac Cache offline assets better - ServiceWorker?

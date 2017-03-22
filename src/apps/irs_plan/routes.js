@@ -24,8 +24,7 @@ export default [
         name: 'irs_plan:create',
         component: CreateView,
         meta: {title: 'Create'},
-      },
-      {
+      },{
         path: '/irs_plan/review',
         name: 'irs_plan:review',
         redirect: '/irs_plan/review/map',
@@ -44,8 +43,7 @@ export default [
             meta: {type: 'list'}
           }
         ]
-      },
-      {
+      },{
         path: '/irs_plan/new',
         name: 'irs_plan:new',
         component: NewMap,
