@@ -12,11 +12,10 @@ class Sync {
   constructor() {
   }
 
-  config(demo_instance_id) {
-    this.demo_instance_id = demo_instance_id
-    this.RemoteDB = new RemoteDBClass(this.demo_instance_id)
-  }
-
+  // config(demo_instance_id) {
+  //   this.demo_instance_id = demo_instance_id
+  //   this.RemoteDB = new RemoteDBClass(this.demo_instance_id)
+  // }
   // Get OperationalUnits for given country_code
   get_ous(country_code) {
     // TODO: @refac Cache offline assets better - ServiceWorker?
