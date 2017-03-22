@@ -9,7 +9,7 @@ class RemoteDBClass {
   // CLUSTERS
   // 
   count_clusters(filters) {
-    let url = DOUMA_API_URL + `/clusters/count?demo_instance_id=${this.demo_instance_id}` 
+    let url = DOUMA_API_URL + `/v1/clusters/count?demo_instance_id=${this.demo_instance_id}` 
     url += ('&query=' + JSON.stringify(filters))
 
     return new Promise((resolve, reject) => {
@@ -23,7 +23,7 @@ class RemoteDBClass {
   }
 
   read_clusters(filters = {}) {
-    let url = DOUMA_API_URL + `/clusters?demo_instance_id=${this.demo_instance_id}` 
+    let url = DOUMA_API_URL + `/v1/clusters?demo_instance_id=${this.demo_instance_id}` 
     if (filters.locations) {
       const params = JSON.stringify(filters.locations)
       url += `&locations=${params}`
@@ -43,7 +43,7 @@ class RemoteDBClass {
   }
 
   update_clusters(clusters) {
-    const url = DOUMA_API_URL + `/clusters?demo_instance_id=${this.demo_instance_id}`
+    const url = DOUMA_API_URL + `/v1/clusters?demo_instance_id=${this.demo_instance_id}`
     const options = {
       body: JSON.stringify(clusters), 
       headers: {
@@ -57,7 +57,7 @@ class RemoteDBClass {
   }
 
   post_clusters(clusters) {
-    let url = DOUMA_API_URL + `/clusters?demo_instance_id=${this.demo_instance_id}`
+    let url = DOUMA_API_URL + `/v1/clusters?demo_instance_id=${this.demo_instance_id}`
     let options = {
       body: JSON.stringify(clusters), 
       headers: {
@@ -80,7 +80,7 @@ class RemoteDBClass {
   }
 
   delete_clusters() {
-    let url = DOUMA_API_URL + `/clusters?demo_instance_id=${this.demo_instance_id}`
+    let url = DOUMA_API_URL + `/v1/clusters?demo_instance_id=${this.demo_instance_id}`
     let options = {
       headers: {
         'Content-Type': 'application/json'
@@ -106,7 +106,7 @@ class RemoteDBClass {
   // TASKS
   // 
   count_tasks(filters) {
-    let url = DOUMA_API_URL + `/tasks/count?demo_instance_id=${this.demo_instance_id}` 
+    let url = DOUMA_API_URL + `/v1/tasks/count?demo_instance_id=${this.demo_instance_id}` 
     url += ('&query=' + JSON.stringify(filters))
 
     return new Promise((resolve, reject) => {
@@ -120,7 +120,7 @@ class RemoteDBClass {
   }
 
   read_tasks(filters) {
-    let url = DOUMA_API_URL + `/tasks?demo_instance_id=${this.demo_instance_id}` 
+    let url = DOUMA_API_URL + `/v1/tasks?demo_instance_id=${this.demo_instance_id}` 
     
     if (filters.task_ids) {
       const params = JSON.stringify(filters.task_ids)
@@ -138,7 +138,7 @@ class RemoteDBClass {
   }
 
   update_tasks(tasks) {
-    const url = DOUMA_API_URL + `/tasks?demo_instance_id=${this.demo_instance_id}`
+    const url = DOUMA_API_URL + `/v1/tasks?demo_instance_id=${this.demo_instance_id}`
     const options = {
       body: JSON.stringify(tasks), 
       headers: {
@@ -156,7 +156,7 @@ class RemoteDBClass {
   // 
   read_spatial_entities(filters) {
     const params = JSON.stringify(filters.spatial_entity_ids)
-    let url = DOUMA_API_URL + `/spatial_entities?demo_instance_id=${this.demo_instance_id}`
+    let url = DOUMA_API_URL + `/v1/spatial_entities?demo_instance_id=${this.demo_instance_id}`
     url += `&ids=${params}`
 
     return new Promise((resolve, reject) => {
