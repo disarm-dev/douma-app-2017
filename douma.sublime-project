@@ -3,7 +3,7 @@
 	[
 		{
 			"path": ".",
-      "folder_exclude_patterns": ["dist", "node_modules"]
+      "folder_exclude_patterns": ["dist", "node_modules", ".idea"]
 		}
 	],
   "settings":
