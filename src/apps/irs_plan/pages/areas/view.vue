@@ -40,13 +40,12 @@
 <script>
   import AreasMap from './map.vue'
   import FormalBulk from './formal_bulk.vue'
-  import FormalSingle from './formal_single.vue'
   import Draw from './draw.vue'
   import Result from './result.vue'
 
   export default {
     name: 'AreasView',
-    components: {AreasMap, FormalBulk, FormalSingle, Draw, Result},
+    components: {AreasMap, FormalBulk, Draw, Result},
     props: [],
     watch: {'show_preview_local': 'proxy_show_preview'},
     mounted() {
@@ -62,7 +61,6 @@
         // Actions
         actions: [
           { title: 'Multiple', command: 'FormalBulk' },
-          { title: 'Single', command: 'FormalSingle' }, 
           { title: 'hand-draw', command: 'Draw' },
           { title: 'Result', command: 'Result' }
         ],
