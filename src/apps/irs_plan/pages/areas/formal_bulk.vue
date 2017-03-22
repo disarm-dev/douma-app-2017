@@ -57,9 +57,6 @@
       }
     },
     mounted() {
-      this.create_map()
-      this.add_locality_layers()
-
       // TODO @debug creating an attribute to sort by
       this.localities = SWZ_ous.features.reverse().map((l, i) => {
         l.properties.risk = (i + 1)
@@ -70,6 +67,8 @@
         features: this.localities
       }
 
+      this.create_map()
+      this.add_locality_layers()
       this.add_click_handler()
     },
     watch: {
@@ -168,20 +167,39 @@
       },
       add_click_handler() {
         this.map.on('click', (e) => {
-          const clicked_features = this.map.queryRenderedFeatures(e.point, {layers: ['localities']});
+          const clicked_features = this.map.queryRenderedFeatures(e.point, {layers: ['localities']})
 
           clicked_features.forEach((f) => {
             const UniqLocCod = f.properties.UniqLocCod
 
-            let include = !this.bulk_selected.includes(UniqLocCod)
-            let arr_to_operate_on = include ? this.localities_included_by_click : this.localities_excluded_by_click
+            let include, arr_to_operate_on
 
-            if (arr_to_operate_on.includes(UniqLocCod)) {
-              let index = arr_to_operate_on.findIndex(i => i === UniqLocCod)
-              arr_to_operate_on.splice(index, 1)
+            if (this.localities_included_by_click.includes(UniqLocCod)) {
+              console.log('is in localities_included_by_click')
+              let index = this.localities_included_by_click.findIndex(i => i === UniqLocCod)
+              this.localities_included_by_click.splice(index, 1)
+            } else if (this.localities_excluded_by_click.includes(UniqLocCod)) {
+              console.log('is in localities_excluded_by_click')
+              let index = this.localities_excluded_by_click.findIndex(i => i === UniqLocCod)
+              this.localities_excluded_by_click.splice(index, 1)
+            } else if (this.bulk_selected.includes(UniqLocCod)){
+              console.log('this.bulk_selected.includes(UniqLocCod)')
+              this.localities_included_by_click.push(UniqLocCod)
+            } else if (!this.bulk_selected.includes(UniqLocCod)) {
+              console.log('!this.bulk_selected.includes(UniqLocCod)')
+              this.localities_excluded_by_click.push(UniqLocCod)
             } else {
-              arr_to_operate_on.push(UniqLocCod)
+              console.log('wtf - no idea')
             }
+
+            // let arr_to_operate_on = include ? this.localities_included_by_click : this.localities_excluded_by_click
+
+            // if (arr_to_operate_on.includes(UniqLocCod)) {
+            //   let index = arr_to_operate_on.findIndex(i => i === UniqLocCod)
+            //   arr_to_operate_on.splice(index, 1)
+            // } else {
+            //   arr_to_operate_on.push(UniqLocCod)
+            // }
 
           })
 
