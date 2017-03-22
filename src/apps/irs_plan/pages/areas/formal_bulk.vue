@@ -1,7 +1,5 @@
 <template>
   <div>
-    <p>You are now {{include ? 'Including' : 'Excluding'}}</p>
-    <md-button @click.native="toggle_mode">{{include ? 'Exclude' : 'Include'}}</md-button>
     <p>Select risk level on slider</p>
     <vue-slider v-bind="slider_options" v-model="risk_slider_value" ref='slider'></vue-slider>
 
@@ -23,7 +21,6 @@
     props: ['formal_areas', 'show_preview'],
     data () {
       return {
-        include: true,
         map: null,
         
         included_localities: [],
@@ -95,7 +92,7 @@
 
           // formal-bulk-included --> green
           // formal-bulk-excluded --> red
-
+          console.log(this.AllUniqLocCods)
           this.map.addLayer({
             'id': 'bulk-included',
             'type': 'fill',
@@ -104,10 +101,10 @@
               'data': fc
             },
             "paint":{
+              'fill-outline-color': 'grey',
               'fill-color': '#a6dba0',
-              // 'fill-opacity': 0.3
             },
-            "filter": ['in', 'UniqLocCod', '']
+            "filter": ['in', 'UniqLocCod'].concat(this.AllUniqLocCods)
           })
 
           this.map.addLayer({
@@ -118,11 +115,10 @@
               'data': fc
             },
             "paint":{
+              'fill-outline-color': 'grey',
               'fill-color': '#c2a5cf',
-              // 'fill-color': 'transparent',
-              // 'fill-opacity': 0.3
             },
-            "filter": ['!in', 'UniqLocCod', '']//.concat(this.AllUniqLocCods)
+            "filter": ['!in', 'UniqLocCod'].concat(this.AllUniqLocCods)
           })
 
           // single-included --> blue
@@ -136,6 +132,7 @@
               'data': fc
             },
             "paint":{
+              'fill-outline-color': 'grey',
               'fill-color': '#008837',
             },
             "filter": ['in', 'UniqLocCod', '']
@@ -149,19 +146,21 @@
               'data': fc
             },
             "paint":{
+              'fill-outline-color': 'grey',
               'fill-color': '#7b3294',
             },
             "filter": ['!in', 'UniqLocCod'].concat(this.AllUniqLocCods)
           })
 
+          this.bulk_selected = this.AllUniqLocCods
+
         })
       },
       update() {
         if (this.map) {
-          const locCodes = this.localities.filter(l => l.properties.risk < (this.risk_slider_value + 1)).map(l => l.properties.UniqLocCod)
-          console.log(locCodes)
-          this.map.setFilter('bulk-included', ['in', 'UniqLocCod'].concat(locCodes))
-          this.map.setFilter('bulk-excluded', ['!in', 'UniqLocCod'].concat(locCodes))
+          this.bulk_selected = this.localities.filter(l => l.properties.risk < (this.risk_slider_value + 1)).map(l => l.properties.UniqLocCod)
+          this.map.setFilter('bulk-included', ['in', 'UniqLocCod'].concat(this.bulk_selected))
+          this.map.setFilter('bulk-excluded', ['!in', 'UniqLocCod'].concat(this.bulk_selected))
         }
       },
       getLocalities() {
@@ -171,30 +170,25 @@
       handleClicks() {
         this.map.on('click', (e) => {
           var clicked_features = this.map.queryRenderedFeatures(e.point, {layers: ['localities']});
+          
           clicked_features.forEach((f) => {
             const UniqLocCod = f.properties.UniqLocCod
-            if (this.include) {
-              if (this.included_localities.includes(UniqLocCod)) return
-              this.included_localities.push(UniqLocCod)
-            } else {
-              if (this.excluded_localities.includes(UniqLocCod)) return
-              this.excluded_localities.push(UniqLocCod)
-            }
+            
+            let include = !this.bulk_selected.includes(UniqLocCod)
+            let arr_to_operate_on = include ? this.included_localities : this.excluded_localities
 
-            // if (this.bulk_selected.includes(UniqLocCod)) {
-            //   const index = this.bulk_selected.findIndex(i => i === UniqLocCod)
-            //   this.bulk_selected.splice(index, 1)
-            // } else {
-            //   this.bulk_selected.push(UniqLocCod)
-            // }
+            if (arr_to_operate_on.includes(UniqLocCod)) {
+              let index = arr_to_operate_on.findIndex(i => i === UniqLocCod)
+              arr_to_operate_on.splice(index, 1)
+            } else {
+              arr_to_operate_on.push(UniqLocCod)
+            }
+           
           })
 
           this.map.setFilter('single-included', ['in', 'UniqLocCod'].concat(this.included_localities))
-          this.map.setFilter('single-excluded', ['!in', 'UniqLocCod'].concat(this.excluded_localities))
+          this.map.setFilter('single-excluded', ['in', 'UniqLocCod'].concat(this.excluded_localities))
         })
-      },
-      toggle_mode() {
-        this.include = !this.include
       }
     }
   }
