@@ -1,90 +1,95 @@
 // Store for 'IRS Plan' applet
-
-import Sync from './sync.js'
+import Sync from './sync'
 import IRSSync from '../irs/sync.js'
-import {remove_properties} from '../../lib/map_helpers'
+
+import union from '@turf/union'
+import difference from '@turf/difference'
 
 export default {
   state: {
-    // DATA
-    // localities: [],
-    // areas_to_cluster: [],
+    // State state
+    selected_command: 'result',
+    show_preview: false,
 
-    // INTERACTIVE CLUSTERING AREA SELECTION
-    // manually_drawn_areas: {add: [], remove: []},
-    // // manually_selected_areas: {add: [], remove: []},
-    // map_mark_mode: null
+    // Data
+    formal_areas: [],
+    informal_draw_stack: []
+  },
+  getters: {
+    'irs_areas:formal_bulk_result': (state) => {
+
+    },
+    'irs_areas:formal_single_result': (state) => {
+
+    },
+    'irs_areas:informal_draw_stack_result': (state) => {
+      // Calculate result of informal_draw_stack
+      return state.informal_draw_stack.reduce((sum, i) => sum + i.size, 0)
+    },
+    'irs_areas:result_areas': (state) => {
+      // Calculate the result from:
+      // 
+      // formal_bulk_result  formal_single_result
+      // MINUS informal stack removed areas
+      // PLUS informal stack add areas
+      return ['always something new', 'in here']
+    }
   },
   mutations: {
-    // 'irs_plan:set_localities': (state, localities) => {
-    //   state.localities = localities
-    // },
-    // 'irs_plan:set_areas_to_cluster': (state, areas_to_cluster) => {
-    //   state.areas_to_cluster = areas_to_cluster
-    // },
-    // 'irs_plan:map_mark_mode': (state, map_mark_mode) => {
-    //   state.map_mark_mode = map_mark_mode
-    // },
-    // 'irs_plan:manually_add_area': (state, area) => {
-    //   state.manually_selected_areas.add.push(area)
-    // },
-    // 'irs_plan:manually_remove_area': (state, area) => {
-    //   state.manually_selected_areas.remove.push(area)
-    // }
+    'irs_areas:set_show_preview': (state, show_preview) => {
+      state.show_preview = show_preview
+    },
+    'irs_areas:set_selected_command': (state, command) => {
+      if (state.selected_command === command) command = null
+      state.selected_command = command
+    },
+    'irs_areas:set_formal_areas': (state, formal_areas) => {
+      state.formal_areas = formal_areas
+    },
+    'irs_areas:push_informal_draw_stack': (state, stack_action) => {
+      state.informal_draw_stack.push(stack_action)
+    },
   },
   actions: {
-    // 'irs_plan:set_demo_instance_id': (context) => {
-    //   Sync.config(context.rootState.meta.demo_instance_id)
-    // },
-    // 'irs_plan:get_ous': (context, country_code) => {
-    //   context.commit('root:set_loading', true)
+    'irs_areas:informal_draw_add': (context, feature) => {
+      const stack_action = { type: 'add', feature: feature }
+      context.commit('irs_areas:push_informal_draw_stack', feature)
+    },
+    'irs_areas:informal_draw_subtract': (context, feature) => {
+      const stack_action = { type: 'subtract', feature: feature }
+      context.commit('irs_areas:push_informal_draw_stack', feature)
+    },
+    'irs_areas:load_formal_areas': (context, country_code) => {
+      context.commit('root:set_loading', true)
+      console.log('load_formal_areas')
 
-    //   console.log('irs_plan:get_ous')
-    //   return Sync.get_ous(country_code).then((results) => {
-    //     context.commit('irs_plan:set_localities', [])
+      return Sync.get_ous(country_code).then((results) => {
+        context.commit('irs_areas:set_formal_areas', [])
   
-    //     const localities = results.features
-    //     const max = localities.reduce((max, i) => {return i.properties.MeanElev > max ? i.properties.MeanElev : max}, 0)
+        const localities = results.features
+        const max = localities.reduce((max, i) => {return i.properties.MeanElev > max ? i.properties.MeanElev : max}, 0)
 
-    //     const non_zero_elev_localities = localities.map(l => {
-    //       if (l.properties.MeanElev == 0) l.properties.MeanElev = max
-    //       return l
-    //     })
+        const non_zero_elev_localities = localities.map(l => {
+          if (l.properties.MeanElev == 0) l.properties.MeanElev = max
+          return l
+        })
 
-    //     context.commit('root:set_loading', false)
-    //     context.commit('irs_plan:set_localities', non_zero_elev_localities)
-    //     return Promise.resolve(non_zero_elev_localities)
-    //   }).catch(err => console.error(err))
-    // },
-    // 'irs_plan:start_clustering': (context, country_code) => {
-    //   console.log(context.state.areas_to_cluster)
-    //   return 
-    //   const dist_km = 0.25
-    //   const max_size = 50
+        context.commit('root:set_loading', false)
+        context.commit('irs_areas:set_formal_areas', non_zero_elev_localities)
+        return Promise.resolve(non_zero_elev_localities)
+      }).catch(err => console.error(err))
+    },
+    'irs_areas:post_clusters': (context) => {
+      const cluster_ids = context.rootState.irs.clusters.map(cluster => cluster.properties.cluster_id)
+      const cluster_collection_id = context.rootState.irs.clusters[0].cluster_collection_id
+      const demo_instance_id = context.rootState.meta.demo_instance_id
 
-    //   let polygons = {
-    //     type: 'FeatureCollection', 
-    //     features: context.state.areas_to_cluster
-    //   }
-
-    //   polygons = remove_properties(polygons)
-    //   context.commit('root:set_loading', true)
-    //   return Sync.cluster_yourself_pbf({country_code, polygons, dist_km, max_size})
-    //     .then(res => {
-    //       context.commit('root:set_loading', false)
-    //       context.commit("irs:set_clusters", res)
-    //       return res
-    //     })
-    // },
-    // 'irs_plan:post_clusters': (context) => {
-    //   const clusters = context.rootState.irs.clusters
-    //   const demo_instance_id = context.rootState.meta.demo_instance_id
-    //   context.commit('root:set_loading', true)
-    //   return Sync.post_clusters(clusters).then(() => {
-    //     context.commit('root:set_loading', false)
-    //     context.commit('irs:set_clusters', []) // TODO: @debug Remove
-    //     return context.dispatch('irs:get_clusters')
-    //   })
-    // }
+      context.commit('root:set_loading', true)
+      return Sync.post_clusters({cluster_ids, cluster_collection_id}).then(() => {
+        context.commit('root:set_loading', false)
+        context.commit('irs:set_clusters', []) // TODO: @debug Remove
+        return context.dispatch('irs:get_clusters')
+      })
+    }
   }
 }
