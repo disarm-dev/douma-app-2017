@@ -15,13 +15,13 @@
 
         <!-- DYNAMIC COMPONENT -->
         <component 
-          :is='$store.state.irs_areas.selected_command' 
+          :is='$store.state.irs_plan.selected_command' 
           :formal_areas='formal_areas'
           :informal_draw_stack='informal_draw_stack'
           :show_preview='show_preview'
         ></component>
         
-        <!-- <md-checkbox v-if='$store.state.irs_areas.selected_command !== "Result"' v-model="show_preview_local">Show clusters</md-checkbox> -->
+        <!-- <md-checkbox v-if='$store.state.irs_plan.selected_command !== "Result"' v-model="show_preview_local">Show clusters</md-checkbox> -->
       </div>
 
     </div>
@@ -50,7 +50,7 @@
     watch: {'show_preview_local': 'proxy_show_preview'},
     mounted() {
       const country_code = 'SWZ' // TODO: @debug Change from hardcoded country_code
-      return this.$store.dispatch("irs_areas:load_formal_areas", country_code)
+      return this.$store.dispatch("irs_plan:load_formal_areas", country_code)
     },
     data() {
       return {
@@ -68,18 +68,18 @@
     },
     computed: {
       result_areas() {
-        return this.$store.getters["irs_areas:result_areas"]
+        return this.$store.getters["irs_plan:result_areas"]
       },
       show_preview() {
-        return this.$store.state.irs_areas.show_preview
+        return this.$store.state.irs_plan.show_preview
       }
     },
     methods: {
       proxy_show_preview() {
-        this.$store.commit('irs_areas:set_show_preview', this.show_preview_local)
+        this.$store.commit('irs_plan:set_show_preview', this.show_preview_local)
       },
       set_action (action) {
-        this.$store.commit('irs_areas:set_selected_command', action.command)
+        this.$store.commit('irs_plan:set_selected_command', action.command)
       }
     }
   }

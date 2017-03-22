@@ -17,10 +17,10 @@ export default {
   },
   methods: {
     add() {
-      this.$store.dispatch('irs_areas/informal_draw_add', {size: 1})
+      this.$store.dispatch('irs_plan/informal_draw_add', {size: 1})
     },
     subtract() {
-      this.$store.dispatch('irs_areas/informal_draw_subtract', {size: -1})
+      this.$store.dispatch('irs_plan/informal_draw_subtract', {size: -1})
     }
   }
 };
