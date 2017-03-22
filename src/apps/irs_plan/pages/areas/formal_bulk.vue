@@ -23,10 +23,11 @@
       return {
         map: null,
         
-        click_included_localities: [],
-        click_excluded_localities: [],
+        localities_included_by_click: [],
+        localities_excluded_by_click: [],
 
         localities: [],
+        localities_fc: null,
         bulk_selected: [],
         risk_slider_value: SWZ_ous.features.length,
         slider_options: {
@@ -47,8 +48,20 @@
     },
     mounted() {
       this.create_map()
-      this.draw_localities()
-      this.handleClicks()
+      this.add_locality_layers()
+
+      // TODO @debug creating an attribute to sort by
+      this.localities = SWZ_ous.features.reverse().map((l, i) => {
+        l.properties.risk = (i + 1)
+        return l
+      })
+      this.localities_fc = {
+        type: 'FeatureCollection',
+        features: this.localities
+      }
+      this.bulk_selected = this.all_uniq_loc_cods
+
+      this.add_click_handler()
     },
     watch: {
       'risk_slider_value': 'update_from_slider'
@@ -64,25 +77,15 @@
           zoom: 7.34
         })
       },
-      draw_localities() {
+      add_locality_layers() {
         this.map.on('load', () => {
 
-          // TODO @debug creating an attribute to sort by
-          this.localities = SWZ_ous.features.reverse().map((l, i) => {
-            l.properties.risk = (i + 1)
-            return l
-          })
-
-          let localities_fc = {
-            type: 'FeatureCollection', 
-            features: this.localities
-          }
           this.map.addLayer({
-            'id': 'localities', // everything, doesn't change
+            'id': 'localities', // every locality, doesn't change
             'type': 'fill',
             'source': {
               'type': 'geojson',
-              'data': localities_fc
+              'data': this.localities_fc
             },
             'paint': {
               'fill-outline-color': 'grey',
@@ -90,15 +93,12 @@
             }
           }) 
 
-          // formal-bulk-included --> green
-          // formal-bulk-excluded --> red
-//          console.log(this.all_uniq_loc_cods)
           this.map.addLayer({
             'id': 'bulk-included',
             'type': 'fill',
             'source': {
               'type': 'geojson',
-              'data': localities_fc
+              'data': this.localities_fc
             },
             "paint":{
               'fill-outline-color': 'grey',
@@ -112,7 +112,7 @@
             'type': 'fill',
             'source': {
               'type': 'geojson',
-              'data': localities_fc
+              'data': this.localities_fc
             },
             "paint":{
               'fill-outline-color': 'grey',
@@ -121,15 +121,12 @@
             "filter": ['!in', 'UniqLocCod'].concat(this.all_uniq_loc_cods)
           })
 
-          // single-included --> blue
-          // single-excluded --> orange
-
           this.map.addLayer({
             'id': 'single-included',
             'type': 'fill',
             'source': {
               'type': 'geojson',
-              'data': localities_fc
+              'data': this.localities_fc
             },
             "paint":{
               'fill-outline-color': 'grey',
@@ -143,7 +140,7 @@
             'type': 'fill',
             'source': {
               'type': 'geojson',
-              'data': localities_fc
+              'data': this.localities_fc
             },
             "paint":{
               'fill-outline-color': 'grey',
@@ -151,8 +148,6 @@
             },
             "filter": ['!in', 'UniqLocCod'].concat(this.all_uniq_loc_cods)
           })
-
-          this.bulk_selected = this.all_uniq_loc_cods
 
         })
       },
@@ -163,19 +158,15 @@
           this.map.setFilter('bulk-excluded', ['!in', 'UniqLocCod'].concat(this.bulk_selected))
         }
       },
-      getLocalities() {
-        // TODO @debug fix when getting real attribute to sort by
-        return this.localities.slice(0, this.risk_slider_value).map(l => l.properties.UniqLocCod)
-      },
-      handleClicks() {
+      add_click_handler() {
         this.map.on('click', (e) => {
-          var clicked_features = this.map.queryRenderedFeatures(e.point, {layers: ['localities']});
-          
+          const clicked_features = this.map.queryRenderedFeatures(e.point, {layers: ['localities']});
+
           clicked_features.forEach((f) => {
             const UniqLocCod = f.properties.UniqLocCod
-            
+
             let include = !this.bulk_selected.includes(UniqLocCod)
-            let arr_to_operate_on = include ? this.click_included_localities : this.click_excluded_localities
+            let arr_to_operate_on = include ? this.localities_included_by_click : this.localities_excluded_by_click
 
             if (arr_to_operate_on.includes(UniqLocCod)) {
               let index = arr_to_operate_on.findIndex(i => i === UniqLocCod)
@@ -183,13 +174,17 @@
             } else {
               arr_to_operate_on.push(UniqLocCod)
             }
-           
+
           })
 
-          this.map.setFilter('single-included', ['in', 'UniqLocCod'].concat(this.click_included_localities))
-          this.map.setFilter('single-excluded', ['in', 'UniqLocCod'].concat(this.click_excluded_localities))
+          this.map.setFilter('single-included', ['in', 'UniqLocCod'].concat(this.localities_included_by_click))
+          this.map.setFilter('single-excluded', ['in', 'UniqLocCod'].concat(this.localities_excluded_by_click))
         })
-      }
+      },
+//      getLocalities() {
+//        // TODO @debug fix when getting real attribute to sort by
+//        return this.localities.slice(0, this.risk_slider_value).map(l => l.properties.UniqLocCod)
+//      },
     }
   }
 </script>
