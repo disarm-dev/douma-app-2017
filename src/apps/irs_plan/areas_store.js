@@ -80,10 +80,12 @@ export default {
       }).catch(err => console.error(err))
     },
     'irs_areas:post_clusters': (context) => {
-      const clusters = context.rootState.irs.clusters
+      const cluster_ids = context.rootState.irs.clusters.map(cluster => cluster.properties.cluster_id)
+      const cluster_collection_id = context.rootState.irs.clusters[0].cluster_collection_id
       const demo_instance_id = context.rootState.meta.demo_instance_id
+
       context.commit('root:set_loading', true)
-      return Sync.post_clusters(clusters).then(() => {
+      return Sync.post_clusters({cluster_ids, cluster_collection_id}).then(() => {
         context.commit('root:set_loading', false)
         context.commit('irs:set_clusters', []) // TODO: @debug Remove
         return context.dispatch('irs:get_clusters')

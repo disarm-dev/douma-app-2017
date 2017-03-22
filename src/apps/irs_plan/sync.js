@@ -92,8 +92,8 @@ class Sync {
       })
   }
 
-  post_clusters(clusters) {
-    return this.RemoteDB.post_clusters(clusters)
+  post_clusters(options) {
+    return this.RemoteDB.post_clusters(options)
   }
 
 }
