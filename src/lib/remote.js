@@ -3,7 +3,7 @@
 class RemoteDBClass {
   constructor(demo_instance_id){
     this.demo_instance_id = demo_instance_id
-    this.douma_api_url = `${this.douma_api_url}/${DOUMA_API_VERSION}`
+    this.douma_api_url = `${DOUMA_API_URL}/${DOUMA_API_VERSION}`
   }
 
   // 
