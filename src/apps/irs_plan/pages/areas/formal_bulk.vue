@@ -184,10 +184,10 @@
               this.localities_excluded_by_click.splice(index, 1)
             } else if (this.bulk_selected.includes(UniqLocCod)){
               console.log('this.bulk_selected.includes(UniqLocCod)')
-              this.localities_included_by_click.push(UniqLocCod)
+              this.localities_excluded_by_click.push(UniqLocCod)
             } else if (!this.bulk_selected.includes(UniqLocCod)) {
               console.log('!this.bulk_selected.includes(UniqLocCod)')
-              this.localities_excluded_by_click.push(UniqLocCod)
+              this.localities_included_by_click.push(UniqLocCod)
             } else {
               console.log('wtf - no idea')
             }
