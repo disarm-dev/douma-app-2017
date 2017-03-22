@@ -31,15 +31,7 @@ class Sync {
 
     if(ous) return Promise.resolve(ous)
 
-    const url = DOUMA_API_URL + `/local_areas/${country_code.toLowerCase()}`
-
-    return fetch(url, {mode: 'cors'})
-      .then(res => res.json())
-      .then(json => {
-        localStorage.setItem(country_key, JSON.stringify(json))
-        return json
-      })
-      .catch(err => console.error(err))
+    return this.RemoteDB.get_ous(country_code)
   }
 
   cluster_yourself_pbf(parameters) {

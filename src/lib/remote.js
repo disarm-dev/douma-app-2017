@@ -174,6 +174,23 @@ class RemoteDBClass {
     })
   }
 
+  // 
+  // OPERATIONAL UNITS (OUs)
+  // 
+  get_ous(country_code){
+    console.warn("THIS IS `get_ous` is UNTESTED CODE - check it carefully whenever it's needed") // TODO: @debug Check this `get_ous` works, or remove
+    const url = this.douma_api_root + `/local_areas/${country_code.toLowerCase()}`
+
+    return fetch(url, {mode: 'cors'})
+      .then(res => res.json())
+      .then(json => {
+        localStorage.setItem(country_key, JSON.stringify(json))
+        return json
+      })
+      .catch(err => console.error(err))
+  }
+
+
 }
 
 export default RemoteDBClass
