@@ -1,4 +1,6 @@
+// Store for 'IRS Plan' applet
 import Sync from './sync'
+import IRSSync from '../irs/sync.js'
 
 import union from '@turf/union'
 import difference from '@turf/difference'
@@ -76,6 +78,16 @@ export default {
         context.commit('irs_areas:set_formal_areas', non_zero_elev_localities)
         return Promise.resolve(non_zero_elev_localities)
       }).catch(err => console.error(err))
+    },
+    'irs_areas:post_clusters': (context) => {
+      const clusters = context.rootState.irs.clusters
+      const demo_instance_id = context.rootState.meta.demo_instance_id
+      context.commit('root:set_loading', true)
+      return Sync.post_clusters(clusters).then(() => {
+        context.commit('root:set_loading', false)
+        context.commit('irs:set_clusters', []) // TODO: @debug Remove
+        return context.dispatch('irs:get_clusters')
+      })
     }
   }
 }
