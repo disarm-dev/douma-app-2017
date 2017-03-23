@@ -62,7 +62,6 @@
         return Promise.resolve()
       },
       add_country_boundary() {
-        console.log('wtf')
         fetch(`/assets/countries/${this.country.slug}.geojson`)
         .then((res) => {
           return res.json()
