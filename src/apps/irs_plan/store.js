@@ -8,7 +8,7 @@ import difference from '@turf/difference'
 export default {
   state: {
     // State state
-    selected_command: 'result',
+    selected_command: null,
     show_preview: false,
 
     // Data
@@ -68,8 +68,9 @@ export default {
         context.commit('irs_plan:set_formal_areas', [])
   
         const localities = results.features
+        
+        // DEV ONLY: Make sure all localities have some value we can order them by
         const max = localities.reduce((max, i) => {return i.properties.MeanElev > max ? i.properties.MeanElev : max}, 0)
-
         const non_zero_elev_localities = localities.map(l => {
           if (l.properties.MeanElev == 0) l.properties.MeanElev = max
           return l

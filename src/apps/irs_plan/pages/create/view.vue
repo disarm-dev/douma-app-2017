@@ -10,17 +10,18 @@
           {{action.title}}
         </md-button>
       </md-button-toggle>
-      
+
       <div class="controls">
 
         <!-- DYNAMIC COMPONENT -->
-        <component 
-          :is='$store.state.irs_plan.selected_command' 
-          :formal_areas='formal_areas'
-          :informal_draw_stack='informal_draw_stack'
-          :show_preview='show_preview'
-        ></component>
-        
+        <keep-alive>
+          <component 
+            :is='$store.state.irs_plan.selected_command' 
+            :formal_areas='formal_areas'
+            :informal_draw_stack='informal_draw_stack'
+            :show_preview='show_preview'
+          ></component>
+        </keep-alive>        
       </div>
 
     </div>
@@ -39,8 +40,9 @@
     props: [],
     watch: {'show_preview_local': 'proxy_show_preview'},
     mounted() {
-      const country_code = 'SWZ' // TODO: @debug Change from hardcoded country_code
-      return this.$store.dispatch("irs_plan:load_formal_areas", country_code)
+      const country_code = this.$store.state.meta.country.slug
+      this.set_action({command: 'FormalBulk'})
+      // return this.$store.dispatch("irs_plan:load_formal_areas", country_code)
     },
     data() {
       return {
