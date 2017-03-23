@@ -2,25 +2,36 @@
 	"folders":
 	[
 		{
-			"path": ".",
-      "folder_exclude_patterns": ["dist", "node_modules", ".idea"]
+			"folder_exclude_patterns":
+			[
+				"dist",
+				"node_modules"
+			],
+			"path": "."
 		}
 	],
-  "settings":
-  {
-    "SublimeQuickFileCreator":
-      {
-        "excluded_dir_patterns":
-        [
-          "node_modules", "dist", "tmp.*", "|.git", "|.svn", "|.hg"
-        ]
-      },
-    "todoreview": {
-        "exclude_folders": [
-            "*.git*",
-            "*node_modules*",
-            "*dist*"
-        ]
-    }
-  }
+	"settings":
+	{
+		"SublimeQuickFileCreator":
+		{
+			"excluded_dir_patterns":
+			[
+				"node_modules",
+				"dist",
+				"tmp.*",
+				"|.git",
+				"|.svn",
+				"|.hg"
+			]
+		},
+		"todoreview":
+		{
+			"exclude_folders":
+			[
+				"*.git*",
+				"*node_modules*",
+				"*dist*"
+			]
+		}
+	}
 }
