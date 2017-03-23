@@ -1,32 +1,72 @@
 // Store for 'IRS Plan' applet
-
-import Sync from './sync.js'
+import Sync from './sync'
 import IRSSync from '../irs/sync.js'
-import {remove_properties} from '../../lib/map_helpers'
+
+import union from '@turf/union'
+import difference from '@turf/difference'
 
 export default {
   state: {
-    // DATA
-    localities: [],
-    selected_localities: [],
-  },
-  mutations: {
-    'irs_plan:set_localities': (state, localities) => {
-      state.localities = localities
-    },
+    // State state
+    selected_command: 'result',
+    show_preview: false,
 
-    'irs_plan:set_selected_localities': (state, selected_localities) => {
-      state.selected_localities = selected_localities
+    // Data
+    formal_areas: [],
+    informal_draw_stack: []
+  },
+  getters: {
+    'irs_plan:formal_bulk_result': (state) => {
+
+    },
+    'irs_plan:formal_single_result': (state) => {
+
+    },
+    'irs_plan:informal_draw_stack_result': (state) => {
+      // Calculate result of informal_draw_stack
+      return state.informal_draw_stack.reduce((sum, i) => sum + i.size, 0)
+    },
+    'irs_plan:result_areas': (state) => {
+      // Calculate the result from:
+      // 
+      // formal_bulk_result  formal_single_result
+      // MINUS informal stack removed areas
+      // PLUS informal stack add areas
+      return ['always something new', 'in here']
     }
   },
-  actions: {
-    'irs_plan:set_demo_instance_id': (context) => {
-      Sync.config(context.rootState.meta.demo_instance_id)
+  mutations: {
+    'irs_plan:set_show_preview': (state, show_preview) => {
+      state.show_preview = show_preview
     },
-    'irs_plan:get_ous': (context, country_code) => {
+    'irs_plan:set_selected_command': (state, command) => {
+      if (state.selected_command === command) command = null
+      state.selected_command = command
+    },
+    'irs_plan:set_formal_areas': (state, formal_areas) => {
+      state.formal_areas = formal_areas
+    },
+    'irs_plan:push_informal_draw_stack': (state, stack_action) => {
+      state.informal_draw_stack.push(stack_action)
+    },
+  },
+  actions: {
+    'irs_plan:informal_draw_add': (context, feature) => {
+      const stack_action = { type: 'add', feature: feature }
+      context.commit('irs_plan:push_informal_draw_stack', feature)
+    },
+    'irs_plan:informal_draw_subtract': (context, feature) => {
+      const stack_action = { type: 'subtract', feature: feature }
+      context.commit('irs_plan:push_informal_draw_stack', feature)
+    },
+    'irs_plan:load_formal_areas': (context, country_code) => {
       context.commit('root:set_loading', true)
-      context.commit('irs_plan:set_localities', [])
+      console.log('load_formal_areas')
+
+      Sync.config(context.rootState.meta.demo_instance_id)
       return Sync.get_ous(country_code).then((results) => {
+        context.commit('irs_plan:set_formal_areas', [])
+  
         const localities = results.features
         const max = localities.reduce((max, i) => {return i.properties.MeanElev > max ? i.properties.MeanElev : max}, 0)
 
@@ -36,33 +76,17 @@ export default {
         })
 
         context.commit('root:set_loading', false)
-        context.commit('irs_plan:set_localities', non_zero_elev_localities)
+        context.commit('irs_plan:set_formal_areas', non_zero_elev_localities)
         return Promise.resolve(non_zero_elev_localities)
-      })
-    },
-    'irs_plan:start_clustering': (context, country_code) => {
-      const dist_km = 0.25
-      const max_size = 50
-
-      let polygons = {
-        type: 'FeatureCollection', 
-        features: context.state.selected_localities
-      }
-
-      polygons = remove_properties(polygons)
-      context.commit('root:set_loading', true)
-      return Sync.cluster_yourself_pbf({country_code, polygons, dist_km, max_size})
-        .then(res => {
-          context.commit('root:set_loading', false)
-          context.commit("irs:set_clusters", res)
-          return res
-        })
+      }).catch(err => console.error(err))
     },
     'irs_plan:post_clusters': (context) => {
-      const clusters = context.rootState.irs.clusters
-      const demo_instance_id = context.rootState.meta.demo_instance_id
+      const cluster_ids = context.rootState.irs.clusters.map(cluster => cluster.properties.cluster_id)
+      const cluster_collection_id = context.rootState.irs.clusters[0].cluster_collection_id
+
       context.commit('root:set_loading', true)
-      return Sync.post_clusters(clusters).then(() => {
+      Sync.config(context.rootState.meta.demo_instance_id)
+      return Sync.post_clusters({cluster_ids, cluster_collection_id}).then(() => {
         context.commit('root:set_loading', false)
         context.commit('irs:set_clusters', []) // TODO: @debug Remove
         return context.dispatch('irs:get_clusters')

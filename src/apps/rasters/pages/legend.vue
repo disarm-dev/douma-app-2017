@@ -1,6 +1,6 @@
 <template>
   <div class="legend-container">
-    <div class="legend">
+    <div v-show='labels' class="legend">
       <p v-if="title" class='title'><b>{{title}}</b></p>
       <template v-for="(color, index) in colors">
         <div>
@@ -33,8 +33,15 @@ export default {
       return `${root_url}/${this.country.slug}/palettes/${this.layer.slug}_palette`
     }
   },
+  mounted() {
+    this.update_legend()
+  },
   methods: {
     update_legend() {
+      this.labels = []
+      this.colors = []
+      this.title = null
+
       fetch(this.palette_url)
       .then(res => res.text())
       .then(res => {

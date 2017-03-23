@@ -1,7 +1,7 @@
 <template>
   <div class="weather">
     <opacity-slider v-if="selected_layer" :layer="tile_layer"></opacity-slider>
-    <legend-component v-if="selected_layer" :layer="layer" :country="country"></legend-component>
+    <legend-component :layer="layer" :country="country"></legend-component>
     <div id="weather-map"></div>
   </div>
 </template>
@@ -27,7 +27,6 @@
     data () {
       return {
         map: null,
-        legend: null,
         tile_layer: null,
         country_boundary_layer: null,
         opacity_slider: null
