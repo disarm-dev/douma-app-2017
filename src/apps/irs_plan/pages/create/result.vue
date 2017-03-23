@@ -4,7 +4,7 @@
     <span>{{risk_slider}} clusters</span>
     <md-button @click.native="draw_localities()">draw localities</md-button>
     <md-button @click.native.stop="draw_clusters()">draw clusters</md-button>
-    <a class='md-button' :href='download_clusters_data_url'>dowload clusters</a>
+    <md-button @click.native.stop='download_clusters'>dowload clusters</md-button>
     <div id="map"></div>
   </div>
 </template>
@@ -13,7 +13,7 @@
   import vueSlider from 'vue-slider-component'
   import MapboxGL from 'mapbox-gl/dist/mapbox-gl'
   import 'mapbox-gl/dist/mapbox-gl.css'
-
+  import download from 'downloadjs'
   // import Localities from '../../localities.json'
   var Localities = []
 
@@ -42,10 +42,14 @@
       this.draw_map()
     },
     methods: {
-      download_clusters_data_url() {
-        const filtered_clusters = this.clusters.filter(c => c.cluster_id < this.risk_slider)
-        const filtered_clusters_string = JSON.stringify(filtered_clusters)
-        return "data:application/octet-stream," + encodeURIComponent(filtered_clusters_string)
+      download_clusters() {
+        const filtered_clusters = this.clusters.features.filter(c => c.properties.cluster_id < this.risk_slider)
+        const featureCollection = {
+          type: 'FeatureCollection',
+          features: filtered_clusters
+        }
+        const filtered_clusters_string = JSON.stringify(featureCollection)
+        download(filtered_clusters_string, 'clusters.json', 'application/json')
       },
       draw_map() {
         this.map = new MapboxGL.Map({
