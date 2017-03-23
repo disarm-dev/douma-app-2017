@@ -6,7 +6,7 @@
 
         <md-subheader>You can use the following DiSARM applets:</md-subheader>
 
-        <md-button v-for='app in $store.state.meta.user.allowed_apps.read' class='md-raised md-accent' @click.native="$router.push(`/${app}`)">{{app}}</md-button>
+        <md-button v-for='app in applets' class='md-raised md-accent' @click.native="$router.push(`/${app.name}`)">{{app.title}}</md-button>
 
         <md-list class="md-double-line">
           <md-list-item>
@@ -60,6 +60,18 @@
       return {
         version: COMMIT_HASH
       }
+    },
+    computed: {
+      applets() {
+        const applet_decorations = this.$router.options.routes.map((route) => {
+          return {...route.meta, name: route.name}
+        })
+
+        if (!this.$store.state.meta.user) return
+        return this.$store.state.meta.user.allowed_apps.read.map((app) => {
+          return applet_decorations.find((i) => i.name === app)
+        })
+      },
     },
     methods: {
       logout() {
