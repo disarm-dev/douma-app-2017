@@ -31,7 +31,7 @@ class Sync {
 
     if(ous) return Promise.resolve(ous)
 
-    const url = DOUMA_API_URL + `/local_areas/${country_code.toLowerCase()}`
+    const url = DOUMA_API_URL + `/v1/local_areas/${country_code.toLowerCase()}`
 
     return fetch(url, {mode: 'cors'})
       .then(res => res.json())
