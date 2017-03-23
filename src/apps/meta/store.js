@@ -4,7 +4,11 @@ import {generate_demo_instance_id} from '../../lib/demo_instance_id'
 // Bootstrap user from localstorage
 // TODO: @refac stop bootstrapping user from localStorage
 const user = JSON.parse(localStorage.getItem('douma-user'))
-const country = JSON.parse(localStorage.getItem('douma-country'))
+let country = JSON.parse(localStorage.getItem('douma-country'))
+if (!country) {
+  localStorage.setItem('douma-country', country)
+  country = COUNTRY_OPTIONS[0]
+}
 let demo_instance_id = JSON.parse(localStorage.getItem('douma-demo-instance-id'))
 
 if (!demo_instance_id) { 
