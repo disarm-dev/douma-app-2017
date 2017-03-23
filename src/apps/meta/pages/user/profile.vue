@@ -25,6 +25,16 @@
               <span>Email</span>
             </div>
           </md-list-item>
+
+          <md-list-item>
+            <md-icon class="md-primary">flag</md-icon>
+            <md-input-container>
+                <md-select name="country" v-model="country_slug">
+                  <md-option v-for='country in country_options' :value="country.slug">{{country.name}}</md-option>
+                </md-select>
+                <label for="country">Country</label>
+              </md-input-container>
+            </md-list-item>
         </md-list>
 
         <md-card-actions>
@@ -58,10 +68,15 @@
     name: 'ProfileView',
     data() {
       return {
-        version: COMMIT_HASH
+        version: COMMIT_HASH,
+        country_slug: this.$store.state.meta.country.slug,
+        country_options: COUNTRY_OPTIONS
       }
     },
     computed: {
+      country() {
+        return this.country_options.find(c => c.slug === this.country_slug)
+      },
       applets() {
         const applet_decorations = this.$router.options.routes.map((route) => {
           return {...route.meta, name: route.name}
@@ -73,7 +88,13 @@
         })
       },
     },
+    watch: {
+      'country_slug': 'set_country'
+    },
     methods: {
+      set_country() {
+        this.$store.commit('meta:set_country', this.country)
+      },
       logout() {
         this.$router.push({name: 'meta:logout'})
       },

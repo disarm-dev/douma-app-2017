@@ -70,6 +70,10 @@ module.exports = {
       // DOUMA_API_URL: "'http://localhost:3000'",
       WEATHER_API_URL: "'https://weather.api.disarm.io/processor/output'",
       R_SERVER_URL: "'https://cluster.api.disarm.io'",
+      COUNTRY_OPTIONS: JSON.stringify([
+        {name: 'Swaziland', slug:'SWZ', centre: {lat: -26.502530898533244, lng: 31.528015136718754}, zoom: 8},
+        {name: 'Zimbabwe', slug:'ZWE', centre: {lat: -18.656654486540006, lng: 29.575195312500004}, zoom: 6}
+      ])
     })
   ]
 }
