@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container">
-      <div style="background: fuschia;">
+      <div>
         <p>There are x structures in the selected localities</p>
       </div>
 
@@ -38,9 +38,8 @@
     name: 'AreasView',
     components: {FormalBulk, Draw, Result},
     props: [],
-    watch: {'show_preview_local': 'proxy_show_preview'},
     mounted() {
-      const country_code = this.$store.state.meta.country.slug
+//      const country_code = this.$store.state.meta.country.slug
       this.set_action({command: 'FormalBulk'})
       // return this.$store.dispatch("irs_plan:load_formal_areas", country_code)
     },
@@ -49,7 +48,6 @@
         formal_areas: [],
         informal_draw_stack: [],
         informal_result_stack: [],
-        show_preview_local: false,
         // Actions
         actions: [
           { title: 'Multiple', command: 'FormalBulk' },
@@ -67,9 +65,6 @@
       }
     },
     methods: {
-      proxy_show_preview() {
-        this.$store.commit('irs_plan:set_show_preview', this.show_preview_local)
-      },
       set_action (action) {
         this.$store.commit('irs_plan:set_selected_command', action.command)
       }
