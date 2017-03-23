@@ -1,7 +1,7 @@
 <template>
   <div class="weather">
     <opacity-slider v-if="selected_layer" :layer="tile_layer"></opacity-slider>
-    <legend-component :layer="layer" :country="country"></legend-component>
+    <legend-component v-if='has_legend' :layer="layer" :country="country"></legend-component>
     <div id="weather-map"></div>
   </div>
 </template>
@@ -17,7 +17,8 @@
     props: ['date', 'layer', 'country'],
     components: {OpacitySlider, LegendComponent},
     mounted() {
-      this.create_map().then(() => this.add_country_boundary())
+      this.create_map()
+        .then(this.add_country_boundary)
     },
     watch: {
       'date': 'change_tile_layer', 
@@ -34,21 +35,27 @@
     },
     computed: {
       tile_url() {
+        if (!this.layer || !this.date) return 
+
         if (this.layer.slug === 'RISK') {
           return `https://storage.googleapis.com/pipeline-api/api/${this.country.slug}/${this.date}/risk/standard/current-month/tiles/{z}/{x}/{y}.png`
+        } else {
+          const root_url = WEATHER_API_URL
+          const url = `${root_url}/${this.country.slug}/tile/${this.date}_${this.layer.slug}/{z}/{x}/{y}.png`
+          return url
         }
-
-        const root_url = WEATHER_API_URL
-        return `${root_url}/${this.country.slug}/tile/${this.date}_${this.layer.slug}/{z}/{x}/{y}.png`
       },
       selected_layer() {
         return this.$store.state.rasters.selected_layer
+      },
+      has_legend() {
+        return this.layer !== 'RISK'
       }
     },
     methods: {
       create_map() {
         this.map = Leaflet.map('weather-map', {
-          center: this.country.center,
+          center: this.country.centre,
           zoom: this.country.zoom
         });
 
@@ -58,8 +65,8 @@
         return Promise.resolve()
       },
       add_country_boundary() {
-        const country = this.$store.state.rasters.country.slug
-        fetch(`/assets/countries/${country}.geojson`)
+        console.log('wtf')
+        fetch(`/assets/countries/${this.country.slug}.geojson`)
         .then((res) => {
           return res.json()
         }).then((boundary) => {
@@ -87,7 +94,7 @@
         if (this.country_boundary_layer) this.country_boundary_layer.bringToFront()
       },
       change_country() {
-        this.map.setView(this.country.center, this.country.zoom)
+        this.map.setView(this.country.centre, this.country.zoom)
       }
     }
   }

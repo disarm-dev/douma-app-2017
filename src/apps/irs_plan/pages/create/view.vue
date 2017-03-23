@@ -25,26 +25,17 @@
 
     </div>
 
-    <!-- DYNAMIC MAP -->
-    <!-- <areas-map 
-      :formal_areas='formal_areas'
-      :informal_stack_result='informal_result_stack'
-      :result_areas='result_areas'
-      :show_preview='show_preview'
-    ></areas-map> -->
-
   </div>
 </template>
 
 <script>
-  import AreasMap from './map.vue'
   import FormalBulk from './formal_bulk.vue'
   import Draw from './draw.vue'
   import Result from './result.vue'
 
   export default {
     name: 'AreasView',
-    components: {AreasMap, FormalBulk, Draw, Result},
+    components: {FormalBulk, Draw, Result},
     props: [],
     watch: {'show_preview_local': 'proxy_show_preview'},
     mounted() {

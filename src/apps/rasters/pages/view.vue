@@ -1,14 +1,7 @@
 <template>
   <div>
     <div class="container">
-      <h3>Weather data for Zimbabwe</h3>
-
-      <md-input-container>
-        <label for="selected_country">Country</label>
-        <md-select name="selected_country" id="selected_country" v-model="country_slug" @selected="set_country">
-          <md-option v-for="country in country_options" :value="country.slug">{{country.title}}</md-option>
-        </md-select>
-      </md-input-container>
+      <h3>Weather data for {{country.name}}</h3>
 
       <div class='slider-bar'>
         <md-button-toggle md-single>
@@ -60,7 +53,6 @@
     },
     created() {
       this.config_slider()
-      this.$store.commit('rasters:select_country', this.$store.state.rasters.country_options[0].slug)
     },
     data () {
       return {
@@ -99,14 +91,8 @@
         return dates
       },
       country() {
-        return this.$store.state.rasters.country
+        return this.$store.state.meta.country
       },
-      country_slug() {
-        return this.$store.state.rasters.country.slug
-      },
-      country_options() {
-        return this.$store.state.rasters.country_options
-      }
     },
     methods: {
       select_layer(layer){
@@ -128,9 +114,6 @@
         this.slider.data = this.dates_for_slider
         this.date = this.slider.data[this.slider.data.length - 1]
       },
-      set_country(slug) {
-        this.$store.commit('rasters:select_country', slug)
-      }
     }
 
   }

@@ -1,11 +1,6 @@
 
 export default {
   state: {
-    country_options: [
-      {title: 'Zimbabwe', slug:'ZWE', center: {lat: -18.656654486540006, lng: 29.575195312500004}, zoom: 6}, 
-      {title: 'Swaziland', slug:'SWZ', center: {lat: -26.502530898533244, lng: 31.528015136718754}, zoom: 8}
-    ],
-    country: null,
     selected_date: null,
     selected_layer: null,
     layers: [
@@ -25,10 +20,6 @@ export default {
     'rasters:select_layer': (state, layer) => {
       state.selected_layer = layer
     },
-    'rasters:select_country': (state, slug) => {
-      const country = state.country_options.find((c) => c.slug == slug)
-      state.country = country
-    }
   },
   actions: {
   }
