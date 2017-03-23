@@ -34,11 +34,11 @@
           max: SWZ_ous.features.length,
           interval: 1,
           lazy: true,
-          tooltipDir: 'bottom',
+          tooltipDir: 'top',
           // tooltip: 'always',
           formatter: '{value} local areas'
         },
-        raster_opacity: 1
+        raster_opacity: 0
       }
     },
     computed: {
@@ -54,7 +54,11 @@
         console.log('this.bulk_selected', this.bulk_selected)
         console.log('this.localities_included_by_click', this.localities_included_by_click)
         console.log('this.localities_excluded_by_click', this.localities_excluded_by_click)
-        return []
+        return {
+          selected: this.bulk_selected,
+          included: this.localities_included_by_click,
+          excluded: this.localities_excluded_by_click
+        }
       }
     },
     mounted() {
@@ -171,6 +175,9 @@
               "tiles": [url],
               "tileSize": 256,
               scheme: 'tms'
+            },
+            paint: {
+              'raster-opacity': this.raster_opacity
             }
           })
 

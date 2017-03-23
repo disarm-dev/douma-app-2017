@@ -7,8 +7,6 @@ import ReviewView from './pages/review/view.vue'
 import ReviewMap from './pages/review/map.vue'
 import ReviewList from './pages/review/list.vue'
 
-import NewMap from './pages/new/map.vue'
-
 import store from '../../store'
 
 export default [
@@ -43,11 +41,6 @@ export default [
             meta: {type: 'list'}
           }
         ]
-      },{
-        path: '/irs_plan/new',
-        name: 'irs_plan:new',
-        component: NewMap,
-        meta: {}
       }
     ]
   }
