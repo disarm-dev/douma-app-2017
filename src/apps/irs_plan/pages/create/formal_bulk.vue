@@ -2,7 +2,7 @@
   <div>
     <p>Select risk level on slider</p>
     <vue-slider v-bind="slider_options" v-model="risk_slider_value" ref='slider'></vue-slider>
-
+    <input type="range" min="0" max="1" step="0.01" v-model="raster_opacity">
     <div id="map"></div>
   </div>
 </template>
@@ -37,7 +37,8 @@
           tooltipDir: 'bottom',
           // tooltip: 'always',
           formatter: '{value} local areas'
-        }
+        },
+        raster_opacity: 1
       }
     },
     computed: {
@@ -72,7 +73,8 @@
       this.add_click_handler()
     },
     watch: {
-      'risk_slider_value': 'update_from_slider'
+      'risk_slider_value': 'update_from_slider',
+      'raster_opacity': 'change_risk_opacity'
     },
     methods: {
       create_map() {
@@ -157,6 +159,22 @@
             "filter": ['!in', 'UniqLocCod'].concat(this.all_uniq_loc_cods)
           })
 
+          const date = '2015-04-01' 
+          const country_code = 'SWZ'
+          const url = `https://storage.googleapis.com/pipeline-api/api/${country_code}/${date}/risk/standard/current-month/tiles/{z}/{x}/{y}.png`
+
+          this.map.addLayer({
+            id: "risk",
+            type: "raster",
+            source: {
+              "type": "raster",
+              "tiles": [url],
+              "tileSize": 256,
+              scheme: 'tms'
+            }
+          })
+
+          
         })
       },
       update_from_slider() {
@@ -190,6 +208,9 @@
           this.map.setFilter('single-included', ['in', 'UniqLocCod'].concat(this.localities_included_by_click))
           this.map.setFilter('single-excluded', ['in', 'UniqLocCod'].concat(this.localities_excluded_by_click))
         })
+      },
+      change_risk_opacity() {
+        this.map.setPaintProperty('risk', 'raster-opacity', parseFloat(this.raster_opacity))
       }
     }
   }
