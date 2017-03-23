@@ -1,7 +1,7 @@
 <template>
   <div class="weather">
     <opacity-slider v-if="selected_layer" :layer="tile_layer"></opacity-slider>
-    <legend-component v-if='has_legend' :layer="layer" :country="country"></legend-component>
+    <legend-component :layer="layer" :country="country"></legend-component>
     <div id="weather-map"></div>
   </div>
 </template>
@@ -48,9 +48,6 @@
       selected_layer() {
         return this.$store.state.rasters.selected_layer
       },
-      has_legend() {
-        return this.layer !== 'RISK'
-      }
     },
     methods: {
       create_map() {
@@ -82,13 +79,13 @@
         }).catch()
       },
       change_tile_layer() {
-        if (!this.layer || !this.date) return
-
         if (this.tile_layer) {
           this.map.removeLayer(this.tile_layer)
           this.tile_layer = null
         }
 
+        if (!this.layer || !this.date) return
+        
         this.tile_layer = L.tileLayer(this.tile_url, {tms: true})
         this.tile_layer.addTo(this.map)
         if (this.country_boundary_layer) this.country_boundary_layer.bringToFront()
