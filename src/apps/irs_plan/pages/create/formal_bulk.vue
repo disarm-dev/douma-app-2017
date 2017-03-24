@@ -12,8 +12,9 @@
   import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js'
   import 'mapbox-gl/dist/mapbox-gl.css'
 
+  import {mapState} from 'vuex'
+
   import vueSlider from 'vue-slider-component'
-  import SWZ_ous from './swz.ous.json'
 
 
   export default {
@@ -32,7 +33,6 @@
         risk_slider_value: 0,
         slider_options: {
           min: 0,
-          max: SWZ_ous.features.length,
           interval: 1,
           lazy: true,
           tooltipDir: 'top',
@@ -43,6 +43,9 @@
       }
     },
     computed: {
+      ...mapState({
+        formal_areas: state => state.irs_plan.formal_areas
+      }),
       all_uniq_loc_cods() {
         return this.localities.map(l => l.properties.UniqLocCod)
       },
@@ -64,7 +67,7 @@
     },
     mounted() {
       // TODO @debug creating an attribute to sort by
-      this.localities = SWZ_ous.features.reverse().map((l, i) => {
+      this.localities = this.formal_areas.reverse().map((l, i) => {
         l.properties.risk = (i + 1)
         return l
       })
@@ -79,7 +82,8 @@
     },
     watch: {
       'risk_slider_value': 'update_from_slider',
-      'raster_opacity': 'change_risk_opacity'
+      'raster_opacity': 'change_risk_opacity',
+      'formal_areas': 'set_slider'
     },
     methods: {
       create_map() {
@@ -91,6 +95,45 @@
           center: [31.50484892885717, -26.543508675283874],
           zoom: 7.34
         })
+      },
+      update_from_slider() {
+        if (this.map) {
+          this.map.setFilter('bulk-included', ['in', 'UniqLocCod'].concat(this.bulk_selected))
+          this.map.setFilter('bulk-excluded', ['!in', 'UniqLocCod'].concat(this.bulk_selected))
+        }
+      },
+      add_click_handler() {
+        this.map.on('click', (e) => {
+          const clicked_features = this.map.queryRenderedFeatures(e.point, {layers: ['localities']})
+
+          // Assume we only get a single feature 
+          const UniqLocCod = clicked_features[0].properties.UniqLocCod
+
+          if (this.localities_included_by_click.includes(UniqLocCod)) {
+            let index = this.localities_included_by_click.findIndex(i => i === UniqLocCod)
+            this.localities_included_by_click.splice(index, 1)
+          } else if (this.localities_excluded_by_click.includes(UniqLocCod)) {
+            let index = this.localities_excluded_by_click.findIndex(i => i === UniqLocCod)
+            this.localities_excluded_by_click.splice(index, 1)
+          } else if (this.bulk_selected.includes(UniqLocCod)){
+            this.localities_excluded_by_click.push(UniqLocCod)
+          } else if (!this.bulk_selected.includes(UniqLocCod)) {
+            this.localities_included_by_click.push(UniqLocCod)
+          } else {
+            console.log('should never see this')
+          }
+
+
+          this.map.setFilter('single-included', ['in', 'UniqLocCod'].concat(this.localities_included_by_click))
+          this.map.setFilter('single-excluded', ['in', 'UniqLocCod'].concat(this.localities_excluded_by_click))
+        })
+      },
+      change_risk_opacity() {
+        this.map.setPaintProperty('risk', 'raster-opacity', parseFloat(this.raster_opacity))
+      },
+      set_slider() {
+        console.log('set_slider', this.formal_areas.length)
+        this.slider_options.max = this.formal_areas.length
       },
       add_locality_layers() {
         this.map.on('load', () => {
@@ -181,45 +224,8 @@
               'raster-opacity': this.raster_opacity
             }
           })
-
-          
         })
       },
-      update_from_slider() {
-        if (this.map) {
-          this.map.setFilter('bulk-included', ['in', 'UniqLocCod'].concat(this.bulk_selected))
-          this.map.setFilter('bulk-excluded', ['!in', 'UniqLocCod'].concat(this.bulk_selected))
-        }
-      },
-      add_click_handler() {
-        this.map.on('click', (e) => {
-          const clicked_features = this.map.queryRenderedFeatures(e.point, {layers: ['localities']})
-
-          // Assume we only get a single feature 
-          const UniqLocCod = clicked_features[0].properties.UniqLocCod
-
-          if (this.localities_included_by_click.includes(UniqLocCod)) {
-            let index = this.localities_included_by_click.findIndex(i => i === UniqLocCod)
-            this.localities_included_by_click.splice(index, 1)
-          } else if (this.localities_excluded_by_click.includes(UniqLocCod)) {
-            let index = this.localities_excluded_by_click.findIndex(i => i === UniqLocCod)
-            this.localities_excluded_by_click.splice(index, 1)
-          } else if (this.bulk_selected.includes(UniqLocCod)){
-            this.localities_excluded_by_click.push(UniqLocCod)
-          } else if (!this.bulk_selected.includes(UniqLocCod)) {
-            this.localities_included_by_click.push(UniqLocCod)
-          } else {
-            console.log('should never see this')
-          }
-
-
-          this.map.setFilter('single-included', ['in', 'UniqLocCod'].concat(this.localities_included_by_click))
-          this.map.setFilter('single-excluded', ['in', 'UniqLocCod'].concat(this.localities_excluded_by_click))
-        })
-      },
-      change_risk_opacity() {
-        this.map.setPaintProperty('risk', 'raster-opacity', parseFloat(this.raster_opacity))
-      }
     }
   }
 </script>

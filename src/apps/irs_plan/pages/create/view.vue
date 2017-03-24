@@ -7,7 +7,7 @@
       </div>
 
       <md-button-toggle md-single>
-        <md-button v-for='action in actions' @click.native='set_action(action)'>
+        <md-button v-for='action in actions' @click.native='set_action(action)' :ref='action.command'>
           {{action.title}}
         </md-button>
       </md-button-toggle>
@@ -33,6 +33,7 @@
   import FormalBulk from './formal_bulk.vue'
   import Draw from './draw.vue'
   import Result from './result.vue'
+  import {mapState} from 'vuex'
 
   export default {
     name: 'AreasView',
@@ -40,14 +41,13 @@
     props: [],
     mounted() {
       const country_code = this.$store.state.meta.country.slug
-      this.set_action({command: 'FormalBulk'}) // Start with this view
-      return this.$store.dispatch("irs_plan:load_formal_areas", country_code)
+      this.$store.dispatch("irs_plan:load_formal_areas", country_code)
+      this.$nextTick(() => {
+        this.$refs['FormalBulk'][0].$el.click()
+      })
     },
     data() {
       return {
-        formal_areas: [],
-        informal_draw_stack: [],
-        informal_result_stack: [],
         // Actions
         actions: [
           { title: 'Multiple', command: 'FormalBulk' },
@@ -57,12 +57,14 @@
       }
     },
     computed: {
+      ...mapState({
+        formal_areas: state => state.irs_plan.formal_areas,
+        informal_draw_stack: state => state.irs_plan.informal_draw_stack,
+        show_preview: state => state.irs_plan.show_preview,
+      }),
       result_areas() {
         return this.$store.getters["irs_plan:result_areas"]
       },
-      show_preview() {
-        return this.$store.state.irs_plan.show_preview
-      }
     },
     methods: {
       set_action (action) {

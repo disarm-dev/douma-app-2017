@@ -61,7 +61,7 @@ export default {
     },
     'irs_plan:load_formal_areas': (context, country_code) => {
       context.commit('root:set_loading', true)
-      console.log('load_formal_areas')
+      console.log('irs_plan:load_formal_areas for', country_code)
 
       Sync.config(context.rootState.meta.demo_instance_id)
       return Sync.get_ous(country_code).then((results) => {
@@ -69,7 +69,7 @@ export default {
   
         const localities = results.features
         
-        // DEV ONLY: Make sure all localities have some value we can order them by
+        // TODO @debug DEV ONLY: Make sure all localities have some value we can order them by
         const max = localities.reduce((max, i) => {return i.properties.MeanElev > max ? i.properties.MeanElev : max}, 0)
         const non_zero_elev_localities = localities.map(l => {
           if (l.properties.MeanElev === 0) l.properties.MeanElev = max
