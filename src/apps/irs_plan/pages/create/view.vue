@@ -3,7 +3,7 @@
     <div class="container">
       <div>
         <h3>Selection stats</h3>
-        <p>There are {{}} structures in the selected localities</p>
+        <p>There are {{result_clusters.length}} clusters in the selected localities. There are {{result_clusters.length * 10}} structures.</p>
       </div>
 
       <md-button-toggle md-single>
@@ -40,7 +40,7 @@
     components: {FormalBulk, Draw, Result},
     props: [],
     mounted() {
-      const country_code = this.$store.state.meta.country.slug
+      const country_code = this.country.slug
       this.$store.dispatch("irs_plan:load_formal_areas", country_code)
       this.$nextTick(() => {
         this.$refs['FormalBulk'][0].$el.click()
@@ -58,13 +58,14 @@
     },
     computed: {
       ...mapState({
+        country: state => state.meta.country,
         selected_component: state => state.irs_plan.selected_component,
         formal_areas: state => state.irs_plan.formal_areas,
         informal_draw_stack: state => state.irs_plan.informal_draw_stack,
         show_preview: state => state.irs_plan.show_preview,
       }),
-      result_areas() {
-        return this.$store.getters["irs_plan:result_areas"]
+      result_clusters() {
+        return this.$store.getters["irs_plan:result_clusters"]
       },
     },
     methods: {

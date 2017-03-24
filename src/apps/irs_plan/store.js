@@ -26,7 +26,7 @@ export default {
       // Calculate result of informal_draw_stack
       return state.informal_draw_stack.reduce((sum, i) => sum + i.size, 0)
     },
-    'irs_plan:result_areas': (state) => {
+    'irs_plan:result_clusters': (state) => {
       // Calculate the result from:
       // 
       // formal_bulk_result  formal_single_result
