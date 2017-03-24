@@ -8,7 +8,7 @@ import difference from '@turf/difference'
 export default {
   state: {
     // State state
-    selected_command: null,
+    selected_component: null,
     show_preview: false,
 
     // Data
@@ -39,9 +39,9 @@ export default {
     'irs_plan:set_show_preview': (state, show_preview) => {
       state.show_preview = show_preview
     },
-    'irs_plan:set_selected_command': (state, command) => {
-      if (state.selected_command === command) command = null
-      state.selected_command = command
+    "irs_plan:set_selected_component": (state, command) => {
+      if (state.selected_component === command) command = null
+      state.selected_component = command
     },
     'irs_plan:set_formal_areas': (state, formal_areas) => {
       state.formal_areas = formal_areas

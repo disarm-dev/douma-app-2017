@@ -17,7 +17,7 @@
         <!-- DYNAMIC COMPONENT -->
         <keep-alive>
           <component 
-            :is='$store.state.irs_plan.selected_command' 
+            :is='selected_component'
             :formal_areas='formal_areas'
             :informal_draw_stack='informal_draw_stack'
             :show_preview='show_preview'
@@ -58,6 +58,7 @@
     },
     computed: {
       ...mapState({
+        selected_component: state => state.irs_plan.selected_component,
         formal_areas: state => state.irs_plan.formal_areas,
         informal_draw_stack: state => state.irs_plan.informal_draw_stack,
         show_preview: state => state.irs_plan.show_preview,
@@ -68,7 +69,7 @@
     },
     methods: {
       set_action (action) {
-        this.$store.commit('irs_plan:set_selected_command', action.command)
+        this.$store.commit('irs_plan:set_selected_component', action.command)
       }
     }
   }
