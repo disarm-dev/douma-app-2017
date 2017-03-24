@@ -80,6 +80,3 @@
   .container { margin: 10px; }
   .controls { background: #eaeaea; padding: 5px;}
 </style>
-
-
-

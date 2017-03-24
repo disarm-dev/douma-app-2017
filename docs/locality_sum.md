@@ -11,3 +11,12 @@ localities:
 
 hand-drawn
   result
+
+
+
+
+
+        // informal_draw_stack_result: state => state.irs_plan.informal_draw_stack_result,
+        // formal_bulk_result: state => state.getters['irs_plan:formal_bulk_result'],
+        // formal_single_result: state => state.irs_plan.formal_single_result,
+        // result_clusters: state => state.irs_plan.result_clusters,
