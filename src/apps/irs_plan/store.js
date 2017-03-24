@@ -5,6 +5,8 @@ import IRSSync from '../irs/sync.js'
 import union from '@turf/union'
 import difference from '@turf/difference'
 
+import prepare from '../../lib/formal_areas.js'
+
 export default {
   state: {
     // State state
@@ -66,19 +68,12 @@ export default {
       Sync.config(context.rootState.meta.demo_instance_id)
       return Sync.get_ous(country_code).then((results) => {
         context.commit('irs_plan:set_formal_areas', [])
-  
-        const localities = results.features
-        
-        // TODO @debug DEV ONLY: Make sure all localities have some value we can order them by
-        const max = localities.reduce((max, i) => {return i.properties.MeanElev > max ? i.properties.MeanElev : max}, 0)
-        const non_zero_elev_localities = localities.map(l => {
-          if (l.properties.MeanElev === 0) l.properties.MeanElev = max
-          return l
-        })
+
+        const formal_areas = prepare(results)
 
         context.commit('root:set_loading', false)
-        context.commit('irs_plan:set_formal_areas', non_zero_elev_localities)
-        return Promise.resolve(non_zero_elev_localities)
+        context.commit('irs_plan:set_formal_areas', formal_areas)
+        return Promise.resolve(formal_areas)
       }).catch(err => console.error(err))
     },
     'irs_plan:post_clusters': (context) => {
