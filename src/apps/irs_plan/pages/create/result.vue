@@ -20,7 +20,7 @@
   MapboxGL.accessToken = 'pk.eyJ1Ijoibmljb2xhaWRhdmllcyIsImEiOiJjaXlhNWw1NnkwMDJoMndwMXlsaGo5NGJoIn0.T1wTBzV42MZ1O-2dy8SpOw'
 
   export default {
-    name: 'NewMap',
+    name: 'ResultMap',
     components: {vueSlider},
     data() {
       return {
@@ -37,6 +37,9 @@
     },
     watch: {
       'risk_slider': 'change_risk_slider'
+    },
+    activated() {
+      if (this.map) this.map.resize()
     },
     mounted() {
       this.draw_map()

@@ -80,6 +80,9 @@
       this.add_locality_layers()
       this.add_click_handler()
     },
+    activated() {
+      if (this.map) this.map.resize()
+    },
     watch: {
       'risk_slider_value': 'update_from_slider',
       'raster_opacity': 'change_risk_opacity',
