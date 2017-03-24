@@ -2,7 +2,8 @@
   <div>
     <div class="container">
       <div>
-        <p>There are x structures in the selected localities</p>
+        <h3>Selection stats</h3>
+        <p>There are {{}} structures in the selected localities</p>
       </div>
 
       <md-button-toggle md-single>
@@ -21,9 +22,8 @@
             :informal_draw_stack='informal_draw_stack'
             :show_preview='show_preview'
           ></component>
-        </keep-alive>        
+        </keep-alive>
       </div>
-
     </div>
 
   </div>
@@ -39,9 +39,9 @@
     components: {FormalBulk, Draw, Result},
     props: [],
     mounted() {
-//      const country_code = this.$store.state.meta.country.slug
-      this.set_action({command: 'FormalBulk'})
-      // return this.$store.dispatch("irs_plan:load_formal_areas", country_code)
+      const country_code = this.$store.state.meta.country.slug
+      this.set_action({command: 'FormalBulk'}) // Start with this view
+      return this.$store.dispatch("irs_plan:load_formal_areas", country_code)
     },
     data() {
       return {
