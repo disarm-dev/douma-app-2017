@@ -72,7 +72,7 @@ export default {
         // DEV ONLY: Make sure all localities have some value we can order them by
         const max = localities.reduce((max, i) => {return i.properties.MeanElev > max ? i.properties.MeanElev : max}, 0)
         const non_zero_elev_localities = localities.map(l => {
-          if (l.properties.MeanElev == 0) l.properties.MeanElev = max
+          if (l.properties.MeanElev === 0) l.properties.MeanElev = max
           return l
         })
 

@@ -1,6 +1,7 @@
 <template>
   <div>
     <p>Select risk level on slider</p>
+
     <vue-slider v-bind="slider_options" v-model="risk_slider_value" ref='slider'></vue-slider>
     <input type="range" min="0" max="1" step="0.01" v-model="raster_opacity">
     <div id="map"></div>
@@ -28,7 +29,7 @@
 
         localities: [],
         localities_fc: null,
-        risk_slider_value: SWZ_ous.features.length,
+        risk_slider_value: 0,
         slider_options: {
           min: 0,
           max: SWZ_ous.features.length,
