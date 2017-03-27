@@ -1,6 +1,7 @@
 # Foci Applet
 
 ## Pages
+- First run page
 - Foci Register
 	- Map
 	- Summary table
@@ -8,12 +9,11 @@
 - Individual foci
 	- Investigation Map page
 	- Investigation Editing page 
-
+- Settings page
 
 ## Store
 - Focis
 - Stack of focis that have new suggested boundaries
-- 
 
 
 
@@ -37,16 +37,16 @@ This list/table must be able to do virtual scrolling and have sorting functional
 
 Might be easier to look for a prebuilt component for this than building it. 
 
-[Vue-tables-2](https://github.com/matfish2/vue-tables-2)
-[Vuetable-2](https://github.com/ratiw/vuetable-2)
-[Vue-smart-table](https://www.npmjs.com/package/vue-smart-table)
+- [Vue-tables-2](https://github.com/matfish2/vue-tables-2)
+- [Vuetable-2](https://github.com/ratiw/vuetable-2)
+- [Vue-smart-table](https://www.npmjs.com/package/vue-smart-table)
 
 
 ### Simple table with numeric values
 
 **page**: Foci Register Summary Table
 
-Needs to display some values and percentages. With a toggle to switch between the two.
+Needs to display some values and percentages. With a toggle to switch between the two. This should probably be the front page for the applet. 
 
 
 ### Map for single foci
@@ -91,3 +91,12 @@ It has two buttons for switching between foci, and an edit button that sends the
 - foci
 
 A map with polygon editing tools. This map also needs to be able to calculate a new boundary if a driver of risk is added to the map. 
+
+### Settings page
+
+Controls and toggles for adjusting the parameters for the foci clusterer.
+
+
+### First run page
+
+Responsible for creating the first batch of foci. Prompt the user for the settings for the foci clusterer.
