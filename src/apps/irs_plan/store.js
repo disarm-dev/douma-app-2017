@@ -1,11 +1,5 @@
 // Store for 'IRS Plan' applet
 import Sync from './sync'
-import IRSSync from '../irs/sync.js'
-
-import union from '@turf/union'
-import difference from '@turf/difference'
-
-import prepare from '../../lib/formal_areas.js'
 
 export default {
   state: {
@@ -63,17 +57,13 @@ export default {
     },
     'irs_plan:load_formal_areas': (context, country_code) => {
       context.commit('root:set_loading', true)
-      console.log('irs_plan:load_formal_areas for', country_code)
-
       Sync.config(context.rootState.meta.demo_instance_id)
-      return Sync.get_ous(country_code).then((results) => {
+
+      return Sync.get_ous(country_code).then((formal_areas) => {
         context.commit('irs_plan:set_formal_areas', [])
-
-        const formal_areas = prepare(results)
-
-        context.commit('root:set_loading', false)
         context.commit('irs_plan:set_formal_areas', formal_areas)
-        return Promise.resolve(formal_areas)
+        context.commit('root:set_loading', false)
+        return formal_areas
       }).catch(err => console.error(err))
     },
     'irs_plan:post_clusters': (context) => {

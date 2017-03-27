@@ -78,6 +78,8 @@
 
       this.create_map()
       this.add_locality_layers()
+//      this.add_risk_layer()
+      console.log('risk layer disabled')
       this.add_click_handler()
     },
     activated() {
@@ -210,25 +212,28 @@
             "filter": ['!in', 'UniqLocCod'].concat(this.all_uniq_loc_cods)
           })
 
-          const date = '2015-04-01' 
-          const country_code = 'SWZ'
-          const url = `https://storage.googleapis.com/pipeline-api/api/${country_code}/${date}/risk/standard/current-month/tiles/{z}/{x}/{y}.png`
-
-          this.map.addLayer({
-            id: "risk",
-            type: "raster",
-            source: {
-              "type": "raster",
-              "tiles": [url],
-              "tileSize": 256,
-              scheme: 'tms'
-            },
-            paint: {
-              'raster-opacity': this.raster_opacity
-            }
-          })
         })
       },
+      add_risk_layer(){
+        // TODO: @debug Remove these hard-coded values
+        const date = '2015-04-01'
+        const country_code = 'SWZ'
+        const url = `https://storage.googleapis.com/pipeline-api/api/${country_code}/${date}/risk/standard/current-month/tiles/{z}/{x}/{y}.png`
+
+        this.map.addLayer({
+          id: "risk",
+          type: "raster",
+          source: {
+            "type": "raster",
+            "tiles": [url],
+            "tileSize": 256,
+            scheme: 'tms'
+          },
+          paint: {
+            'raster-opacity': this.raster_opacity
+          }
+        })
+      }
     }
   }
 </script>

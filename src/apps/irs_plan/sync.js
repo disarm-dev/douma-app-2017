@@ -1,4 +1,5 @@
 import RemoteDBClass from '../../lib/remote.js'
+import prepare_formal_areas from '../../lib/formal_areas.js'
 
 class Sync {
 
@@ -8,19 +9,27 @@ class Sync {
 
   get_ous(country_code) {
     // TODO: @refac Cache offline assets better - ServiceWorker?
-    let local_ous
-    const country_key = `douma-${country_code}-ous`
+    let results
+    const country_localstorage_key = `douma-${country_code}-ous`
 
     try {
-      local_ous = JSON.parse(localStorage.getItem(country_key))
+      results = JSON.parse(localStorage.getItem(country_localstorage_key))
     } catch (err){
-      local_ous = null
-      localStorage.setItem(country_key, null)
+      results = null
+      localStorage.setItem(country_localstorage_key, null)
     }
 
-    if(local_ous) return Promise.resolve(local_ous)
+    if(results) {
+      results = prepare_formal_areas(results, country_code)
+      return Promise.resolve(results)
+    }
 
-    return this.RemoteDB.get_ous(country_code)
+    return this.RemoteDB.get_ous(country_code).then((results) => {
+      const formal_areas = prepare_formal_areas(results, country_code)
+      localStorage.setItem(country_localstorage_key, formal_areas)
+      return formal_areas
+    })
+
   }
 
   post_clusters(options) {

@@ -1,4 +1,6 @@
-const prepare = (results) => {
+const prepare_formal_areas = (results, country_code) => {
+  const country = COUNTRY_OPTIONS.find(c => c.slug === country_code)
+
   let formal_areas = results.features
 
   // TODO @debug DEV ONLY: Make sure all formal_areas have some value we can order them by
@@ -10,6 +12,7 @@ const prepare = (results) => {
 
   // Harmonise IDs
   formal_areas = non_zero_elev_formal_areas.map(area => {
+    area.properties.formal_area_id = area.properties[country.formal_area_id]
     return area
   })
 
@@ -17,4 +20,4 @@ const prepare = (results) => {
   return formal_areas
 }
 
-export default prepare
+export default prepare_formal_areas
