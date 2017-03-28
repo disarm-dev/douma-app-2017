@@ -12,7 +12,6 @@
 <script>
   import vueSlider from 'vue-slider-component'
   import MapboxGL from 'mapbox-gl/dist/mapbox-gl'
-  import 'mapbox-gl/dist/mapbox-gl.css'
   import download from 'downloadjs'
   // import Localities from '../../localities.json'
   var Localities = []

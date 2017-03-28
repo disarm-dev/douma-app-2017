@@ -4,7 +4,6 @@
 
 <script>
   import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js'
-  import 'mapbox-gl/dist/mapbox-gl.css'
 
   export default {
     name: 'AreasMap',

@@ -10,12 +10,8 @@
 
 <script>
   import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js'
-  import 'mapbox-gl/dist/mapbox-gl.css'
-
   import {mapState} from 'vuex'
-
   import vueSlider from 'vue-slider-component'
-
 
   export default {
     name: 'FormalBulk',

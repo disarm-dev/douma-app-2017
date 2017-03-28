@@ -4,9 +4,10 @@ import 'whatwg-fetch' // TODO: @refac Remove import for 'whatwg-fetch'
 // Vue
 import Vue from 'vue'
 
-// Material CSS
+// CSS
 import './fonts/Roboto.css'
 import './fonts/MaterialIcons.css'
+import 'mapbox-gl/dist/mapbox-gl.css'
 
 // Imports
 import configureThemes from './config/theme'
