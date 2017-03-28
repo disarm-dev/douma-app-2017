@@ -20,13 +20,10 @@
   export default {
     name: 'FormalBulk',
     components: {vueSlider},
-    props: ['formal_areas', 'show_preview'],
     data () {
       return {
         map: null,
         
-        localities: [],
-        localities_fc: null,
         risk_slider_value: 0,
         slider_options: {
           min: 0,
@@ -41,44 +38,24 @@
     },
     computed: {
       ...mapState({
+        country: state => state.meta.country,
+        formal_areas: state => state.irs_plan.formal_areas,
+        formal_area_ids: state => state.getters['irs_plan:formal_area_ids'],
         localities_included_by_click: state => state.irs_plan.localities_included_by_click,
         localities_excluded_by_click: state => state.irs_plan.localities_excluded_by_click
       }),
-      all_uniq_loc_cods() {
-        return this.localities.map(l => l.properties.UniqLocCod)
-      },
       bulk_selected() {
-        return this.localities
-          .filter(l => l.properties.risk < (this.risk_slider_value + 1)) // TODO: @debug remove when we are using risk (or proxy)
-          .map(l => l.properties.UniqLocCod)
+        return
       },
-      result_localities() {
-        console.log('this.bulk_selected', this.bulk_selected)
-        console.log('this.localities_included_by_click', this.localities_included_by_click)
-        console.log('this.localities_excluded_by_click', this.localities_excluded_by_click)
-        return {
-          selected: this.bulk_selected,
-          included: this.localities_included_by_click,
-          excluded: this.localities_excluded_by_click
-        }
-      }
+
     },
     mounted() {
-      // TODO @debug creating an attribute to sort by
-      this.localities = this.formal_areas.reverse().map((l, i) => {
-        l.properties.risk = (i + 1)
-        return l
+      this.$store.dispatch("irs_plan:load_formal_areas", this.country.slug).then(() => {
+        this.create_map()
+        this.add_locality_layers()
+        console.log('risk layer disabled') // this.add_risk_layer()
+        this.add_click_handler()
       })
-      this.localities_fc = {
-        type: 'FeatureCollection',
-        features: this.localities
-      }
-
-      this.create_map()
-      this.add_locality_layers()
-//      this.add_risk_layer()
-      console.log('risk layer disabled')
-      this.add_click_handler()
     },
     activated() {
       if (this.map) this.map.resize()
@@ -89,34 +66,17 @@
       'formal_areas': 'set_slider'
     },
     methods: {
-      create_map() {
-        mapboxgl.accessToken = 'pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
-
-        this.map = new mapboxgl.Map({
-          container: 'map',
-          style: 'mapbox://styles/onlyjsmith/cj0kre65k002k2slaemj9yy0f',
-          center: [31.50484892885717, -26.543508675283874],
-          zoom: 7.34
-        })
-      },
       update_from_slider() {
+        this.$store.commit('irs_plan:set_risk_slider', this.risk_slider_value)
+
         if (this.map) {
-          this.map.setFilter('bulk-included', ['in', 'UniqLocCod'].concat(this.bulk_selected))
-          this.map.setFilter('bulk-excluded', ['!in', 'UniqLocCod'].concat(this.bulk_selected))
+          let bulk_selected = this.localities
+            .filter(l => l.properties.risk < (this.risk_slider_value + 1))
+            .map(l => l.properties.area_id)
+
+          this.map.setFilter('bulk_included_layer', ['in', 'area_id'].concat(bulk_selected))
+          this.map.setFilter('bulk_excluded_layer', ['!in', 'area_id'].concat(bulk_selected))
         }
-      },
-      add_click_handler() {
-        this.map.on('click', (e) => {
-          const clicked_features = this.map.queryRenderedFeatures(e.point, {layers: ['localities']})
-
-          // Assume we only get a single feature 
-          const UniqLocCod = clicked_features[0].properties.UniqLocCod
-
-          this.$store.dispatch('irs_plan:locality_click', UniqLocCod)
-
-          this.map.setFilter('single-included', ['in', 'UniqLocCod'].concat(this.localities_included_by_click))
-          this.map.setFilter('single-excluded', ['in', 'UniqLocCod'].concat(this.localities_excluded_by_click))
-        })
       },
       change_risk_opacity() {
         this.map.setPaintProperty('risk', 'raster-opacity', parseFloat(this.raster_opacity))
@@ -125,15 +85,31 @@
         console.log('set_slider', this.formal_areas.length)
         this.slider_options.max = this.formal_areas.length
       },
+
+      create_map() {
+        mapboxgl.accessToken = 'pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
+
+        this.map = new mapboxgl.Map({
+          container: 'map',
+          style: 'mapbox://styles/onyjsmith/cj0kre65k002k2slaemj9yy0f',
+          center: [31.50484892885717, -26.543508675283874],
+          zoom: 7.34
+        })
+      },
       add_locality_layers() {
+        const formal_areas_fc = {
+          type: 'FeatureCollection',
+          features: this.formal_areas
+        }
+
         this.map.on('load', () => {
 
           this.map.addLayer({
-            'id': 'localities', // every locality, doesn't change
+            'id': 'formal_areas_layer', // every locality, doesn't change
             'type': 'fill',
             'source': {
               'type': 'geojson',
-              'data': this.localities_fc
+              'data': formal_areas_fc
             },
             'paint': {
               'fill-outline-color': 'grey',
@@ -142,59 +118,59 @@
           }) 
 
           this.map.addLayer({
-            'id': 'bulk-included',
+            'id': 'bulk_included_layer',
             'type': 'fill',
             'source': {
               'type': 'geojson',
-              'data': this.localities_fc
+              'data': formal_areas_fc
             },
             "paint":{
               'fill-outline-color': 'grey',
               'fill-color': '#a6dba0',
             },
-            "filter": ['in', 'UniqLocCod'].concat(this.all_uniq_loc_cods)
+            "filter": ['in', 'area_id'].concat(this.formal_area_ids)
           })
 
           this.map.addLayer({
-            'id': 'bulk-excluded',
+            'id': 'bulk_excluded_layer',
             'type': 'fill',
             'source': {
               'type': 'geojson',
-              'data': this.localities_fc
+              'data': formal_areas_fc
             },
             "paint":{
               'fill-outline-color': 'grey',
               'fill-color': '#c2a5cf',
             },
-            "filter": ['!in', 'UniqLocCod'].concat(this.all_uniq_loc_cods)
+            "filter": ['!in', 'area_id'].concat(this.formal_area_ids)
           })
 
           this.map.addLayer({
-            'id': 'single-included',
+            'id': 'single_included_layer',
             'type': 'fill',
             'source': {
               'type': 'geojson',
-              'data': this.localities_fc
+              'data': formal_areas_fc
             },
             "paint":{
               'fill-outline-color': 'grey',
               'fill-color': '#008837',
             },
-            "filter": ['in', 'UniqLocCod', '']
+            "filter": ['in', 'area_id', '']
           })
 
           this.map.addLayer({
-            'id': 'single-excluded',
+            'id': 'single_excluded_layer',
             'type': 'fill',
             'source': {
               'type': 'geojson',
-              'data': this.localities_fc
+              'data': formal_areas_fc
             },
             "paint":{
               'fill-outline-color': 'grey',
               'fill-color': '#7b3294',
             },
-            "filter": ['!in', 'UniqLocCod'].concat(this.all_uniq_loc_cods)
+            "filter": ['!in', 'area_id'].concat(this.formal_area_ids)
           })
 
         })
@@ -218,7 +194,20 @@
             'raster-opacity': this.raster_opacity
           }
         })
-      }
+      },
+      add_click_handler() {
+        this.map.on('click', (e) => {
+          const clicked_features = this.map.queryRenderedFeatures(e.point, {layers: ['formal_areas_layer']})
+
+          // Assume we only get a single feature
+          const area_id = clicked_features[0].properties.area_id
+
+          this.$store.dispatch('irs_plan:locality_click', area_id)
+
+          this.map.setFilter('single_included_layer', ['in', 'area_id'].concat(this.localities_included_by_click))
+          this.map.setFilter('single_excluded_layer', ['in', 'area_id'].concat(this.localities_excluded_by_click))
+        })
+      },
     }
   }
 </script>
