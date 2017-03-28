@@ -128,7 +128,7 @@
               'fill-outline-color': 'grey',
               'fill-color': '#a6dba0',
             },
-            "filter": ['in', 'area_id'].concat(this.formal_area_ids)
+            "filter": ['!in', 'area_id', '']
           })
 
           this.map.addLayer({
@@ -142,7 +142,7 @@
               'fill-outline-color': 'grey',
               'fill-color': '#c2a5cf',
             },
-            "filter": ['!in', 'area_id'].concat(this.formal_area_ids)
+            "filter": ['in', 'area_id', '']
           })
 
           this.map.addLayer({
@@ -170,7 +170,7 @@
               'fill-outline-color': 'grey',
               'fill-color': '#7b3294',
             },
-            "filter": ['!in', 'area_id'].concat(this.formal_area_ids)
+            "filter": ['in', 'area_id', '']
           })
 
         })
