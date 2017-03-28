@@ -51,7 +51,7 @@
         // Actions
         actions: [
           { title: 'Multiple', command: 'FormalBulk' },
-          { title: 'hand-draw', command: 'Draw' },
+          // { title: 'hand-draw', command: 'Draw' },
           { title: 'Result', command: 'Result' }
         ],
       }

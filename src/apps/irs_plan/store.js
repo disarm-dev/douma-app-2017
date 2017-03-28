@@ -9,26 +9,17 @@ export default {
 
     // Data
     formal_areas: [],
-    informal_draw_stack: []
+    informal_draw_stack: [],
+    localities_included_by_click: [],
+    localities_excluded_by_click: [],
+    // bulk_selected: []
   },
   getters: {
-    'irs_plan:formal_bulk_result': (state) => {
-
-    },
-    'irs_plan:formal_single_result': (state) => {
-
-    },
-    'irs_plan:informal_draw_stack_result': (state) => {
-      // Calculate result of informal_draw_stack
-      return state.informal_draw_stack.reduce((sum, i) => sum + i.size, 0)
-    },
-    'irs_plan:result_clusters': (state) => {
-      // Calculate the result from:
-      // 
-      // formal_bulk_result  formal_single_result
-      // MINUS informal stack removed areas
-      // PLUS informal stack add areas
-      return ['always something new', 'in here']
+    bulk() {
+      return {
+        selected: [],
+        unselected: []
+      }
     }
   },
   mutations: {
@@ -45,8 +36,36 @@ export default {
     'irs_plan:push_informal_draw_stack': (state, stack_action) => {
       state.informal_draw_stack.push(stack_action)
     },
+    'irs_plan:add_included': (state, locality_id) => {
+      state.localities_included_by_click.push(locality_id)
+    },
+    'irs_plan:remove_included': (state, locality_id) => {
+      let index = state.localities_included_by_click.findIndex(i => i === locality_id)  
+      state.localities_included_by_click.splice(index, 1)
+    },
+    'irs_plan:add_excluded': (state, locality_id) => {
+      state.localities_excluded_by_click.push(locality_id)
+    },
+    'irs_plan:remove_excluded': (state, locality_id) => {
+      let index = state.localities_excluded_by_click.findIndex(i => i === locality_id)  
+      state.localities_excluded_by_click.splice(index, 1)
+    },
+
   },
   actions: {
+    'irs_plan:locality_click': (context, locality_id) => {
+      if (context.state.localities_included_by_click.includes(locality_id)) {
+        context.commit('irs_plan:remove_included', locality_id)
+      } else if (context.state.localities_excluded_by_click.includes(locality_id)) {
+        context.commit('irs_plan:remove_excluded', locality_id)
+      } else if (context.getters.bulk.selected.includes(locality_id)){
+        context.commit('irs_plan:add_excluded', locality_id)
+      } else if (!context.getters.bulk.selected.includes(locality_id)) {
+        context.commit('irs_plan:add_included', locality_id)
+      } else {
+        console.log('should never see this')
+      }
+    },
     'irs_plan:informal_draw_add': (context, feature) => {
       const stack_action = { type: 'add', feature: feature }
       context.commit('irs_plan:push_informal_draw_stack', feature)

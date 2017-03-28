@@ -25,9 +25,6 @@
       return {
         map: null,
         
-        localities_included_by_click: [],
-        localities_excluded_by_click: [],
-
         localities: [],
         localities_fc: null,
         risk_slider_value: 0,
@@ -44,7 +41,8 @@
     },
     computed: {
       ...mapState({
-        formal_areas: state => state.irs_plan.formal_areas
+        localities_included_by_click: state => state.irs_plan.localities_included_by_click,
+        localities_excluded_by_click: state => state.irs_plan.localities_excluded_by_click
       }),
       all_uniq_loc_cods() {
         return this.localities.map(l => l.properties.UniqLocCod)
@@ -114,20 +112,7 @@
           // Assume we only get a single feature 
           const UniqLocCod = clicked_features[0].properties.UniqLocCod
 
-          if (this.localities_included_by_click.includes(UniqLocCod)) {
-            let index = this.localities_included_by_click.findIndex(i => i === UniqLocCod)
-            this.localities_included_by_click.splice(index, 1)
-          } else if (this.localities_excluded_by_click.includes(UniqLocCod)) {
-            let index = this.localities_excluded_by_click.findIndex(i => i === UniqLocCod)
-            this.localities_excluded_by_click.splice(index, 1)
-          } else if (this.bulk_selected.includes(UniqLocCod)){
-            this.localities_excluded_by_click.push(UniqLocCod)
-          } else if (!this.bulk_selected.includes(UniqLocCod)) {
-            this.localities_included_by_click.push(UniqLocCod)
-          } else {
-            console.log('should never see this')
-          }
-
+          this.$store.dispatch('irs_plan:locality_click', UniqLocCod)
 
           this.map.setFilter('single-included', ['in', 'UniqLocCod'].concat(this.localities_included_by_click))
           this.map.setFilter('single-excluded', ['in', 'UniqLocCod'].concat(this.localities_excluded_by_click))
