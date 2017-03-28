@@ -3,7 +3,7 @@
     <div class="container">
       <div>
         <h3>Selection stats</h3>
-        <p>There are {{result_clusters.length}} clusters in the selected localities. There are {{result_clusters.length * 10}} structures.</p>
+        <p>There are SOME clusters in the selected localities. There are A FEW structures.</p>
       </div>
 
       <md-button-toggle md-single>
@@ -16,12 +16,7 @@
 
         <!-- DYNAMIC COMPONENT -->
         <keep-alive>
-          <component 
-            :is='selected_component'
-            :formal_areas='formal_areas'
-            :informal_draw_stack='informal_draw_stack'
-            :show_preview='show_preview'
-          ></component>
+          <component :is='selected_component'></component>
         </keep-alive>
       </div>
     </div>
@@ -42,7 +37,8 @@
     mounted() {
       const country_code = this.country.slug
       this.$store.dispatch("irs_plan:load_formal_areas", country_code)
-      this.$nextTick(() => {
+
+      this.$nextTick(() => { // Hack for vue-material tabs
         this.$refs['FormalBulk'][0].$el.click()
       })
     },
@@ -59,14 +55,8 @@
     computed: {
       ...mapState({
         country: state => state.meta.country,
-        selected_component: state => state.irs_plan.selected_component,
-        formal_areas: state => state.irs_plan.formal_areas,
-        informal_draw_stack: state => state.irs_plan.informal_draw_stack,
-        show_preview: state => state.irs_plan.show_preview,
-      }),
-      result_clusters() {
-        return this.$store.getters["irs_plan:result_clusters"]
-      },
+        selected_component: state => state.irs_plan.selected_component
+      })
     },
     methods: {
       set_action (action) {
