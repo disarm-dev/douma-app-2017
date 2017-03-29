@@ -20,7 +20,7 @@ export default {
     },
     'irs_plan:bulk_selected_ids': (state) => {
       return state.formal_areas
-        .filter(area => area.properties.MeanElev < state.risk_slider_value)
+        .filter(area => area.properties.MaxRisk < state.risk_slider_value)
         .map(area => area.properties.area_id)
     },
     'irs_plan:all_selected_area_ids': (state, getters) => {
