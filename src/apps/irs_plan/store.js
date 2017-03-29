@@ -5,32 +5,53 @@ export default {
   state: {
     // State state
     selected_component: null,
-    show_preview: false,
 
     // Data - 'areas' are formal areas, like 'localities'
     risk_slider_value: null,
     formal_areas: [],
-    informal_draw_stack: [],
-    areas_included_by_click: [],
-    areas_excluded_by_click: [],
+    all_clusters: [],
+    areas_included_by_click: [], // TODO: @refac Rename to '_ids'
+    areas_excluded_by_click: [], // TODO: @refac Rename to '_ids'
+
   },
   getters: {
-    'irs_plan:bulk_selected': (state) => {
+    'irs_plan:formal_area_ids': (state) => {
+      return state.formal_areas.map(area => area.properties.area_id)
+    },
+    'irs_plan:bulk_selected_ids': (state) => {
       return state.formal_areas
         .filter(area => area.properties.MeanElev < state.risk_slider_value)
         .map(area => area.properties.area_id)
     },
-    'irs_plan:formal_area_ids': (state) => {
-      return state.formal_areas.map(area => area.properties.area_id)
+    'irs_plan:all_selected_area_ids': (state, getters) => {
+      const bulk_selected_ids = getters['irs_plan:bulk_selected_ids']
+
+      // add included by click
+      let result = bulk_selected_ids.concat(state.areas_included_by_click)
+
+      // remove excluded by click
+      state.areas_excluded_by_click.forEach(area_id => {
+        const index = result.findIndex(i => i === area_id)
+        if (index !== -1) {
+          result.splice(index, 1)
+        }
+      })
+      return result
+    },
+    'irs_plan:selected_clusters': (state, getters) => {
+      const area_ids = getters['irs_plan:all_selected_area_ids']
+      return state.all_clusters.filter(cluster => area_ids.includes(cluster.properties.area_id))
+    },
+    'irs_plan:selected_cluster_ids': (state, getters) => {
+      const clusters = getters['irs_plan:selected_clusters']
+      return clusters.map(cluster => cluster.properties.cluster_id)
     }
+
   },
   mutations: {
     'irs_plan:set_risk_slider': (state, risk_slider_value) => {
       state.risk_slider_value = risk_slider_value
     },
-    // 'irs_plan:set_show_preview': (state, show_preview) => {
-    //   state.show_preview = show_preview
-    // },
     "irs_plan:set_selected_component": (state, command) => {
       if (state.selected_component === command) command = null
       state.selected_component = command
@@ -38,10 +59,9 @@ export default {
     'irs_plan:set_formal_areas': (state, formal_areas) => {
       state.formal_areas = formal_areas
     },
-    // 'irs_plan:push_informal_draw_stack': (state, stack_action) => {
-    //   state.informal_draw_stack.push(stack_action)
-    // },
-    //
+    'irs_plan:set_all_clusters': (state, all_clusters) => {
+      state.all_clusters = all_clusters
+    },
     'irs_plan:add_included': (state, area_id) => {
       state.areas_included_by_click.push(area_id)
     },
@@ -64,32 +84,35 @@ export default {
         context.commit('irs_plan:remove_included', area_id)
       } else if (context.state.areas_excluded_by_click.includes(area_id)) {
         context.commit('irs_plan:remove_excluded', area_id)
-      } else if (context.getters['irs_plan:bulk_selected'].includes(area_id)){
+      } else if (context.getters['irs_plan:bulk_selected_ids'].includes(area_id)){
         context.commit('irs_plan:add_excluded', area_id)
-      } else if (!context.getters['irs_plan:bulk_selected'].includes(area_id)) {
+      } else if (!context.getters['irs_plan:bulk_selected_ids'].includes(area_id)) {
         context.commit('irs_plan:add_included', area_id)
       } else {
         console.log('should never see this')
       }
     },
-    // 'irs_plan:informal_draw_add': (context, feature) => {
-    //   const stack_action = { type: 'add', feature: feature }
-    //   context.commit('irs_plan:push_informal_draw_stack', feature)
-    // },
-    // 'irs_plan:informal_draw_subtract': (context, feature) => {
-    //   const stack_action = { type: 'subtract', feature: feature }
-    //   context.commit('irs_plan:push_informal_draw_stack', feature)
-    // },
-    'irs_plan:load_formal_areas': (context, country_code) => {
+    'irs_plan:load_formal_areas': (context) => {
       context.commit('root:set_loading', true)
       Sync.config(context.rootState.meta.demo_instance_id)
 
-      return Sync.get_ous(country_code).then((formal_areas) => {
+      return Sync.get_ous(context.rootState.meta.country.slug).then((formal_areas) => {
         context.commit('irs_plan:set_formal_areas', [])
         context.commit('irs_plan:set_formal_areas', formal_areas)
         context.commit('root:set_loading', false)
         return formal_areas
       }).catch(err => console.error(err))
+    },
+    'irs_plan:load_clusters': (context) => {
+      context.commit('root:set_loading', true)
+
+      fetch(DOUMA_API_URL + '/v2/clusters/all/swz') // TODO: @refac Don't put this fetch in here. Also add `country.slug`
+        .then((res) => res.json())
+        .then((all_clusters) => {
+          context.commit('root:set_loading', false)
+          context.commit('irs_plan:set_all_clusters', all_clusters.features)
+        }).catch(console.log)
+
     },
     'irs_plan:post_clusters': (context) => {
       console.log("Ok, you want to post some clusters. Now what?")

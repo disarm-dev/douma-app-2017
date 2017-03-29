@@ -23,7 +23,7 @@
     },
     computed: {
       ...mapGetters({
-        'bulk_selected': 'irs_plan:bulk_selected'
+        'bulk_selected_ids': 'irs_plan:bulk_selected_ids'
       }),
       ...mapState({
         country: state => state.meta.country,
@@ -35,7 +35,7 @@
 
     },
     mounted() {
-      this.$store.dispatch("irs_plan:load_formal_areas", this.country.slug).then(() => {
+      this.$store.dispatch("irs_plan:load_formal_areas").then(() => {
         this.create_map()
         this.add_locality_layers()
         console.log('risk layer disabled') // this.add_risk_layer()
@@ -47,15 +47,15 @@
       if (this.map) this.map.resize()
     },
     watch: {
-      'bulk_selected': 'redraw_bulk_selected',
+      'bulk_selected_ids': 'redraw_bulk_selected',
       'risk_slider_value': 'set_risk_slider_value',
       'raster_opacity': 'change_risk_opacity',
     },
     methods: {
       redraw_bulk_selected() {
         if (!this.map) return // slider can be moved and values change before map is drawn
-        this.map.setFilter('bulk_included_layer', ['in', 'area_id'].concat(this.bulk_selected))
-        this.map.setFilter('bulk_excluded_layer', ['!in', 'area_id'].concat(this.bulk_selected))
+        this.map.setFilter('bulk_included_layer', ['in', 'area_id'].concat(this.bulk_selected_ids))
+        this.map.setFilter('bulk_excluded_layer', ['!in', 'area_id'].concat(this.bulk_selected_ids))
       },
       set_risk_slider_value() {
         this.$store.commit('irs_plan:set_risk_slider', this.risk_slider_value)
