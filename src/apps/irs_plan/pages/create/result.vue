@@ -1,8 +1,6 @@
 <template>
   <div>
-    <span>{{risk_slider}} clusters</span>
-    <md-button @click.native="draw_localities()">draw localities</md-button>
-    <md-button @click.native.stop="draw_clusters()">draw clusters</md-button>
+    <span>X clusters</span>
     <md-button @click.native.stop='download_clusters'>dowload clusters</md-button>
     <div id="map"></div>
   </div>
@@ -26,7 +24,6 @@
       }
     },
     activated() {
-      console.log('activated')
       this.draw_selected_area()
 
       if (this.map) this.map.resize()
@@ -81,18 +78,14 @@
         return result
       },
       draw_selected_area() {
-        // get bulk selected areas
         const res = this.find_areas()
 
         if (this.map.getLayer('clusters')) {
-          console.log('set filter')
           this.map.setFilter('clusters', ['in', 'uniqloccod'].concat(res))
         }
         
       },
       draw_clusters() {
-        // if (!this.map.loaded()) return
-
         this.map.on('load', () => {
           this.$store.commit('root:set_loading', true)
           this.loading = true
