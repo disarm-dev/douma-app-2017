@@ -1,62 +1,84 @@
 <template>
   <div>
-    <span>X clusters</span>
-    <md-button @click.native.stop='download_clusters'>dowload clusters</md-button>
+    <md-button @click.native='download_selected_clusters'>download clusters</md-button>
     <div id="map"></div>
   </div>
 </template>
 
 <script>
-  import MapboxGL from 'mapbox-gl/dist/mapbox-gl'
+  import mapboxgl from 'mapbox-gl/dist/mapbox-gl'
   import download from 'downloadjs'
-  import turf from '@turf/turf'
-  // import Localities from '../../localities.json'
-
-  MapboxGL.accessToken = 'pk.eyJ1Ijoibmljb2xhaWRhdmllcyIsImEiOiJjaXlhNWw1NnkwMDJoMndwMXlsaGo5NGJoIn0.T1wTBzV42MZ1O-2dy8SpOw'
+  import {mapState} from 'vuex'
 
   export default {
     name: 'ResultMap',
     data() {
       return {
-        clusters: [],
-        map: null,
-        risk_slider: 1,
+        clusters: [], // TODO: @refac Get rid of local clusters
+        _map: null,
       }
     },
-    activated() {
-      this.draw_selected_area()
-
-      if (this.map) this.map.resize()
+    computed: {
+      ...mapState({
+        country: state => state.meta.country
+      })
     },
     mounted() {
-
-      this.draw_map()
+      this.create_map()
       this.draw_clusters()
     },
+    activated() {
+      if (this.map) {
+        this.draw_selected_clusters()
+        this.map.resize()
+      }
+    },
     methods: {
-      download_clusters() {
-        const filtered_clusters = this.clusters.features.filter(c => c.properties.cluster_id < this.risk_slider)
+      create_map() {
+        mapboxgl.accessToken = 'pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
+
+        this.map = new mapboxgl.Map({
+          container: 'map', // container id
+          style: 'mapbox://styles/mapbox/streets-v9', //stylesheet location
+          center: [this.country.centre.lng, this.country.centre.lat], // TODO: @refac Make it easier
+          zoom: this.country.zoom
+        });
+      },
+      draw_clusters() {
+        this.map.on('load', () => {
+          this.$store.commit('root:set_loading', true)
+
+          fetch('/assets/swz.all-clusters.json')
+            .then((res) => res.json())
+            .then((clusters) => {
+              this.$store.commit('root:set_loading', false)
+              this.clusters = clusters
+
+              let _cluster_layer = this.map.addLayer({
+                'id': 'clusters',
+                'type': 'line',
+                'source': {
+                  'type': 'geojson',
+                  'data': clusters
+                },
+                'paint': {
+                  'line-color': 'blue'
+                },
+                'filter': ['in', 'uniqloccod'].concat(this.find_areas())
+              })
+
+            }).catch(console.log)
+        })
+      },
+
+      download_selected_clusters() {
+        const filtered_clusters = [] // TODO: @debug Actually get the right clusters: i.e. this.selected_clusters
         const featureCollection = {
           type: 'FeatureCollection',
           features: filtered_clusters
         }
         const filtered_clusters_string = JSON.stringify(featureCollection)
         download(filtered_clusters_string, 'clusters.json', 'application/json')
-      },
-      draw_map() {
-        this.map = new MapboxGL.Map({
-          container: 'map', // container id
-          style: 'mapbox://styles/mapbox/streets-v9', //stylesheet location
-          center: [31.5, -26.50], // starting position
-          zoom: 8 // starting zoom
-        });
-
-        this.map.on('render', e => {
-          if (this.loading && this.map.loaded()) {
-            this.$store.commit('root:set_loading', false)
-            this.loading = false
-          }
-        })
       },
       find_areas() {
         const bulk_selected_area_ids = this.$store.getters['irs_plan:bulk_selected']
@@ -77,40 +99,12 @@
 
         return result
       },
-      draw_selected_area() {
+      draw_selected_clusters() {
         const res = this.find_areas()
 
         if (this.map.getLayer('clusters')) {
           this.map.setFilter('clusters', ['in', 'uniqloccod'].concat(res))
         }
-        
-      },
-      draw_clusters() {
-        this.map.on('load', () => {
-          this.$store.commit('root:set_loading', true)
-          this.loading = true
-
-          fetch('/assets/swz.all-clusters.json')
-          .then((res) => res.json())
-          .then((clusters) => {
-            this.$store.commit('root:set_loading', false)
-            this.clusters = clusters
-
-            let _cluster_layer = this.map.addLayer({
-              'id': 'clusters',
-              'type': 'line',
-              'source': {
-                'type': 'geojson',
-                'data': clusters
-              },
-              'paint': {
-                'line-color': 'blue'
-              },
-              'filter': ['in', 'uniqloccod'].concat(this.find_areas())
-            })
-
-          }).catch(console.log)
-        })
       },
     }
   }
