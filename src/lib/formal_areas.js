@@ -1,22 +1,13 @@
+import country_options from '../config/countries.json'
+
 const prepare_formal_areas = (results, country_code) => {
-  const country = COUNTRY_OPTIONS.find(c => c.slug === country_code)
-
-  let formal_areas = results.features
-
-  // TODO @debug DEV ONLY: Make sure all formal_areas have some value we can order them by
-  const max = formal_areas.reduce((max, i) => {return i.properties.MeanElev > max ? i.properties.MeanElev : max}, 0)
-  const non_zero_elev_formal_areas = formal_areas.map(l => {
-    if (l.properties.MeanElev === 0) l.properties.MeanElev = max
-    return l
-  })
+  const country = country_options.find(c => c.slug === country_code)
 
   // Harmonise IDs
-  formal_areas = non_zero_elev_formal_areas.map(area => {
-    area.properties.formal_area_id = area.properties[country.formal_area_id]
+  const formal_areas = results.features.map(area => {
+    area.properties.area_id = area.properties[country.area_id]
     return area
   })
-
-
   return formal_areas
 }
 

@@ -35,9 +35,6 @@
     components: {FormalBulk, Draw, Result},
     props: [],
     mounted() {
-      const country_code = this.country.slug
-      this.$store.dispatch("irs_plan:load_formal_areas", country_code)
-
       this.$nextTick(() => { // Hack for vue-material tabs
         this.$refs['FormalBulk'][0].$el.click()
       })
@@ -54,7 +51,6 @@
     },
     computed: {
       ...mapState({
-        country: state => state.meta.country,
         selected_component: state => state.irs_plan.selected_component
       })
     },

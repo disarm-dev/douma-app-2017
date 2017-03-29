@@ -2,8 +2,8 @@
   <div>
     <p>Select risk level on slider</p>
 
-    <vue-slider v-bind="slider_options" v-model="risk_slider_value" ref='slider'></vue-slider>
-    <input type="range" min="0" max="1" step="0.01" v-model="raster_opacity">
+    <input type="range" ref='risk_slider' max="5" min="0" step="0.01" v-model="risk_slider_value">
+    <!--<input type="range" min="0" max="1" step="0.01" v-model="raster_opacity">-->
     <div id="map"></div>
   </div>
 </template>
@@ -19,15 +19,13 @@
     data () {
       return {
         map: null,
-        
         risk_slider_value: 0,
         slider_options: {
-          min: 0,
-          interval: 1,
           lazy: true,
-          tooltipDir: 'top',
-          // tooltip: 'always',
-          formatter: '{value} local areas'
+          reverse: true,
+          interval: 0.01
+//          tooltipDir: 'top',
+//          formatter: '{value}'
         },
         raster_opacity: 0
       }
@@ -37,12 +35,10 @@
         country: state => state.meta.country,
         formal_areas: state => state.irs_plan.formal_areas,
         formal_area_ids: state => state.getters['irs_plan:formal_area_ids'],
-        localities_included_by_click: state => state.irs_plan.localities_included_by_click,
-        localities_excluded_by_click: state => state.irs_plan.localities_excluded_by_click
+        areas_included_by_click: state => state.irs_plan.areas_included_by_click,
+        areas_excluded_by_click: state => state.irs_plan.areas_excluded_by_click,
+        bulk_selected: state => state.getters['irs_plan:bulk_selected']
       }),
-      bulk_selected() {
-        return
-      },
 
     },
     mounted() {
@@ -50,46 +46,44 @@
         this.create_map()
         this.add_locality_layers()
         console.log('risk layer disabled') // this.add_risk_layer()
-        this.add_click_handler()
+        this.handle_formal_area_click()
+        this.$nextTick(this.set_slider_range)
       })
     },
     activated() {
       if (this.map) this.map.resize()
     },
     watch: {
-      'risk_slider_value': 'update_from_slider',
+      'bulk_selected': 'redraw_bulk_selected',
+      'risk_slider_value': 'set_risk_slider_value',
       'raster_opacity': 'change_risk_opacity',
-      'formal_areas': 'set_slider'
     },
     methods: {
-      update_from_slider() {
+      redraw_bulk_selected() {
+        this.map.setFilter('bulk_included_layer', ['in', 'area_id'].concat(this.bulk_selected))
+        this.map.setFilter('bulk_excluded_layer', ['!in', 'area_id'].concat(this.bulk_selected))
+      },
+      set_risk_slider_value() {
         this.$store.commit('irs_plan:set_risk_slider', this.risk_slider_value)
-
-        if (this.map) {
-          let bulk_selected = this.localities
-            .filter(l => l.properties.risk < (this.risk_slider_value + 1))
-            .map(l => l.properties.area_id)
-
-          this.map.setFilter('bulk_included_layer', ['in', 'area_id'].concat(bulk_selected))
-          this.map.setFilter('bulk_excluded_layer', ['!in', 'area_id'].concat(bulk_selected))
-        }
       },
       change_risk_opacity() {
         this.map.setPaintProperty('risk', 'raster-opacity', parseFloat(this.raster_opacity))
       },
-      set_slider() {
-        console.log('set_slider', this.formal_areas.length)
-        this.slider_options.max = this.formal_areas.length
-      },
 
+      set_slider_range() {
+        const values_array = this.formal_areas.map(area => area.properties.MaxRisk)
+        this.$refs.risk_slider.min = Math.min(...values_array)
+        this.$refs.risk_slider.max = Math.max(...values_array)
+      },
       create_map() {
         mapboxgl.accessToken = 'pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
 
         this.map = new mapboxgl.Map({
           container: 'map',
-          style: 'mapbox://styles/onyjsmith/cj0kre65k002k2slaemj9yy0f',
-          center: [31.50484892885717, -26.543508675283874],
-          zoom: 7.34
+//          style: 'mapbox://styles/onyjsmith/cj0kre65k002k2slaemj9yy0f',
+          style: 'mapbox://styles/onlyjsmith/cizxsvaqu00282rl3fdtv08dn',
+          center: [this.country.centre.lng, this.country.centre.lat], // TODO: @refac Make it easier
+          zoom: this.country.zoom
         })
       },
       add_locality_layers() {
@@ -173,6 +167,7 @@
       },
       add_risk_layer(){
         // TODO: @debug Remove these hard-coded values
+        // TODO: @refac Change to risk api
         const date = '2015-04-01'
         const country_code = 'SWZ'
         const url = `https://storage.googleapis.com/pipeline-api/api/${country_code}/${date}/risk/standard/current-month/tiles/{z}/{x}/{y}.png`
@@ -191,17 +186,15 @@
           }
         })
       },
-      add_click_handler() {
+      handle_formal_area_click() {
         this.map.on('click', (e) => {
           const clicked_features = this.map.queryRenderedFeatures(e.point, {layers: ['formal_areas_layer']})
+          const area_id = clicked_features[0].properties.area_id // Assume we only get a single feature
 
-          // Assume we only get a single feature
-          const area_id = clicked_features[0].properties.area_id
-
-          this.$store.dispatch('irs_plan:locality_click', area_id)
-
-          this.map.setFilter('single_included_layer', ['in', 'area_id'].concat(this.localities_included_by_click))
-          this.map.setFilter('single_excluded_layer', ['in', 'area_id'].concat(this.localities_excluded_by_click))
+          this.$store.dispatch('irs_plan:area_click', area_id).then(() => {
+            this.map.setFilter('single_included_layer', ['in', 'area_id'].concat(this.areas_included_by_click))
+            this.map.setFilter('single_excluded_layer', ['in', 'area_id'].concat(this.areas_excluded_by_click))
+          })
         })
       },
     }
@@ -209,7 +202,4 @@
 </script>
 
 <style lang="css" scoped>
-  #map {
-    /*height: 500px*/
-  }
 </style>
