@@ -57,18 +57,21 @@
           features: this.all_clusters
         }
 
-        this._map.addLayer({
-          'id': 'clusters',
-          'type': 'line',
-          'source': {
-            'type': 'geojson',
-            'data': all_clusters_fc
-          },
-          'paint': {
-            'line-color': 'blue'
-          },
-          'filter': ['in', 'area_id', '']
+        this._map.on('load', () => {
+          this._map.addLayer({
+            'id': 'clusters',
+            'type': 'line',
+            'source': {
+              'type': 'geojson',
+              'data': all_clusters_fc
+            },
+            'paint': {
+              'line-color': 'blue'
+            },
+            'filter': ['in', 'area_id', '']
+          })
         })
+
       },
 
       redraw_selected_clusters() {
