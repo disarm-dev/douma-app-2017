@@ -1,8 +1,8 @@
 <template>
   <div>
-    <p>Select risk level on slider</p>
+    <p>Select risk level on slider: {{risk_slider_value}}</p>
 
-    <input type="range" ref='risk_slider' max="5" min="0" step="0.01" v-model="risk_slider_value">
+    <input id="slider" type="range" ref='risk_slider' max="5" min="0" step="0.01" v-model="risk_slider_value">
     <!--<input type="range" min="0" max="1" step="0.01" v-model="raster_opacity">-->
     <div id="map"></div>
   </div>
@@ -10,34 +10,27 @@
 
 <script>
   import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js'
-  import {mapState} from 'vuex'
-  import vueSlider from 'vue-slider-component'
+  import {mapState, mapGetters} from 'vuex'
 
   export default {
     name: 'FormalBulk',
-    components: {vueSlider},
     data () {
       return {
         map: null,
         risk_slider_value: 0,
-        slider_options: {
-          lazy: true,
-          reverse: true,
-          interval: 0.01
-//          tooltipDir: 'top',
-//          formatter: '{value}'
-        },
         raster_opacity: 0
       }
     },
     computed: {
+      ...mapGetters({
+        'bulk_selected': 'irs_plan:bulk_selected'
+      }),
       ...mapState({
         country: state => state.meta.country,
         formal_areas: state => state.irs_plan.formal_areas,
         formal_area_ids: state => state.getters['irs_plan:formal_area_ids'],
         areas_included_by_click: state => state.irs_plan.areas_included_by_click,
         areas_excluded_by_click: state => state.irs_plan.areas_excluded_by_click,
-        bulk_selected: state => state.getters['irs_plan:bulk_selected']
       }),
 
     },
@@ -60,6 +53,7 @@
     },
     methods: {
       redraw_bulk_selected() {
+        if (!this.map) return // slider can be moved and values change before map is drawn
         this.map.setFilter('bulk_included_layer', ['in', 'area_id'].concat(this.bulk_selected))
         this.map.setFilter('bulk_excluded_layer', ['!in', 'area_id'].concat(this.bulk_selected))
       },
@@ -71,7 +65,7 @@
       },
 
       set_slider_range() {
-        const values_array = this.formal_areas.map(area => area.properties.MaxRisk)
+        const values_array = this.formal_areas.map(area => area.properties.MeanElev)
         this.$refs.risk_slider.min = Math.min(...values_array)
         this.$refs.risk_slider.max = Math.max(...values_array)
       },
@@ -202,4 +196,7 @@
 </script>
 
 <style lang="css" scoped>
+  #slider {
+    width: 90vw;
+  }
 </style>

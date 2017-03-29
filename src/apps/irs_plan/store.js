@@ -17,7 +17,7 @@ export default {
   getters: {
     'irs_plan:bulk_selected': (state) => {
       return state.formal_areas
-        .filter(area => area.properties.MaxRisk >= state.risk_slider_value)
+        .filter(area => area.properties.MeanElev < state.risk_slider_value)
         .map(area => area.properties.area_id)
     },
     'irs_plan:formal_area_ids': (state) => {
@@ -64,9 +64,9 @@ export default {
         context.commit('irs_plan:remove_included', area_id)
       } else if (context.state.areas_excluded_by_click.includes(area_id)) {
         context.commit('irs_plan:remove_excluded', area_id)
-      } else if (context.getters.bulk.selected.includes(area_id)){
+      } else if (context.getters['irs_plan:bulk_selected'].includes(area_id)){
         context.commit('irs_plan:add_excluded', area_id)
-      } else if (!context.getters.bulk.selected.includes(area_id)) {
+      } else if (!context.getters['irs_plan:bulk_selected'].includes(area_id)) {
         context.commit('irs_plan:add_included', area_id)
       } else {
         console.log('should never see this')
