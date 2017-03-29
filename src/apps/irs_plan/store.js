@@ -9,7 +9,7 @@ export default {
     // Data - 'areas' are formal areas, like 'localities'
     risk_slider_value: null,
     formal_areas: [],
-    all_clusters: [],
+    _all_clusters: [],
     areas_included_by_click: [], // TODO: @refac Rename to '_ids'
     areas_excluded_by_click: [], // TODO: @refac Rename to '_ids'
 
@@ -24,27 +24,30 @@ export default {
         .map(area => area.properties.area_id)
     },
     'irs_plan:all_selected_area_ids': (state, getters) => {
-      const bulk_selected_ids = getters['irs_plan:bulk_selected_ids']
+      return []
+      // const bulk_selected_ids = getters['irs_plan:bulk_selected_ids']
 
-      // add included by click
-      let result = bulk_selected_ids.concat(state.areas_included_by_click)
+      // // add included by click
+      // let result = bulk_selected_ids.concat(state.areas_included_by_click)
 
-      // remove excluded by click
-      state.areas_excluded_by_click.forEach(area_id => {
-        const index = result.findIndex(i => i === area_id)
-        if (index !== -1) {
-          result.splice(index, 1)
-        }
-      })
-      return result
+      // // remove excluded by click
+      // state.areas_excluded_by_click.forEach(area_id => {
+      //   const index = result.findIndex(i => i === area_id)
+      //   if (index !== -1) {
+      //     result.splice(index, 1)
+      //   }
+      // })
+      // return result
     },
     'irs_plan:selected_clusters': (state, getters) => {
-      const area_ids = getters['irs_plan:all_selected_area_ids']
-      return state.all_clusters.filter(cluster => area_ids.includes(cluster.properties.area_id))
+      return []
+      // const area_ids = getters['irs_plan:all_selected_area_ids']
+      // return state._all_clusters.filter(cluster => area_ids.includes(cluster.properties.area_id))
     },
     'irs_plan:selected_cluster_ids': (state, getters) => {
-      const clusters = getters['irs_plan:selected_clusters']
-      return clusters.map(cluster => cluster.properties.cluster_id)
+      return []
+      // const clusters = getters['irs_plan:selected_clusters']
+      // return clusters.map(cluster => cluster.properties.cluster_id)
     }
 
   },
@@ -60,7 +63,8 @@ export default {
       state.formal_areas = formal_areas
     },
     'irs_plan:set_all_clusters': (state, all_clusters) => {
-      state.all_clusters = all_clusters
+      // state._all_clusters = all_clusters
+      state._all_clusters = []
     },
     'irs_plan:add_included': (state, area_id) => {
       state.areas_included_by_click.push(area_id)

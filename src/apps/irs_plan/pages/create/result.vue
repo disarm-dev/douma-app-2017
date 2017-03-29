@@ -21,7 +21,7 @@
     computed: {
       ...mapState({
         country: state => state.meta.country,
-        all_clusters: state => state.irs_plan.all_clusters
+        all_clusters: state => state.irs_plan._all_clusters
       }),
       ...mapGetters({
         selected_cluster_ids: 'irs_plan:selected_cluster_ids',
