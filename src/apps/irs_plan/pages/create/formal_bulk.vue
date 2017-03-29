@@ -16,7 +16,7 @@
     name: 'FormalBulk',
     data () {
       return {
-        map: null,
+        _map: null,
         risk_slider_value: 0,
         raster_opacity: 0
       }
@@ -44,7 +44,7 @@
       })
     },
     activated() {
-      if (this.map) this.map.resize()
+      if (this._map) this._map.resize()
     },
     watch: {
       'bulk_selected_ids': 'redraw_bulk_selected',
@@ -53,26 +53,26 @@
     },
     methods: {
       redraw_bulk_selected() {
-        if (!this.map) return // slider can be moved and values change before map is drawn
-        this.map.setFilter('bulk_included_layer', ['in', 'area_id'].concat(this.bulk_selected_ids))
-        this.map.setFilter('bulk_excluded_layer', ['!in', 'area_id'].concat(this.bulk_selected_ids))
+        if (!this._map) return // slider can be moved and values change before map is drawn
+        this._map.setFilter('bulk_included_layer', ['in', 'area_id'].concat(this.bulk_selected_ids))
+        this._map.setFilter('bulk_excluded_layer', ['!in', 'area_id'].concat(this.bulk_selected_ids))
       },
       set_risk_slider_value() {
         this.$store.commit('irs_plan:set_risk_slider', this.risk_slider_value)
       },
       change_risk_opacity() {
-        this.map.setPaintProperty('risk', 'raster-opacity', parseFloat(this.raster_opacity))
+        this._map.setPaintProperty('risk', 'raster-opacity', parseFloat(this.raster_opacity))
       },
 
       set_slider_range() {
-        const values_array = this.formal_areas.map(area => area.properties.MeanElev)
+        const values_array = this.formal_areas.map(area => area.properties.MaxRisk)
         this.$refs.risk_slider.min = Math.min(...values_array)
         this.$refs.risk_slider.max = Math.max(...values_array)
       },
       create_map() {
         mapboxgl.accessToken = 'pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
 
-        this.map = new mapboxgl.Map({
+        this._map = new mapboxgl.Map({
           container: 'map',
 //          style: 'mapbox://styles/onyjsmith/cj0kre65k002k2slaemj9yy0f',
           style: 'mapbox://styles/onlyjsmith/cizxsvaqu00282rl3fdtv08dn',
@@ -86,9 +86,9 @@
           features: this.formal_areas
         }
 
-        this.map.on('load', () => {
+        this._map.on('load', () => {
 
-          this.map.addLayer({
+          this._map.addLayer({
             'id': 'formal_areas_layer', // every locality, doesn't change
             'type': 'fill',
             'source': {
@@ -101,7 +101,7 @@
             }
           }) 
 
-          this.map.addLayer({
+          this._map.addLayer({
             'id': 'bulk_included_layer',
             'type': 'fill',
             'source': {
@@ -115,7 +115,7 @@
             "filter": ['!in', 'area_id', '']
           })
 
-          this.map.addLayer({
+          this._map.addLayer({
             'id': 'bulk_excluded_layer',
             'type': 'fill',
             'source': {
@@ -129,7 +129,7 @@
             "filter": ['in', 'area_id', '']
           })
 
-          this.map.addLayer({
+          this._map.addLayer({
             'id': 'single_included_layer',
             'type': 'fill',
             'source': {
@@ -143,7 +143,7 @@
             "filter": ['in', 'area_id', '']
           })
 
-          this.map.addLayer({
+          this._map.addLayer({
             'id': 'single_excluded_layer',
             'type': 'fill',
             'source': {
@@ -166,7 +166,7 @@
         const country_code = 'SWZ'
         const url = `https://storage.googleapis.com/pipeline-api/api/${country_code}/${date}/risk/standard/current-month/tiles/{z}/{x}/{y}.png`
 
-        this.map.addLayer({
+        this._map.addLayer({
           id: "risk",
           type: "raster",
           source: {
@@ -181,13 +181,13 @@
         })
       },
       handle_formal_area_click() {
-        this.map.on('click', (e) => {
-          const clicked_features = this.map.queryRenderedFeatures(e.point, {layers: ['formal_areas_layer']})
+        this._map.on('click', (e) => {
+          const clicked_features = this._map.queryRenderedFeatures(e.point, {layers: ['formal_areas_layer']})
           const area_id = clicked_features[0].properties.area_id // Assume we only get a single feature
 
           this.$store.dispatch('irs_plan:area_click', area_id).then(() => {
-            this.map.setFilter('single_included_layer', ['in', 'area_id'].concat(this.areas_included_by_click))
-            this.map.setFilter('single_excluded_layer', ['in', 'area_id'].concat(this.areas_excluded_by_click))
+            this._map.setFilter('single_included_layer', ['in', 'area_id'].concat(this.areas_included_by_click))
+            this._map.setFilter('single_excluded_layer', ['in', 'area_id'].concat(this.areas_excluded_by_click))
           })
         })
       },
