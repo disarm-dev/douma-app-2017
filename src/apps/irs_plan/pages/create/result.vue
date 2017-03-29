@@ -1,6 +1,5 @@
 <template>
   <div>
-    <vue-slider v-bind="slider_options" v-model="risk_slider"></vue-slider>
     <span>{{risk_slider}} clusters</span>
     <md-button @click.native="draw_localities()">draw localities</md-button>
     <md-button @click.native.stop="draw_clusters()">draw clusters</md-button>
@@ -10,38 +9,32 @@
 </template>
 
 <script>
-  import vueSlider from 'vue-slider-component'
   import MapboxGL from 'mapbox-gl/dist/mapbox-gl'
   import download from 'downloadjs'
+  import turf from '@turf/turf'
   // import Localities from '../../localities.json'
-  var Localities = []
 
   MapboxGL.accessToken = 'pk.eyJ1Ijoibmljb2xhaWRhdmllcyIsImEiOiJjaXlhNWw1NnkwMDJoMndwMXlsaGo5NGJoIn0.T1wTBzV42MZ1O-2dy8SpOw'
 
   export default {
     name: 'ResultMap',
-    components: {vueSlider},
     data() {
       return {
         clusters: [],
         map: null,
         risk_slider: 1,
-        slider_options: {
-          lazy: true,
-          min: 1,
-          max: 10,
-          interval: 1
-        }
       }
     },
-    watch: {
-      'risk_slider': 'change_risk_slider'
-    },
     activated() {
+      console.log('activated')
+      this.draw_selected_area()
+
       if (this.map) this.map.resize()
     },
     mounted() {
+
       this.draw_map()
+      this.draw_clusters()
     },
     methods: {
       download_clusters() {
@@ -68,51 +61,64 @@
           }
         })
       },
-      draw_localities() {
-        if (!this.map.loaded()) return
+      find_areas() {
+        const bulk_selected_area_ids = this.$store.getters['irs_plan:bulk_selected']
+        
+        // add included by click
+        let bulk_selected_and_included_by_click = bulk_selected_area_ids.concat(this.$store.state.irs_plan.areas_included_by_click)
 
-        this.map.addLayer({
-          'id': 'localities',
-          'type': 'line',
-          'source': {
-            'type': 'geojson',
-            'data': Localities
-          },
-          'paint': {
-            'line-color': '#4FC3F7',
-            'line-opacity': 0.7
+        // remove excluded by click
+        this.$store.state.irs_plan.areas_excluded_by_click.forEach(area_id => {
+          let index = bulk_selected_and_included_by_click.findIndex(a => a === area_id)
+          if (index !== -1) {
+            bulk_selected_and_included_by_click.splice(index, 1)    
           }
         })
+
+        // the selected areas
+        const result = bulk_selected_and_included_by_click
+
+        return result
+      },
+      draw_selected_area() {
+        // get bulk selected areas
+        const res = this.find_areas()
+
+        if (this.map.getLayer('clusters')) {
+          console.log('set filter')
+          this.map.setFilter('clusters', ['in', 'uniqloccod'].concat(res))
+        }
+        
       },
       draw_clusters() {
-        if (!this.map.loaded()) return
+        // if (!this.map.loaded()) return
 
-        this.$store.commit('root:set_loading', true)
-        this.loading = true
+        this.map.on('load', () => {
+          this.$store.commit('root:set_loading', true)
+          this.loading = true
 
-        fetch('/assets/swz.all-clusters.json')
-        .then((res) => res.json())
-        .then((clusters) => {
-          this.clusters = clusters
-          this.slider_options.max = clusters.features.length
+          fetch('/assets/swz.all-clusters.json')
+          .then((res) => res.json())
+          .then((clusters) => {
+            this.$store.commit('root:set_loading', false)
+            this.clusters = clusters
 
-          let _cluster_layer = this.map.addLayer({
-            'id': 'clusters',
-            'type': 'line',
-            'source': {
-              'type': 'geojson',
-              'data': clusters
-            }
-          })
+            let _cluster_layer = this.map.addLayer({
+              'id': 'clusters',
+              'type': 'line',
+              'source': {
+                'type': 'geojson',
+                'data': clusters
+              },
+              'paint': {
+                'line-color': 'blue'
+              },
+              'filter': ['in', 'uniqloccod'].concat(this.find_areas())
+            })
 
-        }).catch(console.log)
+          }).catch(console.log)
+        })
       },
-      change_risk_slider() {
-        this.$store.commit('root:set_loading', true)
-        this.loading = true
-
-        this.map.setFilter('clusters', ['<', 'cluster_id', this.risk_slider])
-      }
     }
   }
 </script>
