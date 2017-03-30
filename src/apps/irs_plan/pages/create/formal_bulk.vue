@@ -11,7 +11,6 @@
 <script>
   import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js'
   import {mapState, mapGetters} from 'vuex'
-  import debounce from 'lodash.debounce'
 
   import logslider from '../../../../lib/log_slider.js'
 
