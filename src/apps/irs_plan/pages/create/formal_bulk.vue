@@ -1,8 +1,8 @@
 <template>
   <div>
-    <p>Select risk level on slider: {{risk_slider_value}}</p>
+    <p>Select risk level on slider: {{converted_slider_value}}</p>
 
-    <input id="slider" type="range" ref='risk_slider' max="5" min="0" step="0.01" v-model="risk_slider_value">
+    <input id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value">
     <!--<input type="range" min="0" max="1" step="0.01" v-model="raster_opacity">-->
     <div id="map"></div>
   </div>
@@ -11,14 +11,23 @@
 <script>
   import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js'
   import {mapState, mapGetters} from 'vuex'
+  import debounce from 'lodash.debounce'
+
+  import logslider from '../../../../lib/log_slider.js'
 
   export default {
     name: 'FormalBulk',
     data () {
       return {
         _map: null,
-        risk_slider_value: 0,
-        raster_opacity: 0
+        risk_slider_value: 1,
+        slider: {
+          min: 1,
+          max: 100,
+          step: 1
+        },
+        raster_opacity: 0,
+        logslider: null,
       }
     },
     computed: {
@@ -32,7 +41,17 @@
         areas_included_by_click: state => state.irs_plan.areas_included_by_click,
         areas_excluded_by_click: state => state.irs_plan.areas_excluded_by_click,
       }),
+      converted_slider_value() {
+        if (!this.logslider) return 0
 
+        let converted_value
+        if (this.risk_slider_value == this.slider.min) {
+          converted_value = 0
+        } else {
+          converted_value = this.logslider(this.risk_slider_value)
+        }
+        return converted_value
+      }
     },
     mounted() {
       this.$store.dispatch("irs_plan:load_formal_areas").then(() => {
@@ -40,7 +59,10 @@
         this.add_locality_layers()
         console.log('risk layer disabled') // this.add_risk_layer()
         this.handle_formal_area_click()
-        this.$nextTick(this.set_slider_range)
+        this.$nextTick(() => {
+          this.set_slider_range()
+          this.$refs.risk_slider.disabled = false
+        })
       })
     },
     activated() {
@@ -57,17 +79,19 @@
         this._map.setFilter('bulk_included_layer', ['in', 'area_id'].concat(this.bulk_selected_ids))
         this._map.setFilter('bulk_excluded_layer', ['!in', 'area_id'].concat(this.bulk_selected_ids))
       },
-      set_risk_slider_value() {
-        this.$store.commit('irs_plan:set_risk_slider', this.risk_slider_value)
+      set_risk_slider_value(){
+        this.$store.commit('irs_plan:set_risk_slider', this.converted_slider_value)
       },
       change_risk_opacity() {
         this._map.setPaintProperty('risk', 'raster-opacity', parseFloat(this.raster_opacity))
       },
-
       set_slider_range() {
-        const values_array = this.formal_areas.map(area => area.properties.MaxRisk)
-        this.$refs.risk_slider.min = Math.min(...values_array)
-        this.$refs.risk_slider.max = Math.max(...values_array)
+        const values_array = this.formal_areas.map(area => area.properties.MaxRisk).sort()
+        const non_zeros = values_array.filter(v => v !== 0)
+
+        const mino = Math.min(...non_zeros)
+        const maxo = Math.max(...values_array) * 1.001
+        this.logslider = logslider(this.slider.min, this.slider.max, mino, maxo)
       },
       create_map() {
         mapboxgl.accessToken = 'pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
@@ -183,6 +207,7 @@
       handle_formal_area_click() {
         this._map.on('click', (e) => {
           const clicked_features = this._map.queryRenderedFeatures(e.point, {layers: ['formal_areas_layer']})
+          if (clicked_features.length === 0) return
           const area_id = clicked_features[0].properties.area_id // Assume we only get a single feature
 
           this.$store.dispatch('irs_plan:area_click', area_id).then(() => {
