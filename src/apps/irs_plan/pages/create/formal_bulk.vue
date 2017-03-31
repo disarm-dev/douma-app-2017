@@ -16,6 +16,8 @@
   import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js'
   import {mapState, mapGetters} from 'vuex'
   import download from 'downloadjs'
+  import debounce from 'lodash.debounce'
+
   import logslider from '../../../../lib/log_slider.js'
 
   export default {
@@ -41,13 +43,13 @@
     computed: {
       ...mapGetters({
         'bulk_selected_ids': 'irs_plan:bulk_selected_ids',
+        formal_area_ids: 'irs_plan:formal_area_ids',
         // Result.vue
         'all_selected_area_ids': 'irs_plan:all_selected_area_ids'
       }),
       ...mapState({
         country: state => state.meta.country,
         formal_areas: state => state.irs_plan.formal_areas,
-        formal_area_ids: state => state.getters['irs_plan:formal_area_ids'],
         areas_included_by_click: state => state.irs_plan.areas_included_by_click,
         areas_excluded_by_click: state => state.irs_plan.areas_excluded_by_click,
       }),
@@ -73,7 +75,7 @@
           })
         })
         this.add_locality_layers()
-        this.add_risk_layer()
+//        this.add_risk_layer()
         this.handle_formal_area_click()
         
         this.set_slider_range()
@@ -246,24 +248,24 @@
           type: 'FeatureCollection',
           features: this._all_clusters
         }
-
-        this._map.addLayer({
-          'id': 'clusters',
-          'type': 'line',
-          'source': {
-            'type': 'geojson',
-            'data': all_clusters_fc
-          },
-          'paint': {
-            'line-color': 'blue'
-          },
-//          'filter': ['in', 'area_id', '']
+        this._map.on('load', () => {
+          this._map.addLayer({
+            'id': 'clusters',
+            'type': 'line',
+            'source': {
+              'type': 'geojson',
+              'data': all_clusters_fc
+            },
+            'paint': {
+              'line-color': 'blue'
+            },
+          })
         })
 
       },
       handle_cluster_change() {
+        console.log('handle_cluster_change')
         this.$store.dispatch('irs_plan:calculate_selected_clusters', this._all_clusters).then((selected_clusters) => {
-          console.log('set selected_clusters', selected_clusters.length)
           this._selected_clusters = selected_clusters
           this._selected_cluster_ids = selected_clusters.map(cluster => cluster.properties.cluster_id)
 
