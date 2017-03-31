@@ -75,10 +75,9 @@
         this.add_locality_layers()
         console.log('risk layer disabled') // this.add_risk_layer()
         this.handle_formal_area_click()
-        this.$nextTick(() => {
-          this.set_slider_range()
-          this.$refs.risk_slider.disabled = false
-        })
+        
+        this.set_slider_range()
+        this.$refs.risk_slider.disabled = false
       })
     },
     activated() {
