@@ -6,18 +6,18 @@
         <p>There are SOME clusters in the selected localities. There are A FEW structures.</p>
       </div>
 
-      <md-button-toggle md-single>
+      <!-- <md-button-toggle md-single>
         <md-button v-for='action in actions' @click.native='set_action(action)' :ref='action.command'>
           {{action.title}}
         </md-button>
-      </md-button-toggle>
+      </md-button-toggle> -->
 
       <div class="controls">
-
+        <formal-bulk></formal-bulk>
         <!-- DYNAMIC COMPONENT -->
-        <keep-alive>
+        <!-- <keep-alive>
           <component :is='selected_component'></component>
-        </keep-alive>
+        </keep-alive> -->
       </div>
     </div>
 
@@ -35,9 +35,9 @@
     components: {FormalBulk, Draw, Result},
     props: [],
     mounted() {
-      this.$nextTick(() => { // Hack for vue-material tabs
-        this.$refs['FormalBulk'][0].$el.click()
-      })
+      // this.$nextTick(() => { // Hack for vue-material tabs
+      //   this.$refs['FormalBulk'][0].$el.click()
+      // })
     },
     data() {
       return {
