@@ -3,7 +3,7 @@
     <p>Select risk level on slider: {{converted_slider_value}}</p>
   
     <input id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value">
-    <!--<input type="range" min="0" max="1" step="0.01" v-model="raster_opacity">-->
+    <input type="range" min="0" max="1" step="0.01" v-model="raster_opacity">
     <div>
       <md-button @click.native='download_selected_clusters'>download clusters</md-button>
       <md-button @click.native='save_selected_clusters'>save clusters</md-button>
@@ -73,7 +73,7 @@
           })
         })
         this.add_locality_layers()
-        console.log('risk layer disabled') // this.add_risk_layer()
+        this.add_risk_layer()
         this.handle_formal_area_click()
         
         this.set_slider_range()
@@ -208,18 +208,20 @@
         const country_code = 'SWZ'
         const url = `https://storage.googleapis.com/pipeline-api/api/${country_code}/${date}/risk/standard/current-month/tiles/{z}/{x}/{y}.png`
 
-        this._map.addLayer({
-          id: "risk",
-          type: "raster",
-          source: {
-            "type": "raster",
-            "tiles": [url],
-            "tileSize": 256,
-            scheme: 'tms'
-          },
-          paint: {
-            'raster-opacity': this.raster_opacity
-          }
+        this._map.on('load', () => {
+          this._map.addLayer({
+            id: "risk",
+            type: "raster",
+            source: {
+              "type": "raster",
+              "tiles": [url],
+              "tileSize": 256,
+              scheme: 'tms'
+            },
+            paint: {
+              'raster-opacity': this.raster_opacity
+            }
+          })
         })
       },
       handle_formal_area_click() {
