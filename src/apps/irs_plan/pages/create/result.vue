@@ -83,7 +83,6 @@
 
       handle_cluster_change() {
         this.$store.dispatch('irs_plan:calculate_selected_clusters', this._all_clusters).then((selected_clusters) => {
-          console.log('set selected_clusters', selected_clusters.length)
           this._selected_clusters = selected_clusters
           this._selected_cluster_ids = selected_clusters.map(cluster => cluster.properties.cluster_id)
 
