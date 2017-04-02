@@ -75,7 +75,7 @@
           })
         })
         this.add_locality_layers()
-//        this.add_risk_layer()
+       this.add_risk_layer()
         this.handle_formal_area_click()
         
         this.set_slider_range()
@@ -248,18 +248,16 @@
           type: 'FeatureCollection',
           features: this._all_clusters
         }
-        this._map.on('load', () => {
-          this._map.addLayer({
-            'id': 'clusters',
-            'type': 'line',
-            'source': {
-              'type': 'geojson',
-              'data': all_clusters_fc
-            },
-            'paint': {
-              'line-color': 'blue'
-            },
-          })
+        this._map.addLayer({
+          'id': 'clusters',
+          'type': 'line',
+          'source': {
+            'type': 'geojson',
+            'data': all_clusters_fc
+          },
+          'paint': {
+            'line-color': 'blue'
+          },
         })
 
       },
