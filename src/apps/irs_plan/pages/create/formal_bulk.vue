@@ -1,12 +1,11 @@
 <template>
   <div>
     <p>Select risk level on slider: {{converted_slider_value}}</p>
-  
     <input id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value">
     <input type="range" min="0" max="1" step="0.01" v-model="raster_opacity">
     <div>
-      <md-button @click.native='download_selected_clusters'>download clusters</md-button>
-      <md-button @click.native='save_selected_clusters'>save clusters</md-button>
+      <md-button @click.native='download_selected_clusters' :disabled='computing'>download clusters</md-button>
+      <md-button @click.native='save_selected_clusters' :disabled='computing'>save clusters</md-button>
     </div>
     <div id="map"></div>
   </div>
@@ -25,6 +24,7 @@
     name: 'FormalBulk',
     data () {
       return {
+        computing: true,
         _map: null,
         risk_slider_value: 1,
         slider: {
@@ -98,6 +98,8 @@
         this._map.setFilter('bulk_excluded_layer', ['!in', 'area_id'].concat(this.bulk_selected_ids))
       },
       set_risk_slider_value: debounce(function(){
+        this.computing = true
+
         this.$store.commit('irs_plan:set_risk_slider', this.converted_slider_value)
         this.handle_cluster_change()
       }, 750),
@@ -229,6 +231,8 @@
       },
       handle_formal_area_click() {
         this._map.on('click', (e) => {
+          this.computing = true
+
           const clicked_features = this._map.queryRenderedFeatures(e.point, {layers: ['formal_areas_layer']})
           if (clicked_features.length === 0) return
           const area_id = clicked_features[0].properties.area_id // Assume we only get a single feature
@@ -263,16 +267,20 @@
 
       },
       handle_cluster_change: debounce(function(){
-         this.$store.dispatch('irs_plan:calculate_selected_clusters', this._all_clusters).then((selected_clusters) => {
-           this._selected_clusters = selected_clusters
-           this._selected_cluster_ids = selected_clusters.map(cluster => cluster.properties.cluster_id)
+        console.log(this.computing)
+        this.$store.dispatch('irs_plan:calculate_selected_clusters', this._all_clusters).then((selected_clusters) => {
+          this._selected_clusters = selected_clusters
+          this._selected_cluster_ids = selected_clusters.map(cluster => cluster.properties.cluster_id)
 
-           this.redraw_selected_clusters()
-         })
+          this.redraw_selected_clusters()
+        })
       }, 750),
       redraw_selected_clusters() {
         if (this._map.getLayer('clusters')) {
+          this.computing = true
           this._map.setFilter('clusters', ['in', 'area_id'].concat(this.all_selected_area_ids))
+          console.log('already?')
+          this.computing = false
         }
       },
       download_selected_clusters() {
