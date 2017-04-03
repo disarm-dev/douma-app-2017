@@ -57,7 +57,7 @@
         if (!this.logslider) return 0
 
         let converted_value
-        if (this.risk_slider_value == this.slider.min) {
+        if (this.risk_slider_value === this.slider.min) {
           converted_value = 0
         } else {
           converted_value = this.logslider(this.risk_slider_value)
@@ -75,7 +75,7 @@
           })
         })
         this.add_locality_layers()
-       this.add_risk_layer()
+        this.add_risk_layer()
         this.handle_formal_area_click()
         
         this.set_slider_range()
@@ -96,10 +96,10 @@
         this._map.setFilter('bulk_included_layer', ['in', 'area_id'].concat(this.bulk_selected_ids))
         this._map.setFilter('bulk_excluded_layer', ['!in', 'area_id'].concat(this.bulk_selected_ids))
       },
-      set_risk_slider_value(){
+      set_risk_slider_value: debounce(function(){
         this.$store.commit('irs_plan:set_risk_slider', this.converted_slider_value)
         this.handle_cluster_change()
-      },
+      }, 750),
       change_risk_opacity() {
         this._map.setPaintProperty('risk', 'raster-opacity', parseFloat(this.raster_opacity))
       },
