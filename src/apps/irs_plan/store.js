@@ -1,6 +1,6 @@
 // Store for 'IRS Plan' applet
 import Sync from './sync'
-import selected_clusters from '../../lib/cluster_results'
+import cluster_results from '../../lib/cluster_results'
 
 
 export default {
@@ -13,6 +13,12 @@ export default {
     formal_areas: [],
     areas_included_by_click: [], // TODO: @refac Rename to '_ids'
     areas_excluded_by_click: [], // TODO: @refac Rename to '_ids'
+
+    // Calculations
+    selected_cluster_stats: {
+      clusters_count: 0,
+      structures_count: 0,
+    }
 
   },
   getters: {
@@ -39,7 +45,6 @@ export default {
       })
       return result
     }
-
   },
   mutations: {
     'irs_plan:set_risk_slider': (state, risk_slider_value) => {
@@ -70,7 +75,9 @@ export default {
       let index = state.areas_excluded_by_click.findIndex(i => i === area_id)  
       state.areas_excluded_by_click.splice(index, 1)
     },
-
+    'irs_plan:set_selected_cluster_stats': (state, stats) => {
+      state.selected_cluster_stats = Object.assign({}, state.selected_cluster_stats, stats)
+    }
   },
   actions: {
     'irs_plan:area_click': (context, area_id) => {
@@ -109,7 +116,24 @@ export default {
 
     },
     'irs_plan:calculate_selected_clusters': (context, all_clusters) => {
-      return selected_clusters(all_clusters, context.getters['irs_plan:all_selected_area_ids'])
+      const selected_clusters = cluster_results(all_clusters, context.getters['irs_plan:all_selected_area_ids'])
+      context.dispatch('irs_plan:calculate_selected_clusters_stats', selected_clusters)
+      return selected_clusters
+
+    },
+    'irs_plan:calculate_selected_clusters_stats': (context, selected_clusters) => {
+      const clusters_count = selected_clusters.length
+      const structures_count = selected_clusters.reduce((sum, c) => {
+        try {
+          if (!c.properties.spatial_entity_ids) return sum
+          sum += c.properties.spatial_entity_ids.length
+          return sum
+        } catch(e) {
+          console.error(c, e)
+        }
+      }, 0)
+      const stats = {clusters_count, structures_count}
+      context.commit('irs_plan:set_selected_cluster_stats', stats)
     },
     'irs_plan:post_clusters': (context, {cluster_ids, cluster_collection_id, country_code}) => {
       context.commit('root:set_loading', true)
