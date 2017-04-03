@@ -267,7 +267,6 @@
 
       },
       handle_cluster_change: debounce(function(){
-        console.log(this.computing)
         this.$store.dispatch('irs_plan:calculate_selected_clusters', this._all_clusters).then((selected_clusters) => {
           this._selected_clusters = selected_clusters
           this._selected_cluster_ids = selected_clusters.map(cluster => cluster.properties.cluster_id)
@@ -279,7 +278,6 @@
         if (this._map.getLayer('clusters')) {
           this.computing = true
           this._map.setFilter('clusters', ['in', 'area_id'].concat(this.all_selected_area_ids))
-          console.log('already?')
           this.computing = false
         }
       },
