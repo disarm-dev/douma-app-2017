@@ -57,11 +57,11 @@ class RemoteDBClass {
       .then((res) => res.json()) 
   }
 
-  post_clusters({cluster_ids, cluster_collection_id}) {
+  post_clusters({cluster_ids, cluster_collection_id, country_code}) {
     let url = this.douma_api_root + `/clusters?demo_instance_id=${this.demo_instance_id}`
 
     let options = {
-      body: JSON.stringify({cluster_ids, cluster_collection_id}),
+      body: JSON.stringify({cluster_ids, cluster_collection_id, country_code}),
       headers: {
         'Content-Type': 'application/json'
       },

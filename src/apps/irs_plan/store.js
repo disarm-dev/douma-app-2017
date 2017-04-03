@@ -111,11 +111,11 @@ export default {
     'irs_plan:calculate_selected_clusters': (context, all_clusters) => {
       return selected_clusters(all_clusters, context.getters['irs_plan:all_selected_area_ids'])
     },
-    'irs_plan:post_clusters': (context, {cluster_ids, cluster_collection_id}) => {
+    'irs_plan:post_clusters': (context, {cluster_ids, cluster_collection_id, country_code}) => {
       context.commit('root:set_loading', true)
       Sync.config(context.rootState.meta.demo_instance_id)
 
-      return Sync.post_clusters({cluster_ids, cluster_collection_id}).then(() => {
+      return Sync.post_clusters({cluster_ids, cluster_collection_id, country_code}).then(() => {
         context.commit('root:set_loading', false)
         context.commit('irs:set_clusters', []) // TODO: @debug Remove
         return context.dispatch('irs:get_clusters')
