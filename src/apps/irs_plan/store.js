@@ -107,7 +107,7 @@ export default {
     'irs_plan:load_clusters': (context) => {
       context.commit('root:set_loading', true)
 
-      return fetch(DOUMA_API_URL + '/v2/clusters/all/swz') // TODO: @refac Don't put this fetch in here. Also add `country.slug`
+      return fetch(DOUMA_API_URL + '/v2/clusters/all/' + context.rootState.meta.country.slug.toLowerCase()) // TODO: @refac Don't put this fetch in here. Also add `country.slug`
         .then((res) => res.json())
         .then((all_clusters) => {
           context.commit('root:set_loading', false)
@@ -135,11 +135,11 @@ export default {
       const stats = {clusters_count, structures_count}
       context.commit('irs_plan:set_selected_cluster_stats', stats)
     },
-    'irs_plan:post_clusters': (context, {cluster_ids, cluster_collection_id}) => {
+    'irs_plan:post_clusters': (context, {cluster_ids, cluster_collection_id, country_code}) => {
       context.commit('root:set_loading', true)
       Sync.config(context.rootState.meta.demo_instance_id)
 
-      return Sync.post_clusters({cluster_ids, cluster_collection_id}).then(() => {
+      return Sync.post_clusters({cluster_ids, cluster_collection_id, country_code}).then(() => {
         context.commit('root:set_loading', false)
         context.commit('irs:set_clusters', []) // TODO: @debug Remove
         return context.dispatch('irs:get_clusters')

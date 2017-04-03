@@ -35,8 +35,8 @@
     data() {
       return {
         time_estimate: {
-          structures_per_team_per_day: 30,
-          number_of_teams: 3
+          structures_per_team_per_day: 40,
+          number_of_teams: 20
         }
       }
     },
