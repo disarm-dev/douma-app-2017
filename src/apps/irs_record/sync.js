@@ -35,50 +35,60 @@ class Sync {
     // Add each SpatialEntities as property on relevant Task
     // Create Clusters in LocalDB
     // Return Clusters for $store to set on $store.state
+    let cluster_ids = clusters.map(c => c.properties.cluster_id)
 
-    let task_ids = []
-    let spatial_entity_ids = []
+    this.RemoteDB.get_tasks_for_cluster_ids(cluster_ids).then((cluster_tasks) => {
+      console.log(cluster_ids)
+      console.log(cluster_tasks)
+      return 
 
-    clusters.map(cluster => {
-      task_ids.push(cluster.properties.task_ids)
-      spatial_entity_ids.push(cluster.properties.spatial_entity_ids)
-    })
+      let task_ids = []
+      let spatial_entity_ids = []
 
-    task_ids = flatten(task_ids)
-    spatial_entity_ids = flatten(spatial_entity_ids)
-    const task_promise = new Promise((resolve, reject) => {
-      this.RemoteDB.read_tasks({task_ids})
-      .then(res => {
-        res = res.map(task => {
-          task._sync_status = 'synced'
-          return task
+      clusters.map(cluster => {
+        task_ids.push(cluster.properties.task_ids)
+        spatial_entity_ids.push(cluster.properties.spatial_entity_ids)
+      })
+
+      task_ids = flatten(task_ids)
+      spatial_entity_ids = flatten(spatial_entity_ids)
+      const task_promise = new Promise((resolve, reject) => {
+        this.RemoteDB.read_tasks({task_ids})
+        .then(res => {
+          res = res.map(task => {
+            task._sync_status = 'synced'
+            return task
+          })
+          return LocalDB.tasks.create(res)
         })
-        return LocalDB.tasks.create(res)
+        .then((res) => resolve(res))
+        .catch(error => {
+          resolve()
+        })
       })
-      .then((res) => resolve(res))
-      .catch(error => {
-        resolve()
-      })
-    })
 
-    const spatial_entity_promise = new Promise((resolve, reject) => {
-      this.RemoteDB.read_spatial_entities({spatial_entity_ids})
-      .then(res => {
-        return LocalDB.spatial_entities.create(res)
+      const spatial_entity_promise = new Promise((resolve, reject) => {
+        this.RemoteDB.read_spatial_entities({spatial_entity_ids})
+        .then(res => {
+          return LocalDB.spatial_entities.create(res)
+        })
+        .then((res) => resolve(res))
+        .catch(error => {
+          resolve()
+        })
       })
-      .then((res) => resolve(res))
-      .catch(error => {
-        resolve()
-      })
-    })
 
-    return Promise.all([task_promise, spatial_entity_promise])
-      .then((res) => {
-        const existing_ids = (JSON.parse(localStorage.getItem('douma-saved-cluster-ids'))|| [])
-        const saved_cluster_ids = clusters.map(cluster => cluster._id).concat(existing_ids)
-        localStorage.setItem('douma-saved-cluster-ids', JSON.stringify(saved_cluster_ids))
-        return res
-      })
+
+
+      return Promise.all([task_promise, spatial_entity_promise])
+        .then((res) => {
+          const existing_ids = (JSON.parse(localStorage.getItem('douma-saved-cluster-ids'))|| [])
+          const saved_cluster_ids = clusters.map(cluster => cluster._id).concat(existing_ids)
+          localStorage.setItem('douma-saved-cluster-ids', JSON.stringify(saved_cluster_ids))
+          return res
+        })
+
+    })
   }
 
   // DONE
