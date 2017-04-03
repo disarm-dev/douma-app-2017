@@ -3,7 +3,17 @@
     <div class="container">
       <div>
         <h3>Selection stats</h3>
-        <p>There are SOME clusters in the selected localities. There are A FEW structures.</p>
+        <p>There are {{stats.clusters_count}} clusters in the selected localities. There are {{stats.structures_count}} structures.</p>
+        <p><i>
+          At a rate of 
+          <input v-model='time_estimate.structures_per_team_per_day' type='number'>   
+          structures per team per day, 
+          with 
+          <input v-model='time_estimate.number_of_teams' type='number'>   
+          teams
+          this would take
+          {{time_estimate_days}} days
+        </i></p>
       </div>
 
       <div class="controls">
@@ -22,9 +32,21 @@
   export default {
     name: 'AreasView',
     components: {FormalBulk, Draw},
+    data() {
+      return {
+        time_estimate: {
+          structures_per_team_per_day: 30,
+          number_of_teams: 3
+        }
+      }
+    },
     computed: {
+      time_estimate_days() {
+        return this.stats.structures_count / this.time_estimate.structures_per_team_per_day / this.time_estimate.number_of_teams
+      },
       ...mapState({
-        selected_component: state => state.irs_plan.selected_component
+        selected_component: state => state.irs_plan.selected_component,
+        stats: state => state.irs_plan.selected_cluster_stats
       })
     },
     methods: {
