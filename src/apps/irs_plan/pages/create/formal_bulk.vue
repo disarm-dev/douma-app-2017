@@ -261,15 +261,14 @@
         })
 
       },
-      handle_cluster_change() {
-        console.log('handle_cluster_change')
-        this.$store.dispatch('irs_plan:calculate_selected_clusters', this._all_clusters).then((selected_clusters) => {
-          this._selected_clusters = selected_clusters
-          this._selected_cluster_ids = selected_clusters.map(cluster => cluster.properties.cluster_id)
+      handle_cluster_change: debounce(function(){
+         this.$store.dispatch('irs_plan:calculate_selected_clusters', this._all_clusters).then((selected_clusters) => {
+           this._selected_clusters = selected_clusters
+           this._selected_cluster_ids = selected_clusters.map(cluster => cluster.properties.cluster_id)
 
-          this.redraw_selected_clusters()
-        })
-      },
+           this.redraw_selected_clusters()
+         })
+      }, 750),
       redraw_selected_clusters() {
         if (this._map.getLayer('clusters')) {
           this._map.setFilter('clusters', ['in', 'area_id'].concat(this.all_selected_area_ids))
