@@ -20,7 +20,6 @@ export default {
       return state.formal_areas.map(area => area.properties.area_id)
     },
     'irs_plan:bulk_selected_ids': (state) => {
-      console.log(state.risk_slider_value)
       return state.formal_areas
         .filter(area => area.properties.MaxRisk >= state.risk_slider_value)
         .map(area => area.properties.area_id)

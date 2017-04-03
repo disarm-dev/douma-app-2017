@@ -3,7 +3,7 @@
     <p>Select risk level on slider: {{converted_slider_value}}</p>
   
     <input id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value">
-    <!--<input type="range" min="0" max="1" step="0.01" v-model="raster_opacity">-->
+    <input type="range" min="0" max="1" step="0.01" v-model="raster_opacity">
     <div>
       <md-button @click.native='download_selected_clusters'>download clusters</md-button>
       <md-button @click.native='save_selected_clusters'>save clusters</md-button>
@@ -16,6 +16,8 @@
   import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js'
   import {mapState, mapGetters} from 'vuex'
   import download from 'downloadjs'
+  import debounce from 'lodash.debounce'
+
   import logslider from '../../../../lib/log_slider.js'
 
   export default {
@@ -41,13 +43,13 @@
     computed: {
       ...mapGetters({
         'bulk_selected_ids': 'irs_plan:bulk_selected_ids',
+        formal_area_ids: 'irs_plan:formal_area_ids',
         // Result.vue
         'all_selected_area_ids': 'irs_plan:all_selected_area_ids'
       }),
       ...mapState({
         country: state => state.meta.country,
         formal_areas: state => state.irs_plan.formal_areas,
-        formal_area_ids: state => state.getters['irs_plan:formal_area_ids'],
         areas_included_by_click: state => state.irs_plan.areas_included_by_click,
         areas_excluded_by_click: state => state.irs_plan.areas_excluded_by_click,
       }),
@@ -73,12 +75,11 @@
           })
         })
         this.add_locality_layers()
-        console.log('risk layer disabled') // this.add_risk_layer()
+       this.add_risk_layer()
         this.handle_formal_area_click()
-        this.$nextTick(() => {
-          this.set_slider_range()
-          this.$refs.risk_slider.disabled = false
-        })
+        
+        this.set_slider_range()
+        this.$refs.risk_slider.disabled = false
       })
     },
     activated() {
@@ -209,18 +210,20 @@
         const country_code = 'SWZ'
         const url = `https://storage.googleapis.com/pipeline-api/api/${country_code}/${date}/risk/standard/current-month/tiles/{z}/{x}/{y}.png`
 
-        this._map.addLayer({
-          id: "risk",
-          type: "raster",
-          source: {
-            "type": "raster",
-            "tiles": [url],
-            "tileSize": 256,
-            scheme: 'tms'
-          },
-          paint: {
-            'raster-opacity': this.raster_opacity
-          }
+        this._map.on('load', () => {
+          this._map.addLayer({
+            id: "risk",
+            type: "raster",
+            source: {
+              "type": "raster",
+              "tiles": [url],
+              "tileSize": 256,
+              scheme: 'tms'
+            },
+            paint: {
+              'raster-opacity': this.raster_opacity
+            }
+          })
         })
       },
       handle_formal_area_click() {
@@ -245,7 +248,6 @@
           type: 'FeatureCollection',
           features: this._all_clusters
         }
-
         this._map.addLayer({
           'id': 'clusters',
           'type': 'line',
@@ -256,19 +258,17 @@
           'paint': {
             'line-color': 'blue'
           },
-//          'filter': ['in', 'area_id', '']
         })
 
       },
-      handle_cluster_change() {
-        this.$store.dispatch('irs_plan:calculate_selected_clusters', this._all_clusters).then((selected_clusters) => {
-          console.log('set selected_clusters', selected_clusters.length)
-          this._selected_clusters = selected_clusters
-          this._selected_cluster_ids = selected_clusters.map(cluster => cluster.properties.cluster_id)
+      handle_cluster_change: debounce(function(){
+         this.$store.dispatch('irs_plan:calculate_selected_clusters', this._all_clusters).then((selected_clusters) => {
+           this._selected_clusters = selected_clusters
+           this._selected_cluster_ids = selected_clusters.map(cluster => cluster.properties.cluster_id)
 
-          this.redraw_selected_clusters()
-        })
-      },
+           this.redraw_selected_clusters()
+         })
+      }, 750),
       redraw_selected_clusters() {
         if (this._map.getLayer('clusters')) {
           this._map.setFilter('clusters', ['in', 'area_id'].concat(this.all_selected_area_ids))
