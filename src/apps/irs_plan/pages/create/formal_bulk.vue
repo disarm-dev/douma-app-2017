@@ -17,6 +17,7 @@
   import {mapState, mapGetters} from 'vuex'
   import download from 'downloadjs'
   import debounce from 'lodash.debounce'
+  import moment from 'moment'
 
   import logslider from '../../../../lib/log_slider.js'
 
@@ -118,7 +119,7 @@
           this._map = new mapboxgl.Map({
             container: 'map', // container id
             style: 'mapbox://styles/mapbox/streets-v9', //stylesheet location
-            center: [this.country.centre.lng, this.country.centre.lat], // TODO: @refac Make it easier
+            center: [this.country.centre.lng, this.country.centre.lat],
             zoom: this.country.zoom
           });
           this._map.on('load', () => resolve())
@@ -279,7 +280,11 @@
           type: 'FeatureCollection',
           features: this._selected_clusters
         }
-        download(JSON.stringify(featureCollection), 'clusters.json', 'application/json') // TODO: @feature Add datestamp to download filename
+
+        const datestamp = moment().format('YYYYMMDD-HHmm')
+        const demo_instance_id = this.$store.state.meta.demo_instance_id
+        const filename = `clusters.${datestamp}.${demo_instance_id}.json`
+        download(JSON.stringify(featureCollection), filename, 'application/json')
       },
       save_selected_clusters() {
         const cluster_ids = this._selected_cluster_ids
