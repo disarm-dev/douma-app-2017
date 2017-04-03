@@ -35,23 +35,33 @@ class Sync {
     // Add each SpatialEntities as property on relevant Task
     // Create Clusters in LocalDB
     // Return Clusters for $store to set on $store.state
-    let cluster_ids = clusters.map(c => c.properties.cluster_id)
 
-    this.RemoteDB.get_tasks_for_cluster_ids(cluster_ids).then((cluster_tasks) => {
-      console.log(cluster_ids)
-      console.log(cluster_tasks)
-      return 
+    // Go and get the task_ids for each cluster
+    let cluster_ids = clusters.map(c => c.properties.cluster_id)
+    return this.RemoteDB.get_tasks_for_cluster_ids(cluster_ids).then((cluster_tasks) => {
 
       let task_ids = []
-      let spatial_entity_ids = []
+      cluster_tasks.forEach(ct => {
+        // 
+        // 
+        // 
+        // 
+        // TODO: @next SAVE CLUSTERS WITH TASK IDS
+        // 
+        // 
+        // 
+        // 
+        task_ids.push(ct.task_ids)
+      })
 
+      let spatial_entity_ids = []
       clusters.map(cluster => {
-        task_ids.push(cluster.properties.task_ids)
         spatial_entity_ids.push(cluster.properties.spatial_entity_ids)
       })
 
       task_ids = flatten(task_ids)
       spatial_entity_ids = flatten(spatial_entity_ids)
+      
       const task_promise = new Promise((resolve, reject) => {
         this.RemoteDB.read_tasks({task_ids})
         .then(res => {
@@ -87,7 +97,6 @@ class Sync {
           localStorage.setItem('douma-saved-cluster-ids', JSON.stringify(saved_cluster_ids))
           return res
         })
-
     })
   }
 

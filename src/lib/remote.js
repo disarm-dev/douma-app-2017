@@ -115,6 +115,7 @@ class RemoteDBClass {
         'Content-Type': 'application/json'
       },
       mode: 'cors',
+      method: 'POST',
     }
 
     return new Promise((resolve, reject) => {
