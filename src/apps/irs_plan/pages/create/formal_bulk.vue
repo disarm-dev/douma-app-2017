@@ -293,7 +293,6 @@
         download(JSON.stringify(featureCollection), filename, 'application/json')
       },
       save_selected_clusters() {
-        debugger
         const cluster_ids = this._selected_cluster_ids
         const cluster_collection_id = this._selected_clusters[0].properties.cluster_collection_id
         const country_code = this.country.slug
