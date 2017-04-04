@@ -7,7 +7,8 @@
   import {mapState, mapGetters} from 'vuex'
 
   export default {
-    name: 'FociMap',
+    name: 'SingleFociMap',
+    props: ['foci'],
     watch: {
     },
     activated() {
@@ -17,10 +18,8 @@
     },
     mounted() {
       this.create_map().then(() => {
-        console.log('created')
         this._map.resize()
         this.add_foci_layer()
-        this.handle_click()
       })
     },
     data () {
@@ -29,9 +28,6 @@
       }
     },
     computed: {
-      ...mapState({
-        focis: state => state.foci.focis
-      })
     },
     methods: {
       create_map() {
@@ -50,11 +46,11 @@
       add_foci_layer() {
         console.log(this.focis)
         this._map.addLayer({
-          'id': 'focis', // every locality, doesn't change
+          'id': 'formal_areas_layer', // every locality, doesn't change
           'type': 'fill',
           'source': {
             'type': 'geojson',
-            'data': {type: 'FeatureCollection', features: this.focis }
+            'data': {type: 'FeatureCollection', features: [this.foci] }
           },
           'paint': {
             'fill-outline-color': 'grey',
@@ -62,14 +58,6 @@
             'fill-opacity': 0.3,
           }
         }) 
-      },
-      handle_click() {
-        this._map.on('click', (e) => {
-          const clicked_features = this._map.queryRenderedFeatures(e.point, {layers: ['focis']})
-          if (clicked_features.length === 0) return
-          const foci_id = clicked_features[0].properties._id // Assume we only get a single feature
-          this.$router.push({name: 'foci:investigation', params: {foci_id: foci_id}})
-        })        
       }
     }
 

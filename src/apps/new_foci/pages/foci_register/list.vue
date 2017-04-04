@@ -30,7 +30,7 @@
     },
     methods: {
       handleClick({event, row}) {
-        console.log(row._id)
+        this.$router.push({name: 'foci:investigation', params: {foci_id: row._id}})
       }
     }
 
