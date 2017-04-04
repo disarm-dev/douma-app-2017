@@ -106,7 +106,28 @@ class RemoteDBClass {
 
   // 
   // TASKS
-  // 
+  //
+  get_tasks_for_cluster_ids(cluster_ids) {
+    let url = this.douma_api_root + `/clusters/tasks?demo_instance_id=${this.demo_instance_id}`
+    let options = {
+      body: JSON.stringify({cluster_ids}),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      method: 'POST',
+    }
+
+    return new Promise((resolve, reject) => {
+      fetch(url, options)
+        .then(res => res.json())
+        .then(json => {
+          resolve(json)            
+        })
+        .catch((error) => reject(error))
+    })
+  }
+
   count_tasks(filters) {
     let url = this.douma_api_root + `/tasks/count?demo_instance_id=${this.demo_instance_id}`
     url += ('&query=' + JSON.stringify(filters))
