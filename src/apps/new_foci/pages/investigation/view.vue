@@ -1,13 +1,13 @@
 <template>
   <div>
-    <h1>FociView</h1>
+    <h1>InvestigationView</h1>
   </div>
 </template>
 
 <script>
 
   export default {
-    name: 'FociView',
+    name: 'InvestigationView',
     watch: {
     },
     created() {
@@ -18,9 +18,6 @@
       }
     },
     computed: {
-      country() {
-        return this.$store.state.meta.country
-      },
     },
     methods: {
 

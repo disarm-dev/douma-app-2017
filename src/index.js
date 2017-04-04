@@ -17,6 +17,7 @@ import Douma from './components/Douma.vue'
 import store from './store'
 import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
+import {ClientTable} from 'vue-tables-2';
 
 // Keep track of Errors
 Raven
@@ -31,12 +32,16 @@ console.info('DOUMA version: ' + COMMIT_HASH)
 // Create a bunch of themes matching the routes
 configureThemes()
 
+Vue.use(ClientTable, {}, false);
+
 // Make DOUMA App
 const InitialiseDOUMA = Vue.component('douma', Douma)
 const router = configureRouter()
 const DOUMA = new InitialiseDOUMA({
   router, store
 }).$mount('#douma')
+
+
 
 // ServiceWorker
 configureServiceWorker(DOUMA)
