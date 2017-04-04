@@ -39,7 +39,6 @@ class Sync {
     // Go and get the task_ids for each cluster
     let cluster_ids = clusters.map(c => c.properties.cluster_id)
     return this.RemoteDB.get_tasks_for_cluster_ids(cluster_ids).then((cluster_tasks) => {
-
       let task_ids = []
       cluster_tasks.forEach(ct => {
         // 
@@ -61,12 +60,26 @@ class Sync {
 
       task_ids = flatten(task_ids)
       spatial_entity_ids = flatten(spatial_entity_ids)
-      
-      const task_promise = new Promise((resolve, reject) => {
-        this.RemoteDB.read_tasks({task_ids})
+
+      let spatial_entities_collection = []
+
+      const task_and_spatial_entity_promise = new Promise((resolve, reject) => {
+        this.RemoteDB.read_spatial_entities({spatial_entity_ids})
         .then(res => {
+          spatial_entities_collection = res
+          return LocalDB.spatial_entities.create(res)
+        })
+        .then(() => {
+           return this.RemoteDB.read_tasks({task_ids})
+        })
+        .then(res => {    
           res = res.map(task => {
             task._sync_status = 'synced'
+
+            // Spatial_entities break for zim if we don't set a spatial_entity on the task.
+            // task.spatial_entity = spatial_entities_collection.find((s) => {
+            //   return parseInt(task.spatial_entity_id) == s.properties.osm_id
+            // })
             return task
           })
           return LocalDB.tasks.create(res)
@@ -77,20 +90,7 @@ class Sync {
         })
       })
 
-      const spatial_entity_promise = new Promise((resolve, reject) => {
-        this.RemoteDB.read_spatial_entities({spatial_entity_ids})
-        .then(res => {
-          return LocalDB.spatial_entities.create(res)
-        })
-        .then((res) => resolve(res))
-        .catch(error => {
-          resolve()
-        })
-      })
-
-
-
-      return Promise.all([task_promise, spatial_entity_promise])
+      return Promise.all([task_and_spatial_entity_promise])
         .then((res) => {
           const existing_ids = (JSON.parse(localStorage.getItem('douma-saved-cluster-ids'))|| [])
           const saved_cluster_ids = clusters.map(cluster => cluster._id).concat(existing_ids)
@@ -140,7 +140,7 @@ class Sync {
         const joinedTasks = results.tasks.map((task) => {
           return {
             ...task,
-            spatial_entity: results.spatial_entities.find(s => s.properties.osm_id === task.spatial_entity_id)
+            spatial_entity: results.spatial_entities.find(s => s.properties.osm_id === parseInt(task.spatial_entity_id))
           }
         })
         resolve(joinedTasks)
