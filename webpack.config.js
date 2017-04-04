@@ -76,7 +76,7 @@ module.exports = {
 }
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports.devtool = '#cheap-source-map'
+  module.exports.devtool = '#eval'
   module.exports.resolve.alias['vue$'] = 'vue/dist/vue.min'
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.optimize.UglifyJsPlugin({
