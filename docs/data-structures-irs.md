@@ -94,3 +94,40 @@ Example:
    }
 ```
 
+
+## Area (formal area, locality)
+
+Example:
+
+```js
+{
+  "type": "Feature",
+  "properties": {
+    "area_id": '...' // unique identifier for an area
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          31.139424741268154,
+          -26.32187354625055
+        ],
+        [
+          31.139368414878845,
+          -26.322207717074644
+        ],
+        [
+          31.139757335186,
+          -26.32207068311233
+        ],
+        [
+          31.139424741268154,
+          -26.32187354625055
+        ]
+      ]
+    ]
+  }
+}
+```
+

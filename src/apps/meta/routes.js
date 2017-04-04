@@ -20,7 +20,7 @@ const meta = [
         path: 'profile',
         name: 'meta:profile',
         component: Profile,
-        meta: {}
+        meta: {title: 'Profile'}
       },
       {
         path: 'login',

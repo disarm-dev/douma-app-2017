@@ -1,0 +1,4 @@
+[
+  {"name": "Swaziland", "slug":"SWZ", "centre": {"lat": -26.502530898533244, "lng": 31.528015136718754}, "zoom": 8, "area_id": "UniqLocCod"},
+  {"name": "Zimbabwe", "slug":"ZWE", "centre": {"lat": -21.73564350618581, "lng": 30.083462513044424}, "zoom": 7.749187, "area_id": "WARDPCODE"}
+]

@@ -36,52 +36,44 @@ class Sync {
     // Create Clusters in LocalDB
     // Return Clusters for $store to set on $store.state
 
-    let task_ids = []
     let spatial_entity_ids = []
-
+    let task_ids = []
     clusters.map(cluster => {
-      task_ids.push(cluster.properties.task_ids)
       spatial_entity_ids.push(cluster.properties.spatial_entity_ids)
+      task_ids.push(cluster.properties.task_ids)
     })
 
-    task_ids = flatten(task_ids)
     spatial_entity_ids = flatten(spatial_entity_ids)
-    const task_promise = new Promise((resolve, reject) => {
-      this.RemoteDB.read_tasks({task_ids})
-      .then(res => {
-        res = res.map(task => {
+    task_ids = flatten(task_ids)
+
+    return new Promise((resolve, reject) => {
+      this.RemoteDB.read_spatial_entities({spatial_entity_ids})
+      .then(spatial_entities => {
+        return LocalDB.spatial_entities.create(spatial_entities)
+      })
+      .then(() => {
+         return this.RemoteDB.read_tasks({task_ids})
+      })
+      .then(tasks => {    
+        tasks = tasks.map(task => {
           task._sync_status = 'synced'
           return task
         })
-        return LocalDB.tasks.create(res)
+        return LocalDB.tasks.create(tasks)
       })
       .then((res) => resolve(res))
       .catch(error => {
+        console.log(error)
         resolve()
       })
+    }).then(() => {
+      // TODO @refac This is horrible, fix it
+      const existing_ids = (JSON.parse(localStorage.getItem('douma-saved-cluster-ids'))|| [])
+      const saved_cluster_ids = clusters.map(cluster => cluster._id).concat(existing_ids)
+      return localStorage.setItem('douma-saved-cluster-ids', JSON.stringify(saved_cluster_ids))
     })
-
-    const spatial_entity_promise = new Promise((resolve, reject) => {
-      this.RemoteDB.read_spatial_entities({spatial_entity_ids})
-      .then(res => {
-        return LocalDB.spatial_entities.create(res)
-      })
-      .then((res) => resolve(res))
-      .catch(error => {
-        resolve()
-      })
-    })
-
-    return Promise.all([task_promise, spatial_entity_promise])
-      .then((res) => {
-        const existing_ids = (JSON.parse(localStorage.getItem('douma-saved-cluster-ids'))|| [])
-        const saved_cluster_ids = clusters.map(cluster => cluster._id).concat(existing_ids)
-        localStorage.setItem('douma-saved-cluster-ids', JSON.stringify(saved_cluster_ids))
-        return res
-      })
   }
 
-  // DONE
   close_cluster(cluster) {     
     return this.get_unsynced_tasks_for_cluster(cluster).then(({cluster_id, unsynced_tasks}) => {
       if (unsynced_tasks.length === 0 ) {
@@ -121,7 +113,7 @@ class Sync {
         const joinedTasks = results.tasks.map((task) => {
           return {
             ...task,
-            spatial_entity: results.spatial_entities.find(s => s.properties.osm_id === task.spatial_entity_id)
+            spatial_entity: results.spatial_entities.find(s => s.properties.osm_id === parseInt(task.spatial_entity_id))
           }
         })
         resolve(joinedTasks)

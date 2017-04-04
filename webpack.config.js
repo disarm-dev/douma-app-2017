@@ -4,7 +4,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin')
 
 var commitHash = require('child_process')
   .execSync('git rev-parse HEAD')
-  .toString();
+  .toString().replace(/\n/, '');
 
 module.exports = {
   entry: ['whatwg-fetch', './src/index.js'],
@@ -66,8 +66,11 @@ module.exports = {
       "COMMIT_HASH": JSON.stringify(commitHash),
       "DOUMA_DEV_MODE": process.env.NODE_ENV !== 'production',
       DOUMA_API_URL: "'https://douma-api.herokuapp.com'",
+      DOUMA_API_VERSION: "'v2'",
       // DOUMA_API_URL: "'http://localhost:3000'",
-      R_SERVER_URL: "'https://cluster.api.disarm.io'"
+      WEATHER_API_URL: "'https://weather.api.disarm.io/processor/output'",
+      R_SERVER_URL: "'https://cluster.api.disarm.io'",
+      COUNTRY_OPTIONS: JSON.stringify(require('./src/config/countries.json'))
     })
   ]
 }
@@ -93,6 +96,9 @@ if (process.env.NODE_ENV === 'production') {
         { from: 'src/favicon.ico' },
         { from: 'src/manifest.json' },
         { from: 'src/index.html' },
+        // needed for offline analytics
+        { from: 'src/offline-analytics.js' },
+        { from: 'node_modules/sw-offline-google-analytics/build/offline-google-analytics-import.min.js' },
     ]),
   ])
 }

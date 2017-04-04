@@ -16,7 +16,7 @@ export default [
         path: '/irs_monitor/view',
         name: "irs_monitor:view",
         component: DashboardView,
-        meta: {}
+        meta: {title: 'Dashboard'}
       }
     ]
   }
