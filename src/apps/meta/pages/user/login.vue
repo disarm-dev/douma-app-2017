@@ -65,6 +65,17 @@
               read: ['irs_monitor', 'irs_plan', 'irs_tasker', 'irs_record', 'rasters'], 
               write: ['irs_monitor', 'irs_plan', 'irs_tasker', 'irs_record', 'rasters']
             },
+          },{
+            id: 'philile_manager_15',
+            name: 'Foci Bob', 
+            fake_password: 'malaria',
+            email: 'manager@bob.com', 
+            version: COMMIT_HASH,
+            allowed_apps: {
+              // @refac Rely on applet routes for controlling access to applets, 'rasters' should be seen as layers
+              read: ['foci'], 
+              write: ['foci']
+            },
           }
         ]
       }
