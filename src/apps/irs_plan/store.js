@@ -140,9 +140,7 @@ export default {
       Sync.config(context.rootState.meta.demo_instance_id)
 
       return Sync.post_clusters({cluster_ids, cluster_collection_id, country_code}).then(() => {
-        context.commit('root:set_loading', false)
-        context.commit('irs:set_clusters', []) // TODO: @debug Remove
-        return context.dispatch('irs:get_clusters')
+        return context.commit('root:set_loading', false)
       })
     }
   }
