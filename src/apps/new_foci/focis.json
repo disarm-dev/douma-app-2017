@@ -4,7 +4,8 @@
     "_id": "a98bd7f5-fa38-47c1-9b39-727d20231dc4",
     "location": "Simunye",
     "structures": 7,
-    "status": "Active"
+    "status": "Active",
+    "cases": 42
   },
   "geometry": {
     "type": "Polygon",
@@ -56,7 +57,8 @@
     "_id": "0c063066-1a19-4a1c-887b-e106a991c3b7",
     "location": "Simunye",
     "structures": 65,
-    "status": "Inactive"
+    "status": "Inactive",
+    "cases": 86
   },
   "geometry": {
     "type": "Polygon",
@@ -96,7 +98,8 @@
     "_id": "4fcda1d2-366f-4e5b-9539-cf4ad46ef17b",
     "location": "Simunye",
     "structures": 49,
-    "status": "Cleared"
+    "status": "Cleared",
+    "cases": 87
   },
   "geometry": {
     "type": "Polygon",
