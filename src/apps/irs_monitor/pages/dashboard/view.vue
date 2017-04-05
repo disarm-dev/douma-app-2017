@@ -23,7 +23,7 @@
             <p class="big-number">{{round(((structuresUnsuccessfullyVisited + structuresSuccessfullyVisited) / tasks_total) * 100)}} %</p>
 
             <md-card-header>
-              <!-- TODO: @debug Replace with real numbers -->
+              <!-- TODO: @debug Replace with real numbers for dashboard -->
               <div class="md-title">n of n structures visited</div>
               <div class="md-subhead">in Swaziland</div>
             </md-card-header>

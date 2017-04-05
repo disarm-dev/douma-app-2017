@@ -8,7 +8,7 @@ class Sync {
   }
 
   get_ous(country_code) {
-    // TODO: @refac Cache offline assets better - ServiceWorker?
+    // TODO: @refac Stop caching OUS in localstorate - use ServiceWorker or something better
     let results
     const country_localstorage_key = `douma-${country_code}-ous`
 
