@@ -3,10 +3,8 @@
 // 
 
 export default (DOUMA) => {
-  const getParameterByName = (name, url) => {
-    if (!url) {
-      url = window.location.href;
-    }
+  const getParameterByName = (name) => {
+    const url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
         results = regex.exec(url);
@@ -15,11 +13,11 @@ export default (DOUMA) => {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
   }
 
-  let res = getParameterByName('sw')
-  let disableSW = res === 'false'
+  let DISABLE_SW = getParameterByName('sw') === 'false'
 
-  // TODO: @refac Need to be clearer about the logic for activating SW below!
-  if ('serviceWorker' in navigator && !DOUMA_DEV_MODE && !disableSW) {
+  // DOUMA_DEV_MODE is `process.env.NODE_ENV !== 'production'` (set in webpack.config.js)
+  // DISABLE_SW is true if the query string 'sw=false' is present in the URL
+  if ('serviceWorker' in navigator && !DOUMA_DEV_MODE && !DISABLE_SW) {
     navigator.serviceWorker.register('/service-worker.js').then(function(reg) {
       reg.onupdatefound = function() {
         var installingWorker = reg.installing;
