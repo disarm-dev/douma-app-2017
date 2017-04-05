@@ -1,3 +1,4 @@
+// TODO: @refac Remove unused BaseCollection, StructuresCollection, FociCollection
 export class BaseCollection {
 
   defaults = {}
