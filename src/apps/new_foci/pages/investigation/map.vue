@@ -16,7 +16,7 @@
       <div class="md-subheading">Structures: {{foci.properties.structures}}</div>
       <div class="md-subheading">Cases: {{foci.properties.cases}}</div>
       <div>
-        <md-button class="md-raised md-accent">Edit</md-button>
+        <md-button class="md-raised md-accent" @click.native="toggle_draw">Edit</md-button>
       </div>
     </div>    
   
@@ -40,11 +40,16 @@
         this._map.resize()
         this.add_foci_layer()
         this.set_filter()
+        this.handle_draw()
       })
     },
     data () {
       return {
-        _map: null
+        _map: null,
+        _control: null,
+
+        // state state
+        editing: false
       }
     },
     computed: {
@@ -89,6 +94,7 @@
           }
         }) 
       },
+      
       set_filter() {
         if (this._map) {
           this._map.setFilter('foci', ['==', '_id', this.foci.properties._id])
@@ -96,6 +102,22 @@
           this._map.panTo(centroid.geometry.coordinates)
         }
       },
+      toggle_draw() {
+        this.editing = !this.editing
+        if (this.editing) {
+          this._control = new MapboxDraw();
+          this._map.addControl(this._control)
+        } else {
+          this._map.removeControl(this._control)
+        }
+      },
+
+      handle_draw() {
+        this._map.on('draw.combine', (e) => {
+          console.log(e)
+        })
+      },
+
       next_foci() {
         let current_index = this.focis.findIndex(f => f.properties._id == this.foci.properties._id)
         if (current_index + 1 === this.focis.length) {
@@ -148,9 +170,10 @@
 
 @media (min-width: 600px) {
   .investigation-infobox {
-    right: 20px;
-    top: 60px;
     left: auto;
+    top: auto;
+    right: 50px;
+    bottom: 60px;
     width: 300px;
   }  
 }
