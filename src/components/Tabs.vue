@@ -1,4 +1,4 @@
-<!-- TODO: @tidy Remove unused Tabs.vue when it's unused -->
+<!-- TODO: @tidy Remove unused Tabs.vue when it's not used by original Foci -->
 
 <template>
   <md-tabs @change="onTabChange" :md-centered="true">
