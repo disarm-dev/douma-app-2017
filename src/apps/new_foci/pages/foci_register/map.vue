@@ -58,8 +58,16 @@
           },
           'paint': {
             'fill-outline-color': 'grey',
-            'fill-color': 'blue',
-            'fill-opacity': 0.3,
+            'fill-opacity': 0.5,
+            'fill-color': {
+                property: 'status',
+                type: 'categorical',
+                stops: [
+                    ['Active', '#F44336'],
+                    ['Inactive', '#FF9800'],
+                    ['Cleared', '#4CAF50']
+                ]
+            }
           }
         }) 
       },
