@@ -3,7 +3,7 @@ import LocalDB from '../../lib/local.js'
 import RemoteDBClass from '../../lib/remote.js'
 
 class IRSSync  {
-  // TODO: @feature Check remote Clusters count, and refresh from remote if necessary
+  // TODO: @feature Check remote if Clusters have changed, and refresh from remote if necessary
   get_clusters({demo_instance_id, force_remote_refresh}) {
     return LocalDB.clusters.read({demo_instance_id}).then((clusters) => {
       if (clusters.length === 0) {
