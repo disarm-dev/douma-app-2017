@@ -18,6 +18,8 @@
 </template>
 
 <script>
+  import {download_url, download_filename} from '../../export'
+
   export default {
     name: 'ReviewView',
     mounted() {
@@ -33,17 +35,16 @@
       demo_instance_id() {
         return this.$store.state.meta.demo_instance_id
       },
+      cluster_collection_id() {
+        return this.$store.state.irs.clusters[0].properties.cluster_collection_id
+      },
       download_url() {
         if (!this.clusters_available) return
-        // TODO: @refac Move download URL creation to Sync or somewhere else that is not a view
-        const cluster_collection_id = this.$store.state.irs.clusters[0].properties.cluster_collection_id
-        return DOUMA_API_URL + '/clusters/shapefile?cluster_collection_id=' + cluster_collection_id
+        return download_url(this.cluster_collection_id)  
       },
       download_filename() {
         if (!this.clusters_available) return
-        // TODO: @refac Move download filename creation to Sync or somewhere else that is not a view
-        const cluster_collection_id = this.$store.state.irs.clusters[0].properties.cluster_collection_id
-        return `clusters-${cluster_collection_id}.zip`
+        return download_filename(this.cluster_collection_id)
       }
     },
     methods: {
