@@ -210,7 +210,7 @@ class RemoteDBClass {
   //
   // OPERATIONAL UNITS (OUs)
   //
-  get_ous(country_code, country_ls_key){
+  get_ous(country_code){
     const url = this.douma_api_root + `/local_areas/${country_code.toLowerCase()}`
 
     return fetch(url, {mode: 'cors'})
