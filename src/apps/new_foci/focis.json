@@ -2,7 +2,9 @@
   "type": "Feature",
   "properties": {
     "_id": "a98bd7f5-fa38-47c1-9b39-727d20231dc4",
-    "location": "Simunye"
+    "location": "Simunye",
+    "structures": 7,
+    "status": "Active"
   },
   "geometry": {
     "type": "Polygon",
@@ -52,7 +54,9 @@
   "type": "Feature",
   "properties": {
     "_id": "0c063066-1a19-4a1c-887b-e106a991c3b7",
-    "location": "Simunye"
+    "location": "Simunye",
+    "structures": 65,
+    "status": "Inactive"
   },
   "geometry": {
     "type": "Polygon",
@@ -90,7 +94,9 @@
   "type": "Feature",
   "properties": {
     "_id": "4fcda1d2-366f-4e5b-9539-cf4ad46ef17b",
-    "location": "Simunye"
+    "location": "Simunye",
+    "structures": 49,
+    "status": "Cleared"
   },
   "geometry": {
     "type": "Polygon",
