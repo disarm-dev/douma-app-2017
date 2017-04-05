@@ -1,25 +1,45 @@
 <template>
-  <div id="map"></div>
+  <div class="investigation-container">
+    <div class="investigation-infobox">
+      <div>
+        <md-button class="investigation-button md-raised" @click.native="previous_foci">
+          <md-icon>keyboard_arrow_left</md-icon>
+        </md-button>
+        <md-button class="investigation-button md-raised" @click.native="next_foci">
+          <md-icon>keyboard_arrow_right</md-icon>
+        </md-button>
+      </div>
+      <hr>
+      <div class="md-title">Foci #{{foci.properties._id}}</div>
+      <hr>
+      <div class="md-subheading">Status: {{foci.properties.status}}</div>
+      <div class="md-subheading">Structures: {{foci.properties.structures}}</div>
+      <div class="md-subheading">Cases: {{foci.properties.cases}}</div>
+      <div>
+        <md-button class="md-raised md-accent">Edit</md-button>
+      </div>
+    </div>    
+  
+    <div id="map"></div>
+  </div>
 </template>
 
 <script>
   import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js'
   import {mapState, mapGetters} from 'vuex'
+  import turf from '@turf/turf'
 
   export default {
     name: 'SingleFociMap',
     props: ['foci'],
     watch: {
-    },
-    activated() {
-
-    },
-    created() {
+      'foci': 'set_filter'
     },
     mounted() {
       this.create_map().then(() => {
         this._map.resize()
         this.add_foci_layer()
+        this.set_filter()
       })
     },
     data () {
@@ -28,6 +48,9 @@
       }
     },
     computed: {
+      ...mapState({
+        focis: state => state.foci.focis
+      })
     },
     methods: {
       create_map() {
@@ -44,13 +67,12 @@
         })
       },
       add_foci_layer() {
-        console.log(this.focis)
         this._map.addLayer({
-          'id': 'formal_areas_layer', // every locality, doesn't change
+          'id': 'foci', 
           'type': 'fill',
           'source': {
             'type': 'geojson',
-            'data': {type: 'FeatureCollection', features: [this.foci] }
+            'data': {type: 'FeatureCollection', features: this.focis }
           },
           'paint': {
             'fill-outline-color': 'grey',
@@ -66,10 +88,74 @@
             }
           }
         }) 
+      },
+      set_filter() {
+        if (this._map) {
+          this._map.setFilter('foci', ['==', '_id', this.foci.properties._id])
+          let centroid = turf.centroid(this.foci)
+          this._map.panTo(centroid.geometry.coordinates)
+        }
+      },
+      next_foci() {
+        let current_index = this.focis.findIndex(f => f.properties._id == this.foci.properties._id)
+        if (current_index + 1 === this.focis.length) {
+          let foci_id = this.focis[0].properties._id
+          this.$router.push({name: 'foci:investigation', params: {foci_id}})
+        } else {
+          let foci_id = this.focis[current_index + 1].properties._id
+          this.$router.push({name: 'foci:investigation', params: {foci_id}})
+        }
+      },
+      previous_foci() {
+        let current_index = this.focis.findIndex(f => f.properties._id == this.foci.properties._id)
+        if (current_index - 1 === -1) {
+          let foci_id = this.focis[this.focis.length - 1].properties._id
+          this.$router.push({name: 'foci:investigation', params: {foci_id}})
+        } else {
+          let foci_id = this.focis[current_index - 1].properties._id
+          this.$router.push({name: 'foci:investigation', params: {foci_id}})
+        }
       }
     }
 
   }
 </script>
 
-<style>.md-tab{padding: 0 !important;}</style>
+<style>
+
+#map {
+  height: calc(100vh - 64px)
+}
+
+.investigation-container {
+  position: relative;
+}
+
+.investigation-infobox {
+  position: absolute;
+  z-index: 1;
+  right: 0px;
+  top: 0px;
+  left: 0px;
+
+  background-color: white;
+  padding: 1em;
+}
+
+.investigation-button {
+  width: calc(49% - 16px);
+}
+
+@media (min-width: 600px) {
+  .investigation-infobox {
+    right: 20px;
+    top: 60px;
+    left: auto;
+    width: 300px;
+  }  
+}
+
+.md-tab{
+  padding: 0 !important;
+}
+</style>
