@@ -16,7 +16,8 @@
       <div class="md-subheading">Structures: {{foci.properties.structures}}</div>
       <div class="md-subheading">Cases: {{foci.properties.cases}}</div>
       <div>
-        <md-button class="md-raised md-accent" @click.native="toggle_draw">Edit</md-button>
+        <md-button class="md-raised md-accent" @click.native="editing = !editing">Edit</md-button>
+        <md-button class="md-raised md-accent" v-if="editing" @click.native="save_cluster">Save</md-button>
       </div>
     </div>    
   
@@ -28,28 +29,29 @@
   import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js'
   import {mapState, mapGetters} from 'vuex'
   import turf from '@turf/turf'
+  import Vue from 'vue'
 
   export default {
     name: 'SingleFociMap',
     props: ['foci'],
     watch: {
-      'foci': 'set_filter'
+      'foci': 'change_foci',
+      'editing': 'toggle_draw'
     },
     mounted() {
       this.create_map().then(() => {
         this._map.resize()
         this.add_foci_layer()
-        this.set_filter()
-        this.handle_draw()
+        this.show_foci()
       })
     },
     data () {
       return {
         _map: null,
         _control: null,
-
         // state state
-        editing: false
+        editing: false,
+        layer_id: '',
       }
     },
     computed: {
@@ -58,6 +60,12 @@
       })
     },
     methods: {
+      change_foci() {
+        this.show_foci()
+        this.toggle_draw()
+      },
+
+
       create_map() {
         mapboxgl.accessToken = 'pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
 
@@ -95,29 +103,48 @@
         }) 
       },
       
-      set_filter() {
-        if (this._map) {
+
+      show_foci() {
+        if (this._map && this._map.getLayer('foci')) {
           this._map.setFilter('foci', ['==', '_id', this.foci.properties._id])
           let centroid = turf.centroid(this.foci)
           this._map.panTo(centroid.geometry.coordinates)
         }
       },
       toggle_draw() {
-        this.editing = !this.editing
         if (this.editing) {
           this._control = new MapboxDraw();
           this._map.addControl(this._control)
+          let ids = this._control.add(this.foci)
+          this.layer_id = ids[0];
         } else {
           this._map.removeControl(this._control)
         }
       },
-
-      handle_draw() {
-        this._map.on('draw.combine', (e) => {
-          console.log(e)
-        })
+      remove_foci_layer() {
+        if (this._map.getLayer('foci')) {
+          this._map.removeLayer('foci')
+          this._map.removeSource('foci')
+        }
       },
+      save_cluster() {        
+        let polygon = this._control.get(this.layer_id)
+        delete polygon.id
+        
+        this.remove_foci_layer()
+        this._control.delete([this.layer_id])
 
+        this.$store.commit('foci:update_cluster', polygon)
+        this.editing = false
+
+        this.add_foci_layer()
+        this.show_foci()
+      },
+      
+
+      //
+      // Navigating to next or previous foci
+      //
       next_foci() {
         let current_index = this.focis.findIndex(f => f.properties._id == this.foci.properties._id)
         if (current_index + 1 === this.focis.length) {
