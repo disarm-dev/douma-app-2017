@@ -20,7 +20,7 @@
     },
     data () {
       return {
-        columns: ['_id', 'location']
+        columns: ['_id', 'location', 'structures', 'status']
       }
     },
     computed: {
