@@ -106,14 +106,13 @@ export default {
     },
     'irs_plan:load_clusters': (context) => {
       context.commit('root:set_loading', true)
+      Sync.config(context.rootState.meta.demo_instance_id)
 
-      return fetch(DOUMA_API_URL + '/v2/clusters/all/' + context.rootState.meta.country.slug.toLowerCase()) // TODO: @refac Don't put this fetch in here. Also add `country.slug`
-        .then((res) => res.json())
-        .then((all_clusters) => {
+      return Sync.get_all_clusters(context.rootState.meta.country.slug)
+      .then(all_clusters => {
           context.commit('root:set_loading', false)
           return all_clusters.features
-        }).catch(console.log)
-
+      }).catch(console.log)
     },
     'irs_plan:calculate_selected_clusters': (context, all_clusters) => {
       const selected_clusters = cluster_results(all_clusters, context.getters['irs_plan:all_selected_area_ids'])
