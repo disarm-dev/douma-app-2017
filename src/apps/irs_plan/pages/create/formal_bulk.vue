@@ -58,7 +58,7 @@
         if (!this.logslider) return 0
 
         let converted_value
-        if (this.risk_slider_value === this.slider.min) {
+        if (parseFloat(this.risk_slider_value) === this.slider.min) {
           converted_value = 0
         } else {
           converted_value = this.logslider(this.risk_slider_value)
@@ -209,9 +209,9 @@
       add_risk_layer(){
         // TODO: @debug Remove these hard-coded values
         // TODO: @refac Change to risk api
-        const date = '2015-04-01'
-        const country_code = 'SWZ'
-        const url = `https://storage.googleapis.com/pipeline-api/api/${country_code}/${date}/risk/standard/current-month/tiles/{z}/{x}/{y}.png`
+        const date = '2015-12-01'
+        const country_code = this.country.slug
+        const url = `https://storage.googleapis.com/pipeline-api/api/${country_code}/${date}/risk/standard/year-to-date/tiles/{z}/{x}/{y}.png`
 
         this._map.on('load', () => {
           this._map.addLayer({
