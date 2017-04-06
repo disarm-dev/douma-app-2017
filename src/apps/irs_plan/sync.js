@@ -8,7 +8,7 @@ class Sync {
   }
 
   get_ous(country_code) {
-    // TODO: @refac Cache offline assets better - ServiceWorker?
+    // TODO: @refac Stop caching OUS in localstorate - use ServiceWorker or something better
     let results
     const country_localstorage_key = `douma-${country_code}-ous`
 
@@ -31,6 +31,10 @@ class Sync {
     })
 
   }
+
+  get_all_clusters(country_code) {
+    return this.RemoteDB.get_all_clusters(country_code)
+  } 
 
   post_clusters(options) {
     return this.RemoteDB.post_clusters(options)

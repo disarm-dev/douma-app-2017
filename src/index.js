@@ -1,4 +1,4 @@
-// fetch polyfill (needed for Safari only?)
+// fetch polyfill TODO: @check is fetch polyfill needed? for Safari only? is already imported somewhere else?
 import 'whatwg-fetch' // TODO: @refac Remove import for 'whatwg-fetch'
 
 // Vue

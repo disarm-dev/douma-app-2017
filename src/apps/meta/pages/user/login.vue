@@ -42,7 +42,7 @@
         disabled: false,
         email: '',
         password: '',
-        // TODO: @refac Stop doing all the user stuff in here
+        // TODO: @refac Move the user definition stuff to a User model and datastore
         users: [
           {
             id: 'edgar_sprayer_47',

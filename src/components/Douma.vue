@@ -9,9 +9,7 @@
         <md-button class="md-icon-button" @click.native="toggleSideNav">
           <md-icon>menu</md-icon>
         </md-button>
-        <!-- <h2 class="md-title" style="flex: 1; padding-left: 0.5em;">NMCP Swaziland | DiSARM</h2> -->
         <h2 class="md-title" style="flex: 1"><bread-crumbs></bread-crumbs></h2> 
-        <!-- TODO: @feature Need to add breadcrumbs in each app -->
       </md-toolbar>
     </div>
 
@@ -43,7 +41,6 @@
       </md-list>
     </md-sidenav>
 
-    <!-- TODO: @feature INSERT SNACKBAR HERE -->
     <md-snackbar md-position="top center" ref="snackbar" :md-duration="snackbar.duration">
       <span>{{snackbar.message}}</span>
       <md-button class="md-accent" md-theme="light-blue" @click.native="snackbar_action">Yes?</md-button>

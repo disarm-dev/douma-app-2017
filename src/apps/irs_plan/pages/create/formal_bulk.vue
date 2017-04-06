@@ -51,8 +51,8 @@
       ...mapState({
         country: state => state.meta.country,
         formal_areas: state => state.irs_plan.formal_areas,
-        areas_included_by_click: state => state.irs_plan.areas_included_by_click,
-        areas_excluded_by_click: state => state.irs_plan.areas_excluded_by_click,
+        area_ids_included_by_click: state => state.irs_plan.area_ids_included_by_click,
+        area_ids_excluded_by_click: state => state.irs_plan.area_ids_excluded_by_click,
       }),
       converted_slider_value() {
         if (!this.logslider) return 0
@@ -238,8 +238,8 @@
           const area_id = clicked_features[0].properties.area_id // Assume we only get a single feature
 
           this.$store.dispatch('irs_plan:area_click', area_id).then(() => {
-            this._map.setFilter('single_included_layer', ['in', 'area_id'].concat(this.areas_included_by_click))
-            this._map.setFilter('single_excluded_layer', ['in', 'area_id'].concat(this.areas_excluded_by_click))
+            this._map.setFilter('single_included_layer', ['in', 'area_id'].concat(this.area_ids_included_by_click))
+            this._map.setFilter('single_excluded_layer', ['in', 'area_id'].concat(this.area_ids_excluded_by_click))
             this.handle_cluster_change()
           })
         })

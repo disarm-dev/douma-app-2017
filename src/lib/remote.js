@@ -23,6 +23,18 @@ class RemoteDBClass {
     })
   }
 
+  get_all_clusters(country_code) {
+    let url = `${this.douma_api_root}/clusters/all/${country_code}`
+    return new Promise((resolve, reject) => {
+      fetch(url)
+        .then(res => res.json())
+        .then(json => {
+          resolve(json)            
+        })
+        .catch((error) => reject(error))
+    })
+  }
+
   read_clusters(filters = {}) {
     let url = this.douma_api_root + `/clusters?demo_instance_id=${this.demo_instance_id}`
     if (filters.locations) {
@@ -198,7 +210,7 @@ class RemoteDBClass {
   //
   // OPERATIONAL UNITS (OUs)
   //
-  get_ous(country_code, country_ls_key){
+  get_ous(country_code){
     const url = this.douma_api_root + `/local_areas/${country_code.toLowerCase()}`
 
     return fetch(url, {mode: 'cors'})

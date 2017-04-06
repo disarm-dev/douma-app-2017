@@ -11,8 +11,8 @@ export default {
     // Data - 'areas' are formal areas, like 'localities'
     risk_slider_value: null,
     formal_areas: [],
-    areas_included_by_click: [], // TODO: @refac Rename to '_ids'
-    areas_excluded_by_click: [], // TODO: @refac Rename to '_ids'
+    area_ids_included_by_click: [],
+    area_ids_excluded_by_click: [],
 
     // Calculations
     selected_cluster_stats: {
@@ -34,10 +34,10 @@ export default {
       const bulk_selected_ids = getters['irs_plan:bulk_selected_ids']
 
       // add included by click
-      let result = bulk_selected_ids.concat(state.areas_included_by_click)
+      let result = bulk_selected_ids.concat(state.area_ids_included_by_click)
 
       // remove excluded by click
-      state.areas_excluded_by_click.forEach(area_id => {
+      state.area_ids_excluded_by_click.forEach(area_id => {
         const index = result.findIndex(i => i === area_id)
         if (index !== -1) {
           result.splice(index, 1)
@@ -62,18 +62,18 @@ export default {
       state.all_clusters = []
     },
     'irs_plan:add_included': (state, area_id) => {
-      state.areas_included_by_click.push(area_id)
+      state.area_ids_included_by_click.push(area_id)
     },
     'irs_plan:remove_included': (state, area_id) => {
-      let index = state.areas_included_by_click.findIndex(i => i === area_id)  
-      state.areas_included_by_click.splice(index, 1)
+      let index = state.area_ids_included_by_click.findIndex(i => i === area_id)  
+      state.area_ids_included_by_click.splice(index, 1)
     },
     'irs_plan:add_excluded': (state, area_id) => {
-      state.areas_excluded_by_click.push(area_id)
+      state.area_ids_excluded_by_click.push(area_id)
     },
     'irs_plan:remove_excluded': (state, area_id) => {
-      let index = state.areas_excluded_by_click.findIndex(i => i === area_id)  
-      state.areas_excluded_by_click.splice(index, 1)
+      let index = state.area_ids_excluded_by_click.findIndex(i => i === area_id)  
+      state.area_ids_excluded_by_click.splice(index, 1)
     },
     'irs_plan:set_selected_cluster_stats': (state, stats) => {
       state.selected_cluster_stats = Object.assign({}, state.selected_cluster_stats, stats)
@@ -81,9 +81,9 @@ export default {
   },
   actions: {
     'irs_plan:area_click': (context, area_id) => {
-      if (context.state.areas_included_by_click.includes(area_id)) {
+      if (context.state.area_ids_included_by_click.includes(area_id)) {
         context.commit('irs_plan:remove_included', area_id)
-      } else if (context.state.areas_excluded_by_click.includes(area_id)) {
+      } else if (context.state.area_ids_excluded_by_click.includes(area_id)) {
         context.commit('irs_plan:remove_excluded', area_id)
       } else if (context.getters['irs_plan:bulk_selected_ids'].includes(area_id)){
         context.commit('irs_plan:add_excluded', area_id)
@@ -106,14 +106,13 @@ export default {
     },
     'irs_plan:load_clusters': (context) => {
       context.commit('root:set_loading', true)
+      Sync.config(context.rootState.meta.demo_instance_id)
 
-      return fetch(DOUMA_API_URL + '/v2/clusters/all/' + context.rootState.meta.country.slug.toLowerCase()) // TODO: @refac Don't put this fetch in here. Also add `country.slug`
-        .then((res) => res.json())
-        .then((all_clusters) => {
+      return Sync.get_all_clusters(context.rootState.meta.country.slug)
+      .then(all_clusters => {
           context.commit('root:set_loading', false)
           return all_clusters.features
-        }).catch(console.log)
-
+      }).catch(console.log)
     },
     'irs_plan:calculate_selected_clusters': (context, all_clusters) => {
       const selected_clusters = cluster_results(all_clusters, context.getters['irs_plan:all_selected_area_ids'])
