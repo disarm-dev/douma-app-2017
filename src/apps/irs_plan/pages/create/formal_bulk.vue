@@ -231,7 +231,14 @@
             }
           })
           this.risk_loaded = true
-        })
+          
+
+          // Replace Mapbox error handler to hide those annoying non-error errors on tile load
+          this._map.on('error', e => {
+            if (e && e.error !== 'Error: Not Found')
+              console.error(e);
+            });
+          })
       },
       handle_formal_area_click() {
         this._map.on('click', (e) => {
