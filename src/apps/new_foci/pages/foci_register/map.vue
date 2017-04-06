@@ -17,7 +17,6 @@
     },
     mounted() {
       this.create_map().then(() => {
-        console.log('created')
         this._map.resize()
         this.add_foci_layer()
         this.handle_click()
@@ -48,7 +47,6 @@
         })
       },
       add_foci_layer() {
-        console.log(this.focis)
         this._map.addLayer({
           'id': 'focis', // every locality, doesn't change
           'type': 'fill',
