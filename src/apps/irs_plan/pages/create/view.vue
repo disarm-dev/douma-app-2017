@@ -42,7 +42,9 @@
     },
     computed: {
       time_estimate_days() {
-        return this.stats.structures_count / this.time_estimate.structures_per_team_per_day / this.time_estimate.number_of_teams
+        const estimated_days = this.stats.structures_count / this.time_estimate.structures_per_team_per_day / this.time_estimate.number_of_teams
+        return Number((estimated_days).toFixed(2))
+
       },
       ...mapState({
         selected_component: state => state.irs_plan.selected_component,
