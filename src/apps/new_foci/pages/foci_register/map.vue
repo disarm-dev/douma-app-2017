@@ -41,8 +41,8 @@
           this._map = new mapboxgl.Map({
             container: 'map', // container id
             style: 'mapbox://styles/mapbox/streets-v9', //stylesheet location
-            center: [31.92003, -26.21082],
-            zoom: 16
+            center: [31.923161916863137, -26.210573497946406],
+            zoom: 15.374
           });
           this._map.on('load', () => resolve())
         })

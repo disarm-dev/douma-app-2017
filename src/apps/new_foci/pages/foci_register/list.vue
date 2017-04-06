@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-client-table :data="tableData" :columns="columns" name="focis" @row-click="handleClick"></v-client-table>
+    <v-client-table class="list-table" :data="tableData" :columns="columns" name="focis" @row-click="handleClick"></v-client-table>
   </div>
 </template>
 
@@ -20,7 +20,7 @@
     },
     data () {
       return {
-        columns: ['_id', 'location', 'structures', 'status']
+        columns: ['_id', 'location', 'structures', 'cases', 'status']
       }
     },
     computed: {
@@ -36,3 +36,18 @@
 
   }
 </script>
+<style scoped>
+  .list-table {
+    width: 100%;
+    margin: 1em;
+    margin-right: 1em !important;
+  }
+
+  .list-table thead th {
+    
+  }
+
+  .list-table tbody td {
+
+  }
+</style>
