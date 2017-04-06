@@ -3,13 +3,13 @@
     <div class="container">
       <div>
         <h3>Selection stats</h3>
-        <p>There are {{stats.clusters_count}} clusters in the selected localities. There are {{stats.structures_count}} structures.</p>
+        <p>There are {{stats.clusters_count}} clusters in the selected areas. There are {{stats.structures_count}} structures.</p>
         <p><i>
           At a rate of 
-          <input v-model='time_estimate.structures_per_team_per_day' type='number'>   
+          <input v-model='time_estimate.structures_per_team_per_day' type='number'>
           structures per team per day, 
           with 
-          <input v-model='time_estimate.number_of_teams' type='number'>   
+          <input v-model='time_estimate.number_of_teams' type='number'>
           teams
           this would take
           {{time_estimate_days}} days
@@ -57,10 +57,8 @@
   }
 </script>
 
-<style>
+<style scoped>
   .container { margin: 10px; }
   .controls { background: #eaeaea; padding: 5px;}
-    #map {
-    min-height: 80vh;
-  }
+  input[type=number] { width: 50px; }
 </style>
