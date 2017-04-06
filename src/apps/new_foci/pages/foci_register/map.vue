@@ -84,4 +84,7 @@
   }
 </script>
 
-<style>.md-tab{padding: 0 !important;}</style>
+<style scoped>
+  .md-tab{padding: 0 !important;}
+  #map { height: 60vh; }
+</style>
