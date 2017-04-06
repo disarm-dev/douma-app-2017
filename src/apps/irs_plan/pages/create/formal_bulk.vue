@@ -308,7 +308,6 @@
 </script>
 
 <style lang="css" scoped>
-  #slider {
-    width: 90vw;
-  }
+  #slider {width: 90vw;}
+  #map {height: calc(80vh - 200px);}
 </style>
