@@ -26,6 +26,11 @@
     },
     methods: {
       set_crumbs() {
+        function truncString(str, max, add){
+          add = add || '...';
+          return (typeof str === 'string' && str.length > max ? str.substring(0,4)+add : str);
+        }
+
         if(this.$route.matched.length === 0) { return }
         const applet_decorations = this.$router.options.routes.map((route) => {
           return {...route.meta, name: route.name}
@@ -52,8 +57,11 @@
               route: '/' + build_path(part, i + 1)
             }
           }
+          let title = part[0].toUpperCase() + part.substr(1)
+          title = truncString(title, 10, '...')
+
           return {
-            title: part[0].toUpperCase() + part.substr(1),
+            title: title,
             route: '/' + build_path(part, i + 1)
           }
         })
