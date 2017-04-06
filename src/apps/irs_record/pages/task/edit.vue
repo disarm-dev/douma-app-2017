@@ -1,6 +1,6 @@
 <template>
   <div class='container'>
-    <h1>Structure progress</h1>
+    <h1>Structure record</h1>
     <p>Use the buttons below to record the spray status of this structure.</p>
     <i>Future versions can have more fields, custom-fields, etc.</i>
 
@@ -9,6 +9,13 @@
       <p><md-radio v-model="task.properties.status" name="status" md-value="visited_successful">Visited and sprayed</md-radio></p>
       <p><md-radio v-model="task.properties.status" name="status" md-value="visited_unsuccessful">Visited and not sprayed</md-radio></p>
       <p><md-radio v-model="task.properties.status" name="status" md-value="visited_unsprayable">Visited, structure is unsprayable</md-radio></p>
+
+      <label>Another field</label>
+      <input type="" name="">
+      <br/>
+      <label>A second other field</label>
+      <input type="" name="">
+      <br/>
 
       <md-button class='md-primary md-raised' @click.native='save'><md-icon>save</md-icon><span>Save</span></md-button>
       <md-button @click.native='cancel'><md-icon>cancel</md-icon><span>Cancel</span></md-button>
