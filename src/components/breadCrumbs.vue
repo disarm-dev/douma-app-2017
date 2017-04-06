@@ -1,6 +1,6 @@
 <template>
   <div>
-    DiSARM >
+    <!-- DiSARM > -->
     <template v-for="(bread, index) in crumbs">
       <router-link :to="bread.route" class='crumb'> 
         <md-icon v-if='bread.icon'>{{bread.icon}}</md-icon>
@@ -31,7 +31,8 @@
           return (typeof str === 'string' && str.length > max ? str.substring(0,4)+add : str);
         }
 
-        if(this.$route.matched.length === 0) { return }
+        if(this.$route.matched.length === 0) return
+
         const applet_decorations = this.$router.options.routes.map((route) => {
           return {...route.meta, name: route.name}
         })
@@ -41,7 +42,7 @@
         let array = string.split('/')
         let params = this.$route.params
 
-        array = array.splice(1, array.length)
+        array = array.splice(1, array.length) // Remove first matched result, which seems to always be blank
 
 
         array = array.map((elem) => {
