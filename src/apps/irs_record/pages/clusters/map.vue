@@ -7,6 +7,7 @@
 <script>
   import Leaflet from 'leaflet'
   import 'leaflet/dist/leaflet.css'
+  import {mapState, mapGetters} from 'vuex'
 
   export default {
     name: 'ClustersMap',
@@ -16,6 +17,11 @@
         map: {},
         search_results_layer: null
       }
+    },
+    computed: {
+      ...mapState({
+        country: state => state.meta.country,
+      })
     },
     watch: {
       'clusters': 'draw_search_results',
@@ -28,8 +34,8 @@
       create_map() {
         this.map = Leaflet.map('map', {
           tms: true,
-          center: [-26.3231769,31.1380957],
-          zoom: 10,
+          center: [this.country.centre.lat, this.country.centre.lng],
+          zoom: parseInt(this.country.zoom, 10)
         });
 
         const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
