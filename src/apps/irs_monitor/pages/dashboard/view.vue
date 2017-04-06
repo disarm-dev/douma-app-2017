@@ -25,7 +25,7 @@
             <md-card-header>
               <!-- TODO: @debug Replace with real numbers -->
               <div class="md-title">n of n structures visited</div>
-              <div class="md-subhead">in Swaziland</div>
+              <div class="md-subhead">in {{country.name}}</div>
             </md-card-header>
 
           </md-card>
@@ -38,7 +38,7 @@
 
             <md-card-header>
               <div class="md-title">Structures successfully visited</div>
-              <div class="md-subhead">in Swaziland</div>
+              <div class="md-subhead">in {{country.name}}</div>
             </md-card-header>
 
           </md-card>
@@ -51,7 +51,7 @@
 
             <md-card-header>
               <div class="md-title">Structures unsuccessfully visited</div>
-              <div class="md-subhead">in Swaziland</div>
+              <div class="md-subhead">in {{country.name}}</div>
             </md-card-header>
 
           </md-card>
@@ -64,7 +64,7 @@
 
             <md-card-header>
               <div class="md-title">Clusters </div>
-              <div class="md-subhead">in Swaziland</div>
+              <div class="md-subhead">in {{country.name}}</div>
             </md-card-header>
 
           </md-card>
@@ -79,6 +79,8 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
+
   export default {
     name: 'DashboardView',
     mounted() {
@@ -91,6 +93,9 @@
       }
     },
     computed: {
+      ...mapState({
+        country: state => state.meta.country
+      }),
       structuresSuccessfullyVisited() {
         return this.$store.state.irs_monitor.taskCounts.visited_successful
       },
