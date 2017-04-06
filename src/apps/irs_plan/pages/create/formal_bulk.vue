@@ -66,7 +66,7 @@
         } else {
           converted_value = this.logslider(this.risk_slider_value)
         }
-        return converted_value
+        return Number((converted_value).toFixed(2))
       }
     },
     mounted() {
