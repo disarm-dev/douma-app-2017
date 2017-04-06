@@ -13,7 +13,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import configureThemes from './config/theme'
 import configureServiceWorker from './config/service-worker'
 import configureRouter from './router'
-import Douma from './components/Douma.vue'
+import DoumaComponent from './components/douma.vue'
 import store from './store'
 import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
@@ -35,11 +35,14 @@ configureThemes()
 Vue.use(ClientTable, {}, false);
 
 // Make DOUMA App
-const InitialiseDOUMA = Vue.component('douma', Douma)
 const router = configureRouter()
-const DOUMA = new InitialiseDOUMA({
-  router, store
-}).$mount('#douma')
+
+const DOUMA = new Vue({
+  el: '#douma',
+  router, 
+  store,
+  render: createElement => createElement(DoumaComponent),
+})
 
 
 
