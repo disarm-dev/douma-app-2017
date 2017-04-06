@@ -18,6 +18,7 @@
   import download from 'downloadjs'
   import debounce from 'lodash.debounce'
   import moment from 'moment'
+  import numeral from 'numeral'
 
   import logslider from '../../../../lib/log_slider.js'
 
@@ -66,7 +67,7 @@
         } else {
           converted_value = this.logslider(this.risk_slider_value)
         }
-        return Number((converted_value).toFixed(2))
+        return numeral(converted_value).format('0.00')
       }
     },
     mounted() {

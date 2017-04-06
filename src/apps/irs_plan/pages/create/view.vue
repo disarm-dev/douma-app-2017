@@ -28,6 +28,7 @@
   import FormalBulk from './formal_bulk.vue'
   import Draw from './draw.vue'
   import {mapState} from 'vuex'
+  import numeral from 'numeral'
 
   export default {
     name: 'AreasView',
@@ -43,7 +44,7 @@
     computed: {
       time_estimate_days() {
         const estimated_days = this.stats.structures_count / this.time_estimate.structures_per_team_per_day / this.time_estimate.number_of_teams
-        return Number((estimated_days).toFixed(2))
+        return numeral(estimated_days).format('0.00')
 
       },
       ...mapState({
