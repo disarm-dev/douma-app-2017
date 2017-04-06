@@ -1,8 +1,9 @@
 <template>
   <div>
     <p>Select risk level on slider: {{converted_slider_value}}</p>
-    <input id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value">
-    <input type="range" min="0" max="1" step="0.01" v-model="raster_opacity">
+    <input id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value" :disabled='!clusters_loaded'>
+    <p>Opacity of risk layer</p>
+    <input type="range" min="0" max="1" step="0.01" v-model="raster_opacity" :disabled='!risk_loaded'>
     <div>
       <md-button @click.native='download_selected_clusters' :disabled='computing'>download clusters</md-button>
       <md-button @click.native='save_selected_clusters' :disabled='computing'>save clusters</md-button>
@@ -26,7 +27,9 @@
       return {
         computing: true,
         _map: null,
+        clusters_loaded: false,
         risk_slider_value: 1,
+        risk_loaded: false,
         slider: {
           min: 1,
           max: 100,
@@ -227,6 +230,7 @@
               'raster-opacity': this.raster_opacity
             }
           })
+          this.risk_loaded = true
         })
       },
       handle_formal_area_click() {
@@ -264,6 +268,7 @@
             'line-color': 'blue'
           },
         })
+        this.clusters_loaded = true
 
       },
       handle_cluster_change: debounce(function(){
