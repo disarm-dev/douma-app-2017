@@ -170,42 +170,41 @@
   }
 </script>
 
-<style>
+<style scoped>
+  #map {
+    height: calc(100vh - 64px)
+  }
 
-#map {
-  height: calc(100vh - 64px)
-}
+  .investigation-container {
+    position: relative;
+  }
 
-.investigation-container {
-  position: relative;
-}
-
-.investigation-infobox {
-  position: absolute;
-  z-index: 1;
-  right: 0px;
-  top: 0px;
-  left: 0px;
-
-  background-color: white;
-  padding: 1em;
-}
-
-.investigation-button {
-  width: calc(49% - 16px);
-}
-
-@media (min-width: 600px) {
   .investigation-infobox {
-    left: auto;
-    top: auto;
-    right: 50px;
-    bottom: 60px;
-    width: 300px;
-  }  
-}
+    position: absolute;
+    z-index: 1;
+    right: 0px;
+    top: 0px;
+    left: 0px;
 
-.md-tab{
-  padding: 0 !important;
-}
+    background-color: white;
+    padding: 1em;
+  }
+
+  .investigation-button {
+    width: calc(49% - 16px);
+  }
+
+  @media (min-width: 600px) {
+    .investigation-infobox {
+      left: auto;
+      top: auto;
+      right: 50px;
+      bottom: 60px;
+      width: 300px;
+    }  
+  }
+
+  .md-tab{
+    padding: 0 !important;
+  }
 </style>
