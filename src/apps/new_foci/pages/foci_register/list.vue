@@ -1,11 +1,14 @@
 <template>
   <div>
     <v-client-table class="list-table" :data="tableData" :columns="columns" name="focis" @row-click="handleClick"></v-client-table>
+    <md-button @click.native='download_foci_table'>download CSV</md-button>
   </div>
 </template>
 
 <script>
-  import {Event} from 'vue-tables-2';
+  import download from 'downloadjs'
+  import {Event} from 'vue-tables-2'
+
   export default {
     name: 'FociSummaryTable',
     watch: {
@@ -31,6 +34,13 @@
     methods: {
       handleClick({event, row}) {
         this.$router.push({name: 'foci:investigation', params: {foci_id: row._id}})
+      },
+      download_foci_table() {
+        let csv_output = "_id,location,structures,cases,status\n"
+        this.tableData.forEach((line, index) => {
+          csv_output += `${line._id},${line.location},${line.structures},${line.cases},${line.status}\n`
+        })
+        download(csv_output, 'foci.csv', 'text/csv')
       }
     }
 
