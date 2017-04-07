@@ -39,6 +39,8 @@
 
     <md-button class="md-accent md-raised" @click.native="vp = !vp">Toggle %</md-button>
 
+    <md-button class="md-accent md-raised" @click.native="go_suggestions">Go to suggestions</md-button>
+
   </div>
 </template>
 
@@ -64,8 +66,10 @@
           let num = v / this.total_foci * 100
           return Math.round(num * 10) / 10 + '%' 
         }
-
         return v
+      },
+      go_suggestions() {
+        this.$router.push({name: 'foci:suggestion'})
       }
     }
   }
