@@ -37,7 +37,7 @@
       </md-table-body>
     </md-table>
 
-    <md-button class="md-accent md-raised" @click.native="vp = !vp">Toggle</md-button>
+    <md-button class="md-accent md-raised" @click.native="vp = !vp">Toggle %</md-button>
 
   </div>
 </template>
