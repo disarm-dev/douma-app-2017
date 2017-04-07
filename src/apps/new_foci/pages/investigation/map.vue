@@ -1,23 +1,40 @@
 <template>
   <div class="investigation-container">
     <div class="investigation-infobox">
-      <div>
+
+      
+      <div v-if="!editing && !viewing_suggestion">
         <md-button class="investigation-button md-raised" @click.native="previous_foci">
           <md-icon>keyboard_arrow_left</md-icon>
         </md-button>
         <md-button class="investigation-button md-raised" @click.native="next_foci">
           <md-icon>keyboard_arrow_right</md-icon>
         </md-button>
+        <hr>
       </div>
-      <hr>
-      <div class="md-title">Foci #{{foci.properties._id}}</div>
-      <hr>
-      <div class="md-subheading">Status: {{foci.properties.status}}</div>
-      <div class="md-subheading">Structures: {{foci.properties.structures}}</div>
-      <div class="md-subheading">Cases: {{foci.properties.cases}}</div>
+      
+      
       <div>
+        <div class="md-title">Foci #{{foci.properties._id}}</div>
+        <hr>
+        <div class="md-subheading">Status: {{foci.properties.status}}</div>
+        <div class="md-subheading">Structures: {{foci.properties.structures}}</div>
+        <div class="md-subheading">Cases: {{foci.properties.cases}}</div>
+      </div>
+
+      <div v-if="!editing && !viewing_suggestion">
         <md-button class="md-raised md-accent" @click.native="editing = !editing">Edit</md-button>
-        <md-button class="md-raised md-accent" v-if="editing" @click.native="save_cluster">Save</md-button>
+        <md-button class="md-raised md-accent" v-if="foci.properties.suggested" @click.native="viewing_suggestion = !viewing_suggestion">View suggestion</md-button>
+      </div>
+
+      <div v-if="editing">
+        <md-button class="md-raised md-accent" @click.native="save_cluster">Save</md-button>
+      </div>
+
+      <div v-if="viewing_suggestion">
+        <md-button class="md-raised md-accent" @click.native="accept_suggestion">Accept suggestion</md-button>
+        <md-button class="md-raised md-accent" @click.native="discard_suggestion">Discard suggestion</md-button>
+        <md-button class="md-raised md-warn" @click.native="viewing_suggestion = !viewing_suggestion">Cancel</md-button>
       </div>
     </div>    
   
@@ -51,6 +68,7 @@
         _control: null,
         // state state
         editing: false,
+        viewing_suggestion: false,
         layer_id: '',
       }
     },
@@ -127,6 +145,7 @@
           this._map.removeSource('foci')
         }
       },
+
       save_cluster() {        
         let polygon = this._control.get(this.layer_id)
         delete polygon.id
@@ -134,11 +153,20 @@
         this.remove_foci_layer()
         this._control.delete([this.layer_id])
 
-        this.$store.commit('foci:update_cluster', polygon)
+        this.$store.commit('foci:update_foci', polygon)
         this.editing = false
 
         this.add_foci_layer()
         this.show_foci()
+      },
+
+      accept_suggestion() {
+        this.$store.dispatch('foci:accept_suggestion', this.foci)
+        this.viewing_suggestion = false
+      },
+      discard_suggestion() {
+        this.$store.dispatch('foci:disard_suggestion', this.foci)
+        this.viewing_suggestion = false
       },
       
 
