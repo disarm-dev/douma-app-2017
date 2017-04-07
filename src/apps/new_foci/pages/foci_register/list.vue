@@ -38,7 +38,6 @@
 </script>
 <style scoped>
   .list-table {
-    width: 100%;
     margin: 1em;
     margin-right: 1em !important;
   }
