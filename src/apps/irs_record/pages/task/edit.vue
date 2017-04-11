@@ -2,13 +2,19 @@
   <div class='container'>
     <h1>Structure record</h1>
     <p>Use the buttons below to record the spray status of this structure.</p>
-    <i>Future versions can have more fields, custom-fields, etc.</i>
+    <i><md-icon>add_to_queue</md-icon>Future versions can have more fields, custom-fields, etc.</i>
 
     <form>
       <p><md-radio v-model="task.properties.status" name="status" md-value="unvisited">Unvisited</md-radio></p>
       <p><md-radio v-model="task.properties.status" name="status" md-value="visited_successful">Visited and sprayed</md-radio></p>
-      <p><md-radio v-model="task.properties.status" name="status" md-value="visited_unsuccessful">Visited and not sprayed</md-radio></p>
-      <p><md-radio v-model="task.properties.status" name="status" md-value="visited_unsprayable">Visited, structure is unsprayable</md-radio></p>
+      <p>
+        <md-radio v-model="task.properties.status" name="status" md-value="visited_unsuccessful">Visited and not sprayed</md-radio>
+        <input type="" name="" placeholder="because">
+      </p>
+      <p>
+        <md-radio v-model="task.properties.status" name="status" md-value="visited_unsprayable">Visited, structure is unsprayable</md-radio>
+        <input type="" name="" placeholder="because">
+      </p>
 
       <label>Another field</label>
       <input type="" name="">
