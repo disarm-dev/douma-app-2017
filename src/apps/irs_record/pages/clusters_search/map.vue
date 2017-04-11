@@ -57,7 +57,6 @@
           this._map.removeSource('clusters_included')
         }
 
-        
         this._map.addLayer({
           'id': 'clusters_excluded', // every locality, doesn't change
           'type': 'fill',
@@ -66,10 +65,11 @@
             'data': {type: 'FeatureCollection', features: this.clusters }
           },
           'paint': {
-            'fill-opacity': 0.5,
-            'fill-color': 'grey'
+            'fill-opacity': 0.8,
+            'fill-color': '#F61FAB'
           }
         }) 
+
         this._map.addLayer({
           'id': 'clusters_included', // every locality, doesn't change
           'type': 'fill',
