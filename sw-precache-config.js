@@ -15,7 +15,7 @@ module.exports = {
     },
     {
       urlPattern: /https:\/\/douma-api\.herokuapp.com\/v2\/clusters\/all\/*/,
-      handler: 'cacheFirst'
+      handler: 'fastest'
     },
     {
       urlPattern: /https:\/\/douma-api\.herokuapp\.com\/v2\/tasks\/count/,
