@@ -18,14 +18,14 @@
             </div>
           </md-list-item>
 
-          <md-list-item>
+<!--           <md-list-item>
             <md-icon class="md-primary">email</md-icon>
             <div class="md-list-text-container">
               <span>{{$store.state.meta.user.email}}</span>
               <span>Email</span>
             </div>
           </md-list-item>
-
+ -->
           <md-list-item>
             <md-icon class="md-primary">flag</md-icon>
             <md-input-container>
