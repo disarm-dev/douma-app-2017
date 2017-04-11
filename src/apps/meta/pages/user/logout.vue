@@ -19,6 +19,11 @@
 
 <script>
   export default {
+    mounted() {
+      // TODO: @demo Restore logout confirmation
+      this.$store.commit('meta:login_user', null)
+      this.$router.push({name: 'meta:login'})
+    },
     methods: {
       logout() {
         this.$store.commit('meta:login_user', null)

@@ -30,17 +30,25 @@
         </div>
       </md-toolbar>
 
-      <md-list>
+      <md-list v-if='user'>
         <md-list-item v-for='applet in applets' @click.native="navigate(applet.name)">
           <md-icon>{{applet.icon}}</md-icon><span>{{applet.title}}</span>
         </md-list-item>
 
         <md-divider class="md-inset"></md-divider>
 
+        
         <md-list-item @click.native="navigate('meta:profile')">
           <md-icon>person</md-icon><span>User</span>
         </md-list-item>
+
+        <md-list-item @click.native="navigate('meta:logout')">
+          <md-icon>exit</md-icon><span>Logout</span>
+        </md-list-item>
+
       </md-list>
+
+
     </md-sidenav>
 
     <!-- TODO: @feature INSERT SNACKBAR HERE -->

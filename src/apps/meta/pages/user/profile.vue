@@ -18,14 +18,6 @@
             </div>
           </md-list-item>
 
-<!--           <md-list-item>
-            <md-icon class="md-primary">email</md-icon>
-            <div class="md-list-text-container">
-              <span>{{$store.state.meta.user.email}}</span>
-              <span>Email</span>
-            </div>
-          </md-list-item>
- -->
           <md-list-item>
             <md-icon class="md-primary">flag</md-icon>
             <md-input-container>
@@ -96,9 +88,7 @@
         this.$store.commit('meta:set_country', this.country)
       },
       logout() {
-        this.$store.commit('meta:login_user', null)
-        this.$router.push({name: 'meta:login'})
-        // this.$router.push({name: 'meta:logout'}) // TODO: @demo Restore logout confirmation
+        this.$router.push({name: 'meta:logout'})
       },
       resetPassword() {
         this.$router.push({name: 'meta:resetpassword'})
