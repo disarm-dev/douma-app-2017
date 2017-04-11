@@ -6,6 +6,10 @@ module.exports = {
   importScripts: ['offline-analytics.js'],
   runtimeCaching: [
     {
+      urlPattern: /https:\/\/douma-api\.herokuapp.com\/v2\/static_clusters\/*/,
+      handler: 'cacheFirst'
+    },
+    {
       urlPattern: /https:\/\/douma-api\.herokuapp.com\/v2\/local_areas\/*/,
       handler: 'cacheFirst'
     },

@@ -107,8 +107,7 @@ export default {
     'irs_plan:load_clusters': (context) => {
       context.commit('root:set_loading', true)
 
-      // return fetch(DOUMA_API_URL + '/v2/clusters/all/' + context.rootState.meta.country.slug.toLowerCase()) // TODO: @refac Don't put this fetch in here. Also add `country.slug`
-      return fetch('/assets/static_clusters/' + context.rootState.meta.country.slug.toLowerCase() + '.clusters.json') // TODO: @refac Don't put this fetch in here. Also add `country.slug`
+      return fetch(DOUMA_API_URL + '/v2/clusters/all/' + context.rootState.meta.country.slug.toLowerCase()) // TODO: @refac Don't put this fetch in here. Also add `country.slug`
         .then((res) => res.json())
         .then((all_clusters) => {
           context.commit('root:set_loading', false)
