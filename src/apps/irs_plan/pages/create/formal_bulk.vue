@@ -6,9 +6,18 @@
     <input type="range" min="0" max="1" step="0.01" v-model="raster_opacity" :disabled='!risk_loaded'>
     <div>
       <md-button @click.native='download_selected_clusters' :disabled='computing'>download clusters</md-button>
-      <md-button @click.native='save_selected_clusters' :disabled='computing'>save clusters</md-button>
+      <!-- <md-button @click.native='save_selected_clusters' :disabled='computing'>save clusters</md-button> -->
+      <md-button @click.native='save_confirm'>save clusters</md-button>
     </div>
     <div id="map"></div>
+    <md-dialog-confirm
+      md-title="Overwrite clusters"
+      md-content-html="This will overwrite any existing clusters. Do you want to do this?"
+      md-ok-text="OK"
+      md-cancel-text="Cancel"
+      @close="save_selected_clusters"
+      ref="save_confirmation">
+    </md-dialog-confirm>
   </div>
 </template>
 
@@ -305,7 +314,12 @@
         const filename = `clusters.${datestamp}.${demo_instance_id}.json`
         download(JSON.stringify(featureCollection), filename, 'application/json')
       },
-      save_selected_clusters() {
+      save_confirm() {
+        this.$refs['save_confirmation'].open()
+      },
+      save_selected_clusters(response) {
+        if (response === 'cancel') return
+        console.log('saving')
         const cluster_ids = this._selected_cluster_ids
         const cluster_collection_id = this._selected_clusters[0].properties.cluster_collection_id
         const country_code = this.country.slug
@@ -316,6 +330,6 @@
 </script>
 
 <style lang="css" scoped>
-  #slider {width: 90vw;}
+  #slider {width: 100%;}
   #map {height: calc(80vh - 200px);}
 </style>
