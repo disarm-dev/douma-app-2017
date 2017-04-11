@@ -96,7 +96,9 @@
         this.$store.commit('meta:set_country', this.country)
       },
       logout() {
-        this.$router.push({name: 'meta:logout'})
+        this.$store.commit('meta:login_user', null)
+        this.$router.push({name: 'meta:login'})
+        // this.$router.push({name: 'meta:logout'}) // TODO: @demo Restore logout confirmation
       },
       resetPassword() {
         this.$router.push({name: 'meta:resetpassword'})
