@@ -3,17 +3,15 @@
 </template>
 
 <script>
-  import Leaflet from 'leaflet'
-  import 'leaflet/dist/leaflet.css'
-  import {mapState, mapGetters} from 'vuex'
-
+  import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js'
+  import {mapState} from 'vuex'
 
   export default {
     name: 'ClustersSearchMap',
     props: ['clusters'],
     data() {
       return {
-        map: {},
+        _map: null,
         clusters_layer: null
       }
     },
@@ -27,67 +25,81 @@
       })
     },
     mounted() {
-      this.create_map()
-      this.draw_clusters()
+      this.create_map().then(() => {
+        this.draw_clusters()
+        this.handle_click()
+      })
     },
     methods: {
       create_map() {
-        this.map = Leaflet.map('map', {
-          tms: true,
-          center: [this.country.centre.lat, this.country.centre.lng],
-          zoom: parseInt(this.country.zoom, 10)
-        });
+        let country = this.$store.state.meta.country
+        mapboxgl.accessToken = 'pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
 
-        const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
-
-        Leaflet.tileLayer(url).addTo(this.map)
+        return new Promise((resolve, reject) => {
+          this._map = new mapboxgl.Map({
+            container: 'map', // container id
+            style: 'mapbox://styles/mapbox/streets-v9', //stylesheet location
+            center: [country.centre.lng, country.centre.lat],
+            zoom: country.zoom
+          });
+          this._map.on('load', () => resolve())
+        })
       },
       draw_clusters() {
-        let redrawing
 
-        if (this.clusters_layer) {
-          redrawing = true
-          this.map.removeLayer(this.clusters_layer)
-          this.clusters_layer = null
-        }
-        // Return unless there are search_results to render
-        if (this.clusters.length === 0) {
-          return
+        if (this._map.getLayer('clusters_excluded')) {
+          this._map.removeLayer('clusters_excluded')
+          this._map.removeSource('clusters_excluded')
         }
 
-        const local_clusters_layer = L.geoJSON(this.clusters, {
-          style: (feature, layer) => {
-            // Is the feature already in the clusters_to_open array
-            const included = this.$parent.clusters_to_open.includes(feature)
+        if (this._map.getLayer('clusters_included')) {
+          this._map.removeLayer('clusters_included')
+          this._map.removeSource('clusters_included')
+        }
 
-            if (included) {
-              return { color: 'green' }
-            } else {
-              return { color: 'grey' }
-            }
+        
+        this._map.addLayer({
+          'id': 'clusters_excluded', // every locality, doesn't change
+          'type': 'fill',
+          'source': {
+            'type': 'geojson',
+            'data': {type: 'FeatureCollection', features: this.clusters }
           },
-          onEachFeature: (feature, layer) => {
-            layer.on('click', () => {
-              this.add_or_remove_from_keep(feature)
-            })
+          'paint': {
+            'fill-opacity': 0.5,
+            'fill-color': 'grey'
           }
-        })
-
-        this.map
-          .addLayer(local_clusters_layer)
-
-        if (!redrawing) this.map.fitBounds(local_clusters_layer.getBounds())
-        this.clusters_layer = local_clusters_layer
-
+        }) 
+        this._map.addLayer({
+          'id': 'clusters_included', // every locality, doesn't change
+          'type': 'fill',
+          'source': {
+            'type': 'geojson',
+            'data': {type: 'FeatureCollection', features: this.$parent.clusters_to_open }
+          },
+          'paint': {
+            'fill-outline-color': 'grey',
+            'fill-opacity': 0.5,
+            'fill-color': 'green'
+          }
+        }) 
       },
-      add_or_remove_from_keep(cluster) {
-        let clusters_to_open = this.$parent.clusters_to_open
-        if (clusters_to_open.includes(cluster)) {
-          const index = clusters_to_open.findIndex(c => c._id === cluster._id)
-          clusters_to_open.splice(index, 1)
-        } else {
-          clusters_to_open.push(cluster)
-        }
+      handle_click() {
+        this._map.on('click', (e) => {
+          const clicked_features = this._map.queryRenderedFeatures(e.point, {layers: ['clusters_excluded']})
+          if (clicked_features.length === 0) return
+          const cluster_id = clicked_features[0].properties.cluster_id // Assume we only get a single feature
+          
+          let cluster = this.clusters.find(c => c.properties.cluster_id === cluster_id)
+          
+          let clusters_to_open = this.$parent.clusters_to_open
+          if (clusters_to_open.includes(cluster)) {
+            const index = clusters_to_open.findIndex(c => c._id === cluster._id)
+            clusters_to_open.splice(index, 1)
+          } else {
+            clusters_to_open.push(cluster)
+          }
+        })        
       }
     }
   }
