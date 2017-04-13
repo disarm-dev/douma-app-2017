@@ -15,11 +15,11 @@ export default {
   mutations: {
     // EDITING
     'irs_record:set_clusters': (state, clusters) => {
-      if (state.clusters.length === 0) {
-        state.clusters = clusters
-      } else {
-        clusters.forEach(c => state.clusters.push(c))
-      }
+      let clusters_to_set = []
+      state.clusters.map(c => clusters_to_set.push(c))
+      clusters.map(c => clusters_to_set.push(c))
+
+      state.clusters = clusters_to_set
     },
     'irs_record:set_saved_clusters': (state, cluster_ids) => {
       state.saved_cluster_ids = cluster_ids
