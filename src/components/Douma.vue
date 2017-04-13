@@ -43,7 +43,7 @@
         </md-list-item>
 
         <md-list-item @click.native="navigate('meta:logout')">
-          <md-icon>exit</md-icon><span>Logout</span>
+          <md-icon>exit_to_app</md-icon><span>Logout</span>
         </md-list-item>
 
       </md-list>
