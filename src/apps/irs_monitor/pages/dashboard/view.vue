@@ -73,7 +73,7 @@
       
     </div>
 
-      <div class="box">
+      <div class="box map-box">
         <md-card>
           
           <div id="map"></div>
@@ -158,20 +158,16 @@
           this._map.removeSource('clusters')
         }
 
-        let clusters = this.$store.state.irs_records.saved_cluster_ids.map((id) => {
-          return this.$store.state.irs.clusters.find(c => c._id === id)
-        }).filter(c => c)
-
         this._map.addLayer({
           'id': 'clusters', // every locality, doesn't change
           'type': 'fill',
           'source': {
             'type': 'geojson',
-            'data': {type: 'FeatureCollection', features: clusters }
+            'data': {type: 'FeatureCollection', features: this.$store.state.irs.clusters }
           },
           'paint': {
             'fill-opacity': 0.5,
-            'fill-color': 'grey'
+            'fill-color': 'blue'
           }
         }) 
       }
@@ -216,5 +212,9 @@
 
   #map {
     height: 350px;
+  }
+
+  .map-box {
+    padding-bottom: 2em;
   }
 </style>
