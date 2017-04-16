@@ -67,7 +67,7 @@ class Sync {
         resolve()
       })
     }).then(() => {
-      // TODO @refac This is horrible, fix it
+      // TODO: @refac This is horrible, fix it
       const existing_ids = (JSON.parse(localStorage.getItem('douma-saved-cluster-ids'))|| [])
       const saved_cluster_ids = clusters.map(cluster => cluster._id).concat(existing_ids)
       return localStorage.setItem('douma-saved-cluster-ids', JSON.stringify(saved_cluster_ids))
