@@ -9,7 +9,7 @@ const route_table = (router) => {
   const routes = router.options.routes
   let output = []
   
-  function thing(routes, path_prefix = '') {
+  function get_routes(routes, path_prefix = '') {
     for (var i = routes.length - 1; i >= 0; i--) {
       const route = routes[i]
       const path = `${path_prefix}${route.path}`
@@ -19,14 +19,14 @@ const route_table = (router) => {
       }
 
       if(route.hasOwnProperty('children')) {
-        thing(route.children, `${path}/`)
+        get_routes(route.children, `${path}/`)
       }
     }
   }
 
-  thing(routes)
+  get_routes(routes)
 
-  console.log(output)
+  return output.reverse()
 }
 
 export default route_table
