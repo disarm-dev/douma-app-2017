@@ -13,7 +13,7 @@ export default [
     meta: {title: 'IRS Monitor', icon: 'dashboard'},
     children: [
       {
-        path: '/irs_monitor/view',
+        path: 'view',
         name: "irs_monitor:view",
         component: DashboardView,
         meta: {title: 'Dashboard'}

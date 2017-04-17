@@ -1,26 +1,26 @@
 import MetaApplet from './meta_applet.vue'
 
-import Profile from './pages/user/profile.vue'
+import Home from './pages/user/home.vue'
 import Login from './pages/user/login.vue'
 import Logout from './pages/user/logout.vue'
 import ResetPassword from './pages/user/resetPassword.vue'
 import NewUser from './pages/user/newUser.vue'
-import SyncStatus from './pages/sync/status.vue'
-import AOIMap from './pages/aoi/map.vue'
+
+import MetaDebug from './pages/debug.vue'
 
 const meta = [
   {
     path: '/meta',
-    redirect: '/meta/profile',
+    redirect: '/meta/home',
     name: 'meta',
     meta: {title: 'User', icon: 'person'},
     component: MetaApplet,
     children: [
       {
-        path: 'profile',
-        name: 'meta:profile',
-        component: Profile,
-        meta: {title: 'Profile'}
+        path: 'home',
+        name: 'meta:home',
+        component: Home,
+        meta: {title: 'Home'}
       },
       {
         path: 'login',
@@ -41,18 +41,11 @@ const meta = [
         path: 'newuser',
         name: 'meta:newuser',
         component: NewUser,
-      },
-      {
-        path: 'sync',
-        name: 'meta:sync',
-        component: SyncStatus,
-      },
-      {
-        path: 'aoi',
-        name: 'meta:aoi',
-        component: AOIMap,
       }
     ]
+  }, {
+    path: '/meta/debug',
+    component: MetaDebug
   }
 ]
 

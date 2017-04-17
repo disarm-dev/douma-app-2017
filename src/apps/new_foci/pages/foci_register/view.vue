@@ -1,11 +1,11 @@
 <template>
   <md-tabs :md-fixed="true">
-    <md-tab md-label="Map">
-      <foci-map></foci-map>
-    </md-tab>
-
     <md-tab md-label="Summary Table">
       <foci-summary-table></foci-summary-table>
+    </md-tab>
+
+    <md-tab md-label="Map">
+      <foci-map></foci-map>
     </md-tab>
 
     <md-tab md-label="List">

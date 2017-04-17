@@ -45,20 +45,20 @@
         // TODO: @refac Stop doing all the user stuff in here
         users: [
           {
-            id: 'edgar_sprayer_47',
-            name: 'Edgar Sprayer', 
+            id: '1',
+            name: 'Edgar (Sprayer)', 
             fake_password: 'malaria',
-            email: 'sprayer@bob.com', 
+            email: 'a@a.com', 
             version: COMMIT_HASH,
             allowed_apps: {
               read: ['irs_record'], 
               write: ['irs_record']
             },
           },{
-            id: 'philile_manager_15',
-            name: 'Philile Manager', 
+            id: '2',
+            name: 'Philile (Manager)', 
             fake_password: 'malaria',
-            email: 'manager@bob.com', 
+            email: 'b@b.com', 
             version: COMMIT_HASH,
             allowed_apps: {
               // @refac Rely on applet routes for controlling access to applets, 'rasters' should be seen as layers
@@ -66,10 +66,10 @@
               write: ['irs_monitor', 'irs_plan', 'irs_tasker', 'irs_record', 'rasters']
             },
           },{
-            id: 'philile_manager_15',
-            name: 'Foci Bob', 
+            id: '3',
+            name: 'Brighton (Foci)', 
             fake_password: 'malaria',
-            email: 'manager@bob.com', 
+            email: 'c@c.com', 
             version: COMMIT_HASH,
             allowed_apps: {
               // @refac Rely on applet routes for controlling access to applets, 'rasters' should be seen as layers
@@ -101,7 +101,7 @@
         this.disabled = true
         this.$store.commit('meta:login_user', user)
         this.$store.commit('meta:set_demo_instance_id', this.demo_instance_id)
-        this.$router.push({name: 'meta:profile'})
+        this.$router.push({name: 'meta:home'})
       },
       login() {
         this.msg = "Loading..."

@@ -45,7 +45,7 @@
           return
         }
 
-        this.$router.push({name: 'meta:profile'})
+        this.$router.push({name: 'meta:home'})
       }
     }
   }

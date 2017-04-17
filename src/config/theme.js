@@ -7,8 +7,8 @@ export default () => {
 
   Vue.material.registerTheme({
     default: {
-      primary: 'green',
-      accent: 'amber'
+      primary: 'blue',
+      accent: 'pink'
     },
     foci: {
       primary: 'cyan',
@@ -39,8 +39,8 @@ export default () => {
       accent: 'brown'
     },
     meta: {
-      primary: 'pink',
-      accent: 'blue'
+      primary: 'blue',
+      accent: 'pink'
     }
   })
 }

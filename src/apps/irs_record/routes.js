@@ -28,7 +28,7 @@ export default [
     meta: {title: 'IRS Record', icon: 'assignment'},
     children: [
       {
-        path: '/irs_record/clusters/search',
+        path: 'clusters/search',
         name: 'irs_record:clusters_search',
         redirect: '/irs_record/clusters/search/map',
         component: ClustersSearchView,
@@ -47,7 +47,7 @@ export default [
           }
         ]
       },{
-        path: '/irs_record/clusters',
+        path: 'clusters',
         name: 'irs_record:clusters',
         redirect: '/irs_record/clusters/map',
         component: ClustersView,
@@ -66,7 +66,7 @@ export default [
           }
         ]
       },{
-        path: '/irs_record/clusters/:cluster_id',
+        path: 'clusters/:cluster_id',
         name: 'irs_record:cluster',
         redirect: '/irs_record/clusters/:cluster_id/tasks',
         component: ClusterView,
@@ -79,7 +79,7 @@ export default [
             component: ClusterShow,
             props: true
           },{
-            path: '/irs_record/clusters/:cluster_id/tasks',
+            path: 'tasks',
             name: 'irs_record:tasks',
             redirect: '/irs_record/clusters/:cluster_id/tasks/map',
             component: TasksView,
@@ -101,7 +101,7 @@ export default [
               }
             ]
           },{
-            path: '/irs_record/clusters/:cluster_id/tasks/:task_id',
+            path: 'tasks/:task_id',
             name: 'irs_record:task',
             component: TaskView,
             meta: {},

@@ -139,7 +139,9 @@ export default {
       context.commit('root:set_loading', true)
       Sync.config(context.rootState.meta.demo_instance_id)
 
-      return Sync.post_clusters({cluster_ids, cluster_collection_id, country_code}).then(() => {
+      return Sync.delete_clusters().then(() => {
+        return Sync.post_clusters({cluster_ids, cluster_collection_id, country_code})
+      }).then(() => {
         return context.commit('root:set_loading', false)
       })
     }

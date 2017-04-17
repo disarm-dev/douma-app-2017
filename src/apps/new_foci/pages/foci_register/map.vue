@@ -17,7 +17,6 @@
     },
     mounted() {
       this.create_map().then(() => {
-        console.log('created')
         this._map.resize()
         this.add_foci_layer()
         this.handle_click()
@@ -48,7 +47,6 @@
         })
       },
       add_foci_layer() {
-        console.log(this.focis)
         this._map.addLayer({
           'id': 'focis', // every locality, doesn't change
           'type': 'fill',
@@ -75,7 +73,24 @@
         this._map.on('click', (e) => {
           const clicked_features = this._map.queryRenderedFeatures(e.point, {layers: ['focis']})
           if (clicked_features.length === 0) return
-          const foci_id = clicked_features[0].properties._id // Assume we only get a single feature
+          const foci = clicked_features[0] // Assume we only get a single feature
+          var popup = new mapboxgl.Popup({closeOnClick: true})
+            .setLngLat(e.lngLat)
+            .setHTML(
+              `<div>
+                <h5>Foci ${foci.properties._id}</h5>
+                <p>Status: ${foci.properties.status}</p>
+                <p>${foci.properties.cases} Cases</p>
+                <p>${foci.properties.structures} Structures</p>
+              </div>`
+            )
+            .addTo(this._map);
+        }) 
+
+        this._map.on('dblclick', (e) => {
+          const clicked_features = this._map.queryRenderedFeatures(e.point, {layers: ['focis']})
+          if (clicked_features.length === 0) return
+          const foci_id = clicked_features[0].properties._id
           this.$router.push({name: 'foci:investigation', params: {foci_id: foci_id}})
         })        
       }
@@ -84,4 +99,7 @@
   }
 </script>
 
-<style>.md-tab{padding: 0 !important;}</style>
+<style scoped>
+  .md-tab{padding: 0 !important;}
+  #map { height: 60vh; }
+</style>

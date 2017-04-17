@@ -1,6 +1,9 @@
 <template>
   <div>
+
+    <!-- MAIN PAGE 'TOOLBAR' -->
     <div class="douma-toolbar">
+      <!-- LOADING BAR -->
       <template v-cloak>
         <md-progress v-if='loading' class='md-accent' md-indeterminate></md-progress>
       </template>
@@ -9,12 +12,12 @@
         <md-button class="md-icon-button" @click.native="toggleSideNav">
           <md-icon>menu</md-icon>
         </md-button>
-        <!-- <h2 class="md-title" style="flex: 1; padding-left: 0.5em;">NMCP Swaziland | DiSARM</h2> -->
+        <!-- BREADCRUMBS -->
         <h2 class="md-title" style="flex: 1"><bread-crumbs></bread-crumbs></h2> 
-        <!-- TODO: @feature Need to add breadcrumbs in each app -->
       </md-toolbar>
     </div>
 
+    <!-- SIDENAV -->
     <md-sidenav class="md-left" ref="sideNav">
       <md-toolbar class="md-medium">
         <div class="md-toolbar-container">
@@ -22,7 +25,7 @@
 
         </div>
         <div v-if="user">
-          <p @click="navigate('meta:profile')">Logged in: {{user.email}}</p>
+          <p @click="navigate('meta:home')">Logged in: {{user.name}}</p>
           <p >Demo instance: <i>{{$store.state.meta.demo_instance_id}}</i></p>
         </div>
         <div v-else>
@@ -30,26 +33,32 @@
         </div>
       </md-toolbar>
 
-      <md-list>
+      <md-list v-if='user'>
         <md-list-item v-for='applet in applets' @click.native="navigate(applet.name)">
           <md-icon>{{applet.icon}}</md-icon><span>{{applet.title}}</span>
         </md-list-item>
 
         <md-divider class="md-inset"></md-divider>
 
-        <md-list-item @click.native="navigate('meta:profile')">
+        
+        <md-list-item @click.native="navigate('meta:home')">
           <md-icon>person</md-icon><span>User</span>
         </md-list-item>
+
+        <md-list-item class='md-accent' @click.native="navigate('meta:logout')">
+          <md-icon>exit_to_app</md-icon><span>Logout</span>
+        </md-list-item>
+
       </md-list>
     </md-sidenav>
 
-    <!-- TODO: @feature INSERT SNACKBAR HERE -->
+    <!-- SNACKBAR -->
     <md-snackbar md-position="top center" ref="snackbar" :md-duration="snackbar.duration">
       <span>{{snackbar.message}}</span>
       <md-button class="md-accent" md-theme="light-blue" @click.native="snackbar_action">Yes?</md-button>
     </md-snackbar>
 
-
+    <!-- DIALOG -->
     <md-dialog-alert
       :md-title="$store.state.sw_message.title"
       :md-content="$store.state.sw_message.message"
@@ -57,9 +66,8 @@
       ref="sw_dialog">
     </md-dialog-alert>
 
-
+    <!-- APPLET CONTAINER -->
     <div>
-      <!-- Most likely to contain the AppletContainer -->
       <router-view></router-view>
     </div>
   </div>

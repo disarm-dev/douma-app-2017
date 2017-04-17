@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <md-table v-once>
+  <div class="summary-table">
+    <p>Total number of Foci: {{total_foci}}</p>
+    <md-table>
       <md-table-header>
         <md-table-row>
           <md-table-head>Status</md-table-head>
@@ -14,27 +15,32 @@
       <md-table-body>
       <md-table-row>
           <md-table-cell>Active</md-table-cell>
-          <md-table-cell md-numeric>79</md-table-cell>
-          <md-table-cell md-numeric>59</md-table-cell>
-          <md-table-cell md-numeric>19</md-table-cell>
-          <md-table-cell md-numeric>157</md-table-cell>
+          <md-table-cell md-numeric>{{value(79)}}</md-table-cell>
+          <md-table-cell md-numeric>{{value(59)}}</md-table-cell>
+          <md-table-cell md-numeric>{{value(19)}}</md-table-cell>
+          <md-table-cell md-numeric>{{value(157)}}</md-table-cell>
         </md-table-row>
         <md-table-row>
           <md-table-cell>Inactive</md-table-cell>
-          <md-table-cell md-numeric>67</md-table-cell>
-          <md-table-cell md-numeric>94</md-table-cell>
-          <md-table-cell md-numeric>97</md-table-cell>
-          <md-table-cell md-numeric>258</md-table-cell>
+          <md-table-cell md-numeric>{{value(67)}}</md-table-cell>
+          <md-table-cell md-numeric>{{value(94)}}</md-table-cell>
+          <md-table-cell md-numeric>{{value(97)}}</md-table-cell>
+          <md-table-cell md-numeric>{{value(258)}}</md-table-cell>
         </md-table-row>
         <md-table-row>
           <md-table-cell>Cleared</md-table-cell>
-          <md-table-cell md-numeric>59</md-table-cell>
-          <md-table-cell md-numeric>17</md-table-cell>
-          <md-table-cell md-numeric>99</md-table-cell>
-          <md-table-cell md-numeric>175</md-table-cell>
+          <md-table-cell md-numeric>{{value(59)}}</md-table-cell>
+          <md-table-cell md-numeric>{{value(17)}}</md-table-cell>
+          <md-table-cell md-numeric>{{value(99)}}</md-table-cell>
+          <md-table-cell md-numeric>{{value(175)}}</md-table-cell>
         </md-table-row>
       </md-table-body>
     </md-table>
+
+    <md-button class="md-accent md-raised" @click.native="vp = !vp">Toggle %</md-button>
+
+    <md-button class="md-accent md-raised" @click.native="go_suggestions">Go to suggestions</md-button>
+
   </div>
 </template>
 
@@ -42,13 +48,11 @@
 
   export default {
     name: 'FociSummaryTable',
-    watch: {
-    },
-    created() {
-    },
     data () {
       return {
-        columns: ['_id', 'location']
+        //view percentages
+        total_foci: 590,
+        vp: false
       }
     },
     computed: {
@@ -57,8 +61,23 @@
       }
     },
     methods: {
-
+      value(v) {
+        if (this.vp) {
+          let num = v / this.total_foci * 100
+          return Math.round(num * 10) / 10 + '%' 
+        }
+        return v
+      },
+      go_suggestions() {
+        this.$router.push({name: 'foci:suggestion'})
+      }
     }
-
   }
 </script>
+
+<style>
+  .summary-table {
+    max-width: 800px;
+    margin: 1em auto;
+  }
+</style>

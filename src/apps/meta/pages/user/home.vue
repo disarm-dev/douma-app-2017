@@ -19,14 +19,6 @@
           </md-list-item>
 
           <md-list-item>
-            <md-icon class="md-primary">email</md-icon>
-            <div class="md-list-text-container">
-              <span>{{$store.state.meta.user.email}}</span>
-              <span>Email</span>
-            </div>
-          </md-list-item>
-
-          <md-list-item>
             <md-icon class="md-primary">flag</md-icon>
             <md-input-container>
                 <md-select name="country" v-model="country_slug">
@@ -49,6 +41,7 @@
     <p class="debug-info">version: {{ version .substring(0,6)}}</p>
     <p class="debug-info">demo instance: {{$store.state.meta.demo_instance_id}}</p>
     <p @click='openDialog()' class='md-dense debug-info'>clear local data</p>
+    <p @click='$router.push("/meta/debug")' class='debug-info'>debug</p>
 
     <md-dialog md-open-from="#clear" md-close-to="#clear" ref="dialog">
       <md-dialog-title>Wipe everything?</md-dialog-title>

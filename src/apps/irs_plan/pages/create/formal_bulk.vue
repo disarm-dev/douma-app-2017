@@ -1,13 +1,23 @@
 <template>
   <div>
     <p>Select risk level on slider: {{converted_slider_value}}</p>
-    <input id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value">
-    <input type="range" min="0" max="1" step="0.01" v-model="raster_opacity">
+    <input id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value" :disabled='!clusters_loaded'>
+    <p>Opacity of risk layer</p>
+    <input type="range" min="0" max="1" step="0.01" v-model="raster_opacity" :disabled='!risk_loaded'>
     <div>
       <md-button @click.native='download_selected_clusters' :disabled='computing'>download clusters</md-button>
-      <md-button @click.native='save_selected_clusters' :disabled='computing'>save clusters</md-button>
+      <!-- <md-button @click.native='save_selected_clusters' :disabled='computing'>save clusters</md-button> -->
+      <md-button @click.native='save_confirm'>save clusters</md-button>
     </div>
     <div id="map"></div>
+    <md-dialog-confirm
+      md-title="Overwrite clusters"
+      md-content-html="This will overwrite any existing clusters. Do you want to do this?"
+      md-ok-text="OK"
+      md-cancel-text="Cancel"
+      @close="save_selected_clusters"
+      ref="save_confirmation">
+    </md-dialog-confirm>
   </div>
 </template>
 
@@ -17,6 +27,7 @@
   import download from 'downloadjs'
   import debounce from 'lodash.debounce'
   import moment from 'moment'
+  import numeral from 'numeral'
 
   import logslider from '../../../../lib/log_slider.js'
 
@@ -26,7 +37,9 @@
       return {
         computing: true,
         _map: null,
+        clusters_loaded: false,
         risk_slider_value: 1,
+        risk_loaded: false,
         slider: {
           min: 1,
           max: 100,
@@ -58,12 +71,12 @@
         if (!this.logslider) return 0
 
         let converted_value
-        if (this.risk_slider_value === this.slider.min) {
+        if (parseFloat(this.risk_slider_value) === this.slider.min) {
           converted_value = 0
         } else {
           converted_value = this.logslider(this.risk_slider_value)
         }
-        return converted_value
+        return numeral(converted_value).format('0.00')
       }
     },
     mounted() {
@@ -209,9 +222,9 @@
       add_risk_layer(){
         // TODO: @debug Remove these hard-coded values
         // TODO: @refac Change to risk api
-        const date = '2015-04-01'
-        const country_code = 'SWZ'
-        const url = `https://storage.googleapis.com/pipeline-api/api/${country_code}/${date}/risk/standard/current-month/tiles/{z}/{x}/{y}.png`
+        const date = '2015-12-01'
+        const country_code = this.country.slug
+        const url = `https://storage.googleapis.com/pipeline-api/api/${country_code}/${date}/risk/standard/year-to-date/tiles/{z}/{x}/{y}.png`
 
         this._map.on('load', () => {
           this._map.addLayer({
@@ -227,7 +240,15 @@
               'raster-opacity': this.raster_opacity
             }
           })
-        })
+          this.risk_loaded = true
+          
+
+          // Replace Mapbox error handler to hide those annoying non-error errors on tile load
+          this._map.on('error', e => {
+            if (e && e.error !== 'Error: Not Found')
+              console.error(e);
+            });
+          })
       },
       handle_formal_area_click() {
         this._map.on('click', (e) => {
@@ -264,6 +285,7 @@
             'line-color': 'blue'
           },
         })
+        this.clusters_loaded = true
 
       },
       handle_cluster_change: debounce(function(){
@@ -292,7 +314,12 @@
         const filename = `clusters.${datestamp}.${demo_instance_id}.json`
         download(JSON.stringify(featureCollection), filename, 'application/json')
       },
-      save_selected_clusters() {
+      save_confirm() {
+        this.$refs['save_confirmation'].open()
+      },
+      save_selected_clusters(response) {
+        if (response === 'cancel') return
+        console.log('saving')
         const cluster_ids = this._selected_cluster_ids
         const cluster_collection_id = this._selected_clusters[0].properties.cluster_collection_id
         const country_code = this.country.slug
@@ -303,7 +330,6 @@
 </script>
 
 <style lang="css" scoped>
-  #slider {
-    width: 90vw;
-  }
+  #slider {width: 100%;}
+  #map {height: calc(80vh - 200px);}
 </style>
