@@ -11,13 +11,13 @@ export default [
     meta: {title: 'IRS Tasker', icon: 'assignment_ind'},
     children: [
       {
-        path: '/irs_tasker/view',
+        path: 'view',
         name: 'irs_tasker:view',
         redirect: '/irs_tasker/view/map',
         component: TaskerView,
         children: [
           {
-            path: '/irs_tasker/view/map',
+            path: 'map',
             name: 'irs_tasker:map',
             component: TaskerMap,
           }

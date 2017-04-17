@@ -18,12 +18,12 @@ export default [
     meta: {title: 'IRS Plan', icon: 'gps_fixed'},
     children: [
       {
-        path: '/irs_plan/create',
+        path: 'create',
         name: 'irs_plan:create',
         component: CreateView,
         meta: {title: 'Create'},
       },{
-        path: '/irs_plan/review',
+        path: 'review',
         name: 'irs_plan:review',
         redirect: '/irs_plan/review/map',
         component: ReviewView,
