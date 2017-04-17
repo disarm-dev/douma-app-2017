@@ -1,6 +1,6 @@
 import MetaApplet from './meta_applet.vue'
 
-import Profile from './pages/user/profile.vue'
+import Home from './pages/user/home.vue'
 import Login from './pages/user/login.vue'
 import Logout from './pages/user/logout.vue'
 import ResetPassword from './pages/user/resetPassword.vue'
@@ -11,16 +11,16 @@ import MetaDebug from './pages/debug.vue'
 const meta = [
   {
     path: '/meta',
-    redirect: '/meta/profile',
+    redirect: '/meta/home',
     name: 'meta',
     meta: {title: 'User', icon: 'person'},
     component: MetaApplet,
     children: [
       {
-        path: 'profile',
-        name: 'meta:profile',
-        component: Profile,
-        meta: {title: 'Profile'}
+        path: 'home',
+        name: 'meta:home',
+        component: Home,
+        meta: {title: 'Home'}
       },
       {
         path: 'login',

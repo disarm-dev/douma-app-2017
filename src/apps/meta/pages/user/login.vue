@@ -101,7 +101,7 @@
         this.disabled = true
         this.$store.commit('meta:login_user', user)
         this.$store.commit('meta:set_demo_instance_id', this.demo_instance_id)
-        this.$router.push({name: 'meta:profile'})
+        this.$router.push({name: 'meta:home'})
       },
       login() {
         this.msg = "Loading..."
