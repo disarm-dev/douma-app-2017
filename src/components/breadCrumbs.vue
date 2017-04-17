@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- DiSARM > -->
     <template v-for="(bread, index) in crumbs">
       <router-link :to="bread.route" class='crumb'> 
         <md-icon v-if='bread.icon'>{{bread.icon}}</md-icon>
@@ -40,7 +39,6 @@
         // Remove first matched result, which seems to always be blank
         path_elements = path_elements.splice(1, path_elements.length) 
 
-
         // Convert variables into their values
         path_elements = path_elements.map((elem) => {
           return get_value_or_title(elem)
@@ -48,21 +46,22 @@
 
         // Iterate each path_element, create the crumb
         let result = path_elements.map((part, i) => {
+          // Force first element to be link to root route
           if (i == 0) {
             const applet = applet_meta_values.find((i) => i.name === part)
             return {
               title: applet.title, 
               icon: applet.icon,
-              route: '/'
+              route: '/meta' // Has to be set to 'meta', as '/' fails to be recognised for some reason
             }
-          } else {
-            let title = part[0].toUpperCase() + part.substr(1)
-            title = truncString(title, 10, '...')
+          }
 
-            return {
-              title: title,
-              route: '/' + build_path(part, i + 1)
-            }
+          let title = part[0].toUpperCase() + part.substr(1)
+          title = truncString(title, 10, '...')
+
+          return {
+            title: title,
+            route: '/' + build_path(part, i + 1)
           }
         })
 
