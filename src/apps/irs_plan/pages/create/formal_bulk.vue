@@ -88,7 +88,7 @@
             this.handle_cluster_change()
           })
         })
-        this.add_locality_layers()
+        this.add_local_area_layers()
         this.add_risk_layer()
         this.handle_formal_area_click()
         
@@ -140,7 +140,7 @@
           this._map.on('load', () => resolve())
         })
       },
-      add_locality_layers() {
+      add_local_area_layers() {
         const formal_areas_fc = {
           type: 'FeatureCollection',
           features: this.formal_areas
@@ -265,8 +265,6 @@
           })
         })
       },
-
-
 
       // Result.vue
       add_clusters_layer() {
