@@ -119,7 +119,6 @@ export default {
       const selected_clusters = cluster_results(all_clusters, context.getters['irs_plan:all_selected_area_ids'])
       context.dispatch('irs_plan:calculate_selected_clusters_stats', selected_clusters)
       return selected_clusters
-
     },
     'irs_plan:calculate_selected_clusters_stats': (context, selected_clusters) => {
       const clusters_count = selected_clusters.length
