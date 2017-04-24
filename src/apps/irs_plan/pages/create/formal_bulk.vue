@@ -6,8 +6,7 @@
     <input type="range" min="0" max="1" step="0.01" v-model="raster_opacity" :disabled='!risk_loaded'>
     <div>
       <md-button @click.native='download_selected_clusters' :disabled='computing'>download clusters</md-button>
-      <!-- <md-button @click.native='save_selected_clusters' :disabled='computing'>save clusters</md-button> -->
-      <md-button @click.native='save_confirm'>save clusters</md-button>
+      <md-button @click.native='save_confirm' :disabled="computing">save clusters</md-button>
     </div>
     <div id="map"></div>
     <md-dialog-confirm
