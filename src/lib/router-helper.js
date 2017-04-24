@@ -1,6 +1,6 @@
 // router-helper.js
 
-
+// Mainly for debugging help
 // Pass an instantiated $router object
 // Log out a table of all possible route URLs
 
