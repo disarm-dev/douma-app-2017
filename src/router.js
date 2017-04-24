@@ -53,7 +53,7 @@ export default () => {
 
     if (to.name) {
       const theme = to.name.split(/:/)[0]
-      router.app.$material.setCurrentTheme(theme) // TODO: @fix Need to avoid setting themes that don't exist
+      router.app.$material.setCurrentTheme(theme)
     }
 
     next()
