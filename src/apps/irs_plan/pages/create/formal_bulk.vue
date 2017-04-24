@@ -97,7 +97,7 @@
       })
     },
     activated() {
-      if (this._map) this._map.resize()
+      if (this._map) this._map.resize() // TODO: @fix Need to resize on `activated`? Are we doing `keep-alive` anywhere for this component?
     },
     watch: {
       'bulk_selected_ids': 'redraw_bulk_selected',
@@ -330,6 +330,11 @@
 </script>
 
 <style lang="css" scoped>
-  #slider {width: 100%;}
-  #map {height: calc(80vh - 200px);}
+  #slider {
+    width: 100%;
+  }
+
+  #map {
+    height: calc(80vh - 200px);
+  }
 </style>
