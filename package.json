@@ -58,6 +58,7 @@
     "style-loader": "^0.13.1",
     "sw-offline-google-analytics": "0.0.13",
     "sw-precache": "^4.2.3",
+    "sw-precache-webpack-dev-plugin": "^0.2.0",
     "vue-loader": "^10.3.0",
     "vue-template-compiler": "^2.1.10",
     "webpack": "^2.2.1",
