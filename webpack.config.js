@@ -1,10 +1,17 @@
 var path = require('path')
 var webpack = require('webpack')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
+const SwPrecacheDevWebpackPlugin = require('sw-precache-webpack-dev-plugin')
 
 var commitHash = require('child_process')
   .execSync('git rev-parse HEAD')
   .toString().replace(/\n/, '');
+
+// add staticFileGlobs and filename for sw-precache-dev, for it to work
+let swConfig = Object.assign({}, require('./sw-precache-config'), { staticFileGlobs: ['/*.js', '/**/*.html', '/assets/**.*'], filename: '/service-worker.js'})
+
+// causes error during runtime
+delete swConfig.importScripts
 
 module.exports = {
   entry: ['whatwg-fetch', './src/index.js'],
@@ -71,7 +78,8 @@ module.exports = {
       WEATHER_API_URL: "'https://weather.api.disarm.io/processor/output'",
       R_SERVER_URL: "'https://cluster.api.disarm.io'",
       COUNTRY_OPTIONS: JSON.stringify(require('./src/config/countries.json'))
-    })
+    }),
+    new SwPrecacheDevWebpackPlugin(swConfig)
   ]
 }
 
