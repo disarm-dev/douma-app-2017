@@ -14,7 +14,7 @@ let swConfig = Object.assign({}, require('./sw-precache-config'), { staticFileGl
 delete swConfig.importScripts
 
 module.exports = {
-  entry: ['whatwg-fetch', './src/index.js'],
+  entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/',
