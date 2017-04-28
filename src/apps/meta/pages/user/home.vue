@@ -6,7 +6,7 @@
 
         <md-subheader>You can use the following DiSARM applets:</md-subheader>
 
-        <md-button v-for='app in applets' class='md-raised md-accent' @click.native="$router.push(`/${app.name}`)">{{app.title}}</md-button>
+        <md-button v-for='app in applets' :key='app.name' class='md-raised md-accent' @click.native="$router.push(`/${app.name}`)">{{app.title}}</md-button>
 
         <md-list class="md-double-line">
           <md-list-item>
@@ -22,7 +22,7 @@
             <md-icon class="md-primary">flag</md-icon>
             <md-input-container>
                 <md-select name="country" v-model="country_slug">
-                  <md-option v-for='country in country_options' :value="country.slug">{{country.name}}</md-option>
+                  <md-option v-for='country in country_options' :key='country.slug' :value="country.slug">{{country.name}}</md-option>
                 </md-select>
                 <label for="country">Country</label>
               </md-input-container>

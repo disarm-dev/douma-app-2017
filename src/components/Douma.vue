@@ -34,7 +34,7 @@
       </md-toolbar>
 
       <md-list v-if='user'>
-        <md-list-item v-for='applet in applets' @click.native="navigate(applet.name)">
+        <md-list-item v-for='applet in applets' :key='applet.name' @click.native="navigate(applet.name)">
           <md-icon>{{applet.icon}}</md-icon><span>{{applet.title}}</span>
         </md-list-item>
 

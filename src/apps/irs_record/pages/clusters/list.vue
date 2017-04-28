@@ -2,7 +2,7 @@
   <div>
     <h1>ClustersList</h1>
     <md-list v-if='clusters_with_sync_counts' class="md-double-line">
-      <md-list-item v-for="cluster in clusters_with_sync_counts" @click.native="$router.push({name: 'irs_record:cluster', params: {cluster_id: cluster._id}})">
+      <md-list-item v-for="cluster in clusters_with_sync_counts" :key='cluster._id' @click.native="$router.push({name: 'irs_record:cluster', params: {cluster_id: cluster._id}})">
         <div class="md-list-text-container">
           <span>
             {{cluster.name}} - {{cluster._id}} 
