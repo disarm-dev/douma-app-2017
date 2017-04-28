@@ -1,3 +1,8 @@
+yarn.lock
+*.sublime-workspace
+*.pem
+.idea
+
 .DS_Store
 node_modules/
 dist/
