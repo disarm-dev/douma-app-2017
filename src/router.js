@@ -21,11 +21,11 @@ export default () => {
   const routes = [
     {
       path: '/',
-      redirect: '/irs_plan/new',
+      redirect: '/meta',
     }
   ].concat(IRSMonitorRoutes, IRSPlanningRoutes, IRSTaskerRoutes, IRSRecordRoutes, RastersRoutes, MetaRoutes, NewFociRoutes, {
     path: '*',
-    redirect: 'meta/profile'
+    redirect: '/'
   })
   
   // Instantiate `router`
