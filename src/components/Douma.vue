@@ -21,7 +21,8 @@
     <md-sidenav class="md-left" ref="sideNav">
       <md-toolbar class="md-medium">
         <div class="md-toolbar-container">
-          <img src="/assets/disarm-logo-word-grey.png" style="height: 50px;">
+        <h3>Spray Tool</h3>
+          <!-- <img src="/assets/disarm-logo-word-grey.png" style="height: 50px;"> -->
 
         </div>
         <div v-if="user">
