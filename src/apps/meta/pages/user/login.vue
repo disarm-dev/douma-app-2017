@@ -22,7 +22,7 @@
 
           <md-list>
             <md-list-item v-for='user in users' >
-              {{user.name}} <md-button :disabled='!can_login' class="md-raised md-primary" @click.native="fake_login(user)">Login</md-button>
+              {{user.name}} <md-button :disabled='!can_login' class="md-raised md-primary" @click.native="real_login(user)">Login</md-button>
             </md-list-item>
           </md-list>
         </form>
@@ -45,37 +45,18 @@
         // TODO: @refac Stop doing all the user stuff in here
         users: [
           {
-            id: '1',
             name: 'Edgar (Sprayer)', 
-            fake_password: 'malaria',
+            password: 'malaria',
             email: 'a@a.com', 
-            version: COMMIT_HASH,
-            allowed_apps: {
-              read: ['irs_record'], 
-              write: ['irs_record']
-            },
           },{
-            id: '2',
             name: 'Philile (Manager)', 
-            fake_password: 'malaria',
+            password: 'malaria',
             email: 'b@b.com', 
-            version: COMMIT_HASH,
-            allowed_apps: {
-              // @refac Rely on applet routes for controlling access to applets, 'rasters' should be seen as layers
-              read: ['irs_monitor', 'irs_plan', 'irs_tasker', 'irs_record', 'rasters'], 
-              write: ['irs_monitor', 'irs_plan', 'irs_tasker', 'irs_record', 'rasters']
-            },
+            
           },{
-            id: '3',
             name: 'Brighton (Foci)', 
-            fake_password: 'malaria',
+            password: 'malaria',
             email: 'c@c.com', 
-            version: COMMIT_HASH,
-            allowed_apps: {
-              // @refac Rely on applet routes for controlling access to applets, 'rasters' should be seen as layers
-              read: ['foci'], 
-              write: ['foci']
-            },
           }
         ]
       }
@@ -102,6 +83,18 @@
         this.$store.commit('meta:login_user', user)
         this.$store.commit('meta:set_demo_instance_id', this.demo_instance_id)
         this.$router.push({name: 'meta:home'})
+      },
+      real_login(user) {
+        this.msg = "Loading..."
+        this.disabled = true
+        this.$store.commit('meta:set_demo_instance_id', this.demo_instance_id)
+        
+        this.$store.dispatch('meta:login', user).then(() => {
+          this.$router.push({name: 'meta:home'})
+        })
+        .catch(e => {
+          console.log(e)
+        })
       },
       login() {
         this.msg = "Loading..."

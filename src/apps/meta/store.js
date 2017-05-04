@@ -1,5 +1,6 @@
 // Store for 'Meta' applet
 import {generate_demo_instance_id} from '../../lib/demo_instance_id'
+import RemoteDB from '../../lib/remote'
 
 // Bootstrap user from localstorage
 // TODO: @refac stop bootstrapping user from localStorage
@@ -41,6 +42,17 @@ export default {
     },
     'meta:toast': (state, toast) => {
       state.toast = toast
+    }
+  },
+  actions: {
+    'meta:login': (context, user) => {
+      let remote = new RemoteDB(context.state.demo_instance_id)
+
+      return remote.authenticate(user).then(response => {
+        response.version = COMMIT_HASH
+        context.commit('meta:login_user', response)
+        return true
+      })
     }
   }
 }
