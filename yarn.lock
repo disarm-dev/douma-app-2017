@@ -5051,6 +5051,10 @@ vt-pbf@^2.0.2:
     point-geometry "0.0.0"
     vector-tile "^1.1.3"
 
+vue-form-generator@^2.0.0-beta6:
+  version "2.0.0-beta6"
+  resolved "https://registry.yarnpkg.com/vue-form-generator/-/vue-form-generator-2.0.0-beta6.tgz#a18d72cd3880772cf0ea4bd61a3eb70da730ccf1"
+
 vue-hot-reload-api@^2.0.1:
   version "2.0.11"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.0.11.tgz#bf26374fb73366ce03f799e65ef5dfd0e28a1568"
