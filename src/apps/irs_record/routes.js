@@ -1,5 +1,7 @@
 import IrsRecordApplet from './applet.vue'
 
+import Overview from './pages/overview/view.vue'
+
 import ClustersSearchView from './pages/clusters_search/view.vue'
 import ClustersSearchMap from './pages/clusters_search/map.vue'
 import ClustersSearchList from './pages/clusters_search/list.vue'
@@ -23,11 +25,15 @@ export default [
   {
     path: '/irs_record',
     name: 'irs_record',
-    redirect: '/irs_record/clusters',
+    redirect: '/irs_record/overview',
     component: IrsRecordApplet,
     meta: {title: 'IRS Record', icon: 'assignment'},
     children: [
       {
+        path: 'overview',
+        name: 'irs_record:overview',
+        component: Overview
+      },{
         path: 'clusters/search',
         name: 'irs_record:clusters_search',
         redirect: '/irs_record/clusters/search/map',
