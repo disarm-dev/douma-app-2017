@@ -87,7 +87,6 @@
     mounted() {
       if (this.$store.state.meta.user.allowed_apps.read.length <= 1) {
         const single_applet = this.$store.state.meta.user.allowed_apps.read[0]
-        // console.log(single_applet)
         this.$nextTick(() => this.$router.push({name: single_applet}))
       }
     },
