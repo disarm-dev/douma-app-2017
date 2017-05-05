@@ -9,7 +9,7 @@
   export default {
     name: 'TaskerApplet',
     mounted() {
-      this.$store.dispatch("irs:get_clusters")
+      this.$store.dispatch("irs:get_clusters") // TODO: @refac getting clusters so it's not called by components. is possible?
     }
   }
 </script>

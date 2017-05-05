@@ -66,6 +66,7 @@ export default {
     },
 
     "irs_record:close_cluster": (context, cluster) => {
+      // TODO: @refac rename method from `close_cluster` to remind that we're updating remote version
       return Sync.close_cluster(cluster).then(() => {
         return context.dispatch('irs:get_clusters')
       })
