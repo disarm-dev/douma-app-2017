@@ -4,7 +4,7 @@
     <p>Use the buttons below to record the spray status of this structure.</p>
     <i><md-icon>add_to_queue</md-icon>Future versions can have more fields, custom-fields, etc.</i>
     
-    <vue-form-generator :schema="schema" :model="model" :options="formOptions"></vue-form-generator>
+    <vue-form-generator :schema="schema" :model="task" :options="formOptions"></vue-form-generator>
     
     <!-- <form>
       <p><md-radio v-model="task.properties.status" name="status" md-value="unvisited">Unvisited</md-radio></p>
@@ -36,12 +36,55 @@
 <script>
   import Vue from 'vue';
   import VueFormGenerator from "vue-form-generator";
+  import "vue-form-generator/dist/vfg-core.css";
 
   Vue.use(VueFormGenerator);
 
   export default {
     name: 'TaskEdit',
     props: ['cluster_id', 'task_id', 'task'],
+    data() {
+      return {    
+        schema: {
+          fields: [{
+            type: "select",
+            label: "Status",
+            model: "properties.status",      
+            values: [
+              {id: "unvisited", name: "Unvisited"},
+              {id: "visited_successful", name: "Visited succesful"},
+              {id: "visited_unsuccessful", name: "Visited unsuccessful"},
+              {id: "visited_unsprayable", name: "Visited unsprayable" }
+            ],
+            required: true,
+            validator: VueFormGenerator.validators.required
+          },{
+            type: "input",
+            inputType: "text",
+            label: "Reason",
+            model: "properties.reason",
+            placeholder: "Reason for not sprayed",
+          },
+          {
+            type: "input",
+            inputType: "number",
+            label: "Number of people living in structure",
+            model: "residents",
+            placeholder: "No. of people",
+            validator: VueFormGenerator.validators.number
+          },{
+            type: 'submit',
+            validateBeforeSubmit: true,
+            onSubmit: this.save
+          }]
+        },
+
+        formOptions: {
+          validateAfterLoad: true,
+          // validateAfterChanged: true
+        }
+      }
+    },
     methods: {
       save() {
         // dispatch update action
@@ -54,68 +97,6 @@
       cancel() {
         this.$router.go(-1)
       }
-    },
-    data() {
-      return {
-  
-    model: {             
-      id: 1,
-      name: "John Doe",
-      password: "J0hnD03!x4",
-      skills: ["Javascript", "VueJS"],
-      email: "john.doe@gmail.com",
-      status: true
-    },
-  
-    schema: {
-      fields: [{
-        type: "input",
-        inputType: "text",
-        label: "ID (disabled text field)",
-        model: "id",
-        readonly: true,         
-        disabled: true
-      },{
-        type: "input",
-        inputType: "text",
-        label: "Name",
-        model: "name",
-        placeholder: "Your name",
-        featured: true,
-        required: true
-      },{
-        type: "input",
-        inputType: "password",
-        label: "Password",
-        model: "password",
-        min: 6,
-        required: true,
-        hint: "Minimum 6 characters",
-        validator: VueFormGenerator.validators.string
-      },{
-        type: "select",
-        label: "Skills",
-        model: "skills",      
-        values: ["Javascript", "VueJS", "CSS3", "HTML5"]
-      },{
-        type: "input",
-        inputType: "email",
-        label: "E-mail",
-        model: "email",
-        placeholder: "User's e-mail address"
-      },{
-        type: "checkbox",
-        label: "Status",
-        model: "status",
-        default: true
-      }]
-    },
-
-    formOptions: {
-      validateAfterLoad: true,
-      validateAfterChanged: true
-    }
-  }
     }
   }
 </script>
