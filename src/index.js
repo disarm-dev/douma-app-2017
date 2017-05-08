@@ -13,7 +13,6 @@ import store from './store'
 import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
 import {ClientTable} from 'vue-tables-2'
-import 'whatwg-fetch' // fetch polyfill (needed for Safari only?) // TODO: @refac Remove import for 'whatwg-fetch'
 
 // Keep track of Errors
 Raven
