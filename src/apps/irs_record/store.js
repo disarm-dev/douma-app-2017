@@ -14,8 +14,10 @@ export default {
   },
   mutations: {
     // EDITING
+    // TODO: @refac Rename from `set_clusters`, when we're not doing a straight `set` as everywhere else
     'irs_record:set_clusters': (state, clusters) => {
       let clusters_to_set = []
+      // TODO: @comment Explain why we need to keep the old ones.
       state.clusters.map(c => clusters_to_set.push(c))
       clusters.map(c => clusters_to_set.push(c))
 
