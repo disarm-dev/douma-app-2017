@@ -21,7 +21,7 @@
     <md-sidenav class="md-left" ref="sideNav">
       <md-toolbar class="md-medium">
         <div class="md-toolbar-container">
-          <h3>{{"{{CONFIG-SPECIFIC TITLE}}"}}</h3>
+          <h3>[[CONFIG-SPECIFIC TITLE]]</h3> <!-- TODO: @refac Replace with config-specific text -->
           <!-- <img src="/assets/disarm-logo-word-grey.png" style="height: 50px;"> -->
 
         </div>
