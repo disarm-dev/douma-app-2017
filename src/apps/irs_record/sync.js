@@ -1,6 +1,6 @@
-// Called by $store, coordinates local and remote activity
 import LocalDB from '../../lib/local.js'
 import RemoteDBClass from '../../lib/remote.js'
+
 import flatten from 'array-flatten'
 
 class Sync {
@@ -24,8 +24,12 @@ class Sync {
 
     return this.RemoteDB.read_clusters(filters) // returns a promise
   }
-  
+
+
   // Cluster management (incl. Task sync)
+  simple_open_clusters(clusters) {
+  }
+  
   open_clusters(clusters) {
     // For each Cluster already in memory
     // Get related RemoteRB Tasks
