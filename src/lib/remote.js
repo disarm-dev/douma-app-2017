@@ -5,6 +5,33 @@ class RemoteDBClass {
     this.demo_instance_id = demo_instance_id
     this.douma_api_root = `${DOUMA_API_URL}/${DOUMA_API_VERSION}`
   }
+  
+  //
+  // User authentiction
+  //
+  authenticate({email, password}) {
+    let url = this.douma_api_root + `/auth?demo_instance_id=${this.demo_instance_id}`
+
+    let options = {
+      body: JSON.stringify({user: {email, password}}),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      method: 'POST'
+    }
+    return new Promise((resolve, reject) => {
+      fetch(url, options)
+        .then(res => res.json())
+        .then(json => {
+          resolve(json)            
+        })
+        .catch((error) => {
+          console.log(error)
+          reject(error)
+        })
+    })
+  }
 
   // 
   // CLUSTERS
