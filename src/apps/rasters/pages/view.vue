@@ -12,9 +12,10 @@
           </md-button>
 
           <md-button 
-            v-for='(layer, index) in layers' 
+            v-for='layer in layers' 
+            :key='layer.slug'
             @click.native='select_layer(layer)'>
-            {{layer.title}}
+              {{layer.title}}
           </md-button>
 
         </md-button-toggle>

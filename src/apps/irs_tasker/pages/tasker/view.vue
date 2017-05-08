@@ -10,7 +10,7 @@
       </md-button>
 
       <md-menu-content>
-        <md-menu-item v-for='spray_team in spray_team_options' @selected='select_spray_team(spray_team)'>{{spray_team.name}}</md-menu-item>
+        <md-menu-item v-for='spray_team in spray_team_options' :key='spray_team.id' @selected='select_spray_team(spray_team)'>{{spray_team.name}}</md-menu-item>
       </md-menu-content>
     </md-menu>
 

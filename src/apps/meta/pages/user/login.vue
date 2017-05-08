@@ -21,7 +21,7 @@
           </md-input-container>
 
           <md-list>
-            <md-list-item v-for='user in users' >
+            <md-list-item v-for='user in users' :key='user.name'>
               {{user.name}} <md-button :disabled='!can_login' class="md-raised md-primary" @click.native="real_login(user)">Login</md-button>
             </md-list-item>
           </md-list>

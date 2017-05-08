@@ -5,6 +5,7 @@
     <md-list>
       <md-list-item 
         v-for='cluster in search_results'
+        :key='cluster._id'
         @click.native='add_or_remove_from_keep(cluster)'
         class='result'
         :class='{green: cluster.included}'>

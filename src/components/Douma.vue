@@ -21,7 +21,7 @@
     <md-sidenav class="md-left" ref="sideNav">
       <md-toolbar class="md-medium">
         <div class="md-toolbar-container">
-          <img src="/assets/disarm-logo-word-grey.png" style="height: 50px;">
+          <img src="/static/disarm-logo-word-grey.png" style="height: 50px;">
 
         </div>
         <div v-if="user">
@@ -34,7 +34,7 @@
       </md-toolbar>
 
       <md-list v-if='user'>
-        <md-list-item v-for='applet in applets' @click.native="navigate(applet.name)">
+        <md-list-item v-for='applet in applets' :key='applet.name' @click.native="navigate(applet.name)">
           <md-icon>{{applet.icon}}</md-icon><span>{{applet.title}}</span>
         </md-list-item>
 
