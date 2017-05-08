@@ -19,7 +19,8 @@ export default (DOUMA) => {
   let disableSW = res === 'false'
 
   // TODO: @refac Need to be clearer about the logic for activating SW below!
-  if ('serviceWorker' in navigator && !disableSW) {
+  // TODO: @fix Restore sevice-worker functionality
+  if ('serviceWorker' in navigator && !disableSW && false) {
     navigator.serviceWorker.register('/service-worker.js').then(function(reg) {
       reg.onupdatefound = function() {
         var installingWorker = reg.installing;
