@@ -34,7 +34,17 @@
 <script>
   export default {
     name: 'TaskEdit',
-    props: ['cluster_id', 'task_id', 'task'],
+//    props: ['cluster_id', 'task_id', 'task'],
+    props: {
+      cluster_id: {
+        type: Number,
+        required: false
+      },
+      task_id: Number,
+    },
+    mounted() {
+      console.log(this.cluster_id)
+    },
     methods: {
       save() {
         // dispatch update action
