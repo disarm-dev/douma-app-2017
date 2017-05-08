@@ -23,7 +23,7 @@ export default {
       let demo_instance_id = context.rootState.meta.demo_instance_id
       context.commit('root:set_loading', true)
       return IRSSync.get_clusters({demo_instance_id}).then(clusters => {
-        context.commit('root:set_loading', false)
+        context.commit('root:set_loading', false) // TODO: @refac Replace root:set_loading with a global method call to make simpler to follow, and less cluttered with `commits`
         context.commit('irs:set_clusters', clusters)
         return clusters
       })
