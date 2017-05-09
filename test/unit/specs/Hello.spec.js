@@ -13,6 +13,15 @@
 
 describe('not a real test', () => {
   it('it be true', () => {
-    expect(1).to.equal(1)
+    assert.lengthOf('123', 3)
+  })
+
+  it('it has a property', () => {
+    const thing = {value: 1}
+    assert.property(thing, 'values', "should not have values, just value");
+  })
+
+  it('passes after the previous one failed', () => {
+    assert.isTrue(true)
   })
 })
