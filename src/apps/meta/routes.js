@@ -1,4 +1,4 @@
-import Home from './pages/home.vue'
+import Home from './applet.vue'
 
 export default [
   {
