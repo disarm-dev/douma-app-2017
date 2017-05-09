@@ -50,11 +50,13 @@ const launch = (instance_config) => {
 const subdomain = document.domain.split('.')[0]
 console.log('subdomain', subdomain)
 
-fetch(`/config/${subdomain}.json`).then(res => {
+
+fetch(`/static/instances/${subdomain}.json`) // TODO: @refac Move this instance configuration from `static` to somewhere better
+.then(res => {
   if (res.status === 404) {
     throw new Error(`Cannot find configuration file for ${subdomain}`)
   }
-  res.json() 
+  return res.json() 
 }).then(json => {
   launch(json)
 })
