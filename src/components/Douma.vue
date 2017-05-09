@@ -6,13 +6,13 @@
       <template v-cloak>
         <md-progress v-if='loading' class='md-accent' md-indeterminate></md-progress>
       </template>
-      
+
       <md-toolbar class="md-whiteframe-1dp" >
         <md-button class="md-icon-button" @click.native="toggleSideNav">
           <md-icon>menu</md-icon>
         </md-button>
         <!-- BREADCRUMBS -->
-        <h2 class="md-title" style="flex: 1"><bread-crumbs></bread-crumbs></h2> 
+        <h2 class="md-title" style="flex: 1"><bread-crumbs></bread-crumbs></h2>
       </md-toolbar>
     </div>
 
@@ -34,13 +34,13 @@
       </md-toolbar>
 
       <md-list v-if='user'>
-        <md-list-item v-for='applet in applets' :key='applet' @click.native="navigate(applet)">
-          <md-icon>{{applet.icon}}</md-icon><span>{{applet}}</span>
+        <md-list-item v-for='applet in applets' :key='applet' @click.native="navigate(applet.name)">
+          <md-icon>{{applet.icon}}</md-icon><span>{{applet.title}}</span>
         </md-list-item>
 
         <md-divider class="md-inset"></md-divider>
 
-        
+
         <md-list-item @click.native="navigate('meta:home')">
           <md-icon>person</md-icon><span>User</span>
         </md-list-item>
@@ -76,6 +76,7 @@
 
 <script>
   import BreadCrumbs from './breadCrumbs.vue'
+  import generate_applet_routes from '../lib/applet_routes.js'
 
   export default {
     name: 'DOUMA',
@@ -89,7 +90,7 @@
     },
     mounted() {
       // if ((typeof this.$store.state.user !== 'undefined') && (this.$store.state.meta.user.version !== COMMIT_HASH)) {
-      //   console.log("Version has changed. Need to reload.")        
+      //   console.log("Version has changed. Need to reload.")
       //   this.$store.commit('meta:login_user', null)
       //   this.$router.push({name: 'meta:login'})
       // }
@@ -101,22 +102,14 @@
     },
     computed: {
       applets() {
-        return this.$store.state.meta.user.allowed_apps.write
-        // const applet_decorations = this.$router.options.routes.map((route) => {
-        //   return {...route.meta, name: route.name}
-        // })
-
-        // if (!this.$store.state.meta.user) return
-        // return this.$store.state.meta.user.allowed_apps.read.map((app) => {
-        //   return applet_decorations.find((i) => i.name === app)
-        // })
+        return generate_applet_routes(this.$router.options.routes, this.$store.state.meta.user)
       },
       user() {
         return this.$store.state.meta.user
       },
       snackbar() {
         return {
-          ...this.$store.state.snackbar, 
+          ...this.$store.state.snackbar,
           duration: 7000
         }
       },
