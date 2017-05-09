@@ -1,3 +1,6 @@
+// Some basics to get started
+import 'whatwg-fetch'
+import "babel-polyfill"
 
 // CSS
 import './fonts/Roboto.css'
@@ -69,4 +72,6 @@ fetch(`/static/instances/${subdomain}.json`) // TODO: @refac Move this instance 
     throw new Error(`Cannot find configuration file for ${subdomain}`)
   }
   return res.json()
-}).then(json => { launch(json) })
+})
+.then(json => { launch(json) })
+.catch(err => console.error('Caught fetch', err))
