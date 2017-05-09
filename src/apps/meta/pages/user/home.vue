@@ -2,7 +2,7 @@
   <div class='profile'>
     <md-card style="margin: 1em 0;">
       <md-card-content>
-        <p class="md-title profile-title">Welcome to DiSARM </p>
+        <p class="md-title profile-title">Welcome to DiSARM {{country}}</p>
 
         <md-subheader>You can use the following DiSARM applets:</md-subheader>
 
@@ -18,15 +18,6 @@
             </div>
           </md-list-item>
 
-          <md-list-item>
-            <md-icon class="md-primary">flag</md-icon>
-            <md-input-container>
-                <md-select name="country" v-model="country_slug">
-                  <md-option v-for='country in country_options' :key='country.slug' :value="country.slug">{{country.name}}</md-option>
-                </md-select>
-                <label for="country">Country</label>
-              </md-input-container>
-            </md-list-item>
         </md-list>
 
         <md-card-actions>
@@ -62,13 +53,11 @@
     data() {
       return {
         version: COMMIT_HASH,
-        country_slug: this.$store.state.meta.country.slug,
-        country_options: COUNTRY_OPTIONS
       }
     },
     computed: {
       country() {
-        return this.country_options.find(c => c.slug === this.country_slug)
+        return this.$store.state.instance_config.name
       },
       applets() {
         const applet_decorations = this.$router.options.routes.map((route) => {
@@ -81,9 +70,6 @@
         })
       },
     },
-    watch: {
-      'country_slug': 'set_country'
-    },
     mounted() {
       if (this.$store.state.meta.user.allowed_apps.read.length <= 1) {
         const single_applet = this.$store.state.meta.user.allowed_apps.read[0]
@@ -91,9 +77,6 @@
       }
     },
     methods: {
-      set_country() {
-        this.$store.commit('meta:set_country', this.country)
-      },
       logout() {
         this.$router.push({name: 'meta:logout'})
       },

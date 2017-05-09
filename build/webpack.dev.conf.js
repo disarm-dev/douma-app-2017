@@ -2,20 +2,16 @@ var utils = require('./utils')
 var webpack = require('webpack')
 var config = require('../config')
 var merge = require('webpack-merge')
-
-var instance_configs = require('./multiple_configurations.js')
+var baseWebpackConfig = require('./webpack.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
-
 // add hot-reload related code to entry chunks
-instance_configs.forEach((config) => {
-  Object.keys(config.entry).forEach(function (name) {
-    config.entry[name] = ['./build/dev-client'].concat(config.entry[name])
-  })
+Object.keys(baseWebpackConfig.entry).forEach(function (name) {
+  baseWebpackConfig.entry[name] = ['./build/dev-client'].concat(baseWebpackConfig.entry[name])
 })
 
-var dev_config = {
+module.exports = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap })
   },
@@ -36,12 +32,4 @@ var dev_config = {
     }),
     new FriendlyErrorsPlugin()
   ]
-}
-
-var merge_properties = {}
-
-Object.keys(instance_configs).forEach(instance_key => {
-  merge_properties[instance_key] = dev_config
 })
-
-module.exports = merge.multiple(merge_properties, instance_configs)

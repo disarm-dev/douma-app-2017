@@ -14,13 +14,15 @@ import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
 import {ClientTable} from 'vue-tables-2'
 
-var config = function(){// Keep track of Errors
+// Keep track of Errors
   Raven
     .config('https://05f42524abca4b84ba7a9b9d05fb620a@sentry.io/134727')
     .addPlugin(RavenVue, Vue)
     .install()
   Raven.setExtraContext({DOUMA_version: COMMIT_HASH})
 
+
+const launch = (instance_config) => {
   // Create a bunch of themes matching the routes
   configureThemes()
 
@@ -31,10 +33,12 @@ var config = function(){// Keep track of Errors
 
   const douma_app = new Vue({
     el: '#douma',
-    router, 
+    router,
     store,
     render: createElement => createElement(DoumaComponent),
   })
+
+  douma_app.$store.state.instance_config = instance_config
 
   // ServiceWorker
   configureServiceWorker(douma_app)
@@ -43,4 +47,14 @@ var config = function(){// Keep track of Errors
   console.info('DOUMA version: ' + COMMIT_HASH)
 }
 
-export default config
+const subdomain = document.domain.split('.')[0]
+console.log('subdomain', subdomain)
+
+
+fetch(`/static/instances/${subdomain}.json`) // TODO: @refac Move this instance configuration from `static` to somewhere better
+.then(res => {
+  if (res.status === 404) {
+    throw new Error(`Cannot find configuration file for ${subdomain}`)
+  }
+  return res.json()
+}).then(json => { launch(json) })
