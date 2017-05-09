@@ -42,8 +42,8 @@ const launch = (instance_config) => {
   }
 
   // Make DOUMA App
-  const router = create_router(instance_routes)
   const store = create_store(registered.stores)
+  const router = create_router(instance_routes, store)
 
   const douma_app = new Vue({
     el: '#douma',
