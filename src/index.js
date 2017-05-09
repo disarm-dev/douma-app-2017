@@ -14,30 +14,33 @@ import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
 import {ClientTable} from 'vue-tables-2'
 
-// Keep track of Errors
-Raven
-  .config('https://05f42524abca4b84ba7a9b9d05fb620a@sentry.io/134727')
-  .addPlugin(RavenVue, Vue)
-  .install()
-Raven.setExtraContext({DOUMA_version: COMMIT_HASH})
+var config = function(){// Keep track of Errors
+  Raven
+    .config('https://05f42524abca4b84ba7a9b9d05fb620a@sentry.io/134727')
+    .addPlugin(RavenVue, Vue)
+    .install()
+  Raven.setExtraContext({DOUMA_version: COMMIT_HASH})
 
-// Create a bunch of themes matching the routes
-configureThemes()
+  // Create a bunch of themes matching the routes
+  configureThemes()
 
-Vue.use(ClientTable, {}, false);
+  Vue.use(ClientTable, {}, false);
 
-// Make DOUMA App
-const router = configureRouter()
+  // Make DOUMA App
+  const router = configureRouter()
 
-const douma_app = new Vue({
-  el: '#douma',
-  router, 
-  store,
-  render: createElement => createElement(DoumaComponent),
-})
+  const douma_app = new Vue({
+    el: '#douma',
+    router, 
+    store,
+    render: createElement => createElement(DoumaComponent),
+  })
 
-// ServiceWorker
-configureServiceWorker(douma_app)
+  // ServiceWorker
+  configureServiceWorker(douma_app)
 
-// Keep track of what version we're working on
-console.info('DOUMA version: ' + COMMIT_HASH)
+  // Keep track of what version we're working on
+  console.info('DOUMA version: ' + COMMIT_HASH)
+}
+
+export default config

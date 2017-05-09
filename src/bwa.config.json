@@ -1,0 +1,14 @@
+{
+  "title": "Botswana One",
+  "applets": {
+    "irs_record_point": {
+      "location_type": "point"
+    },
+    "irs_monitor": {
+      "components": [
+        "table_data_something",
+        "table_data_something_else"
+      ]
+    }
+  }
+}
