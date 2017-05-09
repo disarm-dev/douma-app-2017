@@ -1,10 +1,8 @@
 import Record from './pages/record.vue'
 
-const meta = [
+export default [
   {
-    path: '/irs_record_point',
+    path: '/irs/record_point',
     component: Record,
   }
 ]
-
-export default meta

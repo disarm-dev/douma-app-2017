@@ -6,5 +6,10 @@
     "lat": -18.5565344567,
     "lng": 24.7711433844
   },
-  "zoom": 7
+  "zoom": 7,
+  "applets": {
+    "meta": {},
+    "irs_record_point": {},
+    "irs_monitor": {}
+  }
 }

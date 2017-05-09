@@ -6,5 +6,10 @@
   },
   "name": "Zimbabwe",
   "slug": "ZWE",
-  "zoom": 7.749187
+  "zoom": 7.749187,
+  "applets": {
+    "meta": {},
+    "irs_record_point": {},
+    "irs_monitor": {}
+  }
 }

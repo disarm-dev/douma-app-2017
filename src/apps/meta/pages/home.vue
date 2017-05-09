@@ -1,5 +1,8 @@
 <template>
-  <h1>Some content</h1>
+  <div>
+    <h1 id='the_id'>Meta</h1>
+  </div>
+  
 </template>
 
 <script>

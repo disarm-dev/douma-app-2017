@@ -9,7 +9,9 @@ function create_store(instance_stores) {
     state: {
       snackbar: {},
       loading: false,
-      sw_message: {}
+      sw_message: {},
+      user: {},
+      instance_config: {}
     },
     mutations: {
       'root:set_snackbar': (state, snackbar) => {

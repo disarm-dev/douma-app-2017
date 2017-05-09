@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <!-- MAIN PAGE 'TOOLBAR' -->
     <div class="douma-toolbar">
       <!-- LOADING BAR -->
@@ -21,7 +20,7 @@
     <md-sidenav class="md-left" ref="sideNav">
       <md-toolbar class="md-medium">
         <div class="md-toolbar-container">
-          <h3>{{$store.state.instance_config.name}}</h3> <!-- TODO: @refac Replace with config-specific text -->
+          <h3>Country: {{$store.state.instance_config.name}}</h3>
           <!-- <img src="/assets/disarm-logo-word-grey.png" style="height: 50px;"> -->
 
         </div>
@@ -66,6 +65,7 @@
       md-ok-text="Ok"
       ref="sw_dialog">
     </md-dialog-alert>
+
 
     <!-- APPLET CONTAINER -->
     <div>
@@ -147,6 +147,7 @@
 
 <style>
   body {
+    background-color: white;
     padding-top: 64px;
   }
 

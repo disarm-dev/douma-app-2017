@@ -9,6 +9,7 @@
   "zoom": 6,
   "applets": {
     "meta": {},
-    "irs_record_point": {}
+    "irs_record_point": {},
+    "irs_monitor": {}
   }
 }

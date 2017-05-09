@@ -11,17 +11,17 @@
 // })
 
 
-describe('not a real test', () => {
-  it('it be true', () => {
-    assert.lengthOf('123', 3)
-  })
+// describe('Hello', () => {
+//   it('it be true', () => {
+//     assert.lengthOf('123', 3)
+//   })
 
-  it('it has a property', () => {
-    const thing = {value: 1}
-    assert.property(thing, 'values', "should not have values, just value");
-  })
+//   it('it has a value property', () => {
+//     const thing = {value: 1}
+//     assert.property(thing, 'value', "should not have values, just value");
+//   })
 
-  it('passes after the previous one failed', () => {
-    assert.isTrue(true)
-  })
-})
+//   it('passes after the previous one failed', () => {
+//     assert.isTrue(true)
+//   })
+// })

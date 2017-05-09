@@ -1,10 +1,8 @@
 import Home from './pages/home.vue'
 
-const meta = [
+export default [
   {
     path: '/meta',
     component: Home,
   }
 ]
-
-export default meta
