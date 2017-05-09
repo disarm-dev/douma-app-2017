@@ -88,11 +88,11 @@
       '$store.state.sw_message': 'sw_dialog_open'
     },
     mounted() {
-      if ((typeof this.$store.state.user !== 'undefined') && (this.$store.state.meta.user.version !== COMMIT_HASH)) {
-        console.log("Version has changed. Need to reload.")        
-        this.$store.commit('meta:login_user', null)
-        this.$router.push({name: 'meta:login'})
-      }
+      // if ((typeof this.$store.state.user !== 'undefined') && (this.$store.state.meta.user.version !== COMMIT_HASH)) {
+      //   console.log("Version has changed. Need to reload.")        
+      //   this.$store.commit('meta:login_user', null)
+      //   this.$router.push({name: 'meta:login'})
+      // }
     },
     data() {
       return {

@@ -6,7 +6,7 @@ export default [
   {
     path: '/meta',
     component: applet,
-    redirect: '/meta/login',
+    redirect: '/meta/home',
     name: 'meta',
     meta: {title: 'User', icon: 'person'},
     children: [

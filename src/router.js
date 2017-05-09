@@ -23,15 +23,14 @@ export default (instance_routes, store) => {
 
   // Add the guards
   router.beforeEach((to, from, next) => {
-    console.warn('Check USER AUTH')
     // console.log(to, from)
-    // if (!store.state.meta || !store.state.meta.user) {
-    //   store.state.meta.previousRoute = to
-    //   if (to.name === 'meta:login') {
-    //     return next()
-    //   }
-    //   return next({name: 'meta:login'})
-    // } 
+    if (!store.state.meta || !store.state.meta.user) {
+      if (to.name === 'meta:login') {
+        return next()
+      }
+      store.state.meta.previousRoute = to
+      return next({name: 'meta:login'})
+    } 
 
     // if (to.meta.title) {
     //   document.title = `DiSARM - ${to.meta.title}`

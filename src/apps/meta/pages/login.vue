@@ -63,8 +63,8 @@
       },
       continue() {
         if (this.$store.state.meta.previousRoute) {
-          let {name} = this.$store.state.meta.previousRoute
-          this.$router.push({name})  
+          let {path} = this.$store.state.meta.previousRoute
+          this.$router.push(path)  
         } else {
           this.$router.push('/')  
         }
