@@ -15,7 +15,8 @@ export default {
     login: (context, user) => {
       let remote = new RemoteDB()
 
-      const fake_user = {"_id":"000e5588-0599-4d6c-90a6-63837809e3a9","name":"Philile (Manager)","password":"malaria","email":"b@b.com","allowed_apps":{"read":["irs_monitor","irs_tasker","irs_record","irs_plan"],"write":["irs_monitor","irs_tasker","irs_record","irs_plan"]},"version":"ef426a52ee69db57b9b90f43fe8f257dbfabc3c6"}
+      // TODO: @debug Restore real users logging in
+      const fake_user = {"_id":"000e5588-0599-4d6c-90a6-63837809e3a9","name":"Philile (Manager)","password":"malaria","email":"b@b.com","allowed_apps":{"read":["irs_record_point","irs_monitor"],"write":["irs_record_point","irs_monitor"]},"version":"ef426a52ee69db57b9b90f43fe8f257dbfabc3c6"}
       return Promise.resolve(context.commit('set_user', fake_user))
       // return remote.authenticate(user).then(auth_user => {
       //   auth_user.version = COMMIT_HASH
