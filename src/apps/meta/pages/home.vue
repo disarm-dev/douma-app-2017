@@ -10,6 +10,11 @@ export default {
     return {
 
     };
+  },
+  computed: {
+    applets() {
+      return this.$store.state.meta.user.allowed_apps.write
+    }
   }
 };
 </script>
