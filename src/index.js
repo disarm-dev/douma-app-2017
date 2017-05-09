@@ -14,7 +14,7 @@ import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
 import {ClientTable} from 'vue-tables-2'
 
-var config = function(){// Keep track of Errors
+// Keep track of Errors
   Raven
     .config('https://05f42524abca4b84ba7a9b9d05fb620a@sentry.io/134727')
     .addPlugin(RavenVue, Vue)
@@ -33,7 +33,7 @@ const launch = (instance_config) => {
 
   const douma_app = new Vue({
     el: '#douma',
-    router, 
+    router,
     store,
     render: createElement => createElement(DoumaComponent),
   })
@@ -56,11 +56,5 @@ fetch(`/static/instances/${subdomain}.json`) // TODO: @refac Move this instance 
   if (res.status === 404) {
     throw new Error(`Cannot find configuration file for ${subdomain}`)
   }
-  return res.json() 
-}).then(json => {
-  launch(json)
-})
-
-
-
-
+  return res.json()
+}).then(json => { launch(json) })
