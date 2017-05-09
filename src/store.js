@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import createPersistedState from 'vuex-persistedstate'
 Vue.use(Vuex)
 
 function create_store(instance_stores) {
   return new Vuex.Store({
     modules: instance_stores,
+    plugins: [createPersistedState()],
     state: {
       snackbar: {},
       loading: false,

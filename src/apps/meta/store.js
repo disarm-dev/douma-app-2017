@@ -23,6 +23,9 @@ export default {
       //   context.commit('set_user', auth_user)
       //   return true
       // })
+    },
+    logout: (context) => {
+      context.commit('set_user', null)
     }
   }
 }

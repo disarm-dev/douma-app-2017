@@ -34,8 +34,8 @@
       </md-toolbar>
 
       <md-list v-if='user'>
-        <md-list-item v-for='applet in applets' :key='applet.name' @click.native="navigate(applet.name)">
-          <md-icon>{{applet.icon}}</md-icon><span>{{applet.title}}</span>
+        <md-list-item v-for='applet in applets' :key='applet' @click.native="navigate(applet)">
+          <md-icon>{{applet.icon}}</md-icon><span>{{applet}}</span>
         </md-list-item>
 
         <md-divider class="md-inset"></md-divider>
@@ -45,7 +45,7 @@
           <md-icon>person</md-icon><span>User</span>
         </md-list-item>
 
-        <md-list-item class='md-accent' @click.native="navigate('meta:logout')">
+        <md-list-item class='md-accent' @click.native="logout()">
           <md-icon>exit_to_app</md-icon><span>Logout</span>
         </md-list-item>
 
@@ -101,14 +101,15 @@
     },
     computed: {
       applets() {
-        const applet_decorations = this.$router.options.routes.map((route) => {
-          return {...route.meta, name: route.name}
-        })
+        return this.$store.state.meta.user.allowed_apps.write
+        // const applet_decorations = this.$router.options.routes.map((route) => {
+        //   return {...route.meta, name: route.name}
+        // })
 
-        if (!this.$store.state.meta.user) return
-        return this.$store.state.meta.user.allowed_apps.read.map((app) => {
-          return applet_decorations.find((i) => i.name === app)
-        })
+        // if (!this.$store.state.meta.user) return
+        // return this.$store.state.meta.user.allowed_apps.read.map((app) => {
+        //   return applet_decorations.find((i) => i.name === app)
+        // })
       },
       user() {
         return this.$store.state.meta.user
@@ -140,6 +141,11 @@
       snackbar_action() {
         this.$refs.snackbar.close()
         this.snackbar.action()
+      },
+      logout() {
+        this.$store.dispatch('meta/logout').then(() => {
+          this.$router.push('/')
+        })
       }
     }
   }
