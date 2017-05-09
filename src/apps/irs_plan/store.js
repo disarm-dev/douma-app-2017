@@ -97,7 +97,7 @@ export default {
       context.commit('root:set_loading', true)
       Sync.config(context.rootState.meta.demo_instance_id)
 
-      return Sync.get_ous(context.rootState.meta.country.slug).then((formal_areas) => {
+      return Sync.get_ous(context.rootState.meta.country.slug, context.rootState.instance_config.area_id).then((formal_areas) => {
         context.commit('irs_plan:set_formal_areas', [])
         context.commit('irs_plan:set_formal_areas', formal_areas)
         context.commit('root:set_loading', false)

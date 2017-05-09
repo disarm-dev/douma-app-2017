@@ -1,7 +1,4 @@
-import country_options from '../config/countries.json'
-
-const prepare_formal_areas = (results, country_code) => {
-  const country = country_options.find(c => c.slug === country_code)
+const prepare_formal_areas = (results, country_area_id) => {
 
   // Harmonise IDs
   const formal_areas = results.features.map(area => {

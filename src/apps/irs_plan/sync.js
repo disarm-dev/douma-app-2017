@@ -7,7 +7,7 @@ class Sync {
     this.RemoteDB = new RemoteDBClass(demo_instance_id)
   }
 
-  get_ous(country_code) {
+  get_ous(country_code, country_area_id) {
     // TODO: @refac Cache offline assets better - ServiceWorker?
     let results
     const country_localstorage_key = `douma-${country_code}-ous`
@@ -20,12 +20,12 @@ class Sync {
     }
 
     if(results) {
-      results = prepare_formal_areas(results, country_code)
+      results = prepare_formal_areas(results, country_area_id)
       return Promise.resolve(results)
     }
 
     return this.RemoteDB.get_ous(country_code).then((results) => {
-      const formal_areas = prepare_formal_areas(results, country_code)
+      const formal_areas = prepare_formal_areas(results, country_area_id)
       localStorage.setItem(country_localstorage_key, formal_areas)
       return formal_areas
     })
