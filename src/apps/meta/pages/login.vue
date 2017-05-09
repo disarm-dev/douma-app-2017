@@ -11,12 +11,12 @@
 
           <md-input-container>
             <label>Username</label>
-            <md-input v-model="username" type="username"></md-input>
+            <md-input v-model="user.email" type="text"></md-input>
           </md-input-container>
 
           <md-input-container>
             <label>Password</label>
-            <md-input v-model="password" type="password"></md-input>
+            <md-input v-model="user.password" type="password"></md-input>
           </md-input-container>
 
           <md-button class="md-accent" :disabled='disabled' @click.native="login()">Login</md-button>
@@ -30,15 +30,16 @@
 </template>
 
 <script>
-  import {generate_demo_instance_id} from '../../../lib/demo_instance_id'
 
   export default {
     data() {
       return {
         msg: 'Please login below',
         disabled: false,
-        username: '',
-        password: '',
+        user: {
+          email: '',
+          password: ''
+        }
       }
     },
     computed: {
@@ -49,8 +50,8 @@
     methods: {
       login() {
         this.disabled = true
-        
-        this.$store.dispatch('meta:login', user).then(() => {
+
+        this.$store.dispatch('meta/login', this.user).then(() => {
           this.disabled = false
           this.continue()
         })

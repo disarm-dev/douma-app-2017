@@ -10,7 +10,6 @@ function create_store(instance_stores) {
       snackbar: {},
       loading: false,
       sw_message: {},
-      user: {},
       instance_config: {}
     },
     mutations: {
