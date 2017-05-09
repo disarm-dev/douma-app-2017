@@ -68,8 +68,7 @@ module.exports = {
       DOUMA_API_VERSION: "'v2'",
       // DOUMA_API_URL: "'http://localhost:3000'",
       WEATHER_API_URL: "'https://weather.api.disarm.io/processor/output'",
-      R_SERVER_URL: "'https://cluster.api.disarm.io'",
-      COUNTRY_OPTIONS: JSON.stringify(require('../src/config/countries.json'))
+      R_SERVER_URL: "'https://cluster.api.disarm.io'"
     }),
   ]
 }
