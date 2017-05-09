@@ -8,6 +8,7 @@
   "slug": "NAM",
   "zoom": 6,
   "applets": {
-    "meta": {}
+    "meta": {},
+    "irs_record_point": {}
   }
 }
