@@ -14,12 +14,12 @@ import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
 import {ClientTable} from 'vue-tables-2'
 
-// Keep track of Errors
-Raven
-  .config('https://05f42524abca4b84ba7a9b9d05fb620a@sentry.io/134727')
-  .addPlugin(RavenVue, Vue)
-  .install()
-Raven.setExtraContext({DOUMA_version: COMMIT_HASH})
+var config = function(){// Keep track of Errors
+  Raven
+    .config('https://05f42524abca4b84ba7a9b9d05fb620a@sentry.io/134727')
+    .addPlugin(RavenVue, Vue)
+    .install()
+  Raven.setExtraContext({DOUMA_version: COMMIT_HASH})
 
 
 const launch = (instance_config) => {
