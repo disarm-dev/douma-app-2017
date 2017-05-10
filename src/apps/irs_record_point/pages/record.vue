@@ -28,8 +28,8 @@
     data () {
       return {
         validation_message: '',
-        location: {},
-        form_data: {}
+        form_data: {},
+        location: {}
       }
     },
     computed: {
@@ -39,6 +39,15 @@
       create_or_update() {
         return !!this.existing_response_data ? 'Update' : 'Create'
       },
+      // location: {
+      //   get(){
+      //     if (this.existing_response_data) {
+      //       this.existing_response_data.location
+      //     }          
+      //   },
+      //   set(value){
+      //   }
+      // },
       existing_response_data() {
         if (this.response_id) {
           const response = this.$store.state.irs_record_point.responses.find((response) => response.id === this.response_id)
