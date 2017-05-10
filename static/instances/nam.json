@@ -56,8 +56,7 @@
               }
             ],
             "name": "Section 1",
-            "title": "IRS Data Collection Form",
-            "visible": false
+            "title": "IRS Data Collection Form"
           },
           {
             "type": "text",
@@ -105,6 +104,11 @@
           },
           {
             "type": "checkbox",
+            "name": "select_multiplereason",
+            "visible": false,
+            "visibleIf": "{number_unsprayed} >=1",
+            "title": "Reasons for not spraying ( Choose all reasons relevant for this homestead)",
+            "isRequired": true,
             "choices": [
               "Locked",
               "Refused",
@@ -113,12 +117,7 @@
                 "text": "Sick person/young infant"
               },
               "Other"
-            ],
-            "isRequired": true,
-            "name": "select_multiplereason",
-            "title": "Reasons for not spraying ( Choose all reasons relevant for this homestead)",
-            "visible": false,
-            "visibleIf": "{number_unsprayed} >=1"
+            ]
           }
         ],
         "name": "page1"
@@ -161,6 +160,11 @@
           },
           {
             "type": "checkbox",
+            "name": "Unsprayable_reason",
+            "visible": false,
+            "visibleIf": "{Sprayable} = 2",
+            "title": "Type of unsprayable structures?",
+            "isRequired": true,
             "choices": [
               {
                 "value": "1",
@@ -194,12 +198,7 @@
                 "value": "8",
                 "text": "Other"
               }
-            ],
-            "isRequired": true,
-            "name": "Unsprayable_reason",
-            "title": "Type of unsprayable structures?",
-            "visible": false,
-            "visibleIf": "{Sprayable} = 2"
+            ]
           }
         ],
         "name": "page2"
@@ -372,6 +371,11 @@
           },
           {
             "type": "dropdown",
+            "name": "team_leader",
+            "visible": false,
+            "visibleIf": "{region} = Zambezi",
+            "title": "Team Leader",
+            "isRequired": true,
             "choices": [
               "Zambezi 1",
               "Zambezi 2",
@@ -410,15 +414,15 @@
                 "text": "Zambezi 18|"
               },
               "Zambezi 19"
-            ],
-            "isRequired": true,
-            "name": "team_leader",
-            "title": "Team Leader",
-            "visible": false,
-            "visibleIf": "{region} = Zambezi"
+            ]
           },
           {
             "type": "dropdown",
+            "name": "team_leader",
+            "visible": false,
+            "visibleIf": "{region} = Kavango",
+            "title": "Team Leader",
+            "isRequired": true,
             "choices": [
               {
                 "value": "Kavango 1 ",
@@ -600,15 +604,15 @@
                 "value": "Kavango 45 ",
                 "text": " Kavango 45"
               }
-            ],
-            "isRequired": true,
-            "name": "team_leader",
-            "title": "Team Leader",
-            "visible": false,
-            "visibleIf": "{region} = Kavango"
+            ]
           },
           {
             "type": "dropdown",
+            "name": "team_leader",
+            "visible": false,
+            "visibleIf": "{region} = Oshana",
+            "title": "Team Leader",
+            "isRequired": true,
             "choices": [
               {
                 "value": "Oshana 1 ",
@@ -690,15 +694,15 @@
                 "value": "Oshana 20 ",
                 "text": " Oshana 20"
               }
-            ],
-            "isRequired": true,
-            "name": "team_leader",
-            "title": "Team Leader",
-            "visible": false,
-            "visibleIf": "{region} = Oshana"
+            ]
           },
           {
             "type": "dropdown",
+            "name": "team_leader",
+            "visible": false,
+            "visibleIf": "{region} = Oshikoto",
+            "title": "Team Leader",
+            "isRequired": true,
             "choices": [
               {
                 "value": "Oshikoto 1 ",
@@ -764,15 +768,15 @@
                 "value": "Oshikoto 16 ",
                 "text": " Oshikoto 16"
               }
-            ],
-            "isRequired": true,
-            "name": "team_leader",
-            "title": "Team Leader",
-            "visible": false,
-            "visibleIf": "{region} = Oshikoto"
+            ]
           },
           {
             "type": "dropdown",
+            "name": "Team Leader",
+            "visible": false,
+            "visibleIf": "{region} = Ohangwena",
+            "title": "Team Leader",
+            "isRequired": true,
             "choices": [
               {
                 "value": "Ohangwena 1 ",
@@ -919,15 +923,15 @@
                 "text": " Ohangwena 36"
               }
             ],
-            "isRequired": true,
-            "name": "Team Leader",
-            "storeOthersAsComment": false,
-            "title": "Team Leader",
-            "visible": false,
-            "visibleIf": "{region} = Ohangwena"
+            "storeOthersAsComment": false
           },
           {
             "type": "dropdown",
+            "name": "team_leader",
+            "visible": false,
+            "visibleIf": "{region} = Otjozondjupa",
+            "title": "Team Leader",
+            "isRequired": true,
             "choices": [
               {
                 "value": "Otjozondjupa 1 ",
@@ -953,15 +957,15 @@
                 "value": "Otjozondjupa 6 ",
                 "text": " Otjozondjupa 6"
               }
-            ],
-            "isRequired": true,
-            "name": "team_leader",
-            "title": "Team Leader",
-            "visible": false,
-            "visibleIf": "{region} = Otjozondjupa"
+            ]
           },
           {
             "type": "dropdown",
+            "name": "team_leader",
+            "visible": false,
+            "visibleIf": "{region} = Omusati",
+            "title": "Team Leader",
+            "isRequired": true,
             "choices": [
               {
                 "value": "Omusati 1 ",
@@ -1027,15 +1031,15 @@
                 "value": "Omusati 16 ",
                 "text": " Omusati 16"
               }
-            ],
-            "isRequired": true,
-            "name": "team_leader",
-            "title": "Team Leader",
-            "visible": false,
-            "visibleIf": "{region} = Omusati"
+            ]
           },
           {
             "type": "dropdown",
+            "name": "team_leader",
+            "visible": false,
+            "visibleIf": "{region} = Kunene",
+            "title": "Team Leader",
+            "isRequired": true,
             "choices": [
               {
                 "value": "Kunene 1 ",
@@ -1077,12 +1081,7 @@
                 "value": "Kunene 10 ",
                 "text": " Kunene 10"
               }
-            ],
-            "isRequired": true,
-            "name": "team_leader",
-            "title": "Team Leader",
-            "visible": false,
-            "visibleIf": "{region} = Kunene"
+            ]
           }
         ],
         "name": "page3"
@@ -1093,22 +1092,6 @@
             "type": "text",
             "isRequired": true,
             "name": "head of household",
-            "title": "Head of Household Name: ",
-            "visible": false,
-            "visibleIf": "{Sprayable} = 1"
-          },
-          {
-            "type": "text",
-            "isRequired": true,
-            "name": "question2",
-            "title": "Head of Household Name: ",
-            "visible": false,
-            "visibleIf": "{Sprayable} = 1"
-          },
-          {
-            "type": "text",
-            "isRequired": true,
-            "name": "question1",
             "title": "Head of Household Name: ",
             "visible": false,
             "visibleIf": "{Sprayable} = 1"

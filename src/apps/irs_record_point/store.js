@@ -1,5 +1,11 @@
 export default {
+  namespaced: true,
   state: {
-    value: 'none'
+    responses: []
+  },
+  mutations: {
+    create_response: (state, response) => {
+      state.responses.push(response)
+    }
   }
 }

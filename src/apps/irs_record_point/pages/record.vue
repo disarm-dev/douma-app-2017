@@ -50,6 +50,7 @@
         } else if (valid_form && valid_locn) {
           this.validation_message = ''
           this.form_response = this.$refs.form.survey.data
+          this.$store.commit('irs_record_point/create_response', {form_response: this.form_response, location: this.location, date: new Date()})
           console.log('save_location_and_form', this.form_response, this.location)
         }
       }
