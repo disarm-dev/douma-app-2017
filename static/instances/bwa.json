@@ -2,14 +2,227 @@
   "name": "Botswana",
   "slug": "BWA",
   "area_id": "TARGET_FID",
-  "centre": {
-    "lat": -18.5565344567,
-    "lng": 24.7711433844
+  "map_focus": {
+    "centre": {
+      "lat": -18.5565344567,
+      "lng": 24.7711433844
+    },
+    "zoom": 7
   },
-  "zoom": 7,
   "applets": {
     "meta": {},
-    "irs_record_point": {},
-    "irs_monitor": {}
+    "irs_record_point": {
+      "title": "Recorder",
+      "icon": "accessible"
+    },
+    "irs_monitor": {
+      "title": "Not-a-Dashboard",
+      "icon": "watch"
+    }
+  },
+  "form": {
+    "pages": [
+      {
+        "elements": [
+          {
+            "type": "panel",
+            "elements": [
+              {
+                "type": "checkbox",
+                "choices": [
+                  {
+                    "value": "1",
+                    "text": "Yes"
+                  },
+                  {
+                    "value": "2",
+                    "text": "No"
+                  }
+                ],
+                "isRequired": true,
+                "name": "Is this the first entry of the day or the first entry at a new village?",
+                "title": "Is this the first entry of the day or the first entry at a new village?"
+              }
+            ],
+            "name": "Section 1",
+            "title": "Respondent Information"
+          },
+          {
+            "type": "panel",
+            "elements": [
+              {
+                "type": "text",
+                "isRequired": true,
+                "name": "Household Name ",
+                "title": "Record head of household name(s). ( If there is more than one, separate each name with a comma). "
+              },
+              {
+                "type": "text",
+                "inputType": "number",
+                "isRequired": true,
+                "name": "How many buildings are in this homestead? ( Value between 1 and 100)",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "maxValue": 100,
+                    "minValue": 1
+                  }
+                ]
+              }
+            ],
+            "name": "Section 2",
+            "title": "IRS Information"
+          },
+          {
+            "type": "panel",
+            "elements": [
+              {
+                "type": "text",
+                "commentText": "number",
+                "inputType": "number",
+                "isRequired": true,
+                "name": "Total number of people in this homestead",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "maxValue": 100,
+                    "minValue": 1
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "inputType": "number",
+                "isRequired": true,
+                "name": "under5",
+                "title": "Number of people in the homestead UNDER the age of 5?",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "maxValue": 100
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "commentText": "some ",
+                "inputType": "number",
+                "name": "question1",
+                "title": "Number of people in the homestead at the age of 5 or ABOVE?",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "maxValue": 100
+                  }
+                ]
+              },
+              {
+                "type": "checkbox",
+                "choices": [
+                  {
+                    "value": "1",
+                    "text": "Yes"
+                  },
+                  {
+                    "value": "2",
+                    "text": "No"
+                  }
+                ],
+                "isRequired": true,
+                "name": "LLIN",
+                "title": "Does this homestead have any LLINs used while sleeping?"
+              }
+            ],
+            "name": "Homestead Composition"
+          },
+          {
+            "type": "panel",
+            "elements": [
+              {
+                "type": "text",
+                "inputType": "number",
+                "isRequired": true,
+                "name": "RoomCount",
+                "title": "How many rooms are in this homestead?  ( Count all rooms in all buildings)",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "maxValue": 100,
+                    "minValue": 1
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "inputType": "number",
+                "isRequired": true,
+                "name": "Modern",
+                "title": "How many rooms in this homestead are modern?",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "maxValue": 100
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "inputType": "number",
+                "isRequired": true,
+                "name": "traditional",
+                "title": "How many rooms in this homestead are traditional?",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "maxValue": 100
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "inputType": "number",
+                "isRequired": true,
+                "name": "other_structures",
+                "title": "How many other structures are in this homestead?\n\n(Other structures such as toilets and corridors)",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "maxValue": 100,
+                    "minValue": 1
+                  }
+                ]
+              }
+            ],
+            "name": "Section 3",
+            "title": "Room Count"
+          },
+          {
+            "type": "panel",
+            "elements": [
+              {
+                "type": "checkbox",
+                "choices": [
+                  {
+                    "value": "1",
+                    "text": "Yes"
+                  },
+                  {
+                    "value": "2",
+                    "text": "No"
+                  }
+                ],
+                "isRequired": true,
+                "name": "Spray",
+                "title": "Were ANY rooms in this homestead sprayed?\n\n"
+              }
+            ],
+            "name": "Section 4",
+            "title": "Spray Status"
+          }
+        ],
+        "name": "page1"
+      }
+    ],
+    "title": "Botswana IRS Record"
   }
 }

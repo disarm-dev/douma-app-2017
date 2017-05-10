@@ -101,7 +101,7 @@
     },
     computed: {
       applets() {
-        return generate_applet_routes(this.$router.options.routes, this.$store.state.meta.user)
+        return generate_applet_routes({routes: this.$router.options.routes, user: this.$store.state.meta.user, instance_config: this.$store.state.instance_config})
       },
       user() {
         return this.$store.state.meta.user

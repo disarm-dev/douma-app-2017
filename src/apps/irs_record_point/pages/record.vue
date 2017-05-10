@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class='container'>
     <h1>RECORD {{country}}</h1>
     <h3>Type: {{type}}</h3>
     <location_record v-on:change='update_location'></location_record>
@@ -34,4 +34,7 @@
 </script>
 
 <style lang="css" scoped>
+  .container {
+    margin: 10px;
+  }
 </style>

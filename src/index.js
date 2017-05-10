@@ -6,6 +6,7 @@ import "babel-polyfill"
 import './fonts/Roboto.css'
 import './fonts/MaterialIcons.css'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import 'survey-vue/survey.css'
 
 // Imports
 import Vue from 'vue'
@@ -58,7 +59,8 @@ const launch = (instance_config) => {
   douma_app.$store.state.instance_config = instance_config
 
   // ServiceWorker
-  configureServiceWorker(douma_app)
+  console.warn("TODO: @debug Restore SERVICE-WORKER")
+  // configureServiceWorker(douma_app) 
 
   // Keep track of what version we're working on
   console.info('DOUMA version: ' + COMMIT_HASH)
@@ -75,3 +77,4 @@ fetch(`/static/instances/${subdomain}.json`) // TODO: @refac Move this instance 
 })
 .then(json => { launch(json) })
 .catch(err => console.error('Caught fetch', err))
+

@@ -2,11 +2,13 @@
   "name": "Swaziland",
   "slug": "SWZ",
   "area_id": "UniqLocCod",
-  "centre": {
-    "lat": -26.502530898533244,
-    "lng": 31.528015136718754
+  "map_focus": {
+    "centre": {
+      "lat": -26.502530898533244,
+      "lng": 31.528015136718754
+    },
+    "zoom": 8
   },
-  "zoom": 8,
   "applets": {
     "meta": {},
     "irs_record_point": {},
