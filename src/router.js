@@ -28,7 +28,7 @@ export default (instance_routes, store) => {
       if (to.name === 'meta:login') {
         return next()
       }
-      store.state.meta.previousRoute = to
+      store.state.meta.previousRoute = to.path
       return next({name: 'meta:login'})
     } 
 
