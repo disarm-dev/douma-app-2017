@@ -88,9 +88,11 @@
       },
       create_response(response) {
         this.$store.commit('irs_record_point/create_response', response)
+        this.$store.commit('irs_monitor/create_response', response)
       },
       update_response(response) {
         this.$store.commit('irs_record_point/update_response', response)
+        this.$store.commit('irs_monitor/update_response', response)
       }
     }
   }

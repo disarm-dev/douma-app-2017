@@ -1,8 +1,7 @@
 export default {
   namespaced: true,
   state: {
-    responses: [],
-    current_response: null
+    responses: []
   },
   mutations: {
     create_response: (state, response) => {
