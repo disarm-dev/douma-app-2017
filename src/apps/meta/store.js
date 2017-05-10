@@ -1,4 +1,4 @@
-import RemoteDB from '../../lib/remote'
+import RemoteDB from '../../lib/data/remote'
 
 export default {
   namespaced: true,
