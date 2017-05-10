@@ -15,8 +15,7 @@ export default [
         name: 'meta:home',
         component: home,
         meta: {title: 'Home'}
-      },
-      {
+      },{
         path: 'login',
         name: 'meta:login',
         component: login,

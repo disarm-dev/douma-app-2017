@@ -1,5 +1,8 @@
 <template>
-  <h1>RECORD</h1>
+  <div>
+    <h1>RECORD {{country}}</h1>
+    <h3>Type: {{type}}</h3>
+  </div>
 </template>
 
 <script>
@@ -9,8 +12,15 @@ export default {
 
   data () {
     return {
-
-    };
+    }
+  },
+  computed: {
+    country() {
+      return this.$store.state.instance_config.name
+    },
+    type() {
+      return this.$store.state.instance_config.applets.irs_record_point.location_type
+    }
   }
 };
 </script>

@@ -47,6 +47,11 @@
         return this.$store.state.instance_config.name
       }
     },
+    mounted() {
+      if (this.$store.state.meta.user) {
+        this.$router.push('/')
+      }
+    },
     methods: {
       login() {
         this.disabled = true

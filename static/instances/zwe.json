@@ -9,7 +9,9 @@
   "zoom": 7.749187,
   "applets": {
     "meta": {},
-    "irs_record_point": {},
+    "irs_record_point": {
+      "location_type": "other"
+    },
     "irs_monitor": {}
   }
 }
