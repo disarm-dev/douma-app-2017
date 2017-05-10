@@ -6,10 +6,10 @@
     <router-link to='/irs/record_point/review'>Review</router-link>
     <md-tabs>
       <md-tab md-label="Form">
-        <form_renderer ref='form' :existing_form_data='existing_response_data.form_data'></form_renderer>
+        <form_renderer ref='form' :existing_form_data='existing_form_data'></form_renderer>
       </md-tab>
       <md-tab md-label="Location">
-        <location_record v-on:change='update_location' :existing_location='existing_response_data.location'></location_record>
+        <location_record v-on:change='update_location' :existing_location='existing_location'></location_record>
       </md-tab>
     </md-tabs>
   </div>
@@ -48,6 +48,16 @@
           return response
         } else {
           return null
+        }
+      },
+      existing_form_data() {
+        if (this.existing_response_data && this.existing_response_data.form_data) {
+          return this.existing_response_data.form_data
+        }
+      },
+      existing_location() {
+        if (this.existing_response_data && this.existing_response_data.location) {
+          return this.existing_response_data.location
         }
       }
     },
