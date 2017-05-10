@@ -11,8 +11,13 @@
   },
   "applets": {
     "meta": {},
-    "irs_record_point": {},
-    "irs_monitor": {}
+    "irs_record_point": {
+      "title": "Recorder"
+    },
+    "irs_monitor": {
+      "title": "Dashboard",
+      "icon": "watch"
+    }
   },
   "form": {
     "pages": [
