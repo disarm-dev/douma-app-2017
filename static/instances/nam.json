@@ -1,0 +1,1126 @@
+{
+  "area_id": "",
+  "map_focus": {
+    "centre": {
+      "lat": -23.071290,
+      "lng": 17.438166
+    },
+    "zoom": 6
+  },
+  "name": "Namibia",
+  "slug": "NAM",
+  "applets": {
+    "meta": {},
+    "irs_record_point": {},
+    "irs_monitor": {}
+  },
+  "form": {
+    "pages": [
+      {
+        "elements": [
+          {
+            "type": "panel",
+            "elements": [
+              {
+                "type": "radiogroup",
+                "choices": [
+                  {
+                    "value": "1",
+                    "text": "Yes"
+                  },
+                  {
+                    "value": "2",
+                    "text": "No"
+                  }
+                ],
+                "isRequired": true,
+                "name": "Sprayable",
+                "title": "Are there sprayable structures in this homestead/ house?"
+              },
+              {
+                "type": "text",
+                "inputType": "number",
+                "isRequired": true,
+                "name": "Number_sprayable",
+                "title": "How many sprayable structures?",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "maxValue": "40",
+                    "minValue": "-1",
+                    "text": "Must be less than 40"
+                  }
+                ],
+                "visible": false,
+                "visibleIf": "{Sprayable} = 1"
+              }
+            ],
+            "name": "Section 1",
+            "title": "IRS Data Collection Form"
+          },
+          {
+            "type": "text",
+            "inputType": "number",
+            "isRequired": true,
+            "name": "number_unsprayable",
+            "title": "How many unsprayable structures?",
+            "validators": [
+              {
+                "type": "numeric",
+                "maxValue": "40",
+                "minValue": "-1",
+                "text": "Must be less than 40"
+              }
+            ],
+            "visible": false,
+            "visibleIf": "{Sprayable} = 1"
+          },
+          {
+            "type": "text",
+            "inputType": "number",
+            "isRequired": true,
+            "name": "DDT",
+            "title": "How many structures were sprayed with DDT? ( if 0, enter 0)",
+            "visible": false,
+            "visibleIf": "{Sprayable} = 1"
+          },
+          {
+            "type": "text",
+            "inputType": "number",
+            "isRequired": true,
+            "name": "Deltamethrin",
+            "title": "How many structures were sprayed with Deltamethrin/K-Othrin? ( If 0, enter 0)",
+            "visible": false,
+            "visibleIf": "{Sprayable = 1} "
+          },
+          {
+            "type": "text",
+            "inputType": "number",
+            "isRequired": true,
+            "name": "number_unsprayed",
+            "title": "How many sprayable structures were not sprayed?",
+            "visible": false,
+            "visibleIf": "{Sprayable} = 1"
+          },
+          {
+            "type": "checkbox",
+            "name": "select_multiplereason",
+            "visible": false,
+            "visibleIf": "{number_unsprayed} >=1",
+            "title": "Reasons for not spraying ( Choose all reasons relevant for this homestead)",
+            "isRequired": true,
+            "choices": [
+              "Locked",
+              "Refused",
+              {
+                "value": "Sick_infant",
+                "text": "Sick person/young infant"
+              },
+              "Other"
+            ]
+          }
+        ],
+        "name": "page1"
+      },
+      {
+        "elements": [
+          {
+            "type": "text",
+            "inputType": "number",
+            "isRequired": true,
+            "name": "house_population",
+            "title": "Total population in the homestead/house:",
+            "validators": [
+              {
+                "type": "numeric",
+                "maxValue": "40",
+                "minValue": "-1",
+                "text": "Must be less than 40"
+              }
+            ],
+            "visible": false,
+            "visibleIf": "{Sprayable} = 1"
+          },
+          {
+            "type": "text",
+            "inputType": "number",
+            "isRequired": true,
+            "name": "total_population",
+            "title": "Population sleeping in sprayed rooms:",
+            "validators": [
+              {
+                "type": "numeric",
+                "maxValue": "40",
+                "minValue": "-1",
+                "text": "Must be less than 40"
+              }
+            ],
+            "visible": false,
+            "visibleIf": "{Sprayable} = 1"
+          },
+          {
+            "type": "checkbox",
+            "name": "Unsprayable_reason",
+            "visible": false,
+            "visibleIf": "{Sprayable} = 2",
+            "title": "Type of unsprayable structures?",
+            "isRequired": true,
+            "choices": [
+              {
+                "value": "1",
+                "text": "Animal Shelter"
+              },
+              {
+                "value": "2",
+                "text": "Food Storage"
+              },
+              {
+                "value": "3",
+                "text": "School"
+              },
+              {
+                "value": "4",
+                "text": "Lodge"
+              },
+              {
+                "value": "5",
+                "text": "Shop"
+              },
+              {
+                "value": "6",
+                "text": "Demolished"
+              },
+              {
+                "value": "7",
+                "text": "Locked homestead/house"
+              },
+              {
+                "value": "8",
+                "text": "Other"
+              }
+            ]
+          }
+        ],
+        "name": "page2"
+      },
+      {
+        "elements": [
+          {
+            "type": "radiogroup",
+            "choices": [
+              "Kavango",
+              "Khomas",
+              {
+                "value": "Kunene",
+                "text": " Kunene"
+              },
+              "Ohangwena",
+              "Omaheke",
+              "Omusati",
+              "Oshana",
+              "Oshikoto",
+              "Otjozondjupa",
+              "Zambezi"
+            ],
+            "isRequired": true,
+            "name": "region",
+            "title": "Region:"
+          },
+          {
+            "type": "radiogroup",
+            "choices": [
+              "Katima Mulilo"
+            ],
+            "isRequired": true,
+            "name": "district",
+            "title": "District: ",
+            "visible": false,
+            "visibleIf": "{region} = Zambezi"
+          },
+          {
+            "type": "radiogroup",
+            "choices": [
+              "Grootfontein",
+              "Okahandja",
+              "Okakarara",
+              "Otjiwarongo"
+            ],
+            "isRequired": true,
+            "name": "district",
+            "title": "District:",
+            "visible": false,
+            "visibleIf": "{region} = Otjozondjupa"
+          },
+          {
+            "type": "radiogroup",
+            "choices": [
+              "Onandjokwe",
+              "Tsumeb",
+              "Omuthiya"
+            ],
+            "isRequired": true,
+            "name": "district",
+            "title": "District:",
+            "visible": false,
+            "visibleIf": "{region} = Oshikoto"
+          },
+          {
+            "type": "radiogroup",
+            "choices": [
+              "Gobabis"
+            ],
+            "isRequired": true,
+            "name": "district",
+            "title": "District:",
+            "visible": false,
+            "visibleIf": "{region} = Omaheke"
+          },
+          {
+            "type": "radiogroup",
+            "choices": [
+              "Oshakati"
+            ],
+            "isRequired": true,
+            "name": "district",
+            "title": "District: ",
+            "visible": false,
+            "visibleIf": "{region} = Oshana"
+          },
+          {
+            "type": "radiogroup",
+            "choices": [
+              "Eenhana",
+              "Engela",
+              "Okongo"
+            ],
+            "isRequired": true,
+            "name": "district",
+            "title": "District:",
+            "visible": false,
+            "visibleIf": "{region} = Ohangwena"
+          },
+          {
+            "type": "radiogroup",
+            "choices": [
+              "Okahao",
+              "Oshikuku",
+              "Outapi",
+              "Tsandi"
+            ],
+            "isRequired": true,
+            "name": "district",
+            "title": "District",
+            "visible": false,
+            "visibleIf": "{region} = Omusati"
+          },
+          {
+            "type": "radiogroup",
+            "choices": [
+              "Khorixas",
+              "Opuwo",
+              "Outjo"
+            ],
+            "isRequired": true,
+            "name": "district",
+            "title": "District",
+            "visible": false,
+            "visibleIf": "{region} = Kunene"
+          },
+          {
+            "type": "radiogroup",
+            "choices": [
+              "Windhoek"
+            ],
+            "isRequired": true,
+            "name": "district",
+            "title": "District:",
+            "visible": false,
+            "visibleIf": "{region} = Khomas"
+          },
+          {
+            "type": "radiogroup",
+            "choices": [
+              {
+                "value": "1",
+                "text": " Andara"
+              },
+              {
+                "value": "2",
+                "text": "Nankudu"
+              },
+              {
+                "value": "3",
+                "text": "Nyangana"
+              },
+              {
+                "value": "4",
+                "text": "Rundu"
+              }
+            ],
+            "isRequired": true,
+            "name": "District",
+            "title": "District: ",
+            "visible": false,
+            "visibleIf": "{Region} = 'Kavango'"
+          },
+          {
+            "type": "text",
+            "isRequired": true,
+            "name": "Village",
+            "title": "What is the name of the village you are in?"
+          },
+          {
+            "type": "dropdown",
+            "name": "team_leader",
+            "visible": false,
+            "visibleIf": "{region} = Zambezi",
+            "title": "Team Leader",
+            "isRequired": true,
+            "choices": [
+              "Zambezi 1",
+              "Zambezi 2",
+              "Zambezi 3",
+              {
+                "value": "Zambezi 4 ",
+                "text": " Zambezi 4"
+              },
+              {
+                "value": "Zambezi 5",
+                "text": " Zambezi 5"
+              },
+              {
+                "value": "Zambezi 6",
+                "text": " Zambezi 6"
+              },
+              {
+                "value": "Zambezi 7",
+                "text": " Zambezi 7"
+              },
+              "Zambezi 8",
+              {
+                "value": "Zambezi 9",
+                "text": " Zambezi 9"
+              },
+              "Zambezi 10",
+              "Zambezi 11",
+              "Zambezi 12",
+              "Zambezi 13",
+              "Zambezi 14",
+              "Zambezi 15",
+              "Zambezi 16",
+              "Zambezi 17",
+              {
+                "value": "Zambezi 18",
+                "text": "Zambezi 18|"
+              },
+              "Zambezi 19"
+            ]
+          },
+          {
+            "type": "dropdown",
+            "name": "team_leader",
+            "visible": false,
+            "visibleIf": "{region} = Kavango",
+            "title": "Team Leader",
+            "isRequired": true,
+            "choices": [
+              {
+                "value": "Kavango 1 ",
+                "text": " Kavango 1"
+              },
+              {
+                "value": "Kavango 2 ",
+                "text": " Kavango 2"
+              },
+              {
+                "value": "Kavango 3 ",
+                "text": " Kavango 3"
+              },
+              {
+                "value": "Kavango 4 ",
+                "text": " Kavango 4"
+              },
+              {
+                "value": "Kavango 5 ",
+                "text": "Kavango 5"
+              },
+              {
+                "value": "Kavango 6 ",
+                "text": " Kavango 6"
+              },
+              {
+                "value": "Kavango 7 ",
+                "text": " Kavango 7"
+              },
+              {
+                "value": "Kavango 8 ",
+                "text": " Kavango 8"
+              },
+              {
+                "value": "Kavango 9 ",
+                "text": " Kavango 9\t\t\t\t"
+              },
+              {
+                "value": "Kavango 10 ",
+                "text": " Kavango 10"
+              },
+              {
+                "value": "Kavango 11 ",
+                "text": " Kavango 11"
+              },
+              {
+                "value": "Kavango 12 ",
+                "text": " Kavango 12"
+              },
+              {
+                "value": "Kavango 13 ",
+                "text": " Kavango 13"
+              },
+              {
+                "value": "Kavango 14 ",
+                "text": " Kavango 14"
+              },
+              {
+                "value": "Kavango 15 ",
+                "text": " Kavango 15"
+              },
+              {
+                "value": "Kavango 16 ",
+                "text": " Kavango 16"
+              },
+              {
+                "value": "Kavango 17 ",
+                "text": " Kavango 17"
+              },
+              {
+                "value": "Kavango 18 ",
+                "text": " Kavango 18"
+              },
+              {
+                "value": "Kavango 19 ",
+                "text": " Kavango 19"
+              },
+              {
+                "value": "Kavango 20 ",
+                "text": " Kavango 20"
+              },
+              {
+                "value": "Kavango 21 ",
+                "text": " Kavango 21"
+              },
+              {
+                "value": "Kavango 22 ",
+                "text": " Kavango 22"
+              },
+              {
+                "value": "Kavango 23 ",
+                "text": " Kavango 23"
+              },
+              {
+                "value": "Kavango 24 ",
+                "text": " Kavango 24"
+              },
+              {
+                "value": "Kavango 25 ",
+                "text": " Kavango 25"
+              },
+              {
+                "value": "Kavango 26 ",
+                "text": " Kavango 26"
+              },
+              {
+                "value": "Kavango 27 ",
+                "text": " Kavango 27"
+              },
+              {
+                "value": "Kavango 28 ",
+                "text": " Kavango 28"
+              },
+              {
+                "value": "Kavango 29 ",
+                "text": " Kavango 29"
+              },
+              {
+                "value": "Kavango 30 ",
+                "text": " Kavango 30"
+              },
+              {
+                "value": "Kavango 31 ",
+                "text": " Kavango 31"
+              },
+              {
+                "value": "Kavango 32 ",
+                "text": " Kavango 32"
+              },
+              {
+                "value": "Kavango 33 ",
+                "text": " Kavango 33"
+              },
+              {
+                "value": "Kavango 34 ",
+                "text": " Kavango 34"
+              },
+              {
+                "value": "Kavango 35 ",
+                "text": " Kavango 35"
+              },
+              {
+                "value": "Kavango 36 ",
+                "text": " Kavango 36"
+              },
+              {
+                "value": "Kavango 37 ",
+                "text": " Kavango 37"
+              },
+              {
+                "value": "Kavango 38 ",
+                "text": " Kavango 38"
+              },
+              {
+                "value": "Kavango 39 ",
+                "text": " Kavango 39"
+              },
+              {
+                "value": "Kavango 40 ",
+                "text": " Kavango 40"
+              },
+              {
+                "value": "Kavango 41 ",
+                "text": " Kavango 41"
+              },
+              {
+                "value": "Kavango 42 ",
+                "text": " Kavango 42"
+              },
+              {
+                "value": "Kavango 43 ",
+                "text": " Kavango 43"
+              },
+              {
+                "value": "Kavango 44 ",
+                "text": " Kavango 44"
+              },
+              {
+                "value": "Kavango 45 ",
+                "text": " Kavango 45"
+              }
+            ]
+          },
+          {
+            "type": "dropdown",
+            "name": "team_leader",
+            "visible": false,
+            "visibleIf": "{region} = Oshana",
+            "title": "Team Leader",
+            "isRequired": true,
+            "choices": [
+              {
+                "value": "Oshana 1 ",
+                "text": " Oshana 1"
+              },
+              {
+                "value": "Oshana 2 ",
+                "text": " Oshana 2"
+              },
+              {
+                "value": "Oshana 3 ",
+                "text": " Oshana 3"
+              },
+              {
+                "value": "Oshana 4 ",
+                "text": " Oshana 4"
+              },
+              {
+                "value": "Oshana 5 ",
+                "text": "Oshana 5"
+              },
+              {
+                "value": "Oshana 6 ",
+                "text": " Oshana 6"
+              },
+              {
+                "value": "Oshana 7 ",
+                "text": " Oshana 7"
+              },
+              {
+                "value": "Oshana 8 ",
+                "text": " Oshana 8"
+              },
+              {
+                "value": "Oshana 9 ",
+                "text": " Oshana 9\t\t\t\t"
+              },
+              {
+                "value": "Oshana 10 ",
+                "text": " Oshana 10"
+              },
+              {
+                "value": "Oshana 11 ",
+                "text": " Oshana 11"
+              },
+              {
+                "value": "Oshana 12 ",
+                "text": " Oshana 12"
+              },
+              {
+                "value": "Oshana 13 ",
+                "text": " Oshana 13"
+              },
+              {
+                "value": "Oshana 14 ",
+                "text": " Oshana 14"
+              },
+              {
+                "value": "Oshana 15 ",
+                "text": " Oshana 15"
+              },
+              {
+                "value": "Oshana 16 ",
+                "text": " Oshana 16"
+              },
+              {
+                "value": "Oshana 17 ",
+                "text": " Oshana 17"
+              },
+              {
+                "value": "Oshana 18 ",
+                "text": " Oshana 18"
+              },
+              {
+                "value": "Oshana 19 ",
+                "text": " Oshana 19"
+              },
+              {
+                "value": "Oshana 20 ",
+                "text": " Oshana 20"
+              }
+            ]
+          },
+          {
+            "type": "dropdown",
+            "name": "team_leader",
+            "visible": false,
+            "visibleIf": "{region} = Oshikoto",
+            "title": "Team Leader",
+            "isRequired": true,
+            "choices": [
+              {
+                "value": "Oshikoto 1 ",
+                "text": " Oshikoto 1"
+              },
+              {
+                "value": "Oshikoto 2 ",
+                "text": " Oshikoto 2"
+              },
+              {
+                "value": "Oshikoto 3 ",
+                "text": " Oshikoto 3"
+              },
+              {
+                "value": "Oshikoto 4 ",
+                "text": " Oshikoto 4"
+              },
+              {
+                "value": "Oshikoto 5 ",
+                "text": "Oshikoto 5"
+              },
+              {
+                "value": "Oshikoto 6 ",
+                "text": " Oshikoto 6"
+              },
+              {
+                "value": "Oshikoto 7 ",
+                "text": " Oshikoto 7"
+              },
+              {
+                "value": "Oshikoto 8 ",
+                "text": " Oshikoto 8"
+              },
+              {
+                "value": "Oshikoto 9 ",
+                "text": " Oshikoto 9\t\t\t\t"
+              },
+              {
+                "value": "Oshikoto 10 ",
+                "text": " Oshikoto 10"
+              },
+              {
+                "value": "Oshikoto 11 ",
+                "text": " Oshikoto 11"
+              },
+              {
+                "value": "Oshikoto 12 ",
+                "text": " Oshikoto 12"
+              },
+              {
+                "value": "Oshikoto 13 ",
+                "text": " Oshikoto 13"
+              },
+              {
+                "value": "Oshikoto 14 ",
+                "text": " Oshikoto 14"
+              },
+              {
+                "value": "Oshikoto 15 ",
+                "text": " Oshikoto 15"
+              },
+              {
+                "value": "Oshikoto 16 ",
+                "text": " Oshikoto 16"
+              }
+            ]
+          },
+          {
+            "type": "dropdown",
+            "name": "Team Leader",
+            "visible": false,
+            "visibleIf": "{region} = Ohangwena",
+            "title": "Team Leader",
+            "isRequired": true,
+            "choices": [
+              {
+                "value": "Ohangwena 1 ",
+                "text": " Ohangwena 1"
+              },
+              {
+                "value": "Ohangwena 2 ",
+                "text": " Ohangwena 2"
+              },
+              {
+                "value": "Ohangwena 3 ",
+                "text": " Ohangwena 3"
+              },
+              {
+                "value": "Ohangwena 4 ",
+                "text": " Ohangwena 4"
+              },
+              {
+                "value": "Ohangwena 5 ",
+                "text": "Ohangwena 5"
+              },
+              {
+                "value": "Ohangwena 6 ",
+                "text": " Ohangwena 6"
+              },
+              {
+                "value": "Ohangwena 7 ",
+                "text": " Ohangwena 7"
+              },
+              {
+                "value": "Ohangwena 8 ",
+                "text": " Ohangwena 8"
+              },
+              {
+                "value": "Ohangwena 9 ",
+                "text": " Ohangwena 9\t\t\t\t"
+              },
+              {
+                "value": "Ohangwena 10 ",
+                "text": " Ohangwena 10"
+              },
+              {
+                "value": "Ohangwena 11 ",
+                "text": " Ohangwena 11"
+              },
+              {
+                "value": "Ohangwena 12 ",
+                "text": " Ohangwena 12"
+              },
+              {
+                "value": "Ohangwena 13 ",
+                "text": " Ohangwena 13"
+              },
+              {
+                "value": "Ohangwena 14 ",
+                "text": " Ohangwena 14"
+              },
+              {
+                "value": "Ohangwena 15 ",
+                "text": " Ohangwena 15"
+              },
+              {
+                "value": "Ohangwena 16 ",
+                "text": " Ohangwena 16"
+              },
+              {
+                "value": "Ohangwena 17 ",
+                "text": " Ohangwena 17"
+              },
+              {
+                "value": "Ohangwena 18 ",
+                "text": " Ohangwena 18"
+              },
+              {
+                "value": "Ohangwena 19 ",
+                "text": " Ohangwena 19"
+              },
+              {
+                "value": "Ohangwena 20 ",
+                "text": " Ohangwena 20"
+              },
+              {
+                "value": "Ohangwena 21 ",
+                "text": " Ohangwena 21"
+              },
+              {
+                "value": "Ohangwena 22 ",
+                "text": " Ohangwena 22"
+              },
+              {
+                "value": "Ohangwena 23 ",
+                "text": " Ohangwena 23"
+              },
+              {
+                "value": "Ohangwena 24 ",
+                "text": " Ohangwena 24"
+              },
+              {
+                "value": "Ohangwena 25 ",
+                "text": " Ohangwena 25"
+              },
+              {
+                "value": "Ohangwena 26 ",
+                "text": " Ohangwena 26"
+              },
+              {
+                "value": "Ohangwena 27 ",
+                "text": " Ohangwena 27"
+              },
+              {
+                "value": "Ohangwena 28 ",
+                "text": " Ohangwena 28"
+              },
+              {
+                "value": "Ohangwena 29 ",
+                "text": " Ohangwena 29"
+              },
+              {
+                "value": "Ohangwena 30 ",
+                "text": " Ohangwena 30"
+              },
+              {
+                "value": "Ohangwena 31 ",
+                "text": " Ohangwena 31"
+              },
+              {
+                "value": "Ohangwena 32 ",
+                "text": " Ohangwena 32"
+              },
+              {
+                "value": "Ohangwena 33 ",
+                "text": " Ohangwena 33"
+              },
+              {
+                "value": "Ohangwena 34 ",
+                "text": " Ohangwena 34"
+              },
+              {
+                "value": "Ohangwena 35 ",
+                "text": " Ohangwena 35"
+              },
+              {
+                "value": "Ohangwena 36 ",
+                "text": " Ohangwena 36"
+              }
+            ],
+            "storeOthersAsComment": false
+          },
+          {
+            "type": "dropdown",
+            "name": "team_leader",
+            "visible": false,
+            "visibleIf": "{region} = Otjozondjupa",
+            "title": "Team Leader",
+            "isRequired": true,
+            "choices": [
+              {
+                "value": "Otjozondjupa 1 ",
+                "text": " Otjozondjupa 1"
+              },
+              {
+                "value": "Otjozondjupa 2 ",
+                "text": " Otjozondjupa 2"
+              },
+              {
+                "value": "Otjozondjupa 3 ",
+                "text": " Otjozondjupa 3"
+              },
+              {
+                "value": "Otjozondjupa 4 ",
+                "text": " Otjozondjupa 4"
+              },
+              {
+                "value": "Otjozondjupa 5 ",
+                "text": "Otjozondjupa 5"
+              },
+              {
+                "value": "Otjozondjupa 6 ",
+                "text": " Otjozondjupa 6"
+              }
+            ]
+          },
+          {
+            "type": "dropdown",
+            "name": "team_leader",
+            "visible": false,
+            "visibleIf": "{region} = Omusati",
+            "title": "Team Leader",
+            "isRequired": true,
+            "choices": [
+              {
+                "value": "Omusati 1 ",
+                "text": " Omusati 1"
+              },
+              {
+                "value": "Omusati 2 ",
+                "text": " Omusati 2"
+              },
+              {
+                "value": "Omusati 3 ",
+                "text": " Omusati 3"
+              },
+              {
+                "value": "Omusati 4 ",
+                "text": " Omusati 4"
+              },
+              {
+                "value": "Omusati 5 ",
+                "text": "Omusati 5"
+              },
+              {
+                "value": "Omusati 6 ",
+                "text": " Omusati 6"
+              },
+              {
+                "value": "Omusati 7 ",
+                "text": " Omusati 7"
+              },
+              {
+                "value": "Omusati 8 ",
+                "text": " Omusati 8"
+              },
+              {
+                "value": "Omusati 9 ",
+                "text": " Omusati 9\t\t\t\t"
+              },
+              {
+                "value": "Omusati 10 ",
+                "text": " Omusati 10"
+              },
+              {
+                "value": "Omusati 11 ",
+                "text": " Omusati 11"
+              },
+              {
+                "value": "Omusati 12 ",
+                "text": " Omusati 12"
+              },
+              {
+                "value": "Omusati 13 ",
+                "text": " Omusati 13"
+              },
+              {
+                "value": "Omusati 14 ",
+                "text": " Omusati 14"
+              },
+              {
+                "value": "Omusati 15 ",
+                "text": " Omusati 15"
+              },
+              {
+                "value": "Omusati 16 ",
+                "text": " Omusati 16"
+              }
+            ]
+          },
+          {
+            "type": "dropdown",
+            "name": "team_leader",
+            "visible": false,
+            "visibleIf": "{region} = Kunene",
+            "title": "Team Leader",
+            "isRequired": true,
+            "choices": [
+              {
+                "value": "Kunene 1 ",
+                "text": " Kunene 1"
+              },
+              {
+                "value": "Kunene 2 ",
+                "text": " Kunene 2"
+              },
+              {
+                "value": "Kunene 3 ",
+                "text": " Kunene 3"
+              },
+              {
+                "value": "Kunene 4 ",
+                "text": " Kunene 4"
+              },
+              {
+                "value": "Kunene 5 ",
+                "text": "Kunene 5"
+              },
+              {
+                "value": "Kunene 6 ",
+                "text": " Kunene 6"
+              },
+              {
+                "value": "Kunene 7 ",
+                "text": " Kunene 7"
+              },
+              {
+                "value": "Kunene 8 ",
+                "text": " Kunene 8"
+              },
+              {
+                "value": "Kunene 9 ",
+                "text": " Kunene 9\t\t\t\t"
+              },
+              {
+                "value": "Kunene 10 ",
+                "text": " Kunene 10"
+              }
+            ]
+          }
+        ],
+        "name": "page3"
+      },
+      {
+        "elements": [
+          {
+            "type": "text",
+            "isRequired": true,
+            "name": "head of household",
+            "title": "Head of Household Name: ",
+            "visible": false,
+            "visibleIf": "{Sprayable} = 1"
+          },
+          {
+            "type": "text",
+            "name": "health_number",
+            "title": "Household Health Number (Enter the number on the sticker given to the head of household): ",
+            "visible": false,
+            "visibleIf": "{Sprayable} = 1"
+          },
+          {
+            "type": "text",
+            "name": "Confirm",
+            "title": "Confirm Household Health Number: ",
+            "visible": false,
+            "visibleIf": "{Sprayable} = 1"
+          },
+          {
+            "type": "text",
+            "isRequired": true,
+            "name": "bednets",
+            "title": "Total Number of Bed-nets in Use: ",
+            "visible": false,
+            "visibleIf": "{Sprayable} = 1"
+          }
+        ],
+        "name": "page4"
+      }
+    ]
+  }
+}

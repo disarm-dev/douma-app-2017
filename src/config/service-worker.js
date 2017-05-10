@@ -3,21 +3,7 @@
 // 
 
 export default (DOUMA) => {
-  const getParameterByName = (name) => {
-    const url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-  }
-
-  let DISABLE_SW = getParameterByName('sw') === 'false'
-
-  // DOUMA_DEV_MODE is `process.env.NODE_ENV !== 'production'` (set in webpack.config.js)
-  // DISABLE_SW is true if the query string 'sw=false' is present in the URL
-  if ('serviceWorker' in navigator && !DOUMA_DEV_MODE && !DISABLE_SW) {
+  if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/service-worker.js').then(function(reg) {
       reg.onupdatefound = function() {
         var installingWorker = reg.installing;

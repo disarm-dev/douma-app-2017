@@ -1,46 +1,32 @@
-// Store for 'Meta' applet
-import {generate_demo_instance_id} from '../../lib/demo_instance_id'
-
-// Bootstrap user from localstorage
-// TODO: @refac stop bootstrapping user from localStorage
-const user = JSON.parse(localStorage.getItem('douma-user'))
-let country = JSON.parse(localStorage.getItem('douma-country'))
-if (!country) {
-  localStorage.setItem('douma-country', country)
-  country = COUNTRY_OPTIONS[0]
-}
-let demo_instance_id = JSON.parse(localStorage.getItem('douma-demo-instance-id'))
-
-if (!demo_instance_id) { 
-  demo_instance_id = generate_demo_instance_id()
-}
+import RemoteDB from '../../lib/data/remote'
 
 export default {
+  namespaced: true,
   state: {
-    user: user,
-    demo_instance_id: demo_instance_id,
-    country: country,
-    online: null
+    user: null,
+    previousRoute: ''
   },
   mutations: {
-    'meta:login_user': (state, user) => {
+    set_user: (state, user) => {
       state.user = user
-      localStorage.setItem("douma-user", JSON.stringify(state.user))
+    }
+  },
+  actions: {
+    login: (context, user) => {
+      let remote = new RemoteDB()
+
+      // // TODO: @debug Restore real users logging in
+      // const fake_user = {"_id":"000e5588-0599-4d6c-90a6-63837809e3a9","name":"Philile (Manager)","password":"malaria","email":"b@b.com","allowed_apps":{"read":["irs_record_point","irs_monitor"],"write":["irs_record_point","irs_monitor"]},"version":"ef426a52ee69db57b9b90f43fe8f257dbfabc3c6"}
+      // return Promise.resolve(context.commit('set_user', fake_user))
+
+      return remote.authenticate(user).then(auth_user => {
+        auth_user.version = COMMIT_HASH
+        context.commit('set_user', auth_user)
+        return true
+      })
     },
-    'meta:set_demo_instance_id': (state, demo_instance_id) => {
-      const santized_demo_instance_id = demo_instance_id.replace(/\s/, "_")
-      state.demo_instance_id = santized_demo_instance_id
-      localStorage.setItem("douma-demo-instance-id", JSON.stringify(state.demo_instance_id))
-    },
-    'meta:set_country': (state, country) => {
-      state.country = country
-      localStorage.setItem("douma-country", JSON.stringify(state.country))
-    },
-    'meta:setOnline': (state, online) => {
-      state.online = online
-    },
-    'meta:toast': (state, toast) => {
-      state.toast = toast
+    logout: (context) => {
+      context.commit('set_user', null)
     }
   }
 }

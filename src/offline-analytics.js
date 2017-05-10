@@ -1,3 +1,5 @@
-importScripts('offline-google-analytics-import.min.js');
+// TODO: @refac Move importScripts to sw-precache config
 
-goog.offlineGoogleAnalytics.initialize();
+// importScripts('offline-google-analytics-import.min.js');
+
+// goog.offlineGoogleAnalytics.initialize();
