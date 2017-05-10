@@ -24,13 +24,11 @@
     methods: {
       create_form() {
         this.survey = new Survey.Model(this.form)
-        
+         
         // Hide 'Complete' button
-        this.survey.onAfterRenderSurvey(() => {
-          console.log('survey rendered')
+        this.$nextTick(() => {
+          this.$el.querySelector("input[value='Complete']").remove()
         })
-          // window.el = this.$el
-          // this.$el.querySelector("input[value='Complete']").remove()
 
       },
       update_form_response() {
