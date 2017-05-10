@@ -2,8 +2,8 @@
   <div class='container'>
     <h1>{{create_or_update}} record for {{country}}</h1>
     <p class='validation_message' v-if='validation_message'>{{validation_message}}</p>
-    <md-button @click.native='validate_location_and_form'>Save</md-button>
-    <router-link to='/irs/record_point/review'>Review</router-link>
+    <md-button @click.native='validate_location_and_form'><md-icon>save</md-icon>Save</md-button>
+    <router-link class='md-button' to='/irs/record_point/review'><md-icon>list</md-icon>Review</router-link>
     <md-tabs>
       <md-tab md-label="Form">
         <form_renderer ref='form' :existing_form_data='existing_form_data'></form_renderer>
