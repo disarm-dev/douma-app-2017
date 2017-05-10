@@ -6,10 +6,10 @@
     <router-link to='/irs/record_point/review'>Review</router-link>
     <md-tabs>
       <md-tab md-label="Form">
-        <form_renderer ref='form' :existing_response_data='existing_response_data'></form_renderer>
+        <form_renderer ref='form' :existing_form_data='existing_response_data.form_data'></form_renderer>
       </md-tab>
       <md-tab md-label="Location">
-        <location_record v-on:change='update_location'></location_record>
+        <location_record v-on:change='update_location' :existing_location='existing_response_data.location'></location_record>
       </md-tab>
     </md-tabs>
   </div>
@@ -39,15 +39,6 @@
       create_or_update() {
         return !!this.existing_response_data ? 'Update' : 'Create'
       },
-      // location: {
-      //   get(){
-      //     if (this.existing_response_data) {
-      //       this.existing_response_data.location
-      //     }          
-      //   },
-      //   set(value){
-      //   }
-      // },
       existing_response_data() {
         if (this.response_id) {
           const response = this.$store.state.irs_record_point.responses.find((response) => response.id === this.response_id)

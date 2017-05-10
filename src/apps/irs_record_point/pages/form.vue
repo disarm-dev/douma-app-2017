@@ -7,7 +7,7 @@
   
   export default {
     name: 'form',
-    props: ['existing_response_data'],
+    props: ['existing_form_data'],
     data () {
       return {
         survey: {},
@@ -28,8 +28,8 @@
       create_form() {
         this.survey = new Survey.Model(this.form)
          
-        if (this.existing_response_data) {
-          this.survey.data = this.existing_response_data.form_data
+        if (this.existing_form_data) {
+          this.survey.data = this.existing_form_data
         }
 
         // Hide 'Complete' button

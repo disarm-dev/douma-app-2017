@@ -29,6 +29,7 @@
 <script>
   export default {
     name: 'location',
+    props: ['existing_location'],
     data() {
       return {
         type: 'text',
@@ -37,6 +38,11 @@
     },
     watch: {
       'type': 'update_location'
+    },
+    mounted() {
+      if (this.existing_location) {
+        this.emit_location(this.existing_location)
+      }
     },
     methods: {
       update_location() {
