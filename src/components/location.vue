@@ -17,7 +17,7 @@
     </div>
 
     <div v-show="type === 'point'">
-      <p>Some point thing</p>
+      <p>{{location_message}}</p>
     </div>
 
     <div v-if="type === 'structure'">
@@ -32,6 +32,7 @@
     data() {
       return {
         type: 'text',
+        location_message: 'Nothing'
       }
     },
     watch: {
@@ -47,13 +48,16 @@
       },
       find_location() {
         if ("geolocation" in navigator) {
+          this.location_message = 'Hunting...'
           navigator.geolocation.getCurrentPosition((position) => {
             
-            let {latitude, longitude} = position.coords
+            let {latitude, longitude, accuracy} = position.coords
+            accuracy = accuracy / 2
+            this.location_message = `Found: ${latitude} ${longitude} (accurate +/- ${accuracy}m)`
 
             this.emit_location({
               type: 'point',
-              point: {latitude, longitude}
+              point: {latitude, longitude, accuracy}
             })
           });
         } else {
