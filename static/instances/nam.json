@@ -1,15 +1,254 @@
 {
   "area_id": "",
-  "centre": {
-    "lat": -23.071290,
-    "lng": 17.438166
+  "map_focus": {
+    "centre": {
+      "lat": -23.071290,
+      "lng": 17.438166
+    },
+    "zoom": 6
   },
   "name": "Namibia",
   "slug": "NAM",
-  "zoom": 6,
   "applets": {
     "meta": {},
     "irs_record_point": {},
     "irs_monitor": {}
+  },
+  "form": {
+    "pages": [
+      {
+        "elements": [
+          {
+            "type": "panel",
+            "elements": [
+              {
+                "type": "radiogroup",
+                "choices": [
+                  {
+                    "value": "1",
+                    "text": "Yes"
+                  },
+                  {
+                    "value": "2",
+                    "text": "No"
+                  }
+                ],
+                "isRequired": true,
+                "name": "Sprayable",
+                "title": "Are there sprayable structures in this homestead/ house?"
+              }
+            ],
+            "name": "Section 1",
+            "title": "IRS Data Collection Form"
+          },
+          {
+            "type": "text",
+            "inputType": "number",
+            "isRequired": true,
+            "name": "Number_sprayable",
+            "title": "How many sprayable structures?",
+            "validators": [
+              {
+                "type": "numeric",
+                "maxValue": "40",
+                "minValue": "-1",
+                "text": "Must be less than 40"
+              }
+            ],
+            "visible": false,
+            "visibleIf": "{Sprayable} = 1"
+          },
+          {
+            "type": "text",
+            "inputType": "number",
+            "isRequired": true,
+            "name": "number_unsprayable",
+            "title": "How many unsprayable structures?",
+            "validators": [
+              {
+                "type": "numeric",
+                "maxValue": "<=${number_sprayable}",
+                "minValue": "-1",
+                "text": "Must be less than 40"
+              }
+            ],
+            "visible": false,
+            "visibleIf": "{Sprayable} = 1"
+          },
+          {
+            "type": "multipletext",
+            "isRequired": true,
+            "items": [
+              {
+                "name": "DDT? ( if 0, enter 0)",
+                "isRequired": true
+              },
+              {
+                "name": "Deltamethrin/K-Othrin? ( if 0, enter 0)",
+                "isRequired": true
+              }
+            ],
+            "name": "insecticide_used",
+            "title": "How many structures were sprayed with: ",
+            "validators": [
+              {
+                "type": "numeric",
+                "minValue": "-1",
+                "text": "Must be less than the given number of sprayable structures "
+              }
+            ],
+            "visible": false,
+            "visibleIf": "{Sprayable} = 1"
+          },
+          {
+            "type": "text",
+            "inputType": "number",
+            "isRequired": true,
+            "name": "number_unsprayed",
+            "title": "How many sprayable structures were not sprayed?",
+            "visible": false,
+            "visibleIf": "{Sprayable} = 1"
+          },
+          {
+            "type": "checkbox",
+            "choices": [
+              {
+                "value": "1",
+                "text": "Animal Shelter"
+              },
+              {
+                "value": "2",
+                "text": "Food Storage"
+              },
+              {
+                "value": "3",
+                "text": "School"
+              },
+              {
+                "value": "4",
+                "text": "Lodge"
+              },
+              {
+                "value": "5",
+                "text": "Shop"
+              },
+              {
+                "value": "6",
+                "text": "Demolished"
+              },
+              {
+                "value": "7",
+                "text": "Locked homestead/house"
+              },
+              {
+                "value": "8",
+                "text": "Other"
+              }
+            ],
+            "isRequired": true,
+            "name": "Unsprayable_reason",
+            "title": "Type of unsprayable structures?",
+            "visible": false,
+            "visibleIf": "{Sprayable} = 2"
+          },
+          {
+            "type": "checkbox",
+            "choices": [
+              "Kavango",
+              {
+                "value": "Kunene",
+                "text": " Kunene"
+              },
+              "Ohangwena",
+              "Omaheke",
+              "Omusati",
+              "Oshana",
+              "Oshikoto",
+              "Otjozondjupa",
+              "Zambezi"
+            ],
+            "isRequired": true,
+            "name": "Region",
+            "title": "Region:"
+          },
+          {
+            "type": "checkbox",
+            "choices": [
+              {
+                "value": "1",
+                "text": " Andara"
+              },
+              {
+                "value": "2",
+                "text": "Nankudu"
+              },
+              {
+                "value": "3",
+                "text": "Nyangana"
+              },
+              {
+                "value": "4",
+                "text": "Rundu"
+              }
+            ],
+            "isRequired": true,
+            "name": "District",
+            "title": "District: ",
+            "visible": false,
+            "visibleIf": "{Region} = 'Kavango'"
+          },
+          {
+            "type": "checkbox",
+            "choices": [
+              "Bingle",
+              "Bongle",
+              "Bangle"
+            ],
+            "isRequired": true,
+            "name": "District",
+            "title": "District: ",
+            "visible": false,
+            "visibleIf": "{Region} = 'Kunene'"
+          },
+          {
+            "type": "text",
+            "isRequired": true,
+            "name": "Village",
+            "title": "What is the name of the village you are in?"
+          },
+          {
+            "type": "text",
+            "isRequired": true,
+            "name": "head of household",
+            "title": "Head of Household Name: ",
+            "visible": false,
+            "visibleIf": "{Sprayable} = 1"
+          },
+          {
+            "type": "text",
+            "name": "health_number",
+            "title": "Household Health Number (Enter the number on the sticker given to the head of household): ",
+            "visible": false,
+            "visibleIf": "{Sprayable} = 1"
+          },
+          {
+            "type": "text",
+            "name": "Confirm",
+            "title": "Confirm Household Health Number: ",
+            "visible": false,
+            "visibleIf": "{Sprayable} = 1"
+          },
+          {
+            "type": "text",
+            "isRequired": true,
+            "name": "bednets",
+            "title": "Total Number of Bed-nets in Use: ",
+            "visible": false,
+            "visibleIf": "{Sprayable} = 1"
+          }
+        ],
+        "name": "page1"
+      }
+    ]
   }
 }

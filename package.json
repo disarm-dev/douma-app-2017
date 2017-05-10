@@ -24,6 +24,7 @@
     "moment": "^2.18.1",
     "numeral": "^2.0.6",
     "raven-js": "^3.14.2",
+    "survey-vue": "^0.12.12",
     "sw-offline-google-analytics": "^0.0.19",
     "vue": "^2.2.6",
     "vue-material": "^0.7.1",

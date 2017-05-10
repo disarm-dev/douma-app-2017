@@ -6,6 +6,7 @@ import "babel-polyfill"
 import './fonts/Roboto.css'
 import './fonts/MaterialIcons.css'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import 'survey-vue/survey.css'
 
 // Imports
 import Vue from 'vue'
@@ -75,3 +76,4 @@ fetch(`/static/instances/${subdomain}.json`) // TODO: @refac Move this instance 
 })
 .then(json => { launch(json) })
 .catch(err => console.error('Caught fetch', err))
+
