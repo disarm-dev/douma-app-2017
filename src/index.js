@@ -65,13 +65,14 @@ const launch = (instance_config) => {
   console.info('DOUMA version: ' + COMMIT_HASH)
 }
 
-// const subdomain = document.domain.split('.')[0]
-const subdomain = 'nam'
+const subdomain = document.domain.split('.')[0]
 
 fetch(`/static/instances/${subdomain}.json`) // TODO: @refac Move this instance configuration from `static` to somewhere better
 .then(res => {
   if (res.status === 404) {
-    throw new Error(`Cannot find configuration file for ${subdomain}`)
+    const msg = `You might be looking for an application which does not exist. Cannot find application configuration file for subdomain "${subdomain}". `
+    alert(msg)
+    throw new Error(msg)
   }
   return res.json()
 })
