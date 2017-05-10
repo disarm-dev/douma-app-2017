@@ -19,7 +19,6 @@
     },
     watch: {
       'form': 'create_form',
-      'survey.data': 'update_form_response'
     },
     methods: {
       create_form() {
