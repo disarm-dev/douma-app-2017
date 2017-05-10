@@ -7,6 +7,7 @@
   
   export default {
     name: 'form',
+    props: ['existing_response_data'],
     data () {
       return {
         survey: {},
@@ -20,10 +21,17 @@
     watch: {
       'form': 'create_form',
     },
+    mounted() {
+      this.create_form()
+    },
     methods: {
       create_form() {
         this.survey = new Survey.Model(this.form)
          
+        if (this.existing_response_data) {
+          this.survey.data = this.existing_response_data.form_data
+        }
+
         // Hide 'Complete' button
         this.$nextTick(() => {
           this.$el.querySelector("input[value='Complete']").remove()

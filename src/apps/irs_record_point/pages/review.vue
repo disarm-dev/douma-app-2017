@@ -2,7 +2,7 @@
   <div>
     <ul>
       <li v-for='response in responses' :index='response'>
-        {{response.date}} {{response.location.type}} ({{response.location.point.longitude}}, {{response.location.point.latitude}})
+        <router-link :to="{name: 'irs_record_point:edit', params: {response_id: response.id}}">{{response.id}}</router-link>
       </li>
     </ul>
   </div>
@@ -11,20 +11,17 @@
 <script>
   import {mapState} from 'vuex'
   export default {
-
     name: 'review',
-
     data () {
       return {
-
-      };
+      }
     },
     computed: {
       ...mapState({
         responses: state => state.irs_record_point.responses
       })
     }
-  };
+  }
 </script>
 
 <style lang="css" scoped>

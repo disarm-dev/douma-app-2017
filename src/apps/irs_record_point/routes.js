@@ -12,5 +12,10 @@ export default [
     component: review,
     name: 'irs_record_point:review',
     meta: {title: 'IRS Record', icon: 'assignment'}
+  },{
+    path: '/irs/record_point/edit/:response_id',
+    props: true,
+    component: record,
+    name: 'irs_record_point:edit',
   }
 ]
