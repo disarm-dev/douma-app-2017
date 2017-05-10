@@ -3,12 +3,12 @@ module.exports = {
   root: 'dist',
   maximumFileSizeToCacheInBytes: 14194304,
   navigateFallback: 'index.html',
-  importScripts: ['offline-analytics.js']
-  // runtimeCaching: [
-  //   {
-  //     urlPattern: /https:\/\/douma-api\.herokuapp.com\/v2\/static_clusters\/*/,
-  //     handler: 'cacheFirst'
-  //   },
+  importScripts: ['offline-analytics.js'],
+  runtimeCaching: [
+    {
+      urlPattern: /\/static\/instances\/*/,
+      handler: 'cacheFirst'
+    },
   //   {
   //     urlPattern: /https:\/\/douma-api\.herokuapp.com\/v2\/local_areas\/*/,
   //     handler: 'cacheFirst'
@@ -21,6 +21,6 @@ module.exports = {
   //     urlPattern: /https:\/\/douma-api\.herokuapp\.com\/v2\/tasks\/count/,
   //     handler: 'fastest'
   //   }
-  // ]
+  ]
 }
 
