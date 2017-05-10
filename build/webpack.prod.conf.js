@@ -8,6 +8,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+var SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 
 var env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
@@ -95,8 +96,10 @@ var webpackConfig = merge(baseWebpackConfig, {
         ignore: ['.*']
       },
       { from: './src/offline-analytics.js' },
+      { from: './src/manifest.json' },
       { from: './node_modules/sw-offline-google-analytics/build/offline-google-analytics-import.min.js' },
-    ])
+    ]),
+    new SWPrecacheWebpackPlugin(require('../sw-precache-config.js'))
   ]
 })
 
