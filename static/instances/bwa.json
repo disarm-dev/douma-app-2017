@@ -12,10 +12,11 @@
   "applets": {
     "meta": {},
     "irs_record_point": {
-      "title": "Recorder"
+      "title": "Recorder",
+      "icon": "accessible"
     },
     "irs_monitor": {
-      "title": "Dashboard",
+      "title": "Not-a-Dashboard",
       "icon": "watch"
     }
   },
