@@ -1,6 +1,6 @@
 <template>
   <div class='container'>
-    <h1>RECORD {{country}}</h1>
+    <h1>{{create_or_update}} record for {{country}}</h1>
     <p class='validation_message' v-if='validation_message'>{{validation_message}}</p>
     <md-button @click.native='validate_location_and_form'>Save</md-button>
     <router-link to='/irs/record_point/review'>Review</router-link>
@@ -35,6 +35,9 @@
     computed: {
       country() {
         return this.$store.state.instance_config.name
+      },
+      create_or_update() {
+        return !!this.existing_response_data ? 'Update' : 'Create'
       },
       existing_response_data() {
         if (this.response_id) {
