@@ -1,12 +1,14 @@
 {
   "area_id": "WARDPCODE",
-  "centre": {
-    "lat": -21.73564350618581,
-    "lng": 30.083462513044424
+  "map_focus": {
+    "centre": {
+      "lat": -21.73564350618581,
+      "lng": 30.083462513044424
+    },
+    "zoom": 7.749187
   },
   "name": "Zimbabwe",
   "slug": "ZWE",
-  "zoom": 7.749187,
   "applets": {
     "meta": {},
     "irs_record_point": {
