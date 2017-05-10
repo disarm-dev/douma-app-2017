@@ -59,7 +59,8 @@ const launch = (instance_config) => {
   douma_app.$store.state.instance_config = instance_config
 
   // ServiceWorker
-  configureServiceWorker(douma_app)
+  console.warn("TODO: @debug Restore SERVICE-WORKER")
+  // configureServiceWorker(douma_app) 
 
   // Keep track of what version we're working on
   console.info('DOUMA version: ' + COMMIT_HASH)
