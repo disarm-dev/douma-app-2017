@@ -5,7 +5,7 @@ export default function(routes, user) {
   })
 
   if (!user) return
-  return user.allowed_apps.read.map((app) => {
+  return user.allowed_apps.read.map((app) => { // TODO: @refac Change to use `write` permissions 
     return applet_decorations.find((i) => i.name === app)
   })
 }        
