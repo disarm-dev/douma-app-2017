@@ -10,11 +10,14 @@
       <input type="radio" id="three" value="structure" v-model="type">
       <label for="three">Structure</label>
       <br>
-      <span>Type: {{ type }}</span>
     </div>
 
-    <div v-if="type === 'text'">
-      <input @change="on_text_change" type="text" placeholder="Enter location">
+    <div v-show="type === 'text'">
+      <p><input @change="on_text_change" type="text" placeholder="Enter location"></p>
+    </div>
+
+    <div v-show="type === 'point'">
+      <p>Some point thing</p>
     </div>
 
     <div v-if="type === 'structure'">
@@ -25,16 +28,17 @@
 
 <script>
   export default {
+    name: 'location',
     data() {
       return {
-        type: '',
+        type: 'text',
       }
     },
     watch: {
-      'type': 'do_something'
+      'type': 'update_location'
     },
     methods: {
-      do_something() {
+      update_location() {
         switch (this.type) {
           case 'point':
             this.find_location()
