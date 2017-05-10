@@ -65,8 +65,7 @@ const launch = (instance_config) => {
   console.info('DOUMA version: ' + COMMIT_HASH)
 }
 
-// const subdomain = document.domain.split('.')[0]
-const subdomain = 'nam'
+const subdomain = document.domain.split('.')[0]
 
 fetch(`/static/instances/${subdomain}.json`) // TODO: @refac Move this instance configuration from `static` to somewhere better
 .then(res => {
