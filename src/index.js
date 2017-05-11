@@ -19,6 +19,7 @@ import create_store from './store'
 import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
 import {ClientTable} from 'vue-tables-2'
+import {determine_instance} from './lib/router-helper.js'
 
 // Keep track of Errors
 Raven
@@ -65,12 +66,12 @@ const launch = (instance_config) => {
   console.info('DOUMA version: ' + COMMIT_HASH)
 }
 
-const subdomain = document.domain.split('.')[0]
+const instance = determine_instance()
 
-fetch(`/static/instances/${subdomain}.json`) // TODO: @refac Move this instance configuration from `static` to somewhere better
+fetch(`/static/instances/${instance}.json`) // TODO: @refac Move this instance configuration from `static` to somewhere better
 .then(res => {
   if (res.status === 404) {
-    const msg = `You might be looking for an application which does not exist. Cannot find application configuration file for subdomain "${subdomain}". `
+    const msg = `You might be looking for an application which does not exist. Cannot find application configuration file for subdomain "${instance}". `
     alert(msg)
     throw new Error(msg)
   }
