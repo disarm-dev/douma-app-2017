@@ -5,11 +5,12 @@ function geolocation_api_present() {
   return "geolocation" in navigator
 }
 
-function get_current_position() {
+function get_current_position(options) {
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition((position) => {
       resolve(objectify(position))
-    }, (error) => reject(error))
+    }, (error) => reject(error),
+    options)
   })
 }
 

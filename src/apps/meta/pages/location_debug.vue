@@ -2,6 +2,8 @@
   <div class='container'>
     <h3>Debug location for {{country}} instance</h3>
     <md-button @click.native="get_current_position">Get current location</md-button>
+    <md-button @click.native="toggle_watch_position">{{watch_status_button_text}}</md-button>
+    <md-checkbox v-model="enableHighAccuracy">High accuracy</md-checkbox>
     <p>{{location_msg}}</p>
     <md-list>
       <md-list-item v-for="location in locations" :key="location.timestamp">
@@ -24,11 +26,16 @@
     name: 'location_debug',
     data () {
       return {
+        enableHighAccuracy: false,
         location_activity: '',
         locations: [],
+        watching: false
       }
     },
     computed: {
+      watch_status_button_text(){
+        return this.watching ? 'Stop watching' : 'Start watching'
+      },
       location_msg() {
         return this.location_activity || 'No action'
       },
@@ -46,7 +53,8 @@
       get_current_position() {
         this.location_activity = 'Getting current position'
         const start_stamp = moment()
-        get_current_position().then((position) => {
+        const options = {enableHighAccuracy: this.enableHighAccuracy}
+        get_current_position(options).then((position) => {
           this.location_activity = ''
           const end_stamp = moment()
           const duration = this.get_duration(start_stamp, end_stamp)
@@ -63,7 +71,11 @@
       },
       get_duration(start_stamp, end_stamp) {
         return moment.utc(moment(end_stamp,"DD/MM/YYYY HH:mm:ss").diff(moment(start_stamp,"DD/MM/YYYY HH:mm:ss"))).format("s")
-      }
+      },
+      toggle_watch_position(){
+        this.watching = !this.watching
+      },
+
     }
   }
 </script>
