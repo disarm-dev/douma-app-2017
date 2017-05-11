@@ -87,7 +87,8 @@
           form_data: this.form_data, 
           location: this.location,
           updated_at: new Date(),
-          id: id
+          id: id,
+          synced: false
         }
 
         if (this.response_id) {
