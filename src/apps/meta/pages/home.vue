@@ -5,6 +5,8 @@
         <md-button v-for='app in applets' :key='app' class='md-raised md-accent' @click.native="$router.push({name: app.name})">{{app.title}}</md-button>
       </md-card-content>
     </md-card>
+    <router-link to="/meta/location">location</router-link>
+    <p>{{commit_hash}}</p>
   </div>
 </template>
 
@@ -21,6 +23,9 @@
     computed: {
       applets() {
         return generate_applet_routes({routes: this.$router.options.routes, user: this.$store.state.meta.user, instance_config: this.$store.state.instance_config})
+      },
+      commit_hash() {
+        return COMMIT_HASH
       }
     }
   }

@@ -19,6 +19,7 @@
     "chart.js": "^2.5.0",
     "dexie": "^1.5.1",
     "downloadjs": "^1.4.7",
+    "geoposition-to-object": "^1.0.2",
     "leaflet": "^1.0.3",
     "lodash.debounce": "^4.0.8",
     "mapbox-gl": "^0.37.0",
