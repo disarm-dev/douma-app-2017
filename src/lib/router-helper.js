@@ -35,22 +35,20 @@ function get_hash_value(key) {
 }
 
 function determine_instance() {
-  let instance
+  let instance = null
 
   const subdomain = document.domain.split('.')[0]
   const instance_hash = get_hash_value('instance')
 
-  if (subdomain !== 'localhost'){
-    instance = subdomain
-  } else if (subdomain === 'localhost' && instance_hash !== null) {
+  if (instance_hash) {
     instance = instance_hash
+  } else if (subdomain) {
+    instance = subdomain
   } else {
     const msg = `You might be looking for an application which does not exist. Cannot find instance id in subdomain or hash ('#instance=xxx'). `
     alert(msg)
     throw new Error(msg)
   }
-
-
 
   return instance
 }
