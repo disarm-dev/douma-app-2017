@@ -1,9 +1,14 @@
 <template>
   <div class='container'>
     <h3>Debug location for {{country}} instance</h3>
+    <md-input-container>
+      <label>Waypoint ID</label>
+      <md-input v-model="waypoint_id"></md-input>
+    </md-input-container>
     <md-button @click.native="get_current_position">Get current location</md-button>
     <md-checkbox v-model="enableHighAccuracy">High accuracy</md-checkbox>
     <p>{{location_msg}}</p>
+
     <md-list>
       <md-list-item v-for="location in locations" :key="location.timestamp">
         <md-icon>location_searching</md-icon>
@@ -28,6 +33,7 @@
         enableHighAccuracy: false,
         location_activity: '',
         locations: [],
+        waypoint_id: ''
       }
     },
     computed: {
@@ -54,6 +60,7 @@
           const end_stamp = moment()
           const duration = this.get_duration(start_stamp, end_stamp)
           position.duration = duration
+          position.waypoint_id = this.waypoint_id
           this.add_location(position)
         })
       },
