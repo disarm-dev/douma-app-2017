@@ -34,7 +34,6 @@
       return {
         error: '',
         disabled: false,
-
         user: {
           username: '',
           password: ''
@@ -52,7 +51,7 @@
       }
     },
     methods: {
-      is_user_valid() {
+      user_is_valid() {
         if (!this.user.username) {
           this.error = "Please enter a username"
           return false
@@ -68,7 +67,7 @@
       login() {
         this.error = ""
 
-        if (this.is_user_valid()) {
+        if (this.user_is_valid()) {
         
           this.disabled = true
 
@@ -77,8 +76,8 @@
             this.continue()
           })
           .catch(e => {
+            this.error = e.error
             this.disabled = false
-            console.log(e)
           })
         }
 
