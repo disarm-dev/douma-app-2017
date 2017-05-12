@@ -7,7 +7,7 @@
     </md-input-container>
     <md-button @click.native="get_current_position" :disabled='getting_position'>Get current location</md-button>
     <md-checkbox v-model="enableHighAccuracy">High accuracy</md-checkbox>
-    <md-button>Sync</md-button>
+    <md-button @click.native='sync' :disabled='syncing'>Sync</md-button>
     <p>{{location_msg}}</p>
 
     <md-list>
@@ -34,8 +34,8 @@
     data () {
       return {
         getting_position: false,
+        syncing: false,
         enableHighAccuracy: false,
-        location_activity: '',
         waypoint_id: ''
       }
     },
@@ -84,7 +84,6 @@
         position.username = this.$store.state.meta.user.username
         position.id = uuid()
         position.user_agent = navigator.userAgent
-        position.synced = false
 
         return position
       },
@@ -98,19 +97,20 @@
         return moment.utc(moment(end_stamp,"DD/MM/YYYY HH:mm:ss").diff(moment(start_stamp,"DD/MM/YYYY HH:mm:ss"))).format("s")
       },
       sync() {
-        this.locations
-          .filter((location) => (
-            !location.synced
-          ))
-          .map((location) => {
-            fetch(`https://disarm-platform.firebaseio.com/locations/${location.id}.json`, {
-              method: 'PUT',
-              body: JSON.stringify(location)
-            }).then(() => {
-              location.synced = true
-              this.$store.commit('meta/update_location', location)
+        this.syncing = true
+        Promise.all(
+          this.locations
+            .map((location) => {
+              return fetch(`https://disarm-platform.firebaseio.com/locations/${location.id}.json`, {
+                method: 'PUT',
+                body: JSON.stringify(location)
+              }).then(() => {
+                this.$store.commit('meta/delete_location', location)
+              })
             })
-          })
+        ).then(res => {
+          this.syncing = false
+        })
       }
     }
   }
