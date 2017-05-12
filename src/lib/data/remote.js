@@ -26,7 +26,6 @@ class RemoteDBClass {
           resolve(json)            
         })
         .catch((error) => {
-          console.log(error)
           reject(error)
         })
     })
