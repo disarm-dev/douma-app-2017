@@ -11,7 +11,7 @@
 
           <md-input-container>
             <label>Username</label>
-            <md-input v-model="user.email" type="text"></md-input>
+            <md-input v-model="user.username" type="text"></md-input>
           </md-input-container>
 
           <md-input-container>
@@ -37,7 +37,7 @@
         msg: 'Please login below',
         disabled: false,
         user: {
-          email: '',
+          username: '',
           password: ''
         }
       }

@@ -4,11 +4,23 @@ export default {
   namespaced: true,
   state: {
     user: null,
-    previousRoute: ''
+    previousRoute: '',
+    locations: []
   },
   mutations: {
     set_user: (state, user) => {
       state.user = user
+    },
+    add_location: (state, location) => {
+      state.locations.unshift(location)
+    },
+    update_location: (state, location) => {
+      const index = state.locations.findIndex(l => l.id === location.id)
+      state.locations.splice(index, 1, location)
+    },
+    delete_location: (state, location) => {
+      const index = state.locations.findIndex(l => l.id === location.id)
+      state.locations.splice(index, 1)
     }
   },
   actions: {
