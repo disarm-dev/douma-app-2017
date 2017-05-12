@@ -3,25 +3,23 @@
 
     <md-card>
       <md-card-content>
-        <form novalidate @submit.stop.prevent="login">
+        <form novalidate @submit.stop.prevent="login()">
           <div>
             <md-icon class="login-icon">person</md-icon>
           </div>
-          <p class="md-body-1 login-text">Welcome to the DiSARM {{country}}</p>
-
+          <p class="md-body-1 login-text">Welcome to DiSARM {{country}}</p>
+          <p class="md-body-1 login-text login-error" v-if="error">{{error}}</p>
           <md-input-container>
             <label>Username</label>
-            <md-input v-model="user.username" type="text"></md-input>
+            <md-input v-model="user.username" required type="text"></md-input>
           </md-input-container>
 
           <md-input-container>
             <label>Password</label>
-            <md-input v-model="user.password" type="password"></md-input>
+            <md-input v-model="user.password" required type="password"></md-input>
           </md-input-container>
 
-          <md-button class="md-accent" :disabled='disabled' @click.native="login()">Login</md-button>
-
-          
+          <md-button class="md-accent md-raised login-button" :disabled='disabled' type="submit">Login</md-button> 
         </form>
      </md-card-content>
     </md-card>
@@ -34,8 +32,9 @@
   export default {
     data() {
       return {
-        msg: 'Please login below',
+        error: '',
         disabled: false,
+
         user: {
           username: '',
           password: ''
@@ -53,17 +52,35 @@
       }
     },
     methods: {
-      login() {
-        this.disabled = true
+      is_user_valid() {
+        if (!this.user.username) {
+          this.error = "Please enter a username"
+          return false
+        }
 
-        this.$store.dispatch('meta/login', this.user).then(() => {
-          this.disabled = false
-          this.continue()
-        })
-        .catch(e => {
-          this.disabled = false
-          console.log(e)
-        })
+        if (!this.user.password) {
+          this.error = "Please enter a password"
+          return false
+        }
+
+        return true
+      },
+      login() {
+        this.error = ""
+
+        if (this.is_user_valid()) {
+        
+          this.disabled = true
+
+          this.$store.dispatch('meta/login', this.user).then(() => {
+            this.disabled = false
+            this.continue()
+          })
+          .catch(e => {
+            this.disabled = false
+            console.log(e)
+          })
+        }
 
       },
       continue() {
@@ -96,6 +113,10 @@
   .login-text {
     padding-top: 0.5em;
     text-align: center;
+  }
+
+  .login-error {
+    color: red;
   }
 
   .login-button {
