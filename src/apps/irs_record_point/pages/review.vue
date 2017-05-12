@@ -1,7 +1,7 @@
 <template>
   <div>
     <router-link class='md-button md-raised' to='/irs/record_point'><md-icon>create</md-icon>Add new</router-link>
-    <md-button class="md-raised md-primary" @click.native="sync">
+    <md-button class="md-raised md-primary" :disabled="syncing" @click.native="sync">
       Sync
     </md-button>
     <ul>
@@ -18,6 +18,7 @@
     name: 'review',
     data () {
       return {
+        syncing: false
       }
     },
     computed: {
@@ -27,19 +28,17 @@
     },
     methods: {
       sync() {
-        this.responses
-          .filter((response) => (
-            !response.synced
-          ))
-          .map((response) => {
-            fetch(`https://disarm-platform.firebaseio.com/responses/${response.id}.json`, {
+        this.syncing = true
+        Promise.all(
+          this.responses.map((response) => {
+            return fetch(`https://disarm-platform.firebaseio.com/responses/${response.id}.json`, {
               method: 'PUT',
               body: JSON.stringify(response)
             }).then(() => {
-              response.synced = true
-              this.$store.commit('irs_record_point/update_response', response)
+              this.$store.commit('irs_record_point/delete_response', response)
             })
           })
+        ).then(() => this.syncing = false)
       }
     }
   }
