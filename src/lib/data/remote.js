@@ -8,11 +8,11 @@ class RemoteDBClass {
   //
   // User authentiction
   //
-  authenticate({email, password}) {
+  authenticate(user) {
     let url = this.douma_api_root + `/auth`
 
     let options = {
-      body: JSON.stringify({user: {email, password}}),
+      body: JSON.stringify({user}),
       headers: {
         'Content-Type': 'application/json'
       },
