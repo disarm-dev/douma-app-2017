@@ -20,20 +20,25 @@
       <p>{{location_message}}</p>
     </div>
 
-    <div v-if="type === 'structure'">
-      <p>Structure is not supported yet.</p>
+    <div v-show="type === 'structure'">
+      <div id="map"></div>
+      <!-- <p>Structure is not supported yet.</p> -->
     </div>
   </div>
 </template>
 
 <script>
+  import mapboxgl from 'mapbox-gl'
+  mapboxgl.accessToken = 'pk.eyJ1Ijoibmljb2xhaWRhdmllcyIsImEiOiJjaXlhNWw1NnkwMDJoMndwMXlsaGo5NGJoIn0.T1wTBzV42MZ1O-2dy8SpOw';
+
   export default {
     name: 'location',
     props: ['existing_location'],
     data() {
       return {
         type: 'text',
-        location_message: 'Nothing'
+        location_message: 'Nothing',
+        _map: null
       }
     },
     watch: {
@@ -50,7 +55,57 @@
           case 'point':
             this.find_location()
             break;
+          case 'structure':
+            this.create_map()
+            break;
         }
+      },
+      create_map() {
+        
+        this._map = new mapboxgl.Map({
+          container: 'map',
+          style: 'mapbox://styles/mapbox/streets-v9',
+          center: [31.922872211671347, -26.207653255480984],
+          zoom: 17
+        });
+
+
+        fetch('/static/structures.json')
+        .then((res) => res.json())
+        .then((geojson) => {
+          this._map.on('load', () => {
+
+            this._map.addLayer({
+              id: 'structures_layer',
+              type: 'fill',
+              source: {
+                type: 'geojson',
+                data: geojson
+              },
+              layout: {},
+              paint: {
+                'fill-color': 'blue',
+                'fill-opacity': 0.5
+              }
+            })
+
+            this._map.on('click', (e) => {
+              const structure = this._map.queryRenderedFeatures(e.point, {layers: ['structures_layer']})[0]
+
+              let {properties, type, geometry} = structure
+              this.emit_location({
+                type: 'structure',
+                geojson: {properties, type, geometry}
+              })
+            })
+
+            this.$nextTick(() => {
+              this._map.resize()
+            })
+          })
+        })
+
+        
       },
       find_location() {
         if ("geolocation" in navigator) {
@@ -70,7 +125,6 @@
           // TODO @refac Handle the case where geolocation api is not available
         }
       },
-
       on_text_change(e) {
         this.emit_location({
           type: 'text',
@@ -86,5 +140,7 @@
 </script>
 
 <style>
-  
+  #map {
+    height: 450px;
+  }
 </style>
