@@ -5,9 +5,9 @@
       <label>Waypoint ID</label>
       <md-input v-model="waypoint_id"></md-input>
     </md-input-container>
-    <md-button @click.native="get_current_position" :disabled='getting_position'>Get current location</md-button>
+    <md-button class='md-raised md-primary' @click.native="get_current_position" :disabled='getting_position'>Get current location</md-button>
     <md-checkbox v-model="enableHighAccuracy">High accuracy</md-checkbox>
-    <md-button @click.native='sync' :disabled='syncing'>Sync</md-button>
+    <md-button class='md-raised md-accent' @click.native='sync' :disabled='syncing'>Sync</md-button>
     <p>{{location_msg}}</p>
 
     <md-list>
