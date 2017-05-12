@@ -81,14 +81,14 @@
       },
       save_response() {
         this.form_data = this.$refs.form.survey.data
-
         const id = this.response_id || uuid()
         const response = {
           form_data: this.form_data, 
           location: this.location,
           updated_at: new Date(),
           id: id,
-          synced: false
+          synced: false,
+          userAgent: navigator.userAgent
         }
 
         if (this.response_id) {
