@@ -1,5 +1,9 @@
 <template>
   <div>
+    <md-input-container>
+      <label>OSM ID</label>
+      <md-input v-model="osm_id"></md-input>
+    </md-input-container>
     <div id="map"></div>
     <div class="container">
       <md-button @click.native="add_buildings('mpaka')">Mpaka</md-button>
@@ -21,6 +25,7 @@
     name: 'building_debug',
     data () {
       return {
+        osm_id: '',
         _map: {},
         _buildings_layer: null,
       }
@@ -32,6 +37,9 @@
       mpaka() { return mpaka },
       hlane() { return hlane },
       simunye() { return simunye }
+    },
+    watch: {
+      'osm_id': 'highlight_building'
     },
     mounted() {
       this.create_map()
