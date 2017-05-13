@@ -10,7 +10,10 @@
       <md-button @click.native="add_buildings('hlane')">Hlane</md-button>
       <md-button @click.native="add_buildings('simunye')">Simunye</md-button>
     </div>
+    <md-button class='md-raised md-primary' @click.native="get_current_position" :disabled='getting_position'>Get current location</md-button>
+    <md-checkbox v-model="enableHighAccuracy">High accuracy</md-checkbox>
     <md-button class='md-raised md-accent' @click.native='sync' :disabled='syncing'>Sync</md-button>
+    <p>{{location_msg}}</p>
 
     <md-list>
       <md-list-item v-for="location in locations" :key="location.timestamp">
@@ -96,7 +99,6 @@
            },
            onEachFeature: (feature, layer) => {
              layer.on('click', () => {
-              console.log(feature)
               this.get_current_position(feature)
              })
            }
@@ -113,7 +115,6 @@
         position.username = this.$store.state.meta.user.username
         position.id = uuid()
         position.user_agent = navigator.userAgent
-        debugger
         return position
       },
       get_current_position(feature) {
@@ -129,8 +130,8 @@
           const end_stamp = moment()
           const duration = this.get_duration(start_stamp, end_stamp)
 
-          position = this.create_position_object(position, duration, feature.properties.osm_id)
-          this.add_location(position)
+          const new_position = this.create_position_object(position, duration, feature.properties.osm_id)
+          this.add_location(new_position)
         })
       },
       add_location(position) {
