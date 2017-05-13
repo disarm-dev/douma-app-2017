@@ -10,6 +10,13 @@
     <md-button class='md-raised md-accent' @click.native='sync' :disabled='syncing'>Sync</md-button>
     <p>{{location_msg}}</p>
 
+    <h2>Errors</h2>
+    <md-list>
+      <md-list-item v-for="error in errors" :key="errors.timestamp">
+      {{pretty(error)}}
+      </md-list-item>
+    </md-list>
+
     <md-list>
       <md-list-item v-for="location in locations" :key="location.timestamp">
         <md-icon>location_searching</md-icon>
@@ -36,7 +43,8 @@
         getting_position: false,
         syncing: false,
         enableHighAccuracy: false,
-        waypoint_id: ''
+        waypoint_id: '',
+        errors: []
       }
     },
     computed: {
@@ -63,9 +71,12 @@
       get_current_position() {
         this.getting_position = true
 
-
         const start_stamp = moment()
-        const options = {enableHighAccuracy: this.enableHighAccuracy}
+        const options = {
+          enableHighAccuracy: this.enableHighAccuracy,
+          timeout: 30000,
+          maximumAge: 120000
+        }
 
         get_current_position(options).then((position) => {
 
@@ -76,6 +87,13 @@
 
           position = this.create_position_object(position, duration)
           this.add_location(position)
+        }).catch(error => {
+          const error_object = {
+            code: error.code,
+            message: error.message
+          }
+          this.getting_position = false
+          this.errors.push(error_object)
         })
       },
       create_position_object(position, duration) {
@@ -111,6 +129,9 @@
         ).then(res => {
           this.syncing = false
         })
+      },
+      pretty(thing) {
+        return JSON.stringify(thing, null, 2)
       }
     }
   }
