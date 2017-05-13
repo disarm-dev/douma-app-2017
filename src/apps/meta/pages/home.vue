@@ -6,6 +6,7 @@
       </md-card-content>
     </md-card>
     <router-link to="/meta/location">location</router-link>
+    <router-link to="/meta/building">building</router-link>
     <p>{{commit_hash}}</p>
   </div>
 </template>
