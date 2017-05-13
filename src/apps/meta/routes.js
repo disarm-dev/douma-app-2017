@@ -3,6 +3,7 @@ import home from './pages/home.vue'
 import login from './pages/login.vue'
 
 import location from './pages/location_debug.vue'
+import building from './pages/building_debug.vue'
 
 export default [
   {
@@ -27,5 +28,9 @@ export default [
     path: '/meta/location',
     component: location,
     name: 'meta:location'
+  },{
+    path: '/meta/building',
+    component: building,
+    name: 'meta:building'
   }
 ]
