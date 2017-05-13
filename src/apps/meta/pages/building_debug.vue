@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>Clicked on osm_id: {{osm_id_from_map}}</p>
     <md-input-container>
       <label>OSM ID</label>
       <md-input v-model="osm_id"></md-input>
@@ -13,7 +14,6 @@
     <md-button class='md-raised md-primary' @click.native="get_current_position" :disabled='getting_position'>Get current location</md-button>
     <md-checkbox v-model="enableHighAccuracy">High accuracy</md-checkbox>
     <md-button class='md-raised md-accent' @click.native='sync' :disabled='syncing'>Sync</md-button>
-    <p>{{location_msg}}</p>
 
     <md-list>
       <md-list-item v-for="location in locations" :key="location.timestamp">
@@ -46,9 +46,12 @@
     data () {
       return {
         osm_id: '',
+        osm_id_from_map: '',
         _map: {},
         _buildings_layer: null,
-        syncing: false
+        syncing: false,
+        enableHighAccuracy: false,
+        getting_position: false
       }
     },
     computed: {
@@ -90,28 +93,44 @@
 
 
         this._buildings_layer = L.geoJSON(this[place], {
-           style: (feature, layer) => {
-             let base_style = {
-               weight: 0.8
-             }
+          style: (feature, layer) => {
+            let base_style = {
+              weight: 0.8
+            }
 
-             return base_style
-           },
+            return base_style
+          },
            onEachFeature: (feature, layer) => {
              layer.on('click', () => {
-              this.get_current_position(feature)
+                this.osm_id_from_map = feature.properties.osm_id
              })
            }
         })
 
         this._buildings_layer.addTo(this._map)
       },
+      highlight_building() {
+        this._buildings_layer.setStyle((feature, layer) => {
+          if (feature.properties.osm_id == this.osm_id) {
+
+             let base_style = {
+               weight: 0.8,
+               color: 'red'
+             }
+
+             return base_style
+          }
+          return {color: '#3388ff'}
+         })
+      },
       human_time(timestamp) {
         return moment(timestamp).format('kk:mm:ss:SS ddd')
       },
-      create_position_object(position, duration, feature_osm_id) {
+      create_position_object(position, duration) {
+        if (this.osm_id) {
+          position.osm_id = this.osm_id  
+        }
         position.duration = duration
-        position.osm_id = feature_osm_id
         position.username = this.$store.state.meta.user.username
         position.id = uuid()
         position.user_agent = navigator.userAgent
@@ -130,7 +149,7 @@
           const end_stamp = moment()
           const duration = this.get_duration(start_stamp, end_stamp)
 
-          const new_position = this.create_position_object(position, duration, feature.properties.osm_id)
+          const new_position = this.create_position_object(position, duration)
           this.add_location(new_position)
         })
       },
