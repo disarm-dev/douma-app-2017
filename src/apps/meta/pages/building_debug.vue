@@ -3,7 +3,10 @@
 </template>
 
 <script>
-  import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js'
+  import Leaflet from 'leaflet'
+  import 'leaflet/dist/leaflet.css'
+  import locatecontrol from 'leaflet.locatecontrol'
+
   export default {
     name: 'building_debug',
     data () {
@@ -17,25 +20,25 @@
       }
     },
     mounted() {
-      this.create_map().then(() => {
-        console.log('loaded')
-      })
-
+      this.create_map()
     },
     methods: {
       create_map() {
-        mapboxgl.accessToken = 'pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
+        this._map = Leaflet.map('map', {
+          tms: true,
+          center: [this.map_focus.centre.lng, this.map_focus.centre.lat],
+          zoom: this.map_focus.zoom
+        });
 
-        return new Promise((resolve, reject) => {
-          this._map = new mapboxgl.Map({
-            container: 'map', // container id
-            style: {version: 8, sources: {}, layers: [{id: 'background', type: 'background', paint: {'background-color': '#E2E6E3'}}]}, 
-            center: [this.map_focus.centre.lng, this.map_focus.centre.lat], zoom: this.map_focus.zoom
-          });
-          this._map.addControl(new mapboxgl.GeolocateControl());
-          this._map.on('load', () => resolve())
-        })
-      },    
+        const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
+
+        // this.map.on('dblclick', () => {
+        //   this.$router.push({name: 'irs_record:clusters'})
+        // })
+        L.control.locate().addTo(this._map);
+
+        Leaflet.tileLayer(url).addTo(this._map);
+      },
     }
   }
 </script>
