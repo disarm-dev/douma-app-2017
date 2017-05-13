@@ -10,6 +10,8 @@
       <md-button @click.native="add_buildings('hlane')">Hlane</md-button>
       <md-button @click.native="add_buildings('simunye')">Simunye</md-button>
     </div>
+    <md-button class='md-raised md-accent' @click.native='sync' :disabled='syncing'>Sync</md-button>
+
     <md-list>
       <md-list-item v-for="location in locations" :key="location.timestamp">
         <md-icon>location_searching</md-icon>
@@ -28,6 +30,10 @@
   import Leaflet from 'leaflet'
   import 'leaflet/dist/leaflet.css'
   import locatecontrol from 'leaflet.locatecontrol'
+  import {get_current_position} from '../../../lib/location_helper.js'
+  import moment from 'moment'
+  import uuid from 'uuid/v4'
+
   import mpaka from '../../../../static/geo/mpaka_buildings.json'
   import hlane from '../../../../static/geo/hlane_buildings.json'
   import simunye from '../../../../static/geo/simunye_buildings.json'
@@ -39,6 +45,7 @@
         osm_id: '',
         _map: {},
         _buildings_layer: null,
+        syncing: false
       }
     },
     computed: {
@@ -89,6 +96,7 @@
            },
            onEachFeature: (feature, layer) => {
              layer.on('click', () => {
+              console.log(feature)
               this.get_current_position(feature)
              })
            }
@@ -96,17 +104,19 @@
 
         this._buildings_layer.addTo(this._map)
       },
+      human_time(timestamp) {
+        return moment(timestamp).format('kk:mm:ss:SS ddd')
+      },
       create_position_object(position, duration, feature_osm_id) {
         position.duration = duration
         position.osm_id = feature_osm_id
         position.username = this.$store.state.meta.user.username
         position.id = uuid()
         position.user_agent = navigator.userAgent
-
+        debugger
         return position
       },
       get_current_position(feature) {
-        if(this.highlighted_building_id) return
         this.getting_position = true
 
 
@@ -114,7 +124,6 @@
         const options = {enableHighAccuracy: this.enableHighAccuracy}
 
         get_current_position(options).then((position) => {
-
           this.getting_position = false
 
           const end_stamp = moment()
@@ -124,7 +133,31 @@
           this.add_location(position)
         })
       },
-
+      add_location(position) {
+        this.$store.commit('meta/add_location', position)
+      },
+      delete_location(position) {
+        this.$store.commit('meta/delete_location', position)
+      },
+      get_duration(start_stamp, end_stamp) {
+        return moment.utc(moment(end_stamp,"DD/MM/YYYY HH:mm:ss").diff(moment(start_stamp,"DD/MM/YYYY HH:mm:ss"))).format("s")
+      },
+      sync() {
+        this.syncing = true
+        Promise.all(
+          this.locations
+            .map((location) => {
+              return fetch(`https://disarm-platform.firebaseio.com/locations/${location.id}.json`, {
+                method: 'PUT',
+                body: JSON.stringify(location)
+              }).then(() => {
+                this.$store.commit('meta/delete_location', location)
+              })
+            })
+        ).then(res => {
+          this.syncing = false
+        })
+      }
     }
   }
 </script>
