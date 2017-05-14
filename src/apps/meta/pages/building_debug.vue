@@ -111,7 +111,8 @@
       },
       highlight_building() {
         this._buildings_layer.setStyle((feature, layer) => {
-          if (feature.properties.osm_id == this.osm_id) {
+          const regex = new RegExp(this.osm_id + "$")
+          if (this.osm_id && regex.test(feature.properties.osm_id)) {
 
              let base_style = {
                weight: 0.8,
@@ -119,8 +120,9 @@
              }
 
              return base_style
+          } else {
+            return {color: '#3388ff'}
           }
-          return {color: '#3388ff'}
          })
       },
       human_time(timestamp) {
