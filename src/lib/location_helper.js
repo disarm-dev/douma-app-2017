@@ -6,6 +6,8 @@ function geolocation_api_present() {
 }
 
 function get_current_position(options) {
+  if (!geolocation_api_present()) return
+
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition((position) => {
       resolve(objectify(position))

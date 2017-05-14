@@ -21,6 +21,9 @@ export default {
     delete_location: (state, location) => {
       const index = state.locations.findIndex(l => l.id === location.id)
       state.locations.splice(index, 1)
+    },
+    clear_locations: (state) => {
+      state.locations = []
     }
   },
   actions: {
