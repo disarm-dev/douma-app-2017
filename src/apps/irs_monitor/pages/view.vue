@@ -8,7 +8,24 @@
     </md-card>
     <md-card style="margin: 1em 0;">
       <md-card-content>
-        {{spray_progress}} responses recorded
+        {{spray_progress}} coverage
+      </md-card-content>
+    </md-card>
+
+    <md-card style="margin: 1em 0;">
+      <md-card-content>
+        {{sprayed_count}} bedrooms sprayed
+      </md-card-content>
+    </md-card>
+
+    <md-card style="margin: 1em 0;">
+      <md-card-content>
+        {{unsprayed_count}} bedrooms not sprayed
+      </md-card-content>
+    </md-card>
+    <md-card style="margin: 1em 0;">
+      <md-card-content>
+        {{coverage_places_visited}} coverage of places visited
       </md-card-content>
     </md-card>
     <md-card style="margin: 1em 0;">
@@ -45,11 +62,26 @@
       responses() {
         return this.$store.state.irs_monitor.responses
       },
+
+      // translated values
       responses_count() {
         return this._translator.responses_count(this.responses)
       },
       spray_progress() {
-        return '50%'
+        return this._translator.calculate_progress(this.responses) 
+      },
+      sprayed_count() {
+        return this._translator.sprayed_count(this.responses)
+      },
+      unsprayed_count() {
+        return this._translator.unsprayed_count(this.responses)
+      },
+      // TODO: @refac Rename
+      people_sprayed() {
+        return this._translator.unsprayed_count(this.responses)
+      },
+      coverage_places_visited() {
+        return this._translator.coverage_places_visited(this.responses)
       }
     }
   }
