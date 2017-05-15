@@ -11,6 +11,10 @@ export default class Translations {
     return this.responses_count()
   }
 
+  visited_count(responses) {
+
+  }
+
   calculate_progress(responses) {
     return this.responses_count()
   }
