@@ -1,14 +1,13 @@
 import Vue from 'vue'
 import location from '@/components/location.vue'
 import sinon from 'sinon'
+import geolocate from 'mock-geolocation'
 
 describe('location.vue', () => {
   const Constructor = Vue.extend(location)
-  it('should call get_location on `mounted`', () => {
-    const geolocation_spy = sinon.spy()
-    navigator.geolocation = {getCurrentPosition: geolocation_spy}
-    const vm = new Constructor().$mount()
-    assert(geolocation_spy.called, 'navigator.geolocation.getCurrentPosition is not called on `mount`')
+
+  it('should be able to find geolocation in navigator', () => {
+    assert.isTrue("geolocation" in navigator)
   })
 
   it('should start with `location_mode` set to "point"', () => {
@@ -36,7 +35,33 @@ describe('location.vue', () => {
     assert.equal(vm.$el.querySelector('input').style.display, 'none')
   })
 
+  it('should call get_location on `mounted`', () => {
+    const geolocation_spy = sinon.spy()
+    navigator.geolocation = {getCurrentPosition: geolocation_spy}
+    const vm = new Constructor().$mount()
+    assert(geolocation_spy.called, 'navigator.geolocation.getCurrentPosition is not called on `mount`')
+  })
+
+  it('should display coordinates if position found', (done) => {
+    // geolocate.use()
+    const vm = new Constructor().$mount()
+    const coords = {lat: 1, lng: 1}
+    geolocate.send(coords)
+    Vue.nextTick(() => {
+      assert.equal(vm.position, coords)
+      // geolocate.restore()
+      done()
+    })
+  })
+
+  // `emit` any location found, or text entered
+  // display errors if API errors found
   // show text input if `getCurrentLocation` fails
-  // set `existing_location` if passed in by
+  // set and return `existing_location` if passed in
+
+  // user can trigger new getCurrentPosition by clicking button
+  it('can receive a click', () => {
+    assert(true)
+  })
 
 })
