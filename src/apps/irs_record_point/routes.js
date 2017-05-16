@@ -1,5 +1,5 @@
 import record from './pages/record.vue'
-import review from './pages/review.vue'
+import list from './pages/list.vue'
 
 export default [
   {
@@ -8,9 +8,9 @@ export default [
     name: 'irs_record_point',
     meta: {title: 'IRS Record', icon: 'assignment'},
   },{
-    path: '/irs/record_point/review',
-    component: review,
-    name: 'irs_record_point:review',
+    path: '/irs/record_point/list',
+    component: list,
+    name: 'irs_record_point:list',
     meta: {title: 'IRS Record', icon: 'assignment'}
   },{
     path: '/irs/record_point/edit/:response_id',

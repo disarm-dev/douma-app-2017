@@ -2,16 +2,11 @@
   <div class='container'>
     <h1>{{create_or_update}} record for {{country}}</h1>
     <p class='validation_message' v-if='validation_message'>{{validation_message}}</p>
-    <md-button @click.native='validate_location_and_form'><md-icon>save</md-icon>Save</md-button>
-    <router-link class='md-button' to='/irs/record_point/review'><md-icon>list</md-icon>Review</router-link>
-    <md-tabs>
-      <md-tab md-label="Form">
-        <form_renderer ref='form' :existing_form_data='existing_form_data'></form_renderer>
-      </md-tab>
-      <md-tab md-label="Location">
-        <location_record v-on:change='update_location' :existing_location='existing_location'></location_record>
-      </md-tab>
-    </md-tabs>
+    <router-link class='md-button' to='/irs/record_point/list'><md-icon>list</md-icon>List</router-link>
+    <location_record v-on:change='update_location' :existing_location='existing_location'></location_record>
+    <form_renderer ref='form' :existing_form_data='existing_form_data'></form_renderer>
+    <md-button class='md-raised md-primary' @click.native='validate_location_and_form'><md-icon>save</md-icon>Review/Save</md-button>
+
   </div>
 </template>
 
