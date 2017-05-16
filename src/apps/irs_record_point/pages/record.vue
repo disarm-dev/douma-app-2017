@@ -6,7 +6,6 @@
     <location_record v-on:change='update_location' :existing_location='existing_location'></location_record>
     <form_renderer ref='form' :existing_form_data='existing_form_data'></form_renderer>
     <md-button class='md-raised md-primary' @click.native='validate_location_and_form'><md-icon>save</md-icon>Review/Save</md-button>
-
   </div>
 </template>
 

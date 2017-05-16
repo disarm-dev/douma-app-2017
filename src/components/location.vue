@@ -1,8 +1,7 @@
 <template>
   <div>
-    <p>{{location_message}}</p>
     <md-button>Update point location</md-button>
-    <input v-show='point_failed' type='text'/>
+    <input v-show='location_mode == "text"' type='text'/>
   </div>
 </template>
 
@@ -12,43 +11,37 @@
     props: ['existing_location'],
     data() {
       return {
-        location_message: 'No geolocation activity',
-        point_failed: false
+        location_mode: "point"
       }
     },
     mounted() {
-      this.find_location()
-      // if (this.existing_location) {
-      //   this.emit_location(this.existing_location)
-      // }
+      if ('geolocation' in navigator) {
+        this.find_location()
+      } else {
+        this.location_mode = "text"
+      }
     },
     methods: {
       find_location() {
-        console.log('start finding location')
-        // if ("geolocation" in navigator) {
-        //   this.location_message = 'Hunting...'
-        //   navigator.geolocation.getCurrentPosition((position) => {
-            
-        //     let {latitude, longitude, accuracy} = position.coords
-        //     accuracy = accuracy / 2
-        //     this.location_message = `Found: ${latitude} ${longitude} (accurate +/- ${accuracy}m)`
+        navigator.geolocation.getCurrentPosition((position) => {
 
-        //     this.emit_location({
-        //       type: 'point',
-        //       point: {latitude, longitude, accuracy}
-        //     })
-        //   });
-        // } else {
-        //   // TODO @refac Handle the case where geolocation api is not available
-        // }
+//         let {latitude, longitude, accuracy} = position.coords
+//         accuracy = accuracy / 2
+//         this.location_message = `Found: ${latitude} ${longitude} (accurate +/- ${accuracy}m)`
+
+//         this.emit_location({
+//           type: 'point',
+//           point: {latitude, longitude, accuracy}
+//         })
+        });
       },
-      emit_location(value) {
-        this.$emit('change', value)
-      }
+//      emit_location(value) {
+//        this.$emit('change', value)
+//      }
     }
-  }  
+  }
 </script>
 
 <style>
-  
+
 </style>
