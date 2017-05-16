@@ -3,29 +3,29 @@
     <h1>DASHBOARD: {{country}}</h1>
     <md-card style="margin: 1em 0;">
       <md-card-content>
-        {{responses_count}} responses recorded
+        {{t.responses_count()}} responses recorded
       </md-card-content>
     </md-card>
     <md-card style="margin: 1em 0;">
       <md-card-content>
-        {{spray_progress}} coverage
-      </md-card-content>
-    </md-card>
-
-    <md-card style="margin: 1em 0;">
-      <md-card-content>
-        {{sprayed_count}} bedrooms sprayed
+        {{t.sprayed_over_visited() | two_decimals }}% sprayed_over_visited
       </md-card-content>
     </md-card>
 
     <md-card style="margin: 1em 0;">
       <md-card-content>
-        {{unsprayed_count}} bedrooms not sprayed
+        {{t.sprayed_count()}} rooms sprayed
+      </md-card-content>
+    </md-card>
+
+    <md-card style="margin: 1em 0;">
+      <md-card-content>
+        {{t.unsprayed_count()}} bedrooms not sprayed
       </md-card-content>
     </md-card>
     <md-card style="margin: 1em 0;">
       <md-card-content>
-        {{coverage_places_visited}} coverage of places visited
+        {{t.sprayed_over_targeted() | two_decimals }}% sprayed_over_targeted
       </md-card-content>
     </md-card>
     <md-card style="margin: 1em 0;">
@@ -38,19 +38,31 @@
 </template>
 
 <script>
+  import numeral from 'numeral'
   import Translations from '@/lib/translations'
   import basic_chart from '@/components/basic_chart'
 
   export default {
     name: 'view',
     components: {basic_chart},
+    filters: {
+      two_decimals(value) {
+        return numeral(value).format('0.[00]')
+      }
+    },
     data () {
       return {
-        _translator: {}
+        t: {} // TRANSLATIONS
       }
     },
     created() {
-      this._translator = new Translations[this.slug.toLowerCase()]
+      const Translator = Translations[this.slug.toLowerCase()]
+      const options = {
+        targeted: 123
+      }
+      const responses = this.$store.state.irs_monitor.responses
+      const translations = new Translator(responses, options)
+      this.t = translations
     },
     computed: {
       slug() {
@@ -58,30 +70,6 @@
       },
       country() {
         return this.$store.state.instance_config.name
-      },
-      responses() {
-        return this.$store.state.irs_monitor.responses
-      },
-
-      // translated values
-      responses_count() {
-        return this._translator.responses_count(this.responses)
-      },
-      spray_progress() {
-        return this._translator.calculate_progress(this.responses) 
-      },
-      sprayed_count() {
-        return this._translator.sprayed_count(this.responses)
-      },
-      unsprayed_count() {
-        return this._translator.unsprayed_count(this.responses)
-      },
-      // TODO: @refac Rename
-      people_sprayed() {
-        return this._translator.unsprayed_count(this.responses)
-      },
-      coverage_places_visited() {
-        return this._translator.coverage_places_visited(this.responses)
       }
     }
   }

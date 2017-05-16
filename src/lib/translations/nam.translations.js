@@ -1,12 +1,16 @@
 import Base from './base.translations.js'
 
 export default class extends Base {
-  responses_count(responses) {
-    return responses.length
+  constructor(responses, options) {
+    super(responses, options)
   }
 
-  sprayed_count(responses) {
-    return responses.reduce((acc, response, index) => {
+  responses_count() {
+    return this.responses.length
+  }
+
+  sprayed_count() {
+    return this.responses.reduce((acc, response, index) => {
       let {form_data} = response
       if (form_data.sprayable == 'yes') {
         let sprayed = form_data.ddt + form_data.deltamethrin
@@ -18,8 +22,8 @@ export default class extends Base {
     }, 0)
   }
 
-  unsprayed_count(responses) {
-    return responses.reduce((acc, response, index) => {
+  unsprayed_count() {
+    return this.responses.reduce((acc, response, index) => {
       let {form_data} = response
       if (form_data.sprayable == 'yes') {
         let unsprayed = form_data.number_unsprayed
@@ -31,28 +35,18 @@ export default class extends Base {
     }, 0)
   }
 
-  calculate_progress(responses) {
-    let percentage = (this.sprayed_count(responses) / 125) * 100 
-    return percentage + '%'
+  sprayed_over_visited() {
+    const visited = this.sprayed_count() + this.unsprayed_count()
+    return visited
+    let percentage = (this.sprayed_count() / visited) * 100
+    return percentage
   }
 
-  coverage_places_visited(responses) {
-    const total = this.sprayed_count(responses) + this.unsprayed_count(responses)
-    let percentage = (this.sprayed_count(responses) / total) * 100
-    return percentage + '%'
+  sprayed_over_targeted() {
+    // TODO: @debug Introduce error-checking in translations, esp. for missing properties
+    const targeted = this.options.targeted
+    let percentage = (this.sprayed_count() / targeted) * 100
+    return percentage
   }
 
-  // TODO: @refac Rename
-  people_sprayed(responses) {
-    return responses.reduce((acc, response, index) => {
-      let {form_data} = response
-      if (form_data.sprayable == 'yes') {
-        let unsprayed = form_data.number_unsprayed
-        acc += unsprayed
-        return acc
-      } else {
-        return acc
-      }
-    }, 0)
-  }
 }

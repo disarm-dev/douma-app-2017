@@ -1,17 +1,27 @@
 export default class Translations {
-  responses_count(responses) {
-    return responses.length
+  constructor(responses, options) {
+    this.responses = responses
+    this.options = options
   }
 
-  sprayed_count(responses) {
-    return this.responses_count()
+  responses_count() {
+    return this.responses.length
   }
 
-  unsprayed_count(responses) {
-    return this.responses_count()
+  sprayed_count() {
+    return 0
   }
 
-  calculate_progress(responses) {
-    return this.responses_count()
+  unsprayed_count() {
+    return 0
   }
+
+  sprayed_over_visited() {
+    return 0
+  }
+
+  sprayed_over_targeted() {
+    return 0
+  }
+
 }
