@@ -2,15 +2,18 @@ import Vue from 'vue'
 import location from '@/components/location.vue'
 import sinon from 'sinon'
 import geolocate from 'mock-geolocation'
+import defer from 'lodash.defer'
 
 describe('location.vue', () => {
   const Constructor = Vue.extend(location)
 
   it('should be able to find geolocation in navigator', () => {
+    geolocate.use()
     assert.isTrue("geolocation" in navigator)
   })
 
   it('should start with `location_mode` set to "point"', () => {
+    geolocate.use()
     const vm = new Constructor().$mount()
     assert.equal(vm.location_mode, "point")
   })
@@ -42,15 +45,14 @@ describe('location.vue', () => {
     assert(geolocation_spy.called, 'navigator.geolocation.getCurrentPosition is not called on `mount`')
   })
 
-  it('should display coordinates if position found', (done) => {
-    // geolocate.use()
+  it('should display coordinates if position found', () => {
+    geolocate.use()
     const vm = new Constructor().$mount()
     const coords = {lat: 1, lng: 1}
     geolocate.send(coords)
-    Vue.nextTick(() => {
+    defer(() => {
       assert.equal(vm.position, coords)
-      // geolocate.restore()
-      done()
+      geolocate.restore()
     })
   })
 
