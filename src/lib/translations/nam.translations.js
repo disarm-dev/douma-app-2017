@@ -5,10 +5,6 @@ export default class extends Base {
     super(responses, options)
   }
 
-  responses_count() {
-    return this.responses.length
-  }
-
   sprayed_count() {
     return this.responses.reduce((acc, response, index) => {
       let {form_data} = response

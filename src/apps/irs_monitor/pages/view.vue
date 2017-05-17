@@ -61,7 +61,7 @@
         targeted: 123
       }
       const responses = this.$store.state.irs_monitor.responses
-      const translations = new Translator(responses, options)
+      const translations = new Translator({responses, options})
       this.t = translations
     },
     computed: {
