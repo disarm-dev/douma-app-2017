@@ -1,6 +1,6 @@
 <template>
   <div class='container'>
-    <div v-if="validating">
+    <div v-show="!submitted">
       <h1>{{create_or_update}} record for {{country}}</h1>
       <p class='validation_message' v-if='validation_message'>{{validation_message}}</p>
       <router-link class='md-button' to='/irs/record_point/list'><md-icon>list</md-icon>List</router-link>
@@ -8,9 +8,13 @@
       <form_renderer ref='form' :existing_form_data='existing_form_data'></form_renderer>
       <md-button class='md-raised md-primary' @click.native='validate_location_and_form'><md-icon>save</md-icon>Save</md-button>
     </div>
-    <div v-else>
+    <div v-show="submitted">
       <p>Valiudation messages</p>
-      <md-button @click.native="save_response"><md-icon>save</md-icon>Confirm Save</md-button>
+      <ul>
+        <li v-for="error in errors">{{error}}</li>
+      </ul>
+      <md-button v-if="errors.length == 0" @click.native="save_response"><md-icon>save</md-icon>Confirm Save</md-button>
+      <md-button v-if="errors.length !== 0" @click.native="submitted = false"><md-icon>save</md-icon>Review response</md-button>
     </div>
   </div>
 </template>
@@ -19,7 +23,7 @@
   import location_record from '@/components/location.vue'
   import form_renderer from './form.vue'
   import uuid from 'uuid/v4'
-
+  import Validators from '@/lib/validations'
   export default {
 
     name: 'record',
@@ -27,7 +31,8 @@
     props: ['response_id'],
     data () {
       return {
-        validating: false,
+        errors: [],
+        submitted: false,
         validation_message: '',
         form_data: {},
         location: {}
@@ -36,6 +41,9 @@
     computed: {
       country() {
         return this.$store.state.instance_config.name
+      },
+      slug() {
+        return this.$store.state.instance_config.slug.toLowerCase()
       },
       create_or_update() {
         return !!this.existing_response_data ? 'Update' : 'Create'
@@ -76,7 +84,10 @@
         } else if (!valid_form && valid_locn) {
           this.validation_message = 'Fix form'
         } else if (valid_form && valid_locn) {
+          Validators[this.slug](this.$refs.form.survey.data)
           this.validation_message = ''
+          this.errors = Validators[this.slug](this.$refs.form.survey.data)
+          this.submitted = true
         }
       },
       save_response() {
