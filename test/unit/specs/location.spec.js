@@ -1,36 +1,46 @@
 import Vue from 'vue'
 import location from '@/components/location.vue'
-import sinon from 'sinon'
+Vue.config.devtools = false
+
 import geolocate from 'mock-geolocation'
-import defer from 'lodash.defer'
 
 describe('location.vue', () => {
   const Constructor = Vue.extend(location)
 
-  it('should be able to find geolocation in navigator', () => {
+  beforeEach(() => {
     geolocate.use()
+  })
+
+  afterEach(() => {
+    geolocate.restore()
+  })
+
+  it('geolocate can be mocked', (done) => {
+    const point = [54.980206086231, 82.898068362003];
+
+    assert.property(navigator, 'geolocation')
+    assert.isFunction(navigator.geolocation.getCurrentPosition)
+
+    navigator.geolocation.getCurrentPosition((position) => {
+      assert.equal(position.coords.latitude, point[0]);
+      assert.equal(position.coords.longitude, point[1]);
+      done()
+    }, (error) => done())
+    geolocate.send({lat: point[0], lng: point[1]});
+  })
+
+  it('should have null position to start', () => {
+    const defaultData = location.data()
+    assert.equal(defaultData.position, null)
+  })
+
+  it('should be able to find geolocation in navigator', () => {
     assert.isTrue("geolocation" in navigator)
   })
 
   it('should start with `location_mode` set to "point"', () => {
-    geolocate.use()
     const vm = new Constructor().$mount()
     assert.equal(vm.location_mode, "point")
-  })
-
-  it('should set `location_mode` to "text" if geolocation API not available', () => {
-    navigator = {}
-    const vm = new Constructor().$mount()
-    assert.equal(vm.location_mode, "text")
-  })
-
-  it('should show text input if geolocation API not available', (done) => {
-    navigator = {}
-    const vm = new Constructor().$mount()
-    Vue.nextTick(() => {
-      assert.equal(vm.$el.querySelector('input').style.display, '')
-      done()
-    })
   })
 
   it('should not render input box if geolocation API is available', () => {
@@ -38,24 +48,25 @@ describe('location.vue', () => {
     assert.equal(vm.$el.querySelector('input').style.display, 'none')
   })
 
-  it('should call get_location on `mounted`', () => {
-    const geolocation_spy = sinon.spy()
-    navigator.geolocation = {getCurrentPosition: geolocation_spy}
+  it('should set position if position found', () => {
     const vm = new Constructor().$mount()
-    assert(geolocation_spy.called, 'navigator.geolocation.getCurrentPosition is not called on `mount`')
+    const coords = {latitude: 2, longitude: 2}
+    geolocate.send(coords)
+    assert.equal(vm.position.coords.latitude, coords.latitude)
+    assert.equal(vm.position.coords.longitude, coords.longitude)
   })
 
-  it('should display coordinates if position found', () => {
-    geolocate.use()
+  it('should display coordinates if position found', (done) => {
     const vm = new Constructor().$mount()
-    const coords = {lat: 1, lng: 1}
+    const coords = {latitude: 2, longitude: 2}
+    assert.equal(vm.$el.querySelector('p').style.display, 'none')
     geolocate.send(coords)
-    defer(() => {
-      assert.equal(vm.position, coords)
-      geolocate.restore()
+    Vue.nextTick(() => {
+      assert.equal(vm.$el.querySelector('p').style.display, '')
+      done()
     })
   })
-
+  // should display coordinates if position found
   // `emit` any location found, or text entered
   // display errors if API errors found
   // show text input if `getCurrentLocation` fails

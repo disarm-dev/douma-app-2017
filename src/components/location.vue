@@ -1,7 +1,8 @@
 <template>
   <div>
     <!--<md-button ref="update_location_button" @click.native="update_point_location">Update point location</md-button>-->
-    <input v-show='location_mode === "text"' type='text'/>
+    <md-input v-show='location_mode === "text"' type='text'></md-input>
+    <p v-show="position">{{position_text}}</p>
     <!--<md-button v-show="location_mode === 'text'">Save location</md-button>-->
   </div>
 </template>
@@ -16,6 +17,13 @@
         position: null
       }
     },
+    computed: {
+      position_text() {
+        if (this.position) {
+          return "found position"
+        }
+      }
+    },
     mounted() {
       if ('geolocation' in navigator) {
         this.find_location()
@@ -26,16 +34,7 @@
     methods: {
       find_location() {
         navigator.geolocation.getCurrentPosition((position) => {
-          this.position = {lat: 1, lng: 1}
-
-//         let {latitude, longitude, accuracy} = position.coords
-//         accuracy = accuracy / 2
-//         this.location_message = `Found: ${latitude} ${longitude} (accurate +/- ${accuracy}m)`
-
-//         this.emit_location({
-//           type: 'point',
-//           point: {latitude, longitude, accuracy}
-//         })
+          this.position = position
         });
       },
 //      emit_location(value) {
