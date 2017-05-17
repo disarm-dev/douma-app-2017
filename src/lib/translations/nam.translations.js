@@ -1,9 +1,6 @@
 import Base from './base.translations.js'
 
 export default class extends Base {
-  constructor(responses, options) {
-    super(responses, options)
-  }
 
   sprayed_count() {
     return this.responses.reduce((acc, response, index) => {

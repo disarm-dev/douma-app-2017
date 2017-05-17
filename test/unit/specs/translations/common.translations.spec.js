@@ -22,6 +22,9 @@ for(const instance_name in instances) {
   const InstanceTranslations = instances[instance_name]
 
   describe(`${instance_name.toUpperCase()} translations`, () => {
+
+    // can create without specifying options
+
     describe('create simple one', () => {
       const t = new InstanceTranslations({responses: [], options: []})
 
