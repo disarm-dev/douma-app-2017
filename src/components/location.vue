@@ -44,6 +44,7 @@
       find_location() {
         navigator.geolocation.getCurrentPosition((position) => {
           this.position = position
+          this.$emit('position', position)
         });
       },
 //      emit_location(value) {

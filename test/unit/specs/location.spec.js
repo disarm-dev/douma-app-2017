@@ -16,7 +16,7 @@ describe('location.vue', () => {
   })
 
   it('geolocate can be mocked', (done) => {
-    const point = [54.980206086231, 82.898068362003];
+    const point = [12.34, 56.78];
 
     assert.property(navigator, 'geolocation')
     assert.isFunction(navigator.geolocation.getCurrentPosition)
@@ -91,7 +91,9 @@ describe('location.vue', () => {
 
 
   // should display coordinates if position found
-  // `emit` any location found, or text entered
+  it('should `emit` any location found, or text entered', () => {
+    assert.isTrue(false)
+  })
   // display errors if API errors found
   // show text input if `getCurrentLocation` fails
 
