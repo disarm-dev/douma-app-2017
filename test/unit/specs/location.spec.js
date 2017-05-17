@@ -62,15 +62,38 @@ describe('location.vue', () => {
     assert.equal(vm.$el.querySelector('p').style.display, 'none')
     geolocate.send(coords)
     Vue.nextTick(() => {
+      var expected_text = coords.latitude + ', ' + coords.longitude
       assert.equal(vm.$el.querySelector('p').style.display, '')
+      assert.equal(vm.$el.querySelector('p').textContent, expected_text)
       done()
     })
   })
+  
+  it('should set and return `existing_location` if passed in', (done) => {
+    let existing_location = {
+      coords: {
+        latitude: -26.3,
+        longitude: 31.1,
+      }
+    }
+
+    const vm = new Constructor({propsData: {existing_location}}).$mount()
+
+    Vue.nextTick(() => {
+      var expected_text = existing_location.coords.latitude + ', ' + existing_location.coords.longitude
+      assert.equal(vm.position.coords.latitude, existing_location.coords.latitude)
+      assert.equal(vm.position.coords.longitude, existing_location.coords.longitude)
+      
+      assert.equal(vm.$el.querySelector('p').textContent, expected_text)
+      done()
+    })
+  })
+
+
   // should display coordinates if position found
   // `emit` any location found, or text entered
   // display errors if API errors found
   // show text input if `getCurrentLocation` fails
-  // set and return `existing_location` if passed in
 
   // user can trigger new getCurrentPosition by clicking button
   it('can receive a click', () => {

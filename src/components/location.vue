@@ -22,18 +22,25 @@
     computed: {
       position_text() {
         if (this.position) {
-          return "found position"
+          return `${this.position.coords.latitude}, ${this.position.coords.longitude}`
         }
-      }
+      },
     },
     mounted() {
-      if ('geolocation' in navigator) {
-        this.find_location()
-      } else {
-        this.location_mode = "text"
+      if (this.existing_location) {
+        this.position = this.existing_location
+      } else { 
+        this.check_for_location()
       }
     },
     methods: {
+      check_for_location() {
+        if ('geolocation' in navigator) {
+          this.find_location()
+        } else {
+          this.location_mode = "text"
+        }
+      },
       find_location() {
         navigator.geolocation.getCurrentPosition((position) => {
           this.position = position
