@@ -8,317 +8,296 @@
   },
   "area_id": "WARDPCODE",
   "form": {
-    "pages": [
+ "pages": [
+  {
+   "elements": [
+    {
+     "type": "radiogroup",
+     "choices": [
       {
-        "elements": [
-          {
-            "elements": [
-              {
-                "choices": [
-                  {
-                    "text": "Yes",
-                    "value": "yes"
-                  },
-                  {
-                    "text": "No",
-                    "value": "no"
-                  }
-                ],
-                "isRequired": true,
-                "name": "sprayable",
-                "title": "Are there sprayable structures in this homestead/ house?",
-                "type": "radiogroup"
-              },
-              {
-                "inputType": "number",
-                "isRequired": true,
-                "name": "number_sprayable",
-                "title": "How many sprayable structures?",
-                "type": "text",
-                "validators": [
-                  {
-                    "maxValue": "40",
-                    "minValue": "-1",
-                    "text": "Must be less than 40",
-                    "type": "numeric"
-                  }
-                ],
-                "visible": false,
-                "visibleIf": "{sprayable} = yes"
-              }
-            ],
-            "name": "Section 1",
-            "title": "IRS Data Collection Form",
-            "type": "panel"
-          },
-          {
-            "inputType": "number",
-            "isRequired": true,
-            "name": "number_unsprayable",
-            "title": "How many unsprayable structures?",
-            "type": "text",
-            "validators": [
-              {
-                "maxValue": "40",
-                "minValue": "-1",
-                "text": "Must be less than 40",
-                "type": "numeric"
-              }
-            ],
-            "visible": false,
-            "visibleIf": "{sprayable} = yes"
-          },
-          {
-            "inputType": "number",
-            "isRequired": true,
-            "name": "ddt",
-            "title": "How many structures were sprayed with DDT? ( if 0, enter 0)",
-            "type": "text",
-            "visible": false,
-            "visibleIf": "{sprayable} = yes"
-          },
-          {
-            "inputType": "number",
-            "isRequired": true,
-            "name": "deltamethrin",
-            "title": "How many structures were sprayed with Deltamethrin/K-Othrin? ( If 0, enter 0)",
-            "type": "text",
-            "visible": false,
-            "visibleIf": "{sprayable} = yes"
-          },
-          {
-            "choices": [
-              {
-                "text": "Yes",
-                "value": "yes"
-              },
-              {
-                "text": "No",
-                "value": "no"
-              }
-            ],
-            "isRequired": true,
-            "name": "unsprayed",
-            "title": "Were there sprayable  structures you did not spray?",
-            "type": "radiogroup",
-            "visible": false,
-            "visibleIf": "{sprayable} = yes"
-          },
-          {
-            "inputType": "number",
-            "isRequired": true,
-            "name": "number_unsprayed",
-            "title": "How many sprayable structures were not sprayed?",
-            "type": "text",
-            "visible": false,
-            "visibleIf": "{sprayable} = yes"
-          },
-          {
-            "choices": [
-              {
-                "text": "Locked",
-                "value": "locked"
-              },
-              {
-                "text": "Refused",
-                "value": "refused"
-              },
-              {
-                "text": "Sick person/young infant",
-                "value": "sick_infant"
-              }
-            ],
-            "hasOther": true,
-            "isRequired": true,
-            "name": "select_multiplereason",
-            "storeOthersAsComment": false,
-            "title": "Reasons for not spraying (select all that apply)",
-            "type": "checkbox",
-            "visible": false,
-            "visibleIf": "{unsprayed} = yes"
-          },
-          {
-            "choices": [
-              {
-                "text": "Yes",
-                "value": "yes"
-              },
-              {
-                "text": "No",
-                "value": "no"
-              }
-            ],
-            "name": "refusal_followup",
-            "title": "If spraying was refused, do you want to flag location for education follow-up?",
-            "type": "radiogroup",
-            "visible": false,
-            "visibleIf": "{select_multiplereason} = refused"
-          }
-        ],
-        "name": "page1"
+       "value": "yes",
+       "text": "Yes"
       },
       {
-        "elements": [
-          {
-            "inputType": "number",
-            "isRequired": true,
-            "name": "house_population",
-            "title": "Number of people in the homestead/house:",
-            "type": "text",
-            "validators": [
-              {
-                "maxValue": "40",
-                "minValue": "-1",
-                "text": "Must be less than 40",
-                "type": "numeric"
-              }
-            ],
-            "visible": false,
-            "visibleIf": "{sprayable} = yes"
-          },
-          {
-            "inputType": "number",
-            "isRequired": true,
-            "name": "total_population",
-            "title": "Number of people sleeping in sprayed rooms:",
-            "type": "text",
-            "validators": [
-              {
-                "maxValue": "40",
-                "minValue": "-1",
-                "text": "Must be less than 40",
-                "type": "numeric"
-              }
-            ],
-            "visible": false,
-            "visibleIf": "{sprayable} = yes"
-          },
-          {
-            "choices": [
-              {
-                "text": "Animal Shelter",
-                "value": "animal_shelter"
-              },
-              {
-                "text": "Food Storage",
-                "value": "food_storage"
-              },
-              {
-                "text": "School",
-                "value": "school"
-              },
-              {
-                "text": "Lodge",
-                "value": "lodge"
-              },
-              {
-                "text": "Shop",
-                "value": "shop"
-              },
-              {
-                "text": "Demolished",
-                "value": "demolished"
-              },
-              {
-                "text": "Locked homestead/house",
-                "value": "locked_homesteadhouse"
-              },
-              {
-                "text": "Other",
-                "value": "other"
-              }
-            ],
-            "isRequired": true,
-            "name": "Unsprayable_reason",
-            "title": "Type of unsprayable structures?",
-            "type": "radiogroup",
-            "visible": false,
-            "visibleIf": "{sprayable} = no"
-          }
-        ],
-        "name": "page2"
-      },
-      {
-        "elements": [
-          {
-            "isRequired": true,
-            "name": "team_leader",
-            "title": "Team Leader:",
-            "type": "text"
-          },
-          {
-            "choices": [
-              {
-                "text": "Yes",
-                "value": "yes"
-              },
-              {
-                "text": "No",
-                "value": "no"
-              }
-            ],
-            "isRequired": true,
-            "name": "supply_issues",
-            "title": "Was the ability to spray this location affected by supply or technical issues ( eg insecticide shortage, broken equipment, etc)? ",
-            "type": "radiogroup"
-          },
-          {
-            "name": "describe_supplyissues",
-            "title": "If you selected yes above, please describe the issue:",
-            "type": "text",
-            "visible": false,
-            "visibleIf": "{supply_issues} = yes"
-          }
-        ],
-        "name": "page3"
-      },
-      {
-        "elements": [
-          {
-            "isRequired": true,
-            "name": "head_of_household",
-            "title": "Head of Household Name: ",
-            "type": "text",
-            "visible": false,
-            "visibleIf": "{sprayable} = yes"
-          },
-          {
-            "isRequired": true,
-            "name": "bednets",
-            "title": "Total Number of Bed-nets in Use: ",
-            "type": "text",
-            "visible": false,
-            "visibleIf": "{sprayable} = yes"
-          },
-          {
-            "choices": [
-              {
-                "text": "Yes",
-                "value": "yes"
-              },
-              {
-                "text": "No",
-                "value": "no"
-              }
-            ],
-            "isRequired": true,
-            "name": "bednets_provided",
-            "title": "If you were unable to spray, did you provide bednets? ",
-            "type": "radiogroup"
-          },
-          {
-            "inputType": "number",
-            "name": "n_bednets_provided",
-            "title": "If yes, how many? ",
-            "type": "text",
-            "visible": false,
-            "visibleIf": "{bednets_provided} = yes"
-          }
-        ],
-        "name": "page4"
+       "value": "no",
+       "text": "No"
       }
-    ]
+     ],
+     "isRequired": true,
+     "name": "sprayable",
+     "title": "Are there sprayable structures in this homestead/ house?"
+    }
+   ],
+   "name": "page1",
+   "navigationButtonsVisibility": "show"
   },
+  {
+   "elements": [
+    {
+     "type": "text",
+     "inputType": "number",
+     "isRequired": true,
+     "name": "number_sprayable",
+     "title": "How many sprayable structures?",
+     "validators": [
+      {
+       "type": "numeric",
+       "minValue": "0",
+       "text": "Minimum Value is Zero"
+      }
+     ],
+     "visible": false,
+     "visibleIf": "{sprayable} = yes"
+    },
+    {
+     "type": "text",
+     "inputType": "number",
+     "isRequired": true,
+     "name": "number_unsprayable",
+     "title": "How many unsprayable structures?",
+     "validators": [
+      {
+       "type": "numeric",
+       "minValue": "0",
+       "text": "Minimum Value is Zero"
+      }
+     ],
+     "visible": false,
+     "visibleIf": "{sprayable} = yes"
+    }
+   ],
+   "name": "page2"
+  },
+  {
+   "elements": [
+    {
+     "type": "text",
+     "inputType": "number",
+     "isRequired": true,
+     "name": "numbersprayed_ddt",
+     "title": "How many structures were sprayed with DDT? ( if 0, enter 0)",
+     "validators": [
+      {
+       "type": "numeric",
+       "minValue": "0",
+       "text": "Minimum Value is Zero"
+      }
+     ],
+     "visible": false,
+     "visibleIf": "{sprayable} = yes"
+    },
+    {
+     "type": "text",
+     "inputType": "number",
+     "isRequired": true,
+     "name": "numbersprayed_PY",
+     "title": "How many structures were sprayed with PY? ( If 0, enter 0)",
+     "validators": [
+      {
+       "type": "numeric",
+       "minValue": "0",
+       "text": "Minimum Value is Zero"
+      }
+     ],
+     "visible": false,
+     "visibleIf": "{sprayable} = yes"
+    },
+    {
+     "type": "text",
+     "inputType": "number",
+     "name": "numbersprayed_OP",
+     "title": "How many structures were sprayed with OP? ( If 0, enter 0)",
+     "validators": [
+      {
+       "type": "numeric",
+       "minValue": "0",
+       "text": "Minimum Value is Zero\t"
+      }
+     ],
+     "visible": false,
+     "visibleIf": "{sprayable} = yes"
+    }
+   ],
+   "name": "page3"
+  },
+  {
+   "elements": [
+    {
+     "type": "radiogroup",
+     "choices": [
+      {
+       "value": "yes",
+       "text": "Yes"
+      },
+      {
+       "value": "no",
+       "text": "No"
+      }
+     ],
+     "isRequired": true,
+     "name": "sprayable_unsprayed",
+     "title": "Were there sprayable  structures you did not spray?",
+     "visible": false,
+     "visibleIf": "{sprayable} = yes"
+    },
+    {
+     "type": "text",
+     "inputType": "number",
+     "isRequired": true,
+     "name": "number_unsprayed",
+     "title": "How many sprayable structures were not sprayed?",
+     "validators": [
+      {
+       "type": "numeric",
+       "minValue": "0",
+       "text": "Minimum Value is Zero"
+      }
+     ],
+     "visible": false,
+     "visibleIf": "{sprayable_unsprayed} = yes"
+    },
+    {
+     "type": "checkbox",
+     "choices": [
+      {
+       "value": "locked",
+       "text": "Locked"
+      },
+      {
+       "value": "refused",
+       "text": "Refused"
+      },
+      {
+       "value": "sick_infant",
+       "text": "Sick person/young infant"
+      }
+     ],
+     "hasOther": true,
+     "isRequired": true,
+     "name": "reasons_notspraying",
+     "title": "Reasons for not spraying ( Choose all reasons relevant for this homestead)",
+     "visible": false,
+     "visibleIf": "{sprayable_unsprayed} = yes"
+    }
+   ],
+   "name": "page4"
+  },
+  {
+   "elements": [
+    {
+     "type": "checkbox",
+     "choices": [
+      {
+       "value": "animal_shelter",
+       "text": "Animal Shelter"
+      },
+      {
+       "value": "food_storage",
+       "text": "Food Storage"
+      },
+      {
+       "value": "school",
+       "text": "School"
+      },
+      {
+       "value": "lodge",
+       "text": "Lodge"
+      },
+      {
+       "value": "shop",
+       "text": "Shop"
+      },
+      {
+       "value": "demolished",
+       "text": "Demolished"
+      },
+      {
+       "value": "locked_homesteadhouse",
+       "text": "Locked homestead/house"
+      }
+     ],
+     "hasOther": true,
+     "isRequired": true,
+     "name": "Unsprayable_reason",
+     "title": "Type of unsprayable structures?",
+     "visible": false,
+     "visibleIf": "{sprayable} = no"
+    }
+   ],
+   "name": "page5"
+  },
+  {
+   "elements": [
+    {
+     "type": "text",
+     "inputType": "number",
+     "isRequired": true,
+     "name": "house_population",
+     "title": "Total Population in the homestead/house",
+     "validators": [
+      {
+       "type": "numeric",
+       "minValue": "0",
+       "text": "Minimum Value is Zero"
+      }
+     ],
+     "visible": false,
+     "visibleIf": "{sprayable} = yes"
+    },
+    {
+     "type": "text",
+     "inputType": "number",
+     "isRequired": true,
+     "name": "total_population_sprayedrooms",
+     "title": "Population sleeping in sprayed rooms",
+     "validators": [
+      {
+       "type": "numeric",
+       "minValue": "0",
+       "text": "Minimum Value is Zero"
+      }
+     ],
+     "visible": false,
+     "visibleIf": "{sprayable} = yes"
+    }
+   ],
+   "name": "page6"
+  },
+  {
+   "elements": [
+    {
+     "type": "text",
+     "isRequired": true,
+     "name": "name_household",
+     "title": "Head of Household Name",
+     "visible": false,
+     "visibleIf": "{sprayable} = yes"
+    }
+   ],
+   "name": "page7"
+  },
+  {
+   "elements": [
+    {
+     "type": "text",
+     "isRequired": true,
+     "name": "number_bednets",
+     "title": "Total Number of Bednets in use",
+     "validators": [
+      {
+       "type": "numeric",
+       "minValue": "0",
+       "text": "Minimum Value is Zero"
+      }
+     ],
+     "visible": false,
+     "visibleIf": "{sprayable} = yes"
+    }
+   ],
+   "name": "page8"
+  }
+ ]
+},
   "map_focus": {
     "centre": {
       "lat": -21.73564350618581,

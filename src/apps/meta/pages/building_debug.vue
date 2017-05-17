@@ -10,6 +10,7 @@
       <md-button @click.native="add_buildings('mpaka')">Mpaka</md-button>
       <md-button @click.native="add_buildings('hlane')">Hlane</md-button>
       <md-button @click.native="add_buildings('simunye')">Simunye</md-button>
+      <md-button @click.native="add_buildings('mbabane')">Mbabane</md-button>
     </div>
     <md-button class='md-raised md-primary' @click.native="get_current_position" :disabled='getting_position'>Get current location</md-button>
     <md-checkbox v-model="enableHighAccuracy">High accuracy</md-checkbox>
@@ -40,6 +41,7 @@
   import mpaka from '../../../../static/geo/mpaka_buildings.json'
   import hlane from '../../../../static/geo/hlane_buildings.json'
   import simunye from '../../../../static/geo/simunye_buildings.json'
+  import mbabane from '../../../../static/geo/mbabane.json'
 
   export default {
     name: 'building_debug',
@@ -63,7 +65,8 @@
       },
       mpaka() { return mpaka },
       hlane() { return hlane },
-      simunye() { return simunye }
+      simunye() { return simunye },
+      mbabane() { return mbabane }
     },
     watch: {
       'osm_id': 'highlight_building'

@@ -9,9 +9,7 @@ export default class extends Base {
     return this.responses.reduce((acc, response, index) => {
       let {form_data} = response
       if (form_data.sprayable == 'yes') {
-        let sprayed = form_data.ddt + form_data.deltamethrin
-        acc += sprayed
-        return acc
+        return acc += form_data.numbersprayed_ddt + form_data.numbersprayed_delta
       } else {
         return acc
       }
@@ -21,10 +19,8 @@ export default class extends Base {
   unsprayed_count() {
     return this.responses.reduce((acc, response, index) => {
       let {form_data} = response
-      if (form_data.sprayable == 'yes') {
-        let unsprayed = form_data.number_unsprayed
-        acc += unsprayed
-        return acc
+      if (form_data.sprayable == 'yes' && form_data.number_unsprayed) {
+        return acc += form_data.number_unsprayed
       } else {
         return acc
       }
@@ -33,7 +29,6 @@ export default class extends Base {
 
   sprayed_over_visited() {
     const visited = this.sprayed_count() + this.unsprayed_count()
-    return visited
     let percentage = (this.sprayed_count() / visited) * 100
     return percentage
   }

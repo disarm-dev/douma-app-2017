@@ -10,6 +10,8 @@
 </template>
 
 <script>
+  import convert from 'geoposition-to-object'
+
   export default {
     name: 'location',
     props: ['existing_location'],
@@ -22,27 +24,31 @@
     computed: {
       position_text() {
         if (this.position) {
-          return "found position"
+          return `${this.position.coords.latitude}, ${this.position.coords.longitude}`
         }
-      }
+      },
     },
     mounted() {
-      if ('geolocation' in navigator) {
-        this.find_location()
-      } else {
-        this.location_mode = "text"
+      if (this.existing_location) {
+        this.position = this.existing_location
+      } else { 
+        this.check_for_location()
       }
     },
     methods: {
+      check_for_location() {
+        if ('geolocation' in navigator) {
+          this.find_location()
+        } else {
+          this.location_mode = "text"
+        }
+      },
       find_location() {
         navigator.geolocation.getCurrentPosition((position) => {
           this.position = position
-          this.$emit('position', position)
+          this.$emit('position', convert(position))
         });
-      },
-//      emit_location(value) {
-//        this.$emit('change', value)
-//      }
+      }
     }
   }
 </script>

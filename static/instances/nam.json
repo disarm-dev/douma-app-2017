@@ -10,56 +10,37 @@
       {
         "elements": [
           {
-            "elements": [
+            "choices": [
               {
-                "choices": [
-                  {
-                    "text": "Yes",
-                    "value": "yes"
-                  },
-                  {
-                    "text": "No",
-                    "value": "no"
-                  }
-                ],
-                "isRequired": true,
-                "name": "sprayable",
-                "title": "Are there sprayable structures in this homestead/ house?",
-                "type": "radiogroup"
+                "text": "Yes",
+                "value": "yes"
               },
               {
-                "inputType": "number",
-                "isRequired": true,
-                "name": "number_sprayable",
-                "title": "How many sprayable structures?",
-                "type": "text",
-                "validators": [
-                  {
-                    "maxValue": "40",
-                    "minValue": "-1",
-                    "text": "Must be less than 40",
-                    "type": "numeric"
-                  }
-                ],
-                "visible": false,
-                "visibleIf": "{sprayable} = yes"
+                "text": "No",
+                "value": "no"
               }
             ],
-            "name": "Section 1",
-            "title": "IRS Data Collection Form",
-            "type": "panel"
-          },
+            "isRequired": true,
+            "name": "sprayable",
+            "title": "Are there sprayable structures in this homestead/ house?",
+            "type": "radiogroup"
+          }
+        ],
+        "name": "page1",
+        "navigationButtonsVisibility": "show"
+      },
+      {
+        "elements": [
           {
             "inputType": "number",
             "isRequired": true,
-            "name": "number_unsprayable",
-            "title": "How many unsprayable structures?",
+            "name": "number_sprayable",
+            "title": "How many sprayable structures?",
             "type": "text",
             "validators": [
               {
-                "maxValue": "40",
                 "minValue": "-1",
-                "text": "Must be less than 40",
+                "text": "Minimum Value is Zero",
                 "type": "numeric"
               }
             ],
@@ -69,21 +50,61 @@
           {
             "inputType": "number",
             "isRequired": true,
-            "name": "ddt",
+            "name": "number_unsprayable",
+            "title": "How many unsprayable structures?",
+            "type": "text",
+            "validators": [
+              {
+                "minValue": "-1",
+                "text": "Minimum Value is Zero",
+                "type": "numeric"
+              }
+            ],
+            "visible": false,
+            "visibleIf": "{sprayable} = yes"
+          }
+        ],
+        "name": "page2"
+      },
+      {
+        "elements": [
+          {
+            "inputType": "number",
+            "isRequired": true,
+            "name": "numbersprayed_ddt",
             "title": "How many structures were sprayed with DDT? ( if 0, enter 0)",
             "type": "text",
+            "validators": [
+              {
+                "minValue": "-1",
+                "text": "Minimum Value is Zero",
+                "type": "numeric"
+              }
+            ],
             "visible": false,
             "visibleIf": "{sprayable} = yes"
           },
           {
             "inputType": "number",
             "isRequired": true,
-            "name": "deltamethrin",
+            "name": "numbersprayed_delta",
             "title": "How many structures were sprayed with Deltamethrin/K-Othrin? ( If 0, enter 0)",
             "type": "text",
+            "validators": [
+              {
+                "minValue": "-1",
+                "text": "Minimum Value is Zero",
+                "type": "numeric"
+              }
+            ],
             "visible": false,
             "visibleIf": "{sprayable} = yes"
-          },
+          }
+        ],
+        "name": "page3"
+      },
+      {
+        "elements": [
           {
             "choices": [
               {
@@ -96,7 +117,7 @@
               }
             ],
             "isRequired": true,
-            "name": "unsprayed",
+            "name": "sprayable_unsprayed",
             "title": "Were there sprayable  structures you did not spray?",
             "type": "radiogroup",
             "visible": false,
@@ -108,8 +129,15 @@
             "name": "number_unsprayed",
             "title": "How many sprayable structures were not sprayed?",
             "type": "text",
+            "validators": [
+              {
+                "minValue": "-1",
+                "text": "Minimum Value is Zero",
+                "type": "numeric"
+              }
+            ],
             "visible": false,
-            "visibleIf": "{sprayable} = yes"
+            "visibleIf": "{sprayable_unsprayed} = yes"
           },
           {
             "choices": [
@@ -128,51 +156,17 @@
             ],
             "hasOther": true,
             "isRequired": true,
-            "name": "select_multiplereason",
+            "name": "reasons_notspraying",
             "title": "Reasons for not spraying ( Choose all reasons relevant for this homestead)",
             "type": "checkbox",
             "visible": false,
-            "visibleIf": "{unsprayed} = yes"
+            "visibleIf": "{sprayable_unsprayed} = yes"
           }
         ],
-        "name": "page1"
+        "name": "page4"
       },
       {
         "elements": [
-          {
-            "inputType": "number",
-            "isRequired": true,
-            "name": "house_population",
-            "title": "Total population in the homestead/house:",
-            "type": "text",
-            "validators": [
-              {
-                "maxValue": "40",
-                "minValue": "-1",
-                "text": "Must be less than 40",
-                "type": "numeric"
-              }
-            ],
-            "visible": false,
-            "visibleIf": "{sprayable} = yes"
-          },
-          {
-            "inputType": "number",
-            "isRequired": true,
-            "name": "total_population",
-            "title": "Population sleeping in sprayed rooms:",
-            "type": "text",
-            "validators": [
-              {
-                "maxValue": "40",
-                "minValue": "-1",
-                "text": "Must be less than 40",
-                "type": "numeric"
-              }
-            ],
-            "visible": false,
-            "visibleIf": "{sprayable} = yes"
-          },
           {
             "choices": [
               {
@@ -202,12 +196,9 @@
               {
                 "text": "Locked homestead/house",
                 "value": "locked_homesteadhouse"
-              },
-              {
-                "text": "Other",
-                "value": "other"
               }
             ],
+            "hasOther": true,
             "isRequired": true,
             "name": "Unsprayable_reason",
             "title": "Type of unsprayable structures?",
@@ -216,7 +207,44 @@
             "visibleIf": "{sprayable} = no"
           }
         ],
-        "name": "page2"
+        "name": "page5"
+      },
+      {
+        "elements": [
+          {
+            "inputType": "number",
+            "isRequired": true,
+            "name": "house_population",
+            "title": "Total Population in the homestead/house",
+            "type": "text",
+            "validators": [
+              {
+                "minValue": "-1",
+                "text": "Minimum Value is Zero",
+                "type": "numeric"
+              }
+            ],
+            "visible": false,
+            "visibleIf": "{sprayable} = yes"
+          },
+          {
+            "inputType": "number",
+            "isRequired": true,
+            "name": "total_population_sprayedrooms",
+            "title": "Population sleeping in sprayed rooms",
+            "type": "text",
+            "validators": [
+              {
+                "minValue": "-1",
+                "text": "Minimum Value is Zero",
+                "type": "numeric"
+              }
+            ],
+            "visible": false,
+            "visibleIf": "{sprayable} = yes"
+          }
+        ],
+        "name": "page6"
       },
       {
         "elements": [
@@ -277,10 +305,10 @@
             ],
             "isRequired": true,
             "name": "district",
-            "title": "District: ",
+            "title": "District",
             "type": "radiogroup",
             "visible": false,
-            "visibleIf": "{region} = zambezi"
+            "visibleIf": "{region} = zamebezi"
           },
           {
             "choices": [
@@ -303,7 +331,7 @@
             ],
             "isRequired": true,
             "name": "district",
-            "title": "District:",
+            "title": "District",
             "type": "radiogroup",
             "visible": false,
             "visibleIf": "{region} = otjozondjupa"
@@ -325,7 +353,7 @@
             ],
             "isRequired": true,
             "name": "district",
-            "title": "District:",
+            "title": "District",
             "type": "radiogroup",
             "visible": false,
             "visibleIf": "{region} = oshikoto"
@@ -339,7 +367,7 @@
             ],
             "isRequired": true,
             "name": "district",
-            "title": "District:",
+            "title": "District",
             "type": "radiogroup",
             "visible": false,
             "visibleIf": "{region} = omaheke"
@@ -353,7 +381,7 @@
             ],
             "isRequired": true,
             "name": "district",
-            "title": "District: ",
+            "title": "Disttict",
             "type": "radiogroup",
             "visible": false,
             "visibleIf": "{region} = oshana"
@@ -375,7 +403,7 @@
             ],
             "isRequired": true,
             "name": "district",
-            "title": "District:",
+            "title": "District",
             "type": "radiogroup",
             "visible": false,
             "visibleIf": "{region} = ohangwena"
@@ -437,7 +465,7 @@
             ],
             "isRequired": true,
             "name": "district",
-            "title": "District:",
+            "title": "District",
             "type": "radiogroup",
             "visible": false,
             "visibleIf": "{region} = khomas"
@@ -462,8 +490,8 @@
               }
             ],
             "isRequired": true,
-            "name": "District",
-            "title": "District: ",
+            "name": "district",
+            "title": "District",
             "type": "radiogroup",
             "visible": false,
             "visibleIf": "{region} = kavango"
@@ -471,7 +499,7 @@
           {
             "isRequired": true,
             "name": "village",
-            "title": "What is the name of the village you are in?",
+            "title": "What is the name of the village that you are in?",
             "type": "text"
           },
           {
@@ -1063,7 +1091,6 @@
             ],
             "isRequired": true,
             "name": "team_leader",
-            "storeOthersAsComment": false,
             "title": "Team Leader",
             "type": "dropdown",
             "visible": false,
@@ -1228,21 +1255,22 @@
             "visibleIf": "{region} = kunene"
           }
         ],
-        "name": "page3"
+        "name": "page7"
       },
       {
         "elements": [
           {
             "isRequired": true,
-            "name": "head_of_household",
-            "title": "Head of Household Name: ",
+            "name": "name_household",
+            "title": "Head of Household Name",
             "type": "text",
             "visible": false,
             "visibleIf": "{sprayable} = yes"
           },
           {
+            "isRequired": true,
             "name": "health_number",
-            "title": "Household Health Number (Enter the number on the sticker given to the head of household): ",
+            "title": "Household Health Number (Enter the number on the sticker given to the head of household)",
             "type": "text",
             "visible": false,
             "visibleIf": "{sprayable} = yes"
@@ -1256,14 +1284,21 @@
           },
           {
             "isRequired": true,
-            "name": "bednets",
-            "title": "Total Number of Bed-nets in Use: ",
+            "name": "number_bednets",
+            "title": "Total Number of Bednets in use",
             "type": "text",
+            "validators": [
+              {
+                "minValue": "-1",
+                "text": "Minimum Value is Zero",
+                "type": "numeric"
+              }
+            ],
             "visible": false,
             "visibleIf": "{sprayable} = yes"
           }
         ],
-        "name": "page4"
+        "name": "page8"
       }
     ]
   },
