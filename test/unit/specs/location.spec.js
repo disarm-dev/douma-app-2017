@@ -45,7 +45,7 @@ describe('location.vue', () => {
 
   it('should not render input box if geolocation API is available', () => {
     const vm = new Constructor().$mount()
-    assert.equal(vm.$el.querySelector('input').style.display, 'none')
+    assert.equal(vm.$el.querySelector('.md-input-container').style.display, 'none')
   })
 
   it('should set position if position found', () => {

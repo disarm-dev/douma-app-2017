@@ -1,7 +1,9 @@
 <template>
   <div>
     <!--<md-button ref="update_location_button" @click.native="update_point_location">Update point location</md-button>-->
-    <md-input v-show='location_mode === "text"' type='text'></md-input>
+    <md-input-container v-show='location_mode === "text"'>
+      <md-input type='text'></md-input>
+    </md-input-container>
     <p v-show="position">{{position_text}}</p>
     <!--<md-button v-show="location_mode === 'text'">Save location</md-button>-->
   </div>
