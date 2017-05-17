@@ -22,7 +22,6 @@ export default class extends Base {
 
   unsprayed_count() {
     return this.responses.reduce((acc, response, index) => {
-      // debugger
       let {form_data} = response
       if (form_data.sprayable == 'yes' && form_data.number_unsprayed) {
         return acc += form_data.number_unsprayed
