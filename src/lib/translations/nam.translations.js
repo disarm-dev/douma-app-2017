@@ -21,7 +21,7 @@ export default class extends Base {
   }
 
   unsprayed_count() {
-    var a =this.responses.reduce((acc, response, index) => {
+    return this.responses.reduce((acc, response, index) => {
       // debugger
       let {form_data} = response
       if (form_data.sprayable == 'yes' && form_data.number_unsprayed) {
@@ -30,7 +30,6 @@ export default class extends Base {
         return acc
       }
     }, 0)
-    return a
   }
 
   sprayed_over_visited() {
