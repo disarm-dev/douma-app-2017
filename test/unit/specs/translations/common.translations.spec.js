@@ -7,7 +7,7 @@ const instances = {
   // bwa: BwaTranslations,
   nam: NamTranslations,
   // swz: SwzTranslations,
-  // zwe: ZweTranslations
+  zwe: ZweTranslations
 }
 
 const required_functions = [
@@ -18,10 +18,10 @@ const required_functions = [
   'sprayed_over_targeted'
 ]
 
-for(const i in instances) {
-  const InstanceTranslations = instances[i]
+for(const instance_name in instances) {
+  const InstanceTranslations = instances[instance_name]
 
-  describe(`${i} translations`, () => {
+  describe(`${instance_name.toUpperCase()} translations`, () => {
     describe('create simple one', () => {
       const t = new InstanceTranslations({responses: [], options: []})
 
