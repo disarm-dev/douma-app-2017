@@ -10,6 +10,8 @@
 </template>
 
 <script>
+  import convert from 'geoposition-to-object'
+
   export default {
     name: 'location',
     props: ['existing_location'],
@@ -44,12 +46,9 @@
       find_location() {
         navigator.geolocation.getCurrentPosition((position) => {
           this.position = position
-          this.$emit('position', position)
+          this.$emit('position', convert(position))
         });
-      },
-//      emit_location(value) {
-//        this.$emit('change', value)
-//      }
+      }
     }
   }
 </script>
