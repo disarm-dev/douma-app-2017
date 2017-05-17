@@ -1,11 +1,17 @@
 <template>
   <div class='container'>
-    <h1>{{create_or_update}} record for {{country}}</h1>
-    <p class='validation_message' v-if='validation_message'>{{validation_message}}</p>
-    <router-link class='md-button' to='/irs/record_point/list'><md-icon>list</md-icon>List</router-link>
-    <location_record v-on:position='update_location' :existing_location='existing_location'></location_record>
-    <form_renderer ref='form' :existing_form_data='existing_form_data'></form_renderer>
-    <md-button class='md-raised md-primary' @click.native='validate_location_and_form'><md-icon>save</md-icon>Review/Save</md-button>
+    <div v-if="validating">
+      <h1>{{create_or_update}} record for {{country}}</h1>
+      <p class='validation_message' v-if='validation_message'>{{validation_message}}</p>
+      <router-link class='md-button' to='/irs/record_point/list'><md-icon>list</md-icon>List</router-link>
+      <location_record v-on:position='update_location' :existing_location='existing_location'></location_record>
+      <form_renderer ref='form' :existing_form_data='existing_form_data'></form_renderer>
+      <md-button class='md-raised md-primary' @click.native='validate_location_and_form'><md-icon>save</md-icon>Save</md-button>
+    </div>
+    <div v-else>
+      <p>Valiudation messages</p>
+      <md-button @click.native="save_response"><md-icon>save</md-icon>Confirm Save</md-button>
+    </div>
   </div>
 </template>
 
@@ -21,6 +27,7 @@
     props: ['response_id'],
     data () {
       return {
+        validating: false,
         validation_message: '',
         form_data: {},
         location: {}
@@ -70,14 +77,13 @@
           this.validation_message = 'Fix form'
         } else if (valid_form && valid_locn) {
           this.validation_message = ''
-          this.save_response()
         }
       },
       save_response() {
         this.form_data = this.$refs.form.survey.data
         const id = this.response_id || uuid()
         const response = {
-          form_data: this.form_data, 
+          form_data: this.form_data,
           location: this.location,
           updated_at: new Date(),
           id: id,
