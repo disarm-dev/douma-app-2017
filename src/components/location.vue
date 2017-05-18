@@ -31,6 +31,7 @@
     mounted() {
       if (this.existing_location) {
         this.position = this.existing_location
+        this.$emit('position', position)
       } else { 
         this.check_for_location()
       }

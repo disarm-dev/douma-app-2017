@@ -9,7 +9,7 @@
       <md-button class='md-raised md-primary' @click.native='validate_location_and_form'><md-icon>save</md-icon>Save</md-button>
     </div>
     <div v-show="submitted">
-      <p>Valiudation messages</p>
+      <p>Validation messages</p>
       <ul>
         <li v-for="error in errors">{{error}}</li>
       </ul>
