@@ -9,7 +9,7 @@ const check_rules = (rules) => {
 
   return (form_data) => {
 
-    let errors = rules.filter((rule) => {
+    return rules.filter((rule) => {
       let rule_passed = rule.fn(form_data)
       if (rule_passed) {
         // console.log('rule passed', rule.name)
@@ -18,7 +18,6 @@ const check_rules = (rules) => {
         return true
       }
     })
-    return errors.map((rule) => rule.error_message)
   }
 }
 

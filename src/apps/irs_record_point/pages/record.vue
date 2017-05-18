@@ -9,12 +9,18 @@
       <md-button class='md-raised md-primary' @click.native='validate_location_and_form'><md-icon>save</md-icon>Save</md-button>
     </div>
     <div v-show="submitted">
-      <p>Validation messages</p>
+      <h2>Results of custom validation</h2>
+      <p>Error messages</p>
       <ul>
-        <li v-for="error in errors">{{error}}</li>
+        <li class="error" v-for="{warning_message, name, input_questions} in errors" :key="name" @click.native="go_to_page(input_questions[0])">{{warning_message}}</li>
+      </ul>
+      
+      <p>Warning messages</p>
+      <ul>
+        <li class="warning" v-for="{warning_message, name, input_questions} in warnings" :key="name" @click.native="go_to_page(input_questions[0])">{{warning_message}}</li>
       </ul>
       <md-button v-if="errors.length == 0" @click.native="save_response"><md-icon>save</md-icon>Confirm Save</md-button>
-      <md-button v-if="errors.length !== 0" @click.native="submitted = false"><md-icon>save</md-icon>Review response</md-button>
+      <md-button v-if="errors.length !== 0 || warnings.length !== 0" @click.native="submitted = false"><md-icon>save</md-icon>Review response</md-button>
     </div>
   </div>
 </template>
@@ -24,6 +30,7 @@
   import form_renderer from './form.vue'
   import uuid from 'uuid/v4'
   import Validators from '@/lib/validations'
+  import {elements_array} from '@/lib/form_helpers.js'
   export default {
 
     name: 'record',
@@ -32,6 +39,7 @@
     data () {
       return {
         errors: [],
+        warnings: [],
         submitted: false,
         validation_message: '',
         form_data: {},
@@ -86,7 +94,11 @@
         } else if (valid_form && valid_locn) {
           Validators[this.slug](this.$refs.form.survey.data)
           this.validation_message = ''
-          this.errors = Validators[this.slug](this.$refs.form.survey.data)
+          let validations = Validators[this.slug](this.$refs.form.survey.data)
+
+          this.errors = validations.filter(validation => validation.stopping_power === 'hard')
+          this.warnings = validations.filter(validation => validation.stopping_power === 'soft')
+
           this.submitted = true
         }
       },
@@ -108,6 +120,13 @@
           this.create_response(response)
         }
       },
+      go_to_page(name) {
+        debugger
+        const elements = elements_array(this.$store.state.instance_config.form)
+        const element = elements.find(el => el.name === name)
+        this.submitted = false
+        this.$refs.form.survey.currentPageNo = element.page;
+      },
       create_response(response) {
         this.$store.commit('irs_record_point/create_response', response)
         this.$store.commit('irs_monitor/create_response', response)
@@ -127,7 +146,11 @@
     margin: 10px;
   }
 
-  .validation_message {
+  .error {
     color: red;
+  }
+
+  .warning {
+    color: orange;
   }
 </style>
