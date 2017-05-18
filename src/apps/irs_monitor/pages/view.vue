@@ -57,13 +57,10 @@
       }
     },
     created() {
-      const Translator = Translations[this.slug.toLowerCase()]
-      const options = {
-        targeted: this.denominator
-      }
-      const responses = this.$store.state.irs_monitor.responses
-      const translations = new Translator({responses, options})
-      this.t = translations
+      this.add_translations()
+    },
+    mounted() {
+      console.warn("IRS Monitor: Loaded SEED data for debugging")
     },
     computed: {
       slug() {
@@ -71,6 +68,17 @@
       },
       country() {
         return this.$store.state.instance_config.name
+      }
+    },
+    methods: {
+      add_translations() {
+        const Translator = Translations[this.slug.toLowerCase()]
+        const options = {
+          targeted: this.denominator
+        }
+        const responses = this.$store.state.irs_monitor.responses
+        const translations = new Translator({responses, options})
+        this.t = translations
       }
     }
   }
