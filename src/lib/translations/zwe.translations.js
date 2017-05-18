@@ -5,8 +5,8 @@ export default class extends Base {
   sprayed_count() {
     return this.responses.reduce((acc, response, index) => {
       let {form_data} = response
-      if (form_data.sprayable == 'yes') {
-        return acc += form_data.numbersprayed_ddt + form_data.numbersprayed_OP + form_data.numbersprayed_PY
+      if (form_data.sprayed == '1') {
+        return acc += 1
       } else {
         return acc
       }
@@ -16,8 +16,9 @@ export default class extends Base {
   unsprayed_count() {
     return this.responses.reduce((acc, response, index) => {
       let {form_data} = response
-      if (form_data.sprayable == 'yes' && form_data.number_unsprayed) {
-        return acc += form_data.number_unsprayed
+      // TODO: @refac Keep '3' or partially sprayed here?
+      if (form_data.sprayed == '2' || form_data.sprayed == '3') {
+        return acc += 1
       } else {
         return acc
       }
