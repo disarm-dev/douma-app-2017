@@ -90,6 +90,7 @@
         this.location = location
       },
       validate_location_and_form() {
+        // TODO: @bug we want to check if the form has errors, not the page
         const valid_form = !this.$refs.form.survey.isCurrentPageHasErrors
         const valid_locn = (Object.keys(this.location).length !== 0)
         if (!valid_form && !valid_locn) {

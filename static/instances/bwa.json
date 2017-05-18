@@ -34,6 +34,11 @@
     },
     {
      "type": "dropdown",
+     "name": "team_leader_name",
+     "visible": false,
+     "visibleIf": "{first_entry_new_village} = yes",
+     "title": "Team Leader's name",
+     "isRequired": true,
      "choices": [
       {
        "value": "chibi_yambwa",
@@ -47,12 +52,7 @@
        "value": "moalosi_moalosi",
        "text": "Moalosi Moalosi"
       }
-     ],
-     "isRequired": true,
-     "name": "team_leader_name",
-     "title": "Team Leader's name",
-     "visible": false,
-     "visibleIf": "{first_entry_new_village} = yes"
+     ]
     }
    ],
    "name": "page1"
@@ -61,6 +61,10 @@
    "elements": [
     {
      "type": "dropdown",
+     "name": "village_chobe",
+     "visible": false,
+     "visibleIf": "{first_entry_new_village} = yes",
+     "title": "Village in Chobe",
      "choices": [
       {
        "value": "kachikau",
@@ -99,11 +103,7 @@
        "text": " CH5"
       },
       "CAD565"
-     ],
-     "name": "village_chobe",
-     "title": "Village in Chobe",
-     "visible": false,
-     "visibleIf": "{first_entry_new_village} = yes"
+     ]
     }
    ],
    "name": "page2"
@@ -293,6 +293,11 @@
     },
     {
      "type": "dropdown",
+     "name": "reason_no_sprayed",
+     "visible": false,
+     "visibleIf": "{sprayed} = no",
+     "title": "Why were no rooms in this homestead sprayed?",
+     "hasOther": true,
      "choices": [
       {
        "value": "locked ",
@@ -330,12 +335,7 @@
        "value": "material",
        "text": "Not sprayable due to material (ie canvas)"
       }
-     ],
-     "hasOther": true,
-     "name": "reason_no_sprayed",
-     "title": "Why were no rooms in this homestead sprayed?",
-     "visible": false,
-     "visibleIf": "{sprayed} = no"
+     ]
     }
    ],
    "name": "page7"
@@ -526,7 +526,9 @@
      ],
      "isRequired": true,
      "name": "were_spray_allrooms",
-     "title": "Were ALL ROOMS in the homestead sprayed?"
+     "title": "Were ALL ROOMS in the homestead sprayed?",
+     "visible": false,
+     "visibleIf": "{sprayed} = yes"
     },
     {
      "type": "text",
@@ -791,7 +793,8 @@
      "isRequired": true,
      "name": "n_LLINs_given_partialspray",
      "title": "If the rooms were unsprayable due to material, were LLINs given?",
-     "visibleIf": "{n_rooms_material}  "
+     "visible": false,
+     "visibleIf": "{were_spray_allrooms} = no"
     },
     {
      "type": "text",
