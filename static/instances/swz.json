@@ -123,7 +123,7 @@
      ],
      "choicesOrder": "asc",
      "isRequired": true,
-     "name": "inkhundla",
+     "name": "constituency",
      "title": "Inkhundla",
      "visible": false,
      "visibleIf": "{region} = 'hhohho'"
@@ -173,7 +173,7 @@
       }
      ],
      "isRequired": true,
-     "name": "inkhundla",
+     "name": "constituency",
      "title": "Inkhundla",
      "visible": false,
      "visibleIf": "{region} = 'lubombo'"
@@ -239,7 +239,7 @@
       }
      ],
      "isRequired": true,
-     "name": "inkhundla",
+     "name": "constituency",
      "title": "Inkhundla",
      "visible": false,
      "visibleIf": "{region} = 'manzini'"
@@ -297,7 +297,7 @@
       }
      ],
      "isRequired": true,
-     "name": "inkhundla",
+     "name": "constituency",
      "title": "Inkhundla",
      "visible": false,
      "visibleIf": "{region} = 'shiselweni'"
@@ -331,7 +331,7 @@
       "Thurso Farm"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Hhohho, Inkhundla: Lobamba, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = lobamba"
@@ -350,7 +350,7 @@
       "Mbasheni"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Hhohho, Inkhundla: Ndzingeni, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = ndzingeni"
@@ -368,7 +368,7 @@
       "Luhlangotsini"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Hhohho, Inkhundla: Mhlangatane, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = mhlangatane"
@@ -387,7 +387,7 @@
       "Tonkwane"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Hhohho, Inkhundla: Motjane, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = motjane"
@@ -405,7 +405,7 @@
       "Zandondo"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Hhohho, Inkhundla: Maphalaleni, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = maphalaleni"
@@ -423,7 +423,7 @@
       "Nkhaba"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Hhohho, Inkhundla: Nkhaba, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = nkhaba"
@@ -443,7 +443,7 @@
       "Vusweni"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Hhohho, Inkhundla: Ntfonjeni, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = ntfonjeni"
@@ -460,7 +460,7 @@
       "Timpisini"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Hhohho, Inkhundla: Timpisini, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = timpisini"
@@ -489,7 +489,7 @@
       "Tonkwane"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Hhohho, Inkhundla: Mbabane, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = mbabane"
@@ -507,7 +507,7 @@
       "Zwayimbane"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Hhohho, Inkhundla: Mayiwane, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = mayiwane"
@@ -526,7 +526,7 @@
       "Zwayimbane"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Hhohho, Inkhundla: Madlangempisi, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = madlangempisi"
@@ -543,7 +543,7 @@
       "Piggs's Peak"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Hhohho, Inkhundla: Piggs Peak, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = piggs_peak"
@@ -563,7 +563,7 @@
       "Mhlumeni"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Lubombo, Inkhundla: Lugongolweni, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = lugongolweni"
@@ -581,7 +581,7 @@
       "Mphosi"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Lubombo, Inkhundla: Dvokodvweni, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = dvokodvweni"
@@ -599,7 +599,7 @@
       "Lucaceni"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Lubombo, Inkhundla: Tikhuba, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = tikhuba"
@@ -624,7 +624,7 @@
       "Phonjwane"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Lubombo, Inkhundla: Mpholonjeni, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = mpholonjeni"
@@ -645,7 +645,7 @@
       "Ubombo Ranches"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Lubombo, Inkhundla: Lubuli, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = lubuli"
@@ -668,7 +668,7 @@
       "Mkhiwa"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Lubombo, Inkhundla: Nkilongo, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = nkilongo"
@@ -686,7 +686,7 @@
       "Kuhluphekeni"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Lubombo, Inkhundla: Siphofaneni, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = siphofaneni"
@@ -706,7 +706,7 @@
       "Lucaceni"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Lubombo, Inkhundla: Lomahasha, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = lomahasha"
@@ -725,7 +725,7 @@
       "Manzana"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Lubombo, Inkhundla: Mhlume, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = mhlume"
@@ -738,7 +738,7 @@
       "Dzidzini"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Lubombo, Inkhundla: Hlane, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = hlane"
@@ -758,7 +758,7 @@
       "Sihlangwini"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Lubombo, Inkhundla: Sithobela, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = sithobela"
@@ -783,7 +783,7 @@
       "Ngwazini"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Manzini, Inkhundla: Kukhanyeni, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = kukhanyeni"
@@ -802,7 +802,7 @@
       "Mbikwakhe"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Manzini, Inkhundla: Kwaluseni, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = kwaluseni"
@@ -817,7 +817,7 @@
       "Mhlabubovu"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Manzini, Inkhundla: Lamgabhi, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = lamgabhi"
@@ -835,7 +835,7 @@
       "Mbikwakhe"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Manzini, Inkhundla: Ludzeludze, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = ludzeludze"
@@ -851,7 +851,7 @@
       "Ekuchwaleni"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Manzini, Inkhundla: Mafutseni, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = mafutseni"
@@ -871,7 +871,7 @@
       "Monti"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Manzini, Inkhundla: Mahlangatja, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = mahlangatja"
@@ -887,7 +887,7 @@
       "Mdutjane"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Manzini, Inkhundla: Mahlanya, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = mahlanya"
@@ -906,7 +906,7 @@
       "Macudvulwini"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Manzini, Inkhundla: Mangcongco, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = mangcongco"
@@ -932,7 +932,7 @@
       "Mbikwakhe"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Manzini, Inkhundla: Manzini, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = 'manzini'"
@@ -949,7 +949,7 @@
       "Sigangeni"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Manzini, Inkhundla: Mhlambanyatsi, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = mhlambanyatsi"
@@ -970,7 +970,7 @@
       "Manzana"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Manzini, Inkhundla: Mkhiweni, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = mkhiweni"
@@ -988,7 +988,7 @@
       "Sidvokodvo"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Manzini, Inkhundla: Mthongwaneni, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = mthongwaneni"
@@ -1018,7 +1018,7 @@
       "Ezankuntjini"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Manzini, Inkhundla: Ngwempisi, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = ngwempisi"
@@ -1036,7 +1036,7 @@
       "Sidvokodvo"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Manzini, Inkhundla: Nhlambeni, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = nhlambeni"
@@ -1050,7 +1050,7 @@
       "Ndlinilembi"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Manzini, Inkhundla: Ntondozi, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = ntondozi"
@@ -1073,7 +1073,7 @@
       "Mahlabatsini"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Shiselweni, Inkhundla: Gege, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = gege"
@@ -1093,7 +1093,7 @@
       "Ka-Mngayi"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Shiselweni, Inkhundla: Hosea, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = hosea"
@@ -1110,7 +1110,7 @@
       "Mabhesane"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Shiselweni, Inkhundla: Kubuta, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = kubuta"
@@ -1125,7 +1125,7 @@
       "Emsuzaneni"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Shiselweni, Inkhundla: Lavumisa, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = lavumisa"
@@ -1149,7 +1149,7 @@
       "Masibini"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Shiselweni, Inkhundla: Maseyisini, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = maseyisini"
@@ -1168,7 +1168,7 @@
       "Mahlabatsini"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Shiselweni, Inkhundla: Matsanjeni, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = matsanjeni"
@@ -1193,7 +1193,7 @@
       "Mbangweni"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Shiselweni, Inkhundla: Mbangweni, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = mbangweni"
@@ -1225,7 +1225,7 @@
       "Sibetsamoya"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Shiselweni, Inkhundla: Mtsambama, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = mtsambama"
@@ -1238,7 +1238,7 @@
       "Nkomonye"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Shiselweni, Inkhundla: Ngudzeni, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = ngudzeni"
@@ -1255,7 +1255,7 @@
       "Egabeni"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Shiselweni, Inkhundla: Nkwene, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = nkwene"
@@ -1273,7 +1273,7 @@
       "Emanyandzeni"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Shiselweni, Inkhundla: Sandleni, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = sandleni"
@@ -1288,7 +1288,7 @@
       "Ezihosheni"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Shiselweni, Inkhundla: Shiselweni I, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = shiselweni_i"
@@ -1305,7 +1305,7 @@
       "Maloma"
      ],
      "isRequired": true,
-     "name": "Chieftaincy",
+     "name": "chieftaincy",
      "title": "Region: Shiselweni, Inkhundla: Sigwe, Chieftaincy:",
      "visible": false,
      "visibleIf": "{inkhundla} = sigwe"
