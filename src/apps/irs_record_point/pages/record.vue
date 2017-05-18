@@ -12,15 +12,15 @@
       <h2>Results of custom validation</h2>
       <p>Error messages</p>
       <ul>
-        <li class="error" v-for="{warning_message, name, input_questions} in errors" :key="name" @click.native="go_to_page(input_questions[0])">{{warning_message}}</li>
+        <li class="error" v-for="{warning_message, name, input_questions} in errors" :key="name">{{warning_message}}</li>
       </ul>
       
       <p>Warning messages</p>
       <ul>
-        <li class="warning" v-for="{warning_message, name, input_questions} in warnings" :key="name" @click.native="go_to_page(input_questions[0])">{{warning_message}}</li>
+        <li class="warning" v-for="{warning_message, name, input_questions} in warnings" :key="name">{{warning_message}}</li>
       </ul>
       <md-button v-if="errors.length == 0" @click.native="save_response"><md-icon>save</md-icon>Confirm Save</md-button>
-      <md-button v-if="errors.length !== 0 || warnings.length !== 0" @click.native="submitted = false"><md-icon>save</md-icon>Review response</md-button>
+      <md-button v-if="errors.length !== 0 || warnings.length !== 0" @click.native="submitted = false"><md-icon>mode_edit</md-icon>Review response</md-button>
     </div>
   </div>
 </template>
@@ -119,13 +119,6 @@
         } else {
           this.create_response(response)
         }
-      },
-      go_to_page(name) {
-        debugger
-        const elements = elements_array(this.$store.state.instance_config.form)
-        const element = elements.find(el => el.name === name)
-        this.submitted = false
-        this.$refs.form.survey.currentPageNo = element.page;
       },
       create_response(response) {
         this.$store.commit('irs_record_point/create_response', response)
