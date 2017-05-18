@@ -74,7 +74,7 @@
       add_translations() {
         const Translator = Translations[this.slug.toLowerCase()]
         const options = {
-          targeted: this.denominator
+          targeted_count: 100
         }
         const responses = this.$store.state.irs_monitor.responses
         const translations = new Translator({responses, options})
