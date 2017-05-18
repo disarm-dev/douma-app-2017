@@ -32,8 +32,8 @@ export default class extends Base {
 
   sprayed_over_targeted() {
     // TODO: @debug Introduce error-checking in translations, esp. for missing properties
-    const targeted = this.options.targeted
-    let percentage = (this.sprayed_count() / targeted) * 100
+    const targeted_count = this.options.targeted_count
+    let percentage = (this.sprayed_count() / targeted_count) * 100
     return percentage
   }
 
