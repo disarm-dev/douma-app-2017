@@ -25,7 +25,7 @@
     </md-card>
     <md-card style="margin: 1em 0;">
       <md-card-content>
-        {{t.sprayed_over_targeted() | two_decimals }}% sprayed_over_targeted
+        {{t.sprayed_over_targeted() | two_decimals }}% sprayed_over_targeted (using denominator: {{denominator}})
       </md-card-content>
     </md-card>
     <md-card style="margin: 1em 0;">
@@ -52,13 +52,14 @@
     },
     data () {
       return {
-        t: {} // TRANSLATIONS
+        t: {}, // TRANSLATIONS,
+        denominator: 123
       }
     },
     created() {
       const Translator = Translations[this.slug.toLowerCase()]
       const options = {
-        targeted: 123
+        targeted: this.denominator
       }
       const responses = this.$store.state.irs_monitor.responses
       const translations = new Translator({responses, options})
