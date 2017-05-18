@@ -10,15 +10,22 @@
     </div>
     <div v-show="submitted">
       <h2>Results of custom validation</h2>
-      <p>Error messages</p>
-      <ul>
-        <li class="error" v-for="{warning_message, name, input_questions} in errors" :key="name">{{warning_message}}</li>
-      </ul>
+      <div v-if="errors.length !== 0">
+        <p>Error messages</p>
+        <ul>
+          <li class="error" v-for="{warning_message, name, input_questions} in errors" :key="name">{{warning_message}}</li>
+        </ul>
+      </div>
       
-      <p>Warning messages</p>
-      <ul>
-        <li class="warning" v-for="{warning_message, name, input_questions} in warnings" :key="name">{{warning_message}}</li>
-      </ul>
+      <div v-if="warnings.length !== 0">
+        <p>Warning messages</p>
+        <ul>
+          <li class="warning" v-for="{warning_message, name, input_questions} in warnings" :key="name">{{warning_message}}</li>
+        </ul>
+      </div>
+
+      <p class="all_clear" v-if="errors.length === 0 && warnings.length === 0">Passed all validations!</p>
+
       <md-button v-if="errors.length == 0" @click.native="save_response"><md-icon>save</md-icon>Confirm Save</md-button>
       <md-button v-if="errors.length !== 0 || warnings.length !== 0" @click.native="submitted = false"><md-icon>mode_edit</md-icon>Review response</md-button>
     </div>
@@ -145,5 +152,9 @@
 
   .warning {
     color: orange;
+  }
+
+  .all_clear {
+    color: green;
   }
 </style>
