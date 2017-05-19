@@ -7,7 +7,6 @@ export default Doughnut.extend({
       labels: ['Sprayed', "Refused", "Other"],
       datasets: [
         {
-          // label: "",
           backgroundColor: "#33691E",
           data: [22, 2, 66],
           backgroundColor: [

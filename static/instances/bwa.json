@@ -5,9 +5,9 @@
       "title": "Not-a-Dashboard",
       "form_url": "somedropboxurl.com",
       "components": [
-        "line_chart",
-        "basic_chart",
-        "line_chart"
+        "prop_room_sprayed_bwa_chart",
+        "prop_people_covered_bwa_chart",
+        "refusal_bwa_pie"
       ]
     },
     "irs_record_point": {

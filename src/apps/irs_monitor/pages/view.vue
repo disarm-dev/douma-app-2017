@@ -30,6 +30,12 @@
   // NAM
   import structures_sprayed_nam_doughnut from '@/components/structures_sprayed_nam_doughnut'
 
+  // BWA
+  import prop_room_sprayed_bwa_chart from '@/components/prop_room_sprayed_bwa_chart'
+  import prop_people_covered_bwa_chart from '@/components/prop_people_covered_bwa_chart'
+  import refusal_bwa_pie from '@/components/refusal_bwa_pie'
+
+
   export default {
     name: 'view',
     components: {
@@ -44,7 +50,12 @@
       structures_pr_supervisor_swz_chart,
 
       // NAM
-      structures_sprayed_nam_doughnut
+      structures_sprayed_nam_doughnut,
+
+      // BWA
+      prop_room_sprayed_bwa_chart,
+      prop_people_covered_bwa_chart,
+      refusal_bwa_pie
 
     },
     filters: {
