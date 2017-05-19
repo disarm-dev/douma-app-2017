@@ -3,7 +3,12 @@
     "irs_monitor": {
       "icon": "watch",
       "title": "Not-a-Dashboard",
-      "form_url": "somedropboxurl.com"
+      "form_url": "somedropboxurl.com",
+      "components": [
+        "line_chart",
+        "basic_chart",
+        "line_chart"
+      ]
     },
     "irs_record_point": {
       "icon": "accessible",

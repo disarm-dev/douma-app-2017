@@ -1,6 +1,10 @@
 {
   "applets": {
-    "irs_monitor": {},
+    "irs_monitor": {
+      "components": [
+        "line_chart"
+      ]
+    },
     "irs_record_point": {
       "location_type": "other"
     },

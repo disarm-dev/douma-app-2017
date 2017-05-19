@@ -1,50 +1,42 @@
 <template>
-  <div class='container'>
+  <div>
     <h1>DASHBOARD: {{country}}</h1>
-    <md-card style="margin: 1em 0;">
-      <md-card-content>
-        {{t.responses_count()}} responses recorded
-      </md-card-content>
-    </md-card>
-    <md-card style="margin: 1em 0;">
-      <md-card-content>
-        {{t.sprayed_over_visited() | two_decimals }}% sprayed_over_visited
-      </md-card-content>
-    </md-card>
+    <div class='container'>
 
-    <md-card style="margin: 1em 0;">
-      <md-card-content>
-        {{t.sprayed_count()}} rooms sprayed
-      </md-card-content>
-    </md-card>
+      <template v-for="component in components">
+        <md-card class="card">
+          <md-card-content>
+            <div :is="component"></div>
+          </md-card-content>
+        </md-card>
+      </template>
 
-    <md-card style="margin: 1em 0;">
-      <md-card-content>
-        {{t.unsprayed_count()}} bedrooms not sprayed
-      </md-card-content>
-    </md-card>
-    <md-card style="margin: 1em 0;">
-      <md-card-content>
-        {{t.sprayed_over_targeted() | two_decimals }}% sprayed_over_targeted (using denominator: {{denominator}})
-      </md-card-content>
-    </md-card>
-    <md-card style="margin: 1em 0;">
-      <md-card-content>
-        <basic_chart></basic_chart>
-      </md-card-content>
-    </md-card>
+    </div>
   </div>
-
 </template>
 
 <script>
   import numeral from 'numeral'
   import Translations from '@/lib/translations'
   import basic_chart from '@/components/basic_chart'
+  import line_chart from '@/components/line_chart'
+  import pop_covered_swz_chart from '@/components/pop_covered_swz_chart'
+  import structures_sprayed_swz_chart from '@/components/structures_sprayed_swz_chart'
+  import locked_vs_sprayed_swz_chart from '@/components/locked_vs_sprayed_swz_chart'
+  import pop_covered_vs_structures_swz_chart from '@/components/pop_covered_vs_structures_swz_chart'
+  import structures_pr_supervisor_swz_chart from '@/components/structures_pr_supervisor_swz_chart'
 
   export default {
     name: 'view',
-    components: {basic_chart},
+    components: {
+      basic_chart, 
+      line_chart, 
+      pop_covered_swz_chart,
+      structures_sprayed_swz_chart,
+      locked_vs_sprayed_swz_chart,
+      pop_covered_vs_structures_swz_chart,
+      structures_pr_supervisor_swz_chart
+    },
     filters: {
       two_decimals(value) {
         return numeral(value).format('0.[00]')
@@ -53,7 +45,8 @@
     data () {
       return {
         t: {}, // TRANSLATIONS,
-        denominator: 123
+        denominator: 123,
+        _components: []
       }
     },
     created() {
@@ -71,6 +64,9 @@
       },
       country() {
         return this.$store.state.instance_config.name
+      },
+      components() {
+        return this.$store.state.instance_config.applets.irs_monitor.components
       }
     }
   }
@@ -78,6 +74,16 @@
 
 <style scoped>
   .container {
-    margin: 10px;
+    margin: 1em auto;
+    max-width: 1200px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .card {
+    margin: 2.5%; 
+    padding: 1em;
+    flex: 1;
+    flex-basis: 45%;
   }
 </style>
