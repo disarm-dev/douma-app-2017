@@ -20,22 +20,32 @@
   import Translations from '@/lib/translations'
   import basic_chart from '@/components/basic_chart'
   import line_chart from '@/components/line_chart'
+  // SWZ
   import pop_covered_swz_chart from '@/components/pop_covered_swz_chart'
   import structures_sprayed_swz_chart from '@/components/structures_sprayed_swz_chart'
   import locked_vs_sprayed_swz_chart from '@/components/locked_vs_sprayed_swz_chart'
   import pop_covered_vs_structures_swz_chart from '@/components/pop_covered_vs_structures_swz_chart'
   import structures_pr_supervisor_swz_chart from '@/components/structures_pr_supervisor_swz_chart'
 
+  // NAM
+  import structures_sprayed_nam_doughnut from '@/components/structures_sprayed_nam_doughnut'
+
   export default {
     name: 'view',
     components: {
       basic_chart, 
       line_chart, 
+
+      // SWZ
       pop_covered_swz_chart,
       structures_sprayed_swz_chart,
       locked_vs_sprayed_swz_chart,
       pop_covered_vs_structures_swz_chart,
-      structures_pr_supervisor_swz_chart
+      structures_pr_supervisor_swz_chart,
+
+      // NAM
+      structures_sprayed_nam_doughnut
+
     },
     filters: {
       two_decimals(value) {

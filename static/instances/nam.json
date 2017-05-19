@@ -2,8 +2,7 @@
   "applets": {
     "irs_monitor": {
       "components": [
-        "line_chart",
-        "basic_chart"
+        "structures_sprayed_nam_doughnut"
       ]
     },
     "irs_record_point": {},
