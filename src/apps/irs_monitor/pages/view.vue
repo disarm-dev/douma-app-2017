@@ -4,7 +4,7 @@
     <div class='container'>
 
       <template v-for="component in components">
-        <md-card class="card">
+        <md-card class="card" :ref="component" @click.native="toggle_enlarge(component)" style="flex-basis: 45%">
           <md-card-content>
             <div :is="component"></div>
           </md-card-content>
@@ -26,14 +26,17 @@
   import locked_vs_sprayed_swz_chart from '@/components/locked_vs_sprayed_swz_chart'
   import pop_covered_vs_structures_swz_chart from '@/components/pop_covered_vs_structures_swz_chart'
   import structures_pr_supervisor_swz_chart from '@/components/structures_pr_supervisor_swz_chart'
+  import swz_map from '@/components/swz_map'
 
   // NAM
   import structures_sprayed_nam_doughnut from '@/components/structures_sprayed_nam_doughnut'
+  import nam_map from '@/components/nam_map'
 
   // BWA
   import prop_room_sprayed_bwa_chart from '@/components/prop_room_sprayed_bwa_chart'
   import prop_people_covered_bwa_chart from '@/components/prop_people_covered_bwa_chart'
   import refusal_bwa_pie from '@/components/refusal_bwa_pie'
+  import bwa_map from '@/components/bwa_map'
 
 
   export default {
@@ -48,14 +51,17 @@
       locked_vs_sprayed_swz_chart,
       pop_covered_vs_structures_swz_chart,
       structures_pr_supervisor_swz_chart,
+      swz_map,
 
       // NAM
       structures_sprayed_nam_doughnut,
+      nam_map,
 
       // BWA
       prop_room_sprayed_bwa_chart,
       prop_people_covered_bwa_chart,
-      refusal_bwa_pie
+      refusal_bwa_pie,
+      bwa_map
 
     },
     filters: {
@@ -89,6 +95,17 @@
       components() {
         return this.$store.state.instance_config.applets.irs_monitor.components
       }
+    },
+    methods: {
+      toggle_enlarge(component) {
+        const element = this.$refs[component][0].$el
+        let current = element.style['flex-basis']
+        if (current == '45%') {
+          element.style['flex-basis'] = '95%'
+        } else {
+          element.style['flex-basis'] = '45%'
+        }
+      }
     }
   }
 </script>
@@ -105,6 +122,6 @@
     margin: 2.5%; 
     padding: 1em;
     flex: 1;
-    flex-basis: 45%;
+    /*flex-basis: 45%;*/
   }
 </style>

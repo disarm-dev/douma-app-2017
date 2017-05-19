@@ -6,7 +6,8 @@
         "structures_sprayed_swz_chart",
         "locked_vs_sprayed_swz_chart",
         "pop_covered_vs_structures_swz_chart",
-        "structures_pr_supervisor_swz_chart"
+        "structures_pr_supervisor_swz_chart",
+        "swz_map"
       ]
     },
     "irs_record_point": {},

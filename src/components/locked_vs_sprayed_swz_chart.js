@@ -22,6 +22,11 @@ export default Line.extend({
           data: [26,39,34,30,38]
         }
       ]
+    }, {
+      title: {
+        display: true,
+        text: "Distribution of locked vs sprayed of structures visited"
+      }
     })
   }
 })

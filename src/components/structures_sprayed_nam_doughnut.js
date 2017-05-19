@@ -1,4 +1,3 @@
-// CommitChart.js
 import { Doughnut } from 'vue-chartjs'
 
 export default Doughnut.extend({
@@ -21,6 +20,11 @@ export default Doughnut.extend({
             ]
         }
       ]
+    }, {
+      title: {
+        display: true,
+        text: ""
+      }
     })
   }
 })

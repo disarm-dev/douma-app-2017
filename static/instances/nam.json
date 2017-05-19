@@ -2,7 +2,8 @@
   "applets": {
     "irs_monitor": {
       "components": [
-        "structures_sprayed_nam_doughnut"
+        "structures_sprayed_nam_doughnut",
+        "nam_map"
       ]
     },
     "irs_record_point": {},

@@ -8,7 +8,7 @@ export default Line.extend({
       labels: ['Week 1','Week 2','Week 3','Week 4','Week 5'],
       datasets: [
         {
-          label: 'Proportion of target  population covered',
+          label: '% covered',
           // backgroundColor: 'transparent',
           fill: false,
           borderColor: '#EF5350',
@@ -16,6 +16,11 @@ export default Line.extend({
           data: [1,1,2,5,7]
         }
       ]
+    }, {
+      title: {
+        display: true, 
+        text: "Proportion of target  population covered"
+      }
     })
   }
 })

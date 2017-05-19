@@ -20,14 +20,18 @@ export default Bar.extend({
       ]
     }, {
       scales: {
-          xAxes: [{
-            stacked: true,
-            barThickness: 5
-          }],
-          yAxes: [{
-            stacked: true
-          }]
-        }
+        xAxes: [{
+          stacked: true,
+          barThickness: 5
+        }],
+        yAxes: [{
+          stacked: true
+        }]
+      },
+      title: {
+        display: true,
+        text: "Distribution of Locked vs sprayed of structures visited"
+      }
     })
   }
 })
