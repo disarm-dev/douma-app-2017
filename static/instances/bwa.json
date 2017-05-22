@@ -1,9 +1,7 @@
 {
   "applets": {
     "irs_monitor": {
-      "icon": "watch",
-      "title": "Not-a-Dashboard",
-      "form_url": "somedropboxurl.com",
+      "title": "Dashboard",
       "components": [
         {"name": "prop_room_sprayed_bwa_chart", "width_constraint": "half", "height_constraint": "none"},
         {"name": "prop_people_covered_bwa_chart", "width_constraint": "half", "height_constraint": "none"},
@@ -11,10 +9,7 @@
         {"name": "bwa_map" , "width_constraint": "full", "height_constraint": "none"}
       ]
     },
-    "irs_record_point": {
-      "icon": "accessible",
-      "title": "Recorder"
-    },
+    "irs_record_point": {},
     "irs_plan": {},
     "meta": {}
   },
