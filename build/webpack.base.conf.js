@@ -26,6 +26,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
+      '$': 'jquery/dist/jquery.min.js',
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src')
     }
