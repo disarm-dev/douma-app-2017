@@ -19,8 +19,8 @@
       create_map() {
         this._map = Leaflet.map('map', {
           tms: true,
-          center: [-26.1288, 31.9892],
-          zoom: 16
+          center: [-19.3458, 20.6273],
+          zoom: 14
         });
 
         const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
@@ -31,6 +31,9 @@
       },
       add_buildings(place) {
         this._buildings_layer = L.geoJSON(this.geojson, {
+          pointToLayer: (feature, latlng) => {
+             return L.circleMarker(latlng, {});
+          },
           style: (feature, layer) => {
             return {
               weight: 0.8
@@ -51,8 +54,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          31.993217468261715,
-          -26.1310902352504
+          20.6488037109375,
+          -19.352610894378625
         ]
       }
     },
@@ -62,8 +65,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          31.990470886230472,
-          -26.1313984661397
+          20.640220642089844,
+          -19.352610894378625
         ]
       }
     },
@@ -73,8 +76,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          31.98841094970703,
-          -26.12215118563835
+          20.64434051513672,
+          -19.361032701220033
         ]
       }
     },
@@ -84,8 +87,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          31.981544494628903,
-          -26.13016553770187
+          20.60588836669922,
+          -19.31827133753736
         ]
       }
     },
@@ -95,8 +98,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          31.9921875,
-          -26.126004308140512
+          20.634727478027344,
+          -19.35811750960557
         ]
       }
     },
@@ -106,30 +109,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          31.988153457641598,
-          -26.133324890767675
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          31.99690818786621,
-          -26.13317077796681
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          31.993732452392575,
-          -26.13548244862496
+          20.628890991210938,
+          -19.373340713364044
         ]
       }
     }
