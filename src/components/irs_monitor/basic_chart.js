@@ -11,6 +11,10 @@ export default Bar.extend({
           label: 'Spray progress',
           backgroundColor: '#f87979',
           data: [40, 20, 12, 39, 10, 40, 39, 80]
+        },{
+          label: 'Spray progress',
+          backgroundColor: 'fuschia',
+          data: [1, 40, 20, 12, 39, 10, 40, 39]
         }
       ]
     }, {

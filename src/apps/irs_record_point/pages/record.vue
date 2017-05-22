@@ -16,7 +16,7 @@
           <li class="error" v-for="{warning_message, name, input_questions} in errors" :key="name">{{warning_message}}</li>
         </ul>
       </div>
-      
+
       <div v-if="warnings.length !== 0">
         <p>Warning messages</p>
         <ul>

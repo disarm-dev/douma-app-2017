@@ -87,13 +87,10 @@
       }
     },
     created() {
-      const Translator = Translations[this.slug.toLowerCase()]
-      const options = {
-        targeted: this.denominator
-      }
-      const responses = this.$store.state.irs_monitor.responses
-      const translations = new Translator({responses, options})
-      this.t = translations
+      this.add_translations()
+    },
+    mounted() {
+      console.warn("IRS Monitor: Loaded SEED data for debugging")
     },
     computed: {
       window_height() {
@@ -107,6 +104,17 @@
       },
       components() {
         return this.$store.state.instance_config.applets.irs_monitor.components
+      }
+    },
+    methods: {
+      add_translations() {
+        const Translator = Translations[this.slug.toLowerCase()]
+        const options = {
+          targeted_count: this.fake_denominator
+        }
+        const responses = this.$store.state.irs_monitor.responses
+        const translations = new Translator({responses, options})
+        this.t = translations
       }
     }
   }
@@ -128,5 +136,9 @@
 
   .card-half-width {
     width: 45%;
+  }
+  .card {
+    /*margin: 1em auto;*/
+    height: 70px
   }
 </style>
