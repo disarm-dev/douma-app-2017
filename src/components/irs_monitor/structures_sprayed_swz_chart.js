@@ -20,6 +20,15 @@ export default Line.extend({
       title: {
         display: true, 
         text: "Proportion of target population covered"
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            max: 100,
+            min: 0            
+          }
+        }]
       }
     })
   }

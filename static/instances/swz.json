@@ -2,12 +2,12 @@
   "applets": {
     "irs_monitor": {
       "components": [
-        "pop_covered_swz_chart",
-        "structures_sprayed_swz_chart",
-        "locked_vs_sprayed_swz_chart",
-        "pop_covered_vs_structures_swz_chart",
-        "structures_pr_supervisor_swz_chart",
-        "swz_map"
+        {"name": "pop_covered_swz_chart", "width_constraint": "half", "height_constraint": "none"},
+        {"name": "structures_sprayed_swz_chart", "width_constraint": "half", "height_constraint": "none"},
+        {"name": "locked_vs_sprayed_swz_chart", "width_constraint": "half", "height_constraint": "none"},
+        {"name": "pop_covered_vs_structures_swz_chart", "width_constraint": "half", "height_constraint": "none"},
+        {"name": "structures_pr_supervisor_swz_chart", "width_constraint": "full", "height_constraint": "viewport"},
+        {"name": "swz_map" , "width_constraint": "full", "height_constraint": "viewport"}
       ]
     },
     "irs_record_point": {},

@@ -19,6 +19,15 @@ export default Line.extend({
       title: {
         display: true,
         text: "Proportion of population covered of structures visited"
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            max: 100,
+            min: 0            
+          }
+        }]
       }
     })
   }

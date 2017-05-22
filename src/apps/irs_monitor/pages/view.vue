@@ -2,11 +2,17 @@
   <div>
     <h1>DASHBOARD: {{country}}</h1>
     <div class='container'>
-
-      <template v-for="component in components">
-        <md-card class="card" :ref="component">
+      
+      <md-card class="card" >
+        <md-card-content>
+          <div><h1>Filters</h1></div>
+        </md-card-content>
+      </md-card>
+  
+      <template v-for="{name, width_constraint, height_constraint} in components" >
+        <md-card class="card" :ref="name" :class="{'card-half-width': width_constraint == 'half'}">
           <md-card-content>
-            <div :is="component"></div>
+            <component :is="name" :height="window_height"></component>
           </md-card-content>
         </md-card>
       </template>
@@ -20,6 +26,8 @@
   import Translations from '@/lib/translations'
   import basic_chart from '@/components/irs_monitor/basic_chart'
   import line_chart from '@/components/irs_monitor/line_chart'
+
+  // import {SWZ} from 'swz.components/index.js'
   // SWZ
   import pop_covered_swz_chart from '@/components/irs_monitor/pop_covered_swz_chart'
   import structures_sprayed_swz_chart from '@/components/irs_monitor/structures_sprayed_swz_chart'
@@ -41,7 +49,7 @@
 
 
   export default {
-    name: 'view',
+    name: 'DashboardNotDashboard',
     components: {
       basic_chart, 
       line_chart, 
@@ -88,6 +96,9 @@
       this.t = translations
     },
     computed: {
+      window_height() {
+        return (window.innerHeight - document.querySelector('.md-toolbar').clientHeight) - 200
+      },
       slug() {
         return this.$store.state.instance_config.slug
       },
@@ -105,14 +116,17 @@
   .container {
     margin: 1em auto;
     width: 90%;
-    display: flex;
-    flex-wrap: wrap;
   }
 
   .card {
+    display: inline-block;
     margin: 2.5%; 
     padding: 1em;
     flex: 1;
-    flex-basis: 95%;
+    width: 95%;
+  }
+
+  .card-half-width {
+    width: 45%;
   }
 </style>

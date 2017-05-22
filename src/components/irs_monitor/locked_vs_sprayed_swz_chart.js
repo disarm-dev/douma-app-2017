@@ -26,9 +26,16 @@ export default Line.extend({
       title: {
         display: true,
         text: "Distribution of locked vs sprayed of structures visited"
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            max: 100,
+            min: 0            
+          }
+        }]
       }
     })
   }
 })
-
-

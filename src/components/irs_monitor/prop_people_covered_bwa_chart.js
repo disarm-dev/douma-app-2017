@@ -33,6 +33,15 @@ export default Line.extend({
       title: {
         display: true,
         text: 'Proportion of People covered/ Number of People Found'
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            max: 100,
+            min: 0            
+          }
+        }]
       }
     })
   }

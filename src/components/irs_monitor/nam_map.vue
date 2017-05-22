@@ -1,11 +1,11 @@
 <template>
-
-  <div id="map"></div>
+  <div id="map" ref="map"></div>
 </template>
 <script>
   import Leaflet from 'leaflet'
   
   export default {
+    props: ['height'],
     data() {
       return {
         _map: null,
@@ -13,6 +13,7 @@
       }
     },
     mounted() {
+      this.$refs.map.style.height = this.height + 'px'
       this.create_map()
     },
     methods: {
@@ -121,7 +122,5 @@
   }
 </script>
 <style>
-  #map {
-    height: 500px
-  }
+  
 </style>

@@ -33,6 +33,15 @@ export default Line.extend({
       title: {
         display: true,
         text: 'Proportion of Rooms Sprayed/ Total number of rooms visited'
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            max: 100,
+            min: 0            
+          }
+        }]
       }
     })
   }

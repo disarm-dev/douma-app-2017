@@ -13,6 +13,16 @@ export default Bar.extend({
           data: [40, 20, 12, 39, 10, 40, 39, 80]
         }
       ]
+    }, {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            max: 100,
+            min: 0            
+          }
+        }]
+      }
     })
   }
 })

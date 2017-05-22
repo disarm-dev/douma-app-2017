@@ -2,7 +2,7 @@
   "applets": {
     "irs_monitor": {
       "components": [
-        "line_chart"
+        {"name": "line_chart", "width_constraint": "half", "height_constraint": "none"}
       ]
     },
     "irs_record_point": {

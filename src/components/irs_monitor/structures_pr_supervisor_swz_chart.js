@@ -2,6 +2,7 @@
 import { Bar } from 'vue-chartjs'
 
 export default Bar.extend({
+  // props: ['height'],
   mounted () {
     this.renderChart({
       labels: ["Dvokodvweni","Gege","Hhukwini","Hlane","Hosea","Kubuta","Kukhanyeni","Kwaluseni","Lamgabhi","Lobamba","Lomahasha","Lubuli","Ludzeludze","Lugongolweni","Madlangempisi","Mafutseni","Mahlangatja","Mangcongco","Manzini","Maphalaleni","Maseyisini","Matsanjeni","Mayiwane","Mbabane","Mhlambanyatsi","Mhlangatane","Mhlume","Mkhiweni","Motjane","Mpholonjeni","Mthongwaneni","Mtsambama","Ndzingeni","Ngudzeni","Ngwempisi","Nhlambeni","Nkhaba","Nkilongo","Nkwene","Ntfonjeni","Ntondozi","Piggs Peak","Sandleni","Shiselweni I","Sigwe","Siphofaneni","Sithobela","Timpisini","Zombodze"],
@@ -18,20 +19,22 @@ export default Bar.extend({
           
         }
       ]
-    }, {
+    },{
       scales: {
         xAxes: [{
           stacked: true,
           barThickness: 5
         }],
         yAxes: [{
-          stacked: true
+          stacked: true,
         }]
       },
       title: {
         display: true,
         text: "Distribution of Locked vs sprayed of structures visited"
-      }
+      },
+      responsive: true,
+      maintainAspectRatio: false
     })
   }
 })

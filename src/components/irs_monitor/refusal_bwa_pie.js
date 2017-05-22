@@ -20,6 +20,11 @@ export default Doughnut.extend({
             ]
         }
       ]
+    }, {
+      title: {
+        display: true,
+        text: "Refusal reason"
+      }
     })
   }
 })
