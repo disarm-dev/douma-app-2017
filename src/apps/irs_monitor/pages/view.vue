@@ -12,7 +12,7 @@
       <template v-for="{name, width_constraint, height_constraint} in components" >
         <md-card class="card" :ref="name" :class="{'card-half-width': width_constraint == 'half'}">
           <md-card-content>
-            <component :is="name" :height="window_height"></component>
+            <component :is="name" :height="height_constraint ? window_height : undefined"></component>
           </md-card-content>
         </md-card>
       </template>
@@ -136,9 +136,5 @@
 
   .card-half-width {
     width: 45%;
-  }
-  .card {
-    /*margin: 1em auto;*/
-    height: 70px
   }
 </style>
