@@ -3,27 +3,32 @@
     <h1>IRS Plan: {{country}}</h1>
     
     <div id="map"></div>
+
+    <md-card class="card">
+      <md-card-content>
+        <p><b>Selected regions:</b></p>
+        <span v-for="{properties} in selected_regions" :key="properties.id">{{properties.name}}, </span>
+      </md-card-content>
+    </md-card>
   </div>
 </template>
 
 <script>
   import Leaflet from 'leaflet'
+  import Translations from '@/lib/translations'
 
   export default {
     name: 'IRSPlan',
     data() {
       return {
         _map: null,
-        _regions_layer: null
+        _regions_layer: null,
+        regions: []
       }
     },
     mounted() {
-      fetch(`/static/local_areas/${this.slug}.json`)
-        .then(res => res.json()) 
-        .then(geojson => {
-          this.create_map()
-          this.add_regions(geojson)
-        })
+      this.create_map()
+      this.get_local_areas()
     },
     computed: {
       slug() {
@@ -39,10 +44,29 @@
         return this.$store.state.instance_config.area_id
       },
       selected_regions() {
-        return this.$store.state.irs_plan.selected_regions
+        if (this.regions.length == 0) return []
+
+        return this.$store.state.irs_plan.selected_region_ids.map(id => {
+          return this.regions.find(feature => feature.properties.id === id)
+        })
+      },
+      selected_region_ids() {
+        return this.$store.state.irs_plan.selected_region_ids
       }
     },
     methods: {
+      get_local_areas() {
+        fetch(`/static/local_areas/${this.slug}.ous.json`)
+          .then(res => res.json()) 
+          .then(geojson => {
+            const Translator = Translations[this.slug.toLowerCase()]
+            const translations = new Translator({})
+            const translated_geojson = translations.operational_units(geojson)
+
+            this.regions = translated_geojson.features
+            this.add_regions(translated_geojson)
+          })
+      },
       create_map() {
         this._map = Leaflet.map('map', {
           tms: true,
@@ -64,8 +88,7 @@
         })
 
         this._regions_layer.on('click', (object, a) => {
-          console.log(object.layer.feature.properties)
-          let id = object.layer.feature.properties[this.area_id]
+          let id = object.layer.feature.properties.id
 
           this.$store.commit('irs_plan/toggle_selected_region', id)
 
@@ -75,7 +98,7 @@
         this._regions_layer.addTo(this._map)
       },
       style_function(feature, layer) {
-        if (this.selected_regions.includes(feature.properties[this.area_id])) {
+        if (this.selected_region_ids.includes(feature.properties.id)) {
           return {
             color: 'red',
             weight: 0.8
@@ -94,5 +117,10 @@
   #map {
     height: 500px;
     margin: 0 2.5%;
+    z-index: 0;
+  }
+
+  .card {
+    margin: 2em 2.5%;
   }
 </style>

@@ -1,5 +1,5 @@
 export default class Translations {
-  constructor({responses, options = {}}) {
+  constructor({responses = [], options = {}}) {
     this.responses = responses
     this.options = options
   }
