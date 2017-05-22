@@ -3,7 +3,8 @@
     "irs_monitor": {
       "components": [
         "structures_sprayed_nam_doughnut",
-        "nam_map"
+        "nam_map",
+        "nam_table"
       ]
     },
     "irs_record_point": {},

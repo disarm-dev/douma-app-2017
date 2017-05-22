@@ -4,7 +4,7 @@
     <div class='container'>
 
       <template v-for="component in components">
-        <md-card class="card" :ref="component" @click.native="toggle_enlarge(component)" style="flex-basis: 45%">
+        <md-card class="card" :ref="component">
           <md-card-content>
             <div :is="component"></div>
           </md-card-content>
@@ -18,25 +18,26 @@
 <script>
   import numeral from 'numeral'
   import Translations from '@/lib/translations'
-  import basic_chart from '@/components/basic_chart'
-  import line_chart from '@/components/line_chart'
+  import basic_chart from '@/components/irs_monitor/basic_chart'
+  import line_chart from '@/components/irs_monitor/line_chart'
   // SWZ
-  import pop_covered_swz_chart from '@/components/pop_covered_swz_chart'
-  import structures_sprayed_swz_chart from '@/components/structures_sprayed_swz_chart'
-  import locked_vs_sprayed_swz_chart from '@/components/locked_vs_sprayed_swz_chart'
-  import pop_covered_vs_structures_swz_chart from '@/components/pop_covered_vs_structures_swz_chart'
-  import structures_pr_supervisor_swz_chart from '@/components/structures_pr_supervisor_swz_chart'
-  import swz_map from '@/components/swz_map'
+  import pop_covered_swz_chart from '@/components/irs_monitor/pop_covered_swz_chart'
+  import structures_sprayed_swz_chart from '@/components/irs_monitor/structures_sprayed_swz_chart'
+  import locked_vs_sprayed_swz_chart from '@/components/irs_monitor/locked_vs_sprayed_swz_chart'
+  import pop_covered_vs_structures_swz_chart from '@/components/irs_monitor/pop_covered_vs_structures_swz_chart'
+  import structures_pr_supervisor_swz_chart from '@/components/irs_monitor/structures_pr_supervisor_swz_chart'
+  import swz_map from '@/components/irs_monitor/swz_map'
 
   // NAM
-  import structures_sprayed_nam_doughnut from '@/components/structures_sprayed_nam_doughnut'
-  import nam_map from '@/components/nam_map'
+  import structures_sprayed_nam_doughnut from '@/components/irs_monitor/structures_sprayed_nam_doughnut'
+  import nam_map from '@/components/irs_monitor/nam_map'
+  import nam_table from '@/components/irs_monitor/nam_table'
 
   // BWA
-  import prop_room_sprayed_bwa_chart from '@/components/prop_room_sprayed_bwa_chart'
-  import prop_people_covered_bwa_chart from '@/components/prop_people_covered_bwa_chart'
-  import refusal_bwa_pie from '@/components/refusal_bwa_pie'
-  import bwa_map from '@/components/bwa_map'
+  import prop_room_sprayed_bwa_chart from '@/components/irs_monitor/prop_room_sprayed_bwa_chart'
+  import prop_people_covered_bwa_chart from '@/components/irs_monitor/prop_people_covered_bwa_chart'
+  import refusal_bwa_pie from '@/components/irs_monitor/refusal_bwa_pie'
+  import bwa_map from '@/components/irs_monitor/bwa_map'
 
 
   export default {
@@ -56,6 +57,7 @@
       // NAM
       structures_sprayed_nam_doughnut,
       nam_map,
+      nam_table,
 
       // BWA
       prop_room_sprayed_bwa_chart,
@@ -95,17 +97,6 @@
       components() {
         return this.$store.state.instance_config.applets.irs_monitor.components
       }
-    },
-    methods: {
-      toggle_enlarge(component) {
-        const element = this.$refs[component][0].$el
-        let current = element.style['flex-basis']
-        if (current == '45%') {
-          element.style['flex-basis'] = '95%'
-        } else {
-          element.style['flex-basis'] = '45%'
-        }
-      }
     }
   }
 </script>
@@ -113,7 +104,7 @@
 <style scoped>
   .container {
     margin: 1em auto;
-    max-width: 1200px;
+    width: 90%;
     display: flex;
     flex-wrap: wrap;
   }
@@ -122,6 +113,6 @@
     margin: 2.5%; 
     padding: 1em;
     flex: 1;
-    /*flex-basis: 45%;*/
+    flex-basis: 95%;
   }
 </style>
