@@ -1,10 +1,9 @@
 <template>
-
   <div id="map"></div>
 </template>
 <script>
   import Leaflet from 'leaflet'
-  
+
   export default {
     data() {
       return {

@@ -2,13 +2,13 @@
   <div>
     <h1>DASHBOARD: {{country}}</h1>
     <div class='container'>
-      
+
       <md-card class="card" >
         <md-card-content>
           <div><h1>Filters</h1></div>
         </md-card-content>
       </md-card>
-  
+
       <template v-for="{name, width_constraint, height_constraint} in components" >
         <md-card class="card" :ref="name" :class="{'card-half-width': width_constraint == 'half'}">
           <md-card-content>
@@ -24,54 +24,56 @@
 <script>
   import numeral from 'numeral'
   import Translations from '@/lib/translations'
-  import basic_chart from '@/components/irs_monitor/basic_chart'
-  import line_chart from '@/components/irs_monitor/line_chart'
 
-  // import {SWZ} from 'swz.components/index.js'
+  // Common components
+  import basic_chart from './common/basic_chart.js'
+  import line_chart from './common/line_chart.js'
+
   // SWZ
-  import pop_covered_swz_chart from '@/components/irs_monitor/pop_covered_swz_chart'
-  import structures_sprayed_swz_chart from '@/components/irs_monitor/structures_sprayed_swz_chart'
-  import locked_vs_sprayed_swz_chart from '@/components/irs_monitor/locked_vs_sprayed_swz_chart'
-  import pop_covered_vs_structures_swz_chart from '@/components/irs_monitor/pop_covered_vs_structures_swz_chart'
-  import structures_pr_supervisor_swz_chart from '@/components/irs_monitor/structures_pr_supervisor_swz_chart'
-  import swz_map from '@/components/irs_monitor/swz_map'
+  import swz_chart_pop_covered from './swz/swz_chart_pop_covered'
+  import swz_chart_structures_sprayed from './swz/swz_chart_structures_sprayed'
+  import swz_chart_locked_vs_sprayed from './swz/swz_chart_locked_vs_sprayed'
+  import swz_chart_pop_covered_vs_structures from './swz/swz_chart_pop_covered_vs_structures'
+  import swz_chart_structures_pr_supervisor from './swz/swz_chart_structures_pr_supervisor'
+  import swz_map_progress_locations from './swz/swz_map_progress_locations'
 
   // NAM
-  import structures_sprayed_nam_doughnut from '@/components/irs_monitor/structures_sprayed_nam_doughnut'
-  import nam_map from '@/components/irs_monitor/nam_map'
-  import nam_table from '@/components/irs_monitor/nam_table'
+  import nam_chart_structures_sprayed_doughnut from './nam/nam_chart_structures_sprayed_doughnut'
+  import nam_map_progress_locations from './nam/nam_map_progress_locations'
+  import nam_table_progress from './nam/nam_table_progress'
 
   // BWA
-  import prop_room_sprayed_bwa_chart from '@/components/irs_monitor/prop_room_sprayed_bwa_chart'
-  import prop_people_covered_bwa_chart from '@/components/irs_monitor/prop_people_covered_bwa_chart'
-  import refusal_bwa_pie from '@/components/irs_monitor/refusal_bwa_pie'
-  import bwa_map from '@/components/irs_monitor/bwa_map'
+  import bwa_chart_prop_room_sprayed from './bwa/bwa_chart_prop_room_sprayed'
+  import bwa_chart_prop_people_covered from './bwa/bwa_chart_prop_people_covered'
+  import bwa_chart_refusal_pie from './bwa/bwa_chart_refusal_pie'
+  import bwa_map_progress_locations from './bwa/bwa_map_progress_locations'
 
 
   export default {
     name: 'DashboardNotDashboard',
     components: {
-      basic_chart, 
-      line_chart, 
+      // Common
+      basic_chart,
+      line_chart,
 
       // SWZ
-      pop_covered_swz_chart,
-      structures_sprayed_swz_chart,
-      locked_vs_sprayed_swz_chart,
-      pop_covered_vs_structures_swz_chart,
-      structures_pr_supervisor_swz_chart,
-      swz_map,
+      swz_chart_pop_covered,
+      swz_chart_structures_sprayed,
+      swz_chart_locked_vs_sprayed,
+      swz_chart_pop_covered_vs_structures,
+      swz_chart_structures_pr_supervisor,
+      swz_map_progress_locations,
 
       // NAM
-      structures_sprayed_nam_doughnut,
-      nam_map,
-      nam_table,
+      nam_chart_structures_sprayed_doughnut,
+      nam_map_progress_locations,
+      nam_table_progress,
 
       // BWA
-      prop_room_sprayed_bwa_chart,
-      prop_people_covered_bwa_chart,
-      refusal_bwa_pie,
-      bwa_map
+      bwa_chart_prop_room_sprayed,
+      bwa_chart_prop_people_covered,
+      bwa_chart_refusal_pie,
+      bwa_map_progress_locations
 
     },
     filters: {
@@ -128,7 +130,7 @@
 
   .card {
     display: inline-block;
-    margin: 2.5%; 
+    margin: 2.5%;
     padding: 1em;
     flex: 1;
     width: 95%;

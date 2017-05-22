@@ -5,10 +5,10 @@
       "title": "Not-a-Dashboard",
       "form_url": "somedropboxurl.com",
       "components": [
-        {"name": "prop_room_sprayed_bwa_chart", "width_constraint": "half", "height_constraint": "none"},
-        {"name": "prop_people_covered_bwa_chart", "width_constraint": "half", "height_constraint": "none"},
-        {"name": "refusal_bwa_pie", "width_constraint": "half", "height_constraint": "none"},
-        {"name": "bwa_map" , "width_constraint": "full", "height_constraint": "none"}
+        {"name": "bwa_chart_prop_room_sprayed", "width_constraint": "half", "height_constraint": "none"},
+        {"name": "bwa_chart_prop_people_covered", "width_constraint": "half", "height_constraint": "none"},
+        {"name": "bwa_chart_refusal_pie", "width_constraint": "half", "height_constraint": "none"},
+        {"name": "bwa_map_progress_locations" , "width_constraint": "full", "height_constraint": "none"}
       ]
     },
     "irs_record_point": {
