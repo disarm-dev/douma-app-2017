@@ -1,11 +1,7 @@
 <template>
   <div>
     <h1>IRS Plan: {{country}}</h1>
-    <md-card>
-      <md-card-content>
-
-      </md-card-content>
-    </md-card>
+    
     <div id="map"></div>
   </div>
 </template>
