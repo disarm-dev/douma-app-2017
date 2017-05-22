@@ -7,7 +7,9 @@
     <md-card class="card">
       <md-card-content>
         <p><b>Selected regions:</b></p>
-        <span v-for="{properties} in selected_regions" :key="properties.id">{{properties.name}}, </span>
+        <span v-for="({properties}, i) in selected_regions" :key="properties.id">
+          {{properties.name}}<span v-if="selected_regions.length !== i + 1">, </span>
+        </span>
       </md-card-content>
     </md-card>
   </div>
