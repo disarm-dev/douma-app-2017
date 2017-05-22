@@ -50,7 +50,7 @@
 
 
   export default {
-    name: 'DashboardNotDashboard',
+    name: 'NotADashboardDashboard',
     components: {
       // Common
       basic_chart,
