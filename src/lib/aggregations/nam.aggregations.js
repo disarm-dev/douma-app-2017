@@ -65,7 +65,7 @@ export default class {
   
   'sprayable structures not sprayed (refused)' = (responses, denominator, results_so_far) =>  {
     return responses.reduce((sum, r) => {
-      if(r.reasons_notspraying === 'refused') { 
+      if(r.reasons_notspraying.includes('refused')) { 
         return sum + (r.number_sprayable - (r.numbersprayed_delta + r.numbersprayed_ddt))
       } else {
         return sum
@@ -79,7 +79,7 @@ export default class {
 
   'sprayable structures not sprayed(other reason)' = (responses, denominator, results_so_far) => {
     return responses.reduce((sum, r) => {
-      if(r.reasons_notspraying !== 'refused') { 
+      if(!r.reasons_notspraying.includes('refused')) { 
         return sum + (r.number_sprayable - (r.numbersprayed_delta + r.numbersprayed_ddt))
       } else {
         return sum
