@@ -1,53 +1,23 @@
 <template>
-  <div>
-     <!--<v-client-table ref='table' v-if='loaded' :columns="columns" :data="tableData"></v-client-table>-->
-  </div>
+  <v-client-table v-if='loaded' :data="tableData" :columns="columns"></v-client-table>
 </template>
 <script>
-  import Vue from 'vue'
-  import {ServerTable, ClientTable, Event} from 'vue-tables-2';
-  Vue.use(ClientTable)
-
-  import Translations from '@/lib/translations'
+  import {ClientTable} from 'vue-tables-2';
+  
+  import NamAggregations from '@/lib/aggregations/nam.aggregations.js'
 
   export default {
+    components: {ClientTable},
     data() {
       return {
         loaded: false,
-        columns: [],
         tableData: null
       }
     },
     mounted() {
-      this.calculate_table_content()
-    },
-    methods: {
-      add_translations() {
-        // get instance translator
-        // get responses
-        // translate responses
-        // aggregate responses
-      },
-      calculate_table_content() {
-
-        this.columns = [ // Namibia columns
-          "name",
-          "homesteads_targeted",
-          "structures_targeted",
-          "homesteads_found",
-          "structures_found",
-          "structures_sprayed",
-          "sprayable_structures_refused",
-          "sprayable_structures_not_sprayed"
-        ]
-
-
-        this.tableData = [
-          {name: '3', homesteads_targeted: 4},
-        ]
-
-        this.loaded = true
-      }
+      this.tableData = new NamAggregations({})
+      this.columns = Object.keys(this.tableData[0])
+      this.loaded = true
     }
   }
 </script>
