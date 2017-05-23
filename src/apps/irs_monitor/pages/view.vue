@@ -50,7 +50,7 @@
 
 
   export default {
-    name: 'DashboardNotDashboard',
+    name: 'NotADashboardDashboard',
     components: {
       // Common
       basic_chart,
@@ -85,14 +85,13 @@
       return {
         t: {}, // TRANSLATIONS,
         denominator: 123,
-        _components: []
+        _components: [],
       }
     },
     created() {
       this.add_translations()
     },
     mounted() {
-      console.warn("IRS Monitor: Loaded SEED data for debugging")
     },
     computed: {
       window_height() {

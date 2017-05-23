@@ -38,10 +38,10 @@
   import moment from 'moment'
   import uuid from 'uuid/v4'
 
-  import mpaka from '../../../../static/geo/mpaka_buildings.json'
-  import hlane from '../../../../static/geo/hlane_buildings.json'
-  import simunye from '../../../../static/geo/simunye_buildings.json'
-  import mbabane from '../../../../static/geo/mbabane.json'
+  import mpaka from '../../../../static/geo/structure_samples/mpaka_buildings.json'
+  import hlane from '../../../../static/geo/structure_samples/hlane_buildings.json'
+  import simunye from '../../../../static/geo/structure_samples/simunye_buildings.json'
+  import mbabane from '../../../../static/geo/structure_samples/mbabane.json'
 
   export default {
     name: 'building_debug',
