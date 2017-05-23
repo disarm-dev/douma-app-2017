@@ -22,16 +22,16 @@ import {ClientTable} from 'vue-tables-2'
 import {determine_instance} from './lib/router-helper.js'
 
 // Keep track of Errors
-Raven
-  .config('https://05f42524abca4b84ba7a9b9d05fb620a@sentry.io/134727')
-  .addPlugin(RavenVue, Vue)
-  .install()
-Raven.setExtraContext({DOUMA_version: COMMIT_HASH})
+if (process.env.NODE_ENV !== 'development') {
+  Raven
+    .config('https://05f42524abca4b84ba7a9b9d05fb620a@sentry.io/134727')
+    .addPlugin(RavenVue, Vue)
+    .install()
+  Raven.setExtraContext({DOUMA_version: COMMIT_HASH})
+}
 
 // Vue generic setup
 configureThemes()
-Vue.use(ClientTable, {}, false);
-
 
 const launch = (instance_config) => {
   if (Object.keys(instance_config.applets).length === 0) {
