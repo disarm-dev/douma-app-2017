@@ -22,6 +22,12 @@ export default {
     }, 0)
   },
 
+  'number of people in homestead (total)': (responses, denominator, results_so_far) => {
+    return responses.reduce((sum, r) => {
+      return sum + r.n_people_homestead_overage5 + r.n_people_homestead_underage5
+    }, 0)
+  },
+
   'number of buildings visited': (responses, denominator, results_so_far) => {
     return responses.reduce((sum, r) => {
       return sum + r.n_buildings
