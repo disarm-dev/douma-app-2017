@@ -3,33 +3,38 @@ import {Line} from 'vue-chartjs'
 import moment from 'moment'
 
 export default Line.extend({
-  props: ['responses'],
+  props: ['responses', 'denominator'],
+  data() {
+    return {
+      labels: []
+    }
+  },
   mounted () {
-    this.responses = this.get_the_right_data(this.responses)
-    // Overwriting base render method with actual data.
+    const data = this.prepare_responses(this.responses)
+
     this.renderChart({
-      labels: ['Week 1','Week 2','Week 3','Week 4','Week 5', "Week 6","Week 7","Week 8","Week 9","Week 10"],
+      labels: this.labels,
       datasets: [
         {
           label: 'Team 1',
           fill: false,
           borderColor: '#EF5350',
           lineTension: 0,
-          data: [0,50,75,80,85,80,100,95,80,75]
+          data: data.team1
         },
         {
           label: 'Team 2',
           fill: false,
           borderColor: '#8BC34A',
           lineTension: 0,
-          data: [0,30,50,70,85,90,95,85,95,100]
+          data: data.team2
         },
         {
           label: 'Team 3',
           fill: false,
           borderColor: '#7E57C2',
           lineTension: 0,
-          data: [0,45,50,70,80,90,93]
+          data: data.team3
         }
       ]
     }, {
@@ -49,22 +54,28 @@ export default Line.extend({
     })
   },
   methods: {
-    get_the_right_data(responses){
-      return this.add_timeseries(responses)
-    },
-    add_timeseries(responses) {
-      // let weeks_array = []
-      const with_weeks = responses.map(d => {
-        const week_number = parseInt(moment(d.recorded_on).week(), 10)
-        d._week = week_number
-        // if (!weeks_array.includes(week_number)) { weeks_array.push(week_number) }
+    prepare_responses(responses) {
+      let output = {team1: [], team2: [], team3: []}
+      let labels = []
 
-        return d
+      responses = responses.map(response => {
+        const week_number = parseInt(moment(response.recorded_on).week(), 10)
+        response._week = week_number
+        if (!labels.includes(week_number)) {
+          labels.push(week_number)
+        }
+        return response
+      })
+      this.labels = labels.sort((a, b) => a - b)
+      
+      responses.forEach(response => {
+        const week_index = labels.indexOf(response._week)
+        const team = response.team
+        output[team][week_index] ? output[team][week_index] += 1 : output[team][week_index] = 1
       })
 
-      // weeks_array = weeks_array.sort((a,b) => a - b)
+      return output
 
-      return with_weeks
     }
   }
 })

@@ -9,35 +9,28 @@ import zwe from './zwe.aggregations.js'
 const fields = {bwa, nam, swz, zwe}
 
 export default class {
-  constructor({responses, plan, instance_config}){
-    responses = this.get_time_series(responses)
-
-    const denominator = plan
+  constructor({responses, denominator, instance_config}){
     const spatial_filter_level = instance_config.spatial_hierarchy[0].name
 
     const areas = denominator.map(d => d[spatial_filter_level])
     const instance_fields = fields[instance_config.slug.toLowerCase()]
 
-    return areas.map(area => {
-      const filter = (res) => {
-        // if(time_period) {
-        //   return res[spatial_filter_level] === area && moment(res.recorded_on).week() === time_period
-        // } else {
-          return res[spatial_filter_level] === area
-        // }
-      }
+    const result = areas.map(area => {
+      const filter_obj = (res) => res[spatial_filter_level] === area
 
       let output = {}
       output[spatial_filter_level] = area
 
-      const filtered_responses = responses.filter(filter)
-      const filtered_denominator = denominator.filter(filter)[0]
+      const filtered_responses = responses.filter(filter_obj)
+      const filtered_denominator = denominator.find(filter_obj)
+
       Object.keys(instance_fields).forEach(field_name => {
         output[field_name] = instance_fields[field_name](filtered_responses, filtered_denominator, output)
       })
 
       return output
     })
+    return result
   }
 
   filter_by_spatial_hierarchy() {
@@ -48,10 +41,6 @@ export default class {
 
   }
 
-  get_denominator_from_plan(plan) {
-    // TODO: @feature Create denominator from a passed-in plan
-    return plan
-  }
 }
 
 // return {
