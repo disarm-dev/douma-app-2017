@@ -28,6 +28,7 @@
   // Common components
   import basic_chart from './common/basic_chart.js'
   import line_chart from './common/line_chart.js'
+  import table_progress from './common/table_progress.vue'
 
   // SWZ
   import swz_chart_pop_covered from './swz/swz_chart_pop_covered'
@@ -40,7 +41,6 @@
   // NAM
   import nam_chart_structures_sprayed_doughnut from './nam/nam_chart_structures_sprayed_doughnut'
   import nam_map_progress_locations from './nam/nam_map_progress_locations'
-  import nam_table_progress from './nam/nam_table_progress'
 
   // BWA
   import bwa_chart_prop_room_sprayed from './bwa/bwa_chart_prop_room_sprayed'
@@ -55,6 +55,7 @@
       // Common
       basic_chart,
       line_chart,
+      table_progress,
 
       // SWZ
       swz_chart_pop_covered,
@@ -67,7 +68,6 @@
       // NAM
       nam_chart_structures_sprayed_doughnut,
       nam_map_progress_locations,
-      nam_table_progress,
 
       // BWA
       bwa_chart_prop_room_sprayed,
