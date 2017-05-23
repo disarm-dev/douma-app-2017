@@ -2,7 +2,6 @@ import {Line} from 'vue-chartjs'
 import moment from 'moment'
 
 import aggregations from '@/lib/aggregations/bwa.aggregations'
-window.a = aggregations
 
 export default Line.extend({
   props: ['responses', 'denominator'],

@@ -12,6 +12,7 @@
 
   import download from 'downloadjs'
   import json2csv from 'json2csv'
+  import pick from 'lodash.pick'
 
   import Aggregator from '@/lib/aggregations'
 
@@ -28,12 +29,18 @@
     },
     methods: {
       load_data(){
-        this.tableData = new Aggregator({
+        this.columns = ['village', 'number of buildings targeted', 'number of people in the homestead (<5 yrs)', 'number of people in the homestead (>5 yrs)', 'number of buildings visited', 'number of rooms visited', 'number of rooms sprayed (total)', 'number of rooms sprayed (DDT)', 'number of rooms sprayed (lambda-cyhalothrin)']
+
+        const data = new Aggregator({
           responses: this.responses,
           denominator: this.denominator, 
           instance_config: this.$store.state.instance_config
         })
-        this.columns = Object.keys(this.tableData[0])
+
+        this.tableData = data.map(row => {
+          return pick(row, this.columns)
+        })
+
         this.loaded = true
       },
       download_content(){
