@@ -74,6 +74,7 @@ export default class {
   }
 
   'sprayable structures not sprayed (refused) %' = (responses, denominator, results_so_far) => {
+    // TODO: @fix Use structures found as denominator, not structures targeted
     return this.$percentage(results_so_far.sprayable_structures_not_sprayed_refused / denominator.structures_targeted)
   }
 
@@ -88,6 +89,7 @@ export default class {
   }
 
   'sprayable structures not sprayed (other reason) %' = (responses, denominator, results_so_far) => {
+    // TODO: @fix Use structures found as denominator, not structures targeted
     return this.$percentage(results_so_far.sprayable_structures_not_sprayed_other / denominator.structures_targeted)
   }
 
