@@ -2,6 +2,22 @@ import Base from './base.translations.js'
 
 export default class extends Base {
 
+  operational_units(feature_collection) {
+
+    feature_collection.features = feature_collection.features.map(ou => {
+      return {
+        type: ou.type,
+        geometry: ou.geometry,
+        properties: {
+          name: ou.properties.WARDPCODE,
+          id: ou.properties.WARDPCODE,
+        }
+      }
+    })
+
+    return feature_collection
+  }
+
   sprayed_count() {
     return this.responses.reduce((acc, response, index) => {
       let {form_data} = response
