@@ -11,11 +11,8 @@ export default class {
   constructor({responses, plan, instance_config}){
     responses = this.get_responses()
     const denominator = this.get_denominator_from_plan(plan)
-
     const spatial_filter_level = instance_config.spatial_hierarchy[0].name
-
     const areas = denominator.map(d => d[spatial_filter_level])
-
     const instance_fields = fields[instance_config.slug.toLowerCase()]
 
     return areas.map(area => {
