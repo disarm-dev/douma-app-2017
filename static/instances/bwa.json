@@ -167,7 +167,7 @@
      "type": "text",
      "inputType": "number",
      "isRequired": true,
-     "name": "question1",
+     "name": "n_people_homestead_overage5",
      "title": "Number of people in the homestead at the age of 5 or ABOVE",
      "validators": [
       {
@@ -801,7 +801,7 @@
     {
      "type": "text",
      "inputType": "number",
-     "name": "question3",
+     "name": "n_LLINs_given",
      "title": "If LLINs were given, how many were given?",
      "validators": [
       {
