@@ -1,3 +1,8 @@
+import numeral from 'numeral'
+
+function percentage(value) {
+  return numeral(value).format('0.[0]%')
+}
 
 export default {
 

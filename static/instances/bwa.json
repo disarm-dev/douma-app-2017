@@ -35,6 +35,7 @@
     "meta": {}
   },
   "area_id": "TARGET_FID",
+  "spatial_hierarchy": [{"name": "village"}],
   "form": {
     "pages": [
       {

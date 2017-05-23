@@ -16,6 +16,7 @@
     "meta": {}
   },
   "area_id": "WARDPCODE",
+  "spatial_hierarchy": [{"name": "district"}],
   "form": {
     "pages": [
       {

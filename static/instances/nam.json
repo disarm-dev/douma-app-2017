@@ -23,7 +23,8 @@
     "irs_plan": {},
     "meta": {}
   },
-  "area_id": "",
+  "area_id": "OBJECTID_1",
+  "spatial_hierarchy": [{"name": "region"}],
   "form": {
     "pages": [
       {
