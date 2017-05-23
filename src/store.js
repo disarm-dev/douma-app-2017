@@ -10,7 +10,7 @@ function create_store(instance_stores) {
     state: {
       snackbar: {},
       loading: false,
-      sw_message: {message: '', title: ''},
+      sw_message: {message: 'null', title: 'null'},
       instance_config: {}
     },
     mutations: {
