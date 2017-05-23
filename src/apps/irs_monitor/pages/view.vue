@@ -95,7 +95,7 @@
     },
     computed: {
       window_height() {
-        return (window.innerHeight - document.querySelector('.md-toolbar').clientHeight) - 200
+        return (window.innerHeight - 64) - 200
       },
       slug() {
         return this.$store.state.instance_config.slug

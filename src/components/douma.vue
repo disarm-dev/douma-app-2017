@@ -59,8 +59,8 @@
 
     <!-- DIALOG -->
     <md-dialog-alert
-      :md-title="$store.state.sw_message.title"
-      :md-content="$store.state.sw_message.message"
+      :md-title="sw_message.title"
+      :md-content-html="sw_message.message"
       md-ok-text="Ok"
       ref="sw_dialog">
     </md-dialog-alert>
@@ -100,6 +100,11 @@
       }
     },
     computed: {
+      sw_message() {
+        const thing = this.$store.state.sw_message
+        console.log(thing)
+        return thing
+      },
       applets() {
         return generate_applet_routes({routes: this.$router.options.routes, user: this.$store.state.meta.user, instance_config: this.$store.state.instance_config})
       },
