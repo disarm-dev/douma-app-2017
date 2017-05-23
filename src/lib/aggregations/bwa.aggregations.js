@@ -1,3 +1,5 @@
+import numeral from 'numeral'
+
 export default class {
   constructor({responses, plan}) {
     this.$responses = this.$get_responses()
@@ -65,6 +67,10 @@ export default class {
     return responses.reduce((sum, r) => {
       return sum + r.number_sprayed_ddt + r.number_sprayed_lambdacyhalothrin
     }, 0)
+  }
+
+  'proportion of rooms sprayed (%)' = (responses, denominator, results_so_far) => {
+    return this.$percentage(results_so_far['number of rooms sprayed (total)'] / results_so_far['number of buildings targeted'])
   }
 
   'number of rooms sprayed (DDT)' = (responses, denominator, results_so_far) => {
