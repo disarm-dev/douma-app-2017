@@ -28,7 +28,6 @@
     methods: {
       load_data(){
         this.tableData = new Aggregator({instance_config: this.$store.state.instance_config})
-
         this.columns = Object.keys(this.tableData[0])
         this.loaded = true
       },

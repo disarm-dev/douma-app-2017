@@ -1,0 +1,107 @@
+[
+  {
+    "homesteads_targeted": 10375,
+    "region": "Andara",
+    "structures_targeted": 83000
+  },
+  {
+    "homesteads_targeted": 12829,
+    "region": "Eenhana",
+    "structures_targeted": 64145
+  },
+  {
+    "homesteads_targeted": 42016,
+    "region": "Engela",
+    "structures_targeted": 336128
+  },
+  {
+    "homesteads_targeted": 10849,
+    "region": "Grootfontein",
+    "structures_targeted": 43396
+  },
+  {
+    "homesteads_targeted": 18966,
+    "region": "Katima Mulilo",
+    "structures_targeted": 132762
+  },
+  {
+    "homesteads_targeted": 36777,
+    "region": "Khorixas",
+    "structures_targeted": 183885
+  },
+  {
+    "homesteads_targeted": 41025,
+    "region": "Nankudu",
+    "structures_targeted": 246150
+  },
+  {
+    "homesteads_targeted": 40969,
+    "region": "Nyangana",
+    "structures_targeted": 204845
+  },
+  {
+    "homesteads_targeted": 45199,
+    "region": "Okahao",
+    "structures_targeted": 361592
+  },
+  {
+    "homesteads_targeted": 32933,
+    "region": "Okakarara",
+    "structures_targeted": 197598
+  },
+  {
+    "homesteads_targeted": 45366,
+    "region": "Okongo",
+    "structures_targeted": 136098
+  },
+  {
+    "homesteads_targeted": 23938,
+    "region": "Onandjokwe",
+    "structures_targeted": 143628
+  },
+  {
+    "homesteads_targeted": 8910,
+    "region": "Opuwo",
+    "structures_targeted": 44550
+  },
+  {
+    "homesteads_targeted": 10344,
+    "region": "Oshakati",
+    "structures_targeted": 62064
+  },
+  {
+    "homesteads_targeted": 35947,
+    "region": "Oshikuku",
+    "structures_targeted": 143788
+  },
+  {
+    "homesteads_targeted": 45855,
+    "region": "Otjiwarongo",
+    "structures_targeted": 183420
+  },
+  {
+    "homesteads_targeted": 30317,
+    "region": "Outapi",
+    "structures_targeted": 90951
+  },
+  {
+    "homesteads_targeted": 17866,
+    "region": "Outjo",
+    "structures_targeted": 125062
+  },
+  {
+    "homesteads_targeted": 26675,
+    "region": "Rundu",
+    "structures_targeted": 186725
+  },
+  {
+    "homesteads_targeted": 2225,
+    "region": "Tsandi",
+    "structures_targeted": 17800
+  },
+  {
+    "homesteads_targeted": 12786,
+    "region": "Tsumeb",
+    "structures_targeted": 89502
+  }
+]

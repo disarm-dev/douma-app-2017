@@ -23,7 +23,6 @@
 
 <script>
   import numeral from 'numeral'
-  import Translations from '@/lib/translations'
 
   // Common components
   import basic_chart from './common/basic_chart.js'
@@ -47,6 +46,9 @@
   import bwa_chart_prop_people_covered from './bwa/bwa_chart_prop_people_covered'
   import bwa_chart_refusal_pie from './bwa/bwa_chart_refusal_pie'
   import bwa_map_progress_locations from './bwa/bwa_map_progress_locations'
+
+
+  import seed_data from '@/../seed_data/index.js'
 
 
   export default {
@@ -83,22 +85,22 @@
     },
     data () {
       return {
-        t: {}, // TRANSLATIONS,
-        denominator: 123,
-        _components: [],
+        responses: [],
+        denominator: []
       }
     },
     created() {
-      this.add_translations()
     },
     mounted() {
+      this.responses = seed_data[this.slug].responses
+      this.denominator = seed_data[this.slug].denominator
     },
     computed: {
       window_height() {
         return (window.innerHeight - 64) - 200
       },
       slug() {
-        return this.$store.state.instance_config.slug
+        return this.$store.state.instance_config.slug.toLowerCase()
       },
       country() {
         return this.$store.state.instance_config.name
@@ -108,15 +110,6 @@
       }
     },
     methods: {
-      add_translations() {
-        const Translator = Translations[this.slug.toLowerCase()]
-        const options = {
-          targeted_count: this.fake_denominator
-        }
-        const responses = this.$store.state.irs_monitor.responses
-        const translations = new Translator({responses, options})
-        this.t = translations
-      }
     }
   }
 </script>
