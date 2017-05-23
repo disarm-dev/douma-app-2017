@@ -34,7 +34,7 @@
     "survey-vue": "^0.12.15",
     "sw-offline-google-analytics": "^0.0.19",
     "uuid": "^3.0.1",
-    "vue": "^2.2.6",
+    "vue": "^2.3.3",
     "vue-chartjs": "^2.6.2",
     "vue-material": "^0.7.1",
     "vue-router": "^2.5.2",
