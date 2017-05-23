@@ -1,9 +1,8 @@
 import numeral from 'numeral'
 
 export default class {
-
   constructor({responses, plan}) {
-    this.$responses = seed_responses
+    this.$responses = this.$get_responses()
     this.$denominator = this.$calculate_denominator(plan)
     const regions = this.$denominator.map(d => d.region)
     const fields = Object.keys(this).filter(key => !/^\$/.test(key))
@@ -23,6 +22,10 @@ export default class {
 
       return output
     })
+  }
+
+  $get_responses() {
+    return seed_responses
   }
 
   $calculate_denominator(plan) {
@@ -10118,3 +10121,25 @@ const seed_responses = [
     "reasons_notspraying": "refused"
   }
 ]
+
+
+// Output from elements_array:
+// "sprayable"
+// "number_sprayable"
+// "number_unsprayable"
+// "numbersprayed_ddt"
+// "numbersprayed_delta"
+// "sprayable_unsprayed"
+// "number_unsprayed"
+// "reasons_notspraying"
+// "Unsprayable_reason"
+// "house_population"
+// "total_population_sprayedrooms"
+// "region"
+// "district"
+// "village"
+// "team_leader"
+// "name_household"
+// "health_number"
+// "confirm"
+// "number_bednets"

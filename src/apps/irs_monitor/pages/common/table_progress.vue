@@ -9,7 +9,7 @@
   import download from 'downloadjs'
   import json2csv from 'json2csv'
 
-  import NamAggregations from '@/lib/aggregations/nam.aggregations.js'
+  import Aggregations from '@/lib/aggregations'
 
   export default {
     components: {ClientTable},
@@ -20,7 +20,9 @@
       }
     },
     mounted() {
-      this.tableData = new NamAggregations({})
+      const Aggregator = Aggregations[this.$store.state.instance_config.slug.toLowerCase()]
+
+      this.tableData = new Aggregator({})
       this.columns = Object.keys(this.tableData[0])
       this.loaded = true
     },

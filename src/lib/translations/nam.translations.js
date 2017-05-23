@@ -39,24 +39,3 @@ export default class extends Base {
 
 }
 
-// Output from elements_array:
-// "sprayable"
-// "number_sprayable"
-// "number_unsprayable"
-// "numbersprayed_ddt"
-// "numbersprayed_delta"
-// "sprayable_unsprayed"
-// "number_unsprayed"
-// "reasons_notspraying"
-// "Unsprayable_reason"
-// "house_population"
-// "total_population_sprayedrooms"
-// "region"
-// "district"
-// "village"
-// "team_leader"
-// "name_household"
-// "health_number"
-// "confirm"
-// "number_bednets"
-
