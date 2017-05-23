@@ -4,15 +4,18 @@
     <md-button @click.native="download_content">Download</md-button>
   </div>
 </template>
+
 <script>
+  import Vue from 'vue'
   import {ClientTable} from 'vue-tables-2'
+  Vue.use(ClientTable)
+
   import download from 'downloadjs'
   import json2csv from 'json2csv'
 
-  import Aggregations from '@/lib/aggregations'
+  import Aggregator from '@/lib/aggregations'
 
   export default {
-    components: {ClientTable},
     data() {
       return {
         loaded: false,
@@ -20,13 +23,15 @@
       }
     },
     mounted() {
-      const Aggregator = Aggregations[this.$store.state.instance_config.slug.toLowerCase()]
-
-      this.tableData = new Aggregator({})
-      this.columns = Object.keys(this.tableData[0])
-      this.loaded = true
+      this.load_data()
     },
     methods: {
+      load_data(){
+        this.tableData = new Aggregator({slug: this.$store.state.instance_config.slug.toLowerCase()})
+
+        this.columns = Object.keys(this.tableData[0])
+        this.loaded = true
+      },
       download_content(){
         const fields = this.columns
         const data = this.tableData
