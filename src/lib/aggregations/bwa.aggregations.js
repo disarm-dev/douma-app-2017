@@ -33,6 +33,22 @@ export default class {
     return numeral(value).format('0.[0]%')
   }
 
+  'number of buildings targeted' = (responses, denominator, results_so_far) => {
+    return denominator['n_buildings_targeted']
+  }
+
+  'number of people in the homestead (<5 yrs)' = (responses, denominator, results_so_far) => {
+    return responses.reduce((sum, r) => {
+      return sum + r.n_people_homestead_underage5      
+    }, 0)
+  }
+
+  'number of people in the homestead (>5 yrs)' = (responses, denominator, results_so_far) => {
+    return responses.reduce((sum, r) => {
+      return sum + r.n_people_homestead_overage5      
+    }, 0)
+  }
+
   'number of buildings visited' = (responses, denominator, results_so_far) => {
     return responses.reduce((sum, r) => {
       return sum + r.n_buildings
@@ -40,11 +56,29 @@ export default class {
   }
 
   'number of rooms visited' = (responses, denominator, results_so_far) => {
-    console.log(responses)
     return responses.reduce((sum, r) => {
       return sum + r.room_count
     }, 0)
   }
+
+  'number of rooms sprayed (total)' = (responses, denominator, results_so_far) => {
+    return responses.reduce((sum, r) => {
+      return sum + r.number_sprayed_ddt + r.number_sprayed_lambdacyhalothrin
+    }, 0)
+  }
+
+  'number of rooms sprayed (DDT)' = (responses, denominator, results_so_far) => {
+    return responses.reduce((sum, r) => {
+      return sum + r.number_sprayed_ddt
+    }, 0)
+  }
+
+  'number of rooms sprayed (lambda-cyhalothrin)' = (responses, denominator, results_so_far) => {
+    return responses.reduce((sum, r) => {
+      return sum + r.number_sprayed_lambdacyhalothrin
+    }, 0)
+  }
+
 
   // 'structures found' = (responses, denominator, results_so_far) =>  {
   //   return responses.reduce((sum, r) => {
@@ -53,47 +87,86 @@ export default class {
   // }
 }
 
-const seed_responses = [
-{
-  "village": "CAD565",
-  "n_buildings": 10,
-  "room_count": 20
-}, {
-  "village": "Parakarugu",
-  "n_buildings": 8,
-  "room_count": 16
-}, {
-  "village": "Parakarugu",
-  "n_buildings": 10,
-  "room_count": 30
-}, {
-  "village": "Kachikau",
-  "n_buildings": 5,
-  "room_count": 25
-}, {
+const seed_responses = [{
   "village": "Kavimba",
-  "n_buildings": 7,
-  "room_count": 28
+  "n_buildings": 9,
+  "room_count": 27,
+  "n_people_homestead_underage5": 90,
+  "n_people_homestead_overage5": 72,
+  "number_sprayed_lambdacyhalothrin": 24,
+  "number_sprayed_ddt": 2
 }, {
   "village": "CAD565",
-  "n_buildings": 6,
-  "room_count": 30
+  "n_buildings": 7,
+  "room_count": 35,
+  "n_people_homestead_underage5": 49,
+  "n_people_homestead_overage5": 49,
+  "number_sprayed_lambdacyhalothrin": 12,
+  "number_sprayed_ddt": 13
 }, {
-  "village": "Mabele",
+  "village": "Kazungula",
   "n_buildings": 9,
-  "room_count": 45
-}, {
-  "village": "Pandamatenga",
-  "n_buildings": 6,
-  "room_count": 24
+  "room_count": 27,
+  "n_people_homestead_underage5": 63,
+  "n_people_homestead_overage5": 63,
+  "number_sprayed_lambdacyhalothrin": 25,
+  "number_sprayed_ddt": 0
 }, {
   "village": "Lesoma",
-  "n_buildings": 5,
-  "room_count": 25
+  "n_buildings": 6,
+  "room_count": 30,
+  "n_people_homestead_underage5": 30,
+  "n_people_homestead_overage5": 48,
+  "number_sprayed_lambdacyhalothrin": 10,
+  "number_sprayed_ddt": 0
+}, {
+  "village": "CH5",
+  "n_buildings": 10,
+  "room_count": 20,
+  "n_people_homestead_underage5": 70,
+  "n_people_homestead_overage5": 90,
+  "number_sprayed_lambdacyhalothrin": 13,
+  "number_sprayed_ddt": 1
+}, {
+  "village": "Kachikau",
+  "n_buildings": 6,
+  "room_count": 18,
+  "n_people_homestead_underage5": 42,
+  "n_people_homestead_overage5": 42,
+  "number_sprayed_lambdacyhalothrin": 0,
+  "number_sprayed_ddt": 17
 }, {
   "village": "Parakarugu",
   "n_buildings": 9,
-  "room_count": 18
+  "room_count": 27,
+  "n_people_homestead_underage5": 81,
+  "n_people_homestead_overage5": 81,
+  "number_sprayed_lambdacyhalothrin": 6,
+  "number_sprayed_ddt": 15
+}, {
+  "village": "Kazungula",
+  "n_buildings": 9,
+  "room_count": 36,
+  "n_people_homestead_underage5": 90,
+  "n_people_homestead_overage5": 72,
+  "number_sprayed_lambdacyhalothrin": 22,
+  "number_sprayed_ddt": 0
+}, {
+  "village": "Lesoma",
+  "n_buildings": 8,
+  "room_count": 24,
+  "n_people_homestead_underage5": 64,
+  "n_people_homestead_overage5": 72,
+  "number_sprayed_lambdacyhalothrin": 17,
+  "number_sprayed_ddt": 6
+}, {
+  "village": "CH5",
+  "n_buildings": 6,
+  "room_count": 30,
+  "n_people_homestead_underage5": 60,
+  "n_people_homestead_overage5": 42,
+  "number_sprayed_lambdacyhalothrin": 22,
+  "number_sprayed_ddt": 7
 }]
 
 const seed_denominator = [{
