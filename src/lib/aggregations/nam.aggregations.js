@@ -77,8 +77,7 @@ export default class {
   }
 
   'sprayable structures not sprayed (refused) %' = (responses, denominator, results_so_far) => {
-    // TODO: @fix Use structures found as denominator, not structures targeted
-    return this.$percentage(results_so_far['sprayable structures not sprayed (refused)'] / denominator.structures_targeted)
+    return this.$percentage(results_so_far['sprayable structures not sprayed (refused)'] / denominator.structures_found)
   }
 
   'sprayable structures not sprayed(other reason)' = (responses, denominator, results_so_far) => {
@@ -92,8 +91,7 @@ export default class {
   }
 
   'sprayable structures not sprayed (other reason) %' = (responses, denominator, results_so_far) => {
-    // TODO: @fix Use structures found as denominator, not structures targeted
-    return this.$percentage(results_so_far['sprayable structures not sprayed(other reason)'] / denominator.structures_targeted)
+    return this.$percentage(results_so_far['sprayable structures not sprayed(other reason)'] / denominator.structures_found)
   }
 
 }
