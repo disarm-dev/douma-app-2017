@@ -12,7 +12,7 @@ export default class {
       const filter = (res) => res.region === region
 
       let output = {}
-      output.region = region 
+      output.region = region
 
       const filtered_responses = this.$responses.filter(filter)
       const filtered_denominator = this.$denominator.filter(filter)[0]
@@ -30,7 +30,7 @@ export default class {
   }
 
   $percentage(value) {
-    return numeral(value * 100).format('0.[00]%')
+    return numeral(value).format('0.[0]%')
   }
 
   'homesteads found' = (responses, denominator, results_so_far) => {
@@ -44,7 +44,7 @@ export default class {
   }
 
   'structures found %' = (responses, denominator, results_so_far) => {
-    return this.$percentage(results_so_far.structures_found / denominator.structures_targeted)
+    return this.$percentage(results_so_far['structures found'] / denominator.structures_targeted)
   }
 
   "structures sprayed" = (responses, denominator, results_so_far) => {
@@ -54,7 +54,7 @@ export default class {
   }
 
   'structures sprayed %' = (responses, denominator, results_so_far) => {
-    return this.$percentage(results_so_far.structures_sprayed / denominator.structures_targeted)
+    return this.$percentage(results_so_far['structures sprayed'] / denominator.structures_targeted)
   }
 
   'sprayable structures not sprayed' = (responses, denominator, results_so_far) =>  {
@@ -62,10 +62,10 @@ export default class {
       return sum + (r.number_sprayable - (r.numbersprayed_delta + r.numbersprayed_ddt))
     }, 0)
   }
-  
+
   'sprayable structures not sprayed (refused)' = (responses, denominator, results_so_far) =>  {
     return responses.reduce((sum, r) => {
-      if(r.reasons_notspraying.includes('refused')) { 
+      if(r.reasons_notspraying.includes('refused')) {
         return sum + (r.number_sprayable - (r.numbersprayed_delta + r.numbersprayed_ddt))
       } else {
         return sum
@@ -74,12 +74,12 @@ export default class {
   }
 
   'sprayable structures not sprayed (refused) %' = (responses, denominator, results_so_far) => {
-    return this.$percentage(results_so_far.sprayable_structures_not_sprayed_refused / denominator.structures_targeted)
+    return this.$percentage(results_so_far['sprayable structures not sprayed (refused)'] / denominator.structures_targeted)
   }
 
   'sprayable structures not sprayed(other reason)' = (responses, denominator, results_so_far) => {
     return responses.reduce((sum, r) => {
-      if(!r.reasons_notspraying.includes('refused')) { 
+      if(!r.reasons_notspraying.includes('refused')) {
         return sum + (r.number_sprayable - (r.numbersprayed_delta + r.numbersprayed_ddt))
       } else {
         return sum
@@ -88,7 +88,7 @@ export default class {
   }
 
   'sprayable structures not sprayed (other reason) %' = (responses, denominator, results_so_far) => {
-    return this.$percentage(results_so_far.sprayable_structures_not_sprayed_other / denominator.structures_targeted)
+    return this.$percentage(results_so_far['sprayable structures not sprayed(other reason)'] / denominator.structures_targeted)
   }
 
 }

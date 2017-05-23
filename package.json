@@ -21,6 +21,7 @@
     "downloadjs": "^1.4.7",
     "geoposition-to-object": "^1.0.2",
     "jquery": "^3.2.1",
+    "json2csv": "^3.7.3",
     "leaflet": "^1.0.3",
     "leaflet.locatecontrol": "^0.60.0",
     "lodash.debounce": "^4.0.8",
