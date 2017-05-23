@@ -6,7 +6,7 @@ Vue.use(Vuex)
 function create_store(instance_stores) {
   return new Vuex.Store({
     modules: instance_stores,
-    plugins: [createPersistedState()],
+    // plugins: [createPersistedState()],
     state: {
       snackbar: {},
       loading: false,
