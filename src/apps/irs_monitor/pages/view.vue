@@ -5,15 +5,15 @@
 
       <md-card class="card" >
         <md-card-content>
-          <div><h1>Filters</h1></div>
+          <filters v-on:filter="filter"></filters>
         </md-card-content>
       </md-card>
 
       <template v-for="{name, width_constraint, height_constraint} in components" >
         <md-card class="card" :ref="name" :class="{'card-half-width': width_constraint == 'half'}">
           <md-card-content>
-            <component 
-              :is="name" 
+            <component
+              :is="name"
               :height="height_constraint == 'viewport' ? window_height : undefined"
               :responses='responses'
               :denominator='denominator'
@@ -30,6 +30,7 @@
   import numeral from 'numeral'
 
   // Common components
+  import Filters from './filters.vue'
   import basic_chart from './common/basic_chart.js'
   import line_chart from './common/line_chart.js'
   import table_progress from './common/table_progress.vue'
@@ -60,6 +61,7 @@
     name: 'NotADashboardDashboard',
     components: {
       // Common
+      Filters,
       basic_chart,
       line_chart,
       table_progress,
@@ -114,6 +116,13 @@
       }
     },
     methods: {
+      filter(filter) {
+        if (filter.value === 'all') {
+          this.$store.commit('irs_monitor/remove_filter', filter.type)
+        } else {
+          this.$store.commit('irs_monitor/toggle_filter', filter)
+        }
+      }
     }
   }
 </script>
