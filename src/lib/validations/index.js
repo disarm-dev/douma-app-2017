@@ -3,20 +3,35 @@ import nam from './nam.validations.js'
 import swz from './swz.validations.js'
 import zwe from './zwe.validations.js'
 
-const check_rules = (rules) => {
+const check_rules = (form_rules) => {
 
-  return (form_data) => {
+  return (response) => {
+    let failed_validations = []
 
-    return rules.filter((rule) => {
-      let rule_passed = rule.fn(form_data)
-      if (rule_passed) {
-        return false
-      } else {
-        return true
-      }
+    location_rules.forEach((rule) => {
+      let rule_passed = rule.fn(response.location)
+      if (!rule_passed) failed_validations.push(rule)
     })
+
+    form_rules.forEach((rule) => {
+      let rule_passed = rule.fn(response.form_data)
+      if (!rule_passed) failed_validations.push(rule)
+    })
+
+    return failed_validations
   }
 }
+
+const location_rules = [
+  {
+    name: 'no_location',
+    message: 'Location missing',
+    fn: (location) => location,
+    stopping_power: "hard",
+    input_questions: [],
+    output_question: ''
+  }
+]
 
 export default {
   bwa: check_rules(bwa), 
