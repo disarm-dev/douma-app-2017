@@ -21,12 +21,9 @@
     mounted() {
       this.create_form()
     },
-    watch: {
-      'existing_form_data': 'create_form'
-    },
     methods: {
       create_form() {
-
+        // TODO: @feature Destroy form on exit (#beforeDestroy)
         this.survey = new Survey.Model(this.form)
 
         if (this.existing_form_data) {
