@@ -7,7 +7,7 @@
     <md-card class="card">
       <md-card-content>
         <h3>Selected regions:</h3>
-        <md-button @click.native="download_plan">Download plan</md-button>
+        <md-button class='md-raised md-primary' @click.native="download_plan">Download plan</md-button>
         <p>Working with {{selected_regions.length}} regions, containing in total XX structures, YY rooms, ZZ population</p>
         <span v-for="({properties}, i) in selected_regions" :key="properties.id">
           {{properties.name}}<span v-if="selected_regions.length !== i + 1">, </span>
@@ -22,6 +22,7 @@
   import Translations from '@/lib/translations'
   import download from 'downloadjs'
   import json2csv from 'json2csv'
+  import moment from 'moment'
 
   export default {
     name: 'IRSPlan',
@@ -119,8 +120,9 @@
         const data = this.selected_regions.map(r => r.properties)
         const fields = Object.keys(data[0])
         const content = json2csv({data, fields})
+        const date = moment().format('YYYY-MM-DD_HHmm')
 
-        download(content, 'plan.csv')
+        download(content, `${this.slug}_irs_plan_${date}.csv`)
       }
     }
   }
