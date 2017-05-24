@@ -1,5 +1,6 @@
 <template>
   <div class='container'>
+
     <md-button class='md-raised' @click.native="$router.push('/irs/record_point/list')">List</md-button>
     <!-- <md-button class='md-raised' @click.native='clear_form'>Clear form</md-button> -->
     
@@ -135,7 +136,8 @@
 
 <style lang="css" scoped>
   .container {
-    margin: 10px;
+    margin: 0 auto;
+    width: 90%;
   }
 
   .md-card {

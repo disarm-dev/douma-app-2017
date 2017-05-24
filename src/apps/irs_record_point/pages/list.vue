@@ -1,5 +1,6 @@
 <template>
   <div class='container'>
+    <h1>IRS Record</h1>
     <md-button class='md-raised' @click.native='$router.push("/irs/record_point/new")'><md-icon>create</md-icon>Add new</md-button>
     <md-button class="md-raised md-warn" :disabled="syncing || unsynced_count === 0" @click.native="sync">
       Sync {{unsynced_count}} responses
@@ -17,7 +18,7 @@
   import moment from 'moment'
   import {mapState} from 'vuex'
   export default {
-    name: 'review',
+    name: 'List',
     data () {
       return {
         syncing: false
@@ -53,6 +54,7 @@
 
 <style lang="css" scoped>
   .container {
-    margin: 10px;
+    margin: 0 auto;
+    width: 90%;
   }
 </style>

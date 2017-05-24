@@ -1,6 +1,6 @@
 <template>
   <div class='container'>
-    <h1>IRS Plan: {{country}}</h1>
+    <h1>IRS Plan</h1>
 
     <div id="map"></div>
 
@@ -139,6 +139,7 @@
 <style scoped>
   .container {
     margin: 0 auto;
+    width: 90%;
     padding: 10px;
   }
 

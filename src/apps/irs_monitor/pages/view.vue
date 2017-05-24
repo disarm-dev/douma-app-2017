@@ -1,28 +1,25 @@
 <template>
-  <div>
-    <h1>DASHBOARD: {{country}}</h1>
-    <div class='container'>
+  <div class='container'>
+    <h1>IRS Dashboard</h1>
 
-      <md-card v-if='filters_on' class="card">
+    <md-card v-if='filters_on' class="card">
+      <md-card-content>
+        <filters v-on:filter="filter"></filters>
+      </md-card-content>
+    </md-card>
+
+    <template v-for="{name, width_constraint, height_constraint} in components" >
+      <md-card class="card" :ref="name" :class="{'card-half-width': width_constraint == 'half'}">
         <md-card-content>
-          <filters v-on:filter="filter"></filters>
+          <component
+            :is="name"
+            :height="height_constraint == 'viewport' ? window_height : undefined"
+            :responses='responses'
+            :denominator='denominator'
+            ></component>
         </md-card-content>
       </md-card>
-
-      <template v-for="{name, width_constraint, height_constraint} in components" >
-        <md-card class="card" :ref="name" :class="{'card-half-width': width_constraint == 'half'}">
-          <md-card-content>
-            <component
-              :is="name"
-              :height="height_constraint == 'viewport' ? window_height : undefined"
-              :responses='responses'
-              :denominator='denominator'
-              ></component>
-          </md-card-content>
-        </md-card>
-      </template>
-
-    </div>
+    </template>
   </div>
 </template>
 
@@ -157,13 +154,13 @@
 
   .card {
     display: inline-block;
-    margin: 2.5%;
+    /*margin: 2.5%;*/
     padding: 1em;
     flex: 1;
-    width: 95%;
+    width: 100%;
   }
 
   .card-half-width {
-    width: 45%;
+    width: 50%;
   }
 </style>
