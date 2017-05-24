@@ -4,7 +4,7 @@ import moment from 'moment'
 import aggregations from '@/lib/aggregations/bwa.aggregations'
 
 export default Line.extend({
-  props: ['responses', 'denominator', 'filter_fn'],
+  props: ['responses', 'denominator'],
   data() {
     return {
       labels: []

@@ -17,7 +17,6 @@
               :height="height_constraint == 'viewport' ? window_height : undefined"
               :responses='responses'
               :denominator='denominator'
-              :filter_fn="filter_fn"
               ></component>
           </md-card-content>
         </md-card>
@@ -93,16 +92,29 @@
     },
     data () {
       return {
-        responses: [],
+        _responses: [],
         denominator: []
       }
     },
     created() {
-      this.responses = seed_data[this.slug].responses
+      this._responses = seed_data[this.slug].responses
       // this.denominator = get_denominator_from_plan(plan)
       this.denominator = seed_data[this.slug].denominator
     },
     computed: {
+      responses() {
+        const filters = this.$store.state.irs_monitor.filters
+
+        if (filters.length > 0) {
+          const single_filter = filters[0]
+          console.log('filtered responses')
+          return this._responses.filter(r => {
+            return r[single_filter.type] == single_filter.value
+          })
+        } else {
+          return this._responses
+        }
+      },
       window_height() {
         return (window.innerHeight - 64) - 200
       },
@@ -115,11 +127,6 @@
       components() {
         return this.$store.state.instance_config.applets.irs_monitor.components
       },
-      filter_fn() {
-        return (r) => {
-          return r.team === 'team1'
-        }
-      }
     },
     methods: {
       filter(filter) {
