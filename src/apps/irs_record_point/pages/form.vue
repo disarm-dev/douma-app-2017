@@ -15,7 +15,11 @@
     },
     created() {
       this.form = this.$store.state.instance_config.form
-      this.form.completeText = "Start review/validation"
+      this.form = {
+        ...this.form, 
+        goNextPageAutomatic: true,
+        completeText: "Start review/validation"
+      }
     },
     mounted(){
       this.create_form()
