@@ -3,7 +3,7 @@
     <h1>DASHBOARD: {{country}}</h1>
     <div class='container'>
 
-      <md-card class="card" >
+      <md-card v-if='filters_on' class="card">
         <md-card-content>
           <filters v-on:filter="filter"></filters>
         </md-card-content>
@@ -93,6 +93,7 @@
     },
     data () {
       return {
+        filters_on: false,
         _responses: [],
         denominator: []
       }

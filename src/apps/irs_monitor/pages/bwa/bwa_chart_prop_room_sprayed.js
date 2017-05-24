@@ -1,42 +1,25 @@
-import {Line, mixin} from 'vue-chartjs'
-const {reactiveProp} = mixins
+import {Line, mixins} from 'vue-chartjs'
 import moment from 'moment'
 
 import aggregations from '@/lib/aggregations/bwa.aggregations'
 
 export default Line.extend({
-  mixins: [reactiveProp],
   props: ['responses', 'denominator'],
   data() {
     return {
-      labels: [],
-      chart_options: {
-        title: {
-          display: true,
-            text: 'NUMBER of Rooms Sprayed/ Total number of rooms visited'
-        },
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true,
-              max: 2000,
-              min: 0
-            }
-          }]
-        }
-      }
+      labels: []
     }
   },
   watch: {},
   mounted () {
     const data = this.prepare_responses(this.responses)
-    this.create_chart()
+    this.create_chart(data, this.labels)
   },
-  computed: {
-    chart_data() {
-       return {
-          labels: this.labels,
-            datasets: [
+  methods: {
+    create_chart(data, labels) {
+      this.renderChart({
+        labels: labels,
+        datasets: [
           {
             label: 'Team 1',
             fill: false,
@@ -59,12 +42,21 @@ export default Line.extend({
             data: data.team3
           }
         ]
-      }
-    }
-  },
-  methods: {
-    create_chart() {
-      this.renderChart(this.chart_data, this.chart_options)
+      }, {
+        title: {
+          display: true,
+          text: 'NUMBER of Rooms Sprayed/ Total number of rooms visited'
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              max: 2000,
+              min: 0
+            }
+          }]
+        }
+      })
 
     },
     prepare_responses(responses) {
