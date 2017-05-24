@@ -1,6 +1,7 @@
 <template>
   <div class='container'>
     <router-link class='md-button' to='/irs/record_point/list'><md-icon>list</md-icon>List</router-link>
+    <md-button @click.native='clear_form'>Clear form</md-button>
     
     <!-- FORM -->
     <div v-show="!submitted">
@@ -90,6 +91,9 @@
       }
     },
     methods: {
+      clear_form() {
+        this.existing_response_data
+      },
       update_location(location) {
         this.location = location
       },

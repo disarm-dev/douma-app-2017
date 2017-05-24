@@ -1,12 +1,13 @@
 <template>
   <div>
-    <router-link class='md-button md-raised' to='/irs/record_point'><md-icon>create</md-icon>Add new</router-link>
-    <md-button class="md-raised md-primary" :disabled="syncing" @click.native="sync">
-      Sync
+    <md-button class='md-raised' @click.native='$router.push("/irs/record_point/new")'><md-icon>create</md-icon>Add new</md-button>
+    <md-button class="md-raised md-warn" :disabled="syncing || unsynced_count === 0" @click.native="sync">
+      Sync {{unsynced_count}} responses
     </md-button>
     <ul>
       <li v-for='response in responses' :index='response'>
-        <router-link :to="{name: 'irs_record_point:edit', params: {response_id: response.id}}">{{format_datetime(response.recorded_on)}} - {{response.synced ? 'synced' : 'unsynced'}}</router-link>
+        <router-link v-if='!response.synced' :to="{name: 'irs_record_point:edit', params: {response_id: response.id}}">{{format_datetime(response.recorded_on)}} - {{response.synced ? 'synced' : 'unsynced'}}</router-link>
+        <p v-else>{{format_datetime(response.recorded_on)}} - {{response.synced ? 'synced' : 'unsynced'}}</p>
       </li>
     </ul>
   </div>
@@ -24,7 +25,8 @@
     },
     computed: {
       ...mapState({
-        responses: state => state.irs_record_point.responses.sort((a, b) => new Date(b.recorded_on) - new Date(a.recorded_on))
+        responses: state => state.irs_record_point.responses.sort((a, b) => new Date(b.recorded_on) - new Date(a.recorded_on)),
+        unsynced_count: state => state.irs_record_point.responses.filter(r => !r.synced).length
       })
     },
     methods: {
