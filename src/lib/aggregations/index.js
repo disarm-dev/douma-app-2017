@@ -6,26 +6,35 @@ import nam from './nam.aggregations.js'
 import swz from './swz.aggregations.js'
 import zwe from './zwe.aggregations.js'
 
-const fields = {bwa, nam, swz, zwe}
+const all_aggregations = {bwa, nam, swz, zwe}
 
 export default class {
   constructor({responses, denominator, instance_config}){
+    // Get instance-specific aggregation functions
+    const instance_aggregations = all_aggregations[instance_config.slug.toLowerCase()]
+
+    // Get first instance-specific spatial filter (e.g. 'village')
     const spatial_filter_level = instance_config.spatial_hierarchy[0].name
 
+    // Extract (unique?) spatial options from denominator (i.e. list of areas)
     const areas = denominator.map(d => d[spatial_filter_level])
-    const instance_fields = fields[instance_config.slug.toLowerCase()]
 
+    // group_by the instance-specific area (i.e. first level of spatial-hierarchy)
     const result = areas.map(area => {
-      const filter_obj = (res) => res[spatial_filter_level] === area
+      const group_by = (res) => res[spatial_filter_level] === area
 
       let output = {}
       output[spatial_filter_level] = area
 
-      const filtered_responses = responses.filter(filter_obj)
-      const filtered_denominator = denominator.find(filter_obj)
+      // Get responses + denominator matching aggregation _group_by_ filter
+      const filtered_responses = responses.filter(group_by)
+      const filtered_denominator = denominator.find(group_by)
 
-      Object.keys(instance_fields).forEach(field_name => {
-        output[field_name] = instance_fields[field_name](filtered_responses, filtered_denominator, output)
+      // Iterate every method in instance-specific list, applying to data
+      const aggregation_method_names = Object.keys(instance_aggregations)
+      aggregation_method_names.forEach(field_name => {
+        const aggregate = instance_aggregations[field_name]
+        output[field_name] = aggregate(filtered_responses, filtered_denominator, output)
       })
 
       return output
@@ -33,33 +42,7 @@ export default class {
     return result
   }
 
-  filter_by_spatial_hierarchy() {
-
-  }
-
-  filter_by_timeseries() {
-
-  }
-
 }
-
-// return {
-//   filtered_by_spatial_hierarchy: [],
-//   filtered_by_timeseries: []
-// }
-
-// filtered_by_time = {
-//   all_time: {
-//     all_areas: {},
-//     area1: {}
-//   },
-//   week1: {
-//     all_areas: {},
-//     area1: {}
-//   },
-//   week2: {},
-// }
-
 
 
 
