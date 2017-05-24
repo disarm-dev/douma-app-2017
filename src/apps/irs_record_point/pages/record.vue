@@ -1,7 +1,7 @@
 <template>
   <div class='container'>
     <md-button class='md-raised' @click.native="$router.push('/irs/record_point/list')">List</md-button>
-    <md-button class='md-raised' @click.native='clear_form'>Clear form</md-button>
+    <!-- <md-button class='md-raised' @click.native='clear_form'>Clear form</md-button> -->
     
     <!-- FORM -->
     <div v-if="!form_is_filled_out">
@@ -118,11 +118,11 @@
 
       create_response(response) {
         this.$store.commit('irs_record_point/create_response', response)
-        this.$router.push('/irs/record_point/review')
+        this.$router.push('/irs/record_point/')
       },
       update_response(response) {
         this.$store.commit('irs_record_point/update_response', response)
-        this.$router.push('/irs/record_point/review')
+        this.$router.push('/irs/record_point/')
       }
     }
   }
