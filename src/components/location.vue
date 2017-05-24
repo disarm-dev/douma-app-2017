@@ -1,11 +1,7 @@
 <template>
   <div>
-    <!--<md-button ref="update_location_button" @click.native="update_point_location">Update point location</md-button>-->
-    <md-input-container v-show='location_mode === "text"'>
-      <md-input type='text'></md-input>
-    </md-input-container>
-    <p v-show="position">{{position_text}}</p>
-    <!--<md-button v-show="location_mode === 'text'">Save location</md-button>-->
+    <md-button ref="update_location_button" @click.native="update_point_location">Update point location</md-button>
+    <p>{{location_message}}</p>
   </div>
 </template>
 
@@ -18,7 +14,8 @@
     data() {
       return {
         location_mode: "point",
-        position: null
+        position: null,
+        location_message: 'e.g. FOUND LOCATION 24, 45 (accuracy 20)'
       }
     },
     computed: {
@@ -32,7 +29,7 @@
       if (this.existing_location) {
         this.position = this.existing_location
         this.$emit('position', this.position)
-      } else { 
+      } else {
         this.check_for_location()
       }
     },
