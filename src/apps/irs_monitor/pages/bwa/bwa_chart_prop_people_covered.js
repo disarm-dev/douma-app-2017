@@ -12,8 +12,6 @@ export default Line.extend({
   },
   mounted () {
     const data = this.prepare_responses(this.responses)
-    // console.log(data)
-    // return
     this.create_chart(data, this.labels)
   },
   methods: {
