@@ -18,9 +18,6 @@
         return this.$store.state.instance_config.form
       }
     },
-    watch: {
-//      'form': 'create_form',
-    },
     mounted() {
       this.create_form()
     },
@@ -37,16 +34,12 @@
 
         el.Survey({
           model: this.survey,
-          onComplete:sendDataToServer
+          onComplete: this.update_form_response
         });
-
-        function sendDataToServer(survey) {
-          console.log(survey)
-        }
 
       },
       update_form_response() {
-        this.$emit('change', this.survey.data)
+        this.$emit('complete', this.survey.data)
       },
     }
   }

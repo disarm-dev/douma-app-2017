@@ -1,14 +1,16 @@
 <template>
   <div class='container'>
+    
+    <!-- FORM -->
     <div v-show="!submitted">
       <h1>{{create_or_update}} record for {{country}}</h1>
       <p class='validation_message' v-if='validation_message'>{{validation_message}}</p>
       <router-link class='md-button' to='/irs/record_point/list'><md-icon>list</md-icon>List</router-link>
       <location_record v-on:position='update_location' :existing_location='existing_location'></location_record>
-      <form_renderer ref='form' :existing_form_data='existing_form_data'></form_renderer>
-      <!--<md-button class='md-raised md-primary' @click.native='validate_location_and_form'><md-icon>save</md-icon>Save</md-button>-->
-      <md-button class='md-raised md-primary' @click.native='save_response'><md-icon>save</md-icon>Save</md-button>
+      <form_renderer :existing_form_data='existing_form_data' v-on:complete='validate_location_and_form'></form_renderer>
     </div>
+
+    <!-- REVIEW / VALIDATION -->
     <div v-show="submitted">
       <h2>Results of custom validation</h2>
       <div v-if="errors.length !== 0">
@@ -90,30 +92,34 @@
       update_location(location) {
         this.location = location
       },
-      validate_location_and_form() {
+      validate_location_and_form(data) {
+        console.log('validate_location_and_form', data)
         // TODO: @bug we want to check if the form has errors, not the page
-        const valid_form = !this.$refs.form.survey.isCurrentPageHasErrors
-        const valid_locn = (Object.keys(this.location).length !== 0)
-        if (!valid_form && !valid_locn) {
-          this.validation_message = 'You have not done anything yet.'
-        } else if (valid_form && !valid_locn) {
-          this.validation_message = 'Fix location'
-        } else if (!valid_form && valid_locn) {
-          this.validation_message = 'Fix form'
-        } else if (valid_form && valid_locn) {
-          Validators[this.slug](this.$refs.form.survey.data)
-          this.validation_message = ''
-          let validations = Validators[this.slug](this.$refs.form.survey.data)
+        // const valid_form = !this.$refs.form.survey.isCurrentPageHasErrors
+        // const valid_locn = (Object.keys(this.location).length !== 0)
+        // if (!valid_form && !valid_locn) {
+        //   this.validation_message = 'You have not done anything yet.'
+        // } else if (valid_form && !valid_locn) {
+        //   this.validation_message = 'Fix location'
+        // } else if (!valid_form && valid_locn) {
+        //   this.validation_message = 'Fix form'
+        // } else if (valid_form && valid_locn) {
+        //   Validators[this.slug](this.$refs.form.survey.data)
+        //   this.validation_message = ''
+        //   let validations = Validators[this.slug](this.$refs.form.survey.data)
 
-          this.errors = validations.filter(validation => validation.stopping_power === 'hard')
-          this.warnings = validations.filter(validation => validation.stopping_power === 'soft')
+        //   this.errors = validations.filter(validation => validation.stopping_power === 'hard')
+        //   this.warnings = validations.filter(validation => validation.stopping_power === 'soft')
 
-          this.submitted = true
-        }
+        //   this.submitted = true
+        // }
       },
       save_response() {
         this.form_data = this.$refs.form.survey.data
+
         const id = this.response_id || uuid()
+
+        // TODO: @refac Move to a proper response model, with tests. And cake.
         const response = {
           form_data: this.form_data,
           location: this.location,
