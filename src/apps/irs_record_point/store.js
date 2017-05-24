@@ -14,6 +14,9 @@ export default {
     delete_response: (state, response) => {
       let index = state.responses.findIndex((r) => r.id === response.id)
       state.responses.splice(index, 1)
+    },
+    delete_all_responses: (state) => {
+      state.responses = []
     }
   }
 }

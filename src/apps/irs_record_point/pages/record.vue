@@ -6,7 +6,8 @@
       <router-link class='md-button' to='/irs/record_point/list'><md-icon>list</md-icon>List</router-link>
       <location_record v-on:position='update_location' :existing_location='existing_location'></location_record>
       <form_renderer ref='form' :existing_form_data='existing_form_data'></form_renderer>
-      <md-button class='md-raised md-primary' @click.native='validate_location_and_form'><md-icon>save</md-icon>Save</md-button>
+      <!--<md-button class='md-raised md-primary' @click.native='validate_location_and_form'><md-icon>save</md-icon>Save</md-button>-->
+      <md-button class='md-raised md-primary' @click.native='save_response'><md-icon>save</md-icon>Save</md-button>
     </div>
     <div v-show="submitted">
       <h2>Results of custom validation</h2>
@@ -116,10 +117,11 @@
         const response = {
           form_data: this.form_data,
           location: this.location,
-          updated_at: new Date(),
+          recorded_on: new Date(),
           id: id,
           synced: false,
-          userAgent: navigator.userAgent
+          userAgent: navigator.userAgent,
+          instance_slug: this.slug
         }
 
         if (this.response_id) {

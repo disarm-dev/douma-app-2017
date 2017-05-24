@@ -19,7 +19,7 @@ function generate_applet_routes({routes, user, instance_config}) {
     return {...route.meta, name: route.name}
   })
 
-  const user_apps = [...user.allowed_apps.read, ...user.allowed_apps.write]
+  const user_apps = arrayUnique([...user.allowed_apps.read, ...user.allowed_apps.write])
 
   return user_apps.map((app) => {
     return applet_decorations.find((i) => i.name === app)
@@ -27,3 +27,15 @@ function generate_applet_routes({routes, user, instance_config}) {
 }
 
 export default generate_applet_routes
+
+function arrayUnique(array) {
+  var a = array.concat();
+  for(var i=0; i<a.length; ++i) {
+    for(var j=i+1; j<a.length; ++j) {
+      if(a[i] === a[j])
+        a.splice(j--, 1);
+    }
+  }
+
+  return a;
+}
