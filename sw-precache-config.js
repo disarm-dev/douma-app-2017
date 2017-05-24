@@ -9,6 +9,10 @@ module.exports = {
       urlPattern: /\/static\/instances\/*/,
       handler: 'cacheFirst'
     },
+    {
+      urlPattern: /\/static\/local_areas\/*/,
+      handler: 'cacheFirst'
+    }
   //   {
   //     urlPattern: /https:\/\/douma-api\.herokuapp.com\/v2\/local_areas\/*/,
   //     handler: 'cacheFirst'
