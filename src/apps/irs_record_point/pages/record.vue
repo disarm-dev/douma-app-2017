@@ -83,10 +83,10 @@
       },
 
       update_location(location) {
-        if (typeof location === 'PositionError') {
-          console.log('location error')
-        } else {
+        if (location.hasOwnProperty('coords') && location.coords.hasOwnProperty('accuracy')) {
           this.response.location = location
+        } else {
+          console.log('location error')
         }
       },
 

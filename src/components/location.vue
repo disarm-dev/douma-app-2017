@@ -21,7 +21,7 @@
       }
     },
     created() {
-      if (this.existing_location) {
+      if (this.existing_location && this.existing_location.hasOwnProperty('coords') && this.existing_location.coords.hasOwnProperty('accuracy')) {
         this.location = this.existing_location
         this.location_message = `${this.location.coords.latitude}, ${this.location.coords.longitude} (accuracy: ${this.location.coords.accuracy} m)`
         this.$emit('position', this.location)

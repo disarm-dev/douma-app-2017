@@ -26,7 +26,9 @@ const location_rules = [
   {
     name: 'no_location',
     message: 'Location missing',
-    fn: (location) => location,
+    fn: (location) => {
+      return location && location.hasOwnProperty('coords') && location.coords.hasOwnProperty('accuracy')
+    },
     stopping_power: "hard",
     input_questions: [],
     output_question: ''
