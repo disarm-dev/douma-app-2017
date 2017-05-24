@@ -5,6 +5,14 @@
         <md-button v-for='app in applets' :key='app' class='md-raised md-accent' @click.native="$router.push({name: app.name})">{{app.title}}</md-button>
       </md-card-content>
     </md-card>
+
+    <md-card>
+      <md-card-content>
+        <md-button v-if='geolocation_test_response === ""' @click.native='check_geolocation'>Check device has geolocation</md-button>
+        <p>{{geolocation_test_response}}</p>
+      </md-card-content>
+    </md-card>
+
     <router-link to="/meta/location">location</router-link>
     <router-link to="/meta/building">building</router-link>
     <a @click="reset_config()">reset config</a>
@@ -20,6 +28,7 @@
     name: 'home',
     data () {
       return {
+        geolocation_test_response: ''
       }
     },
     computed: {
@@ -36,6 +45,13 @@
         this.$store.dispatch('meta/logout').then(() => {
           location.reload()
         })
+      },
+      check_geolocation() {
+        if ('geolocation' in navigator) {
+          this.geolocation_test_response = 'Device has geolocation'
+        } else {
+          this.geolocation_test_response = 'Device has NO geolocation. Will not work for data collection'
+        }
       }
     }
   }
