@@ -1,12 +1,13 @@
 <template>
   <div>
     <h1>IRS Plan: {{country}}</h1>
-    
+
     <div id="map"></div>
 
     <md-card class="card">
       <md-card-content>
-        <p><b>Selected regions:</b></p>
+        <h3>Selected regions:</h3>
+        <p>Working with {{selected_regions.length}} regions, containing in total XX structures, YY rooms, ZZ population</p>
         <span v-for="({properties}, i) in selected_regions" :key="properties.id">
           {{properties.name}}<span v-if="selected_regions.length !== i + 1">, </span>
         </span>
@@ -59,7 +60,7 @@
     methods: {
       get_local_areas() {
         fetch(`/static/local_areas/${this.slug}.ous.json`)
-          .then(res => res.json()) 
+          .then(res => res.json())
           .then(geojson => {
             const Translator = Translations[this.slug.toLowerCase()]
             const translations = new Translator({})
