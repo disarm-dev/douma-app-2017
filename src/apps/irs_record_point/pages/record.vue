@@ -1,18 +1,18 @@
 <template>
   <div class='container'>
+    <router-link class='md-button' to='/irs/record_point/list'><md-icon>list</md-icon>List</router-link>
     
     <!-- FORM -->
     <div v-show="!submitted">
-      <h1>{{create_or_update}} record for {{country}}</h1>
-      <p class='validation_message' v-if='validation_message'>{{validation_message}}</p>
-      <router-link class='md-button' to='/irs/record_point/list'><md-icon>list</md-icon>List</router-link>
+      
+      <h1>{{create_or_update}} record for {{country}} <md-chip>Unsaved data</md-chip></h1>
       <location_record v-on:position='update_location' :existing_location='existing_location'></location_record>
       <form_renderer :existing_form_data='existing_form_data' v-on:complete='validate_location_and_form'></form_renderer>
     </div>
 
     <!-- REVIEW / VALIDATION -->
     <div v-show="submitted">
-      <h2>Results of custom validation</h2>
+      <h2>Form review</h2>
       <div v-if="errors.length !== 0">
         <p>Error messages</p>
         <ul>
@@ -32,6 +32,8 @@
       <md-button v-if="errors.length == 0" @click.native="save_response"><md-icon>save</md-icon>Confirm Save</md-button>
       <md-button v-if="errors.length !== 0 || warnings.length !== 0" @click.native="submitted = false"><md-icon>mode_edit</md-icon>Review response</md-button>
     </div>
+
+
   </div>
 </template>
 
@@ -48,10 +50,9 @@
     props: ['response_id'],
     data () {
       return {
+        submitted: false,
         errors: [],
         warnings: [],
-        submitted: false,
-        validation_message: '',
         form_data: {},
         location: {}
       }
@@ -94,6 +95,7 @@
       },
       validate_location_and_form(data) {
         console.log('validate_location_and_form', data)
+        this.submitted = true
         // TODO: @bug we want to check if the form has errors, not the page
         // const valid_form = !this.$refs.form.survey.isCurrentPageHasErrors
         // const valid_locn = (Object.keys(this.location).length !== 0)
