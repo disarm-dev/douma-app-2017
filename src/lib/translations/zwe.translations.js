@@ -9,6 +9,7 @@ export default class extends Base {
         type: ou.type,
         geometry: ou.geometry,
         properties: {
+          ...ou.properties,
           name: ou.properties.WARDPCODE,
           id: ou.properties.WARDPCODE,
         }

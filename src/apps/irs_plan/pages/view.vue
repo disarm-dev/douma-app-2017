@@ -7,6 +7,7 @@
     <md-card class="card">
       <md-card-content>
         <h3>Selected regions:</h3>
+        <md-button @click.native="download_plan">Download plan</md-button>
         <p>Working with {{selected_regions.length}} regions, containing in total XX structures, YY rooms, ZZ population</p>
         <span v-for="({properties}, i) in selected_regions" :key="properties.id">
           {{properties.name}}<span v-if="selected_regions.length !== i + 1">, </span>
@@ -19,6 +20,8 @@
 <script>
   import Leaflet from 'leaflet'
   import Translations from '@/lib/translations'
+  import download from 'downloadjs'
+  import json2csv from 'json2csv'
 
   export default {
     name: 'IRSPlan',
@@ -111,6 +114,13 @@
           color: '#756bb1',
           weight: 0.8
         }
+      },
+      download_plan() {
+        const data = this.selected_regions.map(r => r.properties)
+        const fields = Object.keys(data[0])
+        const content = json2csv({data, fields})
+
+        download(content, 'plan.csv')
       }
     }
   }

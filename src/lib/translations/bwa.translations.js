@@ -1,7 +1,7 @@
 import Base from './base.translations.js'
 
 export default class extends Base {
-  
+
   operational_units(feature_collection) {
 
     feature_collection.features = feature_collection.features.map(ou => {
@@ -9,6 +9,7 @@ export default class extends Base {
         type: ou.type,
         geometry: ou.geometry,
         properties: {
+          ...ou.properties,
           name: `${ou.properties.Name}. ${ou.properties.VILLAGE}`,
           id: ou.properties.OBJECTID_1,
         }
@@ -16,7 +17,7 @@ export default class extends Base {
     })
 
     return feature_collection
-    
+
   }
 
   sprayed_count() {

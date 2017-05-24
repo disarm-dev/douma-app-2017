@@ -9,6 +9,7 @@ export default class extends Base {
         type: ou.type,
         geometry: ou.geometry,
         properties: {
+          ...ou.properties,
           name: `${ou.properties.Name1} ${ou.properties.Name2}`,
           id: ou.properties.UniqLocCod,
         }
@@ -16,7 +17,7 @@ export default class extends Base {
     })
 
     return feature_collection
-    
+
   }
 
   sprayed_count() {
