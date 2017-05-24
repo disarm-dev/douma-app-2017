@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class='container'>
     <h1>IRS Plan: {{country}}</h1>
 
     <div id="map"></div>
@@ -9,9 +9,11 @@
         <h3>Selected regions:</h3>
         <md-button class='md-raised md-primary' @click.native="download_plan">Download plan</md-button>
         <p>Working with {{selected_regions.length}} regions, containing in total XX structures, YY rooms, ZZ population</p>
-        <span v-for="({properties}, i) in selected_regions" :key="properties.id">
-          {{properties.name}}<span v-if="selected_regions.length !== i + 1">, </span>
-        </span>
+        <v-client-table
+          v-if="tableData.length > 0"
+          :data="tableData"
+          :columns="tableColumns"
+        ></v-client-table>
       </md-card-content>
     </md-card>
   </div>
@@ -59,6 +61,12 @@
       },
       selected_region_ids() {
         return this.$store.state.irs_plan.selected_region_ids
+      },
+      tableData() {
+        return this.selected_regions.map(r => r.properties)
+      },
+      tableColumns() {
+        return Object.keys(this.tableData[0])
       }
     },
     methods: {
@@ -117,8 +125,8 @@
         }
       },
       download_plan() {
-        const data = this.selected_regions.map(r => r.properties)
-        const fields = Object.keys(data[0])
+        const data = this.tableData
+        const fields = this.tableColumns
         const content = json2csv({data, fields})
         const date = moment().format('YYYY-MM-DD_HHmm')
 
@@ -129,13 +137,17 @@
 </script>
 
 <style scoped>
+  .container {
+    margin: 0 auto;
+    padding: 10px;
+  }
+
   #map {
     height: 500px;
-    margin: 0 2.5%;
     z-index: 0;
   }
 
   .card {
-    margin: 2em 2.5%;
+    margin-top: 10px;
   }
 </style>

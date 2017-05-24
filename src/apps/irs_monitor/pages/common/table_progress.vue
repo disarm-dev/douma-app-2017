@@ -6,10 +6,6 @@
 </template>
 
 <script>
-  import Vue from 'vue'
-  import {ClientTable} from 'vue-tables-2'
-  Vue.use(ClientTable)
-
   import download from 'downloadjs'
   import json2csv from 'json2csv'
   import pick from 'lodash.pick'
@@ -33,7 +29,7 @@
 
         const data = new Aggregator({
           responses: this.responses,
-          denominator: this.denominator, 
+          denominator: this.denominator,
           instance_config: this.$store.state.instance_config
         })
 

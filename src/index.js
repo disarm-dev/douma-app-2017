@@ -19,6 +19,7 @@ import create_store from './store'
 import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
 import {ClientTable} from 'vue-tables-2'
+Vue.use(ClientTable)
 import {determine_instance} from './lib/router-helper.js'
 
 // Keep track of Errors
