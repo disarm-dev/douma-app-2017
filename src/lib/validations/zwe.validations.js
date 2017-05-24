@@ -4,6 +4,11 @@ export default [
     fn: (form_data) => {
       return true
     },
-    error_message: 'Total sprayed does not equl `ddt`+ `deltamethrin`.'
+    message: 'Total sprayed does not equl `ddt`+ `deltamethrin`.',
+    stopping_power: "soft",
+    input_questions: [],
+    output_question: ''
   }
 ]
+
+

@@ -1,17 +1,15 @@
 export default [
   { 
-    input_questions: ["numbersprayed_ddt", "numbersprayed_delta"],
-    output_question: ["number_sprayable"],
     name: 'total_sprayed',
     fn: (f) => {
       return f.numbersprayed_ddt + f.numbersprayed_delta == f.number_sprayable
     },
-    warning_message: 'Total sprayed does not equal `ddt`+ `deltamethrin`.',
-    stopping_power: "hard"
+    message: 'Total sprayed does not equal `ddt`+ `deltamethrin`.',
+    stopping_power: "hard",
+    input_questions: ["numbersprayed_ddt", "numbersprayed_delta"],
+    output_question: "number_sprayable"
   },
   {
-    input_questions: ["numbersprayed_ddt", "numbersprayed_delta", "number_unsprayed", "sprayable_unsprayed"],
-    output_question: ["number_sprayable"],
     name: 'sprayable_unsprayed',
     fn: (f) => {
       if (f.sprayable_unsprayed == 'yes') {
@@ -20,7 +18,9 @@ export default [
         return false
       }
     },
-    warning_message: "Number of unsprayed structures doesn't add up",
-    stopping_power: "soft"
+    message: "Number of unsprayed structures doesn't add up",
+    stopping_power: "soft",
+    input_questions: ["numbersprayed_ddt", "numbersprayed_delta", "number_unsprayed", "sprayable_unsprayed"],
+    output_question: "number_sprayable"
   }
 ]

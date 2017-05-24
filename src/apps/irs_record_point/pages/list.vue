@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class='container'>
     <md-button class='md-raised' @click.native='$router.push("/irs/record_point/new")'><md-icon>create</md-icon>Add new</md-button>
     <md-button class="md-raised md-warn" :disabled="syncing || unsynced_count === 0" @click.native="sync">
       Sync {{unsynced_count}} responses
@@ -52,4 +52,7 @@
 </script>
 
 <style lang="css" scoped>
+  .container {
+    margin: 10px;
+  }
 </style>

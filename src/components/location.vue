@@ -1,6 +1,6 @@
 <template>
   <div>
-    <md-button ref="update_location_button" @click.native="update_point_location">Update point location</md-button>
+    <md-button class='md-raised md-primary' ref="update_location_button" @click.native="update_point_location">Get/Update point location</md-button>
     <p>{{location_message}}</p>
   </div>
 </template>
