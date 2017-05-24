@@ -28,6 +28,7 @@
 
 <script>
   import numeral from 'numeral'
+  import moment from 'moment'
 
   // Common components
   import Filters from './filters.vue'
@@ -97,7 +98,7 @@
       }
     },
     created() {
-      this._responses = seed_data[this.slug].responses
+      this._responses = this.decorate_responses(seed_data[this.slug].responses)
       // this.denominator = get_denominator_from_plan(plan)
       this.denominator = seed_data[this.slug].denominator
     },
@@ -107,7 +108,6 @@
 
         if (filters.length > 0) {
           const single_filter = filters[0]
-          console.log('filtered responses')
           return this._responses.filter(r => {
             return r[single_filter.type] == single_filter.value
           })
@@ -129,6 +129,14 @@
       },
     },
     methods: {
+      decorate_responses(responses) {
+        // Add weeks TODO: @refac Add 'weeks' to `responses` somewhere earlier than the dashbboard
+        return responses.map(r => {
+          r.week = moment(r.recorded_on).week()
+          return r
+        })
+
+      },
       filter(filter) {
         if (filter.value === 'all') {
           this.$store.commit('irs_monitor/remove_filter', filter.type)

@@ -9,6 +9,10 @@ import zwe from './zwe.aggregations.js'
 const all_aggregations = {bwa, nam, swz, zwe}
 
 export default class {
+  // responses: Array of responses
+  // denominator: Array of
+
+
   constructor({responses, denominator, instance_config}){
     // Get instance-specific aggregation functions
     const instance_aggregations = all_aggregations[instance_config.slug.toLowerCase()]
@@ -19,7 +23,7 @@ export default class {
     // Extract (unique?) spatial options from denominator (i.e. list of areas)
     const areas = denominator.map(d => d[spatial_filter_level])
 
-    // group_by the instance-specific area (i.e. first level of spatial-hierarchy)
+    // Do all aggregations for each instance-specific area (e.g. each village)
     const result = areas.map(area => {
       const group_by = (res) => res[spatial_filter_level] === area
 
@@ -39,6 +43,10 @@ export default class {
 
       return output
     })
+
+    // Return sample:
+    // [{village: 'A', number_structures: 10}, {village: 'B', number_structures: 15}]
+
     return result
   }
 
