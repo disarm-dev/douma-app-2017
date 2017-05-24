@@ -623,6 +623,10 @@
     "@turf/helpers" "^4.1.0"
     "@turf/inside" "^4.1.0"
 
+"@types/react@15.0.21":
+  version "15.0.21"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-15.0.21.tgz#29d849427237c1463abfb7b370755ee3e5b5b375"
+
 abbrev@1, abbrev@1.0.x:
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.0.9.tgz#91b4792588a7738c25f35dd6f63752a2f8776135"
@@ -4256,7 +4260,7 @@ jquery-mousewheel@~3.1.13:
   version "3.1.13"
   resolved "https://registry.yarnpkg.com/jquery-mousewheel/-/jquery-mousewheel-3.1.13.tgz#06f0335f16e353a695e7206bf50503cb523a6ee5"
 
-jquery@^3.2.1:
+jquery@>=1.12.4, jquery@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
 
@@ -6869,6 +6873,13 @@ supports-color@^3.2.3:
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.2.3.tgz#65ac0504b3954171d8a64946b2ae3cbb8a5f54f6"
   dependencies:
     has-flag "^1.0.0"
+
+survey-jquery@^0.12.15:
+  version "0.12.15"
+  resolved "https://registry.yarnpkg.com/survey-jquery/-/survey-jquery-0.12.15.tgz#37f47816cb47742a5f210b5a345c115a62efe485"
+  dependencies:
+    "@types/react" "15.0.21"
+    jquery ">=1.12.4"
 
 survey-vue@^0.12.15:
   version "0.12.15"
