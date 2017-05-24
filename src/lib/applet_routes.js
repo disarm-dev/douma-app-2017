@@ -16,7 +16,6 @@ function generate_applet_routes({routes, user, instance_config}) {
         route.meta.icon = instance_route.icon
       }
     }
-
     return {...route.meta, name: route.name}
   })
 

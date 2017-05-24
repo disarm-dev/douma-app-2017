@@ -7,6 +7,7 @@
     </md-card>
     <router-link to="/meta/location">location</router-link>
     <router-link to="/meta/building">building</router-link>
+    <a @click="reset_config()">reset config</a>
     <p>{{commit_hash}}</p>
   </div>
 </template>
@@ -27,6 +28,14 @@
       },
       commit_hash() {
         return COMMIT_HASH
+      }
+    },
+    methods: {
+      reset_config() {
+        this.$store.commit('root:set_instance_config', null)
+        this.$store.dispatch('meta/logout').then(() => {
+          location.reload()
+        })
       }
     }
   }

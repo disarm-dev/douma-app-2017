@@ -22,19 +22,11 @@ function create_store(instance_stores) {
       },
       'root:set_sw_message': (state, sw_message) => {
         state.sw_message = sw_message
+      },
+      'root:set_instance_config': (state, instance_config) => {
+        state.instance_config = instance_config
       }
     },
-    actions: {
-      'root:wipe_everything': (context) => {
-        context.dispatch('irs_record:clear_local_dbs').then(() => {
-          // TODO: @refac Ok, good joke. Now remove this localStorage stuff
-          ['douma-user', 'douma-SWZ-ous', 'douma-ZWE-ous', 'douma-saved-cluster-ids', 'douma-country'].forEach(i => localStorage.setItem(i, null))
-          context.commit('meta:login_user', null)
-          location.reload()
-        })
-
-      },
-    }
   })
 }
 

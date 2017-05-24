@@ -57,10 +57,10 @@ const launch = (instance_config) => {
     render: createElement => createElement(DoumaComponent),
   })
 
-  douma_app.$store.state.instance_config = instance_config
+  douma_app.$store.commit('root:set_instance_config', instance_config)
 
   // ServiceWorker
-  configureServiceWorker(douma_app) 
+  configureServiceWorker(douma_app)
 
   // Keep track of what version we're working on
   console.info('DOUMA version: ' + COMMIT_HASH)
@@ -77,6 +77,8 @@ fetch(`/static/instances/${instance}.json`) // TODO: @refac Move this instance c
   }
   return res.json()
 })
-.then(json => { launch(json) })
+.then(json => {
+  launch(json)
+})
 .catch(err => console.error('Caught fetch', err))
 
