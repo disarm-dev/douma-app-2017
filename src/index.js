@@ -19,18 +19,20 @@ import create_store from './store'
 import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
 import {ClientTable} from 'vue-tables-2'
+Vue.use(ClientTable)
+import {determine_instance} from './lib/router-helper.js'
 
 // Keep track of Errors
-Raven
-  .config('https://05f42524abca4b84ba7a9b9d05fb620a@sentry.io/134727')
-  .addPlugin(RavenVue, Vue)
-  .install()
-Raven.setExtraContext({DOUMA_version: COMMIT_HASH})
+if (process.env.NODE_ENV !== 'development') {
+  Raven
+    .config('https://05f42524abca4b84ba7a9b9d05fb620a@sentry.io/134727')
+    .addPlugin(RavenVue, Vue)
+    .install()
+  Raven.setExtraContext({DOUMA_version: COMMIT_HASH})
+}
 
 // Vue generic setup
 configureThemes()
-Vue.use(ClientTable, {}, false);
-
 
 const launch = (instance_config) => {
   if (Object.keys(instance_config.applets).length === 0) {
@@ -56,26 +58,28 @@ const launch = (instance_config) => {
     render: createElement => createElement(DoumaComponent),
   })
 
-  douma_app.$store.state.instance_config = instance_config
+  douma_app.$store.commit('root:set_instance_config', instance_config)
 
   // ServiceWorker
-  configureServiceWorker(douma_app) 
+  configureServiceWorker(douma_app)
 
   // Keep track of what version we're working on
   console.info('DOUMA version: ' + COMMIT_HASH)
 }
 
-const subdomain = document.domain.split('.')[0]
+const instance = determine_instance()
 
-fetch(`/static/instances/${subdomain}.json`) // TODO: @refac Move this instance configuration from `static` to somewhere better
+fetch(`/static/instances/${instance}.json`) // TODO: @refac Move this instance configuration from `static` to somewhere better
 .then(res => {
   if (res.status === 404) {
-    const msg = `You might be looking for an application which does not exist. Cannot find application configuration file for subdomain "${subdomain}". `
+    const msg = `You might be looking for an application which does not exist. Cannot find application configuration file for subdomain "${instance}". `
     alert(msg)
     throw new Error(msg)
   }
   return res.json()
 })
-.then(json => { launch(json) })
+.then(json => {
+  launch(json)
+})
 .catch(err => console.error('Caught fetch', err))
 

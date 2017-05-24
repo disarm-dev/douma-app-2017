@@ -61,11 +61,15 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery"
+    }),
     new webpack.DefinePlugin({
       "COMMIT_HASH": JSON.stringify(commitHash),
       "DOUMA_DEV_MODE": process.env.NODE_ENV !== 'production',
       DOUMA_API_URL: "'https://douma-api.herokuapp.com'",
-      DOUMA_API_VERSION: "'v2'",
+      DOUMA_API_VERSION: "'v3'",
       // DOUMA_API_URL: "'http://localhost:3000'",
       WEATHER_API_URL: "'https://weather.api.disarm.io/processor/output'",
       R_SERVER_URL: "'https://cluster.api.disarm.io'"

@@ -1,17 +1,21 @@
 import record from './pages/record.vue'
-import review from './pages/review.vue'
+import list from './pages/list.vue'
 
 export default [
   {
     path: '/irs/record_point',
-    component: record,
+    redirect: '/irs/record_point/list',
     name: 'irs_record_point',
-    meta: {title: 'IRS Record', icon: 'assignment'},
-  },{
-    path: '/irs/record_point/review',
-    component: review,
-    name: 'irs_record_point:review',
     meta: {title: 'IRS Record', icon: 'assignment'}
+  },{
+    path: '/irs/record_point/list',
+    component: list,
+    name: 'irs_record_point:list',
+    meta: {title: 'IRS Record', icon: 'assignment'}
+  },{
+    path: '/irs/record_point/new',
+    component: record,
+    name: 'irs_record_point:new',
   },{
     path: '/irs/record_point/edit/:response_id',
     props: true,

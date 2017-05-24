@@ -1,90 +1,63 @@
 <template>
   <div>
-    <div>
-      <input type="radio" id="one" value="text" v-model="type">
-      <label for="one">Text</label>
-      <br>
-      <input type="radio" id="two" value="point" v-model="type">
-      <label for="two">Point</label>
-      <br>
-      <input type="radio" id="three" value="structure" v-model="type">
-      <label for="three">Structure</label>
-      <br>
-    </div>
-
-    <div v-show="type === 'text'">
-      <p><input @change="on_text_change" type="text" placeholder="Enter location"></p>
-    </div>
-
-    <div v-show="type === 'point'">
-      <p>{{location_message}}</p>
-    </div>
-
-    <div v-if="type === 'structure'">
-      <p>Structure is not supported yet.</p>
-    </div>
+    <md-button :disabled='hunting_location' class='md-raised md-primary' ref="update_location_button" @click.native="check_for_location">
+      Get/Update point location
+    </md-button>
+    <p class='message'>{{location_message}}</p>
   </div>
 </template>
 
 <script>
+  import convert from 'geoposition-to-object'
+
   export default {
     name: 'location',
     props: ['existing_location'],
     data() {
       return {
-        type: 'text',
-        location_message: 'Nothing'
+        hunting_location: false,
+        location: null,
+        location_message: ''
       }
     },
-    watch: {
-      'type': 'update_location'
-    },
-    mounted() {
-      if (this.existing_location) {
-        this.emit_location(this.existing_location)
+    created() {
+      if (this.existing_location && this.existing_location.hasOwnProperty('coords') && this.existing_location.coords.hasOwnProperty('accuracy')) {
+        this.location = this.existing_location
+        this.location_message = `${this.location.coords.latitude}, ${this.location.coords.longitude} (accuracy: ${this.location.coords.accuracy} m)`
+        this.$emit('position', this.location)
       }
     },
     methods: {
-      update_location() {
-        switch (this.type) {
-          case 'point':
-            this.find_location()
-            break;
+      check_for_location() {
+        if ('geolocation' in navigator) {
+          const options = {
+            enableHighAccuracy: true,
+            timeout: 5000
+          }
+
+          const success = (position) => {
+            this.location = convert(position)
+            this.location_message = `${this.location.coords.latitude}, ${this.location.coords.longitude} (accuracy: ${this.location.coords.accuracy} m)`
+            this.hunting_location = false
+            this.$emit('position', this.location)
+          }
+
+          const fail = (error) => {
+            this.location_message = `Cannot get location, if it helps: code ${error.code} ${error.message}`
+            this.hunting_location = false
+            this.$emit('position', error)
+          }
+
+          this.hunting_location = true
+          navigator.geolocation.getCurrentPosition(success, fail, options)
         }
-      },
-      find_location() {
-        if ("geolocation" in navigator) {
-          this.location_message = 'Hunting...'
-          navigator.geolocation.getCurrentPosition((position) => {
-            
-            let {latitude, longitude, accuracy} = position.coords
-            accuracy = accuracy / 2
-            this.location_message = `Found: ${latitude} ${longitude} (accurate +/- ${accuracy}m)`
-
-            this.emit_location({
-              type: 'point',
-              point: {latitude, longitude, accuracy}
-            })
-          });
-        } else {
-          // TODO @refac Handle the case where geolocation api is not available
-        }
-      },
-
-      on_text_change(e) {
-        this.emit_location({
-          type: 'text',
-          text: e.target.value
-        })
-      },
-
-      emit_location(val) {
-        this.$emit('change', val)
       }
     }
-  }  
+  }
 </script>
 
 <style>
-  
+  .message {
+    padding: 10px;
+  }
 </style>

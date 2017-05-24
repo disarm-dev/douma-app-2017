@@ -1,322 +1,328 @@
 {
-  "name": "Botswana",
-  "slug": "BWA",
-  "area_id": "TARGET_FID",
-  "map_focus": {
-    "centre": {
-      "lat": -18.5565344567,
-      "lng": 24.7711433844
-    },
-    "zoom": 7
-  },
   "applets": {
-    "meta": {},
-    "irs_record_point": {
-      "title": "Recorder",
-      "icon": "accessible"
-    },
     "irs_monitor": {
-      "title": "Not-a-Dashboard",
-      "icon": "watch"
-    }
+      "title": "Dashboard",
+      "components": [
+        {
+          "name": "table_progress",
+          "width_constraint": "full",
+          "height_constraint": "none",
+          "columns": ["village", "number of buildings targeted", "number of people in the homestead (<5 yrs)", "number of people in the homestead (>5 yrs)", "number of buildings visited", "number of rooms visited", "number of rooms sprayed (total)", "number of rooms sprayed (DDT)", "number of rooms sprayed (lambda-cyhalothrin)"]
+        },
+        {
+          "name": "bwa_chart_prop_room_sprayed",
+          "width_constraint": "half",
+          "height_constraint": "none"
+        },
+        {
+          "name": "bwa_chart_prop_people_covered",
+          "width_constraint": "half",
+          "height_constraint": "none"
+        },
+        {
+          "name": "bwa_chart_refusal_pie",
+          "width_constraint": "half",
+          "height_constraint": "none"
+        },
+        {
+          "name": "bwa_map_progress_locations",
+          "width_constraint": "full",
+          "height_constraint": "none"
+        }
+      ]
+    },
+    "irs_record_point": {},
+    "irs_plan": {},
+    "meta": {}
   },
+  "area_id": "TARGET_FID",
+  "spatial_hierarchy": [{"name": "village"}],
   "form": {
     "pages": [
       {
         "elements": [
           {
-            "type": "panel",
-            "name": "Section 1",
-            "elements": [
+            "type": "radiogroup",
+            "choices": [
               {
-                "type": "checkbox",
-                "choices": [
-                  {
-                    "value": "yes",
-                    "text": "Yes"
-                  },
-                  {
-                    "value": "no",
-                    "text": "No"
-                  }
-                ],
-                "isRequired": true,
-                "name": "new",
-                "title": "Is this the first entry of the day or the first entry at a new village?"
+                "value": "yes",
+                "text": "Yes"
               },
               {
-                "type": "dropdown",
-                "choices": [
-                  {
-                    "value": "chibi_yambwa",
-                    "text": "Chibi Yambwa"
-                  },
-                  {
-                    "value": "kebabonye_chinyolo",
-                    "text": "Kebabonye Chinyolo"
-                  },
-                  {
-                    "value": "moalosi_moalosi",
-                    "text": "Moalosi Moalosi"
-                  }
-                ],
-                "name": "respondents_name",
-                "title": "Team Leader’s Name:",
-                "visible": false,
-                "visibleIf": "{new} = yes"
-              },
-              {
-                "type": "dropdown",
-                "choices": [
-                  {
-                    "value": "kachikau",
-                    "text": "Kachikau"
-                  },
-                  {
-                    "value": "kavimba",
-                    "text": "Kavimba"
-                  },
-                  {
-                    "value": "kazungula",
-                    "text": "Kazungula"
-                  },
-                  {
-                    "value": "lesoma",
-                    "text": "Lesoma"
-                  },
-                  {
-                    "value": "mabele",
-                    "text": "Mabele"
-                  },
-                  {
-                    "value": "pandamatenga",
-                    "text": "Pandamatenga"
-                  },
-                  {
-                    "value": "parakarugu",
-                    "text": "Parakarugu"
-                  },
-                  {
-                    "value": "satau",
-                    "text": "Satau"
-                  },
-                  "CH5",
-                  "CAD565"
-                ],
-                "name": "chobe_area",
-                "title": "Village in Chobe",
-                "visible": false,
-                "visibleIf": "{new} = yes"
+                "value": "no",
+                "text": "No"
               }
             ],
-            "title": "Respondent Information"
-          }
-        ],
-        "name": "respondent_information",
-        "title": "Respondent Information"
-      },
-      {
-        "elements": [
+            "isRequired": true,
+            "name": "first_entry_new_village",
+            "title": "Is this the first entry of the day or the first entry at a new village?"
+          },
           {
-            "type": "panel",
-            "name": "IRS Information",
-            "elements": [
+            "type": "dropdown",
+            "name": "team_leader_name",
+            "visible": false,
+            "visibleIf": "{first_entry_new_village} = yes",
+            "title": "Team Leader’s name",
+            "isRequired": true,
+            "choices": [
               {
-                "type": "text",
-                "isRequired": true,
-                "name": "household_name",
-                "title": "Record head of household name(s). ( If there is more than one, separate each name with a comma). "
+                "value": "chibi_yambwa",
+                "text": "Chibi Yambwa"
               },
               {
-                "type": "text",
-                "inputType": "number",
-                "isRequired": true,
-                "name": "n_buildings",
-                "title": "How many buildings are in this homestead? ( Value between 1 and 100)",
-                "validators": [
-                  {
-                    "type": "numeric",
-                    "maxValue": 100,
-                    "minValue": 1
-                  }
-                ]
+                "value": "kebabonye_chinyolo",
+                "text": "Kebabonye Chinyolo"
+              },
+              {
+                "value": "moalosi_moalosi",
+                "text": "Moalosi Moalosi"
               }
             ]
           }
         ],
-        "name": "irs_record",
-        "title": "IRS Information"
+        "name": "page1"
       },
       {
         "elements": [
           {
-            "type": "panel",
-            "name": "homestead_composition",
-            "elements": [
+            "type": "dropdown",
+            "name": "village_chobe",
+            "visible": false,
+            "visibleIf": "{first_entry_new_village} = yes",
+            "title": "Village in Chobe",
+            "choices": [
               {
-                "type": "text",
-                "commentText": "number",
-                "inputType": "number",
-                "isRequired": true,
-                "placeHolder": "n_homestead",
-                "title": "Total number of people in this homestead:",
-                "validators": [
-                  {
-                    "type": "numeric",
-                    "maxValue": 100,
-                    "minValue": 1
-                  }
-                ]
+                "value": "kachikau",
+                "text": "Kachikau"
               },
               {
-                "type": "text",
-                "inputType": "number",
-                "isRequired": true,
-                "name": "under5",
-                "title": "Number of people in the homestead UNDER the age of 5",
-                "validators": [
-                  {
-                    "type": "numeric",
-                    "maxValue": 100
-                  }
-                ]
+                "value": "kavimba",
+                "text": "Kavimba"
               },
               {
-                "type": "text",
-                "commentText": "some ",
-                "inputType": "number",
-                "name": "over5",
-                "title": "Number of people in the homestead at the age of 5 or ABOVE",
-                "validators": [
-                  {
-                    "type": "numeric",
-                    "maxValue": 100
-                  }
-                ]
+                "value": "kazungula",
+                "text": "Kazungula"
               },
               {
-                "type": "checkbox",
-                "choices": [
-                  {
-                    "value": "yes",
-                    "text": "Yes"
-                  },
-                  {
-                    "value": "no",
-                    "text": "No"
-                  }
-                ],
-                "isRequired": true,
-                "name": "llin",
-                "title": "Does this homestead have any LLINs used while sleeping?"
-              }
-            ],
-            "title": "Homestead Composition"
+                "value": "lesoma",
+                "text": "Lesoma"
+              },
+              {
+                "value": "mabele",
+                "text": "Mabele"
+              },
+              {
+                "value": "pandamatenga",
+                "text": "Pandamatenga"
+              },
+              {
+                "value": "parakarugu",
+                "text": "Parakarugu"
+              },
+              {
+                "value": "satau",
+                "text": "Satau"
+              },
+              {
+                "value": "CH5",
+                "text": " CH5"
+              },
+              "CAD565"
+            ]
+          }
+        ],
+        "name": "page2"
+      },
+      {
+        "elements": [
+          {
+            "type": "text",
+            "name": "household_name",
+            "title": "Record head of household name(s). ( If there is more than one, separate each name with a comma). "
           },
           {
             "type": "text",
             "inputType": "number",
             "isRequired": true,
-            "name": "LLIN_num",
-            "title": "If yes, how many LLINs does the homestead own? ",
-            "visible": false,
-            "visibleIf": "{LLIN} = Yes"
-          }
-        ],
-        "name": "homestead_composition"
-      },
-      {
-        "elements": [
-          {
-            "type": "panel",
-            "name": "Room Count",
-            "elements": [
+            "name": "n_buildings",
+            "title": "How many buildings are in this homestead? ( Value between 1 and 100)",
+            "validators": [
               {
-                "type": "text",
-                "inputType": "number",
-                "isRequired": true,
-                "name": "roomcount",
-                "title": "How many rooms are in this homestead?  ( Count all rooms in all buildings)",
-                "validators": [
-                  {
-                    "type": "numeric",
-                    "maxValue": 100,
-                    "minValue": 1
-                  }
-                ]
-              },
-              {
-                "type": "text",
-                "inputType": "number",
-                "isRequired": true,
-                "name": "modern",
-                "title": "How many rooms in this homestead are modern?",
-                "validators": [
-                  {
-                    "type": "numeric",
-                    "maxValue": 100
-                  }
-                ]
-              },
-              {
-                "type": "text",
-                "inputType": "number",
-                "isRequired": true,
-                "name": "traditional",
-                "title": "How many rooms in this homestead are traditional?",
-                "validators": [
-                  {
-                    "type": "numeric",
-                    "maxValue": 100
-                  }
-                ]
-              },
-              {
-                "type": "text",
-                "inputType": "number",
-                "isRequired": true,
-                "name": "other_structures",
-                "title": "How many other structures are in this homestead?\n\n(Other structures such as toilets and corridors)",
-                "validators": [
-                  {
-                    "type": "numeric",
-                    "maxValue": 100,
-                    "minValue": 1
-                  }
-                ]
+                "type": "numeric",
+                "minValue": "1",
+                "text": "Value must be one or greater"
               }
             ]
           }
         ],
-        "name": "room_count",
-        "title": "Room Count"
+        "name": "page3"
       },
       {
         "elements": [
           {
-            "type": "panel",
-            "name": "Spray Status",
-            "elements": [
+            "type": "text",
+            "inputType": "number",
+            "isRequired": true,
+            "name": "n_people_homestead",
+            "title": "Total Number of People in this Homestead",
+            "validators": [
               {
-                "type": "checkbox",
-                "choices": [
-                  {
-                    "value": "yes",
-                    "text": "Yes"
-                  },
-                  {
-                    "value": "no",
-                    "text": "No"
-                  }
-                ],
-                "isRequired": true,
-                "name": "sprayed",
-                "title": "Were ANY rooms in this homestead sprayed?\n\n"
+                "type": "numeric",
+                "minValue": "0",
+                "text": "Minimum value must be zero"
               }
             ]
           },
           {
+            "type": "text",
+            "isRequired": true,
+            "name": "n_people_homestead_underage5",
+            "title": "Number of people in the homestead UNDER the age of 5",
+            "validators": [
+              {
+                "type": "numeric",
+                "minValue": "0",
+                "text": "Minimum value must be zero"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "inputType": "number",
+            "isRequired": true,
+            "name": "n_people_homestead_overage5",
+            "title": "Number of people in the homestead at the age of 5 or ABOVE",
+            "validators": [
+              {
+                "type": "numeric",
+                "minValue": "0",
+                "text": "Minimum value must be zero"
+              }
+            ]
+          }
+        ],
+        "name": "page4"
+      },
+      {
+        "elements": [
+          {
+            "type": "radiogroup",
+            "choices": [
+              {
+                "value": "yes",
+                "text": "Yes"
+              },
+              {
+                "value": "no",
+                "text": "No"
+              }
+            ],
+            "isRequired": true,
+            "name": "LLIN_used_sleeping",
+            "title": "Does this homestead have any LLINs used while sleeping?"
+          },
+          {
+            "type": "text",
+            "isRequired": true,
+            "name": "number_LLIN_used",
+            "title": "If yes, how many LLINs does the homestead own? ",
+            "validators": [
+              {
+                "type": "numeric",
+                "minValue": "0",
+                "text": "Minimum value must be zero"
+              }
+            ],
+            "visible": false,
+            "visibleIf": "{LLIN_used_sleeping} = yes"
+          }
+        ],
+        "name": "page5"
+      },
+      {
+        "elements": [
+          {
+            "type": "text",
+            "inputType": "number",
+            "isRequired": true,
+            "name": "room_count",
+            "title": "How many rooms are in this homestead?  ( Count all rooms in all buildings)",
+            "validators": [
+              {
+                "type": "numeric",
+                "minValue": "0",
+                "text": "Minimum value must be zero"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "inputType": "number",
+            "isRequired": true,
+            "name": "number_rooms_modern",
+            "title": "How many rooms in this homestead are modern?",
+            "validators": [
+              {
+                "type": "numeric",
+                "minValue": "0",
+                "text": "Minimum value must be zero"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "isRequired": true,
+            "name": "number_rooms_traditional",
+            "title": "How many rooms in this homestead are traditional?",
+            "validators": [
+              {
+                "type": "numeric",
+                "minValue": "0",
+                "text": "Minimum value must be zero"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "inputType": "number",
+            "name": "number_other_structures",
+            "title": "How many other structures are in this homestead? (Other structures such as toilets and corridors)",
+            "validators": [
+              {
+                "type": "numeric",
+                "minValue": "0",
+                "text": "Minimum value must be zero"
+              }
+            ]
+          }
+        ],
+        "name": "page6"
+      },
+      {
+        "elements": [
+          {
+            "type": "radiogroup",
+            "choices": [
+              {
+                "value": "yes",
+                "text": "Yes"
+              },
+              {
+                "value": "no",
+                "text": "No"
+              }
+            ],
+            "isRequired": true,
+            "name": "sprayed",
+            "title": "Were ANY rooms in this homestead sprayed?"
+          },
+          {
             "type": "dropdown",
+            "name": "reason_no_sprayed",
+            "visible": false,
+            "visibleIf": "{sprayed} = no",
+            "title": "Why were no rooms in this homestead sprayed?",
+            "hasOther": true,
             "choices": [
               {
                 "value": "locked ",
@@ -353,119 +359,8 @@
               {
                 "value": "material",
                 "text": "Not sprayable due to material (ie canvas)"
-              },
-              {
-                "value": "other",
-                "text": "Other reason not listed above"
               }
-            ],
-            "name": "n_refused",
-            "title": "Why were no rooms in this homestead sprayed?",
-            "visible": false,
-            "visibleIf": "{sprayed} = no"
-          },
-          {
-            "type": "text",
-            "name": "n_refused_otherSP",
-            "title": "What is the 'other' reason this homestead was not sprayed? ",
-            "visible": false,
-            "visibleIf": "{n_refused} = Other"
-          }
-        ],
-        "name": "spray_status",
-        "title": "Spray Status"
-      },
-      {
-        "elements": [
-          {
-            "type": "multipletext",
-            "isRequired": true,
-            "items": [
-              {
-                "name": "N_rooms_locked",
-                "title": "How many rooms were not sprayed because it was locked?"
-              },
-              {
-                "name": "N_rooms_nobody",
-                "title": "How many rooms were not sprayed because nobody was home?"
-              },
-              {
-                "name": "N_rooms_refused",
-                "title": "How many rooms were not sprayed because occupants refused spraying?"
-              },
-              {
-                "name": "N_rooms_baby",
-                "title": "How many rooms were not sprayed because the house has new born baby?"
-              },
-              {
-                "name": "N_rooms_patient",
-                "title": "How many rooms were not sprayed due to a patient ?"
-              },
-              {
-                "name": "N_rooms_funeral",
-                "title": "How many rooms were not sprayed due to a funeral ?"
-              },
-              {
-                "name": "N_rooms_kitchen",
-                "title": "How many rooms were not sprayed because they are kitchens?"
-              },
-              {
-                "name": "N_rooms_food",
-                "title": "How many rooms were not sprayed because they food storage areas?"
-              },
-              {
-                "name": "N_rooms_material",
-                "title": "How many rooms were not sprayed due to non-sprayable material (ie canvas)?"
-              },
-              {
-                "name": "N_rooms_other",
-                "title": "How many rooms were not sprayed due to the \"other\" refusal reason provided before?"
-              }
-            ],
-            "name": "reason_n_nospray",
-            "title": "Of the number of unsprayed rooms, please list the number of rooms unsprayed for each reason:",
-            "validators": [
-              {
-                "type": "numeric",
-                "text": "Value must be numeric"
-              }
-            ],
-            "visible": false,
-            "visibleIf": "{sprayed} = no"
-          }
-        ],
-        "name": "page6",
-        "visible": false
-      },
-      {
-        "elements": [
-          {
-            "type": "radiogroup",
-            "choices": [
-              {
-                "value": "yes",
-                "text": "Yes"
-              },
-              {
-                "value": "no",
-                "text": "No"
-              },
-              {
-                "value": "na",
-                "text": "All rooms were sprayed"
-              }
-            ],
-            "name": "N_LLINs_given_N",
-            "title": "If the rooms were unsprayable, were LLINs given?"
-          },
-          {
-            "type": "text",
-            "inputType": "number",
-            "isRequired": true,
-            "name": "N_LLINs_qty_given",
-            "title": "If LLINs were given, how many were given?",
-            "visible": false,
-            "visibleIf": "{N_LLINs_given_N} = Yes"
+            ]
           }
         ],
         "name": "page7"
@@ -473,147 +368,137 @@
       {
         "elements": [
           {
-            "type": "checkbox",
-            "choices": [
-              {
-                "value": "yes",
-                "text": "Yes"
-              },
-              {
-                "value": "no",
-                "text": "No"
-              }
-            ],
-            "isRequired": true,
-            "name": "Y_spray_allrooms",
-            "title": "Were ALL ROOMS in the homestead sprayed?"
-          },
-          {
-            "type": "text",
-            "inputType": "number",
-            "name": "YY_insect_ddt",
-            "title": "How many rooms in this homestead were sprayed with DDT? ( If none, enter 0)",
-            "visible": false,
-            "visibleIf": "{Y_spray_allrooms} = Yes"
-          },
-          {
-            "type": "text",
-            "inputType": "number",
-            "name": "YY_insect_lambda",
-            "title": "How many rooms in this homestead were sprayed with Lambdacyhalothrin? ( If none, enter 0)",
-            "visible": false,
-            "visibleIf": "{Y_spray_allrooms} = Yes"
-          },
-          {
-            "type": "text",
-            "inputType": "number",
-            "name": "YY_other_insect_ddt",
-            "title": "How many other structures in this homestead were sprayed with DDT? ( if none, enter 0)",
-            "visible": false,
-            "visibleIf": "{Y_spray_allrooms} = Yes"
-          },
-          {
-            "type": "text",
-            "inputType": "number",
-            "name": "YY_other_insect_lambda",
-            "title": "How many other structures in this homestead were sprayed with Lambdacyhalothrin?",
-            "visible": false,
-            "visibleIf": "{Y_spray_allrooms} = Yes"
-          }
-        ],
-        "name": "page8"
-      },
-      {
-        "elements": [
-          {
-            "type": "text",
-            "inputType": "number",
-            "isRequired": true,
-            "name": "count_part_unsprayed",
-            "title": "How many rooms were NOT sprayed?",
-            "visible": false,
-            "visibleIf": "{Y_spray_allrooms} = no"
-          },
-          {
-            "type": "text",
-            "isRequired": true,
-            "name": "yn_modernunsprayed",
-            "title": "     How many UNSPRAYED rooms in this homestead are modern?",
-            "visible": false,
-            "visibleIf": "{Y_spray_allrooms} = no"
-          },
-          {
-            "type": "text",
-            "isRequired": true,
-            "name": "yn_traditionalunsprayed",
-            "title": "     How many UNSPRAYED rooms in this homestead are traditional?",
-            "visible": false,
-            "visibleIf": "{Y_spray_allrooms} = no"
-          }
-        ],
-        "name": "page9"
-      },
-      {
-        "elements": [
-          {
             "type": "multipletext",
+            "name": "n_nospray_reason",
+            "visible": false,
+            "visibleIf": "{sprayed} = no",
+            "title": "Of the number of unsprayed rooms, please list the number of rooms unsprayed for each reason:",
             "isRequired": true,
             "items": [
               {
-                "name": "N_rooms_locked",
-                "title": "How many rooms were not sprayed because it was locked?"
+                "name": "n_rooms_locked",
+                "inputType": "number",
+                "title": "How many rooms were not sprayed because it was locked?",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "minValue": "0",
+                    "text": "Minimum Value is Zero"
+                  }
+                ]
               },
               {
-                "name": "N_rooms_nobody",
-                "title": "How many rooms were not sprayed because nobody was home?"
+                "name": "n_rooms_nobody",
+                "inputType": "number",
+                "title": "How many rooms were not sprayed because nobody was home?",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "minValue": "0",
+                    "text": "Minimum value is zero"
+                  }
+                ]
               },
               {
-                "name": "N_rooms_refused",
-                "title": "How many rooms were not sprayed because occupants refused spraying?"
+                "name": "n_rooms_refused",
+                "inputType": "number",
+                "title": "How many rooms were not sprayed because occupants refused spraying?",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "minValue": "0",
+                    "text": "Minimum value is zero"
+                  }
+                ]
               },
               {
-                "name": "N_rooms_baby",
-                "title": "How many rooms were not sprayed because the house has new born baby?"
+                "name": "n_rooms_baby",
+                "inputType": "number",
+                "title": "How many rooms were not sprayed because the house has new born baby?",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "minValue": "0",
+                    "text": "Minimum value is zero"
+                  }
+                ]
               },
               {
-                "name": "N_rooms_patient",
-                "title": "How many rooms were not sprayed due to a patient?"
+                "name": "n_rooms_patient",
+                "inputType": "number",
+                "title": "How many rooms were not sprayed because the house has a patient?",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "minValue": "0",
+                    "text": "Minimum value is zero"
+                  }
+                ]
               },
               {
-                "name": "N_rooms_funeral",
-                "title": "How many rooms were not sprayed due to a funeral ?"
+                "name": "n_rooms_funeral",
+                "inputType": "number",
+                "title": "How many rooms were not sprayed due to a funeral ?",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "minValue": "0",
+                    "text": "Minimum value is zero"
+                  }
+                ]
               },
               {
-                "name": "N_rooms_kitchen",
-                "title": "How many rooms were not sprayed because they are kitchens?"
+                "name": "n_rooms_kitchen",
+                "inputType": "number",
+                "title": "How many rooms were not sprayed because they are kitchens?",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "minValue": "0",
+                    "text": "Minimum value is zero"
+                  }
+                ]
               },
               {
-                "name": "N_rooms_food",
-                "title": "How many rooms were not sprayed because they food storage areas?"
+                "name": "n_rooms_food",
+                "inputType": "number",
+                "title": "How many rooms were not sprayed because they food storage areas?",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "minValue": "0",
+                    "text": "Minimum value is zero"
+                  }
+                ]
               },
               {
-                "name": "N_rooms_material",
-                "title": "How many rooms were not sprayed due to non-sprayable material (ie canvas)?"
+                "name": "n_rooms_material",
+                "inputType": "number",
+                "title": "How many rooms were not sprayed due to non-sprayable material (ie canvas)?",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "minValue": "0",
+                    "text": "Minimum value is zero"
+                  }
+                ]
               },
               {
-                "name": "N_rooms_other",
-                "title": "How many rooms were not sprayed due to the \"other\" refusal reason provided before?"
+                "name": "n_rooms_other",
+                "inputType": "number",
+                "title": "How many rooms were not sprayed due to the \"other\" refusal reason provided before?",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "minValue": "0",
+                    "text": "Minimum value is zero"
+                  }
+                ]
               }
-            ],
-            "name": "question10",
-            "startWithNewLine": false,
-            "title": "Of the number of unsprayed rooms, please list the number of rooms unsprayed for each reason:",
-            "validators": [
-              {
-                "type": "numeric",
-                "text": "Value must be numeric"
-              }
-            ],
-            "visible": false,
-            "visibleIf": "{Y_spray_allrooms} = no"
+            ]
           }
         ],
-        "name": "page10"
+        "name": "page8"
       },
       {
         "elements": [
@@ -629,18 +514,115 @@
                 "text": "No"
               }
             ],
-            "name": "{Y_spray_allrooms} = no",
-            "title": "If the rooms were unsprayable, were LLINs given?",
-            "visible": false,
-            "visibleIf": "{yn_LLINs_giveyn_N} = No"
+            "isRequired": true,
+            "name": "n_LLINs_given_nospray",
+            "title": "If the rooms were unsprayable due to material, were LLINs given?"
           },
           {
             "type": "text",
-            "isRequired": true,
-            "name": "question3",
+            "name": "number_LLINS_given",
             "title": "If LLINs were given, how many were given?",
+            "validators": [
+              {
+                "type": "numeric",
+                "minValue": "0",
+                "text": "Minimum Value is 0"
+              }
+            ],
             "visible": false,
-            "visibleIf": "{N_LLINs_given_N} = yes"
+            "visibleIf": "{n_LLINs_given_nospray} = yes"
+          }
+        ],
+        "name": "page9"
+      },
+      {
+        "elements": [
+          {
+            "type": "radiogroup",
+            "choices": [
+              {
+                "value": "yes",
+                "text": "Yes"
+              },
+              {
+                "value": "no",
+                "text": "No"
+              }
+            ],
+            "isRequired": true,
+            "name": "were_spray_allrooms",
+            "title": "Were ALL ROOMS in the homestead sprayed?",
+            "visible": false,
+            "visibleIf": "{sprayed} = yes"
+          },
+          {
+            "type": "text",
+            "inputType": "number",
+            "isRequired": true,
+            "name": "number_sprayed_ddt",
+            "title": "How many rooms in this homestead were sprayed with DDT? ( If none, enter 0)",
+            "validators": [
+              {
+                "type": "numeric",
+                "minValue": "0",
+                "text": "Minimum Value is 0"
+              }
+            ],
+            "visible": false,
+            "visibleIf": "{were_spray_allrooms} = yes"
+          },
+          {
+            "type": "text",
+            "inputType": "number",
+            "isRequired": true,
+            "name": "number_sprayed_lambdacyhalothrin",
+            "title": "How many rooms in this homestead were sprayed with Lambdacyhalothrin? ( If none, enter 0)",
+            "validators": [
+              {
+                "type": "numeric",
+                "minValue": "0",
+                "text": "Minimum Value is 0"
+              }
+            ],
+            "visible": false,
+            "visibleIf": "{were_spray_allrooms} = yes"
+          }
+        ],
+        "name": "page10"
+      },
+      {
+        "elements": [
+          {
+            "type": "text",
+            "inputType": "number",
+            "isRequired": true,
+            "name": "number_other_sprayed_ddt",
+            "title": "How many other structures in this homestead were sprayed with DDT? ( if none, enter 0)",
+            "validators": [
+              {
+                "type": "numeric",
+                "minValue": "0",
+                "text": "Minimum Value is 0"
+              }
+            ],
+            "visible": false,
+            "visibleIf": "{were_spray_allrooms} = yes"
+          },
+          {
+            "type": "text",
+            "inputType": "number",
+            "isRequired": true,
+            "name": "number_other_sprayed_lambdacyhalothrin",
+            "title": "How many other structures in this homestead were sprayed with Lambdacyhalothrin?",
+            "validators": [
+              {
+                "type": "numeric",
+                "minValue": "0",
+                "text": "Minimum value is 0"
+              }
+            ],
+            "visible": false,
+            "visibleIf": "{were_spray_allrooms} = yes"
           }
         ],
         "name": "page11"
@@ -651,40 +633,281 @@
             "type": "text",
             "inputType": "number",
             "isRequired": true,
-            "name": "yn_roomssprayed",
-            "title": "How many rooms were sprayed?",
+            "name": "n_unsprayed",
+            "title": "How many rooms were NOT sprayed?",
+            "validators": [
+              {
+                "type": "numeric",
+                "minValue": "0",
+                "text": "Minimum Value is 0"
+              }
+            ],
             "visible": false,
-            "visibleIf": "{Y_spray_allrooms} = no"
+            "visibleIf": "{were_spray_allrooms} = no"
           },
           {
             "type": "text",
             "inputType": "number",
-            "name": "yn_modernsprayed",
-            "title": "     How many SPRAYED rooms in this homestead are modern?",
+            "isRequired": true,
+            "name": "n_unsprayed_modern",
+            "title": " How many UNSPRAYED rooms in this homestead are modern?",
             "visible": false,
-            "visibleIf": "{Y_spray_allrooms} = no"
+            "visibleIf": "{were_spray_allrooms} = no"
           },
           {
             "type": "text",
             "inputType": "number",
-            "name": "yn_traditionalsprayed",
-            "title": "     How many SPRAYED rooms in this homestead are traditional?",
+            "isRequired": true,
+            "name": "n_unsprayed_traditional",
+            "title": "How many UNSPRAYED rooms in this homestead are traditional?",
             "visible": false,
-            "visibleIf": "{Y_spray_allrooms} = no"
-          },
-          {
-            "type": "text",
-            "inputType": "number",
-            "name": "yn_othersprayed",
-            "title": "How many other structures in this homestead were sprayed?",
-            "visible": false,
-            "visibleIf": "{Y_spray_allrooms} = no"
+            "visibleIf": "{were_spray_allrooms} = no"
           }
         ],
         "name": "page12"
+      },
+      {
+        "elements": [
+          {
+            "type": "multipletext",
+            "name": "n_unsprayed_reason_partialspray",
+            "visible": false,
+            "visibleIf": "{were_spray_allrooms} = no",
+            "title": "Of the number of unsprayed rooms, please list the number of rooms unsprayed for each reason:",
+            "isRequired": true,
+            "items": [
+              {
+                "name": "n_rooms_locked",
+                "inputType": "number",
+                "title": "How many rooms were not sprayed because it was locked?",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "minValue": "0",
+                    "text": "Minimum Value is Zero"
+                  }
+                ]
+              },
+              {
+                "name": "n_rooms_nobody",
+                "inputType": "number",
+                "title": "How many rooms were not sprayed because nobody was home?",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "minValue": "0",
+                    "text": "Minimum value is zero"
+                  }
+                ]
+              },
+              {
+                "name": "n_rooms_refused",
+                "inputType": "number",
+                "title": "How many rooms were not sprayed because occupants refused spraying?",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "minValue": "0",
+                    "text": "Minimum value is zero"
+                  }
+                ]
+              },
+              {
+                "name": "n_rooms_baby",
+                "inputType": "number",
+                "title": "How many rooms were not sprayed because the house has new born baby?",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "minValue": "0",
+                    "text": "Minimum value is zero"
+                  }
+                ]
+              },
+              {
+                "name": "n_rooms_patient",
+                "inputType": "number",
+                "title": "How many rooms were not sprayed because the house has a patient?",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "minValue": "0",
+                    "text": "Minimum value is zero"
+                  }
+                ]
+              },
+              {
+                "name": "n_rooms_funeral",
+                "inputType": "number",
+                "title": "How many rooms were not sprayed due to a funeral ?",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "minValue": "0",
+                    "text": "Minimum value is zero"
+                  }
+                ]
+              },
+              {
+                "name": "n_rooms_kitchen",
+                "inputType": "number",
+                "title": "How many rooms were not sprayed because they are kitchens?",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "minValue": "0",
+                    "text": "Minimum value is zero"
+                  }
+                ]
+              },
+              {
+                "name": "n_rooms_food",
+                "inputType": "number",
+                "title": "How many rooms were not sprayed because they food storage areas?",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "minValue": "0",
+                    "text": "Minimum value is zero"
+                  }
+                ]
+              },
+              {
+                "name": "n_rooms_material",
+                "inputType": "number",
+                "title": "How many rooms were not sprayed due to non-sprayable material (ie canvas)?",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "minValue": "0",
+                    "text": "Minimum value is zero"
+                  }
+                ]
+              },
+              {
+                "name": "n_rooms_other",
+                "inputType": "number",
+                "title": "How many rooms were not sprayed due to the \"other\" refusal reason provided before?",
+                "validators": [
+                  {
+                    "type": "numeric",
+                    "minValue": "0",
+                    "text": "Minimum value is zero"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "name": "page13"
+      },
+      {
+        "elements": [
+          {
+            "type": "radiogroup",
+            "choices": [
+              {
+                "value": "yes",
+                "text": "Yes"
+              },
+              {
+                "value": "no",
+                "text": "No"
+              }
+            ],
+            "isRequired": true,
+            "name": "n_LLINs_given_partialspray",
+            "title": "If the rooms were unsprayable due to material, were LLINs given?",
+            "visible": false,
+            "visibleIf": "{were_spray_allrooms} = no"
+          },
+          {
+            "type": "text",
+            "inputType": "number",
+            "name": "n_LLINs_given",
+            "title": "If LLINs were given, how many were given?",
+            "validators": [
+              {
+                "type": "numeric",
+                "minValue": "0",
+                "text": "Minimum Value is 0"
+              }
+            ],
+            "visible": false,
+            "visibleIf": "{n_LLINs_given_partialspray} = yes"
+          }
+        ],
+        "name": "page14"
+      },
+      {
+        "elements": [
+          {
+            "type": "text",
+            "inputType": "number",
+            "isRequired": true,
+            "name": "number_sprayed",
+            "title": "How many rooms were sprayed?",
+            "validators": [
+              {
+                "type": "numeric",
+                "minValue": "0",
+                "text": "Minimum value is 0"
+              }
+            ],
+            "visible": false,
+            "visibleIf": "{were_spray_allrooms} = no"
+          },
+          {
+            "type": "text",
+            "inputType": "number",
+            "name": "number_sprayed_modern_partial_spray",
+            "title": "     How many SPRAYED rooms in this homestead are modern?",
+            "visible": false,
+            "visibleIf": "{were_spray_allrooms} = no"
+          },
+          {
+            "type": "text",
+            "isRequired": true,
+            "name": "number_sprayed_traditional_partial_spray",
+            "title": "How many SPRAYED rooms in this homestead are traditional?",
+            "validators": [
+              {
+                "type": "numeric",
+                "minValue": "0",
+                "text": "Minimum value is 0"
+              }
+            ],
+            "visible": false,
+            "visibleIf": "{were_spray_allrooms} = no"
+          },
+          {
+            "type": "text",
+            "inputType": "number",
+            "isRequired": true,
+            "name": "number_sprayed_other_partial_spray",
+            "title": "How many other structures in this homestead were sprayed?",
+            "validators": [
+              {
+                "type": "numeric",
+                "minValue": "0",
+                "text": "Minimum value is 0"
+              }
+            ],
+            "visible": false,
+            "visibleIf": "{were_spray_allrooms} = no"
+          }
+        ],
+        "name": "page15"
       }
-    ],
-    "surveyId": "this one",
-    "title": "Botswana IRS Record"
-  }
+    ]
+  },
+  "map_focus": {
+    "centre": {
+      "lat": -20.37552680342694,
+      "lng": 24.158935546875004
+    },
+    "zoom": 7
+  },
+  "name": "Botswana",
+  "slug": "BWA"
 }

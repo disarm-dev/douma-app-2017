@@ -1,30 +1,26 @@
 <template>
-  <div>
-    <template v-for="(bread, index) in crumbs">
-      <router-link :to="bread.route" class='crumb'> 
-        <md-icon v-if='bread.icon'>{{bread.icon}}</md-icon>
-        {{bread.title}}
-      </router-link>
-      <span v-if='index !== (crumbs.length - 1)'> > </span>
-    </template>
-  </div>
+  <router-link class='crumb' to='/'>{{crumb}}</router-link>
 </template>
 
 <script>
   export default {
     data() { 
       return { 
-        crumbs: [] 
+        crumb: ''
+        // crumbs: [] 
       }
     },
     watch: { 
       '$route': 'set_crumbs' 
     },
     mounted() {
-      this.set_crumbs()
+      this.crumb = this.$route.meta.title
+
+      // this.set_crumbs()
     },
     methods: {
       set_crumbs() {
+        return
         if(this.$route.matched.length === 0) return
 
         // Get route.meta values (e.g. icon, title, etc)
@@ -43,7 +39,6 @@
         path_elements = path_elements.map((elem) => {
           return get_value_or_title(elem)
         })
-
         // Iterate each path_element, create the crumb
         let result = path_elements.map((part, i) => {
           // Force first element to be link to root route

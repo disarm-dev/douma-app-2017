@@ -12,7 +12,10 @@
           <md-icon>menu</md-icon>
         </md-button>
         <!-- BREADCRUMBS -->
-        <h2 class="md-title" style="flex: 1"><bread-crumbs></bread-crumbs></h2>
+        <h2 class="md-title" style="flex: 1">
+          <!-- <bread-crumbs></bread-crumbs> -->
+          {{country}}
+        </h2>
       </md-toolbar>
     </div>
 
@@ -59,8 +62,8 @@
 
     <!-- DIALOG -->
     <md-dialog-alert
-      :md-title="$store.state.sw_message.title"
-      :md-content="$store.state.sw_message.message"
+      :md-title="sw_message.title"
+      :md-content="sw_message.message"
       md-ok-text="Ok"
       ref="sw_dialog">
     </md-dialog-alert>
@@ -100,6 +103,12 @@
       }
     },
     computed: {
+      country() {
+        return this.$store.state.instance_config.name
+      },
+      sw_message() {
+        return this.$store.state.sw_message
+      },
       applets() {
         return generate_applet_routes({routes: this.$router.options.routes, user: this.$store.state.meta.user, instance_config: this.$store.state.instance_config})
       },
@@ -135,6 +144,8 @@
         this.snackbar.action()
       },
       logout() {
+        if (!navigator.online) return 
+        
         this.$store.dispatch('meta/logout').then(() => {
           this.$router.push('/')
         })

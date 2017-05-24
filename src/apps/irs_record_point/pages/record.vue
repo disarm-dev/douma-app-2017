@@ -1,93 +1,118 @@
 <template>
   <div class='container'>
-    <h1>{{create_or_update}} record for {{country}}</h1>
-    <p class='validation_message' v-if='validation_message'>{{validation_message}}</p>
-    <md-button @click.native='validate_location_and_form'><md-icon>save</md-icon>Save</md-button>
-    <router-link class='md-button' to='/irs/record_point/review'><md-icon>list</md-icon>Review</router-link>
-    <md-tabs>
-      <md-tab md-label="Form">
-        <form_renderer ref='form' :existing_form_data='existing_form_data'></form_renderer>
-      </md-tab>
-      <md-tab md-label="Location">
-        <location_record v-on:change='update_location' :existing_location='existing_location'></location_record>
-      </md-tab>
-    </md-tabs>
+
+    <md-button class='md-raised' @click.native="$router.push('/irs/record_point/list')">List</md-button>
+    <!-- <md-button class='md-raised' @click.native='clear_form'>Clear form</md-button> -->
+    
+    <!-- FORM -->
+    <div v-if="!form_is_filled_out">
+      
+      <h1>{{create_or_update}} record for {{country}} <md-chip>Unsaved data</md-chip></h1>
+
+      <md-card>
+        <md-card-content>
+          <location_record v-on:position='update_location' :existing_location='response.location'>
+          </location_record>
+        </md-card-content>
+      </md-card>
+    
+      <md-card>
+        <md-card-content>
+          <form_renderer v-on:complete='complete_form' :existing_form_data='response.form_data' >
+          </form_renderer>
+        </md-card-content>
+      </md-card>
+    </div>
+
+    <!-- REVIEW / VALIDATION -->
+    <div v-else>
+      <review v-on:validation_result='next_step' :response='response'></review>
+    </div>
+
   </div>
 </template>
 
 <script>
-  import location_record from '@/components/location.vue'
-  import form_renderer from './form.vue'
   import uuid from 'uuid/v4'
+
+  import location_record from '@/components/location.vue'
+  import review from './review.vue'
+  import form_renderer from './form.vue'
 
   export default {
 
     name: 'record',
-    components: {location_record, form_renderer},
+    components: {location_record, form_renderer, review},
     props: ['response_id'],
     data () {
       return {
-        validation_message: '',
-        form_data: {},
-        location: {}
+        form_is_filled_out: false,
+        response: {
+          location: null,
+          form_data: null
+        },
+        // don't need below
+        form_completed: false,
+        location_completed: false,
+        response_completed: false
       }
     },
     computed: {
       country() {
         return this.$store.state.instance_config.name
       },
+      slug() {
+        return this.$store.state.instance_config.slug.toLowerCase()
+      },
       create_or_update() {
-        return !!this.existing_response_data ? 'Update' : 'Create'
+        return this.response_id ? 'Update' : 'Create'
       },
-      existing_response_data() {
-        if (this.response_id) {
-          const response = this.$store.state.irs_record_point.responses.find((response) => response.id === this.response_id)
-          if (typeof response === 'undefined') {
-            return null
-          }
-          return response
-        } else {
-          return null
-        }
-      },
-      existing_form_data() {
-        if (this.existing_response_data && this.existing_response_data.form_data) {
-          return this.existing_response_data.form_data
-        }
-      },
-      existing_location() {
-        if (this.existing_response_data && this.existing_response_data.location) {
-          return this.existing_response_data.location
-        }
+    },
+    created() {
+      if (this.response_id) {
+        const found = this.$store.state.irs_record_point.responses.find(r => r.id === this.response_id)
+        if (found) this.response = found
       }
     },
     methods: {
-      update_location(location) {
-        this.location = location
+      clear_form() {
+        console.info("TODO: @feature Implement clear_form")
       },
-      validate_location_and_form() {
-        const valid_form = !this.$refs.form.survey.isCurrentPageHasErrors
-        const valid_locn = (Object.keys(this.location).length !== 0)
-        if (!valid_form && !valid_locn) {
-          this.validation_message = 'You have not done anything yet.'
-        } else if (valid_form && !valid_locn) {
-          this.validation_message = 'Fix location'
-        } else if (!valid_form && valid_locn) {
-          this.validation_message = 'Fix form'
-        } else if (valid_form && valid_locn) {
-          this.validation_message = ''
-          this.save_response()
+      complete_form(form_data) {
+        this.response.form_data = form_data
+        this.form_is_filled_out = true
+      },
+
+      update_location(location) {
+        if (location.hasOwnProperty('coords') && location.coords.hasOwnProperty('accuracy')) {
+          this.response.location = location
+        } else {
+          console.log('location error')
         }
       },
-      save_response() {
-        this.form_data = this.$refs.form.survey.data
 
+      next_step(validation_result) {
+        if (validation_result === 'pass') {
+          this.save_response()
+        } else {
+          this.form_is_filled_out = false
+        }
+      },
+
+      save_response() {
+
+        // TODO: @refac Move to a proper response model, with tests. And cake.
         const id = this.response_id || uuid()
+        const recorded_on = this.response.recorded_on || new Date()
+
         const response = {
-          form_data: this.form_data, 
-          location: this.location,
-          updated_at: new Date(),
-          id: id
+          form_data: this.response.form_data,
+          location: this.response.location,
+          recorded_on: recorded_on,
+          id: id,
+          synced: false,
+          userAgent: navigator.userAgent,
+          instance_slug: this.slug
         }
 
         if (this.response_id) {
@@ -96,13 +121,14 @@
           this.create_response(response)
         }
       },
+
       create_response(response) {
         this.$store.commit('irs_record_point/create_response', response)
-        this.$store.commit('irs_monitor/create_response', response)
+        this.$router.push('/irs/record_point/')
       },
       update_response(response) {
         this.$store.commit('irs_record_point/update_response', response)
-        this.$store.commit('irs_monitor/update_response', response)
+        this.$router.push('/irs/record_point/')
       }
     }
   }
@@ -110,10 +136,11 @@
 
 <style lang="css" scoped>
   .container {
-    margin: 10px;
+    margin: 0 auto;
+    width: 90%;
   }
 
-  .validation_message {
-    color: red;
+  .md-card {
+    margin: 10px;
   }
 </style>
