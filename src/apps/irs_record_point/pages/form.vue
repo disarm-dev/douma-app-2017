@@ -14,10 +14,14 @@
       }
     },
     created() {
+      let goNextPageAutomatic = true
+      if (this.existing_form_data) {
+        goNextPageAutomatic = false
+      }
       this.form = this.$store.state.instance_config.form
       this.form = {
         ...this.form, 
-        goNextPageAutomatic: true,
+        goNextPageAutomatic,
         completeText: "Start review/validation"
       }
     },
