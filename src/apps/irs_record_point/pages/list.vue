@@ -24,7 +24,7 @@
     },
     computed: {
       ...mapState({
-        responses: state => state.irs_record_point.responses.sort((a, b) => new Date(a.recorded_on) - new Date(b.recorded_on))
+        responses: state => state.irs_record_point.responses.sort((a, b) => new Date(b.recorded_on) - new Date(a.recorded_on))
       })
     },
     methods: {
