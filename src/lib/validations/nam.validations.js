@@ -2,6 +2,8 @@ export default [
   { 
     name: 'total_sprayed',
     fn: (f) => {
+      if (f.sprayable_unsprayed !== 'yes') return true
+      
       return f.numbersprayed_ddt + f.numbersprayed_delta == f.number_sprayable
     },
     message: 'Total sprayed does not equal `ddt`+ `deltamethrin`.',
@@ -12,11 +14,9 @@ export default [
   {
     name: 'sprayable_unsprayed',
     fn: (f) => {
-      if (f.sprayable_unsprayed == 'yes') {
-        return f.numbersprayed_ddt + f.numbersprayed_delta + f.number_unsprayed == f.number_sprayable
-      } else {
-        return false
-      }
+      if (f.sprayable_unsprayed !== 'yes') return true
+      
+      return f.numbersprayed_ddt + f.numbersprayed_delta + f.number_unsprayed == f.number_sprayable
     },
     message: "Number of unsprayed structures doesn't add up",
     stopping_power: "soft",

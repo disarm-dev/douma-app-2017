@@ -106,7 +106,7 @@
 
         const response = {
           form_data: this.response.form_data,
-          // location: this.response.location,
+          location: this.response.location,
           recorded_on: recorded_on,
           id: id,
           synced: false,
