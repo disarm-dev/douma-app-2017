@@ -12,7 +12,10 @@
           <md-icon>menu</md-icon>
         </md-button>
         <!-- BREADCRUMBS -->
-        <h2 class="md-title" style="flex: 1"><bread-crumbs></bread-crumbs></h2>
+        <h2 class="md-title" style="flex: 1">
+          <!-- <bread-crumbs></bread-crumbs> -->
+          {{country}}
+        </h2>
       </md-toolbar>
     </div>
 
@@ -100,6 +103,9 @@
       }
     },
     computed: {
+      country() {
+        return this.$store.state.instance_config.name
+      },
       sw_message() {
         return this.$store.state.sw_message
       },
