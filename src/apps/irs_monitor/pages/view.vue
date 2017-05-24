@@ -17,6 +17,7 @@
               :height="height_constraint == 'viewport' ? window_height : undefined"
               :responses='responses'
               :denominator='denominator'
+              :filter_fn="filter_fn"
               ></component>
           </md-card-content>
         </md-card>
@@ -113,6 +114,11 @@
       },
       components() {
         return this.$store.state.instance_config.applets.irs_monitor.components
+      },
+      filter_fn() {
+        return (r) => {
+          return r.team === 'team1'
+        }
       }
     },
     methods: {

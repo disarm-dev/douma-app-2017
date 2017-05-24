@@ -2,10 +2,9 @@ import {Line} from 'vue-chartjs'
 import moment from 'moment'
 
 import aggregations from '@/lib/aggregations/bwa.aggregations'
-window.a = aggregations
 
 export default Line.extend({
-  props: ['responses', 'denominator'],
+  props: ['responses', 'denominator', 'filter_fn'],
   data() {
     return {
       labels: []
@@ -13,8 +12,6 @@ export default Line.extend({
   },
   mounted () {
     const data = this.prepare_responses(this.responses)
-    // console.log(data)
-    // return
     this.create_chart(data, this.labels)
   },
   methods: {
