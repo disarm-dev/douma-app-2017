@@ -4,7 +4,7 @@
     <md-button class='md-raised' @click.native='clear_form'>Clear form</md-button>
     
     <!-- FORM -->
-    <div v-if="thing_to_start_in_here">
+    <div v-if="!form_is_filled_out">
       
       <h1>{{create_or_update}} record for {{country}} <md-chip>Unsaved data</md-chip></h1>
 
@@ -45,7 +45,7 @@
     props: ['response_id'],
     data () {
       return {
-        thing_to_start_in_here: true,
+        form_is_filled_out: false,
         response: {
           location: null,
           form_data: null
@@ -67,39 +67,41 @@
         return this.response_id ? 'Update' : 'Create'
       },
     },
+    created() {
+      if (this.response_id) {
+        const found = this.$store.state.irs_record_point.responses.find(r => r.id === this.response_id)
+        if (found) this.response = found
+      }
+    },
     methods: {
       clear_form() {
         console.info("TODO: @feature Implement clear_form")
       },
       complete_form(form_data) {
         this.response.form_data = form_data
-        this.thing_to_start_in_here = false
+        this.form_is_filled_out = true
       },
 
       update_location(location) {
         this.response.location = location
       },
 
-
       next_step(validation_result) {
         if (validation_result === 'pass') {
-          console.log('save - has passed validations')
-          // this.save_response()
+          this.save_response()
         } else {
-          this.thing_to_start_in_here = true
-          // this.edit_response()
+          this.form_is_filled_out = false
         }
       },
 
       save_response() {
-        this.form_data = this.$refs.form.survey.data
 
         const id = this.response_id || uuid()
 
         // TODO: @refac Move to a proper response model, with tests. And cake.
         const response = {
-          form_data: this.form_data,
-          location: this.location,
+          form_data: this.response.form_data,
+          // location: this.response.location,
           recorded_on: new Date(),
           id: id,
           synced: false,
@@ -113,8 +115,6 @@
           this.create_response(response)
         }
       },
-
-
 
       create_response(response) {
         this.$store.commit('irs_record_point/create_response', response)

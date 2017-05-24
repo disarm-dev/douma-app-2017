@@ -13,12 +13,11 @@
         survey: {},
       }
     },
-    computed: {
-      form() {
-        return this.$store.state.instance_config.form
-      }
+    created() {
+      this.form = this.$store.state.instance_config.form
+      this.form.completeText = "Start review/validation"
     },
-    mounted() {
+    mounted(){
       this.create_form()
     },
     methods: {

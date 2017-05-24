@@ -18,7 +18,7 @@
     <p class="all_clear" v-if="errors.length === 0 && warnings.length === 0">Passed all validations!</p>
 
     <md-button class='md-raised' :class='{"md-warn": !is_valid}' @click.native='submit'>
-      {{is_valid ? "save" : "edit"}}
+      {{is_valid ? "finish" : "edit"}}
     </md-button>
 
   </div>
