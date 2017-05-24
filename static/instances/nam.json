@@ -5,7 +5,8 @@
         {
           "height_constraint": "none",
           "name": "table_progress",
-          "width_constraint": "full"
+          "width_constraint": "full",
+          "columns": ["region", "homesteads found", "structures found", "structures found %", "structures sprayed", "structures sprayed %", "sprayable structures not sprayed", "sprayable structures not sprayed (refused)", "sprayable structures not sprayed (refused) %", "sprayable structures not sprayed(other reason)", "sprayable structures not sprayed (other reason) %"]
         },
         {
           "height_constraint": "viewport",

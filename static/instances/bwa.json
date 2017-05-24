@@ -6,7 +6,8 @@
         {
           "name": "table_progress",
           "width_constraint": "full",
-          "height_constraint": "none"
+          "height_constraint": "none",
+          "columns": ["village", "number of buildings targeted", "number of people in the homestead (<5 yrs)", "number of people in the homestead (>5 yrs)", "number of buildings visited", "number of rooms visited", "number of rooms sprayed (total)", "number of rooms sprayed (DDT)", "number of rooms sprayed (lambda-cyhalothrin)"]
         },
         {
           "name": "bwa_chart_prop_room_sprayed",

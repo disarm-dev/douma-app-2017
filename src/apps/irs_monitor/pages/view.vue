@@ -8,14 +8,15 @@
       </md-card-content>
     </md-card>
 
-    <template v-for="{name, width_constraint, height_constraint} in components" >
-      <md-card class="card" :ref="name" :class="{'card-half-width': width_constraint == 'half'}">
+    <template v-for="component in components" >
+      <md-card class="card" :ref="component.name" :class="{'card-half-width': component.width_constraint == 'half'}">
         <md-card-content>
           <component
-            :is="name"
-            :height="height_constraint == 'viewport' ? window_height : undefined"
+            :is="component.name"
+            :height="component.height_constraint == 'viewport' ? window_height : undefined"
             :responses='responses'
             :denominator='denominator'
+            :component_config='component'
             ></component>
         </md-card-content>
       </md-card>
@@ -56,7 +57,7 @@
 
 
   export default {
-    name: 'NotADashboardDashboard',
+    name: 'MonitorDashboard',
     components: {
       // Common
       Filters,

@@ -11,6 +11,9 @@ export default {
       } else {
         state.selected_region_ids.push(region_id)
       }
+    },
+    'clear_plan': (state) => {
+      state.selected_region_ids = []
     }
   }
 }

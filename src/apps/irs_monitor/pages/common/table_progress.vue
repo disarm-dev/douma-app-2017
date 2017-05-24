@@ -13,7 +13,7 @@
   import Aggregator from '@/lib/aggregations'
 
   export default {
-    props: ['responses', 'denominator'],
+    props: ['responses', 'denominator', 'component_config'],
     data() {
       return {
         loaded: false,
@@ -22,10 +22,11 @@
     },
     mounted() {
       this.load_data()
+      console.log(this.component_config)
     },
     methods: {
       load_data(){
-        this.columns = ['village', 'number of buildings targeted', 'number of people in the homestead (<5 yrs)', 'number of people in the homestead (>5 yrs)', 'number of buildings visited', 'number of rooms visited', 'number of rooms sprayed (total)', 'number of rooms sprayed (DDT)', 'number of rooms sprayed (lambda-cyhalothrin)']
+        this.columns = this.component_config.columns
 
         const data = new Aggregator({
           responses: this.responses,

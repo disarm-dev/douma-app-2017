@@ -7,6 +7,7 @@
     <md-card class="card">
       <md-card-content>
         <h3>Selected regions:</h3>
+        <md-button class='md-raised md-warn' @click.native="clear_plan">Clear plan</md-button>
         <md-button class='md-raised md-primary' @click.native="download_plan">Download plan</md-button>
         <p>Working with {{selected_regions.length}} regions, containing in total XX structures, YY rooms, ZZ population</p>
         <v-client-table
@@ -70,6 +71,10 @@
       }
     },
     methods: {
+      clear_plan() {
+        this.$store.commit('irs_plan/clear_plan')
+        this._regions_layer.setStyle(this.style_function)
+      },
       get_local_areas() {
         fetch(`/static/local_areas/${this.slug}.ous.json`)
           .then(res => res.json())
