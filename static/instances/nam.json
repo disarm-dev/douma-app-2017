@@ -401,7 +401,7 @@
             ],
             "isRequired": true,
             "name": "district",
-            "title": "Disttict",
+            "title": "District",
             "type": "radiogroup",
             "visible": false,
             "visibleIf": "{region} = oshana"
