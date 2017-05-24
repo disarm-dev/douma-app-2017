@@ -8,13 +8,13 @@
       
       <h1>{{create_or_update}} record for {{country}} <md-chip>Unsaved data</md-chip></h1>
 
-<!--       <md-card>
+      <md-card>
         <md-card-content>
-          <location_record v-on:position='update_location' :existing_location='existing_location'>
+          <location_record v-on:position='update_location' :existing_location='response.location'>
           </location_record>
         </md-card-content>
       </md-card>
- -->    
+    
       <md-card>
         <md-card-content>
           <form_renderer v-on:complete='complete_form' :existing_form_data='response.form_data' >
@@ -83,7 +83,11 @@
       },
 
       update_location(location) {
-        this.response.location = location
+        if (typeof location === 'PositionError') {
+          console.log('location error')
+        } else {
+          this.response.location = location
+        }
       },
 
       next_step(validation_result) {

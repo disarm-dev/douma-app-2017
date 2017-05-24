@@ -1,7 +1,9 @@
 <template>
   <div>
-    <md-button class='md-raised md-primary' ref="update_location_button" @click.native="update_point_location">Get/Update point location</md-button>
-    <p>{{location_message}}</p>
+    <md-button :disabled='hunting_location' class='md-raised md-primary' ref="update_location_button" @click.native="check_for_location">
+      Get/Update point location
+    </md-button>
+    <p class='message'>{{location_message}}</p>
   </div>
 </template>
 
@@ -13,44 +15,57 @@
     props: ['existing_location'],
     data() {
       return {
-        location_mode: "point",
-        position: null,
-        location_message: 'e.g. FOUND LOCATION 24, 45 (accuracy 20)'
+        hunting_location: false,
+        location: null,
+        location_message: ''
       }
     },
     computed: {
       position_text() {
         if (this.position) {
-          return `${this.position.coords.latitude}, ${this.position.coords.longitude}`
+          return `${this.position.coords.latitude}, ${this.position.coords.longitude} (accuracy: ${this.position.coords.accuracy} m)`
         }
       },
     },
-    mounted() {
+    created() {
       if (this.existing_location) {
         this.position = this.existing_location
         this.$emit('position', this.position)
-      } else {
-        this.check_for_location()
       }
+    },
+    mounted() {
     },
     methods: {
       check_for_location() {
         if ('geolocation' in navigator) {
-          this.find_location()
-        } else {
-          this.location_mode = "text"
+          const options = {
+            enableHighAccuracy: true,
+            timeout: 5000
+          }
+
+          const success = (position) => {
+            this.position = position
+            this.location_message = this.position_text
+            this.hunting_location = false
+            this.$emit('position', convert(position))
+          }
+
+          const fail = (error) => {
+            this.location_message = `Cannot get location, if it helps: code ${error.code} ${error.message}`
+            this.hunting_location = false
+            this.$emit('position', error)
+          }
+
+          this.hunting_location = true
+          navigator.geolocation.getCurrentPosition(success, fail, options)
         }
-      },
-      find_location() {
-        navigator.geolocation.getCurrentPosition((position) => {
-          this.position = position
-          this.$emit('position', convert(position))
-        });
       }
     }
   }
 </script>
 
 <style>
-
+  .message {
+    padding: 10px;
+  }
 </style>
