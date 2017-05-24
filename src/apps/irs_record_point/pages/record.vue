@@ -100,13 +100,14 @@
 
       save_response() {
 
-        const id = this.response_id || uuid()
-
         // TODO: @refac Move to a proper response model, with tests. And cake.
+        const id = this.response_id || uuid()
+        const recorded_on = this.response.recorded_on || new Date()
+
         const response = {
           form_data: this.response.form_data,
           // location: this.response.location,
-          recorded_on: new Date(),
+          recorded_on: recorded_on,
           id: id,
           synced: false,
           userAgent: navigator.userAgent,

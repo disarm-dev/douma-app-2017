@@ -39,14 +39,16 @@
     computed: {
       is_valid() {
         return this.errors.length === 0 && this.warnings.length === 0
+      },
+      slug() {
+        return this.$store.state.instance_config.slug.toLowerCase()
       }
     },
-    mounted(){
-      // this.validate_location_and_form()
+    created(){
+      this.validate_location_and_form()
     },
     methods: {
       validate_location_and_form() {
-
         // Check location is set (and warn if accuracy is not acceptable)
         // if (this.location) {
         //   this.errors.push({
@@ -59,7 +61,7 @@
         // }
 
         // Check against all custom validations, display results
-        let validations = Validators[this.slug](data)
+        let validations = Validators[this.slug](this.response)
 
         this.errors = validations.filter(validation => validation.stopping_power === 'hard')
         this.warnings = validations.filter(validation => validation.stopping_power === 'soft')

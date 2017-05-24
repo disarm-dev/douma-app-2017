@@ -20,20 +20,12 @@
         location_message: ''
       }
     },
-    computed: {
-      position_text() {
-        if (this.position) {
-          return `${this.position.coords.latitude}, ${this.position.coords.longitude} (accuracy: ${this.position.coords.accuracy} m)`
-        }
-      },
-    },
     created() {
       if (this.existing_location) {
-        this.position = this.existing_location
-        this.$emit('position', this.position)
+        this.location = this.existing_location
+        this.location_message = `${this.location.coords.latitude}, ${this.location.coords.longitude} (accuracy: ${this.location.coords.accuracy} m)`
+        this.$emit('position', this.location)
       }
-    },
-    mounted() {
     },
     methods: {
       check_for_location() {
@@ -44,10 +36,10 @@
           }
 
           const success = (position) => {
-            this.position = position
-            this.location_message = this.position_text
+            this.location = convert(position)
+            this.location_message = `${this.location.coords.latitude}, ${this.location.coords.longitude} (accuracy: ${this.location.coords.accuracy} m)`
             this.hunting_location = false
-            this.$emit('position', convert(position))
+            this.$emit('position', this.location)
           }
 
           const fail = (error) => {
