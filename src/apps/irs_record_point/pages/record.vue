@@ -68,9 +68,9 @@
       },
     },
     methods: {
-      // clear_form() {
-      //   console.info("TODO: @feature Implement clear_form")
-      // },
+      clear_form() {
+        console.info("TODO: @feature Implement clear_form")
+      },
       complete_form(form_data) {
         this.response.form_data = form_data
         this.thing_to_start_in_here = false
@@ -91,9 +91,6 @@
         }
       },
 
-      edit_response() {
-        // this.existing_form_data =
-      },
       save_response() {
         this.form_data = this.$refs.form.survey.data
 
