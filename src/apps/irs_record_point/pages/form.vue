@@ -20,7 +20,7 @@
       }
       this.form = this.$store.state.instance_config.form
       this.form = {
-        ...this.form, 
+        ...this.form,
         goNextPageAutomatic,
         completeText: "Start review/validation"
       }
@@ -36,16 +36,16 @@
         if (this.existing_form_data) {
           this.survey.data = this.existing_form_data
         }
-        
+
         const el = $("#surveyContainer")
 
         el.Survey({
           model: this.survey,
-          onComplete: this.update_form_response
+          onComplete: this.complete_form
         });
 
       },
-      update_form_response() {
+      complete_form() {
         this.$emit('complete', this.survey.data)
       },
     }

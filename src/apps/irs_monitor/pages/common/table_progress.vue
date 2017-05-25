@@ -22,7 +22,6 @@
     },
     mounted() {
       this.load_data()
-      console.log(this.component_config)
     },
     methods: {
       load_data(){

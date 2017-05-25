@@ -3,10 +3,10 @@
 
     <md-button class='md-raised' @click.native="$router.push('/irs/record_point/list')">List</md-button>
     <!-- <md-button class='md-raised' @click.native='clear_form'>Clear form</md-button> -->
-    
+
     <!-- FORM -->
     <div v-if="!form_is_filled_out">
-      
+
       <h1>{{create_or_update}} record for {{country}} <md-chip>Unsaved data</md-chip></h1>
 
       <md-card>
@@ -15,7 +15,7 @@
           </location_record>
         </md-card-content>
       </md-card>
-    
+
       <md-card>
         <md-card-content>
           <form_renderer v-on:complete='complete_form' :existing_form_data='record.form_data' >
