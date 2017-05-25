@@ -1,6 +1,6 @@
 import Translations from '@/lib/translations/nam.translations.js'
 
-const fake_responses = [
+const fake_records = [
   {
     form_data: {
       sprayable: 'yes',
@@ -18,7 +18,7 @@ const fake_responses = [
 
 describe(`NAM translations detailed`, () => {
   it('sprayed_count should calculate correctly', () => {
-    const t = new Translations({responses: fake_responses})
+    const t = new Translations({records: fake_records})
     assert.equal(t.sprayed_count(), 10)
   })
 })

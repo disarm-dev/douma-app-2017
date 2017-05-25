@@ -13,7 +13,7 @@
   import Aggregator from '@/lib/aggregations'
 
   export default {
-    props: ['responses', 'denominator', 'component_config'],
+    props: ['records', 'denominator', 'component_config'],
     data() {
       return {
         loaded: false,
@@ -29,7 +29,7 @@
         this.columns = this.component_config.columns
 
         const data = new Aggregator({
-          responses: this.responses,
+          records: this.records,
           denominator: this.denominator,
           instance_config: this.$store.state.instance_config
         })

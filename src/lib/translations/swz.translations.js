@@ -21,15 +21,15 @@ export default class extends Base {
   }
 
   sprayed_count() {
-    return this.responses.reduce((acc, response, index) => {
-      let {form_data} = response
+    return this.records.reduce((acc, record, index) => {
+      let {form_data} = record
       return acc += form_data.number_of_structures_sprayed
     }, 0)
   }
 
   unsprayed_count() {
-    return this.responses.reduce((acc, response, index) => {
-      let {form_data} = response
+    return this.records.reduce((acc, record, index) => {
+      let {form_data} = record
       return acc += form_data.number_of_structures_unsprayed
     }, 0)
   }

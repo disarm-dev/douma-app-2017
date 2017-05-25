@@ -28,7 +28,7 @@
   import Validators from '@/lib/validations'
 
   export default {
-    props: ['response'],
+    props: ['record'],
     name: 'Review',
     data () {
       return {
@@ -61,7 +61,7 @@
         // }
 
         // Check against all custom validations, display results
-        let validations = Validators[this.slug](this.response)
+        let validations = Validators[this.slug](this.record)
 
         this.errors = validations.filter(validation => validation.stopping_power === 'hard')
         this.warnings = validations.filter(validation => validation.stopping_power === 'soft')

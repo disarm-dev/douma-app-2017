@@ -1,6 +1,6 @@
 import Translations from '@/lib/translations/zwe.translations.js'
 
-const fake_responses = [
+const fake_records = [
   {
     form_data: {
       sprayable: 'yes',
@@ -27,7 +27,7 @@ const fake_responses = [
 
 describe(`ZWE translations detailed`, () => {
   it('sprayed_count should calculate correctly', () => {
-    const t = new Translations({responses: fake_responses})
+    const t = new Translations({records: fake_records})
     assert.equal(t.sprayed_count(), 12)
   })
 })

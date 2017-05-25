@@ -21,8 +21,8 @@ export default class extends Base {
   }
 
   sprayed_count() {
-    return this.responses.reduce((acc, response, index) => {
-      let {form_data} = response
+    return this.records.reduce((acc, record, index) => {
+      let {form_data} = record
       if (form_data.sprayable == 'yes') {
         return acc += form_data.numbersprayed_ddt + form_data.numbersprayed_delta
       } else {
@@ -32,8 +32,8 @@ export default class extends Base {
   }
 
   unsprayed_count() {
-    return this.responses.reduce((acc, response, index) => {
-      let {form_data} = response
+    return this.records.reduce((acc, record, index) => {
+      let {form_data} = record
       if (form_data.sprayable == 'yes' && form_data.number_unsprayed) {
         return acc += form_data.number_unsprayed
       } else {

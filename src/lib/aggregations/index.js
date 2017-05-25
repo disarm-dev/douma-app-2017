@@ -9,11 +9,11 @@ import zwe from './zwe.aggregations.js'
 const all_aggregations = {bwa, nam, swz, zwe}
 
 export default class {
-  // responses: Array of responses
+  // records: Array of records
   // denominator: Array of
 
 
-  constructor({responses, denominator, instance_config}){
+  constructor({records, denominator, instance_config}){
     // Get instance-specific aggregation functions
     const instance_aggregations = all_aggregations[instance_config.slug.toLowerCase()]
 
@@ -30,15 +30,15 @@ export default class {
       let output = {}
       output[spatial_filter_level] = area
 
-      // Get responses + denominator matching aggregation _group_by_ filter
-      const filtered_responses = responses.filter(group_by)
+      // Get records + denominator matching aggregation _group_by_ filter
+      const filtered_records = records.filter(group_by)
       const filtered_denominator = denominator.find(group_by)
 
       // Iterate every method in instance-specific list, applying to data
       const aggregation_method_names = Object.keys(instance_aggregations)
       aggregation_method_names.forEach(field_name => {
         const aggregate = instance_aggregations[field_name]
-        output[field_name] = aggregate(filtered_responses, filtered_denominator, output)
+        output[field_name] = aggregate(filtered_records, filtered_denominator, output)
       })
 
       return output

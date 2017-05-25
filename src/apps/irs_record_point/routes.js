@@ -17,7 +17,7 @@ export default [
     component: record,
     name: 'irs_record_point:new',
   },{
-    path: '/irs/record_point/edit/:response_id',
+    path: '/irs/record_point/edit/:record_id',
     props: true,
     component: record,
     name: 'irs_record_point:edit',

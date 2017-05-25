@@ -20,8 +20,8 @@ export default class extends Base {
   }
 
   sprayed_count() {
-    return this.responses.reduce((acc, response, index) => {
-      let {form_data} = response
+    return this.records.reduce((acc, record, index) => {
+      let {form_data} = record
       if (form_data.sprayed == '1') {
         return acc += 1
       } else {
@@ -31,8 +31,8 @@ export default class extends Base {
   }
 
   unsprayed_count() {
-    return this.responses.reduce((acc, response, index) => {
-      let {form_data} = response
+    return this.records.reduce((acc, record, index) => {
+      let {form_data} = record
       // TODO: @refac Keep '3' or partially sprayed here?
       if (form_data.sprayed == '2' || form_data.sprayed == '3') {
         return acc += 1

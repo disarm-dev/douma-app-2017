@@ -1,10 +1,10 @@
 export default class Translations {
-  constructor({responses = [], options = {}}) {
-    this.responses = responses
+  constructor({records = [], options = {}}) {
+    this.records = records
     this.options = options
   }
 
-  responses_count() {
-    return this.responses.length
+  records_count() {
+    return this.records.length
   }
 }

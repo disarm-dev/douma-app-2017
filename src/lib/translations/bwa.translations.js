@@ -21,9 +21,9 @@ export default class extends Base {
   }
 
   sprayed_count() {
-    return this.responses.reduce((acc, response, index) => {
+    return this.records.reduce((acc, record, index) => {
       // debugger
-      let {form_data} = response
+      let {form_data} = record
       if (form_data.sprayed == 'yes' && form_data.were_spray_allrooms == 'yes') {
         return acc += form_data.number_sprayed_lambdacyhalothrin + form_data.number_sprayed_ddt
       } else if (form_data.sprayed == 'yes' && form_data.were_spray_allrooms == 'no') {
@@ -35,9 +35,9 @@ export default class extends Base {
   }
 
   unsprayed_count() {
-    return this.responses.reduce((acc, response, index) => {
+    return this.records.reduce((acc, record, index) => {
       // debugger
-      let {form_data} = response
+      let {form_data} = record
       if (form_data.sprayed == 'no') {
         return acc += form_data.room_count
       } else if (form_data.sprayed == 'yes') {

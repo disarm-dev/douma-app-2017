@@ -3,12 +3,12 @@
     <h1>IRS Record</h1>
     <md-button class='md-raised' @click.native='$router.push("/irs/record_point/new")'><md-icon>create</md-icon>Add new</md-button>
     <md-button class="md-raised md-warn" :disabled="syncing || unsynced_count === 0" @click.native="sync">
-      Sync {{unsynced_count}} responses
+      Sync {{unsynced_count}} records
     </md-button>
     <ul>
-      <li v-for='response in responses' :index='response'>
-        <router-link v-if='!response.synced' :to="{name: 'irs_record_point:edit', params: {response_id: response.id}}">{{format_datetime(response.recorded_on)}} - {{response.synced ? 'synced' : 'unsynced'}}</router-link>
-        <p v-else>{{format_datetime(response.recorded_on)}} - {{response.synced ? 'synced' : 'unsynced'}}</p>
+      <li v-for='record in records' :index='record'>
+        <router-link v-if='!record.synced' :to="{name: 'irs_record_point:edit', params: {record_id: record.id}}">{{format_datetime(record.recorded_on)}} - {{record.synced ? 'synced' : 'unsynced'}}</router-link>
+        <p v-else>{{format_datetime(record.recorded_on)}} - {{record.synced ? 'synced' : 'unsynced'}}</p>
       </li>
     </ul>
   </div>
@@ -26,8 +26,8 @@
     },
     computed: {
       ...mapState({
-        responses: state => state.irs_record_point.responses.sort((a, b) => new Date(b.recorded_on) - new Date(a.recorded_on)),
-        unsynced_count: state => state.irs_record_point.responses.filter(r => !r.synced).length
+        records: state => state.irs_record_point.records.sort((a, b) => new Date(b.recorded_on) - new Date(a.recorded_on)),
+        unsynced_count: state => state.irs_record_point.records.filter(r => !r.synced).length
       })
     },
     methods: {
@@ -37,13 +37,13 @@
       sync() {
         this.syncing = true
         Promise.all(
-          this.responses.filter(r => r.synced === false).map((response) => {
-            return fetch(`https://disarm-platform.firebaseio.com/responses/${response.id}.json`, {
+          this.records.filter(r => r.synced === false).map((record) => {
+            return fetch(`https://disarm-platform.firebaseio.com/records/${record.id}.json`, {
               method: 'PUT',
-              body: JSON.stringify(response)
+              body: JSON.stringify(record)
             }).then(() => {
-              response.synced = true
-              this.$store.commit('irs_record_point/update_response', response)
+              record.synced = true
+              this.$store.commit('irs_record_point/update_record', record)
             })
           })
         ).then(() => this.syncing = false)

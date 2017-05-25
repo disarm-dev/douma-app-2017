@@ -11,14 +11,14 @@
 
       <md-card>
         <md-card-content>
-          <location_record v-on:position='update_location' :existing_location='response.location'>
+          <location_record v-on:position='update_location' :existing_location='record.location'>
           </location_record>
         </md-card-content>
       </md-card>
     
       <md-card>
         <md-card-content>
-          <form_renderer v-on:complete='complete_form' :existing_form_data='response.form_data' >
+          <form_renderer v-on:complete='complete_form' :existing_form_data='record.form_data' >
           </form_renderer>
         </md-card-content>
       </md-card>
@@ -26,7 +26,7 @@
 
     <!-- REVIEW / VALIDATION -->
     <div v-else>
-      <review v-on:validation_result='next_step' :response='response'></review>
+      <review v-on:validation_result='next_step' :record='record'></review>
     </div>
 
   </div>
@@ -43,18 +43,18 @@
 
     name: 'record',
     components: {location_record, form_renderer, review},
-    props: ['response_id'],
+    props: ['record_id'],
     data () {
       return {
         form_is_filled_out: false,
-        response: {
+        record: {
           location: null,
           form_data: null
         },
         // don't need below
         form_completed: false,
         location_completed: false,
-        response_completed: false
+        record_completed: false
       }
     },
     computed: {
@@ -65,13 +65,13 @@
         return this.$store.state.instance_config.slug.toLowerCase()
       },
       create_or_update() {
-        return this.response_id ? 'Update' : 'Create'
+        return this.record_id ? 'Update' : 'Create'
       },
     },
     created() {
-      if (this.response_id) {
-        const found = this.$store.state.irs_record_point.responses.find(r => r.id === this.response_id)
-        if (found) this.response = found
+      if (this.record_id) {
+        const found = this.$store.state.irs_record_point.records.find(r => r.id === this.record_id)
+        if (found) this.record = found
       }
     },
     methods: {
@@ -79,13 +79,13 @@
         console.info("TODO: @feature Implement clear_form")
       },
       complete_form(form_data) {
-        this.response.form_data = form_data
+        this.record.form_data = form_data
         this.form_is_filled_out = true
       },
 
       update_location(location) {
         if (location.hasOwnProperty('coords') && location.coords.hasOwnProperty('accuracy')) {
-          this.response.location = location
+          this.record.location = location
         } else {
           console.log('location error')
         }
@@ -93,21 +93,21 @@
 
       next_step(validation_result) {
         if (validation_result === 'pass') {
-          this.save_response()
+          this.save_record()
         } else {
           this.form_is_filled_out = false
         }
       },
 
-      save_response() {
+      save_record() {
 
-        // TODO: @refac Move to a proper response model, with tests. And cake.
-        const id = this.response_id || uuid()
-        const recorded_on = this.response.recorded_on || new Date()
+        // TODO: @refac Move to a proper record model, with tests. And cake.
+        const id = this.record_id || uuid()
+        const recorded_on = this.record.recorded_on || new Date()
 
-        const response = {
-          form_data: this.response.form_data,
-          location: this.response.location,
+        const record = {
+          form_data: this.record.form_data,
+          location: this.record.location,
           recorded_on: recorded_on,
           id: id,
           synced: false,
@@ -115,19 +115,19 @@
           instance_slug: this.slug
         }
 
-        if (this.response_id) {
-          this.update_response(response)
+        if (this.record_id) {
+          this.update_record(record)
         } else {
-          this.create_response(response)
+          this.create_record(record)
         }
       },
 
-      create_response(response) {
-        this.$store.commit('irs_record_point/create_response', response)
+      create_record(record) {
+        this.$store.commit('irs_record_point/create_record', record)
         this.$router.push('/irs/record_point/')
       },
-      update_response(response) {
-        this.$store.commit('irs_record_point/update_response', response)
+      update_record(record) {
+        this.$store.commit('irs_record_point/update_record', record)
         this.$router.push('/irs/record_point/')
       }
     }

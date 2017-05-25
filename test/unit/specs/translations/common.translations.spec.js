@@ -11,7 +11,7 @@ const instances = {
 }
 
 const required_functions = [
-  'responses_count',
+  'records_count',
   'sprayed_count',
   'unsprayed_count',
   'sprayed_over_visited',
@@ -26,7 +26,7 @@ for(const instance_name in instances) {
     // can create without specifying options
 
     describe('create simple one', () => {
-      const t = new InstanceTranslations({responses: [], options: []})
+      const t = new InstanceTranslations({records: [], options: []})
 
       it('should return an object', () => {
         assert.isObject(t)
@@ -40,9 +40,9 @@ for(const instance_name in instances) {
     })
 
     describe('bit more advanced', () => {
-      it('responses_count should equal responses.length', () => {
-        const t = new InstanceTranslations({responses: [1, 2, 3], options: []})
-        assert.equal(t.responses_count(), 3)
+      it('records_count should equal records.length', () => {
+        const t = new InstanceTranslations({records: [1, 2, 3], options: []})
+        assert.equal(t.records_count(), 3)
       })
     })
   })

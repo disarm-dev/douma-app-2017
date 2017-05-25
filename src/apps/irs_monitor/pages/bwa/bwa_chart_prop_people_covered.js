@@ -4,14 +4,14 @@ import moment from 'moment'
 import aggregations from '@/lib/aggregations/bwa.aggregations'
 
 export default Line.extend({
-  props: ['responses', 'denominator'],
+  props: ['records', 'denominator'],
   data() {
     return {
       labels: []
     }
   },
   mounted () {
-    const data = this.prepare_responses(this.responses)
+    const data = this.prepare_records(this.records)
     this.create_chart(data, this.labels)
   },
   methods: {
@@ -58,27 +58,27 @@ export default Line.extend({
       })
 
     },
-    prepare_responses(responses) {
+    prepare_records(records) {
       let output = {team1: [], team2: [], team3: []}
       let labels = []
 
-      responses = responses.map(response => {
-        const week_number = parseInt(moment(response.recorded_on).week(), 10)
-        response._week = week_number
+      records = records.map(record => {
+        const week_number = parseInt(moment(record.recorded_on).week(), 10)
+        record._week = week_number
         if (!labels.includes(week_number)) {
           labels.push(week_number)
         }
-        return response
+        return record
       })
       this.labels = labels.sort((a, b) => a - b)
 
-      responses.forEach(response => {
-        const week_index = labels.indexOf(response._week)
-        const team = response.team
+      records.forEach(record => {
+        const week_index = labels.indexOf(record._week)
+        const team = record.team
         if (output[team][week_index]) {
-          output[team][week_index].push(response)
+          output[team][week_index].push(record)
         } else {
-          output[team][week_index] = [response]
+          output[team][week_index] = [record]
         }
       })
 
@@ -93,8 +93,8 @@ export default Line.extend({
       return output
 
     },
-    do_aggregation(responses, denominator) {
-      return aggregations['number of people in homestead (total)'](responses, denominator)
+    do_aggregation(records, denominator) {
+      return aggregations['number of people in homestead (total)'](records, denominator)
     }
   }
 })

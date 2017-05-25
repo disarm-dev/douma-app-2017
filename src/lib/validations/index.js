@@ -5,16 +5,16 @@ import zwe from './zwe.validations.js'
 
 const check_rules = (form_rules) => {
 
-  return (response) => {
+  return (record) => {
     let failed_validations = []
 
     location_rules.forEach((rule) => {
-      let rule_passed = rule.fn(response.location)
+      let rule_passed = rule.fn(record.location)
       if (!rule_passed) failed_validations.push(rule)
     })
 
     form_rules.forEach((rule) => {
-      let rule_passed = rule.fn(response.form_data)
+      let rule_passed = rule.fn(record.form_data)
       if (!rule_passed) failed_validations.push(rule)
     })
 
@@ -36,8 +36,8 @@ const location_rules = [
 ]
 
 export default {
-  bwa: check_rules(bwa), 
-  nam: check_rules(nam), 
-  swz: check_rules(swz), 
+  bwa: check_rules(bwa),
+  nam: check_rules(nam),
+  swz: check_rules(swz),
   zwe: check_rules(zwe)
 }

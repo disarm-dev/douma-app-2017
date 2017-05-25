@@ -14,7 +14,7 @@
           <component
             :is="component.name"
             :height="component.height_constraint == 'viewport' ? window_height : undefined"
-            :responses='responses'
+            :records='records'
             :denominator='denominator'
             :component_config='component'
             ></component>
@@ -92,26 +92,26 @@
     data () {
       return {
         filters_on: false,
-        _responses: [],
+        _records: [],
         denominator: []
       }
     },
     created() {
-      this._responses = this.decorate_responses(seed_data[this.slug].responses)
+      this._records = this.decorate_records(seed_data[this.slug].records)
       // this.denominator = get_denominator_from_plan(plan)
       this.denominator = seed_data[this.slug].denominator
     },
     computed: {
-      responses() {
+      records() {
         const filters = this.$store.state.irs_monitor.filters
 
         if (filters.length > 0) {
           const single_filter = filters[0]
-          return this._responses.filter(r => {
+          return this._records.filter(r => {
             return r[single_filter.type] == single_filter.value
           })
         } else {
-          return this._responses
+          return this._records
         }
       },
       window_height() {
@@ -128,9 +128,9 @@
       },
     },
     methods: {
-      decorate_responses(responses) {
-        // Add weeks TODO: @refac Add 'weeks' to `responses` somewhere earlier than the dashbboard
-        return responses.map(r => {
+      decorate_records(records) {
+        // Add weeks TODO: @refac Add 'weeks' to `records` somewhere earlier than the dashbboard
+        return records.map(r => {
           r.week = moment(r.recorded_on).week()
           return r
         })
