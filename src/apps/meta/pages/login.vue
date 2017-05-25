@@ -11,7 +11,7 @@
           <p class="md-body-1 login-text login-error" v-if="error">{{error}}</p>
           <md-input-container>
             <label>Username</label>
-            <md-input v-model="user.username" required type="text"></md-input>
+            <md-input v-model="user.username" required type="email"></md-input>
           </md-input-container>
 
           <md-input-container>
