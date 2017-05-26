@@ -16,6 +16,7 @@
     <router-link to="/meta/location">location</router-link>
     <router-link to="/meta/building">building</router-link>
     <a @click="reset_config()">reset config</a>
+    <a href="/3rdpartylicenses.txt">licenses</a>
     <p>{{commit_hash}}</p>
   </div>
 </template>
