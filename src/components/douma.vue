@@ -47,7 +47,7 @@
           <md-icon>person</md-icon><span>User</span>
         </md-list-item>
 
-        <md-list-item class='md-accent' @click.native="logout()">
+        <md-list-item class='md-accent' @click.native="navigate('meta:logout')">
           <md-icon>exit_to_app</md-icon><span>Logout</span>
         </md-list-item>
 
@@ -142,9 +142,6 @@
       snackbar_action() {
         this.$refs.snackbar.close()
         this.snackbar.action()
-      },
-      logout() {
-        this.$router.push('/meta/logout')
       }
     }
   }
