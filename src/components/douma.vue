@@ -144,9 +144,7 @@
         this.snackbar.action()
       },
       logout() {
-        this.$store.dispatch('meta/logout').then(() => {
-          this.$router.push('/')
-        })
+        this.$router.push('/meta/logout')
       }
     }
   }

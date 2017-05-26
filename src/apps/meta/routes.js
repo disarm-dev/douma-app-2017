@@ -1,6 +1,7 @@
 import applet from './applet.vue'
 import home from './pages/home.vue'
 import login from './pages/login.vue'
+import logout from './pages/logout.vue'
 
 import location from './pages/location_debug.vue'
 import building from './pages/building_debug.vue'
@@ -22,6 +23,10 @@ export default [
         path: 'login',
         name: 'meta:login',
         component: login,
+      },{
+        path: 'logout',
+        name: 'meta:logout',
+        component: logout,
       }
     ]
   },{
