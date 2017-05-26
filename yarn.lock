@@ -188,16 +188,7 @@
     rbush "^2.0.1"
     turf-overlaps "^1.0.3"
 
-"@turf/distance@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@turf/distance/-/distance-4.1.0.tgz#0050cbe85579e54c53eea2de48d7d8cb455592bc"
-  dependencies:
-    "@turf/helpers" "^4.1.0"
-    "@turf/invariant" "^4.1.0"
-    load-json-file "^2.0.0"
-    write-json-file "^2.0.0"
-
-"@turf/distance@^4.3.0":
+"@turf/distance@^4.1.0", "@turf/distance@^4.3.0":
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/@turf/distance/-/distance-4.3.0.tgz#b533ba75936fea897ee1987824714b803df9061c"
   dependencies:
@@ -243,11 +234,7 @@
   version "3.13.0"
   resolved "https://registry.yarnpkg.com/@turf/helpers/-/helpers-3.13.0.tgz#d06078a1464cf56cdb7ea624ea1e13a71b88b806"
 
-"@turf/helpers@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@turf/helpers/-/helpers-4.1.0.tgz#013a9c53db6a9386e47c7ab445d93ca2035c4b81"
-
-"@turf/helpers@^4.3.0":
+"@turf/helpers@^4.1.0", "@turf/helpers@^4.3.0":
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/@turf/helpers/-/helpers-4.3.0.tgz#7b2f733aa0eb3ea1f07d467ac02ede00cc6cde0d"
 
@@ -290,11 +277,7 @@
   version "3.13.0"
   resolved "https://registry.yarnpkg.com/@turf/invariant/-/invariant-3.13.0.tgz#89243308cd563206e81e5c6162e0d22f61822f90"
 
-"@turf/invariant@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@turf/invariant/-/invariant-4.1.0.tgz#00f0710d3411b01cc71a966d21bcd048d6a86612"
-
-"@turf/invariant@^4.3.0":
+"@turf/invariant@^4.1.0", "@turf/invariant@^4.3.0":
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/@turf/invariant/-/invariant-4.3.0.tgz#5bd1ce6ae51b1229dc0dc7d09d973fabae49af89"
 
@@ -4537,6 +4520,12 @@ levn@^0.3.0, levn@~0.3.0:
   dependencies:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
+
+license-webpack-plugin@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/license-webpack-plugin/-/license-webpack-plugin-0.5.0.tgz#4100d000e29abf4fd5bf75b5b2d2aa78bb100a37"
+  dependencies:
+    object-assign "^4.1.0"
 
 lineclip@^1.1.5:
   version "1.1.5"
