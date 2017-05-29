@@ -65,6 +65,7 @@
         return true
       },
       login() {
+        this.$store.commit('root:set_loading', true)
         this.error = ""
 
         if (this.user_is_valid()) {
@@ -72,10 +73,12 @@
           this.disabled = true
 
           this.$store.dispatch('meta/login', this.user).then(() => {
+            this.$store.commit('root:set_loading', false)
             this.disabled = false
             this.continue()
           })
           .catch(e => {
+            this.$store.commit('root:set_loading', false)
             this.error = e.error
             this.disabled = false
           })
