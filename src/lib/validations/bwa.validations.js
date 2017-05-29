@@ -6,7 +6,7 @@ export default [
     },
     message: 'Total sprayed does not equl `ddt`+ `deltamethrin`.',
     relevant_questions: ['total_sprayed', 'ddt', 'deltamethrin'],
-    stopping_power: "soft",
+    type: "warning",
   }
 ]
 

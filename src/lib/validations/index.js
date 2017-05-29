@@ -21,8 +21,11 @@ const check_rules = (form_rules) => {
         if (!rule_passed) failed_validations.push(rule)
       }
     })
-
-    return failed_validations
+    let validation_result = {
+      errors: failed_validations.filter(v => v.type === 'error')
+      warning: failed_validations.filter(v => v.type === 'warning')
+    }
+    return validation_result
   }
 }
 
@@ -33,16 +36,16 @@ const location_rules = [
     fn: (location) => {
       return location && location.hasOwnProperty('coords') && location.coords.hasOwnProperty('accuracy')
     },
-    stopping_power: "hard",
+    type: "error",
     input_questions: [],
     output_question: ''
   }
 ]
 
 export default {
-  bwa: check_rules(bwa), 
-  nam: check_rules(nam), 
-  swz: check_rules(swz), 
+  bwa: check_rules(bwa),
+  nam: check_rules(nam),
+  swz: check_rules(swz),
   zwe: check_rules(zwe)
 }
 
