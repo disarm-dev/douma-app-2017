@@ -50,12 +50,7 @@
       return {
         response: {
           location: null,
-          existing_form_data: null,
-          // form_data: null
-        // },
-        validations: {
-          errors: [],
-          warnings: []
+          form_data: null
         },
 
         // Validation result will return object looking like this:
