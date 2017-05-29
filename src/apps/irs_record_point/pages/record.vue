@@ -5,28 +5,28 @@
     <!-- <md-button class='md-raised' @click.native='clear_form'>Clear form</md-button> -->
     
     <!-- FORM -->
-    <div v-if="!form_is_filled_out">
+    <div>
       
       <h1>{{create_or_update}} record for {{country}} <md-chip>Unsaved data</md-chip></h1>
+      
+      <md-card>
+        <md-card-content>
+          <review :errors='validation.errors' :warnings='validation.warnings'></review>
+        </md-card-content>
+      </md-card>
 
       <md-card>
         <md-card-content>
-          <location_record v-on:position='update_location' :existing_location='response.location'>
+          <location_record v-on:position='update_location' :existing_location='location'>
           </location_record>
         </md-card-content>
       </md-card>
     
       <md-card>
         <md-card-content>
-          <form_renderer v-on:complete='complete_form' :existing_form_data='response.form_data' >
-          </form_renderer>
+          <form_renderer @complete='complete_form' @change="change_form" :existing_form_data='existing_form_data'></form_renderer>
         </md-card-content>
       </md-card>
-    </div>
-
-    <!-- REVIEW / VALIDATION -->
-    <div v-else>
-      <review v-on:validation_result='next_step' :response='response'></review>
     </div>
 
   </div>
@@ -46,10 +46,14 @@
     props: ['response_id'],
     data () {
       return {
-        form_is_filled_out: false,
-        response: {
+        // response: {
           location: null,
-          form_data: null
+          existing_form_data: null,
+          // form_data: null
+        // },
+        validations: {
+          errors: [],
+          warnings: []
         },
         // don't need below
         form_completed: false,
@@ -66,23 +70,21 @@
       },
       create_or_update() {
         return this.response_id ? 'Update' : 'Create'
-      },
+      }
     },
     created() {
       if (this.response_id) {
         const found = this.$store.state.irs_record_point.responses.find(r => r.id === this.response_id)
-        if (found) this.response = found
+        if (found) {
+          this.location = found.location
+          this.existing_form_data = found.form_data
+        }
       }
     },
     methods: {
       clear_form() {
         console.info("TODO: @feature Implement clear_form")
       },
-      complete_form(form_data) {
-        this.response.form_data = form_data
-        this.form_is_filled_out = true
-      },
-
       update_location(location) {
         if (location.hasOwnProperty('coords') && location.coords.hasOwnProperty('accuracy')) {
           this.response.location = location
@@ -90,14 +92,21 @@
           console.log('location error')
         }
       },
+      change_form(form_data) {
+        // Check against all custom validations, display results
+        let response = {form_data, location: this.location}
+        let validation_results = Validators[this.slug](response)
 
-      next_step(validation_result) {
-        if (validation_result === 'pass') {
-          this.save_response()
-        } else {
-          this.form_is_filled_out = false
+        this.errors = validation_results.filter(validation => validation.type === 'error')
+        this.warnings = validation_results.filter(validation => validation.type === 'warning')
+      
+      },
+      complete_form(form_data) {
+        if (this.validation.errors.length === 0) {
+          this.save_response() 
         }
       },
+
 
       save_response() {
 

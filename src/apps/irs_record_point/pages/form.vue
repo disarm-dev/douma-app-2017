@@ -22,7 +22,7 @@
       this.form = {
         ...this.form, 
         goNextPageAutomatic,
-        completeText: "Start review/validation"
+        completeText: "Save"
       }
     },
     mounted(){
@@ -41,13 +41,17 @@
 
         el.Survey({
           model: this.survey,
-          onComplete: this.update_form_response
+          onComplete: this.update_form_response,
+          onValueChanged: this.update_partial_form_response
         });
 
       },
       update_form_response() {
         this.$emit('complete', this.survey.data)
       },
+      update_partial_form_response() {
+        this.$emit('change', this.survey.data)
+      }
     }
   }
 </script>
