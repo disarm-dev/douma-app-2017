@@ -1,5 +1,5 @@
 <template>
-  <div v-if='is_valid'>
+  <div>
     <h2>Review</h2>
 
     <div v-if="validations.errors.length > 0">
@@ -22,7 +22,7 @@
 <script>
   export default {
     props: ['validations'],
-    name: 'Review'
+    name: 'Review',
   }
 </script>
 

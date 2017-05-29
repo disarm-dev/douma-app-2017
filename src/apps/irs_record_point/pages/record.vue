@@ -2,32 +2,35 @@
   <div class='container'>
 
     <md-button class='md-raised' @click.native="$router.push('/irs/record_point/list')">List</md-button>
-    <!-- <md-button class='md-raised' @click.native='clear_form'>Clear form</md-button> -->
 
-    <!-- FORM -->
-    <div>
+    <h1>{{page_title}} record <md-chip>Unsaved data</md-chip></h1>
 
-      <h1>{{page_title}} record<md-chip>Unsaved data</md-chip></h1>
+    <md-card>
+      <md-card-content>
+        Validation count: {{validation_result.errors.length}} errors, {{validation_result.warnings.length}} warnings
+        <review :validations='validation_result'></review>
+      </md-card-content>
+    </md-card>
 
-      <md-card>
-        <md-card-content>
-          <review :errors='validation.errors' :warnings='validation.warnings'></review>
-        </md-card-content>
-      </md-card>
+    <md-card>
+      <md-card-content>
+        <location_record
+          @change='on_location_change'
+          :initial_location='initial_response.location'
+        ></location_record>
+      </md-card-content>
+    </md-card>
 
-      <md-card>
-        <md-card-content>
-          <location_record v-on:position='update_location' :existing_location='location'>
-          </location_record>
-        </md-card-content>
-      </md-card>
-
-      <md-card>
-        <md-card-content>
-          <form_renderer @complete='complete_form' @change="change_form" :existing_form_data='existing_form_data'></form_renderer>
-        </md-card-content>
-      </md-card>
-    </div>
+    <md-card>
+      <md-card-content>
+        <form_renderer
+          @complete='on_form_complete'
+          @change="on_form_change"
+          :initial_form_data='initial_response.form_data'
+          :response_is_valid="response_is_valid"
+        ></form_renderer>
+      </md-card-content>
+    </md-card>
 
 
   </div>
@@ -43,7 +46,7 @@
 
   export default {
 
-    name: 'record',
+    name: 'Record',
     components: {location_record, form_renderer, review},
     props: ['response_id'],
     data () {
@@ -56,7 +59,7 @@
         // Validation result will return object looking like this:
         validation_result: {
           errors: [],
-          warning: []
+          warnings: []
         }
       }
     },
@@ -67,48 +70,42 @@
       page_title() {
         return this.response_id ? 'Update' : 'Create'
       },
-      existing_form_record() {
+      initial_response() {
         if (this.response_id) {
           return this.$store.state.irs_record_point.responses.find(r => r.id === this.response_id)
+        } else {
+          return {
+            location: {},
+            form_data: {}
+          }
         }
       },
-      record_is_valid() {
+      response_is_valid() {
         return (this.validation_result.errors.length === 0)
       },
     },
     methods: {
+      // TODO: @feature Implement clear_form"
+      on_location_change(location) {
+        this.response.location = location
+        this.validate()
+      },
       on_form_change(form_data) {
-        this.validation_result = Validators[this.slug](this.response)
+        this.response.form_data = form_data
+        this.validate()
       },
       on_form_complete(form_data) {
-        if (this.record_is_valid) {
-          save_response()
+        this.on_form_change(form_data)
+
+        if (this.response_is_valid) {
+          this.save_response()
         } else {
           console.log('No idea what we do here.')
         }
       },
-      // TODO: @feature Implement clear_form"
-//      complete_form(form_data) {
-//        this.response.form_data = form_data
-//        this.form_is_filled_out = true
-//      },
-//
-//      update_location(location) {
-//        if (location.hasOwnProperty('coords') && location.coords.hasOwnProperty('accuracy')) {
-//          this.response.location = location
-//        } else {
-//          console.log('location error')
-//        }
-//      },
-//
-//      next_step(validation_result) {
-//        if (validation_result === 'pass') {
-//          this.save_response()
-//        } else {
-//          this.form_is_filled_out = false
-//        }
-//      },
-//
+      validate() {
+        this.validation_result = Validators[this.slug](this.response)
+      },
       save_response() {
         // TODO: @refac Move to a proper response model, with tests. And cake.
         const id = this.response_id || uuid()
@@ -130,7 +127,6 @@
           this.create_response(response)
         }
       },
-
       create_response(response) {
         this.$store.commit('irs_record_point/create_response', response)
         this.$router.push('/irs/record_point/')

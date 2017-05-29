@@ -12,7 +12,7 @@
 
   export default {
     name: 'location',
-    props: ['existing_location'],
+    props: ['initial_location'],
     data() {
       return {
         hunting_location: false,
@@ -21,10 +21,10 @@
       }
     },
     created() {
-      if (this.existing_location && this.existing_location.hasOwnProperty('coords') && this.existing_location.coords.hasOwnProperty('accuracy')) {
-        this.location = this.existing_location
+      if (this.initial_location && this.initial_location.hasOwnProperty('coords') && this.initial_location.coords.hasOwnProperty('accuracy')) {
+        this.location = this.initial_location
         this.location_message = `${this.location.coords.latitude}, ${this.location.coords.longitude} (accuracy: ${this.location.coords.accuracy} m)`
-        this.$emit('position', this.location)
+        this.$emit('change', this.location)
       }
     },
     methods: {
@@ -39,13 +39,13 @@
             this.location = convert(position)
             this.location_message = `${this.location.coords.latitude}, ${this.location.coords.longitude} (accuracy: ${this.location.coords.accuracy} m)`
             this.hunting_location = false
-            this.$emit('position', this.location)
+            this.$emit('change', this.location)
           }
 
           const fail = (error) => {
             this.location_message = `Cannot get location, if it helps: code ${error.code} ${error.message}`
             this.hunting_location = false
-            this.$emit('position', error)
+            this.$emit('change', error)
           }
 
           this.hunting_location = true

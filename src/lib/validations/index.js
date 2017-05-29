@@ -8,10 +8,10 @@ const check_rules = (form_rules) => {
   return (response) => {
     let failed_validations = []
 
-    // location_rules.forEach((rule) => {
-    //   let rule_passed = rule.fn(response.location)
-    //   if (!rule_passed) failed_validations.push(rule)
-    // })
+    location_rules.forEach((rule) => {
+      let rule_passed = rule.fn(response.location)
+      if (!rule_passed) failed_validations.push(rule)
+    })
 
     form_rules.forEach((rule) => {
       if (hasProperties(response.form_data, rule.relevant_questions)) {
@@ -22,8 +22,8 @@ const check_rules = (form_rules) => {
       }
     })
     let validation_result = {
-      errors: failed_validations.filter(v => v.type === 'error')
-      warning: failed_validations.filter(v => v.type === 'warning')
+      errors: failed_validations.filter(v => v.type === 'error'),
+      warnings: failed_validations.filter(v => v.type === 'warning')
     }
     return validation_result
   }

@@ -7,20 +7,23 @@
 
   export default {
     name: 'form',
-    props: ['existing_form_data'],
+    props: ['initial_form_data', 'response_is_valid'],
     data () {
       return {
-        survey: {},
+        _survey: {},
       }
+    },
+    watch: {
+      'response_is_valid': 'render_save_button'
     },
     created() {
       let goNextPageAutomatic = true
-      if (this.existing_form_data) {
+      if (this.initial_form_data) {
         goNextPageAutomatic = false
       }
       this.form = this.$store.state.instance_config.form
       this.form = {
-        ...this.form, 
+        ...this.form,
         goNextPageAutomatic,
         completeText: "Save"
       }
@@ -29,28 +32,37 @@
       this.create_form()
     },
     methods: {
+      render_save_button() {
+        if (!this._survey.isLastPage) return
+
+        if (this.response_is_valid) {
+
+        } else {
+
+        }
+      },
       create_form() {
         // TODO: @feature Destroy form on exit (#beforeDestroy)
-        this.survey = new Survey.Model(this.form)
+        this._survey = new Survey.Model(this.form)
 
-        if (this.existing_form_data) {
-          this.survey.data = this.existing_form_data
+        if (this.initial_form_data) {
+          this._survey.data = this.initial_form_data
         }
-        
+
         const el = $("#surveyContainer")
 
         el.Survey({
-          model: this.survey,
-          onComplete: this.update_form_response,
-          onValueChanged: this.update_partial_form_response
+          model: this._survey,
+          onValueChanged: this.on_form_change,
+          onComplete: this.on_form_complete
         });
 
       },
-      update_form_response() {
-        this.$emit('complete', this.survey.data)
+      on_form_change() {
+        this.$emit('change', this._survey.data)
       },
-      update_partial_form_response() {
-        this.$emit('change', this.survey.data)
+      on_form_complete() {
+        this.$emit('complete', this._survey.data)
       }
     }
   }
