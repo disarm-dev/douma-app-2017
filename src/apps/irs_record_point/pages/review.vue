@@ -5,14 +5,14 @@
     <div v-if="validations.errors.length > 0">
       <p>Errors</p>
       <ul>
-        <li class="error" v-for="{message, name, input_questions} in validations.errors" :key="name">{{message}}</li>
+        <li class="error" v-for="{message, name, relevant_questions} in validations.errors" :key="name">{{message}}</li>
       </ul>
     </div>
 
     <div v-if="validations.warnings.length > 0">
       <p>Warnings</p>
       <ul>
-        <li class="warning" v-for="{message, name, input_questions} in validations.warnings" :key="name">{{message}}</li>
+        <li class="warning" v-for="{message, name, relevant_questions} in validations.warnings" :key="name">{{message}}</li>
       </ul>
     </div>
 
