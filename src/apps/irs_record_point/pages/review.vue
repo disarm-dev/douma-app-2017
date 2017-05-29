@@ -49,22 +49,12 @@
     },
     methods: {
       validate_location_and_form() {
-        // Check location is set (and warn if accuracy is not acceptable)
-        // if (this.location) {
-        //   this.errors.push({
-        //     name: 'missing_location',
-        //     message: 'Missing location',
-        //     stopping_power: "hard"
-        //   })
-        // } else {
-        //   this.message = 'No location'
-        // }
 
         // Check against all custom validations, display results
-        let validations = Validators[this.slug](this.response)
+        let validation_results = Validators[this.slug](this.response)
 
-        this.errors = validations.filter(validation => validation.stopping_power === 'hard')
-        this.warnings = validations.filter(validation => validation.stopping_power === 'soft')
+        this.errors = validation_results.filter(validation => validation.stopping_power === 'hard')
+        this.warnings = validation_results.filter(validation => validation.stopping_power === 'soft')
       },
 
       submit() {
