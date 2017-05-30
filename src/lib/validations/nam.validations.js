@@ -25,7 +25,7 @@ export default [
     name: 'high_number_of_sprayed',
     fn: (f) => {
       if (f.sprayable === 'yes')  {
-        return f.number_sprayable < 10
+        return f.number_sprayable < 20
       } else {
         return true
       }
