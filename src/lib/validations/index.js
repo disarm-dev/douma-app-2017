@@ -19,9 +19,8 @@ const check_rules = (form_rules) => {
     })
 
     form_rules.forEach((rule) => {
-      if (hasProperties(response.form_data, rule.relevant_questions)) {
+      if (hasAllRequiredAnswers(response.form_data, rule.relevant_questions)) {
         let page_number = elements.find((el) => el.name === rule.relevant_questions[0]).page
-        console.log("page_number", page_number)
         rule.page_number = page_number
         let rule_passed = rule.fn(response.form_data)
         if (!rule_passed) failed_validations.push(rule)
@@ -55,9 +54,7 @@ export default {
   zwe: check_rules(zwe)
 }
 
-function hasProperties(object = {}, properties) {
-
-
+function hasAllRequiredAnswers(object = {}, properties) {
   for (var i = properties.length - 1; i >= 0; i--) {
     let property = properties[i]
     if (object.hasOwnProperty(property) && object[property] !== undefined) {
