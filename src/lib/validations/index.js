@@ -3,9 +3,14 @@ import nam from './nam.validations.js'
 import swz from './swz.validations.js'
 import zwe from './zwe.validations.js'
 
+import {elements_array} from '@/lib/form_helpers'
+
 const check_rules = (form_rules) => {
 
-  return (response) => {
+  return (response, form) => {
+
+    let elements = elements_array(form)
+
     let failed_validations = []
 
     location_rules.forEach((rule) => {
@@ -15,9 +20,10 @@ const check_rules = (form_rules) => {
 
     form_rules.forEach((rule) => {
       if (hasProperties(response.form_data, rule.relevant_questions)) {
-        console.log('rule is ready', rule, response.form_data)
+        let page_number = elements.find((el) => el.name === rule.relevant_questions[0]).page
+        console.log("page_number", page_number)
+        rule.page_number = page_number
         let rule_passed = rule.fn(response.form_data)
-        console.log('rule_passed', rule_passed)
         if (!rule_passed) failed_validations.push(rule)
       }
     })

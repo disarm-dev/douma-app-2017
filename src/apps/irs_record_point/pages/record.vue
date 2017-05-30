@@ -7,7 +7,10 @@
 
     <md-card>
       <md-card-content>
-        <review :validations='validation_result'></review>
+        <review 
+          @goto_question="goto_question"
+          :validations='validation_result'
+        ></review>
       </md-card-content>
     </md-card>
 
@@ -23,6 +26,7 @@
     <md-card>
       <md-card-content>
         <form_renderer
+          ref="form"
           @complete='on_form_complete'
           @change="on_form_change"
           :initial_form_data='initial_response.form_data'
@@ -88,6 +92,9 @@
       this.validate()
     },
     methods: {
+      goto_question(page_number) {
+        this.$refs.form._survey.currentPageNo = page_number
+      },
       // TODO: @feature Implement clear_form"
       on_location_change(location) {
         this.response.location = location
@@ -107,7 +114,7 @@
         }
       },
       validate() {
-        this.validation_result = Validators[this.slug](this.response)
+        this.validation_result = Validators[this.slug](this.response, this.$store.state.instance_config.form)
       },
       save_response() {
         // TODO: @refac Move to a proper response model, with tests. And cake.

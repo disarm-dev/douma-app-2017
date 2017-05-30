@@ -8,7 +8,7 @@ export default [
     },
     message: 'Total sprayed does not equal `ddt`+ `deltamethrin`.',
     type: "warning",
-    relevant_questions: ["sprayable_unsprayed", "numbersprayed_ddt", "numbersprayed_delta", "number_sprayable"]
+    relevant_questions: ["number_sprayable", "numbersprayed_ddt", "numbersprayed_delta", "sprayable_unsprayed"]
   },
   {
     name: 'sprayable_unsprayed',
@@ -19,7 +19,7 @@ export default [
     },
     message: "Number of unsprayed structures doesn't add up",
     type: "warning",
-    relevant_questions: ["sprayable_unsprayed", "numbersprayed_ddt", "numbersprayed_delta", "number_unsprayed", "number_sprayable"]
+    relevant_questions: ["number_sprayable", "sprayable_unsprayed", "numbersprayed_ddt", "numbersprayed_delta", "number_unsprayed"]
   },
   {
     name: 'high_number_of_sprayed',

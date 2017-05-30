@@ -13,7 +13,10 @@
     <div v-if="validations.warnings.length > 0">
       <p>Warnings</p>
       <ul>
-        <li class="warning" v-for="{message, name, relevant_questions} in validations.warnings" :key="name">{{message}}</li>
+        <li class="warning" v-for="{message, name, relevant_questions, page_number} in validations.warnings" :key="name">
+          {{message}}
+          <md-button v-if="page_number" @click.native="goto_question(page_number)">Go to page {{page_number + 1}}</md-button>
+        </li>
       </ul>
     </div>
 
@@ -24,6 +27,11 @@
   export default {
     props: ['validations'],
     name: 'Review',
+    methods: {
+      goto_question(page_number) {
+        this.$emit('goto_question', page_number)
+      }
+    }
   }
 </script>
 
