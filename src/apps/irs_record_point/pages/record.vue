@@ -7,7 +7,6 @@
 
     <md-card>
       <md-card-content>
-        Validation count: {{validation_result.errors.length}} errors, {{validation_result.warnings.length}} warnings
         <review :validations='validation_result'></review>
       </md-card-content>
     </md-card>
@@ -52,10 +51,9 @@
     data () {
       return {
         response: {
-          location: null,
-          form_data: null
+          location: {},
+          form_data: {}
         },
-
         // Validation result will return object looking like this:
         validation_result: {
           errors: [],
@@ -82,7 +80,12 @@
       },
       response_is_valid() {
         return (this.validation_result.errors.length === 0)
-      },
+      }
+    },
+    mounted() {
+      // We need to run validations when we start, 
+      // otherwise it only happens after a question has been answered. 
+      this.validate()
     },
     methods: {
       // TODO: @feature Implement clear_form"
