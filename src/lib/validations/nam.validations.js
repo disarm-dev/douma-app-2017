@@ -20,5 +20,18 @@ export default [
     message: "Number of unsprayed structures doesn't add up",
     type: "warning",
     relevant_questions: ["sprayable_unsprayed", "numbersprayed_ddt", "numbersprayed_delta", "number_unsprayed", "number_sprayable"]
+  },
+  {
+    name: 'high_number_of_sprayed',
+    fn: (f) => {
+      if (f.sprayable === 'yes')  {
+        return f.number_sprayable < 10
+      } else {
+        return true
+      }
+    },
+    message: "Number of sprayable structures seems high. Please check the value.",
+    type: "warning",
+    relevant_questions: ["number_sprayable", "sprayable"]
   }
 ]
