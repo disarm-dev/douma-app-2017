@@ -20,17 +20,18 @@
 
   export default {
     name: 'plan_summary',
+    props: ['plan', 'edit'],
     computed: {
-      selected_target_area_ids() {
-        return this.$store.state.irs_plan.selected_target_area_ids
-      },
-      selected_regions() {
-        return this.$store.state.irs_plan.selected_target_area_ids.map(id => {
-          // return this.regions.find(feature => feature.properties.id === id)
-        })
-      },
+//      selected_target_area_ids() {
+//        return this.$store.state.irs_plan.selected_target_area_ids
+//      },
+//      selected_regions() {
+//        return this.$store.state.irs_plan.selected_target_area_ids.map(id => {
+//          // return this.regions.find(feature => feature.properties.id === id)
+//        })
+//      },
       table() {
-        const data = this.selected_regions.map(r => r.properties)
+        const data = this.plan.map(r => r.properties)
         const columns = Object.keys(data[0])
         return {data, columns}
       },
