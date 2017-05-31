@@ -2,32 +2,39 @@
   <div class='container'>
 
     <md-button class='md-raised' @click.native="$router.push('/irs/record_point/list')">List</md-button>
-    <!-- <md-button class='md-raised' @click.native='clear_form'>Clear form</md-button> -->
-    
-    <!-- FORM -->
-    <div v-if="!form_is_filled_out">
-      
-      <h1>{{create_or_update}} record for {{country}} <md-chip>Unsaved data</md-chip></h1>
 
-      <md-card>
-        <md-card-content>
-          <location_record v-on:position='update_location' :existing_location='response.location'>
-          </location_record>
-        </md-card-content>
-      </md-card>
-    
-      <md-card>
-        <md-card-content>
-          <form_renderer v-on:complete='complete_form' :existing_form_data='response.form_data' >
-          </form_renderer>
-        </md-card-content>
-      </md-card>
-    </div>
+    <h1>{{page_title}} record <md-chip>Unsaved data</md-chip></h1>
 
-    <!-- REVIEW / VALIDATION -->
-    <div v-else>
-      <review v-on:validation_result='next_step' :response='response'></review>
-    </div>
+    <md-card>
+      <md-card-content>
+        <review 
+          @goto_question="goto_question"
+          :validations='validation_result'
+        ></review>
+      </md-card-content>
+    </md-card>
+
+    <md-card>
+      <md-card-content>
+        <location_record
+          @change='on_location_change'
+          :initial_location='initial_response.location'
+        ></location_record>
+      </md-card-content>
+    </md-card>
+
+    <md-card>
+      <md-card-content>
+        <form_renderer
+          ref="form"
+          @complete='on_form_complete'
+          @change="on_form_change"
+          :initial_form_data='initial_response.form_data'
+          :response_is_valid="response_is_valid"
+        ></form_renderer>
+      </md-card-content>
+    </md-card>
+
 
   </div>
 </template>
@@ -38,69 +45,78 @@
   import location_record from '@/components/location.vue'
   import review from './review.vue'
   import form_renderer from './form.vue'
+  import Validators from '@/lib/validations'
 
   export default {
 
-    name: 'record',
+    name: 'Record',
     components: {location_record, form_renderer, review},
     props: ['response_id'],
     data () {
       return {
-        form_is_filled_out: false,
         response: {
-          location: null,
-          form_data: null
+          location: {},
+          form_data: {}
         },
-        // don't need below
-        form_completed: false,
-        location_completed: false,
-        response_completed: false
+        // Validation result will return object looking like this:
+        validation_result: {
+          errors: [],
+          warnings: []
+        }
       }
     },
     computed: {
-      country() {
-        return this.$store.state.instance_config.name
-      },
       slug() {
         return this.$store.state.instance_config.slug.toLowerCase()
       },
-      create_or_update() {
+      page_title() {
         return this.response_id ? 'Update' : 'Create'
       },
-    },
-    created() {
-      if (this.response_id) {
-        const found = this.$store.state.irs_record_point.responses.find(r => r.id === this.response_id)
-        if (found) this.response = found
+      initial_response() {
+        if (this.response_id) {
+          return this.$store.state.irs_record_point.responses.find(r => r.id === this.response_id)
+        } else {
+          return {
+            location: {},
+            form_data: {}
+          }
+        }
+      },
+      response_is_valid() {
+        return (this.validation_result.errors.length === 0)
       }
     },
+    mounted() {
+      // We need to run validations when we start, 
+      // otherwise it only happens after a question has been answered. 
+      this.validate()
+    },
     methods: {
-      clear_form() {
-        console.info("TODO: @feature Implement clear_form")
+      goto_question(page_number) {
+        this.$refs.form._survey.currentPageNo = page_number
       },
-      complete_form(form_data) {
+      // TODO: @feature Implement clear_form"
+      on_location_change(location) {
+        this.response.location = location
+        this.validate()
+      },
+      on_form_change(form_data) {
         this.response.form_data = form_data
-        this.form_is_filled_out = true
+        this.validate()
       },
+      on_form_complete(form_data) {
+        this.on_form_change(form_data)
 
-      update_location(location) {
-        if (location.hasOwnProperty('coords') && location.coords.hasOwnProperty('accuracy')) {
-          this.response.location = location
-        } else {
-          console.log('location error')
-        }
-      },
-
-      next_step(validation_result) {
-        if (validation_result === 'pass') {
+        if (this.response_is_valid) {
           this.save_response()
         } else {
-          this.form_is_filled_out = false
+          console.log('No idea what we do here.')
         }
       },
-
+      validate() {
+        this.validation_result = Validators[this.slug](this.response, this.$store.state.instance_config.form)
+      },
       save_response() {
-
         // TODO: @refac Move to a proper response model, with tests. And cake.
         const id = this.response_id || uuid()
         const recorded_on = this.response.recorded_on || new Date()
@@ -121,7 +137,6 @@
           this.create_response(response)
         }
       },
-
       create_response(response) {
         this.$store.commit('irs_record_point/create_response', response)
         this.$router.push('/irs/record_point/')

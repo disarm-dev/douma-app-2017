@@ -21,7 +21,7 @@
   {
    "elements": [
     {
-     "type": "dropdown",
+     "type": "radiogroup",
      "choices": [
       {
        "value": "mopup",
@@ -43,9 +43,9 @@
    "elements": [
     {
      "type": "text",
+     "isRequired": true,
      "name": "householdheadname",
-     "title": "Household Head Name",
-     "isRequired": true
+     "title": "Household Head Name"
     }
    ],
    "name": "page2"
@@ -1348,7 +1348,7 @@
   {
    "elements": [
     {
-     "type": "dropdown",
+     "type": "radiogroup",
      "choices": [
       {
        "value": "1",
@@ -1373,10 +1373,31 @@
    "elements": [
     {
      "type": "text",
-     "name": "date_visited",
-     "title": "Date Visited",
+     "inputType": "number",
      "isRequired": true,
-     "inputType": "date"
+     "name": "number_structures_total",
+     "title": "How many structures are in this homestead?",
+     "validators": [
+      {
+       "type": "numeric",
+       "minValue": "0",
+       "text": "Minimum value is zero "
+      }
+     ]
+    },
+    {
+     "type": "text",
+     "inputType": "number",
+     "isRequired": true,
+     "name": "number_of_structures_sprayed",
+     "title": "How many structures were sprayed in this homestead?",
+     "validators": [
+      {
+       "type": "numeric",
+       "minValue": "0",
+       "text": "Minimum value is zero "
+      }
+     ]
     }
    ],
    "name": "page5"
@@ -1384,40 +1405,7 @@
   {
    "elements": [
     {
-     "type": "text",
-     "name": "number_structures_total",
-     "title": "How many structures are in this homestead?",
-     "isRequired": true,
-     "validators": [
-      {
-       "type": "numeric",
-       "text": "Minimum value is zero ",
-       "minValue": "0"
-      }
-     ],
-     "inputType": "number"
-    },
-    {
-     "type": "text",
-     "name": "number_of_structures_sprayed",
-     "title": "How many structures were sprayed in this homestead?",
-     "isRequired": true,
-     "validators": [
-      {
-       "type": "numeric",
-       "text": "Minimum value is zero ",
-       "minValue": "0"
-      }
-     ],
-     "inputType": "number"
-    }
-   ],
-   "name": "page6"
-  },
-  {
-   "elements": [
-    {
-     "type": "dropdown",
+     "type": "radiogroup",
      "choices": [
       {
        "value": "yes",
@@ -1447,8 +1435,8 @@
        "validators": [
         {
          "type": "numeric",
-         "text": "Minimum value is zero",
-         "minValue": "0"
+         "minValue": "0",
+         "text": "Minimum value is zero"
         }
        ]
       },
@@ -1459,8 +1447,8 @@
        "validators": [
         {
          "type": "numeric",
-         "text": "Minimum value is zero",
-         "minValue": "0"
+         "minValue": "0",
+         "text": "Minimum value is zero"
         }
        ]
       },
@@ -1471,8 +1459,8 @@
        "validators": [
         {
          "type": "numeric",
-         "text": "Minimum value is zero",
-         "minValue": "0"
+         "minValue": "0",
+         "text": "Minimum value is zero"
         }
        ]
       },
@@ -1483,8 +1471,8 @@
        "validators": [
         {
          "type": "numeric",
-         "text": "Minimum value is zero",
-         "minValue": "0"
+         "minValue": "0",
+         "text": "Minimum value is zero"
         }
        ]
       },
@@ -1495,8 +1483,8 @@
        "validators": [
         {
          "type": "numeric",
-         "text": "Minimum value is zero",
-         "minValue": "0"
+         "minValue": "0",
+         "text": "Minimum value is zero"
         }
        ]
       },
@@ -1507,8 +1495,8 @@
        "validators": [
         {
          "type": "numeric",
-         "text": "Minimum value is zero",
-         "minValue": "0"
+         "minValue": "0",
+         "text": "Minimum value is zero"
         }
        ]
       },
@@ -1519,8 +1507,8 @@
        "validators": [
         {
          "type": "numeric",
-         "text": "Minimum value is zero",
-         "minValue": "0"
+         "minValue": "0",
+         "text": "Minimum value is zero"
         }
        ]
       },
@@ -1531,8 +1519,8 @@
        "validators": [
         {
          "type": "numeric",
-         "text": "Minimum value is zero",
-         "minValue": "0"
+         "minValue": "0",
+         "text": "Minimum value is zero"
         }
        ]
       },
@@ -1543,8 +1531,8 @@
        "validators": [
         {
          "type": "numeric",
-         "text": "Minimum value is zero",
-         "minValue": "0"
+         "minValue": "0",
+         "text": "Minimum value is zero"
         }
        ]
       },
@@ -1555,15 +1543,15 @@
        "validators": [
         {
          "type": "numeric",
-         "text": "Minimum value is zero",
-         "minValue": "0"
+         "minValue": "0",
+         "text": "Minimum value is zero"
         }
        ]
       }
      ]
     }
    ],
-   "name": "page7"
+   "name": "page6"
   }
  ]
 },
