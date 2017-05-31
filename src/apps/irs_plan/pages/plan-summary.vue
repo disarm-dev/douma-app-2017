@@ -14,6 +14,10 @@
 </template>
 
 <script>
+  import download from 'downloadjs'
+  import json2csv from 'json2csv'
+  import moment from 'moment'
+
   export default {
     name: 'plan_summary',
     computed: {
@@ -30,6 +34,16 @@
         const columns = Object.keys(data[0])
         return {data, columns}
       },
+    },
+    methods: {
+      download_plan() {
+        const data = this.tableData
+        const fields = this.tableColumns
+        const content = json2csv({data, fields})
+        const date = moment().format('YYYY-MM-DD_HHmm')
+
+        download(content, `${this.slug}_irs_plan_${date}.csv`)
+      }
     }
   }
 </script>

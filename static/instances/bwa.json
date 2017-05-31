@@ -37,7 +37,11 @@
   },
   "spatial_hierarchy": [
     {"name": "villages", "field_name": "OBJECTID"},
-    {"name": "clusters", "field_name": "ClusterID", "denominator": true}],
+    {"name": "clusters", "field_name": "ClusterID", "denominator": {
+      "aggregate_to": "villages",
+      "aggregate_by": "village_id",
+      "count_field": "NumStructures"
+    }}],
   "form": {
     "pages": [
       {
