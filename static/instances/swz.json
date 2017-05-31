@@ -15,7 +15,11 @@
     "meta": {}
   },
   "area_id": "UniqLocCod",
-  "spatial_hierarchy": [{"name": "locality", "area_id": "UniqLocCod"}],
+  "spatial_hierarchy": [
+    {"name": "country", "area_id": "UniqLocCod"},
+    {"name": "localities", "area_id": "UniqLocCod"},
+    {"name": "clusters", "area_id": "UniqLocCod", "lowest": true}
+  ],
   "form": {
  "pages": [
   {
