@@ -15,7 +15,24 @@
     "irs_plan": {},
     "meta": {}
   },
-  "spatial_hierarchy": [{"name": "wards", "field_name": "WARDPCODE"}],
+  "spatial_hierarchy": [
+    {
+      "name": "wards",
+      "field_name": "WARDPCODE"
+    },
+    {
+      "name": "clusters",
+      "field_name": "ClusterID"
+    }
+  ],
+  "denominator": {
+    "extract_from": "clusters",
+    "fields": [
+      "NumStructures"
+    ],
+    "aggregate_by": "WARDPCODE",
+    "aggregate_to": "wards"
+  },
   "form": {
     "pages": [
       {

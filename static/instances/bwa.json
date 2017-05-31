@@ -7,7 +7,17 @@
           "name": "table_progress",
           "width_constraint": "full",
           "height_constraint": "none",
-          "columns": ["village", "number of buildings targeted", "number of people in the homestead (<5 yrs)", "number of people in the homestead (>5 yrs)", "number of buildings visited", "number of rooms visited", "number of rooms sprayed (total)", "number of rooms sprayed (DDT)", "number of rooms sprayed (lambda-cyhalothrin)"]
+          "columns": [
+            "village",
+            "number of buildings targeted",
+            "number of people in the homestead (<5 yrs)",
+            "number of people in the homestead (>5 yrs)",
+            "number of buildings visited",
+            "number of rooms visited",
+            "number of rooms sprayed (total)",
+            "number of rooms sprayed (DDT)",
+            "number of rooms sprayed (lambda-cyhalothrin)"
+          ]
         },
         {
           "name": "bwa_chart_prop_room_sprayed",
@@ -36,12 +46,23 @@
     "meta": {}
   },
   "spatial_hierarchy": [
-    {"name": "villages", "field_name": "OBJECTID"},
-    {"name": "clusters", "field_name": "ClusterID", "denominator": {
-      "aggregate_to": "villages",
-      "aggregate_by": "village_id",
-      "count_field": "NumStructures"
-    }}],
+    {
+      "name": "villages",
+      "field_name": "OBJECTID"
+    },
+    {
+      "name": "clusters",
+      "field_name": "ClusterID"
+    }
+  ],
+  "denominator": {
+    "extract_from": "clusters",
+    "fields": [
+      "NumStructures"
+    ],
+    "aggregate_by": "village_id",
+    "aggregate_to": "villages"
+  },
   "form": {
     "pages": [
       {

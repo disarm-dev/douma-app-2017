@@ -6,7 +6,19 @@
           "height_constraint": "none",
           "name": "table_progress",
           "width_constraint": "full",
-          "columns": ["region", "homesteads found", "structures found", "structures found %", "structures sprayed", "structures sprayed %", "sprayable structures not sprayed", "sprayable structures not sprayed (refused)", "sprayable structures not sprayed (refused) %", "sprayable structures not sprayed(other reason)", "sprayable structures not sprayed (other reason) %"]
+          "columns": [
+            "region",
+            "homesteads found",
+            "structures found",
+            "structures found %",
+            "structures sprayed",
+            "structures sprayed %",
+            "sprayable structures not sprayed",
+            "sprayable structures not sprayed (refused)",
+            "sprayable structures not sprayed (refused) %",
+            "sprayable structures not sprayed(other reason)",
+            "sprayable structures not sprayed (other reason) %"
+          ]
         },
         {
           "height_constraint": "viewport",
@@ -1341,7 +1353,20 @@
   "slug": "NAM",
   "spatial_hierarchy": [
     {
-      "name": "region"
+      "name": "constituencies",
+      "field_name": "???"
+    },
+    {
+      "name": "villages",
+      "field_name": "???"
     }
-  ]
+  ],
+  "denominator": {
+    "extract_from": "villages",
+    "fields": [
+      "NumStructures"
+    ],
+    "aggregate_by": "???",
+    "aggregate_to": "constituencies"
+  }
 }
