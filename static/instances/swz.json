@@ -1380,8 +1380,8 @@
      "validators": [
       {
        "type": "numeric",
-       "text": "Minimum value is zero ",
-       "minValue": "0"
+       "minValue": "0",
+       "text": "Minimum value is zero "
       }
      ]
     },
@@ -1394,8 +1394,8 @@
      "validators": [
       {
        "type": "numeric",
-       "text": "Minimum value is zero ",
-       "minValue": "0"
+       "minValue": "0",
+       "text": "Minimum value is zero "
       }
      ]
     }
@@ -1435,8 +1435,8 @@
        "validators": [
         {
          "type": "numeric",
-         "text": "Minimum value is zero",
-         "minValue": "0"
+         "minValue": "0",
+         "text": "Minimum value is zero"
         }
        ]
       },
@@ -1447,8 +1447,8 @@
        "validators": [
         {
          "type": "numeric",
-         "text": "Minimum value is zero",
-         "minValue": "0"
+         "minValue": "0",
+         "text": "Minimum value is zero"
         }
        ]
       },
@@ -1459,8 +1459,8 @@
        "validators": [
         {
          "type": "numeric",
-         "text": "Minimum value is zero",
-         "minValue": "0"
+         "minValue": "0",
+         "text": "Minimum value is zero"
         }
        ]
       },
@@ -1471,8 +1471,8 @@
        "validators": [
         {
          "type": "numeric",
-         "text": "Minimum value is zero",
-         "minValue": "0"
+         "minValue": "0",
+         "text": "Minimum value is zero"
         }
        ]
       },
@@ -1483,8 +1483,8 @@
        "validators": [
         {
          "type": "numeric",
-         "text": "Minimum value is zero",
-         "minValue": "0"
+         "minValue": "0",
+         "text": "Minimum value is zero"
         }
        ]
       },
@@ -1495,8 +1495,8 @@
        "validators": [
         {
          "type": "numeric",
-         "text": "Minimum value is zero",
-         "minValue": "0"
+         "minValue": "0",
+         "text": "Minimum value is zero"
         }
        ]
       },
@@ -1507,8 +1507,8 @@
        "validators": [
         {
          "type": "numeric",
-         "text": "Minimum value is zero",
-         "minValue": "0"
+         "minValue": "0",
+         "text": "Minimum value is zero"
         }
        ]
       },
@@ -1519,8 +1519,8 @@
        "validators": [
         {
          "type": "numeric",
-         "text": "Minimum value is zero",
-         "minValue": "0"
+         "minValue": "0",
+         "text": "Minimum value is zero"
         }
        ]
       },
@@ -1531,8 +1531,8 @@
        "validators": [
         {
          "type": "numeric",
-         "text": "Minimum value is zero",
-         "minValue": "0"
+         "minValue": "0",
+         "text": "Minimum value is zero"
         }
        ]
       },
@@ -1543,8 +1543,8 @@
        "validators": [
         {
          "type": "numeric",
-         "text": "Minimum value is zero",
-         "minValue": "0"
+         "minValue": "0",
+         "text": "Minimum value is zero"
         }
        ]
       }
