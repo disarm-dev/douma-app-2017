@@ -14,11 +14,10 @@
     "irs_plan": {},
     "meta": {}
   },
-  "area_id": "UniqLocCod",
   "spatial_hierarchy": [
-    {"name": "country", "area_id": "UniqLocCod"},
-    {"name": "localities", "area_id": "UniqLocCod"},
-    {"name": "clusters", "area_id": "UniqLocCod", "lowest": true}
+    {"name": "country", "field_name": "WB_A3"},
+    {"name": "localities", "field_name": "AggUniCode"},
+    {"name": "clusters", "field_name": "cluster_id"}
   ],
   "form": {
  "pages": [

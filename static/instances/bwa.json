@@ -35,8 +35,9 @@
     "irs_plan": {},
     "meta": {}
   },
-  "area_id": "TARGET_FID",
-  "spatial_hierarchy": [{"name": "village"}],
+  "spatial_hierarchy": [
+    {"name": "villages", "field_name": "OBJECTID"},
+    {"name": "clusters", "field_name": "ClusterID", "denominator": true}],
   "form": {
     "pages": [
       {

@@ -15,8 +15,7 @@
     "irs_plan": {},
     "meta": {}
   },
-  "area_id": "WARDPCODE",
-  "spatial_hierarchy": [{"name": "district"}],
+  "spatial_hierarchy": [{"name": "wards", "field_name": "WARDPCODE"}],
   "form": {
     "pages": [
       {
