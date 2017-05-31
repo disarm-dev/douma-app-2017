@@ -13,6 +13,18 @@
     data() {
       return {
         _map: null,
+        areas: []        
+      }
+    },
+    computed: {
+      instance_config() {
+        return this.$store.state.instance_config
+      },
+      denominator() {
+        return this.$store.state.instance_config.denominator
+      },
+      slug() {
+        return this.$store.state.instance_config.slug.toLowerCase()
       }
     },
     mounted() {
@@ -22,11 +34,14 @@
         console.log('cannot edit')
       }
 
+      this.create_map()
 
-//      fetch(`/static/api/${this.slug}/spatial_hierarchy/${this.slug}.${this.hierarchy_name}.geojson`)
-//        .then(res => res.json())
-//        .then((geojson) => this.add_selection_layers_for(geojson))
-//
+      fetch(`/static/api_testing/${this.slug}/spatial_hierarchy/${this.slug}.${this.denominator.aggregate_to}.geojson`)
+       .then(res => res.json())
+       .then((geojson) => {
+          this.areas = geojson.features
+          this.add_selection_layers_for(geojson)
+        })
 
 
     },
@@ -44,6 +59,8 @@
           const feature = this._map.queryRenderedFeatures(e.point, {layers: [this.hierarchy_name + 'selected', this.hierarchy_name + 'unselected']})[0]
 
           if (feature) {
+            console.log(feature)
+            this.$store.commit('irs_plan/toggle_selected_target_area', feature.properties[this.denominator.aggregate_by])
             feature.selected = !feature.selected
           }
         });

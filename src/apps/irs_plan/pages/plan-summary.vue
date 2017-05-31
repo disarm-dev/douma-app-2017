@@ -3,7 +3,7 @@
     <h3>Selected regions:</h3>
     <md-button class='md-raised md-warn' @click.native="clear_plan">Clear plan</md-button>
     <md-button class='md-raised md-primary' @click.native="download_plan">Download plan</md-button>
-    <p>Working with {{selected_target_area_ids.length}} regions, containing in total XX structures, YY rooms, ZZ population</p>
+    <p>Working with {selected_target_area_ids.length} regions, containing in total XX structures, YY rooms, ZZ population</p>
     <v-client-table
       v-if="table.data.length > 0"
       :data="table.data"

@@ -3,10 +3,11 @@
     <h1>IRS Plan</h1>
     <md-button @click.native="$router.push('/irs/plan')">Save</md-button>
 
-    <plan_map :edit="false"></plan_map>
+    <plan_map edit="false"></plan_map>
 
     <md-card class="card"><md-card-content>
-        <plan_summary></plan_summary>
+      <h1>Don't forget the SUMMARY</h1>
+        <!--<plan_summary></plan_summary>-->
     </md-card-content></md-card>
 
   </div>
