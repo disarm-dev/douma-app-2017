@@ -3,66 +3,56 @@
     "irs_monitor": {
       "components": [
         {
+          "height_constraint": "none",
           "name": "line_chart",
-          "width_constraint": "half",
-          "height_constraint": "none"
+          "width_constraint": "half"
         }
       ]
     },
+    "irs_plan": {},
     "irs_record_point": {
       "location_type": "other"
     },
-    "irs_plan": {},
     "meta": {}
   },
-  "spatial_hierarchy": [
-    {
-      "name": "wards",
-      "field_name": "WARDPCODE"
-    },
-    {
-      "name": "clusters",
-      "field_name": "ClusterID"
-    }
-  ],
   "denominator": {
+    "aggregate_by": "WARDPCODE",
+    "aggregate_to": "wards",
     "extract_from": "clusters",
     "fields": [
       "NumStructures"
-    ],
-    "aggregate_by": "WARDPCODE",
-    "aggregate_to": "wards"
+    ]
   },
   "form": {
     "pages": [
       {
         "elements": [
           {
-            "type": "text",
             "inputType": "date",
             "isRequired": true,
             "name": "date",
-            "title": "Date"
+            "title": "Date",
+            "type": "text"
           },
           {
-            "type": "radiogroup",
             "choices": [
               {
-                "value": "1",
-                "text": "Yes"
+                "text": "Yes",
+                "value": "1"
               },
               {
-                "value": "2",
-                "text": "No"
+                "text": "No",
+                "value": "2"
               },
               {
-                "value": "3",
-                "text": "Partially Sprayed"
+                "text": "Partially Sprayed",
+                "value": "3"
               }
             ],
             "isRequired": true,
             "name": "sprayed",
-            "title": "Was this household sprayed?"
+            "title": "Was this household sprayed?",
+            "type": "radiogroup"
           }
         ],
         "name": "page1"
@@ -70,23 +60,23 @@
       {
         "elements": [
           {
-            "type": "radiogroup",
             "choices": [
               {
-                "value": "1",
-                "text": "DDT"
+                "text": "DDT",
+                "value": "1"
               },
               {
-                "value": "2",
-                "text": "PY"
+                "text": "PY",
+                "value": "2"
               },
               {
-                "value": "3",
-                "text": "OP"
+                "text": "OP",
+                "value": "3"
               }
             ],
             "isRequired": true,
             "name": "chemical_used",
+            "type": "radiogroup",
             "visible": false,
             "visibleIf": "{sprayed} = 1 or {sprayed} = 3"
           }
@@ -96,29 +86,29 @@
       {
         "elements": [
           {
-            "type": "checkbox",
             "choices": [
               {
-                "value": "1",
-                "text": "Locked"
+                "text": "Locked",
+                "value": "1"
               },
               {
-                "value": "2",
-                "text": "Refused"
+                "text": "Refused",
+                "value": "2"
               },
               {
-                "value": "3",
-                "text": "Absent"
+                "text": "Absent",
+                "value": "3"
               },
               {
-                "value": "4",
-                "text": "Away"
+                "text": "Away",
+                "value": "4"
               }
             ],
             "hasOther": true,
             "isRequired": true,
             "name": "reason",
             "title": "Reason for Unsprayed Rooms",
+            "type": "checkbox",
             "visible": false,
             "visibleIf": "{sprayed} = 2"
           }
@@ -135,5 +125,15 @@
     "zoom": 7.749187
   },
   "name": "Zimbabwe",
-  "slug": "ZWE"
+  "slug": "ZWE",
+  "spatial_hierarchy": [
+    {
+      "field_name": "WARDPCODE",
+      "name": "wards"
+    },
+    {
+      "field_name": "ClusterID",
+      "name": "clusters"
+    }
+  ]
 }

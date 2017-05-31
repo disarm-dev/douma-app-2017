@@ -3,78 +3,68 @@
     "irs_monitor": {
       "components": [
         {
+          "height_constraint": "none",
           "name": "swz_chart_pop_covered",
-          "width_constraint": "half",
-          "height_constraint": "none"
+          "width_constraint": "half"
         },
         {
+          "height_constraint": "none",
           "name": "swz_chart_structures_sprayed",
-          "width_constraint": "half",
-          "height_constraint": "none"
+          "width_constraint": "half"
         },
         {
+          "height_constraint": "none",
           "name": "swz_chart_locked_vs_sprayed",
-          "width_constraint": "half",
-          "height_constraint": "none"
+          "width_constraint": "half"
         },
         {
+          "height_constraint": "none",
           "name": "swz_chart_pop_covered_vs_structures",
-          "width_constraint": "half",
-          "height_constraint": "none"
+          "width_constraint": "half"
         },
         {
+          "height_constraint": "viewport",
           "name": "swz_chart_structures_pr_supervisor",
-          "width_constraint": "full",
-          "height_constraint": "viewport"
+          "width_constraint": "full"
         },
         {
+          "height_constraint": "viewport",
           "name": "swz_map_progress_locations",
-          "width_constraint": "full",
-          "height_constraint": "viewport"
+          "width_constraint": "full"
         }
       ]
     },
-    "irs_record_point": {},
     "irs_plan": {},
+    "irs_record_point": {},
     "meta": {}
   },
-  "spatial_hierarchy": [
-    {
-      "name": "localities",
-      "field_name": "AggUniCode"
-    },
-    {
-      "name": "clusters",
-      "field_name": "ClusterID"
-    }
-  ],
   "denominator": {
+    "aggregate_by": "AggUniCode",
+    "aggregate_to": "localities",
     "extract_from": "clusters",
     "fields": [
       "NumStructures"
-    ],
-    "aggregate_by": "AggUniCode",
-    "aggregate_to": "localities"
+    ]
   },
   "form": {
     "pages": [
       {
         "elements": [
           {
-            "type": "radiogroup",
             "choices": [
               {
-                "value": "mopup",
-                "text": "Mopup"
+                "text": "Mopup",
+                "value": "mopup"
               },
               {
-                "value": "first_visit",
-                "text": "First Visit"
+                "text": "First Visit",
+                "value": "first_visit"
               }
             ],
             "isRequired": true,
             "name": "visit_type",
-            "title": "Visit Type"
+            "title": "Visit Type",
+            "type": "radiogroup"
           }
         ],
         "name": "page1"
@@ -82,10 +72,10 @@
       {
         "elements": [
           {
-            "type": "text",
             "isRequired": true,
             "name": "householdheadname",
-            "title": "Household Head Name"
+            "title": "Household Head Name",
+            "type": "text"
           }
         ],
         "name": "page2"
@@ -93,268 +83,267 @@
       {
         "elements": [
           {
-            "type": "dropdown",
             "choices": [
               {
-                "value": "hhohho",
-                "text": "Hhohho"
+                "text": "Hhohho",
+                "value": "hhohho"
               },
               {
-                "value": "lubombo",
-                "text": "Lubombo"
+                "text": "Lubombo",
+                "value": "lubombo"
               },
               {
-                "value": "manzini",
-                "text": "Manzini"
+                "text": "Manzini",
+                "value": "manzini"
               },
               {
-                "value": "shiselweni",
-                "text": "Shiselweni"
+                "text": "Shiselweni",
+                "value": "shiselweni"
               }
             ],
             "isRequired": true,
             "name": "region",
-            "title": "Region"
+            "title": "Region",
+            "type": "dropdown"
           },
           {
-            "type": "dropdown",
             "choices": [
               {
-                "value": "hhukwini",
-                "text": "Hhukwini"
+                "text": "Hhukwini",
+                "value": "hhukwini"
               },
               {
-                "value": "lobamba",
-                "text": "Lobamba"
+                "text": "Lobamba",
+                "value": "lobamba"
               },
               {
-                "value": "madlangempisi",
-                "text": "Madlangempisi"
+                "text": "Madlangempisi",
+                "value": "madlangempisi"
               },
               {
-                "value": "maphalaleni",
-                "text": "Maphalaleni"
+                "text": "Maphalaleni",
+                "value": "maphalaleni"
               },
               {
-                "value": "mayiwane",
-                "text": "Mayiwane"
+                "text": "Mayiwane",
+                "value": "mayiwane"
               },
               {
-                "value": "mhlangatane",
-                "text": "Mhlangatane"
+                "text": "Mhlangatane",
+                "value": "mhlangatane"
               },
               {
-                "value": "motjane",
-                "text": "Motjane"
+                "text": "Motjane",
+                "value": "motjane"
               },
               {
-                "value": "ndzingeni",
-                "text": "Ndzingeni"
+                "text": "Ndzingeni",
+                "value": "ndzingeni"
               },
               {
-                "value": "nkhaba",
-                "text": "Nkhaba"
+                "text": "Nkhaba",
+                "value": "nkhaba"
               },
               {
-                "value": "ntfonjeni",
-                "text": "Ntfonjeni"
+                "text": "Ntfonjeni",
+                "value": "ntfonjeni"
               },
               {
-                "value": "piggs_peak",
-                "text": "Piggs Peak"
+                "text": "Piggs Peak",
+                "value": "piggs_peak"
               },
               {
-                "value": "timpisini",
-                "text": "Timpisini"
+                "text": "Timpisini",
+                "value": "timpisini"
               },
               {
-                "value": "mbabane",
-                "text": "Mbabane"
+                "text": "Mbabane",
+                "value": "mbabane"
               }
             ],
             "choicesOrder": "asc",
             "isRequired": true,
             "name": "constituency",
             "title": "Inkhundla",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{region} = 'hhohho'"
           },
           {
-            "type": "dropdown",
             "choices": [
               {
-                "value": "dvokodvweni",
-                "text": "Dvokodvweni"
+                "text": "Dvokodvweni",
+                "value": "dvokodvweni"
               },
               {
-                "value": "hlane",
-                "text": "Hlane"
+                "text": "Hlane",
+                "value": "hlane"
               },
               {
-                "value": "lomahasha",
-                "text": "Lomahasha"
+                "text": "Lomahasha",
+                "value": "lomahasha"
               },
               {
-                "value": "lubuli",
-                "text": "Lubuli"
+                "text": "Lubuli",
+                "value": "lubuli"
               },
               {
-                "value": "lugongolweni",
-                "text": "Lugongolweni"
+                "text": "Lugongolweni",
+                "value": "lugongolweni"
               },
               {
-                "value": "mhlume",
-                "text": "Mhlume"
+                "text": "Mhlume",
+                "value": "mhlume"
               },
               {
-                "value": "mpholonjeni",
-                "text": "Mpholonjeni"
+                "text": "Mpholonjeni",
+                "value": "mpholonjeni"
               },
               {
-                "value": "nkilongo",
-                "text": "Nkilongo"
+                "text": "Nkilongo",
+                "value": "nkilongo"
               },
               {
-                "value": "siphofaneni",
-                "text": "Siphofaneni"
+                "text": "Siphofaneni",
+                "value": "siphofaneni"
               },
               {
-                "value": "sithobela",
-                "text": "Sithobela"
+                "text": "Sithobela",
+                "value": "sithobela"
               }
             ],
             "isRequired": true,
             "name": "constituency",
             "title": "Inkhundla",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{region} = 'lubombo'"
           },
           {
-            "type": "dropdown",
             "choices": [
               {
-                "value": "manzini",
-                "text": "Manzini"
+                "text": "Manzini",
+                "value": "manzini"
               },
               {
-                "value": "kukhanyeni",
-                "text": "Kukhanyeni"
+                "text": "Kukhanyeni",
+                "value": "kukhanyeni"
               },
               {
-                "value": "mhlambanyatsi",
-                "text": "Mhlambanyatsi"
+                "text": "Mhlambanyatsi",
+                "value": "mhlambanyatsi"
               },
               {
-                "value": "kwaluseni",
-                "text": "Kwaluseni"
+                "text": "Kwaluseni",
+                "value": "kwaluseni"
               },
               {
-                "value": "lamgabhi",
-                "text": "Lamgabhi"
+                "text": "Lamgabhi",
+                "value": "lamgabhi"
               },
               {
-                "value": "ludzeludze",
-                "text": "Ludzeludze"
+                "text": "Ludzeludze",
+                "value": "ludzeludze"
               },
               {
-                "value": "mafutseni",
-                "text": "Mafutseni"
+                "text": "Mafutseni",
+                "value": "mafutseni"
               },
               {
-                "value": "mahlangatja",
-                "text": "Mahlangatja"
+                "text": "Mahlangatja",
+                "value": "mahlangatja"
               },
               {
-                "value": "mangcongco",
-                "text": "Mangcongco"
+                "text": "Mangcongco",
+                "value": "mangcongco"
               },
               {
-                "value": "mkhiweni",
-                "text": "Mkhiweni"
+                "text": "Mkhiweni",
+                "value": "mkhiweni"
               },
               {
-                "value": "mthongwaneni",
-                "text": "Mthongwaneni"
+                "text": "Mthongwaneni",
+                "value": "mthongwaneni"
               },
               {
-                "value": "ngwempisi",
-                "text": "Ngwempisi"
+                "text": "Ngwempisi",
+                "value": "ngwempisi"
               },
               {
-                "value": "nhlambeni",
-                "text": "Nhlambeni"
+                "text": "Nhlambeni",
+                "value": "nhlambeni"
               },
               {
-                "value": "ntondozi",
-                "text": "Ntondozi"
+                "text": "Ntondozi",
+                "value": "ntondozi"
               }
             ],
             "isRequired": true,
             "name": "constituency",
             "title": "Inkhundla",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{region} = 'manzini'"
           },
           {
-            "type": "dropdown",
             "choices": [
               {
-                "value": "gege",
-                "text": "Gege"
+                "text": "Gege",
+                "value": "gege"
               },
               {
-                "value": "hosea",
-                "text": "Hosea"
+                "text": "Hosea",
+                "value": "hosea"
               },
               {
-                "value": "kubuta",
-                "text": "Kubuta"
+                "text": "Kubuta",
+                "value": "kubuta"
               },
               {
-                "value": "maseyisini",
-                "text": "Maseyisini"
+                "text": "Maseyisini",
+                "value": "maseyisini"
               },
               {
-                "value": "matsanjeni",
-                "text": "Matsanjeni"
+                "text": "Matsanjeni",
+                "value": "matsanjeni"
               },
               {
-                "value": "mtsambama",
-                "text": "Mtsambama"
+                "text": "Mtsambama",
+                "value": "mtsambama"
               },
               {
-                "value": "ngudzeni",
-                "text": "Ngudzeni"
+                "text": "Ngudzeni",
+                "value": "ngudzeni"
               },
               {
-                "value": "nkwene",
-                "text": "Nkwene"
+                "text": "Nkwene",
+                "value": "nkwene"
               },
               {
-                "value": "sandleni",
-                "text": "Sandleni"
+                "text": "Sandleni",
+                "value": "sandleni"
               },
               {
-                "value": "shiselweni_i",
-                "text": "Shiselweni I"
+                "text": "Shiselweni I",
+                "value": "shiselweni_i"
               },
               {
-                "value": "sigwe",
-                "text": "Sigwe"
+                "text": "Sigwe",
+                "value": "sigwe"
               },
               {
-                "value": "zombodze",
-                "text": "Zombodze"
+                "text": "Zombodze",
+                "value": "zombodze"
               }
             ],
             "isRequired": true,
             "name": "constituency",
             "title": "Inkhundla",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{region} = 'shiselweni'"
           },
           {
-            "type": "dropdown",
             "choices": [
               "LaMgabhi",
               "Ejubukweni",
@@ -366,11 +355,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Hhohho, Inkhundla: Hhukwini, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = 'hhukwini'"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Casino",
               "Langeni",
@@ -384,11 +373,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Hhohho, Inkhundla: Lobamba, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = lobamba"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Nsangwini",
               "Ndzingeni",
@@ -403,11 +392,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Hhohho, Inkhundla: Ndzingeni, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = ndzingeni"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Nhlanguyavuka",
               "Nkambeni",
@@ -421,11 +410,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Hhohho, Inkhundla: Mhlangatane, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = mhlangatane"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Ekupheleni",
               "Jabavu Compound",
@@ -440,11 +429,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Hhohho, Inkhundla: Motjane, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = motjane"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Dlangeni",
               "Ekufikeni",
@@ -458,11 +447,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Hhohho, Inkhundla: Maphalaleni, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = maphalaleni"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Ejubukweni",
               "Ekufikeni",
@@ -476,11 +465,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Hhohho, Inkhundla: Nkhaba, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = nkhaba"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Hhelehhele",
               "Lomshiyo",
@@ -496,11 +485,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Hhohho, Inkhundla: Ntfonjeni, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = ntfonjeni"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Mashobeni",
               "Mbasheni",
@@ -513,11 +502,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Hhohho, Inkhundla: Timpisini, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = timpisini"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Checkers",
               "Dalriach West",
@@ -542,11 +531,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Hhohho, Inkhundla: Mbabane, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = mbabane"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Jacks",
               "Mbasheni",
@@ -560,11 +549,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Hhohho, Inkhundla: Mayiwane, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = mayiwane"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Bhalekane",
               "Croydon",
@@ -579,11 +568,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Hhohho, Inkhundla: Madlangempisi, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = madlangempisi"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Motjane",
               "Komati",
@@ -596,11 +585,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Hhohho, Inkhundla: Piggs Peak, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = piggs_peak"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Levisa",
               "Bhandeni",
@@ -616,11 +605,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Lubombo, Inkhundla: Lugongolweni, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = lugongolweni"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Siteki",
               "Khushweni",
@@ -634,11 +623,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Lubombo, Inkhundla: Dvokodvweni, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = dvokodvweni"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Mhlabubovu",
               "Ebenezer",
@@ -652,11 +641,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Lubombo, Inkhundla: Tikhuba, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = tikhuba"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Siteki",
               "Sigwenyameni",
@@ -677,11 +666,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Lubombo, Inkhundla: Mpholonjeni, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = mpholonjeni"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Nsubane",
               "Mbutfu",
@@ -698,11 +687,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Lubombo, Inkhundla: Lubuli, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = lubuli"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Ndzevane",
               "Mahlabaneni",
@@ -721,11 +710,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Lubombo, Inkhundla: Nkilongo, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = nkilongo"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Ka-Mkhweli",
               "Siphofaneni",
@@ -739,11 +728,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Lubombo, Inkhundla: Siphofaneni, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = siphofaneni"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Shewula",
               "Nhlungwini",
@@ -759,11 +748,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Lubombo, Inkhundla: Lomahasha, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = lomahasha"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Tabankulu",
               "Lusoti",
@@ -778,11 +767,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Lubombo, Inkhundla: Mhlume, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = mhlume"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Hlane",
               "Sikhuphe",
@@ -791,11 +780,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Lubombo, Inkhundla: Hlane, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = hlane"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Sicelwini",
               "Phophonyane",
@@ -811,11 +800,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Lubombo, Inkhundla: Sithobela, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = sithobela"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Magoloza",
               "Salukazi",
@@ -836,11 +825,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Manzini, Inkhundla: Kukhanyeni, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = kukhanyeni"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Logoba",
               "Mobeni",
@@ -855,11 +844,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Manzini, Inkhundla: Kwaluseni, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = kwaluseni"
           },
           {
-            "type": "dropdown",
             "choices": [
               "LaMgabhi",
               "Ka-Luhleko",
@@ -870,11 +859,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Manzini, Inkhundla: Lamgabhi, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = lamgabhi"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Eticantfwini",
               "Lozitha",
@@ -888,11 +877,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Manzini, Inkhundla: Ludzeludze, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = ludzeludze"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Mahlabane",
               "Luhlokohla",
@@ -904,11 +893,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Manzini, Inkhundla: Mafutseni, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = mafutseni"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Nyanyali",
               "Mabovini",
@@ -924,11 +913,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Manzini, Inkhundla: Mahlangatja, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = mahlangatja"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Malkerns",
               "Don-Don",
@@ -940,11 +929,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Manzini, Inkhundla: Mahlanya, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = mahlanya"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Mponono",
               "Dwalile",
@@ -959,11 +948,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Manzini, Inkhundla: Mangcongco, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = mangcongco"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Ngwane Park",
               "Zakhele",
@@ -985,11 +974,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Manzini, Inkhundla: Manzini, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = 'manzini'"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Zondwako",
               "Jabavu Compound",
@@ -1002,11 +991,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Manzini, Inkhundla: Mhlambanyatsi, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = mhlambanyatsi"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Bhekinkosi",
               "Mnjoli",
@@ -1023,11 +1012,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Manzini, Inkhundla: Mkhiweni, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = mkhiweni"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Sikhaleni",
               "Nhlambeni",
@@ -1041,11 +1030,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Manzini, Inkhundla: Mthongwaneni, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = mthongwaneni"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Malangeni",
               "Bhadzeni",
@@ -1071,11 +1060,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Manzini, Inkhundla: Ngwempisi, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = ngwempisi"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Phocweni",
               "Sikhaleni",
@@ -1089,11 +1078,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Manzini, Inkhundla: Nhlambeni, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = nhlambeni"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Khalangilile",
               "Ndinda",
@@ -1103,11 +1092,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Manzini, Inkhundla: Ntondozi, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = ntondozi"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Ezankuntjini",
               "Mbhazeni",
@@ -1126,11 +1115,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Shiselweni, Inkhundla: Gege, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = gege"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Sindzandlala",
               "Ndiyaneni",
@@ -1146,11 +1135,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Shiselweni, Inkhundla: Hosea, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = hosea"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Nyanyali",
               "Ndlabantfu",
@@ -1163,11 +1152,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Shiselweni, Inkhundla: Kubuta, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = kubuta"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Ezindwendweni",
               "Mdlanyoni",
@@ -1178,11 +1167,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Shiselweni, Inkhundla: Lavumisa, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = lavumisa"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Mbhazeni",
               "Jojo",
@@ -1202,11 +1191,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Shiselweni, Inkhundla: Maseyisini, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = maseyisini"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Ezindwendweni",
               "Hlushwana",
@@ -1221,11 +1210,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Shiselweni, Inkhundla: Matsanjeni, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = matsanjeni"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Lubhuku",
               "Madzakeni",
@@ -1246,11 +1235,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Shiselweni, Inkhundla: Mbangweni, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = mbangweni"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Lubhuku",
               "Maseyisini",
@@ -1278,11 +1267,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Shiselweni, Inkhundla: Mtsambama, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = mtsambama"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Sigwe",
               "Ngudzeni",
@@ -1291,11 +1280,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Shiselweni, Inkhundla: Ngudzeni, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = ngudzeni"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Nyanyali",
               "Dilini",
@@ -1308,11 +1297,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Shiselweni, Inkhundla: Nkwene, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = nkwene"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Sindzandlala",
               "Sibovu",
@@ -1326,11 +1315,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Shiselweni, Inkhundla: Sandleni, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = sandleni"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Nsingizini",
               "Ezikhotheni",
@@ -1341,11 +1330,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Shiselweni, Inkhundla: Shiselweni I, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = shiselweni_i"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Ezindwendweni",
               "Sigwe",
@@ -1358,11 +1347,11 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Shiselweni, Inkhundla: Sigwe, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = sigwe"
           },
           {
-            "type": "dropdown",
             "choices": [
               "Ka-Bhembe",
               "Ka-Bhembe",
@@ -1379,6 +1368,7 @@
             "isRequired": true,
             "name": "chieftaincy",
             "title": "Region: Shiselweni, Inkhundla: Zombodze, Chieftaincy:",
+            "type": "dropdown",
             "visible": false,
             "visibleIf": "{inkhundla} = zombodze"
           }
@@ -1388,23 +1378,23 @@
       {
         "elements": [
           {
-            "type": "radiogroup",
             "choices": [
               {
-                "value": "1",
-                "text": "Makhosi"
+                "text": "Makhosi",
+                "value": "1"
               },
               {
-                "value": "2",
-                "text": "Nsika"
+                "text": "Nsika",
+                "value": "2"
               },
               {
-                "value": "3",
-                "text": "Sibonakaliso"
+                "text": "Sibonakaliso",
+                "value": "3"
               }
             ],
             "name": "recorded_by",
-            "title": "Recorded By"
+            "title": "Recorded By",
+            "type": "radiogroup"
           }
         ],
         "name": "page4"
@@ -1412,30 +1402,30 @@
       {
         "elements": [
           {
-            "type": "text",
             "inputType": "number",
             "isRequired": true,
             "name": "number_structures_total",
             "title": "How many structures are in this homestead?",
+            "type": "text",
             "validators": [
               {
-                "type": "numeric",
                 "minValue": "0",
-                "text": "Minimum value is zero "
+                "text": "Minimum value is zero ",
+                "type": "numeric"
               }
             ]
           },
           {
-            "type": "text",
             "inputType": "number",
             "isRequired": true,
             "name": "number_of_structures_sprayed",
             "title": "How many structures were sprayed in this homestead?",
+            "type": "text",
             "validators": [
               {
-                "type": "numeric",
                 "minValue": "0",
-                "text": "Minimum value is zero "
+                "text": "Minimum value is zero ",
+                "type": "numeric"
               }
             ]
           }
@@ -1445,150 +1435,150 @@
       {
         "elements": [
           {
-            "type": "radiogroup",
             "choices": [
               {
-                "value": "yes",
-                "text": "Yes"
+                "text": "Yes",
+                "value": "yes"
               },
               {
-                "value": "no",
-                "text": "No"
+                "text": "No",
+                "value": "no"
               }
             ],
             "isRequired": true,
             "name": "number_of_structures_unsprayed",
-            "title": "Were there any structures left unsprayed in this homestead?"
+            "title": "Were there any structures left unsprayed in this homestead?",
+            "type": "radiogroup"
           },
           {
-            "type": "multipletext",
-            "name": "number_of_structures_unsprayed_reason",
-            "visible": false,
-            "visibleIf": "{number_of_structures_unsprayed} = yes",
-            "title": "Of the number of unsprayed structures, please list the number of structures unsprayed for each reason:",
             "isRequired": true,
             "items": [
               {
-                "name": "n_rooms_locked",
                 "inputType": "number",
+                "name": "n_rooms_locked",
                 "title": "How many rooms were not sprayed because it was locked?",
                 "validators": [
                   {
-                    "type": "numeric",
                     "minValue": "0",
-                    "text": "Minimum value is zero"
+                    "text": "Minimum value is zero",
+                    "type": "numeric"
                   }
                 ]
               },
               {
-                "name": "n_rooms_nobody",
                 "inputType": "number",
+                "name": "n_rooms_nobody",
                 "title": "How many rooms were not sprayed because nobody was home?",
                 "validators": [
                   {
-                    "type": "numeric",
                     "minValue": "0",
-                    "text": "Minimum value is zero"
+                    "text": "Minimum value is zero",
+                    "type": "numeric"
                   }
                 ]
               },
               {
-                "name": "n_rooms_refused",
                 "inputType": "number",
+                "name": "n_rooms_refused",
                 "title": "How many rooms were not sprayed because occupants refused spraying?",
                 "validators": [
                   {
-                    "type": "numeric",
                     "minValue": "0",
-                    "text": "Minimum value is zero"
+                    "text": "Minimum value is zero",
+                    "type": "numeric"
                   }
                 ]
               },
               {
-                "name": "n_rooms_baby",
                 "inputType": "number",
+                "name": "n_rooms_baby",
                 "title": "How many rooms were not sprayed because the house has new born baby?",
                 "validators": [
                   {
-                    "type": "numeric",
                     "minValue": "0",
-                    "text": "Minimum value is zero"
+                    "text": "Minimum value is zero",
+                    "type": "numeric"
                   }
                 ]
               },
               {
-                "name": "n_rooms_patient",
                 "inputType": "number",
+                "name": "n_rooms_patient",
                 "title": "How many rooms were not sprayed because the house has a patient?",
                 "validators": [
                   {
-                    "type": "numeric",
                     "minValue": "0",
-                    "text": "Minimum value is zero"
+                    "text": "Minimum value is zero",
+                    "type": "numeric"
                   }
                 ]
               },
               {
-                "name": "n_rooms_funeral",
                 "inputType": "number",
+                "name": "n_rooms_funeral",
                 "title": "How many rooms were not sprayed due to a funeral ?",
                 "validators": [
                   {
-                    "type": "numeric",
                     "minValue": "0",
-                    "text": "Minimum value is zero"
+                    "text": "Minimum value is zero",
+                    "type": "numeric"
                   }
                 ]
               },
               {
-                "name": "n_rooms_kitchen",
                 "inputType": "number",
+                "name": "n_rooms_kitchen",
                 "title": "How many rooms were not sprayed because they are kitchens?",
                 "validators": [
                   {
-                    "type": "numeric",
                     "minValue": "0",
-                    "text": "Minimum value is zero"
+                    "text": "Minimum value is zero",
+                    "type": "numeric"
                   }
                 ]
               },
               {
-                "name": "n_rooms_food",
                 "inputType": "number",
+                "name": "n_rooms_food",
                 "title": "How many rooms were not sprayed because they food storage areas?",
                 "validators": [
                   {
-                    "type": "numeric",
                     "minValue": "0",
-                    "text": "Minimum value is zero"
+                    "text": "Minimum value is zero",
+                    "type": "numeric"
                   }
                 ]
               },
               {
-                "name": "n_rooms_material",
                 "inputType": "number",
+                "name": "n_rooms_material",
                 "title": "How many rooms were not sprayed due to non-sprayable material (ie canvas)?",
                 "validators": [
                   {
-                    "type": "numeric",
                     "minValue": "0",
-                    "text": "Minimum value is zero"
+                    "text": "Minimum value is zero",
+                    "type": "numeric"
                   }
                 ]
               },
               {
-                "name": "n_rooms_other",
                 "inputType": "number",
+                "name": "n_rooms_other",
                 "title": "How many rooms were not sprayed due to the \"other\" refusal reason provided before?",
                 "validators": [
                   {
-                    "type": "numeric",
                     "minValue": "0",
-                    "text": "Minimum value is zero"
+                    "text": "Minimum value is zero",
+                    "type": "numeric"
                   }
                 ]
               }
-            ]
+            ],
+            "name": "number_of_structures_unsprayed_reason",
+            "title": "Of the number of unsprayed structures, please list the number of structures unsprayed for each reason:",
+            "type": "multipletext",
+            "visible": false,
+            "visibleIf": "{number_of_structures_unsprayed} = yes"
           }
         ],
         "name": "page6"
@@ -1603,5 +1593,15 @@
     "zoom": 8
   },
   "name": "Swaziland",
-  "slug": "SWZ"
+  "slug": "SWZ",
+  "spatial_hierarchy": [
+    {
+      "field_name": "AggUniCode",
+      "name": "localities"
+    },
+    {
+      "field_name": "ClusterID",
+      "name": "clusters"
+    }
+  ]
 }

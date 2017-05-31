@@ -3,9 +3,6 @@
     "irs_monitor": {
       "components": [
         {
-          "height_constraint": "none",
-          "name": "table_progress",
-          "width_constraint": "full",
           "columns": [
             "region",
             "homesteads found",
@@ -18,7 +15,10 @@
             "sprayable structures not sprayed (refused) %",
             "sprayable structures not sprayed(other reason)",
             "sprayable structures not sprayed (other reason) %"
-          ]
+          ],
+          "height_constraint": "none",
+          "name": "table_progress",
+          "width_constraint": "full"
         },
         {
           "height_constraint": "viewport",
@@ -35,6 +35,14 @@
     "irs_plan": {},
     "irs_record_point": {},
     "meta": {}
+  },
+  "denominator": {
+    "aggregate_by": "???",
+    "aggregate_to": "constituencies",
+    "extract_from": "villages",
+    "fields": [
+      "NumStructures"
+    ]
   },
   "form": {
     "pages": [
@@ -1353,20 +1361,12 @@
   "slug": "NAM",
   "spatial_hierarchy": [
     {
-      "name": "constituencies",
-      "field_name": "???"
+      "field_name": "???",
+      "name": "constituencies"
     },
     {
-      "name": "villages",
-      "field_name": "???"
+      "field_name": "???",
+      "name": "villages"
     }
-  ],
-  "denominator": {
-    "extract_from": "villages",
-    "fields": [
-      "NumStructures"
-    ],
-    "aggregate_by": "???",
-    "aggregate_to": "constituencies"
-  }
+  ]
 }
