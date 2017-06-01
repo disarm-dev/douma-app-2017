@@ -10,6 +10,8 @@
   import mapboxgl from 'mapbox-gl'
   mapboxgl.accessToken = 'pk.eyJ1Ijoibmljb2xhaWRhdmllcyIsImEiOiJjaXlhNWw1NnkwMDJoMndwMXlsaGo5NGJoIn0.T1wTBzV42MZ1O-2dy8SpOw'
 
+  import bbox from '@turf/bbox'
+
   export default {
     name: 'plan_map',
     props: ['edit_mode', 'data_ready'],
@@ -117,6 +119,11 @@
           filter: ['!in', this.field_name].concat(this.selected_target_area_ids)
         }, 'clusters')
 
+        this.fit_bounds(geojson)
+      },
+      fit_bounds(geojson) {
+        const bounds = bbox(geojson)
+        this._map.fitBounds(bounds, {padding: 20})
       },
       remove_target_areas() {
         this._map.removeLayer('selected')
