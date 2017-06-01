@@ -3,10 +3,10 @@
     <h1>IRS Plan</h1>
     <md-button @click.native="$router.push('/irs/plan')">Save</md-button>
 
-    <plan_map :all_target_areas="all_target_areas" edit="false"></plan_map>
+    <plan_map :geodata="geodata" edit="false"></plan_map>
 
     <md-card class="card"><md-card-content>
-      <plan_summary :all_target_areas="all_target_areas"></plan_summary>
+      <plan_summary :geodata="geodata"></plan_summary>
     </md-card-content></md-card>
 
   </div>
@@ -24,7 +24,10 @@
     components: {plan_summary, plan_map},
     data() {
       return {
-        all_target_areas: null
+        geodata: {
+          all_target_areas: null,
+          clusters: null
+        }
       }
     },
     computed: {
@@ -36,7 +39,10 @@
     mounted() {
       fetch(`/static/api_testing/${this.slug}/spatial_hierarchy/${this.slug}.${this.denominator.aggregate_to}.geojson`)
         .then(res => res.json())
-        .then(geojson => this.all_target_areas = geojson)
+        .then(geojson => this.geodata.all_target_areas = geojson)
+        .then(() => fetch(`/static/api_testing/${this.slug}/spatial_hierarchy/${this.slug}.clusters.geojson`))
+        .then(res => res.json())
+        .then(geojson => this.geodata.clusters = geojson)
     }
   }
 </script>

@@ -5,7 +5,7 @@
     <md-button class='md-raised md-primary' @click.native="download_plan">Download plan</md-button>
     <p>Working with {{selected_target_area_ids.length}} regions, containing in total XX structures, YY rooms, ZZ population</p>
     <v-client-table
-      v-if="all_target_areas && selected_target_area_ids.length !== 0"
+      v-if="geodata.all_target_areas && selected_target_area_ids.length !== 0"
       :data="table.data"
       :columns="table.columns"
     ></v-client-table>
@@ -21,7 +21,7 @@
 
   export default {
     name: 'plan_summary',
-    props: ['plan', 'edit', 'all_target_areas'],
+    props: ['plan', 'edit', 'geodata'],
     computed: {
       ...mapState({
         slug: state => state.instance_config.slug.toLowerCase(),
@@ -30,9 +30,9 @@
         field_name: state => state.instance_config.spatial_hierarchy[0].field_name,
       }),
       table() {
-        if (this.all_target_areas) {
+        if (this.geodata.all_target_areas) {
           const selected_areas = this.selected_target_area_ids.map(id => {
-            return this.all_target_areas.features.find(feature => feature.properties[this.field_name] === id)
+            return this.geodata.all_target_areas.features.find(feature => feature.properties[this.field_name] === id)
           })
           const data = selected_areas.map(r => r.properties)
           const columns = Object.keys(data[0])
