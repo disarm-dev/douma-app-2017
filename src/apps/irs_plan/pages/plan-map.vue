@@ -58,7 +58,6 @@
         if (this.edit) {
           this._map.on('click', (e) => {
             const feature = this._map.queryRenderedFeatures(e.point, {layers: ['selected', 'unselected']})[0]
-            console.log('feature',  feature)
 
             if (feature) {
               const feature_id = feature.properties[this.field_name]
