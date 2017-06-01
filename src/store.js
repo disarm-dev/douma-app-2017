@@ -3,16 +3,7 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 Vue.use(Vuex)
 
-const persisted = createPersistedState({
-  setState: (key, state) => {
-    let copy = Object.assign({}, state)
-
-    // Important
-    copy.cache = {}
-
-    localStorage.setItem(key, JSON.stringify(copy))
-  }
-})
+const persisted = createPersistedState()
 
 function create_store(instance_stores) {
 
@@ -38,12 +29,6 @@ function create_store(instance_stores) {
       },
       'root:set_instance_config': (state, instance_config) => {
         state.instance_config = instance_config
-      },
-      'root:set_cache': (state, {key, value}) => {
-        state.cache[key] = value
-      },
-      'root:clear_cache': (state) => {
-        state.cache = {}
       }
     },
   })

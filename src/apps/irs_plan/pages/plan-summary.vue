@@ -4,11 +4,11 @@
     <md-button class='md-raised md-warn'>Clear plan</md-button>
     <md-button class='md-raised md-primary' @click.native="download_plan">Download plan</md-button>
     <p>Working with {{selected_target_area_ids.length}} regions, containing in total XX structures, YY rooms, ZZ population</p>
-    <!--<v-client-table-->
-      <!--v-if="table.data.length > 0"-->
-      <!--:data="table.data"-->
-      <!--:columns="table.columns"-->
-    <!--&gt;</v-client-table>-->
+    <v-client-table
+      v-if="all_target_areas"
+      :data="table.data"
+      :columns="table.columns"
+    ></v-client-table>
   </div>
 
 </template>
@@ -22,29 +22,39 @@
   export default {
     name: 'plan_summary',
     props: ['plan', 'edit'],
+    data() {
+      return {
+        all_target_areas: null
+      }
+    },
     computed: {
       ...mapState({
+        slug: state => state.instance_config.slug.toLowerCase(),
+        denominator: state => state.instance_config.denominator,
         selected_target_area_ids: state => state.irs_plan.selected_target_area_ids,
-        cached_target_areas: state => state.cache.target_areas,
         field_name: state => state.instance_config.spatial_hierarchy[0].field_name,
       }),
-      selected_regions() {
-        if(this.cached_target_areas) {
-          return this.$store.state.irs_plan.selected_target_area_ids.map(id => {
-             return this.cached_target_areas.features.find(feature => feature.properties[this.field_name] === id)
+      table() {
+        if (this.all_target_areas) {
+          const selected_areas = this.selected_target_area_ids.map(id => {
+            return this.all_target_areas.features.find(feature => feature.properties[this.field_name] === id)
           })
-        } else {
-          return []
+          const data = selected_areas.map(r => r.properties)
+          const columns = Object.keys(data[0])
+          return {data, columns}
         }
       },
-      table() {
-        const data = this.selected_regions.map(r => r.properties)
-        const columns = Object.keys(data[0])
-        return {data, columns}
-      },
     },
-    watch: {selected_regions: () => console.log('changed selected_regions', this.selected_regions)},
+    mounted() {
+      this.fetch_target_areas_json().then(geojson => {
+        this.all_target_areas = geojson
+      })
+    },
     methods: {
+      fetch_target_areas_json() {
+        return fetch(`/static/api_testing/${this.slug}/spatial_hierarchy/${this.slug}.${this.denominator.aggregate_to}.geojson`)
+          .then(res => res.json())
+      },
       download_plan() {
         const data = this.tableData
         const fields = this.tableColumns
