@@ -40,15 +40,15 @@ const launch = (instance_config) => {
   }
 
   const applet_ids = Object.keys(instance_config.applets)
-  const registered = register_applets(applet_ids)
+  const registered_applets = register_applets(applet_ids)
 
   let instance_routes = []
-  for(var id in registered.routes) {
-    instance_routes.push(registered.routes[id])
+  for(var id in registered_applets.routes) {
+    instance_routes.push(registered_applets.routes[id])
   }
 
   // Make DOUMA App
-  const store = create_store(registered.stores)
+  const store = create_store(registered_applets.stores)
   const router = create_router(instance_routes, store)
 
   const douma_app = new Vue({
