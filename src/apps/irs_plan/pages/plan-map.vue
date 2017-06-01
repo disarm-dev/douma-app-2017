@@ -25,10 +25,17 @@
         denominator: state => state.instance_config.denominator,
         slug: state => state.instance_config.slug.toLowerCase(),
         selected_target_area_ids: state => state.irs_plan.selected_target_area_ids,
-        cached_target_areas: state => state.cache.target_areas,
+        cached_target_areas: state => {
+          if (state.cache) {
+            return state.cache.target_areas
+          } else {
+            return false
+          }
+        }
       }),
     },
     watch: {
+      'cached_target_areas': () => console.log('watch', this.cached_target_areas),
       'selected_target_area_ids': 'render_clusters'
     },
     mounted() {
