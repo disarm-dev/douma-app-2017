@@ -3,10 +3,10 @@
     <h1>IRS Plan</h1>
     <md-button @click.native="$router.push('/irs/plan')">Save</md-button>
 
-    <plan_map edit="false"></plan_map>
+    <plan_map :all_target_areas="all_target_areas" edit="false"></plan_map>
 
     <md-card class="card"><md-card-content>
-      <plan_summary></plan_summary>
+      <plan_summary :all_target_areas="all_target_areas"></plan_summary>
     </md-card-content></md-card>
 
   </div>
@@ -21,7 +21,23 @@
 
   export default {
     name: 'IRSPlan',
-    components: {plan_summary, plan_map}
+    components: {plan_summary, plan_map},
+    data() {
+      return {
+        all_target_areas: null
+      }
+    },
+    computed: {
+      ...mapState({
+        denominator: state => state.instance_config.denominator,
+        slug: state => state.instance_config.slug.toLowerCase(),
+      })
+    },
+    mounted() {
+      fetch(`/static/api_testing/${this.slug}/spatial_hierarchy/${this.slug}.${this.denominator.aggregate_to}.geojson`)
+        .then(res => res.json())
+        .then(geojson => this.all_target_areas = geojson)
+    }
   }
 </script>
 

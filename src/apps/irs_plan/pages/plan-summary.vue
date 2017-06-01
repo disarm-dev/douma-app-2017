@@ -5,7 +5,7 @@
     <md-button class='md-raised md-primary' @click.native="download_plan">Download plan</md-button>
     <p>Working with {{selected_target_area_ids.length}} regions, containing in total XX structures, YY rooms, ZZ population</p>
     <v-client-table
-      v-if="all_target_areas"
+      v-if="all_target_areas && selected_target_area_ids.length !== 0"
       :data="table.data"
       :columns="table.columns"
     ></v-client-table>
@@ -21,12 +21,7 @@
 
   export default {
     name: 'plan_summary',
-    props: ['plan', 'edit'],
-    data() {
-      return {
-        all_target_areas: null
-      }
-    },
+    props: ['plan', 'edit', 'all_target_areas'],
     computed: {
       ...mapState({
         slug: state => state.instance_config.slug.toLowerCase(),
@@ -45,19 +40,10 @@
         }
       },
     },
-    mounted() {
-      this.fetch_target_areas_json().then(geojson => {
-        this.all_target_areas = geojson
-      })
-    },
     methods: {
-      fetch_target_areas_json() {
-        return fetch(`/static/api_testing/${this.slug}/spatial_hierarchy/${this.slug}.${this.denominator.aggregate_to}.geojson`)
-          .then(res => res.json())
-      },
       download_plan() {
-        const data = this.tableData
-        const fields = this.tableColumns
+        const data = this.table.data
+        const fields = this.table.columns
         const content = json2csv({data, fields})
         const date = moment().format('YYYY-MM-DD_HHmm')
 
