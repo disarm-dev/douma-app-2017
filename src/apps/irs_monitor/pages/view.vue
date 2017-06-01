@@ -5,7 +5,7 @@
     <md-card class="card">
       <md-card-content>
         <p>{{actual_responses.length}} record{{actual_responses.length === 1 ? '' : 's' }}</p>
-        <md-button class="md-raised md-primary" @click.native="update_responses">Update data</md-button>
+        <md-button class="md-raised md-primary" @click.native="update_responses" :disabled="loading">Update data</md-button>
       </md-card-content>
     </md-card>
 
@@ -99,6 +99,7 @@
     data () {
       return {
         actual_responses: [],
+        loading: false,
         filters_on: false,
         _responses: [],
         denominator: [],
@@ -152,10 +153,16 @@
         }
       },
       update_responses() {
+        this.loading = true
+        this.$store.commit('root:set_loading', true)
+
         this.$store.dispatch('irs_monitor/get_all_records')
           .then((records) => {
-            console.log(records)
             this.actual_responses = records
+
+            this.loading = false
+            this.$store.commit('root:set_loading', false)
+            this.$store.commit('root:set_snackbar', {message: 'Successfully retrieved records'})
           })
       }
     }
