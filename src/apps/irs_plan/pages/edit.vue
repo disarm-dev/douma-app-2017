@@ -52,7 +52,9 @@
         this.$store.commit('root:set_loading', true)
 
         this.$store.dispatch('irs_plan/get_current_plan').then(plan => {
-          this.$store.commit('irs_plan/set_selected_target_areas_id', plan.target_areas)
+          if (plan.hasOwnProperty('target_areas') && plan.target_areas.length > 0) {
+            this.$store.commit('irs_plan/set_selected_target_areas_id', plan.target_areas)
+          }
           this.$store.commit('root:set_loading', false)
         })
 
