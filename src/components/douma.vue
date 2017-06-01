@@ -2,10 +2,6 @@
   <div>
     <!-- MAIN PAGE 'TOOLBAR' -->
     <div class="douma-toolbar">
-      <!-- LOADING BAR -->
-      <template v-cloak>
-        <md-progress v-if='loading' class='md-accent' md-indeterminate></md-progress>
-      </template>
 
       <md-toolbar class="md-whiteframe-1dp" >
         <md-button class="md-icon-button" @click.native="toggleSideNav">
@@ -16,7 +12,10 @@
           <!-- <bread-crumbs></bread-crumbs> -->
           {{country}}
         </h2>
+        <!-- LOADING BAR -->
+
       </md-toolbar>
+      <md-progress v-if='loading' class='md-accent' md-indeterminate></md-progress>
     </div>
 
     <!-- SIDENAV -->
