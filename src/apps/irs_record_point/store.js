@@ -1,3 +1,5 @@
+import {create_record} from '@/lib/data/remote'
+
 export default {
   namespaced: true,
   state: {
@@ -17,6 +19,12 @@ export default {
     },
     delete_all_responses: (state) => {
       state.responses = []
+    }
+  },
+  actions: {
+    create_record: (context, record) => {
+      // TODO: @feature Maybe test this before using it?
+      return create_record(record)
     }
   }
 }
