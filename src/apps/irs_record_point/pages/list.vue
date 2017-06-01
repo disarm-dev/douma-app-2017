@@ -35,18 +35,22 @@
         return moment(date).format('hh:mm a DD MMM YYYY')
       },
       sync() {
+        this.$store.commit('root:set_loading', true)
         this.syncing = true
         Promise.all(
 
           this.responses.filter(r => r.synced === false).map((response) => {
             return this.$store.dispatch('irs_record_point/create_record', response).then((res) => {
-              console.log(res)
               response.synced = true
               this.$store.commit('irs_record_point/update_response', response)
             })
           })
 
-        ).then(() => this.syncing = false)
+        ).then(() => {
+          this.syncing = false
+          this.$store.commit('root:set_loading', false)
+          this.$store.commit('root:set_snackbar', {message: 'Successfully synced responses'})
+        })
       }
     }
   }
