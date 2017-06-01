@@ -28,6 +28,9 @@ export const authenticate = (user) => {
   return standard_handler(url, options)
 }
 
+
+// PLANS
+
 export const get_current_plan = (country) => {
   let url = douma_api_root + `/plan/current?country=${country}`
 
@@ -49,6 +52,9 @@ export const create_plan = (plan) => {
   return standard_handler(url, options)
 
 }
+
+
+// RECORDS
 
 export const get_all_records = (country) => {
   let url = douma_api_root + `/record/all?country=${country}`
