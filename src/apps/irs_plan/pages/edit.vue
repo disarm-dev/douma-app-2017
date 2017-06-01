@@ -33,11 +33,6 @@
     padding: 10px;
   }
 
-  #map {
-    height: 500px;
-    z-index: 0;
-  }
-
   .card {
     margin-top: 10px;
   }

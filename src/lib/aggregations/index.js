@@ -20,7 +20,7 @@ export default class {
     // Get first instance-specific spatial filter (e.g. 'village')
     const spatial_filter_level = instance_config.spatial_hierarchy[0].name
 
-    // Extract (unique?) spatial options from denominator (i.e. list of areas)
+    // Extract (unique?) spatial options from denominator (i.e. list of target_areas)
     const areas = denominator.map(d => d[spatial_filter_level])
 
     // Do all aggregations for each instance-specific area (e.g. each village)

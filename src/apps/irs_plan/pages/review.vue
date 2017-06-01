@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Review most recent plan</h1>
+    <h1>Review (most recent) plan</h1>
     <plan_map :edit='false' :plan="plan"></plan_map>
     <plan_summary :plan="plan"></plan_summary>
     <md-button @click.native="$router.push('/irs/plan/edit')">Edit</md-button>

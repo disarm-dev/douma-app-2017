@@ -2,7 +2,7 @@
 
 1. [ ] Use a `geojson-vt` solution in browser
 2. [x] Send PBF from server instead of GeoJSON
-3. [ ] In-browser masking of areas (`local_areas` and arbitrary) from the `Clusters` collection --> `LocalClusters` (or similar)
+3. [ ] In-browser masking of target_areas (`local_areas` and arbitrary) from the `Clusters` collection --> `LocalClusters` (or similar)
 
 
 This works:

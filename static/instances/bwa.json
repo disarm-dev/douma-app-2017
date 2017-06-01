@@ -46,9 +46,9 @@
     "meta": {}
   },
   "denominator": {
-    "aggregate_by": "village_id",
-    "aggregate_to": "villages",
     "extract_from": "clusters",
+    "aggregate_to": "villages",
+    "aggregate_by": "village_id",
     "fields": [
       "NumStructures"
     ]

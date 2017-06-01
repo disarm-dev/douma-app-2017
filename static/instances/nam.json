@@ -37,7 +37,7 @@
     "meta": {}
   },
   "denominator": {
-    "aggregate_by": "???",
+    "aggregate_by": "CONST_ID",
     "aggregate_to": "constituencies",
     "extract_from": "villages",
     "fields": [
@@ -1361,7 +1361,7 @@
   "slug": "NAM",
   "spatial_hierarchy": [
     {
-      "field_name": "???",
+      "field_name": "CONST_ID",
       "name": "constituencies"
     },
     {
