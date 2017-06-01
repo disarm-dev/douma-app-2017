@@ -1,16 +1,10 @@
-import review from './pages/review.vue'
 import edit from './pages/edit.vue'
 
 export default [
   {
     path: '/irs/plan',
-    component: review,
+    component: edit,
     name: 'irs_plan',
     meta: {title: 'IRS Plan', icon: 'assignment_turned_in'},
-  },
-  {
-    path: '/irs/plan/edit',
-    component: edit,
-    name: 'irs_plan:edit'
   }
 ]
