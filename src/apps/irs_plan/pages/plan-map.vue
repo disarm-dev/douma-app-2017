@@ -33,15 +33,11 @@
       'show_clusters': 'add_clusters'
     },
     mounted() {
-      if (this.edit) {
-        console.log('can edit')
-      } else {
-        console.log('cannot edit')
-      }
-
       this.create_map()
       this._map.on('load', () => {
-        this.add_map_click_handler()
+        if(this.edit) {
+          this.add_map_click_handler()
+        }
       })
     },
     methods: {
