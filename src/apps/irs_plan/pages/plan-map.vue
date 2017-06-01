@@ -35,7 +35,8 @@
     watch: {
       'show_clusters': 'toggle_clusters',
       'edit': 'toggle_map_click',
-      'data_ready': 'populate_data_from_global'
+      'data_ready': 'populate_data_from_global',
+      'selected_target_area_ids': 'redraw_target_areas'
     },
     methods: {
       populate_data_from_global() {
@@ -78,13 +79,17 @@
       add_target_areas() {
         const geojson = this._geodata.all_target_areas
 
+        if(!this._map.getSource('target_areas_source')) {
+          this._map.addSource('target_areas_source', {
+            'type': 'geojson',
+            'data': this._geodata.all_target_areas
+          })
+        }
+
         this._map.addLayer({
           id: 'selected',
           type: 'fill',
-          source: {
-            type: 'geojson',
-            data: geojson
-          },
+          source: 'target_areas_source',
           paint: {
             'fill-color': '#a6dba0',
             'fill-opacity': 0.8,
@@ -96,10 +101,7 @@
         this._map.addLayer({
           id: 'unselected',
           type: 'fill',
-          source: {
-            type: 'geojson',
-            data: geojson
-          },
+          source: 'target_areas_source',
           paint: {
             'fill-color': '#c2a5cf',
             'fill-opacity': 0.8,
@@ -109,6 +111,16 @@
         })
 
       },
+      remove_target_areas() {
+        this._map.removeLayer('selected')
+        this._map.removeLayer('unselected')
+      },
+      redraw_target_areas() {
+        if (this.data_ready) {
+          this.remove_target_areas()
+          this.add_target_areas()
+        }
+      },
       toggle_clusters() {
 
         if(!this._map.getSource('clusters_source')) {
@@ -117,7 +129,6 @@
             'data': this._geodata.clusters
           })
         }
-
 
         if (this.show_clusters) {
 

@@ -14,6 +14,9 @@ export default {
         state.selected_target_area_ids.push(target_area_id)
       }
     },
+    set_selected_target_areas_id: (state, selected_target_area_ids) => {
+      state.selected_target_area_ids = selected_target_area_ids
+    },
     clear_plan: (state) => {
       state.selected_target_area_ids = []
     }

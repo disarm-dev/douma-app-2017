@@ -66,6 +66,7 @@ const launch = (instance_config) => {
     render: createElement => createElement(DoumaComponent),
   })
 
+  douma_app.$store.commit('root:set_loading', false)
   douma_app.$store.commit('root:set_instance_config', instance_config)
 
   // ServiceWorker
