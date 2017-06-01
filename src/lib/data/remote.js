@@ -84,7 +84,7 @@ export const get_all_records = (country) => {
 }
 
 export const create_record = (record) => {
-  let url = douma_api_root + `/record/all?country=${country}`
+  let url = douma_api_root + `/record/create`
 
   let options = {
     body: JSON.stringify(record),
