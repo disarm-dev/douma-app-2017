@@ -1,3 +1,5 @@
+import {create_plan, get_current_plan} from '@/lib/data/remote'
+
 export default {
   namespaced: true,
   state: {
@@ -14,6 +16,25 @@ export default {
     },
     clear_plan: (state) => {
       state.selected_target_area_ids = []
+    }
+  },
+  actions: {
+    save_plan: (context) => {
+      const target_areas = context.state.selected_target_area_ids
+      const country = context.rootState.instance_config.slug.toLowerCase()
+
+      const plan = {
+        planned_at: new Date(),
+        country,
+        target_areas
+      }
+
+      return create_plan(plan)
+    },
+    get_current_plan: (context) => {
+      const country = context.rootState.instance_config.slug.toLowerCase()
+
+      return get_current_plan(country)
     }
   }
 }
