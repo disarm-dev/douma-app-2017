@@ -5,7 +5,7 @@
     <md-button class='md-raised md-primary' @click.native="download_plan">Download plan</md-button>
     <p>Working with {{selected_target_area_ids.length}} regions, containing in total XX structures, YY rooms, ZZ population</p>
     <v-client-table
-      v-if="geodata.all_target_areas && selected_target_area_ids.length !== 0"
+      v-if="render_table && selected_target_area_ids.length !== 0"
       :data="table.data"
       :columns="table.columns"
     ></v-client-table>
@@ -21,7 +21,19 @@
 
   export default {
     name: 'plan_summary',
-    props: ['plan', 'edit', 'geodata'],
+    props: ['edit', 'data_ready'],
+    data() {
+      return {
+        render_table: false,
+        _geodata: {
+          all_target_areas: null,
+          clusters: null
+        }
+      }
+    },
+    watch: {
+      'data_ready': 'populate_data_from_global'
+    },
     computed: {
       ...mapState({
         slug: state => state.instance_config.slug.toLowerCase(),
@@ -30,9 +42,9 @@
         field_name: state => state.instance_config.spatial_hierarchy[0].field_name,
       }),
       table() {
-        if (this.geodata.all_target_areas) {
+        if (this._geodata.all_target_areas) {
           const selected_areas = this.selected_target_area_ids.map(id => {
-            return this.geodata.all_target_areas.features.find(feature => feature.properties[this.field_name] === id)
+            return this._geodata.all_target_areas.features.find(feature => feature.properties[this.field_name] === id)
           })
           const data = selected_areas.map(r => r.properties)
           const columns = Object.keys(data[0])
@@ -41,6 +53,11 @@
       },
     },
     methods: {
+      populate_data_from_global() {
+        this._geodata = DOUMA_CACHE.geodata
+        this.render_table = true
+      },
+
       download_plan() {
         const data = this.table.data
         const fields = this.table.columns
