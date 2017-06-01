@@ -12,9 +12,10 @@
           <!-- <bread-crumbs></bread-crumbs> -->
           {{country}}
         </h2>
-        <!-- LOADING BAR -->
 
       </md-toolbar>
+
+      <!-- LOADING BAR -->
       <md-progress v-if='loading' class='md-accent' md-indeterminate></md-progress>
     </div>
 
