@@ -103,7 +103,7 @@
             'fill-outline-color': 'black'
           },
           filter: ['in', this.field_name].concat(this.selected_target_area_ids)
-        })
+        }, 'clusters')
 
         this._map.addLayer({
           id: 'unselected',
@@ -115,7 +115,7 @@
             'fill-outline-color': 'black'
           },
           filter: ['!in', this.field_name].concat(this.selected_target_area_ids)
-        })
+        }, 'clusters')
 
       },
       remove_target_areas() {
@@ -136,28 +136,26 @@
 
         if(!this._map.getSource('clusters_source')) {
           this._map.addSource('clusters_source', {
-            'type': 'geojson',
-            'data': this._geodata.clusters
+            type: 'geojson',
+            data: this._geodata.clusters
           })
         }
 
         if (this.clusters_visible) {
 
           this._map.addLayer({
-            'id': 'clusters',
-            'type': 'line',
+            id: 'clusters',
+            type: 'line',
             source: 'clusters_source',
-            'paint': {
-              'line-color': 'blue'
+            paint: {
+              'line-color': 'yellow'
             },
           })
 
-//          figure out which ones are included in current `selected_target_area_ids`
-//          show them
+          // figure out which ones are included in current `selected_target_area_ids`
+          // show them
         } else {
           this._map.removeLayer('clusters')
-//          hide clusters layer
-//          what are you doing here?
         }
       }
     }
