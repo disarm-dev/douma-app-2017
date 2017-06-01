@@ -57,7 +57,7 @@
     <!-- SNACKBAR -->
     <md-snackbar md-position="top center" ref="snackbar" :md-duration="snackbar.duration">
       <span>{{snackbar.message}}</span>
-      <md-button class="md-accent" md-theme="light-blue" @click.native="snackbar_action">Yes?</md-button>
+      <md-button class="md-accent" md-theme="light-blue" @click.native="snackbar_action">OK</md-button>
     </md-snackbar>
 
     <!-- DIALOG -->
@@ -141,7 +141,6 @@
       },
       snackbar_action() {
         this.$refs.snackbar.close()
-        this.snackbar.action()
       }
     }
   }
