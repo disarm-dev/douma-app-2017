@@ -1,6 +1,6 @@
 <template>
   <div>
-    <md-button>Toggle show clusters</md-button>
+    <md-checkbox :disabled='!geodata.clusters' v-model="show_clusters">Show clusters</md-checkbox>
     <div id="map"></div>
   </div>
 </template>
@@ -12,9 +12,10 @@
 
   export default {
     name: 'plan_map',
-    props: ['edit', 'all_target_areas'],
+    props: ['edit', 'geodata'],
     data() {
       return {
+        show_clusters: false,
         _map: null
       }
     },
@@ -28,8 +29,8 @@
       }),
     },
     watch: {
-      'selected_target_area_ids': 'render_clusters',
-      'all_target_areas': 'add_target_areas'
+      'geodata.all_target_areas': 'add_target_areas',
+      'show_clusters': 'add_clusters'
     },
     mounted() {
       if (this.edit) {
@@ -70,7 +71,7 @@
       },
       add_target_areas() {
         this._map.on('load', () => {
-          const geojson = this.all_target_areas
+          const geojson = this.geodata.all_target_areas
 
           this._map.addLayer({
             id: 'selected',
@@ -104,11 +105,26 @@
 
         })
       },
-      render_clusters() {
-        if (this.clusters_visible) {
+      add_clusters() {
+        console.log('add_clusters')
+        if (this.show_clusters) {
+
+          this._map.addLayer({
+            'id': 'clusters',
+            'type': 'line',
+            'source': {
+              'type': 'geojson',
+              'data': this.geodata.clusters
+            },
+            'paint': {
+              'line-color': 'blue'
+            },
+          })
+
 //          figure out which ones are included in current `selected_target_area_ids`
 //          show them
         } else {
+          this._map.removeLayer('clusters')
 //          hide clusters layer
 //          what are you doing here?
         }
