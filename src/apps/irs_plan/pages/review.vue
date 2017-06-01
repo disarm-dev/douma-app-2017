@@ -1,13 +1,20 @@
 <template>
-  <div>
+  <div class="container">
     <h1>Review (most recent) plan</h1>
-    <plan_map :edit='false' :plan="plan"></plan_map>
-    <plan_summary :plan="plan"></plan_summary>
     <md-button @click.native="$router.push('/irs/plan/edit')">Edit</md-button>
+
+    <plan_map :geodata="geodata" :edit="false"></plan_map>
+
+    <md-card class="card"><md-card-content>
+      <plan_summary :geodata="geodata"></plan_summary>
+    </md-card-content></md-card>
+
   </div>
 </template>
 
 <script>
+  import {mapState} from 'vuex'
+
   import plan_summary from './plan-summary.vue'
   import plan_map from './plan-map.vue'
 
@@ -16,25 +23,37 @@
     components: {plan_summary, plan_map},
     data() {
       return {
-        _plan: null
+        geodata: {
+          all_target_areas: null,
+          clusters: null
+        }
       }
+    },
+    computed: {
+      ...mapState({
+        denominator: state => state.instance_config.denominator,
+        slug: state => state.instance_config.slug.toLowerCase(),
+      })
     },
     mounted() {
-      this.load_current_plan()
-    },
-    methods: {
-      load_current_plan() {
-        console.log('get current plan')
-//        fetch()
-//        .then(res => res.json())
-//        .then((plan) => {
-//            this._plan = plan
-//        })
-
-      }
+      fetch(`/static/api_testing/${this.slug}/spatial_hierarchy/${this.slug}.${this.denominator.aggregate_to}.geojson`)
+        .then(res => res.json())
+        .then(geojson => this.geodata.all_target_areas = geojson)
+        .then(() => fetch(`/static/api_testing/${this.slug}/spatial_hierarchy/${this.slug}.clusters.geojson`))
+        .then(res => res.json())
+        .then(geojson => this.geodata.clusters = geojson)
     }
   }
-
 </script>
 
-<style></style>
+<style scoped>
+  .container {
+    margin: 0 auto;
+    width: 90%;
+    padding: 10px;
+  }
+
+  .card {
+    margin-top: 10px;
+  }
+</style>

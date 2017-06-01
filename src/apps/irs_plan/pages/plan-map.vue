@@ -1,6 +1,6 @@
 <template>
   <div>
-    <md-checkbox :disabled='!geodata.clusters' v-model="show_clusters">Show clusters</md-checkbox>
+    <md-checkbox :disabled='!data_ready' v-model="show_clusters">Show clusters</md-checkbox>
     <div id="map"></div>
   </div>
 </template>
@@ -12,11 +12,15 @@
 
   export default {
     name: 'plan_map',
-    props: ['edit', 'geodata'],
+    props: ['edit', 'data_ready'],
     data() {
       return {
         show_clusters: false,
-        _map: null
+        _map: null,
+        _geodata: {
+          all_target_areas: null,
+          clusters: null
+        }
       }
     },
     computed: {
@@ -29,24 +33,23 @@
       }),
     },
     watch: {
-      'geodata.all_target_areas': 'add_target_areas',
-      'show_clusters': 'add_clusters'
-    },
-    mounted() {
-      if (this.edit) {
-        console.log('can edit')
-      } else {
-        console.log('cannot edit')
-      }
-
-      this.create_map()
-      this._map.on('load', () => {
-        this.add_map_click_handler()
-      })
+      'show_clusters': 'toggle_clusters',
+      'edit': 'toggle_map_click',
+      'data_ready': 'populate_data_from_global'
     },
     methods: {
+      populate_data_from_global() {
+        this._geodata = DOUMA_CACHE.geodata
+
+        this._map = this.create_map()
+
+        this._map.on('load', () => {
+          this.toggle_map_click()
+          this.add_target_areas()
+        })
+      },
       create_map() {
-        this._map = new mapboxgl.Map({
+        return new mapboxgl.Map({
           container: 'map',
           style: 'mapbox://styles/mapbox/streets-v9',
           center: [this.instance_config.map_focus.centre.lng, this.instance_config.map_focus.centre.lat],
@@ -54,11 +57,12 @@
         });
 
       },
-      add_map_click_handler() {
-        if (this.edit) {
-          this._map.on('click', (e) => {
+      toggle_map_click() {
+        if(!this.edit) {
+          if (this._map.listens('click')) this._map.off('click', this.handler)
+        } else {
+          this.handler = (e) => {
             const feature = this._map.queryRenderedFeatures(e.point, {layers: ['selected', 'unselected']})[0]
-            console.log('feature',  feature)
 
             if (feature) {
               const feature_id = feature.properties[this.field_name]
@@ -66,56 +70,61 @@
               this._map.setFilter('selected', ['in', this.field_name].concat(this.selected_target_area_ids))
               this._map.setFilter('unselected', ['!in', this.field_name].concat(this.selected_target_area_ids))
             }
-          });
+          }
+          this._map.on('click', this.handler);
+
         }
       },
       add_target_areas() {
-        this._map.on('load', () => {
-          const geojson = this.geodata.all_target_areas
+        const geojson = this._geodata.all_target_areas
 
-          this._map.addLayer({
-            id: 'selected',
-            type: 'fill',
-            source: {
-              type: 'geojson',
-              data: geojson
-            },
-            paint: {
-              'fill-color': '#a6dba0',
-              'fill-opacity': 0.8,
-              'fill-outline-color': 'black'
-            },
-            filter: ['in', this.field_name].concat(this.selected_target_area_ids)
-          })
-
-          this._map.addLayer({
-            id: 'unselected',
-            type: 'fill',
-            source: {
-              type: 'geojson',
-              data: geojson
-            },
-            paint: {
-              'fill-color': '#c2a5cf',
-              'fill-opacity': 0.8,
-              'fill-outline-color': 'black'
-            },
-            filter: ['!in', this.field_name].concat(this.selected_target_area_ids)
-          })
-
+        this._map.addLayer({
+          id: 'selected',
+          type: 'fill',
+          source: {
+            type: 'geojson',
+            data: geojson
+          },
+          paint: {
+            'fill-color': '#a6dba0',
+            'fill-opacity': 0.8,
+            'fill-outline-color': 'black'
+          },
+          filter: ['in', this.field_name].concat(this.selected_target_area_ids)
         })
+
+        this._map.addLayer({
+          id: 'unselected',
+          type: 'fill',
+          source: {
+            type: 'geojson',
+            data: geojson
+          },
+          paint: {
+            'fill-color': '#c2a5cf',
+            'fill-opacity': 0.8,
+            'fill-outline-color': 'black'
+          },
+          filter: ['!in', this.field_name].concat(this.selected_target_area_ids)
+        })
+
       },
-      add_clusters() {
-        console.log('add_clusters')
+      toggle_clusters() {
+
+        if(!this._map.getSource('clusters_source')) {
+          this._map.addSource('clusters_source', {
+            'type': 'geojson',
+            'data': this._geodata.clusters
+          })
+        }
+
+
         if (this.show_clusters) {
 
           this._map.addLayer({
             'id': 'clusters',
             'type': 'line',
-            'source': {
-              'type': 'geojson',
-              'data': this.geodata.clusters
-            },
+            source: 'clusters_source',
             'paint': {
               'line-color': 'blue'
             },
