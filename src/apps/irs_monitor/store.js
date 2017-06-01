@@ -1,3 +1,5 @@
+import {get_all_records} from '@/lib/data/remote'
+
 export default {
   namespaced: true,
   state: {
@@ -24,6 +26,12 @@ export default {
       state.filters = state.filters.filter((f) => {
         return f.type !== type
       })
+    }
+  },
+  actions: {
+    get_all_records: (context) => {
+      const country = context.rootState.instance_config.slug.toLowerCase()
+      return get_all_records(country)
     }
   }
 }
