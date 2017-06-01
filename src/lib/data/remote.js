@@ -2,6 +2,14 @@
 
 let douma_api_root = `${DOUMA_API_URL}/${DOUMA_API_VERSION}`
 
+const standard_handler = (url, options = {}) => {
+  return new Promise((resolve, reject) => {
+    fetch(url, options)
+      .then(res => res.json())
+      .then(json => resolve(json))
+      .catch(error => reject(error))
+  })
+}
 
 //
 // User authentiction
@@ -17,31 +25,13 @@ export const authenticate = (user) => {
     mode: 'cors',
     method: 'POST'
   }
-  return new Promise((resolve, reject) => {
-    fetch(url, options)
-      .then(res => res.json())
-      .then(json => {
-        resolve(json)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
+  return standard_handler(url, options)
 }
 
 export const get_current_plan = (country) => {
   let url = douma_api_root + `/plan/current?country=${country}`
 
-  return new Promise((resolve, reject) => {
-    fetch(url)
-      .then(res => res.json())
-      .then(json => {
-        resolve(json)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
+  return standard_handler(url)
 }
 
 export const create_plan = (plan) => {
@@ -56,31 +46,14 @@ export const create_plan = (plan) => {
     method: 'POST'
   }
 
-  return new Promise((resolve, reject) => {
-    fetch(url, options)
-      .then(res => res.json())
-      .then(json => {
-        resolve(json)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
+  return standard_handler(url, options)
+
 }
 
 export const get_all_records = (country) => {
   let url = douma_api_root + `/record/all?country=${country}`
 
-  return new Promise((resolve, reject) => {
-    fetch(url)
-      .then(res => res.json())
-      .then(json => {
-        resolve(json)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
+  return standard_handler(url)
 }
 
 export const create_record = (record) => {
@@ -95,14 +68,5 @@ export const create_record = (record) => {
     method: 'POST'
   }
 
-  return new Promise((resolve, reject) => {
-    fetch(url, options)
-      .then(res => res.json())
-      .then(json => {
-        resolve(json)
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
+  return standard_handler(url, options)
 }
