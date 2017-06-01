@@ -1,35 +1,70 @@
 // Manage interaction with DOUMA API
 
-export default class {
-  constructor(){
-    this.douma_api_root = `${DOUMA_API_URL}/${DOUMA_API_VERSION}`
+let douma_api_root = `${DOUMA_API_URL}/${DOUMA_API_VERSION}`
+
+
+//
+// User authentiction
+//
+export const authenticate = (user) => {
+  let url = douma_api_root + `/auth`
+
+  let options = {
+    body: JSON.stringify({user}),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    mode: 'cors',
+    method: 'POST'
   }
-
-  //
-  // User authentiction
-  //
-  authenticate(user) {
-    let url = this.douma_api_root + `/auth`
-
-    let options = {
-      body: JSON.stringify({user}),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      mode: 'cors',
-      method: 'POST'
-    }
-    return new Promise((resolve, reject) => {
-      fetch(url, options)
-        .then(res => res.json())
-        .then(json => {
-          resolve(json)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
-  }
-
-
+  return new Promise((resolve, reject) => {
+    fetch(url, options)
+      .then(res => res.json())
+      .then(json => {
+        resolve(json)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
 }
+
+export const get_current_plan = (country) => {
+  let url = douma_api_root + `/plan/current?country=${country}`
+
+  return new Promise((resolve, reject) => {
+    fetch(url)
+      .then(res => res.json())
+      .then(json => {
+        resolve(json)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+export const create_plan = (plan) => {
+  let url = douma_api_root + `/plan/create`
+
+  let options = {
+    body: JSON.stringify(plan),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    mode: 'cors',
+    method: 'POST'
+  }
+
+  return new Promise((resolve, reject) => {
+    fetch(url, options)
+      .then(res => res.json())
+      .then(json => {
+        resolve(json)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
