@@ -5,7 +5,7 @@
     <md-card class="card">
       <md-card-content>
         <p>{{actual_responses.length}} record{{actual_responses.length === 1 ? '' : 's' }}</p>
-        <md-button class="md-raised md-primary" @click.native="update_responses" :disabled="loading">Refresh data</md-button>
+        <md-button class="md-raised md-primary" @click.native="refresh_responses" :disabled="loading">Refresh data</md-button>
       </md-card-content>
     </md-card>
 
@@ -152,7 +152,7 @@
           this.$store.commit('irs_monitor/toggle_filter', filter)
         }
       },
-      update_responses() {
+      refresh_responses() {
         this.loading = true
         this.$store.commit('root:set_loading', true)
 
