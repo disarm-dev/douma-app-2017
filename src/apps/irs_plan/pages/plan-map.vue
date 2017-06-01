@@ -97,7 +97,7 @@
             data: geojson
           },
           paint: {
-            'fill-color': 'green',
+            'fill-color': '#a6dba0',
             'fill-opacity': 0.8,
             'fill-outline-color': 'black'
           },
@@ -112,7 +112,7 @@
             data: geojson
           },
           paint: {
-            'fill-color': 'red',
+            'fill-color': '#c2a5cf',
             'fill-opacity': 0.8,
             'fill-outline-color': 'black'
           },
