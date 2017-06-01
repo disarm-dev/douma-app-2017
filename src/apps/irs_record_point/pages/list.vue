@@ -37,15 +37,15 @@
       sync() {
         this.syncing = true
         Promise.all(
+
           this.responses.filter(r => r.synced === false).map((response) => {
-            return fetch(`https://disarm-platform.firebaseio.com/responses/${response.id}.json`, {
-              method: 'PUT',
-              body: JSON.stringify(response)
-            }).then(() => {
+            return this.$store.dispatch('irs_record_point/create_record', response).then((res) => {
+              console.log(res)
               response.synced = true
               this.$store.commit('irs_record_point/update_response', response)
             })
           })
+
         ).then(() => this.syncing = false)
       }
     }
