@@ -18,6 +18,7 @@
     data() {
       return {
         clusters_visible: false,
+        user_map_focus: false,
         _map: null,
         _geodata: {
           all_target_areas: null,
@@ -55,8 +56,8 @@
         return new mapboxgl.Map({
           container: 'map',
           style: 'mapbox://styles/mapbox/streets-v9',
-          center: [this.instance_config.map_focus.centre.lng, this.instance_config.map_focus.centre.lat],
-          zoom: this.instance_config.map_focus.zoom
+          center: [23.31117652857256, -25.74823900711678],
+          zoom: 3.9642688564
         });
 
       },
@@ -122,8 +123,11 @@
         this.fit_bounds(geojson)
       },
       fit_bounds(geojson) {
-        const bounds = bbox(geojson)
-        this._map.fitBounds(bounds, {padding: 20})
+        if (!this.user_map_focus) {
+          const bounds = bbox(geojson)
+          this._map.fitBounds(bounds, {padding: 20})
+          this.user_map_focus = true
+        }
       },
       remove_target_areas() {
         this._map.removeLayer('selected')
