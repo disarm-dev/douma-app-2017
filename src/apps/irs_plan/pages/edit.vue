@@ -1,6 +1,7 @@
 <template>
   <div class='container'>
     <h1>IRS Plan</h1>
+    <md-checkbox v-model="edit">Edit</md-checkbox>
     <md-button @click.native="$router.push('/irs/plan')">Save</md-button>
 
     <plan_map :geodata="geodata" :edit="true"></plan_map>
@@ -20,6 +21,7 @@
 
   export default {
     name: 'IRSPlan',
+    name: 'edit',
     components: {plan_summary, plan_map},
     data() {
       return {
@@ -27,6 +29,7 @@
           all_target_areas: null,
           clusters: null
         }
+        edit: false,
       }
     },
     computed: {
