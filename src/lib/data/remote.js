@@ -68,3 +68,41 @@ export const create_plan = (plan) => {
   })
 }
 
+export const get_all_records = (country) => {
+  let url = douma_api_root + `/record/all?country=${country}`
+
+  return new Promise((resolve, reject) => {
+    fetch(url)
+      .then(res => res.json())
+      .then(json => {
+        resolve(json)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+export const create_record = (record) => {
+  let url = douma_api_root + `/record/all?country=${country}`
+
+  let options = {
+    body: JSON.stringify(record),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    mode: 'cors',
+    method: 'POST'
+  }
+
+  return new Promise((resolve, reject) => {
+    fetch(url, options)
+      .then(res => res.json())
+      .then(json => {
+        resolve(json)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
