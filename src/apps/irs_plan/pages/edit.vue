@@ -3,7 +3,7 @@
     <h1>IRS Plan</h1>
     <md-button @click.native="$router.push('/irs/plan')">Save</md-button>
 
-    <plan_map :geodata="geodata" edit="false"></plan_map>
+    <plan_map :geodata="geodata" :edit="true"></plan_map>
 
     <md-card class="card"><md-card-content>
       <plan_summary :geodata="geodata"></plan_summary>
@@ -17,7 +17,6 @@
 
   import plan_summary from './plan-summary.vue'
   import plan_map from './plan-map.vue'
-
 
   export default {
     name: 'IRSPlan',
