@@ -66,6 +66,9 @@
       }
     },
     computed: {
+      user_name() {
+        return this.$store.state.meta.user.name
+      },
       slug() {
         return this.$store.state.instance_config.slug.toLowerCase()
       },
@@ -128,7 +131,8 @@
           id: id,
           synced: false,
           userAgent: navigator.userAgent,
-          instance_slug: this.slug
+          country: this.slug,
+          user: this.user_name
         }
 
         if (this.response_id) {
