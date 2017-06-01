@@ -2,6 +2,13 @@
   <div class='container'>
     <h1>IRS Dashboard</h1>
 
+    <md-card class="card">
+      <md-card-content>
+        <p>{{actual_responses.length}} number of records</p>
+        <md-button class="md-raised md-primary" @click.native="update_responses">Update data</md-button>
+      </md-card-content>
+    </md-card>
+
     <md-card v-if='filters_on' class="card">
       <md-card-content>
         <filters v-on:filter="filter"></filters>
@@ -91,9 +98,10 @@
     },
     data () {
       return {
+        actual_responses: [],
         filters_on: false,
         _responses: [],
-        denominator: []
+        denominator: [],
       }
     },
     created() {
@@ -142,6 +150,13 @@
         } else {
           this.$store.commit('irs_monitor/toggle_filter', filter)
         }
+      },
+      update_responses() {
+        this.$store.dispatch('irs_monitor/get_all_records')
+          .then((records) => {
+            console.log(records)
+            this.actual_responses = records
+          })
       }
     }
   }
