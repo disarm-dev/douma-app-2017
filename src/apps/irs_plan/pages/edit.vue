@@ -1,11 +1,11 @@
 <template>
   <div class='container'>
     <h1>IRS Plan</h1>
-    <md-checkbox v-model="edit">Edit mode</md-checkbox>
-    <md-button v-if='!edit' class='md-raised md-primary' @click.native="load_plan">Load</md-button>
-    <md-button v-if='edit' class='md-raised md-primary' @click.native="save_plan">Save</md-button>
+    <md-checkbox v-model="edit_mode">Edit mode</md-checkbox>
+    <md-button v-if='!edit_mode' class='md-raised md-primary' @click.native="load_plan">Load</md-button>
+    <md-button v-if='edit_mode' class='md-raised md-primary' @click.native="save_plan">Save</md-button>
 
-    <plan_map :data_ready="data_ready" :edit="edit"></plan_map>
+    <plan_map :data_ready="data_ready" :edit_mode="edit_mode"></plan_map>
 
     <md-card class="card"><md-card-content>
       <plan_summary :data_ready="data_ready"></plan_summary>
@@ -26,7 +26,7 @@
     data() {
       return {
         data_ready: false,
-        edit: false
+        edit_mode: false
       }
     },
     computed: {

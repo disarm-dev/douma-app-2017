@@ -1,6 +1,6 @@
 <template>
   <div>
-    <md-checkbox :disabled='!data_ready' v-model="show_clusters">Show clusters</md-checkbox>
+    <md-checkbox :disabled='!data_ready' v-model="clusters_visible">Show clusters</md-checkbox>
     <div id="map"></div>
   </div>
 </template>
@@ -12,10 +12,10 @@
 
   export default {
     name: 'plan_map',
-    props: ['edit', 'data_ready'],
+    props: ['edit_mode', 'data_ready'],
     data() {
       return {
-        show_clusters: false,
+        clusters_visible: false,
         _map: null,
         _geodata: {
           all_target_areas: null,
@@ -33,8 +33,8 @@
       }),
     },
     watch: {
-      'show_clusters': 'toggle_clusters',
-      'edit': 'toggle_map_click',
+      'clusters_visible': 'toggle_cluster_visiblity',
+      'edit_mode': 'manage_map_click',
       'data_ready': 'populate_data_from_global',
       'selected_target_area_ids': 'redraw_target_areas'
     },
@@ -45,7 +45,7 @@
         this._map = this.create_map()
 
         this._map.on('load', () => {
-          this.toggle_map_click()
+          this.manage_map_click()
           this.add_target_areas()
         })
       },
@@ -58,20 +58,27 @@
         });
 
       },
-      toggle_map_click() {
-        if(!this.edit) {
+      manage_map_click() {
+
+        // Check if you're in editing mode
+        if(!this.edit_mode) {
+
+          // Remove any existing click handler
           if (this._map.listens('click')) this._map.off('click', this.handler)
+
         } else {
+          // Keep hold of click handler
           this.handler = (e) => {
             const feature = this._map.queryRenderedFeatures(e.point, {layers: ['selected', 'unselected']})[0]
 
             if (feature) {
               const feature_id = feature.properties[this.field_name]
-              this.$store.commit('irs_plan/toggle_selected_target_area', feature_id)
-              this._map.setFilter('selected', ['in', this.field_name].concat(this.selected_target_area_ids))
-              this._map.setFilter('unselected', ['!in', this.field_name].concat(this.selected_target_area_ids))
+              this.$store.commit('irs_plan/toggle_selected_target_area_id', feature_id)
+              this.refilter_target_areas()
             }
           }
+
+          // Add click handler
           this._map.on('click', this.handler);
 
         }
@@ -121,7 +128,11 @@
           this.add_target_areas()
         }
       },
-      toggle_clusters() {
+      refilter_target_areas() {
+        this._map.setFilter('selected', ['in', this.field_name].concat(this.selected_target_area_ids))
+        this._map.setFilter('unselected', ['!in', this.field_name].concat(this.selected_target_area_ids))
+      },
+      toggle_cluster_visiblity() {
 
         if(!this._map.getSource('clusters_source')) {
           this._map.addSource('clusters_source', {
@@ -130,7 +141,7 @@
           })
         }
 
-        if (this.show_clusters) {
+        if (this.clusters_visible) {
 
           this._map.addLayer({
             'id': 'clusters',
