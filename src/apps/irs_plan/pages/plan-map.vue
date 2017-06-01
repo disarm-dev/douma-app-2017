@@ -6,6 +6,7 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
   import mapboxgl from 'mapbox-gl'
   mapboxgl.accessToken = 'pk.eyJ1Ijoibmljb2xhaWRhdmllcyIsImEiOiJjaXlhNWw1NnkwMDJoMndwMXlsaGo5NGJoIn0.T1wTBzV42MZ1O-2dy8SpOw'
 
@@ -15,25 +16,17 @@
     data() {
       return {
         _map: null,
-        _all_target_areas: []
       }
     },
     computed: {
-      instance_config() {
-        return this.$store.state.instance_config
-      },
-      field_name() {
-        return this.$store.state.instance_config.spatial_hierarchy[0].field_name
-      },
-      denominator() {
-        return this.$store.state.instance_config.denominator
-      },
-      slug() {
-        return this.$store.state.instance_config.slug.toLowerCase()
-      },
-      selected_target_area_ids() {
-        return this.$store.state.irs_plan.selected_target_area_ids
-      }
+      ...mapState({
+        instance_config: state => state.instance_config,
+        field_name: state => state.instance_config.spatial_hierarchy[0].field_name,
+        denominator: state => state.instance_config.denominator,
+        slug: state => state.instance_config.slug.toLowerCase(),
+        selected_target_area_ids: state => state.irs_plan.selected_target_area_ids,
+        cached_target_areas: state => state.cache.target_areas,
+      }),
     },
     watch: {
       'selected_target_area_ids': 'render_clusters'
@@ -46,8 +39,18 @@
       }
 
       this.create_map()
-      this.add_map_click_handler()
-      this.fetch_target_areas_json()
+      this._map.on('load', () => {
+        this.add_map_click_handler()
+
+        if (!this.cached_target_areas) {
+          this.fetch_target_areas_json().then(geojson => {
+            this.$store.commit('root:set_cache', {key: 'target_areas', value: geojson})
+            this.add_target_areas()
+          })
+        } else {
+          this.add_target_areas()
+        }
+      })
 
     },
     methods: {
@@ -77,17 +80,11 @@
         }
       },
       fetch_target_areas_json() {
-        this._map.on('load', () => {
-          fetch(`/static/api_testing/${this.slug}/spatial_hierarchy/${this.slug}.${this.denominator.aggregate_to}.geojson`)
-            .then(res => res.json())
-            .then(geojson => {
-              this._all_target_areas = geojson
-              this.add_target_areas()
-            })
-        })
+        return fetch(`/static/api_testing/${this.slug}/spatial_hierarchy/${this.slug}.${this.denominator.aggregate_to}.geojson`)
+          .then(res => res.json())
       },
       add_target_areas() {
-        const geojson = this._all_target_areas
+        const geojson = this.cached_target_areas
 
         this._map.addLayer({
           id: 'selected',
