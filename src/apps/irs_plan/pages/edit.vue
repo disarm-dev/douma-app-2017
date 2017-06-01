@@ -6,8 +6,7 @@
     <plan_map edit="false"></plan_map>
 
     <md-card class="card"><md-card-content>
-      <h1>Don't forget the SUMMARY</h1>
-        <!--<plan_summary></plan_summary>-->
+      <plan_summary></plan_summary>
     </md-card-content></md-card>
 
   </div>
