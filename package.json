@@ -15,6 +15,8 @@
   "dependencies": {
     "@mapbox/mapbox-gl-draw": "^0.18.1",
     "@turf/bbox": "^4.3.0",
+    "@turf/center": "^4.3.0",
+    "@turf/centroid": "latest",
     "@turf/distance": "^4.3.0",
     "@turf/turf": "^4.1.0",
     "babel-polyfill": "^6.23.0",

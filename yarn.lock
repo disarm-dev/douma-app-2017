@@ -138,12 +138,19 @@
     "@turf/bbox" "^4.1.0"
     "@turf/helpers" "^4.1.0"
 
-"@turf/centroid@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@turf/centroid/-/centroid-4.1.0.tgz#e5c0a539748e35456d837f87b10515cf785bcfe6"
+"@turf/center@^4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@turf/center/-/center-4.3.0.tgz#9587959d3c1717fb99b7a53c878aaa571009fbb4"
   dependencies:
-    "@turf/helpers" "^4.1.0"
-    "@turf/meta" "^4.1.0"
+    "@turf/bbox" "^4.3.0"
+    "@turf/helpers" "^4.3.0"
+
+"@turf/centroid@^4.1.0", "@turf/centroid@latest":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@turf/centroid/-/centroid-4.3.0.tgz#086f6f562b934f3a4ccfb9d453c872357462d739"
+  dependencies:
+    "@turf/helpers" "^4.3.0"
+    "@turf/meta" "^4.3.0"
 
 "@turf/circle@^4.1.0":
   version "4.1.0"
