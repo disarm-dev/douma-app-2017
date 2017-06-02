@@ -2,9 +2,14 @@
   <div class='container'>
     <h1>IRS Plan</h1>
     <md-checkbox v-model="edit_mode">Edit mode</md-checkbox>
+
+    <!--VIEW ONLY-->
     <md-button v-if='!edit_mode' class='md-raised' @click.native="load_plan">Load</md-button>
-    <md-button v-if='edit_mode' class='md-raised md-primary' @click.native="save_plan">Save</md-button>
-    <md-button v-if='edit_mode' class='md-raised md-warn' @click.native="clear_plan">Clear plan</md-button>
+
+    <!--EDIT MODE-->
+    <md-button v-if='edit_mode' :disabled="!unsaved_changes" class='md-raised md-primary' @click.native="save_plan">Save</md-button>
+    <md-button v-if='edit_mode' :disabled="!unsaved_changes" class='md-raised md-warn' @click.native="load_plan">Cancel edits</md-button>
+    <md-button v-if='edit_mode' :disabled='!can_clear' class='md-raised' @click.native="clear_plan">Clear plan</md-button>
 
     <plan_map :data_ready="data_ready" :edit_mode="edit_mode"></plan_map>
 
@@ -27,14 +32,19 @@
     data() {
       return {
         data_ready: false,
-        edit_mode: false
+        edit_mode: false,
       }
     },
     computed: {
       ...mapState({
         denominator: state => state.instance_config.denominator,
         slug: state => state.instance_config.slug.toLowerCase(),
-      })
+        selected_target_area_ids: state => state.irs_plan.selected_target_area_ids,
+        unsaved_changes: state => state.irs_plan.unsaved_changes
+      }),
+      can_clear() {
+        return this.selected_target_area_ids.length !== 0
+      }
     },
     mounted() {
       fetch(`/static/api_testing/${this.slug}/spatial_hierarchy/${this.slug}.${this.denominator.aggregate_to}.geojson`)
@@ -51,10 +61,7 @@
       load_plan() {
         this.$store.commit('root:set_loading', true)
 
-        this.$store.dispatch('irs_plan/get_current_plan').then(plan => {
-          if (plan.hasOwnProperty('target_areas') && plan.target_areas.length > 0) {
-            this.$store.commit('irs_plan/set_selected_target_areas_id', plan.target_areas)
-          }
+        this.$store.dispatch('irs_plan/get_current_plan').then(() => {
           this.$store.commit('root:set_loading', false)
         })
 
@@ -88,4 +95,11 @@
   .card {
     margin-top: 10px;
   }
+
+  .md-chip {
+    background: orange;
+    color: white;
+  }
+
+
 </style>

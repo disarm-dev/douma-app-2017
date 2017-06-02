@@ -4,6 +4,7 @@ export default {
   namespaced: true,
   state: {
     selected_target_area_ids: [],
+    unsaved_changes: false,
   },
   mutations: {
     "toggle_selected_target_area_id": (state, target_area_id) => {
@@ -13,9 +14,13 @@ export default {
       } else {
         state.selected_target_area_ids.push(target_area_id)
       }
+      state.unsaved_changes = true
     },
     'set_selected_target_areas_id': (state, selected_target_area_ids) => {
       state.selected_target_area_ids = selected_target_area_ids
+    },
+    'set_unsaved_changes': (state, unsaved_changes) => {
+      state.unsaved_changes = unsaved_changes
     },
     'clear_plan': (state) => {
       state.selected_target_area_ids = []
@@ -32,12 +37,19 @@ export default {
         target_areas
       }
 
+      context.commit('set_unsaved_changes', false)
       return create_plan(plan)
     },
     'get_current_plan': (context) => {
       const country = context.rootState.instance_config.slug.toLowerCase()
 
-      return get_current_plan(country)
+      return get_current_plan(country).then(plan => {
+        if (plan.hasOwnProperty('target_areas') && plan.target_areas.length > 0) {
+          context.commit('set_selected_target_areas_id', plan.target_areas)
+          context.commit('set_unsaved_changes', false)
+        }
+      })
+
     }
   }
 }

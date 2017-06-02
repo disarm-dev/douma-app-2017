@@ -15,19 +15,17 @@
       </md-card-content>
     </md-card>
 
-    <template v-for="component in components" >
-      <md-card class="card" :ref="component.name" :class="{'card-half-width': component.width_constraint == 'half'}">
-        <md-card-content>
-          <component
-            :is="component.name"
-            :height="component.height_constraint == 'viewport' ? window_height : undefined"
-            :responses='responses'
-            :denominator='denominator'
-            :component_config='component'
-            ></component>
-        </md-card-content>
-      </md-card>
-    </template>
+    <md-card v-for="component in components" :key="component.name" class="card" :ref="component.name" :class="{'card-half-width': component.width_constraint == 'half'}">
+      <md-card-content>
+        <component
+          :is="component.name"
+          :height="component.height_constraint == 'viewport' ? window_height : undefined"
+          :responses='responses'
+          :denominator='denominator'
+          :component_config='component'
+          ></component>
+      </md-card-content>
+    </md-card>
   </div>
 </template>
 

@@ -1,5 +1,6 @@
 <template>
   <div v-if='loaded'>
+    <a @click="log_form_elements">form_elements</a>
     <v-client-table :data="tableData" :columns="columns"></v-client-table>
     <md-button @click.native="download_content">Download</md-button>
   </div>
@@ -11,6 +12,7 @@
   import pick from 'lodash.pick'
 
   import Aggregator from '@/lib/aggregations'
+  import {elements_array}from '@/lib/form_helpers'
 
   export default {
     props: ['responses', 'denominator', 'component_config'],
@@ -46,7 +48,11 @@
         const content = json2csv({data, fields})
 
         download(content, 'output.csv')
+      },
+      log_form_elements() {
+        console.table(elements_array(this.$store.state.instance_config.form))
       }
+
     }
   }
 </script>

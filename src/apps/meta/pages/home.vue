@@ -17,12 +17,14 @@
     <router-link to="/meta/building">building</router-link>
     <a @click="reset_config()">reset config</a>
     <a href="/3rdpartylicenses.txt">licenses</a>
+    <a @click="log_form_elements">form_elements</a>
     <p>{{commit_hash}}</p>
   </div>
 </template>
 
 <script>
   import generate_applet_routes from '../../../lib/applet_routes.js'
+  import {elements_array}from '../../../lib/form_helpers'
 
   export default {
 
@@ -53,6 +55,9 @@
         } else {
           this.geolocation_test_response = 'Device has NO geolocation. Will not work for data collection'
         }
+      },
+      log_form_elements() {
+        console.table(elements_array(this.$store.state.instance_config.form))
       }
     }
   }

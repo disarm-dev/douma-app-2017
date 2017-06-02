@@ -1,5 +1,5 @@
 const applets = {
-  meta: require('./apps/meta'), 
+  meta: require('./apps/meta'),
   irs_record_point: require('./apps/irs_record_point'),
   irs_monitor: require('./apps/irs_monitor'),
   irs_plan: require('./apps/irs_plan'),
