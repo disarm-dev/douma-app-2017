@@ -125,7 +125,7 @@
         fetch(`/static/structure_samples/${place}_buildings.json`)
           .then(res => res.json())
           .then(geojson => {
-            this.add_buildings_to_map(geojson))
+            this.add_buildings_to_map(geojson)
 
           }).catch(err => console.log(err))
       },
