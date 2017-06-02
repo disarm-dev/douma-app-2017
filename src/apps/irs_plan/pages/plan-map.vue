@@ -8,6 +8,7 @@
 <script>
   import {mapState} from 'vuex'
   import mapboxgl from 'mapbox-gl'
+  import MapboxDraw from '@mapbox/mapbox-gl-draw'
   mapboxgl.accessToken = 'pk.eyJ1Ijoibmljb2xhaWRhdmllcyIsImEiOiJjaXlhNWw1NnkwMDJoMndwMXlsaGo5NGJoIn0.T1wTBzV42MZ1O-2dy8SpOw'
 
   import bbox from '@turf/bbox'
@@ -19,6 +20,7 @@
       return {
         clusters_visible: false,
         user_map_focus: false,
+        draw_controls: null,
         _map: null,
         _geodata: {
           all_target_areas: null,
@@ -37,7 +39,7 @@
     },
     watch: {
       'clusters_visible': 'toggle_cluster_visiblity',
-      'edit_mode': 'manage_map_click',
+      'edit_mode': 'manage_map_mode',
       'data_ready': 'populate_data_from_global',
       'selected_target_area_ids': 'redraw_target_areas'
     },
@@ -47,8 +49,9 @@
 
         this._map = this.create_map()
 
+
         this._map.on('load', () => {
-          this.manage_map_click()
+          this.manage_map_mode()
           this.add_target_areas()
         })
       },
@@ -59,15 +62,16 @@
           center: [23.31117652857256, -25.74823900711678],
           zoom: 3.9642688564
         });
-
       },
-      manage_map_click() {
+      manage_map_mode() {
 
         // Check if you're in editing mode
         if(!this.edit_mode) {
 
           // Remove any existing click handler
           if (this._map.listens('click')) this._map.off('click', this.handler)
+
+          this.remove_draw_controls()
 
         } else {
           // Keep hold of click handler
@@ -84,6 +88,7 @@
           // Add click handler
           this._map.on('click', this.handler);
 
+          this.add_draw_controls()
         }
       },
       add_target_areas() {
@@ -121,6 +126,30 @@
         }, 'clusters')
 
         this.fit_bounds(geojson)
+      },
+      add_draw_controls () {
+        this.remove_draw_controls()
+
+        const options = {
+          boxSelect: false,
+          keyBindings: false,
+          displayControlsDefault: false,
+          controls: {
+            polygon: true,
+            trash: true
+          }
+        }
+        this.draw_controls = new MapboxDraw(options)
+
+        this._map.on('draw.create', (e) => { console.log(e)})
+        this._map.on('draw.delete', (e) => { console.log(e)})
+        this._map.on('draw.update', (e) => { console.log(e)})
+
+        this._map.addControl(this.draw_controls)
+      },
+      remove_draw_controls () {
+        if (this.draw_controls) this._map.removeControl(this.draw_controls)
+        this.draw_controls = null
       },
       fit_bounds(geojson) {
         if (!this.user_map_focus) {
