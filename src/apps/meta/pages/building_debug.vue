@@ -1,5 +1,9 @@
 <template>
   <div>
+    <md-input-container>
+      <label>Upload GeoJSON</label>
+      <md-input v-model="filename"></md-input>
+    </md-input-container>
     <p>Clicked on osm_id: {{osm_id_from_map}}</p>
     <md-input-container>
       <label>OSM ID</label>
@@ -34,14 +38,11 @@
   import Leaflet from 'leaflet'
   import 'leaflet/dist/leaflet.css'
   import locatecontrol from 'leaflet.locatecontrol'
-  import {get_current_position} from '../../../lib/location_helper.js'
+  import bbox from '@turf/bbox'
   import moment from 'moment'
   import uuid from 'uuid/v4'
 
-  import mpaka from '../../../../static/geo/structure_samples/mpaka_buildings.json'
-  import hlane from '../../../../static/geo/structure_samples/hlane_buildings.json'
-  import simunye from '../../../../static/geo/structure_samples/simunye_buildings.json'
-  import mbabane from '../../../../static/geo/structure_samples/mbabane.json'
+  import {get_current_position} from '../../../lib/location_helper.js'
 
   export default {
     name: 'building_debug',
@@ -69,7 +70,8 @@
       mbabane() { return mbabane }
     },
     watch: {
-      'osm_id': 'highlight_building'
+      'osm_id': 'highlight_building',
+      'filename': 'upload'
     },
     mounted() {
       this.create_map()
@@ -88,14 +90,16 @@
 
         Leaflet.tileLayer(url).addTo(this._map);
       },
-      add_buildings(place) {
+//      upload_buildings(filename) {
+//        fetch('')
+//      },
+      add_buildings_to_map(buildings_geojson) {
         if(typeof this._buildings_layer !== 'undefined') {
           this._map.removeLayer(this._buildings_layer)
           this._buildings_layer = null
         }
 
-
-        this._buildings_layer = L.geoJSON(this[place], {
+        this._buildings_layer = L.geoJSON(geojson, {
           style: (feature, layer) => {
             let base_style = {
               weight: 0.8
@@ -103,14 +107,27 @@
 
             return base_style
           },
-           onEachFeature: (feature, layer) => {
-             layer.on('click', () => {
-                this.osm_id_from_map = feature.properties.osm_id
-             })
-           }
+          onEachFeature: (feature, layer) => {
+            layer.on('click', () => {
+              this.osm_id_from_map = feature.properties.osm_id
+            })
+          }
         })
 
         this._buildings_layer.addTo(this._map)
+
+        const bounds = bbox(geojson)
+        console.log(bounds)
+        this._map.fitBounds(bounds, {padding: 20})
+      },
+      add_buildings(place) {
+
+        fetch(`/static/structure_samples/${place}_buildings.json`)
+          .then(res => res.json())
+          .then(geojson => {
+            this.add_buildings_to_map(geojson))
+
+          }).catch(err => console.log(err))
       },
       highlight_building() {
         this._buildings_layer.setStyle((feature, layer) => {
@@ -133,7 +150,7 @@
       },
       create_position_object(position, duration) {
         if (this.osm_id) {
-          position.osm_id = this.osm_id  
+          position.osm_id = this.osm_id
         }
         position.duration = duration
         position.username = this.$store.state.meta.user.username
