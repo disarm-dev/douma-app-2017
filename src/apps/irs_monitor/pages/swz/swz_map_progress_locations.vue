@@ -3,13 +3,18 @@
 </template>
 <script>
   import Leaflet from 'leaflet'
+  import TurfHelpers from '@turf/helpers'
 
   export default {
+    props: ['responses', 'denominator'],
     data() {
       return {
         _map: null,
         _buildings_layer: null
       }
+    },
+    watch: {
+      'responses': 'add_buildings'
     },
     mounted() {
       this.create_map()
@@ -28,115 +33,54 @@
 
         this.add_buildings()
       },
-      add_buildings(place) {
-        this._buildings_layer = L.geoJSON(this.geojson, {
-          pointToLayer: (feature, latlng) => {
-            return L.circleMarker(latlng, {});
-          },
-          style: (feature, layer) => {
-            return {
-              weight: 0.8
+      add_buildings() {
+        if (this.responses.length === 0) return
+
+        if (this._buildings_layer) { 
+          this._map.removeLayer(this._buildings_layer)
+          this.this._buildings_layer = null
+        }
+
+         this._buildings_layer = L.geoJSON(this.feature_collection, {
+            onClick: (a, b) => {
+              console.log(a,b)
+            },
+            pointToLayer: (feature, latlng) => {
+              return L.circleMarker(latlng, {});
+            },
+            style: (feature, layer) => {
+              let {visit_type} = feature.properties.form_data
+              return {
+                color: visit_type === 'first_visit' ? 'green' : 'orange',
+                weight: 0.8
+              }
             }
-          }
-        })
-        this._buildings_layer.addTo(this._map)
+          }).bindPopup(function (layer) {
+            let record = layer.feature.properties
+            console.log(record)
+            return `
+              <p><b>Date:</b> ${record.recorded_on}</p>
+              <p><b>Recorded by:</b> ${record.user}</p>
+              <p><b>Visit type:</b> ${record.form_data.visit_type}</p>
+              <p><b>Number of structures:</b> ${record.form_data.number_structures_total}\n</p>
+            `
+          })
+
+          this._buildings_layer.addTo(this._map)
+
+          this._map.fitBounds(this._buildings_layer.getBounds())
+        
       },
     },
     computed: {
-      geojson() {
-        return {
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          31.993217468261715,
-          -26.1310902352504
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          31.990470886230472,
-          -26.1313984661397
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          31.98841094970703,
-          -26.12215118563835
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          31.981544494628903,
-          -26.13016553770187
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          31.9921875,
-          -26.126004308140512
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          31.988153457641598,
-          -26.133324890767675
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          31.99690818786621,
-          -26.13317077796681
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          31.993732452392575,
-          -26.13548244862496
-        ]
-      }
-    }
-  ]
-}
+      feature_collection() {
+        let points = this.responses.map((response) =>{
+          let {latitude, longitude} = response.location.coords
+          let point = TurfHelpers.point([longitude, latitude])
+          point.properties = response
+          return point
+        })
+        return TurfHelpers.featureCollection(points)
       }
     }
   }
