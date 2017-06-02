@@ -47,15 +47,8 @@
       }
     },
     mounted() {
-      fetch(`/static/api_testing/${this.slug}/spatial_hierarchy/${this.slug}.${this.denominator.aggregate_to}.geojson`)
-        .then(res => res.json())
-        .then(geojson => DOUMA_CACHE.geodata.all_target_areas = geojson)
-        .then(() => fetch(`/static/api_testing/${this.slug}/spatial_hierarchy/${this.slug}.clusters.geojson`))
-        .then(res => res.json())
-        .then(geojson => {
-          DOUMA_CACHE.geodata.clusters = geojson
-          this.data_ready = true
-        })
+      this.$store.dispatch('irs_plan/get_geodata', {slug: this.slug, level: this.denominator.aggregate_to})
+        .then(() => this.data_ready = true)
     },
     methods: {
       load_plan() {

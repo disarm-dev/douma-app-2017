@@ -1,4 +1,4 @@
-import {create_plan, get_current_plan} from '@/lib/data/remote'
+import {create_plan, get_current_plan, get_geodata} from '@/lib/data/remote'
 
 export default {
   namespaced: true,
@@ -49,7 +49,9 @@ export default {
           context.commit('set_unsaved_changes', false)
         }
       })
-
+    },
+    'get_geodata'(context, {slug, level}) {
+      return get_geodata({slug, level})
     }
   }
 }

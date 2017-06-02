@@ -76,3 +76,18 @@ export const create_record = (record) => {
 
   return standard_handler(url, options)
 }
+
+
+// GEODATA
+
+export const get_geodata = ({slug, level}) => {
+  return fetch(`/static/geo/${slug}/spatial_hierarchy/${slug}.${level}.geojson`)
+    .then(res => res.json())
+    .then(geojson => DOUMA_CACHE.geodata.all_target_areas = geojson)
+    .then(() => fetch(`/static/geo/${slug}/spatial_hierarchy/${slug}.clusters.geojson`))
+    .then(res => res.json())
+    .then(geojson => {
+      DOUMA_CACHE.geodata.clusters = geojson
+    })
+
+}
