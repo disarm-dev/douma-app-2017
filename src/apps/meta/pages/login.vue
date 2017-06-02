@@ -19,7 +19,7 @@
             <md-input v-model="user.password" required type="password"></md-input>
           </md-input-container>
 
-          <md-button class="md-accent md-raised login-button" :disabled='disabled' type="submit">Login</md-button> 
+          <md-button class="md-accent md-raised login-button" :disabled='disabled || !can_login' type="submit">Login</md-button>
         </form>
      </md-card-content>
     </md-card>
@@ -43,6 +43,9 @@
     computed: {
       country() {
         return this.$store.state.instance_config.name
+      },
+      can_login() {
+        return this.user.username.length !== 0 && this.user.password.length !== 0
       }
     },
     mounted() {
@@ -69,7 +72,7 @@
         this.error = ""
 
         if (this.user_is_valid()) {
-        
+
           this.disabled = true
 
           this.$store.dispatch('meta/login', this.user).then(() => {
@@ -88,9 +91,9 @@
       continue() {
         if (this.$store.state.meta.previousRoute) {
           let path = this.$store.state.meta.previousRoute
-          this.$router.push(path)  
+          this.$router.push(path)
         } else {
-          this.$router.push('/')  
+          this.$router.push('/')
         }
       }
     }
