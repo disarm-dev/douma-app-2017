@@ -1,6 +1,6 @@
 export default [
   {
-    name: 'total_sprayed',
+    name: 'total_sprayed_structures',
     fn: (f) => {
       if (f.sprayable_unsprayed === 'yes') return true
 
@@ -13,11 +13,11 @@ export default [
   {
     name: 'sprayable_unsprayed',
     fn: (f) => {
-      if (f.sprayable_unsprayed === 'yes') return true
+      if (f.sprayable_unsprayed === 'no') return true
 
-      return f.numbersprayed_ddt + f.numbersprayed_delta + f.number_unsprayed == f.number_sprayable
+      return f.number_sprayable === (f.numbersprayed_ddt + f.numbersprayed_delta + f.number_unsprayed)
     },
-    message: "Number of unsprayed structures doesn't add up",
+    message: "Number of structures doesn't add up",
     type: "warning",
     relevant_questions: ["number_sprayable", "sprayable_unsprayed", "numbersprayed_ddt", "numbersprayed_delta", "number_unsprayed"]
   },
