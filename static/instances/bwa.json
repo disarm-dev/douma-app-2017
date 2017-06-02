@@ -169,6 +169,7 @@
      "validators": [
       {
        "type": "numeric",
+       "maxValue": "100",
        "minValue": "1",
        "text": "Value must be one or greater"
       }
