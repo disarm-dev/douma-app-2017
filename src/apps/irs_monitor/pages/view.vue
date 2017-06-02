@@ -99,14 +99,11 @@
         actual_responses: [],
         loading: false,
         filters_on: false,
-        _responses: [],
-        denominator: [],
+        denominator: {population: 500, structures_targeted: 150},
       }
     },
     created() {
-      this._responses = this.decorate_responses(seed_data[this.slug].responses)
-      // this.denominator = get_denominator_from_plan(plan)
-      this.denominator = seed_data[this.slug].denominator
+      this.refresh_responses()
     },
     computed: {
       responses() {
@@ -114,11 +111,11 @@
 
         if (filters.length > 0) {
           const single_filter = filters[0]
-          return this._responses.filter(r => {
+          return this.actual_responses.filter(r => {
             return r[single_filter.type] == single_filter.value
           })
         } else {
-          return this._responses
+          return this.actual_responses
         }
       },
       window_height() {
@@ -156,7 +153,7 @@
 
         this.$store.dispatch('irs_monitor/get_all_records')
           .then((records) => {
-            this.actual_responses = records
+            this.actual_responses = this.decorate_responses(records)
 
             this.loading = false
             this.$store.commit('root:set_loading', false)
