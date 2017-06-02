@@ -60,9 +60,6 @@
    "elements": [
     {
      "type": "radiogroup",
-     "name": "first_entry_new_village",
-     "title": "Is this the first entry of the day or the first entry at a new village?",
-     "isRequired": true,
      "choices": [
       {
        "value": "yes",
@@ -72,13 +69,13 @@
        "value": "no",
        "text": "No"
       }
-     ]
+     ],
+     "isRequired": true,
+     "name": "first_entry_new_village",
+     "title": "Is this the first entry of the day or the first entry at a new village?"
     },
     {
      "type": "radiogroup",
-     "name": "team_leader_name",
-     "title": "Team Leader's name",
-     "isRequired": true,
      "choices": [
       {
        "value": "chibi_yambwa",
@@ -92,7 +89,10 @@
        "value": "moalosi_moalosi",
        "text": "Moalosi Moalosi"
       }
-     ]
+     ],
+     "isRequired": true,
+     "name": "team_leader_name",
+     "title": "Team Leader's name"
     }
    ],
    "name": "intro questions"
@@ -101,10 +101,6 @@
    "elements": [
     {
      "type": "radiogroup",
-     "name": "village_chobe",
-     "visible": false,
-     "visibleIf": "{first_entry_new_village} = yes",
-     "title": "Village in Chobe",
      "choices": [
       {
        "value": "kachikau",
@@ -143,7 +139,11 @@
        "text": " CH5"
       },
       "CAD565"
-     ]
+     ],
+     "name": "village_chobe",
+     "title": "Village in Chobe",
+     "visible": false,
+     "visibleIf": "{first_entry_new_village} = yes"
     }
    ],
    "name": "village"
@@ -227,9 +227,6 @@
    "elements": [
     {
      "type": "radiogroup",
-     "name": "LLIN_used_sleeping",
-     "title": "Does this homestead have any LLINs used while sleeping?",
-     "isRequired": true,
      "choices": [
       {
        "value": "yes",
@@ -239,7 +236,10 @@
        "value": "no",
        "text": "No"
       }
-     ]
+     ],
+     "isRequired": true,
+     "name": "LLIN_used_sleeping",
+     "title": "Does this homestead have any LLINs used while sleeping?"
     },
     {
      "type": "text",
@@ -322,13 +322,13 @@
    "elements": [
     {
      "type": "radiogroup",
-     "name": "any_sprayed",
-     "title": "Were there any rooms SPRAYED in this homestead?",
-     "isRequired": true,
      "choices": [
       "yes",
       "no"
-     ]
+     ],
+     "isRequired": true,
+     "name": "any_sprayed",
+     "title": "Were there any rooms SPRAYED in this homestead?"
     }
    ],
    "name": "any SPRAYED"
@@ -454,9 +454,6 @@
    "elements": [
     {
      "type": "radiogroup",
-     "name": "any_unsprayed",
-     "title": "Were there any UNSPRAYED rooms in this homestead?",
-     "isRequired": true,
      "choices": [
       {
        "value": "yes",
@@ -466,7 +463,10 @@
        "value": "no",
        "text": "No"
       }
-     ]
+     ],
+     "isRequired": true,
+     "name": "any_unsprayed",
+     "title": "Were there any UNSPRAYED rooms in this homestead?"
     }
    ],
    "name": "any UNSPRAYED"
@@ -502,7 +502,9 @@
      "title": "How many UNSPRAYED rooms in this homestead are traditional?"
     }
    ],
-   "name": "UNSPRAYED details 1"
+   "name": "UNSPRAYED details 1",
+   "visible": false,
+   "visibleIf": "{any_unsprayed} = 'yes'"
   },
   {
    "elements": [
@@ -582,9 +584,6 @@
    "elements": [
     {
      "type": "radiogroup",
-     "name": "n_LLINs_given_partialspray",
-     "title": "If the rooms were unsprayable due to material, were LLINs given?",
-     "isRequired": true,
      "choices": [
       {
        "value": "yes",
@@ -594,7 +593,10 @@
        "value": "no",
        "text": "No"
       }
-     ]
+     ],
+     "isRequired": true,
+     "name": "n_LLINs_given_partialspray",
+     "title": "If the rooms were unsprayable due to material, were LLINs given?"
     },
     {
      "type": "text",
