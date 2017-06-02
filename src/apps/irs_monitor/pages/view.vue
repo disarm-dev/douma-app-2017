@@ -99,7 +99,7 @@
         actual_responses: [],
         loading: false,
         filters_on: false,
-        denominator: {population: 500},
+        denominator: {population: 500, structures_targeted: 150},
       }
     },
     created() {
