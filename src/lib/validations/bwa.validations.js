@@ -26,7 +26,7 @@ export default [
   {
     name: 'no_rooms_sprayed',
     fn: (f) => {  
-      if (f.all_rooms_sprayed === 'no' && f.any_rooms_sprayed === 'no') {
+      if (f.all_rooms_sprayed === 'no' && f.any_sprayed === 'no') {
         return false
       }
     },
@@ -34,26 +34,51 @@ export default [
     relevant_questions: ['all_rooms_sprayed', 'any_rooms_sprayed'],
     type: "warning",
   },
+  
+  
+
+
+  // These have been checked
   {
-    name: 'rooms_types_sprayed',
+    name: 'no_rooms_sprayed',
     fn: (f) => {  
-      if (f.any_rooms_sprayed === 'yes') {
-        return f.rooms_sprayed === (f.modern_sprayed  + f.traditional_sprayed)
+      if (f.any_unsprayed === 'no' && f.any_sprayed === 'no') {
+        return false
       }
     },
-    message: 'Number of traditional rooms & modern rooms sprayed does not add up to total rooms sprayed.',
-    relevant_questions: ['rooms_sprayed', 'any_rooms_sprayed', 'modern_sprayed', 'traditional_sprayed'],
+    message: 'No rooms were recorded as sprayed.',
+    relevant_questions: ['any_unsprayed', 'any_sprayed'],
     type: "warning",
   },
   {
     name: 'rooms_unsprayed',
     fn: (f) => {  
       if (f.all_rooms_sprayed === 'no') {
-        return f.rooms_unsprayed === (f.rooms_locked + f.rooms_nobody + f.rooms_refused + f.rooms_baby + f.rooms_patient + f.rooms_funeral + f.rooms_kitchen + f.rooms_food + f.rooms_material + f.rooms_other)
+        return f.rooms_unsprayed === (f.rooms_locked + f.n_rooms_nobody + f.n_rooms_refused + f.n_rooms_baby + f.n_rooms_patient + f.n_rooms_funeral + f.n_rooms_kitchen + f.n_rooms_food + f.n_rooms_material + f.n_rooms_other)
       }
     },
     message: 'Reasons for rooms unsprayed does not add up to total number of rooms unsprayed.',
-    relevant_questions: ["rooms_unsprayed", "all_rooms_sprayed" ,"rooms_locked", "rooms_nobody", "rooms_refused", "rooms_baby", "rooms_patient", "rooms_funeral", "rooms_kitchen", "rooms_food", "rooms_material", "rooms_other"],
+    relevant_questions: ["rooms_unsprayed", "all_rooms_sprayed" ,"rooms_locked", "n_rooms_nobody", "n_rooms_refused", "n_rooms_baby", "n_rooms_patient", "n_rooms_funeral", "n_rooms_kitchen", "n_rooms_food", "n_rooms_material", "n_rooms_other"],
+    type: "warning",
+  },
+  {
+    name: 'rooms_types_sprayed',
+    fn: (f) => {  
+      if (f.any_sprayed === 'yes') {
+        return f.number_sprayed === (f.number_sprayed_modern_partial_spray  + f.number_sprayed_traditional_partial_spray)
+      }
+    },
+    message: 'Number of traditional rooms & modern rooms sprayed does not add up to total rooms sprayed.',
+    relevant_questions: ['any_sprayed', 'number_sprayed', 'number_sprayed_modern_partial_spray', 'number_sprayed_traditional_partial_spray'],
+    type: "warning",
+  },
+  {
+    name: 'number_of_rooms',
+    fn: (f) => {  
+      return f.room_count === (f.number_rooms_modern + f.number_rooms_traditional)
+    },
+    message: 'Total number of rooms does not add up.',
+    relevant_questions: [ "room_count", "number_rooms_modern", "number_rooms_traditional"],
     type: "warning",
   },
   {
@@ -61,7 +86,7 @@ export default [
     fn: (f) => {  
       return f.ppl_in_hs === (f.ppl_in_hs_under5 + f.ppl_in_hs_above5)
     },
-    message: 'Reasons for rooms unsprayed does not add up to total number of rooms unsprayed.',
+    message: 'Number of people does not add up.',
     relevant_questions: [ "ppl_in_hs", "ppl_in_hs_under5", "ppl_in_hs_above5"],
     type: "warning",
   }
