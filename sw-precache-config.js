@@ -9,10 +9,6 @@ module.exports = {
     {
       urlPattern: /\/static\/(geo|instances|structure_samples)\/?(?:[^\/]+\/?)*$/,
       handler: 'cacheFirst'
-    },
-    {
-      urlPattern: '/^https\:\/\/douma-api\.herokuapp.com\/v3',
-      handler: 'cacheFirst'
     }
   ],
   verbose: true
