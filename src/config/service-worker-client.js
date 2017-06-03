@@ -1,6 +1,6 @@
-// 
+//
 // SERVICE WORKER
-// 
+//
 
 export default (DOUMA) => {
   if ('serviceWorker' in navigator) {

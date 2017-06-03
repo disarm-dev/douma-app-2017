@@ -12,7 +12,7 @@ import 'survey-vue/survey.css'
 // Imports
 import Vue from 'vue'
 import configureThemes from './config/theme'
-import configureServiceWorker from './config/service-worker'
+import configureServiceWorker from './config/service-worker-client'
 import create_router from './router'
 import register_applets from './applets'
 import DoumaComponent from './components/douma.vue'
