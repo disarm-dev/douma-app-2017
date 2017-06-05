@@ -23,7 +23,7 @@
       }
     },
     mounted() {
-      this.load_data()
+      // this.load_data()
       console.log(this.component_config)
     },
     methods: {
