@@ -625,7 +625,7 @@
     "zoom": 7
   },
   "name": "Botswana",
-  "slug": "BWA",
+  "slug": "bwa",
   "spatial_hierarchy": [
     {
       "field_name": "OBJECTID",
