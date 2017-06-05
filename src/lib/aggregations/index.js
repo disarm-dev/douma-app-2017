@@ -15,7 +15,7 @@ export default class {
 
   constructor({responses, denominator, instance_config}){
     // Get instance-specific aggregation functions
-    const instance_aggregations = all_aggregations[instance_config.slug.toLowerCase()]
+    const instance_aggregations = all_aggregations[instance_config.slug]
 
     // Get first instance-specific spatial filter (e.g. 'village')
     const spatial_filter_level = instance_config.spatial_hierarchy[0].name

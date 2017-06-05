@@ -35,7 +35,7 @@
     },
     computed: {
       ...mapState({
-        slug: state => state.instance_config.slug.toLowerCase(),
+        slug: state => state.instance_config.slug,
         denominator: state => state.instance_config.denominator,
         selected_target_area_ids: state => state.irs_plan.selected_target_area_ids,
         field_name: state => state.instance_config.spatial_hierarchy[0].field_name,

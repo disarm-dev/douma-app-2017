@@ -132,7 +132,7 @@ k<template>
         return (window.innerHeight - 64) - 200
       },
       slug() {
-        return this.$store.state.instance_config.slug.toLowerCase()
+        return this.$store.state.instance_config.slug
       },
       country() {
         return this.$store.state.instance_config.name

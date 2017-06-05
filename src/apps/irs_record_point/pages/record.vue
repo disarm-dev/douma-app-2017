@@ -70,7 +70,7 @@
         return this.$store.state.meta.user.name
       },
       slug() {
-        return this.$store.state.instance_config.slug.toLowerCase()
+        return this.$store.state.instance_config.slug
       },
       page_title() {
         return this.response_id ? 'Update' : 'Create'

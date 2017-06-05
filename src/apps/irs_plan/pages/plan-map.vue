@@ -33,7 +33,7 @@
         instance_config: state => state.instance_config,
         field_name: state => state.instance_config.spatial_hierarchy[0].field_name,
         denominator: state => state.instance_config.denominator,
-        slug: state => state.instance_config.slug.toLowerCase(),
+        slug: state => state.instance_config.slug,
         selected_target_area_ids: state => state.irs_plan.selected_target_area_ids,
       }),
     },

@@ -29,7 +29,7 @@ export default {
   actions: {
     'save_plan': (context) => {
       const target_areas = context.state.selected_target_area_ids
-      const country = context.rootState.instance_config.slug.toLowerCase()
+      const country = context.rootState.instance_config.slug
 
       const plan = {
         planned_at: new Date(),
@@ -41,7 +41,7 @@ export default {
       return create_plan(plan)
     },
     'get_current_plan': (context) => {
-      const country = context.rootState.instance_config.slug.toLowerCase()
+      const country = context.rootState.instance_config.slug
 
       return get_current_plan(country).then(plan => {
         if (plan.hasOwnProperty('target_areas') && plan.target_areas.length > 0) {

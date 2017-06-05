@@ -24,7 +24,7 @@
     },
     computed: {
       slug() {
-        return this.$store.state.instance_config.slug.toLowerCase()
+        return this.$store.state.instance_config.slug
       }
     },
     watch: {
