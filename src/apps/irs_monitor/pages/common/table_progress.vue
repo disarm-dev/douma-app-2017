@@ -10,6 +10,7 @@
   import download from 'downloadjs'
   import json2csv from 'json2csv'
   import pick from 'lodash.pick'
+  import moment from 'moment'
   import Translations from '@/lib/translations'
   import {elements_array}from '@/lib/form_helpers'
 
@@ -66,8 +67,8 @@
         const fields = this.columns
         const data = this.tableData
         const content = json2csv({data, fields})
-
-        download(content, 'output.csv')
+        const date = moment().format('YYYY-MM-DD_HHmm')
+        download(content, `${this.instance_config.slug}_irs_progress_${date}.csv`)
       },
       log_form_elements() {
         console.table(elements_array(this.$store.state.instance_config.form))
