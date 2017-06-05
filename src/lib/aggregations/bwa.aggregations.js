@@ -7,7 +7,7 @@ function percentage(value) {
 export default {
 
   'number of buildings targeted': (responses, denominator, results_so_far) => {
-    return denominator['n_buildings_targeted']
+    return denominator['structures_targeted']
   },
 
   'number of people in the homestead (<5 yrs)': (responses, denominator, results_so_far) => {

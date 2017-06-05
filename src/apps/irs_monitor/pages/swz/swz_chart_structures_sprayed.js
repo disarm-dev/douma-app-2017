@@ -9,6 +9,7 @@ export default Line.extend({
   },
   methods: {
     render_chart() {
+      console.log("Structures sprayed %")
       console.log('TODO: @data THIS IS FAKE DATA. FIX ME')
 
       let weeks = this.get_weeks()

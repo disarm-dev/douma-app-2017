@@ -51,8 +51,7 @@
             style: (feature, layer) => {
               let {visit_type} = feature.properties.form_data
               return {
-                // color: visit_type === 'first_visit' ? 'green' : 'orange',
-                color: 'green',
+                color: visit_type === 'first_visit' ? 'green' : 'orange',
                 weight: 0.8
               }
             }
@@ -62,8 +61,8 @@
             return `
               <p><b>Date:</b> ${record.recorded_on}</p>
               <p><b>Recorded by:</b> ${record.user}</p>
-              <p><b>Team leader:</b> ${record.form_data.team_leader_name}</p>
-              <p><b>Number of structures:</b> ${record.form_data.number_sprayed}\n</p>
+              <p><b>Visit type:</b> ${record.form_data.visit_type}</p>
+              <p><b>Number of structures:</b> ${record.form_data.number_structures_total}\n</p>
             `
           })
 

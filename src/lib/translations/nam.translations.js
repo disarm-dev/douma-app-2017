@@ -1,59 +1,33 @@
 import Base from './base.translations.js'
 
+import Aggregations from '@/lib/aggregations/nam.aggregations'
+
 export default class extends Base {
-
-  operational_units(feature_collection) {
-
-    feature_collection.features = feature_collection.features.map(ou => {
-      return {
-        type: ou.type,
-        geometry: ou.geometry,
-        properties: {
-          ...ou.properties,
-          name: `${ou.properties.NAME} ${ou.properties.REGION}`,
-          id: ou.properties.OBJECTID_1,
-        }
+  getTableData(responses, denominator) {
+    
+    let areas = responses.reduce((result, r) => {
+      if (!result.includes(r.form_data.region)) {
+        result.push(r.form_data.region)
       }
+      return result
+    }, [])
+
+    
+    let responses_sorted_by_area = areas.map((area) => {
+      let filtered_responses = responses.filter((response) => response.form_data.region === area)
+      let aggregation_names = Object.keys(Aggregations)
+
+      let row = aggregation_names.reduce((result, aggregation_name) => {
+        let aggregation = Aggregations[aggregation_name]
+        result[aggregation_name] = aggregation(filtered_responses, denominator)
+        return result
+      }, {village_name: area})
+
+      return row
+
     })
 
-    return feature_collection
-
+    return responses_sorted_by_area
   }
-
-  sprayed_count() {
-    return this.responses.reduce((acc, response, index) => {
-      let {form_data} = response
-      if (form_data.sprayable == 'yes') {
-        return acc += form_data.numbersprayed_ddt + form_data.numbersprayed_delta
-      } else {
-        return acc
-      }
-    }, 0)
-  }
-
-  unsprayed_count() {
-    return this.responses.reduce((acc, response, index) => {
-      let {form_data} = response
-      if (form_data.sprayable == 'yes' && form_data.number_unsprayed) {
-        return acc += form_data.number_unsprayed
-      } else {
-        return acc
-      }
-    }, 0)
-  }
-
-  sprayed_over_visited() {
-    const visited = this.sprayed_count() + this.unsprayed_count()
-    let percentage = (this.sprayed_count() / visited) * 100
-    return percentage
-  }
-
-  sprayed_over_targeted() {
-    // TODO: @debug Introduce error-checking in translations, esp. for missing properties
-    const targeted_count = this.options.targeted_count
-    let percentage = (this.sprayed_count() / targeted_count) * 100
-    return percentage
-  }
-
 }
 

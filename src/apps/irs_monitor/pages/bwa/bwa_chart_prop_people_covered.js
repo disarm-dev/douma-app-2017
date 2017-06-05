@@ -14,11 +14,12 @@ export default Line.extend({
   // },
   methods: {
     create_chart() {
-      console.log('this.responses', this.responses)
       let weeks = this.get_weeks()
-      let data = weeks.map(week => this.get_data_for_week(week))
-      console.log('weeks', weeks)
-      console.log('data', data)
+      
+      let data = weeks.map(week => {
+        let responses = this.responses.filter(response => response.week === week)
+        return this.get_data_for_week(responses, week)
+      })
 
       this.renderChart({
         labels: weeks.map((week) => 'Week ' + week),
@@ -28,21 +29,7 @@ export default Line.extend({
             fill: false,
             borderColor: '#EF5350',
             lineTension: 0,
-            data: data.team1
-          },
-          {
-            label: 'Team 2',
-            fill: false,
-            borderColor: '#8BC34A',
-            lineTension: 0,
-            data: data.team2
-          },
-          {
-            label: 'Team 3',
-            fill: false,
-            borderColor: '#7E57C2',
-            lineTension: 0,
-            data: data.team3
+            data: data
           }
         ]
       }, {
@@ -54,7 +41,7 @@ export default Line.extend({
           yAxes: [{
             ticks: {
               beginAtZero: true,
-              max: 12000,
+              max: 100,
               min: 0
             }
           }]
@@ -71,9 +58,7 @@ export default Line.extend({
         return acc
       }, []).sort()
     },
-    get_data_for_week(week) {
-      let responses = this.responses.filter(response => response.week === week)
-      
+    get_data_for_week(responses, week) {
       return Aggregations['number of people in homestead (total)'](responses, this.denominator)
     }
   }
