@@ -117,16 +117,17 @@ k<template>
     },
     computed: {
       responses() {
-        const filters = this.$store.state.irs_monitor.filters
-
-        if (filters.length > 0) {
-          const single_filter = filters[0]
-          return this.actual_responses.filter(r => {
-            return r[single_filter.type] == single_filter.value
-          })
-        } else {
-          return this.actual_responses
-        }
+        return this.actual_responses
+//        const filters = this.$store.state.irs_monitor.filters
+//
+//        if (filters.length > 0) {
+//          const single_filter = filters[0]
+//          return this.actual_responses.filter(r => {
+//            return r[single_filter.type] == single_filter.value
+//          })
+//        } else {
+//          return this.actual_responses
+//        }
       },
       window_height() {
         return (window.innerHeight - 64) - 200
