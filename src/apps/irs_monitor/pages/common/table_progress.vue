@@ -23,8 +23,8 @@
       }
     },
     computed: {
-      slug() {
-        return this.$store.state.instance_config.slug.toLowerCase()
+      instance_config() {
+        return this.$store.state.instance_config
       }
     },
     watch: {
@@ -34,9 +34,9 @@
       load_data(){
         // console.log(this.responses)
 
-        let instance_translations = new Translations[this.slug]()
+        const instance_translations = new Translations[this.instance_config.slug](this.instance_config) // TODO: @refac Improve signature, remove duplication
 
-        let data = instance_translations.getTableData(this.responses, this.denominator)
+        const data = instance_translations.getTableData(this.responses, this.denominator)
 
         this.columns = Object.keys(data[0])
         this.tableData = data
@@ -46,7 +46,7 @@
         // let data = columns.map((aggregation_name) => {
         //   return aggregations[aggregation_name](this.responses)
         // })
-        
+
         // this.columns = this.component_config.columns
 
         // const data = new Aggregator({
@@ -60,7 +60,7 @@
         //   return pick(row, this.columns)
         // })
 
-        
+
       },
       download_content(){
         const fields = this.columns
