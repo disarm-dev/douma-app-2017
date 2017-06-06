@@ -3,17 +3,26 @@
 
     <md-button class='md-raised' @click.native="$router.push('/irs/record_point/list')">List</md-button>
 
-    <h1>{{page_title}} record <md-chip>Unsaved data</md-chip></h1>
+    <h1>{{page_title}} record</h1>
+    <!--<md-chip>Unsaved data</md-chip>-->
+    <md-chip :class="{green: validation_result_empty, orange: !validation_result_empty}" @click.native="toggle_show_validation_result">
+      {{ validation_result_empty ? "Valid record" : "Validation issues"}}
+    </md-chip>
 
-    <md-card>
+    <md-chip :class="{green: location_is_valid, orange: !location_is_valid}" @click.native="toggle_show_location">
+      {{ location_is_valid ? "Location" : "Set location"}}
+    </md-chip>
+
+    <md-card v-show="show_validation_result">
       <md-card-content>
         <review
+          ref="validation_result"
           :validations='validation_result'
         ></review>
       </md-card-content>
     </md-card>
 
-    <md-card>
+    <md-card v-show="show_location">
       <md-card-content>
         <location_record
           @change='on_location_change'
@@ -61,7 +70,9 @@
         validation_result: {
           errors: [],
           warnings: []
-        }
+        },
+        show_validation_result: false,
+        show_location: false
       }
     },
     computed: {
@@ -86,14 +97,31 @@
       },
       response_is_valid() {
         return (this.validation_result.errors.length === 0)
+      },
+      validation_result_empty() {
+        return (this.validation_result.errors.length === 0) && (this.validation_result.warnings.length === 0)
+      },
+      location_is_valid() {
+        return this.validation_result.errors.filter(e => e.name === 'no_location').length === 0
       }
     },
     mounted() {
       // We need to run validations when we start,
       // otherwise it only happens after a question has been answered.
       this.validate()
+
+      // Display validations on initial validate only
+      this.show_validation_result = !this.validation_result_empty
+      this.show_location = !this.location_is_valid
+
     },
     methods: {
+      toggle_show_validation_result() {
+        this.show_validation_result = !this.show_validation_result
+      },
+      toggle_show_location() {
+        this.show_location = !this.show_location
+      },
       // TODO: @feature Implement clear_form"
       on_location_change(location) {
         this.response.location = location
@@ -114,6 +142,8 @@
       },
       validate() {
         this.validation_result = Validators[this.slug](this.response, this.$store.state.instance_config.form)
+        if (this.validation_result_empty) this.show_validation_result = false
+        if (this.location_is_valid) this.show_location = false
       },
       save_response() {
         // TODO: @refac Move to a proper response model, with tests. And cake.
@@ -158,4 +188,17 @@
   .md-card {
     margin: 10px;
   }
+  .orange {
+    background: orange;
+    color: white;
+  }
+  .green {
+    background: green;
+    color: white;
+  }
+
+  /*.md-chip {*/
+    /*background: orange;*/
+    /*color: white;*/
+  /*}*/
 </style>
