@@ -5,6 +5,8 @@ import DoumaComponent from '../components/douma.vue'
 import create_store from '../store'
 
 export default (instance_config) => {
+  // console.log('🌴 hunt the log', instance_config)
+
   if (Object.keys(instance_config.applets).length === 0) {
     throw new Error('No applets for current instance')
   }

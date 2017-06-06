@@ -1,3 +1,5 @@
+import {get_instance_config} from './data/remote'
+
 // router-helper.js
 
 // Mainly for debugging help
@@ -53,19 +55,19 @@ function determine_instance() {
   return instance
 }
 
- function get_instance_config () {
+ function instance_config () {
   const instance = determine_instance()
 
-  return fetch(`/static/instances/${instance}.instance.json`) // TODO: @refac Move this instance configuration from `static` to somewhere better
+  return get_instance_config(instance) // TODO: @refac Move this instance configuration from `static` to somewhere better
     .then(res => {
       if (res.status === 404) {
         const msg = `You might be looking for an application which does not exist. Cannot find application configuration file for subdomain "${instance}". `
         alert(msg)
         return new Error(msg)
       }
-      return res.json()
+      return res
     })
 }
 
 
-export {route_table, get_instance_config}
+export {route_table, instance_config}

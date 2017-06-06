@@ -14,7 +14,7 @@ import Vue from 'vue'
 import configure_error_tracking from './lib/error-tracking.js'
 import configure_themes from './config/theme'
 import configure_service_worker from './config/service-worker-client'
-import {get_instance_config} from './lib/router-helper.js'
+import {instance_config} from './lib/router-helper.js'
 import add_network_status_watcher from './lib/network-status.js'
 import configure_application from './lib/application.js'
 
@@ -25,7 +25,7 @@ Vue.use(ClientTable)
 configure_error_tracking()
 
 // LAUNCH
-get_instance_config()
+instance_config()
   .then(instance_config => {
     configure_themes()
 

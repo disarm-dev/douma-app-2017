@@ -1,14 +1,23 @@
+import axios from 'axios'
+
 // Manage interaction with DOUMA API
 
 let douma_api_root = `${DOUMA_API_URL}/${DOUMA_API_VERSION}`
 
 const standard_handler = (url, options = {}) => {
+  options.url = url
   return new Promise((resolve, reject) => {
-    fetch(url, options)
-      .then(res => res.json())
-      .then(json => resolve(json))
+    axios(options)
+      .then(json => resolve(json.data))
       .catch(error => reject(error))
   })
+}
+
+// Get instance config
+
+export const get_instance_config = (instance) => {
+  let url = `/static/instances/${instance}.instance.json`
+  return standard_handler(url)
 }
 
 //
@@ -85,8 +94,7 @@ export const get_geodata = ({slug, level, cache}) => {
     `/static/geo/${slug}/spatial_hierarchy/${slug}.clusters.geojson`
   ]
 
-  return Promise.all(urls.map(url => fetch(url)))
-    .then(responses => Promise.all(responses.map(res => res.json())))
+  return Promise.all(urls.map(url => standard_handler(url)))
     .then(jsons => {
       cache.geodata.all_target_areas = jsons[0]
       cache.geodata.clusters = jsons[1]
