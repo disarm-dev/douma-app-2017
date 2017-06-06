@@ -36,6 +36,7 @@
     "mapbox-gl": "^0.37.0",
     "moment": "^2.18.1",
     "numeral": "^2.0.6",
+    "offline-js": "^0.7.19",
     "raven-js": "^3.15.0",
     "select2": "^4.0.3",
     "survey-jquery": "^0.12.15",

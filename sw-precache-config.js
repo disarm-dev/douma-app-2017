@@ -4,7 +4,10 @@ module.exports = {
   maximumFileSizeToCacheInBytes: 14194304,
   navigateFallback: 'index.html',
   importScripts: ['offline-analytics.js'],
-  staticFileGlobsIgnorePatterns: [/\/static\/(geo|instances|structure_samples)\/?(?:[^\/]+\/?)*$/],
+  staticFileGlobsIgnorePatterns: [
+    /\/static\/(geo|instances|structure_samples)\/?(?:[^\/]+\/?)*$/,
+    /\/static\/network_test\.txt/
+  ],
   runtimeCaching: [
     {
       urlPattern: /\/static\/(geo|instances|structure_samples)\/?(?:[^\/]+\/?)*$/,
