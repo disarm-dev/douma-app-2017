@@ -1,4 +1,7 @@
+import array_unique from 'array-unique'
+
 import {create_plan, get_current_plan, get_geodata} from '@/lib/data/remote'
+import cache from '@/lib/cache.js'
 
 export default {
   namespaced: true,
@@ -19,6 +22,12 @@ export default {
     'set_selected_target_areas_id': (state, selected_target_area_ids) => {
       state.selected_target_area_ids = selected_target_area_ids
     },
+    'add_selected_target_areas': (state, selected_target_area_ids) => {
+      let temp_array = state.selected_target_area_ids.concat(selected_target_area_ids)
+      let unique = array_unique(temp_array)
+
+      state.selected_target_area_ids = unique
+    },
     'set_unsaved_changes': (state, unsaved_changes) => {
       state.unsaved_changes = unsaved_changes
     },
@@ -29,7 +38,7 @@ export default {
   actions: {
     'save_plan': (context) => {
       const target_areas = context.state.selected_target_area_ids
-      const country = context.rootState.instance_config.slug.toLowerCase()
+      const country = context.rootState.instance_config.slug
 
       const plan = {
         planned_at: new Date(),
@@ -37,11 +46,14 @@ export default {
         target_areas
       }
 
-      context.commit('set_unsaved_changes', false)
+
       return create_plan(plan)
+        .then(res => {
+          context.commit('set_unsaved_changes', false)
+        })
     },
     'get_current_plan': (context) => {
-      const country = context.rootState.instance_config.slug.toLowerCase()
+      const country = context.rootState.instance_config.slug
 
       return get_current_plan(country).then(plan => {
         if (plan.hasOwnProperty('target_areas') && plan.target_areas.length > 0) {
@@ -50,8 +62,8 @@ export default {
         }
       })
     },
-    'get_geodata'(context, {slug, level}) {
-      return get_geodata({slug, level})
+    'get_geodata'(context, {slug, level, cache}) {
+      return get_geodata({slug, level, cache})
     }
   }
 }

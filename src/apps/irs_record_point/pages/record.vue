@@ -7,8 +7,7 @@
 
     <md-card>
       <md-card-content>
-        <review 
-          @goto_question="goto_question"
+        <review
           :validations='validation_result'
         ></review>
       </md-card-content>
@@ -70,7 +69,7 @@
         return this.$store.state.meta.user.name
       },
       slug() {
-        return this.$store.state.instance_config.slug.toLowerCase()
+        return this.$store.state.instance_config.slug
       },
       page_title() {
         return this.response_id ? 'Update' : 'Create'
@@ -90,14 +89,11 @@
       }
     },
     mounted() {
-      // We need to run validations when we start, 
-      // otherwise it only happens after a question has been answered. 
+      // We need to run validations when we start,
+      // otherwise it only happens after a question has been answered.
       this.validate()
     },
     methods: {
-      goto_question(page_number) {
-        this.$refs.form._survey.currentPageNo = page_number
-      },
       // TODO: @feature Implement clear_form"
       on_location_change(location) {
         this.response.location = location

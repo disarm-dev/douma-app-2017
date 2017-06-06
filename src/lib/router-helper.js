@@ -53,4 +53,19 @@ function determine_instance() {
   return instance
 }
 
-export {route_table, get_hash_value, determine_instance}
+ function get_instance_config () {
+  const instance = determine_instance()
+
+  return fetch(`/static/instances/${instance}.instance.json`) // TODO: @refac Move this instance configuration from `static` to somewhere better
+    .then(res => {
+      if (res.status === 404) {
+        const msg = `You might be looking for an application which does not exist. Cannot find application configuration file for subdomain "${instance}". `
+        alert(msg)
+        return new Error(msg)
+      }
+      return res.json()
+    })
+}
+
+
+export {route_table, get_instance_config}

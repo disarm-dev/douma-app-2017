@@ -50,7 +50,6 @@ export const create_plan = (plan) => {
   }
 
   return standard_handler(url, options)
-
 }
 
 
@@ -80,14 +79,17 @@ export const create_record = (record) => {
 
 // GEODATA
 
-export const get_geodata = ({slug, level}) => {
-  return fetch(`/static/geo/${slug}/spatial_hierarchy/${slug}.${level}.geojson`)
-    .then(res => res.json())
-    .then(geojson => DOUMA_CACHE.geodata.all_target_areas = geojson)
-    .then(() => fetch(`/static/geo/${slug}/spatial_hierarchy/${slug}.clusters.geojson`))
-    .then(res => res.json())
-    .then(geojson => {
-      DOUMA_CACHE.geodata.clusters = geojson
+export const get_geodata = ({slug, level, cache}) => {
+  const urls = [
+    `/static/geo/${slug}/spatial_hierarchy/${slug}.${level}.geojson`,
+    `/static/geo/${slug}/spatial_hierarchy/${slug}.clusters.geojson`
+  ]
+
+  return Promise.all(urls.map(url => fetch(url)))
+    .then(responses => Promise.all(responses.map(res => res.json())))
+    .then(jsons => {
+      cache.geodata.all_target_areas = jsons[0]
+      cache.geodata.clusters = jsons[1]
     })
 
 }

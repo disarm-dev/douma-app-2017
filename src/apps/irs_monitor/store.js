@@ -30,7 +30,7 @@ export default {
   },
   actions: {
     get_all_records: (context) => {
-      const country = context.rootState.instance_config.slug.toLowerCase()
+      const country = context.rootState.instance_config.slug
       return get_all_records(country)
     }
   }

@@ -125,10 +125,10 @@
     "zoom": 7.749187
   },
   "name": "Zimbabwe",
-  "slug": "ZWE",
+  "slug": "zwe",
   "spatial_hierarchy": [
     {
-      "field_name": "WARDPCODE",
+      "field_name": "ZIMWARDSID",
       "name": "wards"
     },
     {

@@ -1,16 +1,20 @@
 <template>
-
   <div id="map"></div>
 </template>
 <script>
   import Leaflet from 'leaflet'
-  
+  import TurfHelpers from '@turf/helpers'
+
   export default {
+    props: ['responses', 'denominator'],
     data() {
       return {
         _map: null,
         _buildings_layer: null
       }
+    },
+    watch: {
+      'responses': 'add_buildings'
     },
     mounted() {
       this.create_map()
@@ -29,115 +33,55 @@
 
         this.add_buildings()
       },
-      add_buildings(place) {
-        this._buildings_layer = L.geoJSON(this.geojson, {
-          pointToLayer: (feature, latlng) => {
-            return L.circleMarker(latlng, {});
-          },
-          style: (feature, layer) => {
-            return {
-              weight: 0.8
+      add_buildings() {
+        if (this.responses.length === 0) return
+
+        if (this._buildings_layer) { 
+          this._map.removeLayer(this._buildings_layer)
+          this.this._buildings_layer = null
+        }
+
+         this._buildings_layer = L.geoJSON(this.feature_collection, {
+            onClick: (a, b) => {
+              console.log(a,b)
+            },
+            pointToLayer: (feature, latlng) => {
+              return L.circleMarker(latlng, {});
+            },
+            style: (feature, layer) => {
+              let {visit_type} = feature.properties.form_data
+              return {
+                // color: visit_type === 'first_visit' ? 'green' : 'orange',
+                color: 'green',
+                weight: 0.8
+              }
             }
-          }
-        })
-        this._buildings_layer.addTo(this._map)
+          }).bindPopup(function (layer) {
+            let record = layer.feature.properties
+            console.log(record)
+            return `
+              <p><b>Date:</b> ${record.recorded_on}</p>
+              <p><b>Recorded by:</b> ${record.user}</p>
+              <p><b>Team leader:</b> ${record.form_data.team_leader_name}</p>
+              <p><b>Number of structures:</b> ${record.form_data.number_sprayed}\n</p>
+            `
+          })
+
+          this._buildings_layer.addTo(this._map)
+
+          this._map.fitBounds(this._buildings_layer.getBounds())
+        
       },
     },
     computed: {
-      geojson() {
-        return {
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          25.548877716064453,
-          -18.44346144596816
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          25.55196762084961,
-          -18.446881140431163
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          25.556087493896484,
-          -18.448183863271726
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          25.55368423461914,
-          -18.45046360446673
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          25.558319091796875,
-          -18.44427566511007
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          25.54269790649414,
-          -18.44948657623151
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          25.539779663085934,
-          -18.44704398132656
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          25.57170867919922,
-          -18.464467064894613
-        ]
-      }
-    }
-  ]
-}
+      feature_collection() {
+        let points = this.responses.map((response) =>{
+          let {latitude, longitude} = response.location.coords
+          let point = TurfHelpers.point([longitude, latitude])
+          point.properties = response
+          return point
+        })
+        return TurfHelpers.featureCollection(points)
       }
     }
   }

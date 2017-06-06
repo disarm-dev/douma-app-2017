@@ -6,62 +6,107 @@ function percentage(value) {
 
 export default {
 
-  'homesteads found': (responses, denominator, results_so_far) => {
+  'homesteads found': (responses, denominator) => {
     return responses.length
   },
 
-  'structures found': (responses, denominator, results_so_far) =>  {
-    return responses.reduce((sum, r) => {
-      return sum + r.number_sprayable + r.number_unsprayable
+  'structures found': (responses, denominator) =>  {
+    return responses.reduce((sum, {form_data}) => {
+      if (form_data.sprayable === 'yes') {
+        return sum + form_data.number_sprayable + form_data.number_unsprayable
+      }
+      return sum
     }, 0)
   },
 
-  'structures found %': (responses, denominator, results_so_far) => {
-    return percentage(results_so_far['structures found'] / denominator.structures_targeted)
+  'structures found %': (responses, denominator) => {
+    let structures_found = responses.reduce((sum, {form_data}) => {
+      if (form_data.sprayable === 'yes') {
+        return sum + form_data.number_sprayable + form_data.number_unsprayable
+      }
+      return sum
+    }, 0)
+
+    return percentage(structures_found / denominator.structures_targeted)
   },
 
-  "structures sprayed": (responses, denominator, results_so_far) => {
-    return responses.reduce((sum, r) => {
-      return sum + r.numbersprayed_delta + r.numbersprayed_ddt
+  "structures sprayed": (responses, denominator) => {
+    return responses.reduce((sum, {form_data}) => {
+      if (form_data.sprayable === 'yes') {
+        return sum + form_data.numbersprayed_delta + form_data.numbersprayed_ddt
+      }
+      return sum
     }, 0)
   },
 
-  'structures sprayed %': (responses, denominator, results_so_far) => {
-    return percentage(results_so_far['structures sprayed'] / denominator.structures_targeted)
+  'structures sprayed %': (responses, denominator) => {
+    let structures_sprayed = responses.reduce((sum, {form_data}) => {
+      if (form_data.sprayable === 'yes') {
+        return sum + form_data.numbersprayed_delta + form_data.numbersprayed_ddt
+      }
+      return sum
+    }, 0)
+    return percentage(structures_sprayed / denominator.structures_targeted)
   },
 
-  'sprayable structures not sprayed': (responses, denominator, results_so_far) =>  {
-    return responses.reduce((sum, r) => {
-      return sum + (r.number_sprayable - (r.numbersprayed_delta + r.numbersprayed_ddt))
+  'sprayable structures not sprayed': (responses, denominator) =>  {
+    return responses.reduce((sum, {form_data}) => {
+      if (form_data.sprayable === 'yes') {
+        return sum + (form_data.number_sprayable - (form_data.numbersprayed_delta + form_data.numbersprayed_ddt))
+      }
+      return sum
     }, 0)
   },
 
-  'sprayable structures not sprayed (refused)': (responses, denominator, results_so_far) =>  {
-    return responses.reduce((sum, r) => {
-      if(r.reasons_notspraying.includes('refused')) {
-        return sum + (r.number_sprayable - (r.numbersprayed_delta + r.numbersprayed_ddt))
+  'sprayable structures not sprayed (refused)': (responses, denominator) =>  {
+    return responses.reduce((sum, {form_data}) => {
+      if (!form_data.hasOwnProperty('reasons_notspraying')) return sum
+
+      if(form_data.reasons_notspraying.includes('refused')) {
+        return sum + (form_data.number_sprayable - (form_data.numbersprayed_delta + form_data.numbersprayed_ddt))
       } else {
         return sum
       }
     }, 0)
   },
 
-  'sprayable structures not sprayed (refused) %': (responses, denominator, results_so_far) => {
-    return percentage(results_so_far['sprayable structures not sprayed (refused)'] / denominator.structures_found)
+  'sprayable structures not sprayed (refused) %': (responses, denominator) => {
+    let sprayable_not_sprayed = responses.reduce((sum, {form_data}) => {
+      if (!form_data.hasOwnProperty('reasons_notspraying')) return sum
+
+      if(form_data.reasons_notspraying.includes('refused')) {
+        return sum + (form_data.number_sprayable - (form_data.numbersprayed_delta + form_data.numbersprayed_ddt))
+      } else {
+        return sum
+      }
+    }, 0)
+    return percentage(sprayable_not_sprayed / responses.length)
   },
 
-  'sprayable structures not sprayed(other reason)': (responses, denominator, results_so_far) => {
-    return responses.reduce((sum, r) => {
-      if(!r.reasons_notspraying.includes('refused')) {
-        return sum + (r.number_sprayable - (r.numbersprayed_delta + r.numbersprayed_ddt))
+  'sprayable structures not sprayed(other reason)': (responses, denominator) => {
+    return responses.reduce((sum, {form_data}) => {
+      if (!form_data.hasOwnProperty('reasons_notspraying')) return sum
+
+      if(!form_data.reasons_notspraying.includes('refused')) {
+        return sum + (form_data.number_sprayable - (form_data.numbersprayed_delta + form_data.numbersprayed_ddt))
       } else {
         return sum
       }
     }, 0)
   },
 
-  'sprayable structures not sprayed (other reason) %': (responses, denominator, results_so_far) => {
-    return percentage(results_so_far['sprayable structures not sprayed(other reason)'] / denominator.structures_found)
+  'sprayable structures not sprayed (other reason) %': (responses, denominator) => {
+    let not_sprayed = responses.reduce((sum, {form_data}) => {
+      if (!form_data.hasOwnProperty('reasons_notspraying')) return sum
+        
+      if(!form_data.reasons_notspraying.includes('refused')) {
+        return sum + (form_data.number_sprayable - (form_data.numbersprayed_delta + form_data.numbersprayed_ddt))
+      } else {
+        return sum
+      }
+    }, 0)
+
+    return percentage(not_sprayed / responses.length)
   }
 
 }

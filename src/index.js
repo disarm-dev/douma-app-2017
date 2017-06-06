@@ -20,8 +20,9 @@ import create_store from './store'
 import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
 import {ClientTable} from 'vue-tables-2'
+import {get_instance_config} from './lib/router-helper.js'
+import add_network_status_watcher from './lib/network-status.js'
 Vue.use(ClientTable)
-import {determine_instance} from './lib/router-helper.js'
 
 // Keep track of Errors
 if (process.env.NODE_ENV !== 'development') {
@@ -48,14 +49,6 @@ const launch = (instance_config) => {
     instance_routes.push(registered_applets.routes[id])
   }
 
-  // Create easy global cache
-  window.DOUMA_CACHE = {
-    geodata: {
-      all_target_areas: null,
-      clusters: null
-    }
-  }
-
   // Make DOUMA App
   const store = create_store(registered_applets.stores)
   const router = create_router(instance_routes, store)
@@ -73,23 +66,13 @@ const launch = (instance_config) => {
   // ServiceWorker
   configureServiceWorker(douma_app)
 
+  // Configure on/offline watcher
+  add_network_status_watcher(douma_app)
+
   // Keep track of what version we're working on
   console.info('DOUMA version: ' + COMMIT_HASH)
 }
 
-const instance = determine_instance()
-
-fetch(`/static/instances/${instance}.instance.json`) // TODO: @refac Move this instance configuration from `static` to somewhere better
-.then(res => {
-  if (res.status === 404) {
-    const msg = `You might be looking for an application which does not exist. Cannot find application configuration file for subdomain "${instance}". `
-    alert(msg)
-    throw new Error(msg)
-  }
-  return res.json()
-})
-.then(json => {
-  launch(json)
-})
-.catch(err => console.error('Caught fetch', err))
-
+get_instance_config()
+  .then(instance_config => launch(instance_config))
+  .catch(err => console.error(err))

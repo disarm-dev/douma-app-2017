@@ -1,5 +1,10 @@
 <template>
-  <div id="surveyContainer"></div>
+  <div>
+    <div id="surveyContainer"></div>
+    <md-button v-if="show_previous" @click.native="previous_page"class="md-raised">Previous</md-button>
+    <md-button v-if="show_next" @click.native="next_page"class="md-raised">Next</md-button>
+    <md-button v-if="show_complete" @click.native="complete"class="md-raised md-primary">Complete</md-button>
+  </div>
 </template>
 
 <script>
@@ -11,6 +16,9 @@
     data () {
       return {
         _survey: {},
+        show_previous: false,
+        show_next: true,
+        show_complete: false
       }
     },
     watch: {
@@ -25,7 +33,8 @@
       this.form = {
         ...this.form,
         goNextPageAutomatic,
-        completeText: "Save"
+        completeText: "Save",
+        showNavigationButtons: false
       }
     },
     mounted(){
@@ -54,14 +63,40 @@
         el.Survey({
           model: this._survey,
           onValueChanged: this.on_form_change,
-          onComplete: this.on_form_complete
+          onCurrentPageChanged: this.on_page_change
         });
 
+      },
+      on_page_change() {
+        if (this._survey.isLastPage) {
+          this.show_next = false
+        } else {
+          this.show_next = true
+        }
+
+        if (this._survey.isFirstPage) {
+          this.show_previous = false
+        } else {
+          this.show_previous = true
+        }
+
+        if (this._survey.isLastPage && this.response_is_valid) {
+          this.show_complete = true
+        } else {
+          this.show_complete = false
+        }
       },
       on_form_change() {
         this.$emit('change', this._survey.data)
       },
-      on_form_complete() {
+
+      next_page() {
+        this._survey.nextPage()
+      },
+      previous_page() {
+        this._survey.prevPage()
+      },
+      complete() {
         this.$emit('complete', this._survey.data)
       }
     }

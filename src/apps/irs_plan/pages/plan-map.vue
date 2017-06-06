@@ -10,8 +10,10 @@
   import mapboxgl from 'mapbox-gl'
   import MapboxDraw from '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw'
   mapboxgl.accessToken = 'pk.eyJ1Ijoibmljb2xhaWRhdmllcyIsImEiOiJjaXlhNWw1NnkwMDJoMndwMXlsaGo5NGJoIn0.T1wTBzV42MZ1O-2dy8SpOw'
-
   import bbox from '@turf/bbox'
+  import intersect from '@turf/intersect'
+
+  import cache from '@/lib/cache.js'
 
   export default {
     name: 'plan_map',
@@ -33,7 +35,7 @@
         instance_config: state => state.instance_config,
         field_name: state => state.instance_config.spatial_hierarchy[0].field_name,
         denominator: state => state.instance_config.denominator,
-        slug: state => state.instance_config.slug.toLowerCase(),
+        slug: state => state.instance_config.slug,
         selected_target_area_ids: state => state.irs_plan.selected_target_area_ids,
       }),
     },
@@ -45,7 +47,7 @@
     },
     methods: {
       populate_data_from_global() {
-        this._geodata = DOUMA_CACHE.geodata
+        this._geodata = cache.geodata
 
         this._map = this.create_map()
 
@@ -141,9 +143,19 @@
         }
         this.draw_controls = new MapboxDraw(options)
 
-        this._map.on('draw.create', (e) => { console.log(e)})
+        this._map.on('draw.create', (e) => { 
+          console.log(e)
+          this.finish_drawing(e.features)
+        })
         this._map.on('draw.delete', (e) => { console.log(e)})
         this._map.on('draw.update', (e) => { console.log(e)})
+
+        this._map.on('draw.actionable', (e) => {
+          console.log(e)
+          if (e.actions.trash) {
+            this.start_drawing()
+          }
+        })
 
         this._map.addControl(this.draw_controls)
       },
@@ -197,6 +209,25 @@
         } else {
           this._map.removeLayer('clusters')
         }
+      },
+
+      start_drawing() {
+        if (this._map.listens('click')) this._map.off('click', this.handler)
+      },
+
+      finish_drawing(features) {
+        let drawn_polygon = features[0]
+
+        let polygons = this._geodata.all_target_areas.features
+        let selected_areas = []
+        polygons.forEach((polygon) => {
+          if (intersect(drawn_polygon, polygon)) {
+              const feature_id = polygon.properties[this.field_name]
+              selected_areas.push(feature_id)
+          }
+        })
+        this.$store.commit('irs_plan/add_selected_target_areas', selected_areas)
+        this.refilter_target_areas()
       }
     }
   }

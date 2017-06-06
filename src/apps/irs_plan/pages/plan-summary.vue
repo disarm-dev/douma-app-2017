@@ -18,6 +18,8 @@
   import moment from 'moment'
   import {mapState} from 'vuex'
 
+  import cache from '@/lib/cache.js'
+
   export default {
     name: 'plan_summary',
     props: ['edit', 'data_ready'],
@@ -35,7 +37,7 @@
     },
     computed: {
       ...mapState({
-        slug: state => state.instance_config.slug.toLowerCase(),
+        slug: state => state.instance_config.slug,
         denominator: state => state.instance_config.denominator,
         selected_target_area_ids: state => state.irs_plan.selected_target_area_ids,
         field_name: state => state.instance_config.spatial_hierarchy[0].field_name,
@@ -53,7 +55,7 @@
     },
     methods: {
       populate_data_from_global() {
-        this._geodata = DOUMA_CACHE.geodata
+        this._geodata = cache.geodata
         this.render_table = true
       },
 

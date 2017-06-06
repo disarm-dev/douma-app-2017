@@ -141,9 +141,7 @@
       "CAD565"
      ],
      "name": "village_chobe",
-     "title": "Village in Chobe",
-     "visible": false,
-     "visibleIf": "{first_entry_new_village} = yes"
+     "title": "Village in Chobe"
     }
    ],
    "name": "village"
@@ -627,7 +625,7 @@
     "zoom": 7
   },
   "name": "Botswana",
-  "slug": "BWA",
+  "slug": "bwa",
   "spatial_hierarchy": [
     {
       "field_name": "OBJECTID",
