@@ -1,32 +1,17 @@
-import offline from 'offline-js'
-
-
 export default (douma_app) => {
-  // Brute-force, probably not used often
+  function set_online() {
+    console.log('online')
+    return douma_app.$store.commit('root:network_online', true)
+  }
 
-  window.addEventListener('online', () => set_online(douma_app))
-  window.addEventListener('offline', () => set_offline(douma_app))
+  function set_offline() {
+    console.log('offline')
+    return douma_app.$store.commit('root:network_online', false)
+  }
 
-  // Offline JS
-  Offline.options = {
-    checks: {
-      xhr: {
-        url: '/static/network_test.txt'
-      }
-    },
-    requests: false
-  };
-  Offline.on('up', () => set_online(douma_app))
-  Offline.on('down', () => set_offline(douma_app))
-  console.log('initial', Offline.check().offline)
+  window.addEventListener('online', set_online)
+  window.addEventListener('offline', set_offline)
+
+  douma_app.$store.commit('root:network_online', navigator.onLine)
 }
 
-function set_online(douma_app) {
-  console.log('online')
-  return douma_app.$store.commit('root:network_online', true)
-}
-
-function set_offline(douma_app) {
-  console.log('online')
-  return douma_app.$store.commit('root:network_online', false)
-}

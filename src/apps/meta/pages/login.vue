@@ -82,8 +82,13 @@
           })
           .catch(e => {
             this.$store.commit('root:set_loading', false)
-            this.error = e.error
             this.disabled = false
+
+            if (e.response && e.response.status === 401) {
+              this.error = e.response.data.error
+            } else {
+              this.error = 'Network error. Cannot login'
+            }
           })
         }
 

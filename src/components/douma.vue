@@ -12,7 +12,7 @@
           <!-- <bread-crumbs></bread-crumbs> -->
           {{country}}
         </h2>
-        <div v-if="!online">
+        <div v-if="!online" @click="try_online">
           offline
           <md-icon>settings_ethernet</md-icon>
         </div>
@@ -147,6 +147,9 @@
       },
       snackbar_action() {
         this.$refs.snackbar.close()
+      },
+      try_online() {
+
       }
     }
   }

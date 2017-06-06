@@ -4,13 +4,30 @@ import axios from 'axios'
 
 let douma_api_root = `${DOUMA_API_URL}/${DOUMA_API_VERSION}`
 
+
+const HTTP = axios.create()
+HTTP.defaults.timeout = 5000
+HTTP.interceptors.response.use(function (response) {
+  window.dispatchEvent(new Event('online'))
+  return response
+}, function (error) {
+  if (/timeout/.test(error.message)) {
+    window.dispatchEvent(new Event('offline'))
+  }
+  return Promise.reject(error)
+})
+
+
+// export const try_online = () => {
+//   HTTP({url: '/static/network_test.'})
+// }
+
+
+
 const standard_handler = (url, options = {}) => {
   options.url = url
-  return new Promise((resolve, reject) => {
-    axios(options)
-      .then(json => resolve(json.data))
-      .catch(error => reject(error))
-  })
+  return HTTP(options)
+    .then(json => json.data)
 }
 
 // Get instance config
@@ -27,12 +44,8 @@ export const authenticate = (user) => {
   let url = douma_api_root + `/auth`
 
   let options = {
-    body: JSON.stringify({user}),
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    mode: 'cors',
-    method: 'POST'
+    data: {user},
+    method: 'post'
   }
   return standard_handler(url, options)
 }
@@ -50,12 +63,8 @@ export const create_plan = (plan) => {
   let url = douma_api_root + `/plan/create`
 
   let options = {
-    body: JSON.stringify(plan),
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    mode: 'cors',
-    method: 'POST'
+    data: plan,
+    method: 'post'
   }
 
   return standard_handler(url, options)
@@ -74,12 +83,8 @@ export const create_record = (record) => {
   let url = douma_api_root + `/record/create`
 
   let options = {
-    body: JSON.stringify(record),
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    mode: 'cors',
-    method: 'POST'
+    data: record,
+    method: 'post'
   }
 
   return standard_handler(url, options)

@@ -1,8 +1,9 @@
 <template>
   <div class='container'>
     <h1>IRS Record</h1>
+    <div v-if="!online">Offline - unable to sync</div>
     <md-button class='md-raised' @click.native='$router.push("/irs/record_point/new")'><md-icon>create</md-icon>Add new</md-button>
-    <md-button class="md-raised md-warn" :disabled="syncing || unsynced_count === 0" @click.native="sync">
+    <md-button class="md-raised md-warn" :disabled="syncing || unsynced_count === 0 || !online" @click.native="sync">
       Sync {{unsynced_count}} responses
     </md-button>
     <ul>
@@ -27,7 +28,8 @@
     computed: {
       ...mapState({
         responses: state => state.irs_record_point.responses.sort((a, b) => new Date(b.recorded_on) - new Date(a.recorded_on)),
-        unsynced_count: state => state.irs_record_point.responses.filter(r => !r.synced).length
+        unsynced_count: state => state.irs_record_point.responses.filter(r => !r.synced).length,
+        online: state => state.network_online
       })
     },
     methods: {
@@ -45,12 +47,13 @@
               this.$store.commit('irs_record_point/update_response', response)
             })
           })
-
-        ).then(() => {
+        )
+        .then(() => {
           this.syncing = false
           this.$store.commit('root:set_loading', false)
           this.$store.commit('root:set_snackbar', {message: 'Successfully synced responses'})
         })
+        .catch(() => this.$store.commit('root:set_loading', false))
       }
     }
   }

@@ -62,9 +62,9 @@
       load_plan() {
         this.$store.commit('root:set_loading', true)
 
-        this.$store.dispatch('irs_plan/get_current_plan').then(() => {
-          this.$store.commit('root:set_loading', false)
-        })
+        this.$store.dispatch('irs_plan/get_current_plan')
+          .then(() => { this.$store.commit('root:set_loading', false) })
+          .catch(() => { this.$store.commit('root:set_loading', false) })
 
       },
       save_plan() {
