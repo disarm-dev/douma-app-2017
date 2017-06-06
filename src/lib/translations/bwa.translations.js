@@ -10,7 +10,6 @@ export default class extends Base {
     let {any_sprayed} = feature.properties.form_data
     return {
       color: any_sprayed === 'yes' ? 'green' : 'orange',
-      weight: 0.8
     }
   }
 

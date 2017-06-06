@@ -10,7 +10,6 @@ export default class extends Base {
     let {visit_type} = feature.properties.form_data
     return {
       color: visit_type === 'first_visit' ? 'green' : 'orange',
-      weight: 0.8
     }
   }
 

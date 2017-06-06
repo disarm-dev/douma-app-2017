@@ -56,19 +56,21 @@
         }
 
         const instance_translations = new Translations[this.instance_config.slug](this.instance_config)
-        
+
         this._buildings_layer = L.geoJSON(this.feature_collection, {
           // onClick: (a, b) => {
           //   console.log(a,b)
           // },
           pointToLayer: (feature, latlng) => {
-            return L.circleMarker(latlng, {});
+            return L.circleMarker(latlng, {radius: 5, fillOpacity: 0.9});
           },
           style: (feature, layer) => {
-            return instance_translations.getMapStyle(feature, layer)
+            const base_style = {fill: false}
+            const instance_style = instance_translations.getMapStyle(feature, layer)
+            return {...instance_style, base_style}
           }
         }).bindPopup(function (layer) {
-          return instance_translations.getPopupDescription(layer)
+            return instance_translations.getPopupDescription(layer)
         })
 
         this._buildings_layer.addTo(this._map)
