@@ -55,9 +55,10 @@ function determine_instance() {
   return instance
 }
 
- function instance_config () {
-  const instance = determine_instance()
+function instance_config () {
+  // const instance = determine_instance()
 
+  let instance = 'nam'
   return get_instance_config(instance) // TODO: @refac Move this instance configuration from `static` to somewhere better
     .then(res => {
       if (res.status === 404) {

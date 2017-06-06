@@ -28,6 +28,10 @@
         _geodata: {
           all_target_areas: null,
           clusters: null
+        },
+        handler: {
+          click: null,
+          move: null
         }
       }
     },
@@ -68,30 +72,45 @@
           zoom: 3.9642688564
         });
       },
-      manage_map_mode() {
+      remove_map_listeners() {
+        if (this._map.listens('click') && this.handler.click) this._map.off('click', this.handler.click)
+        if (this._map.listens('mousemove') && this.handler.move) this._map.off('mousemove', this.handler.move)
+      },
+      add_map_listeners() {
+        this.remove_map_listeners()
+        this.handler.click = (e) => {
+          const feature = this._map.queryRenderedFeatures(e.point, {layers: ['selected', 'unselected']})[0]
 
+          if (feature) {
+            const feature_id = feature.properties[this.field_name]
+            this.$store.commit('irs_plan/toggle_selected_target_area_id', feature_id)
+            this.refilter_target_areas()
+          }
+        }
+
+        this.handler.move = (e) => {
+          const features = this._map.queryRenderedFeatures(e.point, {layers: ['selected', 'unselected']})
+          this._map.getCanvas().style.cursor = features.length ? 'pointer' : ''
+        }
+
+        // Add cursor/pointer handler
+        this._map.on('mousemove', this.handler.move)
+
+        // Add click handler
+        this._map.on('click', this.handler.click);
+      },
+      manage_map_mode() {
         // Check if you're in editing mode
-        if(!this.edit_mode) {
+        if(!this.edit_mode && this._map && this._map.loaded()) {
 
           // Remove any existing click handler
-          if (this._map.listens('click')) this._map.off('click', this.handler)
+          this.remove_map_listeners()
 
           this.remove_draw_controls()
 
         } else {
           // Keep hold of click handler
-          this.handler = (e) => {
-            const feature = this._map.queryRenderedFeatures(e.point, {layers: ['selected', 'unselected']})[0]
-
-            if (feature) {
-              const feature_id = feature.properties[this.field_name]
-              this.$store.commit('irs_plan/toggle_selected_target_area_id', feature_id)
-              this.refilter_target_areas()
-            }
-          }
-
-          // Add click handler
-          this._map.on('click', this.handler);
+          this.add_map_listeners()
 
           this.add_draw_controls()
         }
@@ -150,7 +169,7 @@
         })
 
         this._map.on('draw.modechange', (e) => {
-          if(e.mode === 'draw_polygon') this.start_drawing()
+          if(e.mode === 'draw_polygon') this.remove_map_listeners()
         })
 
         this._map.addControl(this.draw)
@@ -206,11 +225,6 @@
           this._map.removeLayer('clusters')
         }
       },
-
-      start_drawing() {
-        if (this._map.listens('click')) this._map.off('click', this.handler)
-      },
-
       finish_drawing(features) {
         let drawn_polygon = features[0]
 
@@ -225,7 +239,7 @@
         this.$store.commit('irs_plan/add_selected_target_areas', selected_areas)
 
         this.draw.deleteAll()
-//        this.manage_map_mode() // Restore click-handler
+        this.add_map_listeners() // Restore click-handler
         this.refilter_target_areas()
       }
     }
