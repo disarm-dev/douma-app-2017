@@ -170,6 +170,11 @@ k<template>
             this.$store.commit('root:set_loading', false)
             this.$store.commit('root:set_snackbar', {message: 'Successfully retrieved records'})
           })
+          .catch(e => {
+            console.log(e)
+            this.loading = false
+            this.$store.commit('root:set_loading', false)
+          })
       }
     }
   }
