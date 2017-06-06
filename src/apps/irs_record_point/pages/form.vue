@@ -68,19 +68,16 @@
 
       },
       on_page_change() {
-        if (this._survey.isLastPage) {
-          this.show_next = false
-        } else {
-          this.show_next = true
-        }
+        this.show_next = false
+        this.show_previous = false
+        this.show_complete = false
 
-        if (this._survey.isFirstPage) {
-          this.show_previous = false
-        } else {
-          this.show_previous = true
-        }
+        if (!this._survey.isLastPage) this.show_next = true
+        if (!this._survey.isFirstPage) this.show_previous = true
 
-        if (this._survey.isLastPage && this.response_is_valid) {
+        // Duplicated below to catch returning to the last page of a previously-completed form
+        // without changing any values
+        if (this._survey.isLastPage && this.response_is_valid && !this._survey.isCurrentPageHasErrors) {
           this.show_complete = true
         } else {
           this.show_complete = false
@@ -88,6 +85,13 @@
       },
       on_form_change() {
         this.$emit('change', this._survey.data)
+
+        // Duplicated logic from above, to respond to a changed value on the final page
+        if (this._survey.isLastPage && this.response_is_valid && !this._survey.isCurrentPageHasErrors) {
+          this.show_complete = true
+        } else {
+          this.show_complete = false
+        }
       },
 
       next_page() {
