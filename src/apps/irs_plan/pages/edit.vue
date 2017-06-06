@@ -1,21 +1,26 @@
 <template>
   <div class='container'>
     <h1>IRS Plan</h1>
-    <md-checkbox v-model="edit_mode">Edit mode</md-checkbox>
+    <div v-if="online">
+      <md-checkbox v-model="edit_mode">Edit mode</md-checkbox>
 
-    <!--VIEW ONLY-->
-    <md-button v-if='!edit_mode' class='md-raised' @click.native="load_plan">Load</md-button>
+      <!--VIEW ONLY-->
+      <md-button v-if='!edit_mode' class='md-raised' @click.native="load_plan">Load</md-button>
 
-    <!--EDIT MODE-->
-    <md-button v-if='edit_mode' :disabled="!unsaved_changes" class='md-raised md-primary' @click.native="save_plan">Save</md-button>
-    <md-button v-if='edit_mode' :disabled="!unsaved_changes" class='md-raised md-warn' @click.native="load_plan">Cancel edits</md-button>
-    <md-button v-if='edit_mode' :disabled='!can_clear' class='md-raised' @click.native="clear_plan">Clear plan</md-button>
+      <!--EDIT MODE-->
+      <md-button v-if='edit_mode' :disabled="!unsaved_changes" class='md-raised md-primary' @click.native="save_plan">Save</md-button>
+      <md-button v-if='edit_mode' :disabled="!unsaved_changes" class='md-raised md-warn' @click.native="load_plan">Cancel edits</md-button>
+      <md-button v-if='edit_mode' :disabled='!can_clear' class='md-raised' @click.native="clear_plan">Clear plan</md-button>
 
-    <plan_map :data_ready="data_ready" :edit_mode="edit_mode"></plan_map>
+      <plan_map :data_ready="data_ready" :edit_mode="edit_mode"></plan_map>
 
-    <md-card class="card"><md-card-content>
-      <plan_summary :data_ready="data_ready"></plan_summary>
-    </md-card-content></md-card>
+      <md-card class="card"><md-card-content>
+        <plan_summary :data_ready="data_ready"></plan_summary>
+      </md-card-content></md-card>
+    </div>
+    <div v-else>
+      <h3>Plan only available with a network connection.</h3>
+    </div>
 
   </div>
 </template>
@@ -42,7 +47,8 @@
         denominator: state => state.instance_config.denominator,
         slug: state => state.instance_config.slug,
         selected_target_area_ids: state => state.irs_plan.selected_target_area_ids,
-        unsaved_changes: state => state.irs_plan.unsaved_changes
+        unsaved_changes: state => state.irs_plan.unsaved_changes,
+        online: state => state.network_online
       }),
       can_clear() {
         return this.selected_target_area_ids.length !== 0

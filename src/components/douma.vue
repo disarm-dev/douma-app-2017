@@ -12,7 +12,10 @@
           <!-- <bread-crumbs></bread-crumbs> -->
           {{country}}
         </h2>
-
+        <div v-if="!online">
+          offline
+          <md-icon>settings_ethernet</md-icon>
+        </div>
       </md-toolbar>
 
       <!-- LOADING BAR -->
@@ -123,6 +126,9 @@
       },
       loading() {
         return this.$store.state.loading
+      },
+      online() {
+        return this.$store.state.network_online
       }
     },
     methods: {

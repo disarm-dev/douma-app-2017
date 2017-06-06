@@ -2,48 +2,55 @@ k<template>
   <div class='container'>
     <h1>IRS Dashboard</h1>
 
-    <md-card class="card">
-      <md-card-content>
-        <p>{{actual_responses.length}} record{{actual_responses.length === 1 ? '' : 's' }}</p>
-        <md-button class="md-raised md-primary" @click.native="refresh_responses" :disabled="loading">Refresh data</md-button>
-      </md-card-content>
-    </md-card>
+    <div v-if="online">
+      <md-card class="card">
+        <md-card-content>
+          <p>{{actual_responses.length}} record{{actual_responses.length === 1 ? '' : 's' }}</p>
+          <md-button class="md-raised md-primary" @click.native="refresh_responses" :disabled="loading">Refresh data</md-button>
+        </md-card-content>
+      </md-card>
 
-    <md-card v-if='filters_on' class="card">
-      <md-card-content>
-        <filters v-on:filter="filter"></filters>
-      </md-card-content>
-    </md-card>
+      <md-card v-if='filters_on' class="card">
+        <md-card-content>
+          <filters v-on:filter="filter"></filters>
+        </md-card-content>
+      </md-card>
 
-    <md-card class="card">
-      <md-card-content>
-        <table_progress :responses="responses" :denominator="denominator"></table_progress>
-      </md-card-content>
-    </md-card>
+      <md-card class="card">
+        <md-card-content>
+          <table_progress :responses="responses" :denominator="denominator"></table_progress>
+        </md-card-content>
+      </md-card>
 
-    <md-card class="card">
-      <md-card-content>
-        <map_progress :responses="responses" :denominator="denominator"></map_progress>
-      </md-card-content>
-    </md-card>
+      <md-card class="card">
+        <md-card-content>
+          <map_progress :responses="responses" :denominator="denominator"></map_progress>
+        </md-card-content>
+      </md-card>
 
-    <!-- <md-card v-for="component in components" :key="component.name" class="card" :ref="component.name" :class="{'card-half-width': component.width_constraint == 'half'}">
-      <md-card-content>
-        <component
-          :is="component.name"
-          :height="component.height_constraint == 'viewport' ? window_height : undefined"
-          :responses='responses'
-          :denominator='denominator'
-          :component_config='component'
-          ></component>
-      </md-card-content>
-    </md-card> -->
+      <!-- <md-card v-for="component in components" :key="component.name" class="card" :ref="component.name" :class="{'card-half-width': component.width_constraint == 'half'}">
+        <md-card-content>
+          <component
+            :is="component.name"
+            :height="component.height_constraint == 'viewport' ? window_height : undefined"
+            :responses='responses'
+            :denominator='denominator'
+            :component_config='component'
+            ></component>
+        </md-card-content>
+      </md-card> -->
+    </div>
+
+    <div v-else>
+      <h3>Monitor only available with a network connection.</h3>
+    </div>
   </div>
 </template>
 
 <script>
   import numeral from 'numeral'
   import moment from 'moment'
+  import {mapState} from 'vuex'
 
   // Common components
   import Filters from './filters.vue'
@@ -116,6 +123,12 @@ k<template>
       this.refresh_responses()
     },
     computed: {
+      ...mapState({
+        slug: state => state.instance_config.slug,
+        country: state => state.instance_config.name,
+        components: state => state.instance_config.applets.irs_monitor.components,
+        online: state => state.network_online
+      }),
       responses() {
         return this.actual_responses
 //        const filters = this.$store.state.irs_monitor.filters
@@ -131,15 +144,6 @@ k<template>
       },
       window_height() {
         return (window.innerHeight - 64) - 200
-      },
-      slug() {
-        return this.$store.state.instance_config.slug
-      },
-      country() {
-        return this.$store.state.instance_config.name
-      },
-      components() {
-        return this.$store.state.instance_config.applets.irs_monitor.components
       },
     },
     methods: {

@@ -20,8 +20,9 @@ import create_store from './store'
 import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
 import {ClientTable} from 'vue-tables-2'
-Vue.use(ClientTable)
 import {get_instance_config} from './lib/router-helper.js'
+import add_network_status_watcher from './lib/network-status.js'
+Vue.use(ClientTable)
 
 // Keep track of Errors
 if (process.env.NODE_ENV !== 'development') {
@@ -47,14 +48,6 @@ const launch = (instance_config) => {
   for(var id in registered_applets.routes) {
     instance_routes.push(registered_applets.routes[id])
   }
-  //
-  // // Create easy global cache
-  // window.DOUMA_CACHE = {
-  //   geodata: {
-  //     all_target_areas: null,
-  //     clusters: null
-  //   }
-  // }
 
   // Make DOUMA App
   const store = create_store(registered_applets.stores)
@@ -72,6 +65,9 @@ const launch = (instance_config) => {
 
   // ServiceWorker
   configureServiceWorker(douma_app)
+
+  // Configure on/offline watcher
+  add_network_status_watcher(douma_app)
 
   // Keep track of what version we're working on
   console.info('DOUMA version: ' + COMMIT_HASH)
