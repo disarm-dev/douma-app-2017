@@ -1,7 +1,3 @@
-// Some basics to get started
-import 'whatwg-fetch'
-import "babel-polyfill"
-
 // CSS
 import './fonts/Roboto.css'
 import './fonts/MaterialIcons.css'
