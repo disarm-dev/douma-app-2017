@@ -2,7 +2,7 @@
   <div class='container'>
     <h1>IRS Plan</h1>
     <div v-if="online">
-      <md-checkbox v-model="edit_mode">Edit mode</md-checkbox>
+      <md-checkbox v-model="edit_mode" :disabled="edit_disabled">Edit mode</md-checkbox>
 
       <!--VIEW ONLY-->
       <md-button v-if='!edit_mode' class='md-raised' @click.native="load_plan">Load</md-button>
@@ -12,7 +12,7 @@
       <md-button v-if='edit_mode' :disabled="!unsaved_changes" class='md-raised md-warn' @click.native="load_plan">Cancel edits</md-button>
       <md-button v-if='edit_mode' :disabled='!can_clear' class='md-raised' @click.native="clear_plan">Clear plan</md-button>
 
-      <plan_map :data_ready="data_ready" :edit_mode="edit_mode"></plan_map>
+      <plan_map :data_ready="data_ready" :edit_mode="edit_mode" v-on:map_loaded="edit_disabled = false"></plan_map>
 
       <md-card class="card"><md-card-content>
         <plan_summary :data_ready="data_ready"></plan_summary>
@@ -40,6 +40,7 @@
       return {
         data_ready: false,
         edit_mode: false,
+        edit_disabled: true
       }
     },
     computed: {

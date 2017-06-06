@@ -1,6 +1,6 @@
 <template>
   <div>
-    <md-checkbox :disabled='!data_ready' v-model="clusters_visible">Show clusters</md-checkbox>
+    <md-checkbox :disabled='!data_ready || clusters_disabled' v-model="clusters_visible">Show clusters</md-checkbox>
     <div id="map"></div>
   </div>
 </template>
@@ -20,9 +20,10 @@
     props: ['edit_mode', 'data_ready'],
     data() {
       return {
+        clusters_disabled: true, // Before map_loaded
         clusters_visible: false,
         user_map_focus: false,
-        draw_controls: null,
+        draw: null,
         _map: null,
         _geodata: {
           all_target_areas: null,
@@ -53,8 +54,10 @@
 
 
         this._map.on('load', () => {
+          this.clusters_disabled = false
           this.manage_map_mode()
           this.add_target_areas()
+          this.$emit('map_loaded')
         })
       },
       create_map() {
@@ -137,31 +140,24 @@
           keyBindings: false,
           displayControlsDefault: false,
           controls: {
-            polygon: true,
-            trash: true
+            polygon: true
           }
         }
-        this.draw_controls = new MapboxDraw(options)
+        this.draw = new MapboxDraw(options)
 
-        this._map.on('draw.create', (e) => { 
-          console.log(e)
+        this._map.on('draw.create', (e) => {
           this.finish_drawing(e.features)
         })
-        this._map.on('draw.delete', (e) => { console.log(e)})
-        this._map.on('draw.update', (e) => { console.log(e)})
 
-        this._map.on('draw.actionable', (e) => {
-          console.log(e)
-          if (e.actions.trash) {
-            this.start_drawing()
-          }
+        this._map.on('draw.modechange', (e) => {
+          if(e.mode === 'draw_polygon') this.start_drawing()
         })
 
-        this._map.addControl(this.draw_controls)
+        this._map.addControl(this.draw)
       },
       remove_draw_controls () {
-        if (this.draw_controls) this._map.removeControl(this.draw_controls)
-        this.draw_controls = null
+        if (this.draw) this._map.removeControl(this.draw)
+        this.draw = null
       },
       fit_bounds(geojson) {
         if (!this.user_map_focus) {
@@ -227,6 +223,9 @@
           }
         })
         this.$store.commit('irs_plan/add_selected_target_areas', selected_areas)
+
+        this.draw.deleteAll()
+//        this.manage_map_mode() // Restore click-handler
         this.refilter_target_areas()
       }
     }
