@@ -47,14 +47,14 @@ const launch = (instance_config) => {
   for(var id in registered_applets.routes) {
     instance_routes.push(registered_applets.routes[id])
   }
-
-  // Create easy global cache
-  window.DOUMA_CACHE = {
-    geodata: {
-      all_target_areas: null,
-      clusters: null
-    }
-  }
+  //
+  // // Create easy global cache
+  // window.DOUMA_CACHE = {
+  //   geodata: {
+  //     all_target_areas: null,
+  //     clusters: null
+  //   }
+  // }
 
   // Make DOUMA App
   const store = create_store(registered_applets.stores)

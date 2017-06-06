@@ -18,6 +18,8 @@
   import moment from 'moment'
   import {mapState} from 'vuex'
 
+  import cache from '@/lib/cache.js'
+
   export default {
     name: 'plan_summary',
     props: ['edit', 'data_ready'],
@@ -53,7 +55,7 @@
     },
     methods: {
       populate_data_from_global() {
-        this._geodata = DOUMA_CACHE.geodata
+        this._geodata = cache.geodata
         this.render_table = true
       },
 

@@ -10,8 +10,9 @@
   import mapboxgl from 'mapbox-gl'
   import MapboxDraw from '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw'
   mapboxgl.accessToken = 'pk.eyJ1Ijoibmljb2xhaWRhdmllcyIsImEiOiJjaXlhNWw1NnkwMDJoMndwMXlsaGo5NGJoIn0.T1wTBzV42MZ1O-2dy8SpOw'
-
   import bbox from '@turf/bbox'
+
+  import cache from '@/lib/cache.js'
 
   export default {
     name: 'plan_map',
@@ -45,7 +46,7 @@
     },
     methods: {
       populate_data_from_global() {
-        this._geodata = DOUMA_CACHE.geodata
+        this._geodata = cache.geodata
 
         this._map = this.create_map()
 

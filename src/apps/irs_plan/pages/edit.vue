@@ -25,6 +25,8 @@
 
   import plan_summary from './plan-summary.vue'
   import plan_map from './plan-map.vue'
+  import cache from '@/lib/cache.js'
+
 
   export default {
     name: 'edit',
@@ -47,7 +49,7 @@
       }
     },
     mounted() {
-      this.$store.dispatch('irs_plan/get_geodata', {slug: this.slug, level: this.denominator.aggregate_to})
+      this.$store.dispatch('irs_plan/get_geodata', {slug: this.slug, level: this.denominator.aggregate_to, cache})
         .then(() => this.data_ready = true)
     },
     methods: {

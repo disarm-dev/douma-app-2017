@@ -1,4 +1,5 @@
 import {create_plan, get_current_plan, get_geodata} from '@/lib/data/remote'
+import cache from '@/lib/cache.js'
 
 export default {
   namespaced: true,
@@ -37,8 +38,11 @@ export default {
         target_areas
       }
 
-      context.commit('set_unsaved_changes', false)
+
       return create_plan(plan)
+        .then(res => {
+          context.commit('set_unsaved_changes', false)
+        })
     },
     'get_current_plan': (context) => {
       const country = context.rootState.instance_config.slug
@@ -50,8 +54,8 @@ export default {
         }
       })
     },
-    'get_geodata'(context, {slug, level}) {
-      return get_geodata({slug, level})
+    'get_geodata'(context, {slug, level, cache}) {
+      return get_geodata({slug, level, cache})
     }
   }
 }
