@@ -33,7 +33,6 @@
     },
     methods: {
       load_data(){
-        // console.log(this.responses)
 
         const instance_translations = new Translations[this.instance_config.slug](this.instance_config) // TODO: @refac Improve signature, remove duplication
 

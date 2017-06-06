@@ -115,7 +115,7 @@ k<template>
       return {
         actual_responses: [],
         loading: false,
-        filters_on: false,
+        filters_on: true,
         denominator: {population: 500, structures_targeted: 150},
       }
     },
