@@ -21,7 +21,7 @@ import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
 import {ClientTable} from 'vue-tables-2'
 Vue.use(ClientTable)
-import {determine_instance} from './lib/router-helper.js'
+import {get_instance_config} from './lib/router-helper.js'
 
 // Keep track of Errors
 if (process.env.NODE_ENV !== 'development') {
@@ -77,19 +77,6 @@ const launch = (instance_config) => {
   console.info('DOUMA version: ' + COMMIT_HASH)
 }
 
-const instance = determine_instance()
-
-fetch(`/static/instances/${instance}.instance.json`) // TODO: @refac Move this instance configuration from `static` to somewhere better
-.then(res => {
-  if (res.status === 404) {
-    const msg = `You might be looking for an application which does not exist. Cannot find application configuration file for subdomain "${instance}". `
-    alert(msg)
-    throw new Error(msg)
-  }
-  return res.json()
-})
-.then(json => {
-  launch(json)
-})
-.catch(err => console.error('Caught fetch', err))
-
+get_instance_config()
+  .then(instance_config => launch(instance_config))
+  .catch(err => console.error(err))
