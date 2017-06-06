@@ -45,7 +45,7 @@
     },
     computed: {
       ...mapState({
-        denominator: state => state.instance_config.denominator,
+        denominator_def: state => state.instance_config.spatial_hierarchy[0],
         slug: state => state.instance_config.slug,
         selected_target_area_ids: state => state.irs_plan.selected_target_area_ids,
         unsaved_changes: state => state.irs_plan.unsaved_changes,
@@ -56,7 +56,7 @@
       }
     },
     mounted() {
-      this.$store.dispatch('irs_plan/get_geodata', {slug: this.slug, level: this.denominator.aggregate_to, cache})
+      this.$store.dispatch('irs_plan/get_geodata', {slug: this.slug, level: this.denominator_def.name, cache})
         .then(() => this.data_ready = true)
     },
     methods: {
@@ -69,8 +69,23 @@
 
       },
       save_plan() {
+        
+        const target_areas = cache.geodata.all_target_areas.features.filter(feature => {
+          return this.selected_target_area_ids.includes(feature.properties[this.denominator_def.field_name])
+        })
+
+        const key_name = Object.keys(this.denominator_def.denominator.fields)[0]
+        const denominator_field_name = this.denominator_def.denominator.fields[key_name]
+
+        const denominator = target_areas.map((area) => {
+          const obj = {}
+          obj[key_name] = area.properties[denominator_field_name]
+          obj[this.denominator_def.field_name] = area.properties[this.denominator_def.field_name]
+          return obj
+        })
+        
         this.$store.commit('root:set_loading', true)
-        this.$store.dispatch('irs_plan/save_plan')
+        this.$store.dispatch('irs_plan/save_plan', denominator)
           .then(() => {
             this.$store.commit('root:set_snackbar', {message: 'Successful save'})
             this.$store.commit('root:set_loading', false)

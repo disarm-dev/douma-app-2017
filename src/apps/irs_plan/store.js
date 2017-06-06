@@ -27,6 +27,7 @@ export default {
       let unique = array_unique(temp_array)
 
       state.selected_target_area_ids = unique
+      state.unsaved_changes = true
     },
     'set_unsaved_changes': (state, unsaved_changes) => {
       state.unsaved_changes = unsaved_changes
@@ -36,16 +37,14 @@ export default {
     }
   },
   actions: {
-    'save_plan': (context) => {
-      const target_areas = context.state.selected_target_area_ids
+    'save_plan': (context, denominator) => {
       const country = context.rootState.instance_config.slug
 
       const plan = {
         planned_at: new Date(),
         country,
-        target_areas
+        denominator
       }
-
 
       return create_plan(plan)
         .then(res => {
@@ -54,10 +53,15 @@ export default {
     },
     'get_current_plan': (context) => {
       const country = context.rootState.instance_config.slug
+      const field_name = context.rootState.instance_config.spatial_hierarchy[0].field_name
 
       return get_current_plan(country).then(plan => {
-        if (plan.hasOwnProperty('target_areas') && plan.target_areas.length > 0) {
-          context.commit('set_selected_target_areas_id', plan.target_areas)
+        if (plan.hasOwnProperty('denominator') && plan.denominator.length !== 0 ) {
+          let target_areas = plan.denominator.map(area => {
+            return area[field_name]
+          })
+
+          context.commit('set_selected_target_areas_id', target_areas)
           context.commit('set_unsaved_changes', false)
         }
       })
