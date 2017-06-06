@@ -36,14 +36,6 @@
     "irs_record_point": {},
     "meta": {}
   },
-  "denominator": {
-    "aggregate_by": "OBJECTID",
-    "aggregate_to": "constituencies",
-    "extract_from": "villages",
-    "fields": [
-      "NumStructures"
-    ]
-  },
   "form": {
     "pages": [
       {
@@ -1361,6 +1353,11 @@
   "slug": "nam",
   "spatial_hierarchy": [
     {
+      "denominator": {
+        "fields": {
+          "number_of_households": "NmHshld"
+        }
+      },
       "field_name": "OBJECTID",
       "name": "constituencies"
     },

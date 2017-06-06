@@ -15,14 +15,6 @@
     },
     "meta": {}
   },
-  "denominator": {
-    "aggregate_by": "WARDPCODE",
-    "aggregate_to": "wards",
-    "extract_from": "clusters",
-    "fields": [
-      "NumStructures"
-    ]
-  },
   "form": {
     "pages": [
       {
@@ -127,7 +119,10 @@
   "name": "Zimbabwe",
   "slug": "zwe",
   "spatial_hierarchy": [
-    {
+    { 
+      "denominator": {
+        "fields": {}
+      },
       "field_name": "ZIMWARDSID",
       "name": "wards"
     },

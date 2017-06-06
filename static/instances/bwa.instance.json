@@ -45,14 +45,6 @@
     "irs_record_point": {},
     "meta": {}
   },
-  "denominator": {
-    "extract_from": "clusters",
-    "aggregate_to": "villages",
-    "aggregate_by": "village_id",
-    "fields": [
-      "NumStructures"
-    ]
-  },
   "form": {
  "goNextPageAutomatic": true,
  "pages": [
@@ -627,7 +619,12 @@
   "name": "Botswana",
   "slug": "bwa",
   "spatial_hierarchy": [
-    {
+    { 
+      "denominator": {
+        "fields": {
+          "number_of_structures": "NmStrct"
+        }
+      },
       "field_name": "OBJECTID",
       "name": "villages"
     },
