@@ -128,7 +128,7 @@
   "slug": "zwe",
   "spatial_hierarchy": [
     {
-      "field_name": "WARDPCODE",
+      "field_name": "ZIMWARDSID",
       "name": "wards"
     },
     {
