@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <v-touch v-on:swipeleft="next_page" v-on:swiperight="previous_page">
     <div id="surveyContainer"></div>
     <md-button v-if="show_previous" @click.native="previous_page"class="md-raised">Previous</md-button>
     <md-button v-if="show_next" @click.native="next_page"class="md-raised">Next</md-button>
     <md-button v-if="show_complete" @click.native="complete"class="md-raised md-primary">Complete</md-button>
-  </div>
+  </v-touch>
 </template>
 
 <script>

@@ -50,6 +50,7 @@
     "vue-router": "^2.5.2",
     "vue-slider-component": "^2.2.7",
     "vue-tables-2": "^0.6.2",
+    "vue-touch": "next",
     "vuex": "^2.3.1",
     "vuex-persistedstate": "^1.4.1",
     "whatwg-fetch": "^2.0.3"

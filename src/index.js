@@ -14,8 +14,12 @@ import {instance_config} from './lib/router-helper.js'
 import add_network_status_watcher from './lib/network-status.js'
 import configure_application from './lib/application.js'
 
+// Components
 import {ClientTable} from 'vue-tables-2'
 Vue.use(ClientTable)
+
+import VueTouch from 'vue-touch'
+Vue.use(VueTouch)
 
 // configure_error_tracking!!
 configure_error_tracking()
