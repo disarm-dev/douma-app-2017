@@ -21,11 +21,11 @@ k<template>
       </md-card-content>
     </md-card>
 
-    <!-- <md-card class="card">
+    <md-card class="card">
       <md-card-content>
         <map_progress :responses="responses" :denominator="denominator"></map_progress>
       </md-card-content>
-    </md-card> -->
+    </md-card>
 
     <!-- <md-card v-for="component in components" :key="component.name" class="card" :ref="component.name" :class="{'card-half-width': component.width_constraint == 'half'}">
       <md-card-content>
@@ -169,6 +169,11 @@ k<template>
             this.loading = false
             this.$store.commit('root:set_loading', false)
             this.$store.commit('root:set_snackbar', {message: 'Successfully retrieved records'})
+          })
+          .catch(e => {
+            console.log(e)
+            this.loading = false
+            this.$store.commit('root:set_loading', false)
           })
       }
     }

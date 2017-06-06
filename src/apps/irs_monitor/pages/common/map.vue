@@ -4,7 +4,7 @@
 <script>
   import Leaflet from 'leaflet'
   import TurfHelpers from '@turf/helpers'
-
+  import Translations from '@/lib/translations'
   export default {
     props: ['responses', 'denominator'],
     data() {
@@ -15,6 +15,20 @@
     },
     watch: {
       'responses': 'add_buildings'
+    },
+    computed: {
+      feature_collection() {
+        let points = this.responses.map((response) =>{
+          let {latitude, longitude} = response.location.coords
+          let point = TurfHelpers.point([longitude, latitude])
+          point.properties = response
+          return point
+        })
+        return TurfHelpers.featureCollection(points)
+      },
+      instance_config() {
+        return this.$store.state.instance_config
+      }
     },
     mounted() {
       this.create_map()
@@ -41,48 +55,31 @@
           this.this._buildings_layer = null
         }
 
-         this._buildings_layer = L.geoJSON(this.feature_collection, {
-            onClick: (a, b) => {
-              console.log(a,b)
-            },
-            pointToLayer: (feature, latlng) => {
-              return L.circleMarker(latlng, {});
-            },
-            style: (feature, layer) => {
-              let {visit_type} = feature.properties.form_data
-              return {
-                color: visit_type === 'first_visit' ? 'green' : 'orange',
-                weight: 0.8
-              }
-            }
-          }).bindPopup(function (layer) {
-            let record = layer.feature.properties
-            console.log(record)
-            return `
-              <p><b>Date:</b> ${record.recorded_on}</p>
-              <p><b>Recorded by:</b> ${record.user}</p>
-              <p><b>Visit type:</b> ${record.form_data.visit_type}</p>
-              <p><b>Number of structures:</b> ${record.form_data.number_structures_total}\n</p>
-            `
-          })
+        const instance_translations = new Translations[this.instance_config.slug](this.instance_config)
 
-          this._buildings_layer.addTo(this._map)
+        this._buildings_layer = L.geoJSON(this.feature_collection, {
+          // onClick: (a, b) => {
+          //   console.log(a,b)
+          // },
+          pointToLayer: (feature, latlng) => {
+            return L.circleMarker(latlng, {radius: 5, fillOpacity: 0.9});
+          },
+          style: (feature, layer) => {
+            const base_style = {fill: false}
+            const instance_style = instance_translations.getMapStyle(feature, layer)
+            return {...instance_style, base_style}
+          }
+        }).bindPopup(function (layer) {
+            return instance_translations.getPopupDescription(layer)
+        })
 
-          this._map.fitBounds(this._buildings_layer.getBounds())
+        this._buildings_layer.addTo(this._map)
+
+        this._map.fitBounds(this._buildings_layer.getBounds())
         
       },
     },
-    computed: {
-      feature_collection() {
-        let points = this.responses.map((response) =>{
-          let {latitude, longitude} = response.location.coords
-          let point = TurfHelpers.point([longitude, latitude])
-          point.properties = response
-          return point
-        })
-        return TurfHelpers.featureCollection(points)
-      }
-    }
+    
   }
 </script>
 <style>

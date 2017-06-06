@@ -1,3 +1,5 @@
+import array_unique from 'array-unique'
+
 import {create_plan, get_current_plan, get_geodata} from '@/lib/data/remote'
 import cache from '@/lib/cache.js'
 
@@ -19,6 +21,12 @@ export default {
     },
     'set_selected_target_areas_id': (state, selected_target_area_ids) => {
       state.selected_target_area_ids = selected_target_area_ids
+    },
+    'add_selected_target_areas': (state, selected_target_area_ids) => {
+      let temp_array = state.selected_target_area_ids.concat(selected_target_area_ids)
+      let unique = array_unique(temp_array)
+
+      state.selected_target_area_ids = unique
     },
     'set_unsaved_changes': (state, unsaved_changes) => {
       state.unsaved_changes = unsaved_changes
