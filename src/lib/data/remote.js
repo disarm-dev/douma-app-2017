@@ -1,9 +1,7 @@
 import axios from 'axios'
 
 // Manage interaction with DOUMA API
-
 let douma_api_root = `${DOUMA_API_URL}/${DOUMA_API_VERSION}`
-
 
 const HTTP = axios.create()
 HTTP.defaults.timeout = 5000
@@ -16,12 +14,6 @@ HTTP.interceptors.response.use(function (response) {
   }
   return Promise.reject(error)
 })
-
-
-// export const try_online = () => {
-//   HTTP({url: '/static/network_test.'})
-// }
-
 
 
 const standard_handler = (url, options = {}) => {
