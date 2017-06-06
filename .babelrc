@@ -3,8 +3,13 @@
     ["env", { "modules": false }],
     "stage-2"
   ],
-  "plugins": ["transform-runtime"],
-  "comments": false,
+  "plugins": [
+    "transform-runtime",
+    "babel-plugin-transform-class-properties",
+    "babel-plugin-syntax-flow",
+    "babel-plugin-transform-flow-strip-types"
+  ],
+//  "comments": false,
   "env": {
     "test": {
       "presets": ["env", "stage-2"],

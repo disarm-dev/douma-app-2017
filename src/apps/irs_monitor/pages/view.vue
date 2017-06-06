@@ -47,7 +47,13 @@ k<template>
   </div>
 </template>
 
+
 <script>
+  /* @flow */
+  const flow = (a: number): number => {
+    return ''
+  }
+
   import numeral from 'numeral'
   import moment from 'moment'
   import {mapState} from 'vuex'
@@ -107,7 +113,7 @@ k<template>
 
     },
     filters: {
-      two_decimals(value) {
+      two_decimals(value: number): string {
         return numeral(value).format('0.[00]')
       }
     },
