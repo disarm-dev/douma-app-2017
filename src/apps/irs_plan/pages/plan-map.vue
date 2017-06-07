@@ -10,7 +10,7 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex'
+  import {mapState, mapGetters} from 'vuex'
   import mapboxgl from 'mapbox-gl'
   import MapboxDraw from '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw'
   mapboxgl.accessToken = 'pk.eyJ1Ijoibmljb2xhaWRhdmllcyIsImEiOiJjaXlhNWw1NnkwMDJoMndwMXlsaGo5NGJoIn0.T1wTBzV42MZ1O-2dy8SpOw'
@@ -19,12 +19,21 @@
   import debounce from 'lodash.debounce'
 
   import cache from '@/lib/cache.js'
+  import logslider from '@/lib/log_slider.js'
 
   export default {
     name: 'plan_map',
     props: ['edit_mode', 'geodata_ready'],
     data() {
       return {
+        slider: {
+          min: 0,
+          max: 100,
+          step: 1
+        },
+        risk_slider_value: 0,
+        logslider: null,
+
         clusters_disabled: true, // Before map_loaded
         clusters_visible: false,
         user_map_focus: false,
@@ -46,8 +55,25 @@
         field_name: state => state.instance_config.spatial_hierarchy[0].field_name,
         denominator: state => state.instance_config.denominator,
         slug: state => state.instance_config.slug,
-        selected_target_area_ids: state => state.irs_plan.selected_target_area_ids,
+        areas_included_by_click: state => state.irs_plan.areas_included_by_click,
+        areas_excluded_by_click: state => state.irs_plan.areas_excluded_by_click,
+        bulk_selected_ids: state => state.irs_plan.bulk_selected_ids,
       }),
+      ...mapGetters({
+        selected_target_area_ids: 'irs_plan/all_selected_area_ids'
+      }),
+      converted_slider_value() {
+        if (!this.logslider) return 0
+
+        let converted_value
+        if (parseFloat(this.risk_slider_value) === this.slider.min) {
+          converted_value = 0
+        } else {
+          converted_value = this.logslider(this.risk_slider_value)
+        }
+        return converted_value
+        // return numeral(converted_value).format('0.00') // values for ZWE are too small to view this way
+      }
     },
     watch: {
       'clusters_visible': 'toggle_cluster_visiblity',
@@ -68,6 +94,7 @@
           this.manage_map_mode()
           this.add_target_areas()
           this.$emit('map_loaded')
+          this.set_slider_range()
         })
       },
       create_map() {
@@ -85,7 +112,7 @@
       add_map_listeners() {
         this.remove_map_listeners()
         this.handler.click = (e) => {
-          const feature = this._map.queryRenderedFeatures(e.point, {layers: ['selected', 'unselected']})[0]
+          const feature = this._map.queryRenderedFeatures(e.point, {layers: ['selected', 'unselected', 'bulk_selected', 'bulk_unselected']})[0]
 
           if (feature) {
             const feature_id = feature.properties[this.field_name]
@@ -132,15 +159,39 @@
         }
 
         this._map.addLayer({
-          id: 'selected',
+          id: 'bulk_selected',
           type: 'fill',
           source: 'target_areas_source',
           paint: {
             'fill-color': '#a6dba0',
-            'fill-opacity': 0.8,
+            'fill-opacity': 1,
             'fill-outline-color': 'black'
           },
-          filter: ['in', this.field_name].concat(this.selected_target_area_ids)
+          filter: ['in', this.field_name].concat(this.bulk_selected_ids)
+        }, 'clusters')
+
+        this._map.addLayer({
+          id: 'bulk_unselected',
+          type: 'fill',
+          source: 'target_areas_source',
+          paint: {
+            'fill-color': '#c2a5cf',
+            'fill-opacity': 1,
+            'fill-outline-color': 'black'
+          },
+          filter: ['!in', this.field_name].concat(this.bulk_selected_ids)
+        }, 'clusters')
+
+        this._map.addLayer({
+          id: 'selected',
+          type: 'fill',
+          source: 'target_areas_source',
+          paint: {
+            'fill-color': '#008837',
+            'fill-opacity': 1,
+            'fill-outline-color': 'black'
+          },
+          filter: ['in', this.field_name].concat(this.areas_included_by_click)
         }, 'clusters')
 
         this._map.addLayer({
@@ -148,11 +199,11 @@
           type: 'fill',
           source: 'target_areas_source',
           paint: {
-            'fill-color': '#c2a5cf',
-            'fill-opacity': 0.8,
+            'fill-color': '#7b3294',
+            'fill-opacity': 1,
             'fill-outline-color': 'black'
           },
-          filter: ['!in', this.field_name].concat(this.selected_target_area_ids)
+          filter: ['in', this.field_name].concat(this.areas_excluded_by_click)
         }, 'clusters')
 
         this.fit_bounds(geojson)
@@ -194,6 +245,8 @@
       remove_target_areas() {
         this._map.removeLayer('selected')
         this._map.removeLayer('unselected')
+        this._map.removeLayer('bulk_selected')
+        this._map.removeLayer('bulk_unselected')
       },
       redraw_target_areas() {
         if (this.geodata_ready) {
@@ -202,8 +255,11 @@
         }
       },
       refilter_target_areas() {
-        this._map.setFilter('selected', ['in', this.field_name].concat(this.selected_target_area_ids))
-        this._map.setFilter('unselected', ['!in', this.field_name].concat(this.selected_target_area_ids))
+
+        this._map.setFilter('bulk_selected', ['in', this.field_name].concat(this.bulk_selected_ids))
+        this._map.setFilter('bulk_unselected', ['!in', this.field_name].concat(this.bulk_selected_ids))
+        this._map.setFilter('selected', ['in', this.field_name].concat(this.areas_included_by_click))
+        this._map.setFilter('unselected', ['in', this.field_name].concat(this.areas_excluded_by_click))
       },
       toggle_cluster_visiblity() {
 
@@ -225,8 +281,6 @@
             },
           })
 
-          // figure out which ones are included in current `selected_target_area_ids`
-          // show them
         } else {
           this._map.removeLayer('clusters')
         }
@@ -260,7 +314,6 @@
 
         this.$store.commit('irs_plan/set_bulk_selected_ids', area_ids)
         this.refilter_target_areas()
-
       }, 750),
       set_slider_range() {
         const values_array = this._geodata.all_target_areas.features.map(area => area.properties.risk).sort()
