@@ -22,7 +22,7 @@
 
   export default {
     name: 'plan_summary',
-    props: ['edit', 'data_ready'],
+    props: ['edit', 'geodata_ready'],
     data() {
       return {
         render_table: false,
@@ -33,7 +33,7 @@
       }
     },
     watch: {
-      'data_ready': 'populate_data_from_global'
+      'geodata_ready': 'populate_data_from_global'
     },
     computed: {
       ...mapState({
