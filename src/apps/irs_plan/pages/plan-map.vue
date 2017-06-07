@@ -250,9 +250,6 @@
         this.draw.deleteAll()
         this.add_map_listeners() // Restore click-handler
         this.refilter_target_areas()
-<<<<<<< Updated upstream
-      }
-=======
       },
       set_risk_slider_value: debounce(function(){
 
@@ -276,7 +273,6 @@
         const maxo = Math.max(...values_array) * 1.001
         this.logslider = logslider(this.slider.min, this.slider.max, mino, maxo)
       },
->>>>>>> Stashed changes
     }
   }
 </script>
