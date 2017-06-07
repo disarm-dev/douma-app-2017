@@ -85,7 +85,7 @@
         const key_name = Object.keys(this.denominator_def.denominator.fields)[0]
         const denominator_field_name = this.denominator_def.denominator.fields[key_name]
 
-        const denominator = target_areas.map((area) => {
+        const targets = target_areas.map((area) => {
           const obj = {}
           obj[key_name] = area.properties[denominator_field_name]
           obj[this.denominator_def.field_name] = area.properties[this.denominator_def.field_name]
@@ -93,7 +93,7 @@
         })
 
         this.$store.commit('root:set_loading', true)
-        this.$store.dispatch('irs_plan/save_plan', denominator)
+        this.$store.dispatch('irs_plan/save_plan', targets)
           .then(() => {
             this.$store.commit('root:set_snackbar', {message: 'Successful save'})
             this.$store.commit('root:set_loading', false)

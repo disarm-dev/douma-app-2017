@@ -1,16 +1,20 @@
 import moment from 'moment'
 
-import {get_all_records} from '@/lib/data/remote'
+import {get_all_records, get_current_plan} from '@/lib/data/remote'
 
 export default {
   namespaced: true,
   state: {
     responses: [],
-    filters: []
+    filters: [],
+    plan: null
   },
   mutations: {
     set_responses: (state, responses) => {
       state.responses = responses
+    },
+    set_plan: (state, plan) => {
+
     },
     toggle_filter: (state, filter) => {
       let index = state.filters.findIndex(f => f.type === filter.type && f.value === filter.value)
@@ -37,6 +41,13 @@ export default {
         console.log(responses)
         context.commit('set_responses', responses)
       })
+    },
+    get_current_plan: (context) => {
+      const country = context.rootState.instance_config.slug
+      return get_current_plan(country)
+        // If we want, for debug
+        // plan = {...plan, population: 500, structures_targeted: 150}
+        .then(plan => context.commit('set_plan', plan))
     }
   }
 }

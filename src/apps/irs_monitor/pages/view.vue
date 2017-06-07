@@ -6,7 +6,7 @@ k<template>
       <md-card class="card">
         <md-card-content>
           <p>{{responses.length}} record{{responses.length === 1 ? '' : 's' }}</p>
-          <md-button class="md-raised md-primary" @click.native="refresh_responses" :disabled="loading">Refresh data</md-button>
+          <md-button class="md-raised md-primary" @click.native="refresh_data" :disabled="loading">Refresh data</md-button>
         </md-card-content>
       </md-card>
 
@@ -132,6 +132,8 @@ k<template>
         return (window.innerHeight - 64) - 200
       },
     },
+    created() {
+    },
     methods: {
 //      filter(filter) {
 //        if (filter.value === 'all') {
@@ -140,11 +142,11 @@ k<template>
 //          this.$store.commit('irs_monitor/toggle_filter', filter)
 //        }
 //      },
-      refresh_responses() {
+      refresh_data() {
         this.loading = true
         this.$store.commit('root:set_loading', true)
 
-        this.$store.dispatch('irs_monitor/get_all_records')
+        Promise.all([this.$store.dispatch('irs_monitor/get_all_records'), this.$store.dispatch('irs_monitor/get_current_plan')])
           .then(() => {
             this.loading = false
             this.$store.commit('root:set_loading', false)
@@ -155,7 +157,7 @@ k<template>
             this.loading = false
             this.$store.commit('root:set_loading', false)
           })
-      }
+      },
     }
   }
 </script>

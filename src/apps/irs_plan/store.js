@@ -77,13 +77,13 @@ export default {
     }
   },
   actions: {
-    'save_plan': (context, denominator) => {
+    'save_plan': (context, targets) => {
       const country = context.rootState.instance_config.slug
 
       const plan = {
         planned_at: new Date(),
         country,
-        denominator
+        targets
       }
 
       return create_plan(plan)
@@ -96,8 +96,8 @@ export default {
       const field_name = context.rootState.instance_config.spatial_hierarchy[0].field_name
 
       return get_current_plan(country).then(plan => {
-        if (plan.hasOwnProperty('denominator') && plan.denominator.length !== 0 ) {
-          let target_areas = plan.denominator.map(area => {
+        if (plan.hasOwnProperty('targets') && plan.targets.length !== 0 ) {
+          let target_areas = plan.targets.map(area => {
             return area[field_name]
           })
           context.commit('clear_plan')
