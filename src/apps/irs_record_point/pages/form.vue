@@ -22,7 +22,7 @@
       }
     },
     watch: {
-      'response_is_valid': 'render_save_button'
+      'response_is_valid': 'control_complete_button_visibility'
     },
     created() {
       let goNextPageAutomatic = true
@@ -41,15 +41,6 @@
       this.create_form()
     },
     methods: {
-      render_save_button() {
-        if (!this._survey.isLastPage) return
-
-        if (this.response_is_valid) {
-
-        } else {
-
-        }
-      },
       create_form() {
         // TODO: @feature Destroy form on exit (#beforeDestroy)
         this._survey = new Survey.Model(this.form)
@@ -75,25 +66,20 @@
         if (!this._survey.isLastPage) this.show_next = true
         if (!this._survey.isFirstPage) this.show_previous = true
 
-        // Duplicated below to catch returning to the last page of a previously-completed form
-        // without changing any values
-        if (this._survey.isLastPage && this.response_is_valid && !this._survey.isCurrentPageHasErrors) {
-          this.show_complete = true
-        } else {
-          this.show_complete = false
-        }
+        this.control_complete_button_visibility()
       },
       on_form_change() {
         this.$emit('change', this._survey.data)
 
-        // Duplicated logic from above, to respond to a changed value on the final page
+        this.control_complete_button_visibility()
+      },
+      control_complete_button_visibility() {
         if (this._survey.isLastPage && this.response_is_valid && !this._survey.isCurrentPageHasErrors) {
           this.show_complete = true
         } else {
           this.show_complete = false
         }
       },
-
       next_page() {
         this._survey.nextPage()
       },
