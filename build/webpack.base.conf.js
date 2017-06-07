@@ -31,7 +31,7 @@ module.exports = {
     }
   },
   module: {
-    noParse: /(mapbox-gl)\.js$/,
+    noParse: /(mapbox-gl)\.js$/, // Issue: https://github.com/mapbox/mapbox-gl-js/issues/4359
     rules: [
       {
         test: /\.vue$/,

@@ -14,7 +14,7 @@ module.exports = {
       handler: 'cacheFirst'
     },
     {
-      urlPattern: /api\.mapbox\.com/,
+      urlPattern: /(api|tiles)\.mapbox\.com/,
       handler: 'cacheFirst'
     }
   ],
