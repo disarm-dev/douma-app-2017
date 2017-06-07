@@ -47,8 +47,8 @@ export const authenticate = (user) => {
 
 export const get_current_plan = (country) => {
   let url = douma_api_root + `/plan/current?country=${country}`
-
-  return standard_handler(url)
+  let options = {timeout: 10000}
+  return standard_handler(url, options)
 }
 
 export const create_plan = (plan) => {
@@ -56,7 +56,8 @@ export const create_plan = (plan) => {
 
   let options = {
     data: plan,
-    method: 'post'
+    method: 'post',
+    timeout: 10000
   }
 
   return standard_handler(url, options)
@@ -91,7 +92,11 @@ export const get_geodata = ({slug, level, cache}) => {
     `/static/geo/${slug}/spatial_hierarchy/${slug}.clusters.geojson`
   ]
 
-  return Promise.all(urls.map(url => standard_handler(url)))
+  let options = {
+    timeout: 20000
+  }
+
+  return Promise.all(urls.map(url => standard_handler(url, options)))
     .then(jsons => {
       cache.geodata.all_target_areas = jsons[0]
       cache.geodata.clusters = jsons[1]

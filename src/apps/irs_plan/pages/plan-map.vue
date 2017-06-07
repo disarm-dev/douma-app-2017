@@ -1,6 +1,14 @@
 <template>
   <div>
+<<<<<<< Updated upstream
     <md-checkbox :disabled='!data_ready || clusters_disabled' v-model="clusters_visible">Show clusters</md-checkbox>
+=======
+    <div v-if="edit_mode">
+    <p>Showing localities where risk is above: {{converted_slider_value}}</p>
+    <input  id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value">
+    </div>
+    <md-checkbox :disabled='!geodata_ready || clusters_disabled' v-model="clusters_visible">Show clusters</md-checkbox>
+>>>>>>> Stashed changes
     <div id="map"></div>
   </div>
 </template>
@@ -17,7 +25,7 @@
 
   export default {
     name: 'plan_map',
-    props: ['edit_mode', 'data_ready'],
+    props: ['edit_mode', 'geodata_ready'],
     data() {
       return {
         clusters_disabled: true, // Before map_loaded
@@ -47,8 +55,9 @@
     watch: {
       'clusters_visible': 'toggle_cluster_visiblity',
       'edit_mode': 'manage_map_mode',
-      'data_ready': 'populate_data_from_global',
-      'selected_target_area_ids': 'redraw_target_areas'
+      'geodata_ready': 'populate_data_from_global',
+      'selected_target_area_ids': 'redraw_target_areas',
+      'risk_slider_value': 'set_risk_slider_value'
     },
     methods: {
       populate_data_from_global() {
@@ -190,7 +199,7 @@
         this._map.removeLayer('unselected')
       },
       redraw_target_areas() {
-        if (this.data_ready) {
+        if (this.geodata_ready) {
           this.remove_target_areas()
           this.add_target_areas()
         }
@@ -241,7 +250,29 @@
         this.draw.deleteAll()
         this.add_map_listeners() // Restore click-handler
         this.refilter_target_areas()
-      }
+      },
+      set_risk_slider_value: debounce(function(){
+
+        let areas = this._geodata.all_target_areas.features.filter((feature) => {
+          return feature.properties.risk >= this.converted_slider_value
+        })
+
+        let area_ids = areas.map((area) => {
+          return area.properties[this.field_name]
+        })
+
+        this.$store.commit('irs_plan/set_bulk_selected_ids', area_ids)
+        this.refilter_target_areas()
+
+      }, 750),
+      set_slider_range() {
+        const values_array = this._geodata.all_target_areas.features.map(area => area.properties.risk).sort()
+        const non_zeros = values_array.filter(v => v !== 0)
+
+        const mino = Math.min(...non_zeros)
+        const maxo = Math.max(...values_array) * 1.001
+        this.logslider = logslider(this.slider.min, this.slider.max, mino, maxo)
+      },
     }
   }
 </script>

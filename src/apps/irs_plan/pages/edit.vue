@@ -5,17 +5,17 @@
       <md-checkbox v-model="edit_mode" :disabled="edit_disabled">Edit mode</md-checkbox>
 
       <!--VIEW ONLY-->
-      <md-button v-if='!edit_mode' class='md-raised' @click.native="load_plan">Load</md-button>
+      <md-button v-if='!edit_mode' :disabled='!geodata_ready' class='md-raised' @click.native="load_plan">Load</md-button>
 
       <!--EDIT MODE-->
       <md-button v-if='edit_mode' :disabled="!unsaved_changes" class='md-raised md-primary' @click.native="save_plan">Save</md-button>
       <md-button v-if='edit_mode' :disabled="!unsaved_changes" class='md-raised md-warn' @click.native="load_plan">Cancel edits</md-button>
       <md-button v-if='edit_mode' :disabled='!can_clear' class='md-raised' @click.native="clear_plan">Clear plan</md-button>
 
-      <plan_map :data_ready="data_ready" :edit_mode="edit_mode" v-on:map_loaded="edit_disabled = false"></plan_map>
+      <plan_map :geodata_ready="geodata_ready" :edit_mode="edit_mode" v-on:map_loaded="edit_disabled = false"></plan_map>
 
       <md-card class="card"><md-card-content>
-        <plan_summary :data_ready="data_ready"></plan_summary>
+        <plan_summary :geodata_ready="geodata_ready"></plan_summary>
       </md-card-content></md-card>
     </div>
     <div v-else>
@@ -32,13 +32,12 @@
   import plan_map from './plan-map.vue'
   import cache from '@/lib/cache.js'
 
-
   export default {
     name: 'edit',
     components: {plan_summary, plan_map},
     data() {
       return {
-        data_ready: false,
+        geodata_ready: false,
         edit_mode: false,
         edit_disabled: true
       }
@@ -56,8 +55,15 @@
       }
     },
     mounted() {
+      this.$store.commit('root:set_loading', true)
       this.$store.dispatch('irs_plan/get_geodata', {slug: this.slug, level: this.denominator_def.name, cache})
-        .then(() => this.data_ready = true)
+        .then(() => {
+          this.$store.commit('root:set_loading', false)
+          this.geodata_ready = true
+        })
+        .catch(() => {
+          this.$store.commit('root:set_loading', false)
+        })
     },
     methods: {
       load_plan() {
@@ -69,7 +75,7 @@
 
       },
       save_plan() {
-        
+
         const target_areas = cache.geodata.all_target_areas.features.filter(feature => {
           return this.selected_target_area_ids.includes(feature.properties[this.denominator_def.field_name])
         })
@@ -83,7 +89,7 @@
           obj[this.denominator_def.field_name] = area.properties[this.denominator_def.field_name]
           return obj
         })
-        
+
         this.$store.commit('root:set_loading', true)
         this.$store.dispatch('irs_plan/save_plan', denominator)
           .then(() => {
