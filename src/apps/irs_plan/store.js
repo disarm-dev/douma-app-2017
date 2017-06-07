@@ -28,10 +28,11 @@ export default {
 
 
       } else if (state.bulk_selected_ids.includes(target_area_id)){
-        // add to 
+        // add to excluded by click
         state.areas_excluded_by_click.push(target_area_id)
 
       } else if (!state.bulk_selected_ids.includes(target_area_id)) {
+        // add to included by click
         state.areas_included_by_click.push(target_area_id)
 
       } else {
@@ -62,18 +63,20 @@ export default {
     }
   },
   actions: {
-    'irs_plan:area_click': (context, area_id) => {
-      if (context.state.areas_included_by_click.includes(area_id)) {
-        context.commit('irs_plan:remove_included', area_id)
-      } else if (context.state.areas_excluded_by_click.includes(area_id)) {
-        context.commit('irs_plan:remove_excluded', area_id)
-      } else if (context.getters['irs_plan:bulk_selected_ids'].includes(area_id)){
-        context.commit('irs_plan:add_excluded', area_id)
-      } else if (!context.getters['irs_plan:bulk_selected_ids'].includes(area_id)) {
-        context.commit('irs_plan:add_included', area_id)
-      } else {
-        console.log('should never see this')
-      }
+    'get_all_selected_area_ids': (context) => {
+      const bulk_selected_ids = context.state.bulk_selected_ids
+
+      // add included by click
+      let result = bulk_selected_ids.concat(context.state.areas_included_by_click)
+
+      // remove excluded by click
+      context.state.areas_excluded_by_click.forEach(area_id => {
+        const index = result.findIndex(i => i === area_id)
+        if (index !== -1) {
+          result.splice(index, 1)
+        }
+      })
+      return result
     },
     'save_plan': (context, denominator) => {
       const country = context.rootState.instance_config.slug
