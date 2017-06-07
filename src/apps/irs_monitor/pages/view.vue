@@ -22,14 +22,14 @@ k<template>
         </md-card-content>
       </md-card>
 
-      <md-card class="card" v-if="online">
-        <md-card-content>
-          <map_progress :responses="responses" :denominator="denominator"></map_progress>
-        </md-card-content>
-      </md-card>
-      <div v-else>
-        <h3>Map only available with a network connection.</h3>
-      </div>
+      <!--<md-card class="card" v-if="online">-->
+        <!--<md-card-content>-->
+          <!--<map_progress :responses="responses" :denominator="denominator"></map_progress>-->
+        <!--</md-card-content>-->
+      <!--</md-card>-->
+      <!--<div v-else>-->
+        <!--<h3>Map only available with a network connection.</h3>-->
+      <!--</div>-->
 
       <!-- <md-card v-for="component in components" :key="component.name" class="card" :ref="component.name" :class="{'card-half-width': component.width_constraint == 'half'}">
         <md-card-content>
