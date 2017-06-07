@@ -12,6 +12,10 @@ module.exports = {
     {
       urlPattern: /\/static\/(geo|instances|structure_samples)\/?(?:[^\/]+\/?)*$/,
       handler: 'cacheFirst'
+    },
+    {
+      urlPattern: /api\.mapbox\.com/,
+      handler: 'cacheFirst'
     }
   ],
   verbose: true
