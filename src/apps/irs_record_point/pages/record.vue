@@ -20,13 +20,22 @@
       </md-card-content>
     </md-card>
 
-    <md-card v-show="show_location">
+    <md-card class='location' v-show="show_location">
       <md-card-content>
         <location_record
           @change='on_location_change'
           :initial_location='initial_response.location'
         ></location_record>
-        <v-select v-model="selected" :options="['foo','bar']"></v-select>
+        <multiselect
+          v-model="value"
+          :options="location_options"
+          group-values="locations"
+          group-label="category"
+          placeholder="Search location"
+          track-by="id"
+          label="name">
+          <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
+        </multiselect>
       </md-card-content>
     </md-card>
 
@@ -52,14 +61,21 @@
   import review from './review.vue'
   import form_renderer from './form.vue'
   import Validators from '@/lib/validations'
+  import array_unique from 'array-unique'
+
+  import Multiselect from 'vue-multiselect'
+  import 'vue-multiselect/dist/vue-multiselect.min.css'
 
   export default {
 
     name: 'Record',
-    components: {location_record, form_renderer, review},
+    components: {location_record, form_renderer, review, Multiselect},
     props: ['response_id'],
     data () {
       return {
+        value: null,
+
+
         response: {
           location: {},
           form_data: {}
@@ -74,6 +90,53 @@
       }
     },
     computed: {
+      location_options() {
+        const raw = this.$store.state.instance_config.location
+
+        const categories = array_unique(raw.map(r => r.category)).sort()
+
+        const nested = categories.map(category => {
+          const matches = raw
+            .filter(r => r.category === category)
+            .map(r => {
+              return {
+                name: r.name,
+                id: r.id
+              }
+            })
+          return {
+            category,
+            locations: matches
+          }
+        })
+
+        console.log(nested)
+        return nested
+
+        return [
+          {
+            category: 'Javascript',
+            locations: [
+              { name: 'Vue.js', id: '1' },
+              { name: 'Adonis', id: '2' }
+            ]
+          },
+          {
+            category: 'Ruby',
+            locations: [
+              { name: 'Rails', id: '3' },
+              { name: 'Sinatra', id: '4' }
+            ]
+          },
+          {
+            category: 'Other',
+            locations: [
+              { name: 'Laravel', id: '5' },
+              { name: 'Phoenix', id: '6' }
+            ]
+          }
+        ]
+      },
       user_name() {
         return this.$store.state.meta.user.name
       },
@@ -181,6 +244,10 @@
   .container {
     margin: 0 auto;
     max-width: 760px;
+  }
+
+  .location {
+    height: 300px;
   }
 
   .chip-holder {
