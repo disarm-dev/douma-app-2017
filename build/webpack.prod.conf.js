@@ -35,8 +35,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
-        warnings: false,
-        comparisons: false
+        warnings: false
       },
       sourceMap: true
     }),
