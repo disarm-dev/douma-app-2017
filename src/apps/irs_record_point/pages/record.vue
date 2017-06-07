@@ -190,11 +190,11 @@
     margin: 10px;
   }
   .orange {
-    background: orange;
+    background-color: orange !important;
     color: white;
   }
   .green {
-    background: green;
+    background-color: green !important;
     color: white;
   }
 
