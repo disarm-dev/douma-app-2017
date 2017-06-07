@@ -15,8 +15,8 @@
     props: ['responses', 'denominator'],
     data() {
       return {
-        tableData: null,
-        columns: null
+        tableData: [],
+        columns: []
       }
     },
     computed: {
@@ -32,6 +32,8 @@
     },
     methods: {
       prepare_table_data(){
+        if (this.responses.length === 0) return
+
         const instance_translations = new Translations[this.instance_config.slug](this.instance_config) // TODO: @refac Improve signature, remove duplication
         const data = instance_translations.getTableData(this.responses, this.denominator)
 

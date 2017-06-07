@@ -124,6 +124,7 @@
           return this.$store.state.irs_record_point.responses.find(r => r.id === this.response_id)
         } else {
           return {
+            location_selection: {},
             location: {},
             form_data: {}
           }
@@ -185,8 +186,7 @@
         const recorded_on = this.response.recorded_on || new Date()
 
         const response = {
-          form_data: this.response.form_data,
-          location: this.response.location,
+          ...this.response,
           recorded_on: recorded_on,
           id: id,
           synced: false,
