@@ -11,6 +11,7 @@
         v-for='response in responses'
         :index='response'
         :class="{'md-primary': !response.synced}"
+        :key="response.id"
       >
         <md-icon>
           {{response.synced ? 'check' : 'mode_edit'}}
