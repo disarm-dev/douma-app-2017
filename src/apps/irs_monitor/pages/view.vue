@@ -2,10 +2,10 @@ k<template>
   <div class='container'>
     <h1>IRS Dashboard</h1>
 
-    <div v-if="online">
+    <div>
       <md-card class="card">
         <md-card-content>
-          <p>{{actual_responses.length}} record{{actual_responses.length === 1 ? '' : 's' }}</p>
+          <p>{{responses.length}} record{{responses.length === 1 ? '' : 's' }}</p>
           <md-button class="md-raised md-primary" @click.native="refresh_responses" :disabled="loading">Refresh data</md-button>
         </md-card-content>
       </md-card>
@@ -22,11 +22,14 @@ k<template>
         </md-card-content>
       </md-card>
 
-      <md-card class="card">
+      <md-card class="card" v-if="online">
         <md-card-content>
           <map_progress :responses="responses" :denominator="denominator"></map_progress>
         </md-card-content>
       </md-card>
+      <div v-else>
+        <h3>Map only available with a network connection.</h3>
+      </div>
 
       <!-- <md-card v-for="component in components" :key="component.name" class="card" :ref="component.name" :class="{'card-half-width': component.width_constraint == 'half'}">
         <md-card-content>
@@ -41,9 +44,6 @@ k<template>
       </md-card> -->
     </div>
 
-    <div v-else>
-      <h3>Monitor only available with a network connection.</h3>
-    </div>
   </div>
 </template>
 
@@ -113,63 +113,39 @@ k<template>
     },
     data () {
       return {
-        actual_responses: [],
         loading: false,
-        filters_on: true,
+
+        // Debug
+        filters_on: false,
         denominator: {population: 500, structures_targeted: 150},
       }
-    },
-    created() {
-      this.refresh_responses()
     },
     computed: {
       ...mapState({
         slug: state => state.instance_config.slug,
         country: state => state.instance_config.name,
         components: state => state.instance_config.applets.irs_monitor.components,
-        online: state => state.network_online
+        online: state => state.network_online,
+        responses: state => state.irs_monitor.responses
       }),
-      responses() {
-        return this.actual_responses
-//        const filters = this.$store.state.irs_monitor.filters
-//
-//        if (filters.length > 0) {
-//          const single_filter = filters[0]
-//          return this.actual_responses.filter(r => {
-//            return r[single_filter.type] == single_filter.value
-//          })
-//        } else {
-//          return this.actual_responses
-//        }
-      },
       window_height() {
         return (window.innerHeight - 64) - 200
       },
     },
     methods: {
-      decorate_responses(responses) {
-        // Add weeks TODO: @refac Add 'weeks' to `responses` somewhere earlier than the dashbboard
-        return responses.map(r => {
-          r.week = moment(r.recorded_on).week()
-          return r
-        })
-
-      },
-      filter(filter) {
-        if (filter.value === 'all') {
-          this.$store.commit('irs_monitor/remove_filter', filter.type)
-        } else {
-          this.$store.commit('irs_monitor/toggle_filter', filter)
-        }
-      },
+//      filter(filter) {
+//        if (filter.value === 'all') {
+//          this.$store.commit('irs_monitor/remove_filter', filter.type)
+//        } else {
+//          this.$store.commit('irs_monitor/toggle_filter', filter)
+//        }
+//      },
       refresh_responses() {
         this.loading = true
         this.$store.commit('root:set_loading', true)
 
         this.$store.dispatch('irs_monitor/get_all_records')
-          .then((records) => {
-            this.actual_responses = this.decorate_responses(records)
-
+          .then(() => {
             this.loading = false
             this.$store.commit('root:set_loading', false)
             this.$store.commit('root:set_snackbar', {message: 'Successfully retrieved records'})

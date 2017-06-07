@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 import {get_all_records} from '@/lib/data/remote'
 
 export default {
@@ -7,12 +9,8 @@ export default {
     filters: []
   },
   mutations: {
-    create_response: (state, response) => {
-      state.responses.push(response)
-    },
-    update_response: (state, response) => {
-      let index = state.responses.findIndex((r) => r.id === response.id)
-      state.responses.splice(index, 1, response)
+    set_responses: (state, responses) => {
+      state.responses = responses
     },
     toggle_filter: (state, filter) => {
       let index = state.filters.findIndex(f => f.type === filter.type && f.value === filter.value)
@@ -31,7 +29,14 @@ export default {
   actions: {
     get_all_records: (context) => {
       const country = context.rootState.instance_config.slug
-      return get_all_records(country)
+      return get_all_records(country).then(records => {
+        const responses = records.map(r => {
+          r.week = moment(r.recorded_on).week()
+          return r
+        })
+        console.log(responses)
+        context.commit('set_responses', responses)
+      })
     }
   }
 }
