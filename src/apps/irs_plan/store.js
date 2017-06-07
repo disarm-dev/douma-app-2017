@@ -10,8 +10,24 @@ export default {
     areas_excluded_by_click: [],
     bulk_selected_ids: [],
 
-    selected_target_area_ids: [],
     unsaved_changes: false,
+  },
+  getters: {
+    'all_selected_area_ids': (state) => {
+      const bulk_selected_ids = state.bulk_selected_ids
+
+      // add included by click
+      let result = bulk_selected_ids.concat(state.areas_included_by_click)
+
+      // remove excluded by click
+      state.areas_excluded_by_click.forEach(area_id => {
+        const index = result.findIndex(i => i === area_id)
+        if (index !== -1) {
+          result.splice(index, 1)
+        }
+      })
+      return result
+    },
   },
   mutations: {
     "toggle_selected_target_area_id": (state, target_area_id) => {
@@ -41,43 +57,26 @@ export default {
 
       state.unsaved_changes = true
     },
-    'set_selected_target_areas_id': (state, selected_target_area_ids) => {
-      state.selected_target_area_ids = selected_target_area_ids
-      state.unsaved_changes = true
-    },
     'set_bulk_selected_ids': (state, selected_target_area_ids) => {
       state.bulk_selected_ids = selected_target_area_ids
     },
     'add_selected_target_areas': (state, selected_target_area_ids) => {
-      let temp_array = state.selected_target_area_ids.concat(selected_target_area_ids)
+      let temp_array = state.areas_included_by_click.concat(selected_target_area_ids)
       let unique = array_unique(temp_array)
 
-      state.selected_target_area_ids = unique
+      state.areas_included_by_click = unique
       state.unsaved_changes = true
     },
     'set_unsaved_changes': (state, unsaved_changes) => {
       state.unsaved_changes = unsaved_changes
     },
     'clear_plan': (state) => {
-      state.selected_target_area_ids = []
+      state.areas_included_by_click = []
+      state.areas_excluded_by_click = []
+      state.bulk_selected_ids = []
     }
   },
   actions: {
-    'get_all_selected_area_ids': (context) => {
-      const bulk_selected_ids = context.state.bulk_selected_ids
-
-      // add included by click
-      let result = bulk_selected_ids.concat(context.state.areas_included_by_click)
-
-      // remove excluded by click
-      context.state.areas_excluded_by_click.forEach(area_id => {
-        const index = result.findIndex(i => i === area_id)
-        if (index !== -1) {
-          result.splice(index, 1)
-        }
-      })
-      return result
-    },
     'save_plan': (context, denominator) => {
       const country = context.rootState.instance_config.slug
 
@@ -101,13 +100,13 @@ export default {
           let target_areas = plan.denominator.map(area => {
             return area[field_name]
           })
-
-          context.commit('set_selected_target_areas_id', target_areas)
+          context.commit('clear_plan')
+          context.commit('add_selected_target_areas', target_areas)
           context.commit('set_unsaved_changes', false)
         }
       })
     },
-    'get_geodata'(context, {slug, level, cache}) {
+    'get_geodata': (context, {slug, level, cache}) => {
       return get_geodata({slug, level, cache})
     }
   }

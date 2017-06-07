@@ -26,7 +26,7 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex'
+  import {mapState, mapGetters} from 'vuex'
 
   import plan_summary from './plan-summary.vue'
   import plan_map from './plan-map.vue'
@@ -47,9 +47,11 @@
       ...mapState({
         denominator_def: state => state.instance_config.spatial_hierarchy[0],
         slug: state => state.instance_config.slug,
-        selected_target_area_ids: state => state.irs_plan.selected_target_area_ids,
         unsaved_changes: state => state.irs_plan.unsaved_changes,
         online: state => state.network_online
+      }),
+      ...mapGetters({
+        selected_target_area_ids: 'irs_plan/all_selected_area_ids'
       }),
       can_clear() {
         return this.selected_target_area_ids.length !== 0

@@ -10,7 +10,7 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex'
+  import {mapState, mapGetters} from 'vuex'
   import mapboxgl from 'mapbox-gl'
   import MapboxDraw from '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw'
   mapboxgl.accessToken = 'pk.eyJ1Ijoibmljb2xhaWRhdmllcyIsImEiOiJjaXlhNWw1NnkwMDJoMndwMXlsaGo5NGJoIn0.T1wTBzV42MZ1O-2dy8SpOw'
@@ -60,6 +60,9 @@
         areas_excluded_by_click: state => state.irs_plan.areas_excluded_by_click,
         bulk_selected_ids: state => state.irs_plan.bulk_selected_ids,
       }),
+      ...mapGetters({
+        selected_target_area_ids: 'irs_plan/all_selected_area_ids'
+      }),
       converted_slider_value() {
         if (!this.logslider) return 0
 
@@ -69,7 +72,8 @@
         } else {1
           converted_value = this.logslider(this.risk_slider_value)
         }
-        return numeral(converted_value).format('0.00')
+        return converted_value
+        // return numeral(converted_value).format('0.00') // values for ZWE are too small to view this way
       }
     },
     watch: {
@@ -242,6 +246,8 @@
       remove_target_areas() {
         this._map.removeLayer('selected')
         this._map.removeLayer('unselected')
+        this._map.removeLayer('bulk_selected')
+        this._map.removeLayer('bulk_unselected')
       },
       redraw_target_areas() {
         if (this.data_ready) {

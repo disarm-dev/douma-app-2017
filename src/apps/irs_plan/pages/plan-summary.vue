@@ -16,7 +16,7 @@
   import download from 'downloadjs'
   import json2csv from 'json2csv'
   import moment from 'moment'
-  import {mapState} from 'vuex'
+  import {mapState, mapGetters} from 'vuex'
 
   import cache from '@/lib/cache.js'
 
@@ -39,8 +39,10 @@
       ...mapState({
         slug: state => state.instance_config.slug,
         denominator: state => state.instance_config.denominator,
-        selected_target_area_ids: state => state.irs_plan.selected_target_area_ids,
         field_name: state => state.instance_config.spatial_hierarchy[0].field_name,
+      }),
+      ...mapGetters({
+        selected_target_area_ids: 'irs_plan/all_selected_area_ids'
       }),
       table() {
         if (this._geodata.all_target_areas) {
