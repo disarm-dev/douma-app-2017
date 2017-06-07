@@ -27,7 +27,7 @@
           :initial_location='initial_response.location'
         ></location_record>
         <multiselect
-          v-model="value"
+          v-model="response.location_selection"
           :options="location_options"
           group-values="locations"
           group-label="category"
@@ -73,10 +73,8 @@
     props: ['response_id'],
     data () {
       return {
-        value: null,
-
-
         response: {
+          location_selection: {},
           location: {},
           form_data: {}
         },
