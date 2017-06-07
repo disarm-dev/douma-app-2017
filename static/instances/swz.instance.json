@@ -26,11 +26,6 @@
           "height_constraint": "viewport",
           "name": "swz_chart_structures_pr_supervisor",
           "width_constraint": "full"
-        },
-        {
-          "height_constraint": "viewport",
-          "name": "swz_map_progress_locations",
-          "width_constraint": "full"
         }
       ]
     },

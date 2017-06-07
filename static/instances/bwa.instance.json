@@ -3,22 +3,6 @@
     "irs_monitor": {
       "components": [
         {
-          "columns": [
-            "village",
-            "number of buildings targeted",
-            "number of people in the homestead (<5 yrs)",
-            "number of people in the homestead (>5 yrs)",
-            "number of buildings visited",
-            "number of rooms visited",
-            "number of rooms sprayed (total)",
-            "number of rooms sprayed (DDT)",
-            "number of rooms sprayed (lambda-cyhalothrin)"
-          ],
-          "height_constraint": "none",
-          "name": "table_progress",
-          "width_constraint": "full"
-        },
-        {
           "height_constraint": "none",
           "name": "bwa_chart_prop_room_sprayed",
           "width_constraint": "half"
@@ -32,11 +16,6 @@
           "height_constraint": "none",
           "name": "bwa_chart_refusal_pie",
           "width_constraint": "half"
-        },
-        {
-          "height_constraint": "none",
-          "name": "bwa_map_progress_locations",
-          "width_constraint": "full"
         }
       ],
       "title": "Dashboard"

@@ -3,32 +3,9 @@
     "irs_monitor": {
       "components": [
         {
-          "columns": [
-            "region",
-            "homesteads found",
-            "structures found",
-            "structures found %",
-            "structures sprayed",
-            "structures sprayed %",
-            "sprayable structures not sprayed",
-            "sprayable structures not sprayed (refused)",
-            "sprayable structures not sprayed (refused) %",
-            "sprayable structures not sprayed(other reason)",
-            "sprayable structures not sprayed (other reason) %"
-          ],
-          "height_constraint": "none",
-          "name": "table_progress",
-          "width_constraint": "full"
-        },
-        {
           "height_constraint": "viewport",
           "name": "nam_chart_structures_sprayed_doughnut",
           "width_constraint": "half"
-        },
-        {
-          "height_constraint": "viewport",
-          "name": "nam_map_progress_locations",
-          "width_constraint": "full"
         }
       ]
     },
