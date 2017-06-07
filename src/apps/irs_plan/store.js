@@ -6,26 +6,46 @@ import cache from '@/lib/cache.js'
 export default {
   namespaced: true,
   state: {
-    risk_selected_target_area_ids: [],
+    areas_included_by_click: [],
+    areas_excluded_by_click: [],
+    bulk_selected_ids: [],
+
     selected_target_area_ids: [],
     unsaved_changes: false,
   },
   mutations: {
     "toggle_selected_target_area_id": (state, target_area_id) => {
-      if (state.selected_target_area_ids.includes(target_area_id)) {
-        let index = state.selected_target_area_ids.findIndex((r) => r === target_area_id)
-        state.selected_target_area_ids.splice(index, 1)
+      if (state.areas_included_by_click.includes(target_area_id)) {
+        // remove target area from included
+
+        let index = state.areas_included_by_click.findIndex((r) => r === target_area_id)
+        state.areas_included_by_click.splice(index, 1)
+
+      } else if (state.areas_excluded_by_click.includes(target_area_id)) {
+        // remove target area from excluded
+        let index = state.areas_excluded_by_click.findIndex((r) => r === target_area_id)
+        state.areas_excluded_by_click.splice(index, 1)
+
+
+      } else if (state.bulk_selected_ids.includes(target_area_id)){
+        // add to 
+        state.areas_excluded_by_click.push(target_area_id)
+
+      } else if (!state.bulk_selected_ids.includes(target_area_id)) {
+        state.areas_included_by_click.push(target_area_id)
+
       } else {
-        state.selected_target_area_ids.push(target_area_id)
+        console.log('should never see this')
       }
+
       state.unsaved_changes = true
     },
     'set_selected_target_areas_id': (state, selected_target_area_ids) => {
       state.selected_target_area_ids = selected_target_area_ids
       state.unsaved_changes = true
     },
-    'set_risk_selected_target_areas_id': (state, selected_target_area_ids) => {
-      state.risk_selected_target_area_ids = selected_target_area_ids
+    'set_bulk_selected_ids': (state, selected_target_area_ids) => {
+      state.bulk_selected_ids = selected_target_area_ids
     },
     'add_selected_target_areas': (state, selected_target_area_ids) => {
       let temp_array = state.selected_target_area_ids.concat(selected_target_area_ids)
@@ -42,6 +62,19 @@ export default {
     }
   },
   actions: {
+    'irs_plan:area_click': (context, area_id) => {
+      if (context.state.areas_included_by_click.includes(area_id)) {
+        context.commit('irs_plan:remove_included', area_id)
+      } else if (context.state.areas_excluded_by_click.includes(area_id)) {
+        context.commit('irs_plan:remove_excluded', area_id)
+      } else if (context.getters['irs_plan:bulk_selected_ids'].includes(area_id)){
+        context.commit('irs_plan:add_excluded', area_id)
+      } else if (!context.getters['irs_plan:bulk_selected_ids'].includes(area_id)) {
+        context.commit('irs_plan:add_included', area_id)
+      } else {
+        console.log('should never see this')
+      }
+    },
     'save_plan': (context, denominator) => {
       const country = context.rootState.instance_config.slug
 

@@ -55,8 +55,9 @@
         field_name: state => state.instance_config.spatial_hierarchy[0].field_name,
         denominator: state => state.instance_config.denominator,
         slug: state => state.instance_config.slug,
-        selected_target_area_ids: state => state.irs_plan.selected_target_area_ids,
-        risk_selected_target_area_ids: state => state.irs_plan.risk_selected_target_area_ids,
+        areas_included_by_click: state => state.irs_plan.areas_included_by_click,
+        areas_excluded_by_click: state => state.irs_plan.areas_excluded_by_click,
+        bulk_selected_ids: state => state.irs_plan.bulk_selected_ids,
       }),
       converted_slider_value() {
         if (!this.logslider) return 0
@@ -107,7 +108,7 @@
       add_map_listeners() {
         this.remove_map_listeners()
         this.handler.click = (e) => {
-          const feature = this._map.queryRenderedFeatures(e.point, {layers: ['selected', 'unselected']})[0]
+          const feature = this._map.queryRenderedFeatures(e.point, {layers: ['selected', 'unselected', 'bulk_selected', 'bulk_unselected']})[0]
 
           if (feature) {
             const feature_id = feature.properties[this.field_name]
@@ -153,28 +154,42 @@
           })
         }
 
-        // this._map.addLayer({
-        //   id: 'risk_selected',
-        //   type: 'fill',
-        //   source: 'target_areas_source',
-        //   paint: {
-        //     'fill-color': '#1B5E20',
-        //     'fill-opacity': 0.8,
-        //     'fill-outline-color': 'black'
-        //   },
-        //   filter: ['in', this.field_name].concat(this.risk_selected_target_area_ids)
-        // }, 'clusters')
+        
+
+        this._map.addLayer({
+          id: 'bulk_selected',
+          type: 'fill',
+          source: 'target_areas_source',
+          paint: {
+            'fill-color': '#a6dba0',
+            'fill-opacity': 1,
+            'fill-outline-color': 'black'
+          },
+          filter: ['in', this.field_name].concat(this.bulk_selected_ids)
+        }, 'clusters')
+
+        this._map.addLayer({
+          id: 'bulk_unselected',
+          type: 'fill',
+          source: 'target_areas_source',
+          paint: {
+            'fill-color': '#c2a5cf',
+            'fill-opacity': 1,
+            'fill-outline-color': 'black'
+          },
+          filter: ['!in', this.field_name].concat(this.bulk_selected_ids)
+        }, 'clusters')
 
         this._map.addLayer({
           id: 'selected',
           type: 'fill',
           source: 'target_areas_source',
           paint: {
-            'fill-color': '#a6dba0',
-            'fill-opacity': 0.8,
+            'fill-color': '#008837',
+            'fill-opacity': 1,
             'fill-outline-color': 'black'
           },
-          filter: ['in', this.field_name].concat(this.selected_target_area_ids)
+          filter: ['in', this.field_name].concat(this.areas_included_by_click)
         }, 'clusters')
 
         this._map.addLayer({
@@ -182,26 +197,13 @@
           type: 'fill',
           source: 'target_areas_source',
           paint: {
-            'fill-color': '#c2a5cf',
-            'fill-opacity': 0.8,
+            'fill-color': '#7b3294',
+            'fill-opacity': 1,
             'fill-outline-color': 'black'
           },
-          filter: ['!in', this.field_name].concat(this.selected_target_area_ids)
+          filter: ['in', this.field_name].concat(this.areas_excluded_by_click)
         }, 'clusters')
 
-        
-
-        // this._map.addLayer({
-        //   id: 'risk_unselected',
-        //   type: 'fill',
-        //   source: 'target_areas_source',
-        //   paint: {
-        //     'fill-color': 'red',
-        //     'fill-opacity': 0.8,
-        //     'fill-outline-color': 'black'
-        //   },
-        //   filter: ['!in', this.field_name].concat(this.risk_selected_target_area_ids)
-        // }, 'clusters')
 
         this.fit_bounds(geojson)
       },
@@ -250,12 +252,11 @@
         }
       },
       refilter_target_areas() {
-        this._map.setFilter('selected', ['in', this.field_name].concat(this.selected_target_area_ids))
-        this._map.setFilter('unselected', ['!in', this.field_name].concat(this.selected_target_area_ids))
-      },
-      refilter_risk_target_areas() {
-        // this._map.setFilter('risk_selected', ['in', this.field_name].concat(this.risk_selected_target_area_ids))
-        // this._map.setFilter('risk_unselected', ['!in', this.field_name].concat(this.risk_selected_target_area_ids))
+
+        this._map.setFilter('bulk_selected', ['in', this.field_name].concat(this.bulk_selected_ids))
+        this._map.setFilter('bulk_unselected', ['!in', this.field_name].concat(this.bulk_selected_ids))
+        this._map.setFilter('selected', ['in', this.field_name].concat(this.areas_included_by_click))
+        this._map.setFilter('unselected', ['in', this.field_name].concat(this.areas_excluded_by_click))
       },
       toggle_cluster_visiblity() {
 
@@ -310,7 +311,7 @@
           return area.properties[this.field_name]
         })
 
-        this.$store.commit('irs_plan/set_selected_target_areas_id', area_ids)
+        this.$store.commit('irs_plan/set_bulk_selected_ids', area_ids)
         this.refilter_target_areas()
         
       },
