@@ -26,6 +26,7 @@
           @change='on_location_change'
           :initial_location='initial_response.location'
         ></location_record>
+        <v-select v-model="selected" :options="['foo','bar']"></v-select>
       </md-card-content>
     </md-card>
 
