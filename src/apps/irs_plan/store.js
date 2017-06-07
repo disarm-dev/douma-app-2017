@@ -6,6 +6,7 @@ import cache from '@/lib/cache.js'
 export default {
   namespaced: true,
   state: {
+    risk_selected_target_area_ids: [],
     selected_target_area_ids: [],
     unsaved_changes: false,
   },
@@ -21,6 +22,10 @@ export default {
     },
     'set_selected_target_areas_id': (state, selected_target_area_ids) => {
       state.selected_target_area_ids = selected_target_area_ids
+      state.unsaved_changes = true
+    },
+    'set_risk_selected_target_areas_id': (state, selected_target_area_ids) => {
+      state.risk_selected_target_area_ids = selected_target_area_ids
     },
     'add_selected_target_areas': (state, selected_target_area_ids) => {
       let temp_array = state.selected_target_area_ids.concat(selected_target_area_ids)

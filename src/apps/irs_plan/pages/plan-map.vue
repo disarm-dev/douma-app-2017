@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div v-if="edit_mode">
+    <p>Showing localities where risk is above: {{converted_slider_value}}</p>
+    <input  id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value">
+    </div>
     <md-checkbox :disabled='!data_ready || clusters_disabled' v-model="clusters_visible">Show clusters</md-checkbox>
     <div id="map"></div>
   </div>
@@ -12,14 +16,24 @@
   mapboxgl.accessToken = 'pk.eyJ1Ijoibmljb2xhaWRhdmllcyIsImEiOiJjaXlhNWw1NnkwMDJoMndwMXlsaGo5NGJoIn0.T1wTBzV42MZ1O-2dy8SpOw'
   import bbox from '@turf/bbox'
   import intersect from '@turf/intersect'
+  import numeral from 'numeral'
 
   import cache from '@/lib/cache.js'
+  import logslider from '@/lib/log_slider.js'
 
   export default {
     name: 'plan_map',
     props: ['edit_mode', 'data_ready'],
     data() {
       return {
+        slider: {
+          min: 0,
+          max: 100,
+          step: 1
+        },
+        risk_slider_value: 0,
+        logslider: null,
+
         clusters_disabled: true, // Before map_loaded
         clusters_visible: false,
         user_map_focus: false,
@@ -42,13 +56,26 @@
         denominator: state => state.instance_config.denominator,
         slug: state => state.instance_config.slug,
         selected_target_area_ids: state => state.irs_plan.selected_target_area_ids,
+        risk_selected_target_area_ids: state => state.irs_plan.risk_selected_target_area_ids,
       }),
+      converted_slider_value() {
+        if (!this.logslider) return 0
+
+        let converted_value
+        if (parseFloat(this.risk_slider_value) === this.slider.min) {
+          converted_value = 0
+        } else {1
+          converted_value = this.logslider(this.risk_slider_value)
+        }
+        return numeral(converted_value).format('0.00')
+      }
     },
     watch: {
       'clusters_visible': 'toggle_cluster_visiblity',
       'edit_mode': 'manage_map_mode',
       'data_ready': 'populate_data_from_global',
-      'selected_target_area_ids': 'redraw_target_areas'
+      'selected_target_area_ids': 'redraw_target_areas',
+      'risk_slider_value': 'set_risk_slider_value'
     },
     methods: {
       populate_data_from_global() {
@@ -62,6 +89,7 @@
           this.manage_map_mode()
           this.add_target_areas()
           this.$emit('map_loaded')
+          this.set_slider_range()
         })
       },
       create_map() {
@@ -125,6 +153,18 @@
           })
         }
 
+        // this._map.addLayer({
+        //   id: 'risk_selected',
+        //   type: 'fill',
+        //   source: 'target_areas_source',
+        //   paint: {
+        //     'fill-color': '#1B5E20',
+        //     'fill-opacity': 0.8,
+        //     'fill-outline-color': 'black'
+        //   },
+        //   filter: ['in', this.field_name].concat(this.risk_selected_target_area_ids)
+        // }, 'clusters')
+
         this._map.addLayer({
           id: 'selected',
           type: 'fill',
@@ -148,6 +188,20 @@
           },
           filter: ['!in', this.field_name].concat(this.selected_target_area_ids)
         }, 'clusters')
+
+        
+
+        // this._map.addLayer({
+        //   id: 'risk_unselected',
+        //   type: 'fill',
+        //   source: 'target_areas_source',
+        //   paint: {
+        //     'fill-color': 'red',
+        //     'fill-opacity': 0.8,
+        //     'fill-outline-color': 'black'
+        //   },
+        //   filter: ['!in', this.field_name].concat(this.risk_selected_target_area_ids)
+        // }, 'clusters')
 
         this.fit_bounds(geojson)
       },
@@ -199,6 +253,10 @@
         this._map.setFilter('selected', ['in', this.field_name].concat(this.selected_target_area_ids))
         this._map.setFilter('unselected', ['!in', this.field_name].concat(this.selected_target_area_ids))
       },
+      refilter_risk_target_areas() {
+        // this._map.setFilter('risk_selected', ['in', this.field_name].concat(this.risk_selected_target_area_ids))
+        // this._map.setFilter('risk_unselected', ['!in', this.field_name].concat(this.risk_selected_target_area_ids))
+      },
       toggle_cluster_visiblity() {
 
         if(!this._map.getSource('clusters_source')) {
@@ -241,7 +299,29 @@
         this.draw.deleteAll()
         this.add_map_listeners() // Restore click-handler
         this.refilter_target_areas()
-      }
+      },
+      set_risk_slider_value() {
+
+        let areas = this._geodata.all_target_areas.features.filter((feature) => {
+          return feature.properties.risk >= this.converted_slider_value
+        })
+
+        let area_ids = areas.map((area) => {
+          return area.properties[this.field_name]
+        })
+
+        this.$store.commit('irs_plan/set_selected_target_areas_id', area_ids)
+        this.refilter_target_areas()
+        
+      },
+      set_slider_range() {
+        const values_array = this._geodata.all_target_areas.features.map(area => area.properties.risk).sort()
+        const non_zeros = values_array.filter(v => v !== 0)
+
+        const mino = Math.min(...non_zeros)
+        const maxo = Math.max(...values_array) * 1.001
+        this.logslider = logslider(this.slider.min, this.slider.max, mino, maxo)
+      },
     }
   }
 </script>
