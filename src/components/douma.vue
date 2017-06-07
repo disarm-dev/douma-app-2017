@@ -32,6 +32,7 @@
         </div>
         <div v-if="user">
           <p @click="navigate('meta:home')">Logged in: {{user.name}}</p>
+          <p>Version hash: {{commit_hash}}</p>
         </div>
         <div v-else>
           <p>Nope, not logged in.</p>
@@ -129,6 +130,9 @@
       },
       online() {
         return this.$store.state.network_online
+      },
+      commit_hash() {
+        return COMMIT_HASH.substring(0, 6)
       }
     },
     methods: {
