@@ -1,17 +1,15 @@
 <template>
   <div class='container'>
 
-    <md-button class='md-raised' @click.native="$router.push('/irs/record_point/list')">List</md-button>
+    <div class="chip-holder">
+      <md-chip :class="{green: validation_result_empty, orange: !validation_result_empty}" @click.native="toggle_show_validation_result">
+        {{ validation_result_empty ? "Valid record" : "Validation issues"}}
+      </md-chip>
 
-    <h1>{{page_title}} record</h1>
-    <!--<md-chip>Unsaved data</md-chip>-->
-    <md-chip :class="{green: validation_result_empty, orange: !validation_result_empty}" @click.native="toggle_show_validation_result">
-      {{ validation_result_empty ? "Valid record" : "Validation issues"}}
-    </md-chip>
-
-    <md-chip :class="{green: location_is_valid, orange: !location_is_valid}" @click.native="toggle_show_location">
-      {{ location_is_valid ? "Location" : "Set location"}}
-    </md-chip>
+      <md-chip :class="{green: location_is_valid, orange: !location_is_valid}" @click.native="toggle_show_location">
+        {{ location_is_valid ? "Location" : "Set location"}}
+      </md-chip>
+    </div>
 
     <md-card v-show="show_validation_result">
       <md-card-content>
@@ -42,7 +40,6 @@
         ></form_renderer>
       </md-card-content>
     </md-card>
-
 
   </div>
 </template>
@@ -183,7 +180,10 @@
   .container {
     margin: 0 auto;
     max-width: 760px;
-    /*width: 90%;*/
+  }
+
+  .chip-holder {
+    margin: 10px;
   }
 
   .md-card {
@@ -198,8 +198,4 @@
     color: white;
   }
 
-  /*.md-chip {*/
-    /*background: orange;*/
-    /*color: white;*/
-  /*}*/
 </style>
