@@ -182,7 +182,8 @@
 <style lang="css" scoped>
   .container {
     margin: 0 auto;
-    width: 90%;
+    max-width: 760px;
+    /*width: 90%;*/
   }
 
   .md-card {
