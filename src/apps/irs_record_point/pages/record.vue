@@ -108,32 +108,7 @@
           }
         })
 
-        console.log(nested)
         return nested
-
-        return [
-          {
-            category: 'Javascript',
-            locations: [
-              { name: 'Vue.js', id: '1' },
-              { name: 'Adonis', id: '2' }
-            ]
-          },
-          {
-            category: 'Ruby',
-            locations: [
-              { name: 'Rails', id: '3' },
-              { name: 'Sinatra', id: '4' }
-            ]
-          },
-          {
-            category: 'Other',
-            locations: [
-              { name: 'Laravel', id: '5' },
-              { name: 'Phoenix', id: '6' }
-            ]
-          }
-        ]
       },
       user_name() {
         return this.$store.state.meta.user.name
