@@ -1,14 +1,10 @@
 <template>
   <div>
-<<<<<<< Updated upstream
-    <md-checkbox :disabled='!data_ready || clusters_disabled' v-model="clusters_visible">Show clusters</md-checkbox>
-=======
     <div v-if="edit_mode">
     <p>Showing localities where risk is above: {{converted_slider_value}}</p>
     <input  id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value">
     </div>
     <md-checkbox :disabled='!geodata_ready || clusters_disabled' v-model="clusters_visible">Show clusters</md-checkbox>
->>>>>>> Stashed changes
     <div id="map"></div>
   </div>
 </template>
@@ -20,6 +16,7 @@
   mapboxgl.accessToken = 'pk.eyJ1Ijoibmljb2xhaWRhdmllcyIsImEiOiJjaXlhNWw1NnkwMDJoMndwMXlsaGo5NGJoIn0.T1wTBzV42MZ1O-2dy8SpOw'
   import bbox from '@turf/bbox'
   import intersect from '@turf/intersect'
+  import debounce from 'lodash.debounce'
 
   import cache from '@/lib/cache.js'
 
