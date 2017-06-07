@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-// Manage interaction with DOUMA API
-let douma_api_root = `${DOUMA_API_URL}/${DOUMA_API_VERSION}`
+const douma_api_root = `${DOUMA_API_URL}/${DOUMA_API_VERSION}`
 
+// Create axios HTTP
 const HTTP = axios.create()
 HTTP.defaults.timeout = 5000
 HTTP.interceptors.response.use(function (response) {
@@ -22,12 +22,36 @@ const standard_handler = (url, options = {}) => {
     .then(json => json.data)
 }
 
-// Get instance config
+//
+// Instance configuration and related files
+//
+export const get_all_instance_config = (slug) => {
+  const urls = [
+    `/static/instances/${slug}.instance.json`,
+    `/static/instances/${slug}.form.json`,
+    `/static/instances/${slug}.location_selector.json`,
+  ]
 
-export const get_instance_config = (instance) => {
-  let url = `/static/instances/${instance}.instance.json`
-  return standard_handler(url)
+  let options = {
+    timeout: 20000
+  }
+
+  return Promise.all(urls.map(url => standard_handler(url, options)))
+    .then(jsons => {
+      let instance_config = jsons[0]
+
+      const form = jsons[1]
+      const location_selection = jsons[2]
+
+      instance_config.form = form
+      instance_config.location = location_selection
+
+      return instance_config
+    })
+
 }
+
+
 
 //
 // User authentiction
@@ -88,8 +112,8 @@ export const create_record = (record) => {
 
 export const get_geodata = ({slug, level, cache}) => {
   const urls = [
-    `/static/geo/${slug}/spatial_hierarchy/${slug}.${level}.geojson`,
-    `/static/geo/${slug}/spatial_hierarchy/${slug}.clusters.geojson`
+  `/static/geo/${slug}/spatial_hierarchy/${slug}.${level}.geojson`,
+    `/static/geo/${slug}/spatial_hierarchy/${slug}.clusters.geojson`,
   ]
 
   let options = {

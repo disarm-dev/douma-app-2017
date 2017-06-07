@@ -7700,6 +7700,10 @@ vue-material@^0.7.1:
   dependencies:
     vue "^2.1.10"
 
+vue-multiselect@next:
+  version "2.0.0-beta.15"
+  resolved "https://registry.yarnpkg.com/vue-multiselect/-/vue-multiselect-2.0.0-beta.15.tgz#fc29af67d9bdfb682311bdf8cd2ed89d588d73e1"
+
 vue-pagination-2@^0.3:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/vue-pagination-2/-/vue-pagination-2-0.3.1.tgz#18b8c9f9ba55ef4f0463353a04e5b8c7451eb4d0"

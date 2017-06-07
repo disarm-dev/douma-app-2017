@@ -15,100 +15,6 @@
     },
     "meta": {}
   },
-  "form": {
-    "pages": [
-      {
-        "elements": [
-          {
-            "inputType": "date",
-            "isRequired": true,
-            "name": "date",
-            "title": "Date",
-            "type": "text"
-          },
-          {
-            "choices": [
-              {
-                "text": "Yes",
-                "value": "1"
-              },
-              {
-                "text": "No",
-                "value": "2"
-              },
-              {
-                "text": "Partially Sprayed",
-                "value": "3"
-              }
-            ],
-            "isRequired": true,
-            "name": "sprayed",
-            "title": "Was this household sprayed?",
-            "type": "radiogroup"
-          }
-        ],
-        "name": "page1"
-      },
-      {
-        "elements": [
-          {
-            "choices": [
-              {
-                "text": "DDT",
-                "value": "1"
-              },
-              {
-                "text": "PY",
-                "value": "2"
-              },
-              {
-                "text": "OP",
-                "value": "3"
-              }
-            ],
-            "isRequired": true,
-            "name": "chemical_used",
-            "type": "radiogroup",
-            "visible": false,
-            "visibleIf": "{sprayed} = 1 or {sprayed} = 3"
-          }
-        ],
-        "name": "page2"
-      },
-      {
-        "elements": [
-          {
-            "choices": [
-              {
-                "text": "Locked",
-                "value": "1"
-              },
-              {
-                "text": "Refused",
-                "value": "2"
-              },
-              {
-                "text": "Absent",
-                "value": "3"
-              },
-              {
-                "text": "Away",
-                "value": "4"
-              }
-            ],
-            "hasOther": true,
-            "isRequired": true,
-            "name": "reason",
-            "title": "Reason for Unsprayed Rooms",
-            "type": "checkbox",
-            "visible": false,
-            "visibleIf": "{sprayed} = 2"
-          }
-        ],
-        "name": "page3"
-      }
-    ]
-  },
   "map_focus": {
     "centre": {
       "lat": -21.73564350618581,
@@ -119,7 +25,7 @@
   "name": "Zimbabwe",
   "slug": "zwe",
   "spatial_hierarchy": [
-    { 
+    {
       "denominator": {
         "fields": {}
       },

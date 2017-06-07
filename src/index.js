@@ -17,7 +17,6 @@ import configure_application from './lib/application.js'
 // Components
 import {ClientTable} from 'vue-tables-2'
 Vue.use(ClientTable)
-
 import VueTouch from 'vue-touch'
 Vue.use(VueTouch)
 
