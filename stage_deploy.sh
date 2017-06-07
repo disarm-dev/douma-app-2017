@@ -3,4 +3,4 @@ rm -rf dist/
 git pull
 npm install
 npm run build
-git rev-parse HEAD
+git log --oneline -n 1
