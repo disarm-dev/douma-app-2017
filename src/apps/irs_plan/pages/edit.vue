@@ -56,8 +56,15 @@
       }
     },
     mounted() {
+      this.$store.commit('root:set_loading', true)
       this.$store.dispatch('irs_plan/get_geodata', {slug: this.slug, level: this.denominator_def.name, cache})
-        .then(() => this.data_ready = true)
+        .then(() => {
+          this.$store.commit('root:set_loading', false)
+          this.data_ready = true
+        })
+        .catch(() => {
+          this.$store.commit('root:set_loading', false)
+        })
     },
     methods: {
       load_plan() {
