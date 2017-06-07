@@ -52,7 +52,7 @@ export default {
         state.areas_included_by_click.push(target_area_id)
 
       } else {
-        console.log('should never see this')
+        console.log('💥should never see this')
       }
 
       state.unsaved_changes = true
