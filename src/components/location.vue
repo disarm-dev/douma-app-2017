@@ -3,6 +3,7 @@
     <md-button :disabled='hunting_location' class='md-raised md-primary' ref="update_location_button" @click.native="check_for_location">
       Get/Update point location
     </md-button>
+    <md-button class='md-warn' @click.native="fake_location">Fake location</md-button>
     <p class='message'>{{location_message}}</p>
   </div>
 </template>
@@ -12,7 +13,7 @@
 
   export default {
     name: 'location',
-    props: ['existing_location'],
+    props: ['initial_location'],
     data() {
       return {
         hunting_location: false,
@@ -21,13 +22,25 @@
       }
     },
     created() {
-      if (this.existing_location && this.existing_location.hasOwnProperty('coords') && this.existing_location.coords.hasOwnProperty('accuracy')) {
-        this.location = this.existing_location
+      if (this.initial_location && this.initial_location.hasOwnProperty('coords') && this.initial_location.coords.hasOwnProperty('accuracy')) {
+        this.location = this.initial_location
         this.location_message = `${this.location.coords.latitude}, ${this.location.coords.longitude} (accuracy: ${this.location.coords.accuracy} m)`
-        this.$emit('position', this.location)
+        this.$emit('change', this.location)
       }
     },
     methods: {
+      fake_location() {
+        const map_focus = this.$store.state.instance_config.map_focus
+        this.location = {
+          coords: {
+            latitude: map_focus.centre.lat + Math.random(),
+            longitude: map_focus.centre.lng + Math.random(),
+            accuracy: 150
+          }
+        }
+        this.location_message = `${this.location.coords.latitude}, ${this.location.coords.longitude} (accuracy: ${this.location.coords.accuracy} m)`
+        this.$emit('change', this.location)
+      },
       check_for_location() {
         if ('geolocation' in navigator) {
           const options = {
@@ -39,13 +52,13 @@
             this.location = convert(position)
             this.location_message = `${this.location.coords.latitude}, ${this.location.coords.longitude} (accuracy: ${this.location.coords.accuracy} m)`
             this.hunting_location = false
-            this.$emit('position', this.location)
+            this.$emit('change', this.location)
           }
 
           const fail = (error) => {
             this.location_message = `Cannot get location, if it helps: code ${error.code} ${error.message}`
             this.hunting_location = false
-            this.$emit('position', error)
+            this.$emit('change', error)
           }
 
           this.hunting_location = true

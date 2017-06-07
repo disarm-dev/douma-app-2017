@@ -19,7 +19,7 @@ function generate_applet_routes({routes, user, instance_config}) {
     return {...route.meta, name: route.name}
   })
 
-  const user_apps = arrayUnique([...user.allowed_apps.read, ...user.allowed_apps.write])
+  const user_apps = arrayUnique([...user.allowed_apps.read, ...user.allowed_apps.write]).sort()
 
   return user_apps.map((app) => {
     return applet_decorations.find((i) => i.name === app)

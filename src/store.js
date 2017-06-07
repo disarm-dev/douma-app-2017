@@ -3,15 +3,20 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 Vue.use(Vuex)
 
+const persisted = createPersistedState()
+
 function create_store(instance_stores) {
+
   return new Vuex.Store({
     modules: instance_stores,
-    plugins: [createPersistedState()],
+    plugins: [persisted],
     state: {
+      cache: {},
       snackbar: {},
       loading: false,
       sw_message: {message: 'null', title: 'null'},
-      instance_config: {}
+      instance_config: {},
+      network_online: false,
     },
     mutations: {
       'root:set_snackbar': (state, snackbar) => {
@@ -25,6 +30,9 @@ function create_store(instance_stores) {
       },
       'root:set_instance_config': (state, instance_config) => {
         state.instance_config = instance_config
+      },
+      'root:network_online': (state, is_online) => {
+        state.network_online = is_online
       }
     },
   })

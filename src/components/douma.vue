@@ -2,10 +2,6 @@
   <div>
     <!-- MAIN PAGE 'TOOLBAR' -->
     <div class="douma-toolbar">
-      <!-- LOADING BAR -->
-      <template v-cloak>
-        <md-progress v-if='loading' class='md-accent' md-indeterminate></md-progress>
-      </template>
 
       <md-toolbar class="md-whiteframe-1dp" >
         <md-button class="md-icon-button" @click.native="toggleSideNav">
@@ -16,7 +12,14 @@
           <!-- <bread-crumbs></bread-crumbs> -->
           {{country}}
         </h2>
+        <div v-if="!online" @click="try_online">
+          offline
+          <md-icon>settings_ethernet</md-icon>
+        </div>
       </md-toolbar>
+
+      <!-- LOADING BAR -->
+      <md-progress v-if='loading' class='md-accent' md-indeterminate></md-progress>
     </div>
 
     <!-- SIDENAV -->
@@ -29,6 +32,7 @@
         </div>
         <div v-if="user">
           <p @click="navigate('meta:home')">Logged in: {{user.name}}</p>
+          <p>Version hash: {{commit_hash}}</p>
         </div>
         <div v-else>
           <p>Nope, not logged in.</p>
@@ -47,7 +51,7 @@
           <md-icon>person</md-icon><span>User</span>
         </md-list-item>
 
-        <md-list-item class='md-accent' @click.native="logout()">
+        <md-list-item class='md-accent' @click.native="navigate('meta:logout')">
           <md-icon>exit_to_app</md-icon><span>Logout</span>
         </md-list-item>
 
@@ -57,7 +61,7 @@
     <!-- SNACKBAR -->
     <md-snackbar md-position="top center" ref="snackbar" :md-duration="snackbar.duration">
       <span>{{snackbar.message}}</span>
-      <md-button class="md-accent" md-theme="light-blue" @click.native="snackbar_action">Yes?</md-button>
+      <md-button class="md-accent" md-theme="light-blue" @click.native="snackbar_action">OK</md-button>
     </md-snackbar>
 
     <!-- DIALOG -->
@@ -123,6 +127,12 @@
       },
       loading() {
         return this.$store.state.loading
+      },
+      online() {
+        return this.$store.state.network_online
+      },
+      commit_hash() {
+        return COMMIT_HASH.substring(0, 6)
       }
     },
     methods: {
@@ -141,12 +151,9 @@
       },
       snackbar_action() {
         this.$refs.snackbar.close()
-        this.snackbar.action()
       },
-      logout() {
-        this.$store.dispatch('meta/logout').then(() => {
-          this.$router.push('/')
-        })
+      try_online() {
+
       }
     }
   }

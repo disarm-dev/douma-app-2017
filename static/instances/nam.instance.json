@@ -1,0 +1,40 @@
+{
+  "applets": {
+    "irs_monitor": {
+      "components": [
+        {
+          "height_constraint": "viewport",
+          "name": "nam_chart_structures_sprayed_doughnut",
+          "width_constraint": "half"
+        }
+      ]
+    },
+    "irs_plan": {},
+    "irs_record_point": {},
+    "meta": {}
+  },
+  "map_focus": {
+    "centre": {
+      "lat": -19.186677697957833,
+      "lng": 16.940917968750004
+    },
+    "zoom": 6
+  },
+  "name": "Namibia",
+  "slug": "nam",
+  "spatial_hierarchy": [
+    {
+      "denominator": {
+        "fields": {
+          "number_of_households": "NmHshld"
+        }
+      },
+      "field_name": "OBJECTID",
+      "name": "constituencies"
+    },
+    {
+      "field_name": "???",
+      "name": "villages"
+    }
+  ]
+}

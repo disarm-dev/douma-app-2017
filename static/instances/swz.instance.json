@@ -1,0 +1,60 @@
+{
+  "applets": {
+    "irs_monitor": {
+      "components": [
+        {
+          "height_constraint": "none",
+          "name": "swz_chart_pop_covered",
+          "width_constraint": "half"
+        },
+        {
+          "height_constraint": "none",
+          "name": "swz_chart_structures_sprayed",
+          "width_constraint": "half"
+        },
+        {
+          "height_constraint": "none",
+          "name": "swz_chart_locked_vs_sprayed",
+          "width_constraint": "half"
+        },
+        {
+          "height_constraint": "none",
+          "name": "swz_chart_pop_covered_vs_structures",
+          "width_constraint": "half"
+        },
+        {
+          "height_constraint": "viewport",
+          "name": "swz_chart_structures_pr_supervisor",
+          "width_constraint": "full"
+        }
+      ]
+    },
+    "irs_plan": {},
+    "irs_record_point": {},
+    "meta": {}
+  },
+  "map_focus": {
+    "centre": {
+      "lat": -26.502530898533244,
+      "lng": 31.528015136718754
+    },
+    "zoom": 8
+  },
+  "name": "Swaziland",
+  "slug": "swz",
+  "spatial_hierarchy": [
+    {
+      "denominator": {
+        "fields": {
+          "number_of_structures": "NmStrct"
+        }
+      },
+      "field_name": "AggUniCode",
+      "name": "localities"
+    },
+    {
+      "field_name": "ClusterID",
+      "name": "clusters"
+    }
+  ]
+}

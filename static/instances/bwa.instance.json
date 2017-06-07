@@ -1,0 +1,51 @@
+{
+  "applets": {
+    "irs_monitor": {
+      "components": [
+        {
+          "height_constraint": "none",
+          "name": "bwa_chart_prop_room_sprayed",
+          "width_constraint": "half"
+        },
+        {
+          "height_constraint": "none",
+          "name": "bwa_chart_prop_people_covered",
+          "width_constraint": "half"
+        },
+        {
+          "height_constraint": "none",
+          "name": "bwa_chart_refusal_pie",
+          "width_constraint": "half"
+        }
+      ],
+      "title": "Dashboard"
+    },
+    "irs_plan": {},
+    "irs_record_point": {},
+    "meta": {}
+  },
+  "map_focus": {
+    "centre": {
+      "lat": -20.37552680342694,
+      "lng": 24.158935546875004
+    },
+    "zoom": 7
+  },
+  "name": "Botswana",
+  "slug": "bwa",
+  "spatial_hierarchy": [
+    {
+      "denominator": {
+        "fields": {
+          "number_of_structures": "NmStrct"
+        }
+      },
+      "field_name": "OBJECTID",
+      "name": "villages"
+    },
+    {
+      "field_name": "ClusterID",
+      "name": "clusters"
+    }
+  ]
+}

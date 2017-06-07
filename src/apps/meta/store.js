@@ -1,4 +1,4 @@
-import RemoteDB from '../../lib/data/remote'
+import {authenticate} from '../../lib/data/remote'
 
 export default {
   namespaced: true,
@@ -28,9 +28,8 @@ export default {
   },
   actions: {
     login: (context, user) => {
-      let remote = new RemoteDB()
 
-      return remote.authenticate(user).then(response => {
+      return authenticate(user).then(response => {
         if (response.error) {
           return Promise.reject(response)
         }

@@ -1,5 +1,13 @@
 <template>
-  <div id="surveyContainer"></div>
+  <v-touch
+    :options="{touchAction: 'pan-y'}"
+    v-on:swipeleft="next_page"
+    v-on:swiperight="previous_page">
+    <div id="surveyContainer"></div>
+    <md-button v-if="show_previous" @click.native="previous_page"class="md-raised">Previous</md-button>
+    <md-button v-if="show_next" @click.native="next_page"class="md-raised">Next</md-button>
+    <md-button v-if="show_complete" @click.native="complete"class="md-raised md-primary">Complete</md-button>
+  </v-touch>
 </template>
 
 <script>
@@ -7,22 +15,29 @@
 
   export default {
     name: 'form',
-    props: ['existing_form_data'],
+    props: ['initial_form_data', 'response_is_valid'],
     data () {
       return {
-        survey: {},
+        _survey: {},
+        show_previous: false,
+        show_next: true,
+        show_complete: false
       }
+    },
+    watch: {
+      'response_is_valid': 'control_complete_button_visibility'
     },
     created() {
       let goNextPageAutomatic = true
-      if (this.existing_form_data) {
+      if (this.initial_form_data) {
         goNextPageAutomatic = false
       }
       this.form = this.$store.state.instance_config.form
       this.form = {
-        ...this.form, 
+        ...this.form,
         goNextPageAutomatic,
-        completeText: "Start review/validation"
+        completeText: "Save",
+        showNavigationButtons: false
       }
     },
     mounted(){
@@ -31,23 +46,52 @@
     methods: {
       create_form() {
         // TODO: @feature Destroy form on exit (#beforeDestroy)
-        this.survey = new Survey.Model(this.form)
+        this._survey = new Survey.Model(this.form)
 
-        if (this.existing_form_data) {
-          this.survey.data = this.existing_form_data
+        if (this.initial_form_data) {
+          this._survey.data = this.initial_form_data
         }
-        
+
         const el = $("#surveyContainer")
 
         el.Survey({
-          model: this.survey,
-          onComplete: this.update_form_response
+          model: this._survey,
+          onValueChanged: this.on_form_change,
+          onCurrentPageChanged: this.on_page_change
         });
 
       },
-      update_form_response() {
-        this.$emit('complete', this.survey.data)
+      on_page_change() {
+        this.show_next = false
+        this.show_previous = false
+        this.show_complete = false
+
+        if (!this._survey.isLastPage) this.show_next = true
+        if (!this._survey.isFirstPage) this.show_previous = true
+
+        this.control_complete_button_visibility()
       },
+      on_form_change() {
+        this.$emit('change', this._survey.data)
+
+        this.control_complete_button_visibility()
+      },
+      control_complete_button_visibility() {
+        if (this._survey.isLastPage && this.response_is_valid && !this._survey.isCurrentPageHasErrors) {
+          this.show_complete = true
+        } else {
+          this.show_complete = false
+        }
+      },
+      next_page() {
+        this._survey.nextPage()
+      },
+      previous_page() {
+        this._survey.prevPage()
+      },
+      complete() {
+        this.$emit('complete', this._survey.data)
+      }
     }
   }
 </script>

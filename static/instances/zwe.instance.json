@@ -1,0 +1,38 @@
+{
+  "applets": {
+    "irs_monitor": {
+      "components": [
+        {
+          "height_constraint": "none",
+          "name": "line_chart",
+          "width_constraint": "half"
+        }
+      ]
+    },
+    "irs_plan": {},
+    "irs_record_point": {},
+    "meta": {}
+  },
+  "map_focus": {
+    "centre": {
+      "lat": -21.73564350618581,
+      "lng": 30.083462513044424
+    },
+    "zoom": 7.749187
+  },
+  "name": "Zimbabwe",
+  "slug": "zwe",
+  "spatial_hierarchy": [
+    {
+      "denominator": {
+        "fields": {}
+      },
+      "field_name": "ZIMWARDSID",
+      "name": "wards"
+    },
+    {
+      "field_name": "ClusterID",
+      "name": "clusters"
+    }
+  ]
+}

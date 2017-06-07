@@ -25,7 +25,10 @@ export default Line.extend({
           ticks: {
             beginAtZero: true,
             max: 100,
-            min: 0            
+            min: 0,
+            callback: (value, index, values) => {
+              return value + '%'
+            }            
           }
         }]
       }
