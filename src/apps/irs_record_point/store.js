@@ -25,6 +25,13 @@ export default {
     create_record: (context, record) => {
       // TODO: @feature Maybe test this before using it?
       return create_record(record)
+    },
+    clear_synced_responses: (context) => {
+      let synced_responses = context.state.responses.filter(r => r.synced)
+
+      synced_responses.forEach((response) => {
+        context.commit('delete_response', response)
+      })
     }
   }
 }

@@ -6,6 +6,9 @@
     <md-button class="md-raised md-warn" :disabled="syncing || unsynced_count === 0 || !online" @click.native="sync">
       Sync {{unsynced_count}} responses
     </md-button>
+    <md-button class="md-raised md-warn" :disabled="syncing || synced_count === 0" @click.native="clear_synced_responses">
+      Remove synced responses
+    </md-button>
     <md-list>
       <md-list-item
         v-for='response in responses'
@@ -43,6 +46,7 @@
       ...mapState({
         responses: state => state.irs_record_point.responses.sort((a, b) => new Date(b.recorded_on) - new Date(a.recorded_on)),
         unsynced_count: state => state.irs_record_point.responses.filter(r => !r.synced).length,
+        synced_count: state => state.irs_record_point.responses.filter(r => r.synced).length,
         online: state => state.network_online
       })
     },
@@ -68,6 +72,9 @@
           this.$store.commit('root:set_snackbar', {message: 'Successfully synced responses'})
         })
         .catch(() => this.$store.commit('root:set_loading', false))
+      },
+      clear_synced_responses() {
+        this.$store.dispatch('irs_record_point/clear_synced_responses')
       }
     }
   }
