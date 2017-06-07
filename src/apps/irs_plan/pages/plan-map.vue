@@ -17,6 +17,7 @@
   import bbox from '@turf/bbox'
   import intersect from '@turf/intersect'
   import numeral from 'numeral'
+  import debounce from 'lodash.debounce'
 
   import cache from '@/lib/cache.js'
   import logslider from '@/lib/log_slider.js'
@@ -154,8 +155,6 @@
           })
         }
 
-        
-
         this._map.addLayer({
           id: 'bulk_selected',
           type: 'fill',
@@ -203,7 +202,6 @@
           },
           filter: ['in', this.field_name].concat(this.areas_excluded_by_click)
         }, 'clusters')
-
 
         this.fit_bounds(geojson)
       },
@@ -278,8 +276,6 @@
             },
           })
 
-          // figure out which ones are included in current `selected_target_area_ids`
-          // show them
         } else {
           this._map.removeLayer('clusters')
         }
@@ -301,7 +297,7 @@
         this.add_map_listeners() // Restore click-handler
         this.refilter_target_areas()
       },
-      set_risk_slider_value() {
+      set_risk_slider_value: debounce(function(){ 
 
         let areas = this._geodata.all_target_areas.features.filter((feature) => {
           return feature.properties.risk >= this.converted_slider_value
@@ -314,7 +310,7 @@
         this.$store.commit('irs_plan/set_bulk_selected_ids', area_ids)
         this.refilter_target_areas()
         
-      },
+      }, 750),
       set_slider_range() {
         const values_array = this._geodata.all_target_areas.features.map(area => area.properties.risk).sort()
         const non_zeros = values_array.filter(v => v !== 0)
