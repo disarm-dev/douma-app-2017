@@ -1,402 +1,402 @@
 [
   {
-    "category": "Omusati",
-    "id": "Anamulenge",
-    "name": "Anamulenge"
-  },
-  {
-    "category": "Oshikoto",
-    "id": "Eengondi",
-    "name": "Eengondi"
-  },
-  {
-    "category": "Ohangwena",
-    "id": "Eenhana",
-    "name": "Eenhana"
-  },
-  {
-    "category": "Omusati",
-    "id": "Elim",
-    "name": "Elim"
-  },
-  {
-    "category": "Ohangwena",
-    "id": "Endola",
-    "name": "Endola"
-  },
-  {
-    "category": "Ohangwena",
-    "id": "Engela",
-    "name": "Engela"
-  },
-  {
-    "category": "Ohangwena",
-    "id": "Epembe",
-    "name": "Epembe"
-  },
-  {
-    "category": "Kunene",
-    "id": "Epupa",
-    "name": "Epupa"
-  },
-  {
-    "category": "Omusati",
-    "id": "Etayi",
-    "name": "Etayi"
-  },
-  {
-    "category": "Otjozondjupa",
-    "id": "Grootfontein",
-    "name": "Grootfontein"
-  },
-  {
-    "category": "Oshikoto",
-    "id": "Guinas",
-    "name": "Guinas"
-  },
-  {
-    "category": "Zambezi",
-    "id": "Judea Lyaboloma",
-    "name": "Judea Lyaboloma"
-  },
-  {
-    "category": "Zambezi",
-    "id": "Kabbe North",
-    "name": "Kabbe North"
-  },
-  {
-    "category": "Zambezi",
-    "id": "Kabbe South",
-    "name": "Kabbe South"
-  },
-  {
-    "category": "Kunene",
-    "id": "Kamanjab",
-    "name": "Kamanjab"
-  },
-  {
-    "category": "Kavango West",
-    "id": "Kapako",
-    "name": "Kapako"
-  },
-  {
-    "category": "Zambezi",
-    "id": "Katima Mulilo Rural",
-    "name": "Katima Mulilo Rural"
-  },
-  {
-    "category": "Zambezi",
-    "id": "Katima Mulilo Urban",
-    "name": "Katima Mulilo Urban"
-  },
-  {
-    "category": "Kunene",
-    "id": "Khorixas",
-    "name": "Khorixas"
-  },
-  {
-    "category": "Zambezi",
-    "id": "Kongola",
-    "name": "Kongola"
-  },
-  {
-    "category": "Zambezi",
-    "id": "Linyanti",
-    "name": "Linyanti"
-  },
-  {
-    "category": "Kavango West",
-    "id": "Mankumpi",
-    "name": "Mankumpi"
-  },
-  {
-    "category": "Kavango East",
-    "id": "Mashare",
-    "name": "Mashare"
-  },
-  {
-    "category": "Kavango West",
-    "id": "Mpungu",
-    "name": "Mpungu"
-  },
-  {
-    "category": "Kavango East",
-    "id": "Mukwe",
-    "name": "Mukwe"
-  },
-  {
-    "category": "Kavango West",
-    "id": "Musese",
-    "name": "Musese"
-  },
-  {
-    "category": "Kavango West",
-    "id": "Ncamagoro",
-    "name": "Ncamagoro"
-  },
-  {
-    "category": "Kavango West",
-    "id": "Ncuncuni",
-    "name": "Ncuncuni"
-  },
-  {
-    "category": "Kavango East",
-    "id": "Ndiyona",
-    "name": "Ndiyona"
-  },
-  {
-    "category": "Kavango East",
-    "id": "Ndonga Linena",
-    "name": "Ndonga Linena"
-  },
-  {
-    "category": "Oshikoto",
-    "id": "Nehale LyaMpingana",
-    "name": "Nehale LyaMpingana"
-  },
-  {
-    "category": "Kavango West",
-    "id": "Nkurenkure",
-    "name": "Nkurenkure"
-  },
-  {
-    "category": "Omusati",
-    "id": "Ogongo",
-    "name": "Ogongo"
-  },
-  {
-    "category": "Ohangwena",
-    "id": "Ohangwena",
-    "name": "Ohangwena"
-  },
-  {
-    "category": "Omusati",
-    "id": "Okahao",
-    "name": "Okahao"
-  },
-  {
-    "category": "Otjozondjupa",
-    "id": "Okakarara",
-    "name": "Okakarara"
-  },
-  {
-    "category": "Oshana",
-    "id": "Okaku",
-    "name": "Okaku"
-  },
-  {
-    "category": "Omusati",
-    "id": "Okalongo",
-    "name": "Okalongo"
-  },
-  {
-    "category": "Oshikoto",
-    "id": "Okankolo",
-    "name": "Okankolo"
-  },
-  {
-    "category": "Oshana",
-    "id": "Okatana",
-    "name": "Okatana"
-  },
-  {
-    "category": "Oshana",
-    "id": "Okatyali",
-    "name": "Okatyali"
-  },
-  {
-    "category": "Ohangwena",
-    "id": "Okongo",
-    "name": "Okongo"
-  },
-  {
-    "category": "Oshikoto",
-    "id": "Olukonda",
-    "name": "Olukonda"
-  },
-  {
-    "category": "Oshana",
-    "id": "Ompundja",
-    "name": "Ompundja"
-  },
-  {
-    "category": "Ohangwena",
-    "id": "Omulonga",
-    "name": "Omulonga"
-  },
-  {
-    "category": "Ohangwena",
-    "id": "Omundaungilo",
-    "name": "Omundaungilo"
-  },
-  {
-    "category": "Oshikoto",
-    "id": "Omuntele",
-    "name": "Omuntele"
-  },
-  {
-    "category": "Oshikoto",
-    "id": "Omuthiyagwiipundi",
-    "name": "Omuthiyagwiipundi"
-  },
-  {
-    "category": "Oshikoto",
-    "id": "Onayena",
-    "name": "Onayena"
-  },
-  {
-    "category": "Oshana",
-    "id": "Ondangwa Rural",
-    "name": "Ondangwa Rural"
-  },
-  {
-    "category": "Oshana",
-    "id": "Ondangwa Urban",
-    "name": "Ondangwa Urban"
-  },
-  {
-    "category": "Ohangwena",
-    "id": "Ondobe",
-    "name": "Ondobe"
-  },
-  {
-    "category": "Omusati",
-    "id": "Onesi",
-    "name": "Onesi"
-  },
-  {
-    "category": "Ohangwena",
-    "id": "Ongenga",
-    "name": "Ongenga"
-  },
-  {
-    "category": "Oshana",
-    "id": "Ongwediva",
-    "name": "Ongwediva"
-  },
-  {
-    "category": "Oshikoto",
-    "id": "Oniipa",
-    "name": "Oniipa"
-  },
-  {
-    "category": "Oshikoto",
-    "id": "Onyaanya",
-    "name": "Onyaanya"
-  },
-  {
-    "category": "Kunene",
-    "id": "Opuwo Rural",
-    "name": "Opuwo Rural"
-  },
-  {
-    "category": "Kunene",
-    "id": "Opuwo Urban",
-    "name": "Opuwo Urban"
-  },
-  {
-    "category": "Oshana",
-    "id": "Oshakati East",
-    "name": "Oshakati East"
-  },
-  {
-    "category": "Oshana",
-    "id": "Oshakati West",
-    "name": "Oshakati West"
-  },
-  {
-    "category": "Ohangwena",
-    "id": "Oshikango",
-    "name": "Oshikango"
-  },
-  {
-    "category": "Omusati",
-    "id": "Oshikuku",
-    "name": "Oshikuku"
-  },
-  {
-    "category": "Ohangwena",
-    "id": "Oshikunde",
-    "name": "Oshikunde"
-  },
-  {
-    "category": "Omusati",
-    "id": "Otamanzi",
-    "name": "Otamanzi"
-  },
-  {
-    "category": "Otjozondjupa",
-    "id": "Otavi",
-    "name": "Otavi"
-  },
-  {
-    "category": "Otjozondjupa",
-    "id": "Otjiwarongo",
-    "name": "Otjiwarongo"
-  },
-  {
-    "category": "Omusati",
-    "id": "Outapi",
-    "name": "Outapi"
-  },
-  {
-    "category": "Kunene",
-    "id": "Outjo",
-    "name": "Outjo"
-  },
-  {
-    "category": "Omusati",
-    "id": "Ruacana",
-    "name": "Ruacana"
-  },
-  {
-    "category": "Kavango East",
-    "id": "Rundu Rural",
-    "name": "Rundu Rural"
-  },
-  {
-    "category": "Kavango East",
-    "id": "Rundu Urban",
-    "name": "Rundu Urban"
-  },
-  {
-    "category": "Kunene",
-    "id": "Sesfontein",
-    "name": "Sesfontein"
-  },
-  {
-    "category": "Zambezi",
-    "id": "Sibbinda",
-    "name": "Sibbinda"
-  },
-  {
-    "category": "Kavango West",
-    "id": "Tondoro",
-    "name": "Tondoro"
-  },
-  {
-    "category": "Omusati",
-    "id": "Tsandi",
-    "name": "Tsandi"
-  },
-  {
-    "category": "Oshikoto",
-    "id": "Tsumeb",
-    "name": "Tsumeb"
-  },
-  {
-    "category": "Otjozondjupa",
-    "id": "Tsumkwe",
-    "name": "Tsumkwe"
-  },
-  {
-    "category": "Oshana",
-    "id": "Uukwiyu",
-    "name": "Uukwiyu"
-  },
-  {
-    "category": "Oshana",
-    "id": "Uuvudhiya",
-    "name": "Uuvudhiya"
+    "id": 95, 
+    "name": "Anamulenge", 
+    "category": "Omusati"
+  }, 
+  {
+    "id": 120, 
+    "name": "Eengondi", 
+    "category": "Oshikoto"
+  }, 
+  {
+    "id": 2, 
+    "name": "Eenhana", 
+    "category": "Ohangwena"
+  }, 
+  {
+    "id": 7, 
+    "name": "Elim", 
+    "category": "Omusati"
+  }, 
+  {
+    "id": 89, 
+    "name": "Endola", 
+    "category": "Ohangwena"
+  }, 
+  {
+    "id": 1, 
+    "name": "Engela", 
+    "category": "Ohangwena"
+  }, 
+  {
+    "id": 3, 
+    "name": "Epembe", 
+    "category": "Ohangwena"
+  }, 
+  {
+    "id": 9, 
+    "name": "Epupa", 
+    "category": "Kunene"
+  }, 
+  {
+    "id": 111, 
+    "name": "Etayi", 
+    "category": "Omusati"
+  }, 
+  {
+    "id": 10, 
+    "name": "Grootfontein", 
+    "category": "Otjozondjupa"
+  }, 
+  {
+    "id": 11, 
+    "name": "Guinas", 
+    "category": "Oshikoto"
+  }, 
+  {
+    "id": 87, 
+    "name": "Judea Lyaboloma", 
+    "category": "Zambezi"
+  }, 
+  {
+    "id": 85, 
+    "name": "Kabbe North", 
+    "category": "Zambezi"
+  }, 
+  {
+    "id": 84, 
+    "name": "Kabbe South", 
+    "category": "Zambezi"
+  }, 
+  {
+    "id": 13, 
+    "name": "Kamanjab", 
+    "category": "Kunene"
+  }, 
+  {
+    "id": 107, 
+    "name": "Kapako", 
+    "category": "Kavango West"
+  }, 
+  {
+    "id": 121, 
+    "name": "Katima Mulilo Rural", 
+    "category": "Zambezi"
+  }, 
+  {
+    "id": 83, 
+    "name": "Katima Mulilo Urban", 
+    "category": "Zambezi"
+  }, 
+  {
+    "id": 20, 
+    "name": "Khorixas", 
+    "category": "Kunene"
+  }, 
+  {
+    "id": 86, 
+    "name": "Kongola", 
+    "category": "Zambezi"
+  }, 
+  {
+    "id": 113, 
+    "name": "Linyanti", 
+    "category": "Zambezi"
+  }, 
+  {
+    "id": 78, 
+    "name": "Mankumpi", 
+    "category": "Kavango West"
+  }, 
+  {
+    "id": 109, 
+    "name": "Mashare", 
+    "category": "Kavango East"
+  }, 
+  {
+    "id": 74, 
+    "name": "Mpungu", 
+    "category": "Kavango West"
+  }, 
+  {
+    "id": 108, 
+    "name": "Mukwe", 
+    "category": "Kavango East"
+  }, 
+  {
+    "id": 77, 
+    "name": "Musese", 
+    "category": "Kavango West"
+  }, 
+  {
+    "id": 79, 
+    "name": "Ncamagoro", 
+    "category": "Kavango West"
+  }, 
+  {
+    "id": 80, 
+    "name": "Ncuncuni", 
+    "category": "Kavango West"
+  }, 
+  {
+    "id": 63, 
+    "name": "Ndiyona", 
+    "category": "Kavango East"
+  }, 
+  {
+    "id": 82, 
+    "name": "Ndonga Linena", 
+    "category": "Kavango East"
+  }, 
+  {
+    "id": 98, 
+    "name": "Nehale LyaMpingana", 
+    "category": "Oshikoto"
+  }, 
+  {
+    "id": 75, 
+    "name": "Nkurenkure", 
+    "category": "Kavango West"
+  }, 
+  {
+    "id": 22, 
+    "name": "Ogongo", 
+    "category": "Omusati"
+  }, 
+  {
+    "id": 69, 
+    "name": "Ohangwena", 
+    "category": "Ohangwena"
+  }, 
+  {
+    "id": 24, 
+    "name": "Okahao", 
+    "category": "Omusati"
+  }, 
+  {
+    "id": 25, 
+    "name": "Okakarara", 
+    "category": "Otjozondjupa"
+  }, 
+  {
+    "id": 26, 
+    "name": "Okaku", 
+    "category": "Oshana"
+  }, 
+  {
+    "id": 27, 
+    "name": "Okalongo", 
+    "category": "Omusati"
+  }, 
+  {
+    "id": 114, 
+    "name": "Okankolo", 
+    "category": "Oshikoto"
+  }, 
+  {
+    "id": 5, 
+    "name": "Okatana", 
+    "category": "Oshana"
+  }, 
+  {
+    "id": 28, 
+    "name": "Okatyali", 
+    "category": "Oshana"
+  }, 
+  {
+    "id": 72, 
+    "name": "Okongo", 
+    "category": "Ohangwena"
+  }, 
+  {
+    "id": 29, 
+    "name": "Olukonda", 
+    "category": "Oshikoto"
+  }, 
+  {
+    "id": 32, 
+    "name": "Ompundja", 
+    "category": "Oshana"
+  }, 
+  {
+    "id": 4, 
+    "name": "Omulonga", 
+    "category": "Ohangwena"
+  }, 
+  {
+    "id": 71, 
+    "name": "Omundaungilo", 
+    "category": "Ohangwena"
+  }, 
+  {
+    "id": 33, 
+    "name": "Omuntele", 
+    "category": "Oshikoto"
+  }, 
+  {
+    "id": 34, 
+    "name": "Omuthiyagwiipundi", 
+    "category": "Oshikoto"
+  }, 
+  {
+    "id": 35, 
+    "name": "Onayena", 
+    "category": "Oshikoto"
+  }, 
+  {
+    "id": 36, 
+    "name": "Ondangwa Rural", 
+    "category": "Oshana"
+  }, 
+  {
+    "id": 112, 
+    "name": "Ondangwa Urban", 
+    "category": "Oshana"
+  }, 
+  {
+    "id": 70, 
+    "name": "Ondobe", 
+    "category": "Ohangwena"
+  }, 
+  {
+    "id": 37, 
+    "name": "Onesi", 
+    "category": "Omusati"
+  }, 
+  {
+    "id": 67, 
+    "name": "Ongenga", 
+    "category": "Ohangwena"
+  }, 
+  {
+    "id": 38, 
+    "name": "Ongwediva", 
+    "category": "Oshana"
+  }, 
+  {
+    "id": 39, 
+    "name": "Oniipa", 
+    "category": "Oshikoto"
+  }, 
+  {
+    "id": 40, 
+    "name": "Onyaanya", 
+    "category": "Oshikoto"
+  }, 
+  {
+    "id": 66, 
+    "name": "Opuwo Rural", 
+    "category": "Kunene"
+  }, 
+  {
+    "id": 64, 
+    "name": "Opuwo Urban", 
+    "category": "Kunene"
+  }, 
+  {
+    "id": 41, 
+    "name": "Oshakati East", 
+    "category": "Oshana"
+  }, 
+  {
+    "id": 42, 
+    "name": "Oshakati West", 
+    "category": "Oshana"
+  }, 
+  {
+    "id": 68, 
+    "name": "Oshikango", 
+    "category": "Ohangwena"
+  }, 
+  {
+    "id": 117, 
+    "name": "Oshikuku", 
+    "category": "Omusati"
+  }, 
+  {
+    "id": 73, 
+    "name": "Oshikunde", 
+    "category": "Ohangwena"
+  }, 
+  {
+    "id": 43, 
+    "name": "Otamanzi", 
+    "category": "Omusati"
+  }, 
+  {
+    "id": 44, 
+    "name": "Otavi", 
+    "category": "Otjozondjupa"
+  }, 
+  {
+    "id": 46, 
+    "name": "Otjiwarongo", 
+    "category": "Otjozondjupa"
+  }, 
+  {
+    "id": 110, 
+    "name": "Outapi", 
+    "category": "Omusati"
+  }, 
+  {
+    "id": 48, 
+    "name": "Outjo", 
+    "category": "Kunene"
+  }, 
+  {
+    "id": 49, 
+    "name": "Ruacana", 
+    "category": "Omusati"
+  }, 
+  {
+    "id": 81, 
+    "name": "Rundu Rural", 
+    "category": "Kavango East"
+  }, 
+  {
+    "id": 50, 
+    "name": "Rundu Urban", 
+    "category": "Kavango East"
+  }, 
+  {
+    "id": 65, 
+    "name": "Sesfontein", 
+    "category": "Kunene"
+  }, 
+  {
+    "id": 88, 
+    "name": "Sibbinda", 
+    "category": "Zambezi"
+  }, 
+  {
+    "id": 76, 
+    "name": "Tondoro", 
+    "category": "Kavango West"
+  }, 
+  {
+    "id": 53, 
+    "name": "Tsandi", 
+    "category": "Omusati"
+  }, 
+  {
+    "id": 54, 
+    "name": "Tsumeb", 
+    "category": "Oshikoto"
+  }, 
+  {
+    "id": 55, 
+    "name": "Tsumkwe", 
+    "category": "Otjozondjupa"
+  }, 
+  {
+    "id": 56, 
+    "name": "Uukwiyu", 
+    "category": "Oshana"
+  }, 
+  {
+    "id": 57, 
+    "name": "Uuvudhiya", 
+    "category": "Oshana"
   }
 ]
