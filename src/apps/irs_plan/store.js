@@ -6,6 +6,8 @@ import cache from '@/lib/cache.js'
 export default {
   namespaced: true,
   state: {
+    geodata_loading_progress: 0,
+    current_plan: null,
     areas_included_by_click: [],
     areas_excluded_by_click: [],
     bulk_selected_ids: [],
@@ -30,6 +32,9 @@ export default {
     },
   },
   mutations: {
+    'set_geodata_loading_progress': (state, progress) => {
+      state.geodata_loading_progress = progress
+    },
     "toggle_selected_target_area_id": (state, target_area_id) => {
       if (state.areas_included_by_click.includes(target_area_id)) {
         // remove target area from included
@@ -74,6 +79,11 @@ export default {
       state.areas_included_by_click = []
       state.areas_excluded_by_click = []
       state.bulk_selected_ids = []
+      state.plan = null
+      // state.unsaved_changes = true
+    },
+    'set_plan': (state, plan) => {
+      state.current_plan = plan
     }
   },
   actions: {
@@ -88,6 +98,7 @@ export default {
 
       return create_plan(plan)
         .then(res => {
+          context.commit('set_plan', plan)
           context.commit('set_unsaved_changes', false)
         })
     },
@@ -96,18 +107,21 @@ export default {
       const field_name = context.rootState.instance_config.spatial_hierarchy[0].field_name
 
       return get_current_plan(country).then(plan => {
+
         if (plan.hasOwnProperty('targets') && plan.targets.length !== 0 ) {
           let target_areas = plan.targets.map(area => {
             return area[field_name]
           })
+
+          context.commit('set_plan', plan)
           context.commit('clear_plan')
           context.commit('add_selected_target_areas', target_areas)
           context.commit('set_unsaved_changes', false)
         }
       })
     },
-    'get_geodata': (context, {slug, level, cache}) => {
-      return get_geodata({slug, level, cache})
+    'get_geodata': (context, options) => {
+      return get_geodata(options)
     }
   }
 }

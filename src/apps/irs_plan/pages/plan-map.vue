@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="edit_mode">
-    <p>Showing localities where risk is above: {{converted_slider_value}}</p>
+    <p>Showing areas where risk is above: {{converted_slider_value}}</p>
     <input  id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value">
     </div>
     <md-checkbox :disabled='!geodata_ready || clusters_disabled' v-model="clusters_visible">Show clusters</md-checkbox>
@@ -83,6 +83,7 @@
       'risk_slider_value': 'set_risk_slider_value'
     },
     methods: {
+      // Get some data in
       populate_data_from_global() {
         this._geodata = cache.geodata
 
@@ -97,6 +98,8 @@
           this.set_slider_range()
         })
       },
+
+      // Create map
       create_map() {
         return new mapboxgl.Map({
           container: 'map',
@@ -104,6 +107,13 @@
           center: [23.31117652857256, -25.74823900711678],
           zoom: 3.9642688564
         });
+      },
+      fit_bounds(geojson) {
+        if (!this.user_map_focus) {
+          const bounds = bbox(geojson)
+          this._map.fitBounds(bounds, {padding: 20})
+          this.user_map_focus = true
+        }
       },
       remove_map_listeners() {
         if (this._map.listens('click') && this.handler.click) this._map.off('click', this.handler.click)
@@ -135,19 +145,15 @@
       manage_map_mode() {
         // Check if you're in editing mode
         if(!this.edit_mode && this._map && this._map.loaded()) {
-
-          // Remove any existing click handler
           this.remove_map_listeners()
-
           this.remove_draw_controls()
-
         } else {
-          // Keep hold of click handler
           this.add_map_listeners()
-
           this.add_draw_controls()
         }
       },
+
+      // Add and handle target_areas
       add_target_areas() {
         const geojson = this._geodata.all_target_areas
 
@@ -163,8 +169,8 @@
           type: 'fill',
           source: 'target_areas_source',
           paint: {
-            'fill-color': '#a6dba0',
-            'fill-opacity': 1,
+            'fill-color': '#df8ad9',
+            'fill-opacity': 0.7,
             'fill-outline-color': 'black'
           },
           filter: ['in', this.field_name].concat(this.bulk_selected_ids)
@@ -175,8 +181,8 @@
           type: 'fill',
           source: 'target_areas_source',
           paint: {
-            'fill-color': '#c2a5cf',
-            'fill-opacity': 1,
+            'fill-color': '#fff',
+            'fill-opacity': 0.5,
             'fill-outline-color': 'black'
           },
           filter: ['!in', this.field_name].concat(this.bulk_selected_ids)
@@ -187,8 +193,8 @@
           type: 'fill',
           source: 'target_areas_source',
           paint: {
-            'fill-color': '#008837',
-            'fill-opacity': 1,
+            'fill-color': '#de27da',
+            'fill-opacity': 0.7,
             'fill-outline-color': 'black'
           },
           filter: ['in', this.field_name].concat(this.areas_included_by_click)
@@ -199,8 +205,8 @@
           type: 'fill',
           source: 'target_areas_source',
           paint: {
-            'fill-color': '#7b3294',
-            'fill-opacity': 1,
+            'fill-color': '#a6a6a6',
+            'fill-opacity': 0.7,
             'fill-outline-color': 'black'
           },
           filter: ['in', this.field_name].concat(this.areas_excluded_by_click)
@@ -208,9 +214,66 @@
 
         this.fit_bounds(geojson)
       },
-      add_draw_controls () {
-        this.remove_draw_controls()
+      remove_target_areas() {
+        if (this._map.getLayer('selected'))
+          this._map.removeLayer('selected')
+        if (this._map.getLayer('unselected'))
+          this._map.removeLayer('unselected')
+        if (this._map.getLayer('bulk_selected'))
+          this._map.removeLayer('bulk_selected')
+        if (this._map.getLayer('bulk_unselected'))
+          this._map.removeLayer('bulk_unselected')
+      },
+      redraw_target_areas() {
+        if (this.geodata_ready) {
+          // redraw target areas
+          this.remove_target_areas()
+          this.add_target_areas()
 
+          // remove + add draw_controls
+          this.remove_draw_controls()
+          this.add_draw_controls()
+        }
+      },
+      refilter_target_areas() {
+
+        this._map.setFilter('bulk_selected', ['in', this.field_name].concat(this.bulk_selected_ids))
+        this._map.setFilter('bulk_unselected', ['!in', this.field_name].concat(this.bulk_selected_ids))
+        this._map.setFilter('selected', ['in', this.field_name].concat(this.areas_included_by_click))
+        this._map.setFilter('unselected', ['in', this.field_name].concat(this.areas_excluded_by_click))
+      },
+
+      // Clusters
+      toggle_cluster_visiblity() {
+
+        if(!this._map.getSource('clusters_source')) {
+          this._map.addSource('clusters_source', {
+            type: 'geojson',
+            data: this._geodata.clusters
+          })
+        }
+
+        if (this.clusters_visible) {
+          const colour = 'yellow'
+
+          this._map.addLayer({
+            id: 'clusters',
+            type: 'fill',
+            source: 'clusters_source',
+            paint: {
+              'fill-color': colour,
+              'fill-opacity': 0.9,
+              'fill-outline-color': colour
+            },
+          })
+
+        } else {
+          this._map.removeLayer('clusters')
+        }
+      },
+
+      // Draw controls
+      add_draw_controls () {
         const options = {
           boxSelect: false,
           keyBindings: false,
@@ -232,57 +295,9 @@
         this._map.addControl(this.draw)
       },
       remove_draw_controls () {
-        if (this.draw) this._map.removeControl(this.draw)
-        this.draw = null
-      },
-      fit_bounds(geojson) {
-        if (!this.user_map_focus) {
-          const bounds = bbox(geojson)
-          this._map.fitBounds(bounds, {padding: 20})
-          this.user_map_focus = true
-        }
-      },
-      remove_target_areas() {
-        this._map.removeLayer('selected')
-        this._map.removeLayer('unselected')
-        this._map.removeLayer('bulk_selected')
-        this._map.removeLayer('bulk_unselected')
-      },
-      redraw_target_areas() {
-        if (this.geodata_ready) {
-          this.remove_target_areas()
-          this.add_target_areas()
-        }
-      },
-      refilter_target_areas() {
-
-        this._map.setFilter('bulk_selected', ['in', this.field_name].concat(this.bulk_selected_ids))
-        this._map.setFilter('bulk_unselected', ['!in', this.field_name].concat(this.bulk_selected_ids))
-        this._map.setFilter('selected', ['in', this.field_name].concat(this.areas_included_by_click))
-        this._map.setFilter('unselected', ['in', this.field_name].concat(this.areas_excluded_by_click))
-      },
-      toggle_cluster_visiblity() {
-
-        if(!this._map.getSource('clusters_source')) {
-          this._map.addSource('clusters_source', {
-            type: 'geojson',
-            data: this._geodata.clusters
-          })
-        }
-
-        if (this.clusters_visible) {
-
-          this._map.addLayer({
-            id: 'clusters',
-            type: 'line',
-            source: 'clusters_source',
-            paint: {
-              'line-color': 'yellow'
-            },
-          })
-
-        } else {
-          this._map.removeLayer('clusters')
+        if (this.draw) {
+          this._map.removeControl(this.draw)
+          this.draw = null
         }
       },
       finish_drawing(features) {
@@ -299,9 +314,12 @@
         this.$store.commit('irs_plan/add_selected_target_areas', selected_areas)
 
         this.draw.deleteAll()
-        this.add_map_listeners() // Restore click-handler
+
+        this.add_map_listeners() // Restore original click-handler
         this.refilter_target_areas()
       },
+
+      // Risk slider
       set_risk_slider_value: debounce(function(){
 
         let areas = this._geodata.all_target_areas.features.filter((feature) => {

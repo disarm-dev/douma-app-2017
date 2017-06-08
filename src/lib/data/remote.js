@@ -1,4 +1,5 @@
 import axios from 'axios'
+import numeral from 'numeral'
 
 const douma_api_root = `${DOUMA_API_URL}/${DOUMA_API_VERSION}`
 
@@ -110,14 +111,43 @@ export const create_record = (record) => {
 
 // GEODATA
 
-export const get_geodata = ({slug, level, cache}) => {
+export const get_geodata = ({slug, level, cache, store}) => {
   const urls = [
   `/static/geo/${slug}/spatial_hierarchy/${slug}.${level}.geojson`,
     `/static/geo/${slug}/spatial_hierarchy/${slug}.clusters.geojson`,
   ]
 
+  let progress_cache = {}
+
   let options = {
-    timeout: 20000
+    timeout: 300000,
+    onDownloadProgress: (progress) => {
+      // console.log(Object.keys(progress_cache).length, urls.length)
+      // if (Object.keys(progress_cache).length !== urls.length) return console.log('not all files going.')
+
+      const key = progress.target.responseURL
+
+      if (!progress_cache[key]) {
+        progress_cache[key] = {
+          loaded: progress.loaded,
+          total: progress.total
+        }
+      } else {
+        progress_cache[key].loaded = progress.loaded
+      }
+
+      const loaded_bytes_all = Object.keys(progress_cache).reduce((sum, cache_url) => {
+        return progress_cache[cache_url].loaded + sum
+      }, 0)
+
+      const total_all_files = Object.keys(progress_cache).reduce((sum, cache_url) => {
+        return progress_cache[cache_url].total + sum
+      }, 0)
+
+      const progress_calc = (loaded_bytes_all / total_all_files) * 100
+
+      store.commit('irs_plan/set_geodata_loading_progress', progress_calc)
+    }
   }
 
   return Promise.all(urls.map(url => standard_handler(url, options)))

@@ -3,7 +3,7 @@
     <md-button :disabled='hunting_location' class='md-raised md-primary' ref="update_location_button" @click.native="check_for_location">
       Get/Update point location
     </md-button>
-    <md-button class='md-warn' @click.native="fake_location">Fake location</md-button>
+    <md-button class='md-warn' @click.native="fake_location">Use demo location</md-button>
     <p class='message'>{{location_message}}</p>
   </div>
 </template>

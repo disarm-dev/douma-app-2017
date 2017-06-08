@@ -2,8 +2,8 @@
   <div class='container'>
 
     <div class="chip-holder">
-      <md-chip :class="{green: validation_result_empty, orange: !validation_result_empty}" @click.native="toggle_show_validation_result">
-        {{ validation_result_empty ? "Valid record" : "Validation issues"}}
+      <md-chip :class="{orange: !validation_result_empty}" @click.native="toggle_show_validation_result">
+        {{ validation_result_empty ? "No validation issues" : "Validation issues"}}
       </md-chip>
 
       <md-chip :class="{green: location_is_valid, orange: !location_is_valid}" @click.native="toggle_show_location">
@@ -26,12 +26,13 @@
           @change='on_location_change'
           :initial_location='initial_response.location'
         ></location_record>
+
         <multiselect
           v-model="response.location_selection"
           :options="location_options"
           group-values="locations"
           group-label="category"
-          placeholder="Search location"
+          placeholder="Alternative location search"
           track-by="id"
           label="name">
           <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
@@ -220,7 +221,8 @@
   }
 
   .location {
-    height: 300px;
+    overflow: visible;
+    z-index: 999;
   }
 
   .chip-holder {

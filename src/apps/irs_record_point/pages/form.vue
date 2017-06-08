@@ -28,14 +28,13 @@
       'response_is_valid': 'control_complete_button_visibility'
     },
     created() {
-      let goNextPageAutomatic = true
-      if (this.initial_form_data) {
-        goNextPageAutomatic = false
-      }
+//      let goNextPageAutomatic = true
+//      if (this.initial_form_data) {
+//        goNextPageAutomatic = false
+//      }
       this.form = this.$store.state.instance_config.form
       this.form = {
         ...this.form,
-        goNextPageAutomatic,
         completeText: "Save",
         showNavigationButtons: false
       }

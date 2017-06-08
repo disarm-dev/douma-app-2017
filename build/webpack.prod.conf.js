@@ -10,6 +10,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 var LicenseWebpackPlugin = require('license-webpack-plugin')
 var SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
+var Visualizer = require('webpack-visualizer-plugin');
 
 var env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
@@ -105,7 +106,8 @@ var webpackConfig = merge(baseWebpackConfig, {
       unacceptablePattern: /GPL/,
       abortOnUnacceptableLicense: true
     }),
-    new SWPrecacheWebpackPlugin(require('../sw-precache-config.js'))
+    new SWPrecacheWebpackPlugin(require('../sw-precache-config.js')),
+    new Visualizer()
   ]
 })
 
