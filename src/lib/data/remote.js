@@ -117,7 +117,7 @@ export const get_geodata = ({slug, level, cache}) => {
   ]
 
   let options = {
-    timeout: 20000
+    timeout: 300000
   }
 
   return Promise.all(urls.map(url => standard_handler(url, options)))
