@@ -243,15 +243,20 @@
         }
       },
       remove_target_areas() {
-        this._map.removeLayer('selected')
-        this._map.removeLayer('unselected')
-        this._map.removeLayer('bulk_selected')
-        this._map.removeLayer('bulk_unselected')
+        if (this._map.getLayer('selected'))
+          this._map.removeLayer('selected')
+        if (this._map.getLayer('unselected'))
+          this._map.removeLayer('unselected')
+        if (this._map.getLayer('bulk_selected'))
+          this._map.removeLayer('bulk_selected')
+        if (this._map.getLayer('bulk_unselected'))
+          this._map.removeLayer('bulk_unselected')
       },
       redraw_target_areas() {
         if (this.geodata_ready) {
           this.remove_target_areas()
           this.add_target_areas()
+          this.add_draw_controls()
         }
       },
       refilter_target_areas() {
@@ -299,6 +304,7 @@
         this.$store.commit('irs_plan/add_selected_target_areas', selected_areas)
 
         this.draw.deleteAll()
+        this.add_draw_controls() // removes draw_controls to start
         this.add_map_listeners() // Restore click-handler
         this.refilter_target_areas()
       },
