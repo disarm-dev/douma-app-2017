@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Review</h2>
+    <h2>Form validation</h2>
     <p>Validation count: {{validations.errors.length}} errors, {{validations.warnings.length}} warnings</p>
 
     <div v-if="validations.errors.length > 0">
