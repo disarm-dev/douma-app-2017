@@ -98,8 +98,7 @@ export default {
 
       return create_plan(plan)
         .then(res => {
-          let {_id, planned_at} = plan
-          context.commit('set_plan', {_id, planned_at})
+          context.commit('set_plan', plan)
           context.commit('set_unsaved_changes', false)
         })
     },
@@ -108,11 +107,13 @@ export default {
       const field_name = context.rootState.instance_config.spatial_hierarchy[0].field_name
 
       return get_current_plan(country).then(plan => {
+
         if (plan.hasOwnProperty('targets') && plan.targets.length !== 0 ) {
           let target_areas = plan.targets.map(area => {
             return area[field_name]
           })
-          context.commit('set_plan', {_id, planned_at})
+
+          context.commit('set_plan', plan)
           context.commit('clear_plan')
           context.commit('add_selected_target_areas', target_areas)
           context.commit('set_unsaved_changes', false)
