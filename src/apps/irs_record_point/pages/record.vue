@@ -32,7 +32,7 @@
           :options="location_options"
           group-values="locations"
           group-label="category"
-          placeholder="Search location"
+          placeholder="Alternative location search"
           track-by="id"
           label="name">
           <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
