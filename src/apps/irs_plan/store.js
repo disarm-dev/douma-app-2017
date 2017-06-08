@@ -74,6 +74,7 @@ export default {
       state.areas_included_by_click = []
       state.areas_excluded_by_click = []
       state.bulk_selected_ids = []
+      // state.unsaved_changes = true
     }
   },
   actions: {
