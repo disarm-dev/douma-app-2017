@@ -32,11 +32,11 @@
         </div>
         <div v-if="user">
           <p @click="navigate('meta:home')">Logged in: {{user.name}}</p>
-          <p>Version hash: {{commit_hash}}</p>
         </div>
         <div v-else>
           <p>Nope, not logged in.</p>
         </div>
+        <p>Version hash: {{commit_hash}}</p>
       </md-toolbar>
 
       <md-list v-if='user'>
