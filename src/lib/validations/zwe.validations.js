@@ -4,7 +4,7 @@ export default [
     fn: (form_data) => {
       return true
     },
-    message: 'Total sprayed does not equl `ddt`+ `deltamethrin`.',
+    message: 'Total sprayed does not equal `ddt`+ `deltamethrin`.',
     relevant_questions: ['sprayed'],
     type: "warning"
   }
