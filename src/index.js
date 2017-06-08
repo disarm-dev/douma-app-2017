@@ -37,6 +37,6 @@ instance_config()
     add_network_status_watcher(douma_app)
 
     // Keep track of what version we're working on
-    console.info('🚀 🎯 Launching DOUMA version: ' + COMMIT_HASH)
+    console.info('🚀 Launching DOUMA version: ' + COMMIT_HASH)
   })
   .catch(err => console.error(err))
