@@ -37,7 +37,7 @@
     </div>
 
     <!-- Progress-->
-    <md-dialog ref="geodata_loading_modal">
+    <md-dialog ref="geodata_loading_modal" :md-click-outside-to-close="false">
       <md-dialog-title>Loading base layers</md-dialog-title>
 
       <md-dialog-content class="centred">
