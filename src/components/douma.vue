@@ -65,12 +65,16 @@
     </md-snackbar>
 
     <!-- DIALOG -->
-    <md-dialog-alert
-      :md-title="sw_message.title"
-      :md-content="sw_message.message"
-      md-ok-text="Ok"
-      ref="sw_dialog">
-    </md-dialog-alert>
+    <md-dialog ref="sw_dialog">
+      <md-dialog-title>{{sw_message.title}}</md-dialog-title>
+
+      <md-dialog-content>{{sw_message.message}}</md-dialog-content>
+
+      <md-dialog-actions>
+        <md-button class="md-primary" @click.native="reload">Refresh</md-button>
+        <md-button class="md-primary" @click.native="sw_dialog_close">Dismiss</md-button>
+      </md-dialog-actions>
+    </md-dialog>
 
 
     <!-- APPLET CONTAINER -->
@@ -146,11 +150,17 @@
       sw_dialog_open() {
         this.$refs.sw_dialog.open()
       },
+      sw_dialog_close() {
+        this.$refs.sw_dialog.close()
+      },
       snackbar_open() {
         this.$refs.snackbar.open()
       },
       snackbar_action() {
         this.$refs.snackbar.close()
+      },
+      reload() {
+        location.reload()
       },
       try_online() {
 

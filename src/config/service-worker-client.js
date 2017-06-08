@@ -19,7 +19,7 @@ export default (DOUMA) => {
               } else {
                 // At this point, everything has been precached.
                 // It's the perfect time to display a "Content is cached for offline use." message.
-                DOUMA.$store.commit("root:set_sw_message", {title: 'DiSARM can now go offline', message: "You can now go offline and use 'IRS Record'"})
+                DOUMA.$store.commit("root:set_snackbar", {message: "DiSARM can now go offline. You can now go offline and use 'IRS Record'"})
               }
               break;
 
