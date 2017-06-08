@@ -220,7 +220,8 @@
   }
 
   .location {
-    height: 300px;
+    overflow: visible;
+    z-index: 999;
   }
 
   .chip-holder {
