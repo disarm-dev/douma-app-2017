@@ -169,8 +169,8 @@
           type: 'fill',
           source: 'target_areas_source',
           paint: {
-            'fill-color': '#a6dba0',
-            'fill-opacity': 1,
+            'fill-color': '#df8ad9',
+            'fill-opacity': 0.7,
             'fill-outline-color': 'black'
           },
           filter: ['in', this.field_name].concat(this.bulk_selected_ids)
@@ -181,8 +181,8 @@
           type: 'fill',
           source: 'target_areas_source',
           paint: {
-            'fill-color': '#c2a5cf',
-            'fill-opacity': 1,
+            'fill-color': '#fff',
+            'fill-opacity': 0.5,
             'fill-outline-color': 'black'
           },
           filter: ['!in', this.field_name].concat(this.bulk_selected_ids)
@@ -193,8 +193,8 @@
           type: 'fill',
           source: 'target_areas_source',
           paint: {
-            'fill-color': '#008837',
-            'fill-opacity': 1,
+            'fill-color': '#de27da',
+            'fill-opacity': 0.7,
             'fill-outline-color': 'black'
           },
           filter: ['in', this.field_name].concat(this.areas_included_by_click)
@@ -205,8 +205,8 @@
           type: 'fill',
           source: 'target_areas_source',
           paint: {
-            'fill-color': '#7b3294',
-            'fill-opacity': 1,
+            'fill-color': '#a6a6a6',
+            'fill-opacity': 0.7,
             'fill-outline-color': 'black'
           },
           filter: ['in', this.field_name].concat(this.areas_excluded_by_click)
@@ -254,13 +254,16 @@
         }
 
         if (this.clusters_visible) {
+          const colour = 'yellow'
 
           this._map.addLayer({
             id: 'clusters',
-            type: 'line',
+            type: 'fill',
             source: 'clusters_source',
             paint: {
-              'line-color': 'yellow'
+              'fill-color': colour,
+              'fill-opacity': 0.9,
+              'fill-outline-color': colour
             },
           })
 
