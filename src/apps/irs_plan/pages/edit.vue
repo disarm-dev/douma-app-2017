@@ -1,6 +1,9 @@
 <template>
   <div class='container'>
     <h1>IRS Plan</h1>
+    <div v-if="current_plan">
+      <h4>Latest plan from {{current_plan}}</h4>
+    </div>
     <div v-if="online">
       <md-checkbox v-model="edit_mode" :disabled="edit_disabled">Edit mode</md-checkbox>
 
@@ -27,6 +30,7 @@
 
 <script>
   import {mapState, mapGetters} from 'vuex'
+  import moment from 'moment'
 
   import plan_summary from './plan-summary.vue'
   import plan_map from './plan-map.vue'
@@ -47,6 +51,11 @@
         denominator_def: state => state.instance_config.spatial_hierarchy[0],
         slug: state => state.instance_config.slug,
         unsaved_changes: state => state.irs_plan.unsaved_changes,
+        current_plan: state =>  {
+          if (state.irs_plan.current_plan) {
+            return moment(state.irs_plan.current_plan.planned_at).format('hh:mm a DD MMM YYYY')
+          }
+        },
         online: state => state.network_online
       }),
       ...mapGetters({

@@ -6,6 +6,7 @@ import cache from '@/lib/cache.js'
 export default {
   namespaced: true,
   state: {
+    current_plan: null,
     areas_included_by_click: [],
     areas_excluded_by_click: [],
     bulk_selected_ids: [],
@@ -75,6 +76,9 @@ export default {
       state.areas_excluded_by_click = []
       state.bulk_selected_ids = []
       // state.unsaved_changes = true
+    },
+    'set_plan': (state, plan) => {
+      state.current_plan = plan
     }
   },
   actions: {
@@ -97,6 +101,8 @@ export default {
       const field_name = context.rootState.instance_config.spatial_hierarchy[0].field_name
 
       return get_current_plan(country).then(plan => {
+        let {_id, planned_at} = plan
+        context.commit('set_plan', {_id, planned_at})
         if (plan.hasOwnProperty('targets') && plan.targets.length !== 0 ) {
           let target_areas = plan.targets.map(area => {
             return area[field_name]
