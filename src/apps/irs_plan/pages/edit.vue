@@ -1,6 +1,7 @@
 <template>
   <div class='container'>
     <h1>IRS Plan</h1>
+
     <div v-if="online">
       <md-checkbox v-model="edit_mode" :disabled="edit_disabled">Edit mode</md-checkbox>
 
@@ -18,10 +19,24 @@
         <plan_summary :geodata_ready="geodata_ready"></plan_summary>
       </md-card-content></md-card>
     </div>
+
+    <!-- Offline -->
     <div v-else>
       <h3>Plan only available with a network connection.</h3>
     </div>
 
+    <!-- Progress-->
+    <md-dialog ref="geodata_loading_modal">
+      <md-dialog-title>Loading base layers</md-dialog-title>
+
+      <md-dialog-content class="centred">
+        <md-spinner :md-progress="geodata_loading_progress"></md-spinner>
+      </md-dialog-content>
+
+      <md-dialog-actions>
+        <md-button :disabled='!geodata_ready' class="md-primary" @click.native="$refs.geodata_loading_modal.close()">Start planning!</md-button>
+      </md-dialog-actions>
+    </md-dialog>
   </div>
 </template>
 
@@ -39,7 +54,7 @@
       return {
         geodata_ready: false,
         edit_mode: false,
-        edit_disabled: true
+        edit_disabled: true,
       }
     },
     computed: {
@@ -47,7 +62,8 @@
         denominator_def: state => state.instance_config.spatial_hierarchy[0],
         slug: state => state.instance_config.slug,
         unsaved_changes: state => state.irs_plan.unsaved_changes,
-        online: state => state.network_online
+        online: state => state.network_online,
+        geodata_loading_progress: state => state.irs_plan.geodata_loading_progress
       }),
       ...mapGetters({
         selected_target_area_ids: 'irs_plan/all_selected_area_ids'
@@ -57,17 +73,28 @@
       }
     },
     mounted() {
-      this.$store.commit('root:set_loading', true)
-      this.$store.dispatch('irs_plan/get_geodata', {slug: this.slug, level: this.denominator_def.name, cache})
-        .then(() => {
-          this.$store.commit('root:set_loading', false)
-          this.geodata_ready = true
-        })
-        .catch(() => {
-          this.$store.commit('root:set_loading', false)
-        })
+      this.load_geo_data()
     },
     methods: {
+      load_geo_data() {
+        this.$store.commit('root:set_loading', true)
+        this.$store.dispatch('irs_plan/get_geodata', {slug: this.slug, level: this.denominator_def.name, cache: cache, store: this.$store})
+          .then(() => {
+            this.$store.commit('root:set_loading', false)
+            this.geodata_ready = true
+          })
+          .catch(() => {
+            this.$store.commit('root:set_loading', false)
+          })
+
+        // Only show progress modal if request taking more than 2 secs
+        // (i.e. probably not coming from SW/browser cache
+        setTimeout(() => {
+          if (!this.geodata_ready) {
+            this.$refs.geodata_loading_modal.open()
+          }
+        }, 1000)
+      },
       load_plan() {
         this.$store.commit('root:set_loading', true)
 
@@ -119,6 +146,10 @@
 
   .card {
     margin-top: 10px;
+  }
+
+  .centred {
+    margin: 0 auto;
   }
 
   .md-chip {

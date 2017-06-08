@@ -6,6 +6,7 @@ import cache from '@/lib/cache.js'
 export default {
   namespaced: true,
   state: {
+    geodata_loading_progress: 0,
     areas_included_by_click: [],
     areas_excluded_by_click: [],
     bulk_selected_ids: [],
@@ -30,6 +31,9 @@ export default {
     },
   },
   mutations: {
+    'set_geodata_loading_progress': (state, progress) => {
+      state.geodata_loading_progress = progress
+    },
     "toggle_selected_target_area_id": (state, target_area_id) => {
       if (state.areas_included_by_click.includes(target_area_id)) {
         // remove target area from included
@@ -107,8 +111,8 @@ export default {
         }
       })
     },
-    'get_geodata': (context, {slug, level, cache}) => {
-      return get_geodata({slug, level, cache})
+    'get_geodata': (context, options) => {
+      return get_geodata(options)
     }
   }
 }
