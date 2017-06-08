@@ -2,19 +2,30 @@
   <div class='container'>
     <h1>IRS Plan</h1>
 
+    <h4>
+      {{title}} plan {{current_plan_date ? `from ${current_plan_date}` : ''}}
+    </h4>
+
     <div v-if="online">
+      <!--SELECT MODE-->
       <md-checkbox v-model="edit_mode" :disabled="edit_disabled">Edit mode</md-checkbox>
 
-      <!--VIEW ONLY-->
-      <md-button v-if='!edit_mode' :disabled='!geodata_ready' class='md-raised' @click.native="load_plan">Load</md-button>
+      <!--VIEW MODE-->
+      <md-button v-if='!edit_mode' :disabled='!geodata_ready' class='md-raised' @click.native="load_plan">Load from remote</md-button>
 
       <!--EDIT MODE-->
       <md-button v-if='edit_mode' :disabled="!unsaved_changes" class='md-raised md-primary' @click.native="save_plan">Save</md-button>
       <md-button v-if='edit_mode' :disabled="!unsaved_changes" class='md-raised md-warn' @click.native="load_plan">Cancel edits</md-button>
       <md-button v-if='edit_mode' :disabled='!can_clear' class='md-raised' @click.native="clear_plan">Clear plan</md-button>
 
-      <plan_map :geodata_ready="geodata_ready" :edit_mode="edit_mode" v-on:map_loaded="edit_disabled = false"></plan_map>
+      <!--PLAN MAP-->
+      <md-card>
+        <md-card-content>
+          <plan_map :geodata_ready="geodata_ready" :edit_mode="edit_mode" v-on:map_loaded="edit_disabled = false"></plan_map>
+        </md-card-content>
+      </md-card>
 
+      <!--PLAN SUMMARY-->
       <md-card class="card"><md-card-content>
         <plan_summary :geodata_ready="geodata_ready"></plan_summary>
       </md-card-content></md-card>
@@ -42,6 +53,7 @@
 
 <script>
   import {mapState, mapGetters} from 'vuex'
+  import moment from 'moment'
 
   import plan_summary from './plan-summary.vue'
   import plan_map from './plan-map.vue'
@@ -63,11 +75,21 @@
         slug: state => state.instance_config.slug,
         unsaved_changes: state => state.irs_plan.unsaved_changes,
         online: state => state.network_online,
-        geodata_loading_progress: state => state.irs_plan.geodata_loading_progress
+        geodata_loading_progress: state => state.irs_plan.geodata_loading_progress,
+        current_plan_date: state =>  {
+          if (state.irs_plan.current_plan) {
+            return moment(state.irs_plan.current_plan.planned_at).format('hh:mm a DD MMM YYYY')
+          }
+        },
       }),
       ...mapGetters({
         selected_target_area_ids: 'irs_plan/all_selected_area_ids'
       }),
+      title() {
+        if (!this.edit_mode) return "View"
+        if (this.edit_mode && !this.current_plan_date) return "Create"
+        if (this.edit_mode && this.current_plan_date) return "Edit"
+       },
       can_clear() {
         return this.selected_target_area_ids.length !== 0
       }

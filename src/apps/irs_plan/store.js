@@ -7,6 +7,7 @@ export default {
   namespaced: true,
   state: {
     geodata_loading_progress: 0,
+    current_plan: null,
     areas_included_by_click: [],
     areas_excluded_by_click: [],
     bulk_selected_ids: [],
@@ -78,7 +79,11 @@ export default {
       state.areas_included_by_click = []
       state.areas_excluded_by_click = []
       state.bulk_selected_ids = []
+      state.plan = null
       // state.unsaved_changes = true
+    },
+    'set_plan': (state, plan) => {
+      state.current_plan = plan
     }
   },
   actions: {
@@ -93,6 +98,8 @@ export default {
 
       return create_plan(plan)
         .then(res => {
+          let {_id, planned_at} = plan
+          context.commit('set_plan', {_id, planned_at})
           context.commit('set_unsaved_changes', false)
         })
     },
@@ -105,6 +112,7 @@ export default {
           let target_areas = plan.targets.map(area => {
             return area[field_name]
           })
+          context.commit('set_plan', {_id, planned_at})
           context.commit('clear_plan')
           context.commit('add_selected_target_areas', target_areas)
           context.commit('set_unsaved_changes', false)
