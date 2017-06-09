@@ -7,15 +7,18 @@ export default Line.extend({
   watch: {
     'responses': 'render_chart'
   },
+  mounted() {
+    this.render_chart()
+  },
   methods: {
     render_chart() {
-      console.log("Structures sprayed %")
-      console.log('TODO: @data THIS IS FAKE DATA. FIX ME')
+      // console.log("Structures sprayed %")
+      // console.log('TODO: @data THIS IS FAKE DATA. FIX ME')
 
-      let weeks = this.get_weeks()
+      // let weeks = this.get_weeks()
 
       this.renderChart({
-        labels: weeks.map((week) => 'Week ' + week),
+        labels: ['Week 1', "Week 2", "Week 3", "Week 4", "Week 5"],
         datasets: [
           {
             label: '% covered',
@@ -23,7 +26,7 @@ export default Line.extend({
             fill: false,
             borderColor: '#EF5350',
             lineTension: 0,
-            data: weeks.map(week => this.get_data_for_week(week))
+            data: [12, 20, 35, 67, 80]
           }
         ]
       }, {
@@ -45,22 +48,22 @@ export default Line.extend({
         }
       })
     },
-    get_weeks() {
-      return this.responses
-      .reduce((acc, response) => {
-        if (!acc.includes(response.week)) {
-          acc.push(response.week)
-        }
-        return acc
-      }, []).sort()
-    },
-    get_data_for_week(week) {
-      let responses = this.responses.filter(response => response.week === week)
+    // get_weeks() {
+    //   return this.responses
+    //   .reduce((acc, response) => {
+    //     if (!acc.includes(response.week)) {
+    //       acc.push(response.week)
+    //     }
+    //     return acc
+    //   }, []).sort()
+    // },
+    // get_data_for_week(week) {
+    //   let responses = this.responses.filter(response => response.week === week)
       
-      let res = Aggregations['structures sprayed %'](responses, this.denominator)
-      // debugger
-      return res
-    }
+    //   let res = Aggregations['structures sprayed %'](responses, this.denominator)
+    //   // debugger
+    //   return res
+    // }
 
   }
 })
