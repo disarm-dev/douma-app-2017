@@ -254,7 +254,7 @@
         }
 
         if (this.clusters_visible) {
-          const colour = 'yellow'
+          const colour = '#ff8a21'
 
           this._map.addLayer({
             id: 'clusters',
