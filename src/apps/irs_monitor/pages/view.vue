@@ -23,14 +23,14 @@ k<template>
         </md-card-content>
       </md-card>
 
-      <md-card class="card" v-if="online">
+      <md-card class="card">
         <md-card-content>
           <map_progress :responses="responses" :denominator="denominator"></map_progress>
         </md-card-content>
       </md-card>
-      <div v-else>
+      <!-- <div v-else>
         <h3>Map only available with a network connection.</h3>
-      </div>
+      </div> -->
 
       <h2>Charts below use static data only</h2>
       <md-card v-for="component in components" :key="component.name" class="card" :ref="component.name" :class="{'card-half-width': component.width_constraint == 'half'}">
@@ -79,6 +79,12 @@ k<template>
    import bwa_chart_refusal_pie from './bwa/bwa_chart_refusal_pie'
    import bwa_map_progress_locations from './bwa/bwa_map_progress_locations'
 
+   // ZWE
+
+   import zwe_chart_prop_room_sprayed from './zwe/zwe_chart_prop_room_sprayed'
+   import zwe_chart_prop_people_covered from './zwe/zwe_chart_prop_people_covered'
+   import zwe_chart_refusal_pie from './zwe/zwe_chart_refusal_pie'
+
   export default {
     name: 'MonitorDashboard',
     components: {
@@ -105,7 +111,12 @@ k<template>
       bwa_chart_prop_room_sprayed,
       bwa_chart_prop_people_covered,
       bwa_chart_refusal_pie,
-      bwa_map_progress_locations
+      bwa_map_progress_locations,
+
+      // ZWE
+      zwe_chart_prop_room_sprayed,
+      zwe_chart_prop_people_covered,
+      zwe_chart_refusal_pie
 
     },
     filters: {
@@ -172,13 +183,13 @@ k<template>
 
   .card {
     display: inline-block;
-    /*margin: 2.5%;*/
+    margin: 2.5%;
     padding: 1em;
     flex: 1;
-    width: 100%;
+    width: 95%;
   }
 
   .card-half-width {
-    width: 50%;
+    width: 45%;
   }
 </style>

@@ -4,12 +4,24 @@
       "components": [
         {
           "height_constraint": "none",
-          "name": "line_chart",
+          "name": "zwe_chart_prop_room_sprayed",
+          "width_constraint": "half"
+        },
+        {
+          "height_constraint": "none",
+          "name": "zwe_chart_prop_people_covered",
+          "width_constraint": "half"
+        },
+        {
+          "height_constraint": "none",
+          "name": "zwe_chart_refusal_pie",
           "width_constraint": "half"
         }
       ]
     },
-    "irs_plan": {},
+    "irs_plan": {
+      "number_of_structures": "NumHouseho"
+    },
     "irs_record_point": {},
     "meta": {}
   },

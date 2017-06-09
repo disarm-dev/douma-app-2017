@@ -29,7 +29,9 @@
         }
       ]
     },
-    "irs_plan": {},
+    "irs_plan": {
+      "number_of_structures": "NmStrct"
+    },
     "irs_record_point": {},
     "meta": {}
   },

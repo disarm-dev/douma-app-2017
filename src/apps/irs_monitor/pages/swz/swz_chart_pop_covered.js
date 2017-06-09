@@ -5,24 +5,27 @@ import Aggregations from '@/lib/aggregations/swz.aggregations'
 export default Line.extend({
   props: ['responses', 'denominator'],
   watch: {
-    'responses': 'render_chart'
+    // 'responses': 'render_chart'
+  },
+  mounted() {
+    this.render_chart()
   },
   methods: {
     render_chart() {
       console.log('TODO: @data THIS IS FAKE DATA. FIX ME')
 
-      let weeks = this.get_weeks()
+      // let weeks = this.get_weeks()
 
       this.renderChart({
-        labels: weeks.map((week) => 'Week ' + week),
+        labels: ['Week 1', "Week 2", "Week 3", "Week 4", "Week 5"],
         datasets: [
           {
-            label: '% covered',
+            label: '% found',
             // backgroundColor: 'transparent',
             fill: false,
             borderColor: '#EF5350',
             lineTension: 0,
-            data: weeks.map(week => this.get_data_for_week(week))
+            data: [20, 34, 56, 70, 85]
           }
         ]
       }, {
@@ -44,20 +47,20 @@ export default Line.extend({
         }
       })
     },
-    get_weeks() {
-      return this.responses
-      .reduce((acc, response) => {
-        if (!acc.includes(response.week)) {
-          acc.push(response.week)
-        }
-        return acc
-      }, []).sort()
-    },
-    get_data_for_week(week) {
-      let responses = this.responses.filter(response => response.week === week)
+    // get_weeks() {
+    //   return this.responses
+    //   .reduce((acc, response) => {
+    //     if (!acc.includes(response.week)) {
+    //       acc.push(response.week)
+    //     }
+    //     return acc
+    //   }, []).sort()
+    // },
+    // get_data_for_week(week) {
+    //   let responses = this.responses.filter(response => response.week === week)
       
-      return Aggregations['structures found %'](responses, this.denominator)
-    }
+    //   return Aggregations['structures found %'](responses, this.denominator)
+    // }
 
   }
 })
