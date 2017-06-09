@@ -9,7 +9,9 @@
         }
       ]
     },
-    "irs_plan": {},
+    "irs_plan": {
+      "number_of_structures": "NumHouseho"
+    },
     "irs_record_point": {},
     "meta": {}
   },
