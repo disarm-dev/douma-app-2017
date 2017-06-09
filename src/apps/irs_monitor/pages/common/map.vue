@@ -52,7 +52,7 @@
 
         if (this._buildings_layer) { 
           this._map.removeLayer(this._buildings_layer)
-          this.this._buildings_layer = null
+          this._buildings_layer = null
         }
 
         const instance_translations = new Translations[this.instance_config.slug](this.instance_config)
