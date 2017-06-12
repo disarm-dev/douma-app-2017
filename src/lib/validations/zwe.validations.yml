@@ -1,0 +1,5 @@
+type: "warning"
+validations:
+  - name: total_sprayed
+    expression: 
+    message: Total sprayed does not equal `ddt`+ `deltamethrin`.

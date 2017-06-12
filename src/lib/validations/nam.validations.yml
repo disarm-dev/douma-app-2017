@@ -1,0 +1,13 @@
+type: warning
+validations:
+  - name: total_sprayed_structures
+    expression: (sprayable_unsprayed === 'yes') ||  (numbersprayed_ddt + numbersprayed_delta == number_sprayable)
+    message: Total sprayed does not equal `ddt`+ `deltamethrin`.
+  
+  - name: sprayable_unsprayed
+    expression: (sprayable_unsprayed === 'no') || (number_sprayable === (numbersprayed_ddt + numbersprayed_delta + number_unsprayed))
+    message: Number of structures doesn't add up
+  
+  - name: high_number_of_sprayed
+    expression: (sprayable === 'yes') && number_sprayable < 20
+    message: Number of sprayable structures seems high. Please check the value.
