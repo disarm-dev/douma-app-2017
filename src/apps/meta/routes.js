@@ -5,6 +5,7 @@ import logout from './pages/logout.vue'
 
 import location from './pages/location_debug.vue'
 import building from './pages/building_debug.vue'
+import validations from './pages/validations.vue'
 
 export default [
   {
@@ -37,5 +38,9 @@ export default [
     path: '/meta/building',
     component: building,
     name: 'meta:building'
+  },{
+    path: '/meta/validations',
+    component: validations,
+    name: 'meta:validations'
   }
 ]
