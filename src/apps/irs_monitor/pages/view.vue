@@ -49,7 +49,6 @@ k<template>
 <script>
   import numeral from 'numeral'
   import moment from 'moment'
-  import mapboxgl from 'mapbox-gl'
   import {mapState} from 'vuex'
 
   // Common components
