@@ -1,14 +1,17 @@
 type: warning
 validations:
   - name: more_sprayed_than_total
+    precondition: 
     expression: number_of_structures_sprayed <= number_structures_total
     message: There are more structures sprayed than total structures.
 
   - name: total_sprayed
-    expression: (any_structures_unsprayed === 'no') &&  (number_structures_total === number_of_structures_sprayed)
+    precondition: any_structures_unsprayed === 'no' 
+    expression: number_structures_total === number_of_structures_sprayed
     message: Total structures does not equal structures sprayed.
 
   - name: total_sprayed_and_unsprayed
-    expression: (any_structures_unsprayed === 'yes') && (number_structures_total === (number_of_structures_sprayed + n_rooms_baby + n_rooms_food + n_rooms_funeral + n_rooms_kitchen + n_rooms_locked + n_rooms_material + n_rooms_nobody + n_rooms_other + n_rooms_patient + n_rooms_refused))
+    precondition: any_structures_unsprayed === 'yes' 
+    expression: number_structures_total === (number_of_structures_sprayed + n_rooms_baby + n_rooms_food + n_rooms_funeral + n_rooms_kitchen + n_rooms_locked + n_rooms_material + n_rooms_nobody + n_rooms_other + n_rooms_patient + n_rooms_refused)
     message: Total structures does not equal structures sprayed and number of structures unsprayed.
-    
+

@@ -1,5 +1,6 @@
 type: "warning"
 validations:
   - name: total_sprayed
-    expression: 
+    precondition:
+    expression:
     message: Total sprayed does not equal `ddt`+ `deltamethrin`.
