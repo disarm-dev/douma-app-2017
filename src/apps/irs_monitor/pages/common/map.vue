@@ -11,15 +11,16 @@
     data() {
       return {
         _map: null,
-        _instance_translations: null
+        _instance_translations: null,
+        map_loaded: false
       }
     },
     watch: {
-      'responses': 'add_records'
+      'responses': 'update_records'
     },
     computed: {
       feature_collection() {
-        let points = this.responses.map((response) =>{
+        let points = this.responses.map((response) => {
           let {latitude, longitude} = response.location.coords
           let point = TurfHelpers.point([longitude, latitude])
           /* 
@@ -49,52 +50,59 @@
           center: [22.63977015806131, -25.276453102086563],
           zoom: 4
         });
-
-        this.add_records()
-        this.bind_popup()
+        this._map.on('load', () => {
+          this.map_loaded = true
+          this.add_records()
+          this.bind_popup()
+        })
+      },
+      update_records() {
+        if (this.map_loaded) {
+          this.add_records()
+        } else {
+          this._map.on('load', () => {
+            this.add_records()
+          })
+        }
       },
       add_records() {
-        this._map.on('load', () => {
-          if (this.responses.length === 0) return
+        if (this.responses.length === 0) return
 
-          if (this._map.getLayer('records')) { 
-            this._map.removeLayer('records')
-          }
+        if (this._map.getLayer('records')) { 
+          this._map.removeLayer('records')
+        }
 
-          if (this._map.getSource('records')) { 
-            this._map.removeSource('records')
-          }
-
-          const instance_translations = new Translations[this.instance_config.slug](this.instance_config)
-
-          this._map.addLayer({
-            id: 'records',
-            type: 'circle',
-            source: {
-              type: 'geojson',
-              data: this.feature_collection
+        if (this._map.getSource('records')) { 
+          this._map.removeSource('records')
+        }
+        
+        this._map.addLayer({
+          id: 'records',
+          type: 'circle',
+          source: {
+            type: 'geojson',
+            data: this.feature_collection
+          },
+          paint: {
+            'circle-radius': {
+              'base': 1.75,
+              'stops': [[8, 10], [22, 100]]
             },
-            paint: {
-              'circle-radius': {
-                'base': 1.75,
-                'stops': [[8, 10], [22, 100]]
-              },
-              'circle-stroke-width': 1,
-              'circle-stroke-color': '#959292',
-              ...instance_translations.getMapStyle()
-            }
-          })
-
-          // TODO: @refac There must be a better way to fit bounds of the map
-
-          const bounds = new mapboxgl.LngLatBounds();
-
-          this.feature_collection.features.forEach(function(feature) {
-              bounds.extend(feature.geometry.coordinates);
-          });
-
-          this._map.fitBounds(bounds);
+            'circle-stroke-width': 1,
+            'circle-stroke-color': '#959292',
+            ...this._instance_translations.getMapStyle()
+          }
         })
+
+        // TODO: @refac There must be a better way to fit bounds of the map
+
+        const bounds = new mapboxgl.LngLatBounds();
+
+        this.feature_collection.features.forEach(function(feature) {
+            bounds.extend(feature.geometry.coordinates);
+        });
+
+        this._map.fitBounds(bounds);
       },
       bind_popup() {
         this._map.on('click', (e) => {
