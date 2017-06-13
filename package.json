@@ -31,8 +31,6 @@
     "geoposition-to-object": "^1.0.2",
     "jquery": "^3.2.1",
     "json2csv": "^3.7.3",
-    "leaflet": "^1.0.3",
-    "leaflet.locatecontrol": "^0.60.0",
     "lodash.debounce": "^4.0.8",
     "lodash.defer": "^4.1.0",
     "lodash.pick": "^4.4.0",
