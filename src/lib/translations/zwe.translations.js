@@ -17,11 +17,6 @@ export default class extends Base {
         ]
       }
     }
-    let {sprayed} = feature.properties.form_data
-    return {
-      color: sprayed === '1' ? 'green' : 'orange',
-      weight: 0.8
-    }
   }
 
   getPopupDescription(feature) {
