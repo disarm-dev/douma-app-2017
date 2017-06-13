@@ -121,7 +121,7 @@ k<template>
 
         // Debug
         filters_on: false,
-        denominator: {population: 500, structures_targeted: 150},
+        denominator: {population: 500, structures_targeted: 15, number_of_households: 15},
       }
     },
     computed: {

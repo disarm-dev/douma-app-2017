@@ -1,5 +1,11 @@
 <template>
-  <div id="map"></div>
+  <div>
+    <div>
+      <md-button class="md-raised" @click.native="add_areas_by_risk">Show areas by risk</md-button>
+      <md-button class="md-raised" @click.native="add_areas_by_coverage">Show areas by spray coverage</md-button>
+    </div>
+    <div id="map"></div>
+  </div>
 </template>
 <script>
   import mapboxgl from 'mapbox-gl'
@@ -7,6 +13,7 @@
   import Translations from '@/lib/translations'
   import {get_area} from '@/lib/data/remote'
   import logscale from '@/lib/log_scale.js'
+  import AllAggregations from '@/lib/aggregations'
 
   export default {
     props: ['responses', 'denominator', 'area'],
@@ -14,7 +21,8 @@
       return {
         _map: null,
         _instance_translations: null,
-        map_loaded: false
+        map_loaded: false,
+        areas: null
       }
     },
     watch: {
@@ -55,8 +63,8 @@
         this._map.on('load', () => {
           this.map_loaded = true
           this.add_records()
-          this.add_area()
           this.bind_popup()
+          this.get_areas()
         })
       },
       update_records() {
@@ -105,7 +113,7 @@
             bounds.extend(feature.geometry.coordinates);
         });
 
-        this._map.fitBounds(bounds);
+        this._map.fitBounds(bounds, {padding: 20});
       },
       bind_popup() {
         this._map.on('click', (e) => {
@@ -120,10 +128,10 @@
 
         })
       },
-      add_area() {
+      get_areas() {
         let area_type
         if (this.area) {
-          console.log('Got an area, need to do something')
+          // console.log('Got an area, need to do something')
         } else {
           // take the first spatial_hierarchy
           area_type = this.instance_config.spatial_hierarchy[0].name
@@ -132,51 +140,125 @@
 
         get_area({slug: this.instance_config.slug, level: area_type})
           .then((areas) => {
-            this.get_log_values(areas)
-
-            let features = areas.features.map((feature) => {
-              feature.properties.risk = this.log_scale(feature.properties.risk)
-              return feature
-            })
-
-            let fc = {
-              type: 'FeatureCollection',
-              features
-            }
-
-            this._map.addLayer({
-              id: 'areas',
-              type: 'fill',
-              source: {
-                type: 'geojson',
-                data: fc
-              },
-              paint: {
-                'fill-color': {
-                  property: 'risk',
-                  stops: [
-                    [0, '#F2F12D'],
-                    [10, '#F2F12D'],
-                    [20, '#F2F12D'],
-                    [30, '#EED322'],
-                    [40, '#E6B71E'],
-                    [50, '#DA9C20'],
-                    [60, '#CA8323'],
-                    [70, '#B86B25'],
-                    [80, '#A25626'],
-                    [90, '#8B4225'],
-                    [100, '#723122']
-                  ]
-                },
-                'fill-opacity': 0.7,
-                'fill-outline-color': 'black'
-              }
-            }, 'records')
-
+            this.areas = areas
           })
           .catch((e) => {
             console.log(e)
           })
+        
+      },
+      add_areas_by_risk() {
+        this.clear_map()
+
+        this.get_log_values(this.areas)
+
+        let features = this.areas.features.map((feature) => {
+          feature.properties.normalised_risk = this.log_scale(feature.properties.risk)
+          return feature
+        })
+
+        let fc = {
+          type: 'FeatureCollection',
+          features
+        }
+
+        this._map.addLayer({
+          id: 'areas_by_risk',
+          type: 'fill',
+          source: {
+            type: 'geojson',
+            data: fc
+          },
+          paint: {
+            'fill-color': {
+              property: 'normalised_risk',
+              // TODO: @feature Use a different palette
+              stops: [
+                [0, '#F2F12D'],
+                [10, '#F2F12D'],
+                [20, '#F2F12D'],
+                [30, '#EED322'],
+                [40, '#E6B71E'],
+                [50, '#DA9C20'],
+                [60, '#CA8323'],
+                [70, '#B86B25'],
+                [80, '#A25626'],
+                [90, '#8B4225'],
+                [100, '#723122']
+              ]
+            },
+            'fill-opacity': 0.7,
+            'fill-outline-color': 'black'
+          }
+        }, 'records')
+      },
+      add_areas_by_coverage() {
+        this.clear_map()
+
+        let area_field_name = this.instance_config.spatial_hierarchy[0].field_name
+        
+
+        let features = this.areas.features.map((feature) => {
+          feature.properties.coverage = this.get_coverage_for_local_area(feature, area_field_name)
+          // feature.properties.risk = this.log_scale(feature.properties.risk)
+          return feature
+        })
+        let fc = {
+          type: 'FeatureCollection',
+          features
+        }
+
+        this._map.addLayer({
+          id: 'areas_by_coverage',
+          type: 'fill',
+          source: {
+            type: 'geojson',
+            data: fc
+          },
+          paint: {
+            'fill-color': {
+              property: 'coverage',
+              // TODO: @feature Use a different palette
+              stops: [
+                [0, '#f44336'],
+                [10, '#e34e39'],
+                [20, '#d2593b'],
+                [30, '#c2633e'],
+                [40, '#b16e40'],
+                [50, '#a07943'],
+                [60, '#8f8446'],
+                [70, '#7e8f48'],
+                [80, '#6e994b'],
+                [90, '#5da44d'],
+                [100, '#4caf50']
+              ]
+            },
+            'fill-opacity': 0.7,
+            'fill-outline-color': 'black'
+          }
+        }, 'records')
+      },
+      get_coverage_for_local_area(area, field_name) {
+        let responses_for_area = this.responses.filter((res) => {
+          return res.location_selection.id === area.properties[field_name]
+        })
+
+        let aggregations = AllAggregations[this.instance_config.slug]
+
+        let aggregation = aggregations[this.instance_config.applets.irs_monitor.aggregation_for_map]
+
+        // console.log('area', area.properties[field_name], responses_for_area.length)
+        let coverage = aggregation(responses_for_area, this.denominator)
+
+        coverage = parseFloat(coverage.substring(0, coverage.length -1))
+
+        
+        if (coverage !== 0) {
+          console.log('area', field_name, area.properties[field_name])
+          console.log('coverage', coverage)
+        }
+
+        return coverage
       },
       get_log_values(areas) {
         const values_array = areas.features.map(area => area.properties.risk).sort()
@@ -188,9 +270,21 @@
 
         this.log_scale = logscale(mino, maxo)
 
-        // TODO: @refac Move to tests
+        console.log('// TODO: @refac Move to tests')
         console.log('min should be 0', this.log_scale(mino))
         console.log('max should be 100', this.log_scale(maxo))
+      },
+      clear_map() {
+        ['areas_by_coverage', 'areas_by_risk'].forEach((id) => {
+          if (this._map.getLayer(id)) { 
+            this._map.removeLayer(id)
+          }
+
+          if (this._map.getSource(id)) { 
+            this._map.removeSource(id)
+          }
+        })
+         
       }
     }
   }

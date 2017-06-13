@@ -1,6 +1,7 @@
 {
   "applets": {
     "irs_monitor": {
+      "aggregation_for_map": "structures sprayed %",
       "components": [
         {
           "height_constraint": "viewport",

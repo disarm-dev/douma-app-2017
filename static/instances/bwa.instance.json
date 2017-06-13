@@ -1,6 +1,7 @@
 {
   "applets": {
     "irs_monitor": {
+      "aggregation_for_map": "number of rooms sprayed (total)",
       "components": [
         {
           "height_constraint": "none",
