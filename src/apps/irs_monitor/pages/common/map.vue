@@ -5,9 +5,11 @@
   import mapboxgl from 'mapbox-gl'
   import TurfHelpers from '@turf/helpers'
   import Translations from '@/lib/translations'
+  import {get_area} from '@/lib/data/remote'
+  import logscale from '@/lib/log_scale.js'
 
   export default {
-    props: ['responses', 'denominator'],
+    props: ['responses', 'denominator', 'area'],
     data() {
       return {
         _map: null,
@@ -53,6 +55,7 @@
         this._map.on('load', () => {
           this.map_loaded = true
           this.add_records()
+          this.add_area()
           this.bind_popup()
         })
       },
@@ -75,7 +78,7 @@
         if (this._map.getSource('records')) { 
           this._map.removeSource('records')
         }
-        
+
         this._map.addLayer({
           id: 'records',
           type: 'circle',
@@ -116,9 +119,80 @@
           }
 
         })
+      },
+      add_area() {
+        let area_type
+        if (this.area) {
+          console.log('Got an area, need to do something')
+        } else {
+          // take the first spatial_hierarchy
+          area_type = this.instance_config.spatial_hierarchy[0].name
+          console.warn('Using the first spatial spatial_hierarchy for instance:', area_type)
+        }
+
+        get_area({slug: this.instance_config.slug, level: area_type})
+          .then((areas) => {
+            this.get_log_values(areas)
+
+            let features = areas.features.map((feature) => {
+              feature.properties.risk = this.log_scale(feature.properties.risk)
+              return feature
+            })
+
+            let fc = {
+              type: 'FeatureCollection',
+              features
+            }
+
+            this._map.addLayer({
+              id: 'areas',
+              type: 'fill',
+              source: {
+                type: 'geojson',
+                data: fc
+              },
+              paint: {
+                'fill-color': {
+                  property: 'risk',
+                  stops: [
+                    [0, '#F2F12D'],
+                    [10, '#F2F12D'],
+                    [20, '#F2F12D'],
+                    [30, '#EED322'],
+                    [40, '#E6B71E'],
+                    [50, '#DA9C20'],
+                    [60, '#CA8323'],
+                    [70, '#B86B25'],
+                    [80, '#A25626'],
+                    [90, '#8B4225'],
+                    [100, '#723122']
+                  ]
+                },
+                'fill-opacity': 0.7,
+                'fill-outline-color': 'black'
+              }
+            }, 'records')
+
+          })
+          .catch((e) => {
+            console.log(e)
+          })
+      },
+      get_log_values(areas) {
+        const values_array = areas.features.map(area => area.properties.risk).sort()
+        const non_zeros = values_array.filter(v => v !== 0)
+
+        const mino = Math.min(...non_zeros)
+        const maxo = Math.max(...values_array) * 1.001
+        
+
+        this.log_scale = logscale(mino, maxo)
+
+        // TODO: @refac Move to tests
+        console.log('min should be 0', this.log_scale(mino))
+        console.log('max should be 100', this.log_scale(maxo))
       }
-    },
-    
+    }
   }
 </script>
 <style>
