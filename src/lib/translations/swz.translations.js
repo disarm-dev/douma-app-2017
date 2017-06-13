@@ -7,7 +7,6 @@ export default class extends Base {
   }
 
   getMapStyle() {
-
     return {
       'circle-color': {
         property: 'visit_type',

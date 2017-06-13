@@ -46,8 +46,8 @@
         this._map = new mapboxgl.Map({
           container: 'map',
           style: 'mapbox://styles/mapbox/streets-v9',
-          center: [31.9892, -26.1288],
-          zoom: 9
+          center: [22.63977015806131, -25.276453102086563],
+          zoom: 4
         });
 
         this.add_records()
@@ -75,24 +75,38 @@
               data: this.feature_collection
             },
             paint: {
-              'circle-radius': 10,
-              // TODO: @feature increase size of circle with zoom level, look at example
-              // TOOD: @feature Adjust instance_translations.getMapStyle() for all countries
+              'circle-radius': {
+                'base': 1.75,
+                'stops': [[8, 10], [22, 100]]
+              },
+              'circle-stroke-width': 1,
+              'circle-stroke-color': '#959292',
               ...instance_translations.getMapStyle()
             }
           })
+
+          // TODO: @refac There must be a better way to fit bounds of the map
+
+          const bounds = new mapboxgl.LngLatBounds();
+
+          this.feature_collection.features.forEach(function(feature) {
+              bounds.extend(feature.geometry.coordinates);
+          });
+
+          this._map.fitBounds(bounds);
         })
       },
       bind_popup() {
         this._map.on('click', (e) => {
-          // TODO: @feature Get popup working
-          // TOOD: @feature Adjust instance_translations.getPopupDescription() for all countries
           const feature = this._map.queryRenderedFeatures(e.point, {layers: ['records']})[0]
-          
-          new mapboxgl.Popup({closeOnClick: true})
-            .setLngLat(e.lngLat)
-            .setHTML(this._instance_translations.getPopupDescription(feature))
-            .addTo(this._map);
+
+          if (feature) {
+            new mapboxgl.Popup({closeOnClick: true})
+              .setLngLat(e.lngLat)
+              .setHTML(this._instance_translations.getPopupDescription(feature))
+              .addTo(this._map);
+          }
+
         })
       }
     },
