@@ -19,18 +19,15 @@ k<template>
 
       <md-card class="card">
         <md-card-content>
-          <table_progress :responses="responses" :denominator="denominator"></table_progress>
+          <map_progress :responses="responses" :denominator="denominator"></map_progress>
         </md-card-content>
       </md-card>
 
       <md-card class="card">
         <md-card-content>
-          <map_progress :responses="responses" :denominator="denominator"></map_progress>
+          <table_progress :responses="responses" :denominator="denominator"></table_progress>
         </md-card-content>
       </md-card>
-      <!-- <div v-else>
-        <h3>Map only available with a network connection.</h3>
-      </div> -->
 
       <h2>Charts below use static data only</h2>
       <md-card v-for="component in components" :key="component.name" class="card" :ref="component.name" :class="{'card-half-width': component.width_constraint == 'half'}">
@@ -67,17 +64,14 @@ k<template>
    import swz_chart_locked_vs_sprayed from './swz/swz_chart_locked_vs_sprayed'
    import swz_chart_pop_covered_vs_structures from './swz/swz_chart_pop_covered_vs_structures'
    import swz_chart_structures_pr_supervisor from './swz/swz_chart_structures_pr_supervisor'
-   import swz_map_progress_locations from './swz/swz_map_progress_locations'
 
    // NAM
    import nam_chart_structures_sprayed_doughnut from './nam/nam_chart_structures_sprayed_doughnut'
-   import nam_map_progress_locations from './nam/nam_map_progress_locations'
 
    // BWA
    import bwa_chart_prop_room_sprayed from './bwa/bwa_chart_prop_room_sprayed'
    import bwa_chart_prop_people_covered from './bwa/bwa_chart_prop_people_covered'
    import bwa_chart_refusal_pie from './bwa/bwa_chart_refusal_pie'
-   import bwa_map_progress_locations from './bwa/bwa_map_progress_locations'
 
    // ZWE
 
@@ -101,17 +95,14 @@ k<template>
       swz_chart_locked_vs_sprayed,
       swz_chart_pop_covered_vs_structures,
       swz_chart_structures_pr_supervisor,
-      swz_map_progress_locations,
 
       // NAM
       nam_chart_structures_sprayed_doughnut,
-      nam_map_progress_locations,
 
       // BWA
       bwa_chart_prop_room_sprayed,
       bwa_chart_prop_people_covered,
       bwa_chart_refusal_pie,
-      bwa_map_progress_locations,
 
       // ZWE
       zwe_chart_prop_room_sprayed,
@@ -130,7 +121,7 @@ k<template>
 
         // Debug
         filters_on: false,
-        denominator: {population: 500, structures_targeted: 150},
+        denominator: {population: 500, structures_targeted: 15, number_of_households: 15},
       }
     },
     computed: {
