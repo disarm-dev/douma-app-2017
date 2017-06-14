@@ -57,36 +57,51 @@
         el.Survey({
           model: this._survey,
           onValueChanged: this.on_form_change,
-          onCurrentPageChanged: this.on_page_change
+          onCurrentPageChanged: this.on_page_changed
         });
 
       },
-      on_page_change() {
-        this.show_next = false
-        this.show_previous = false
-        this.show_complete = false
-
-        if (!this._survey.isLastPage) this.show_next = true
-        if (!this._survey.isFirstPage) this.show_previous = true
-
+      on_page_changed() {
+        this.control_navigation_visibility()
         this.control_complete_button_visibility()
       },
       on_form_change() {
         this.$emit('change', this._survey.data)
-
         this.control_complete_button_visibility()
       },
-      control_complete_button_visibility() {
-        this.complete_disabled = false
+      control_navigation_visibility() {
+        this.show_next = false
+        this.show_previous = false
 
-        if (this._survey.isLastPage && this.response_is_valid && !this._survey.isCurrentPageHasErrors) {
-          this.show_complete = true
-        } else if (this._survey.isLastPage && (this._survey.isCurrentPageHasErrors || !this.response_is_valid)) {
-          this.show_complete = true
-          this.complete_disabled = true
-        } else {
+        if (!this._survey.isLastPage) this.show_next = true
+        if (!this._survey.isFirstPage) this.show_previous = true
+      },
+      control_complete_button_visibility() {
+        this.$nextTick(() => {
           this.show_complete = false
-        }
+          this.complete_disabled = true
+
+          if (Object.keys(this._survey.data).length === 0) {
+            // No questions answered
+            return
+          }
+
+          if (this._survey.isLastPage && (this._survey.isCurrentPageHasErrors || !this.response_is_valid)) {
+            console.log(this._survey.isLastPage)
+            // Last page, but with errors
+
+            this.show_complete = true
+            this.complete_disabled = true
+            return
+          }
+
+          if (this._survey.isLastPage && this.response_is_valid && !this._survey.isCurrentPageHasErrors) {
+            // All good, complete!
+            this.show_complete = true
+            this.complete_disabled = false
+            return
+          } 
+        })
       },
       next_page() {
         this._survey.nextPage()
