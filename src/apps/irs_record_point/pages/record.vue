@@ -222,7 +222,7 @@
 
   .location {
     overflow: visible;
-    z-index: 999;
+    z-index: 2;
   }
 
   .chip-holder {
