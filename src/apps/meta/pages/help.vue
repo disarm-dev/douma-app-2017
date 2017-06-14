@@ -1,6 +1,9 @@
 <template>
   <div class="container">
-    <h3>Help</h3>
+    <h3>
+      <md-icon>help</md-icon>
+      Help
+    </h3>
     <md-input-container>
       <label>Search</label>
       <md-input v-model="search_term"></md-input>
@@ -20,7 +23,7 @@
   import array_unique from 'array-unique'
   import Fuse from 'fuse.js'
 
-  const help_content = require("json-loader!yaml-include-loader!../help_articles/sections.yaml")
+  const help_content = require("json-loader!yaml-include-loader!../help_articles/help.yaml")
 
   export default {
     name: 'help',
@@ -36,15 +39,15 @@
 
         const options = {
           shouldSort: true,
-          threshold: 0.3,
+          threshold: 0.4,
           location: 0,
           distance: 100,
           maxPatternLength: 32,
-          minMatchCharLength: 1,
+          minMatchCharLength: 2,
           keys: [
-            "title",
-            "section_title",
-            "content"
+            {name: 'content', weight: 0.7},
+            {name: 'title', weight: 0.2},
+            {name: 'section_title', weight: 0.1}
           ]
         }
         const fuse = new Fuse(this.flat_help, options)

@@ -1,0 +1,19 @@
+- title: Log-in
+  image:
+  content: Enter your username and password, Just click login.
+
+- title: Log-out
+  image:
+  content: >
+    Just click logout on the sidebar.
+    Note that if you somehow logout when you are offline, you won't be able to use DiSARM again until you login
+    (which you can only do if you're online)
+
+- title: I've lost my password
+  content: Please ask someone.
+
+- title: What is my username or password?
+  content: If you don't have these, please ask the person who set up DiSARM for you.
+
+- title: How can I report if something is broken?
+  content: Please send an email to
