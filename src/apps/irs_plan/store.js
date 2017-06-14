@@ -2,7 +2,6 @@ import array_unique from 'array-unique'
 
 import {create_plan, get_current_plan, get_geodata} from '@/lib/data/remote'
 
-import {Plan} from '@/models/plan.model.js'
 
 
 export default {
@@ -89,10 +88,7 @@ export default {
     }
   },
   actions: {
-    'save_plan': (context, targets) => {
-      const country = context.rootState.instance_config.slug
-
-      const plan = new Plan({country, targets})
+    'save_plan': (context, plan) => {
 
       return create_plan(plan)
         .then(() => {

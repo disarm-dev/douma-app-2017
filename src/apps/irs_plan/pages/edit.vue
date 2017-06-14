@@ -59,6 +59,9 @@
   import plan_map from './plan-map.vue'
   import cache from '@/lib/cache.js'
 
+  import {Plan} from '@/models/plan.model.js'
+
+
   export default {
     name: 'edit',
     components: {plan_summary, plan_map},
@@ -131,26 +134,14 @@
 
       },
       save_plan() {
-
-        const selected_target_areas = cache.geodata.all_target_areas.features.filter(feature => {
-          return this.selected_target_area_ids.includes(feature.properties[this.top_level_spatial_hierarchy.field_name])
+        const plan = new Plan({
+          selected_target_area_ids: this.selected_target_area_ids,
+          top_level_spatial_hierarchy: this.top_level_spatial_hierarchy,
+          country: this.slug
         })
-
-        const denominator_definition = this.top_level_spatial_hierarchy.denominator
-        const standard_denominator = Object.keys(denominator_definition)[0] // e.g. number_of_structures
-        const instance_specific_denominator_field = denominator_definition[standard_denominator] // e.g. NmStrct
-
-        const decorated_targets = selected_target_areas.map((area) => {
-          const obj = {}
-          obj[standard_denominator] = area.properties[instance_specific_denominator_field]
-          obj.id = area.properties[this.top_level_spatial_hierarchy.field_name]
-          return obj
-        })
-
-
 
         this.$store.commit('root:set_loading', true)
-        this.$store.dispatch('irs_plan/save_plan', decorated_targets)
+        this.$store.dispatch('irs_plan/save_plan', plan)
           .then(() => {
             this.$store.commit('root:set_snackbar', {message: 'Successful save'})
             this.$store.commit('root:set_loading', false)
