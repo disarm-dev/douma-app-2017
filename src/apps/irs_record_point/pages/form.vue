@@ -6,7 +6,7 @@
     <div id="surveyContainer"></div>
     <md-button v-if="show_previous" @click.native="previous_page"class="md-raised">Previous</md-button>
     <md-button v-if="show_next" @click.native="next_page"class="md-raised">Next</md-button>
-    <md-button v-if="show_complete" @click.native="complete"class="md-raised md-primary">Complete</md-button>
+    <md-button v-if="show_complete" :disabled="complete_disabled" @click.native="complete"class="md-raised md-primary">Complete</md-button>
   </v-touch>
 </template>
 
@@ -21,7 +21,8 @@
         _survey: {},
         show_previous: false,
         show_next: true,
-        show_complete: false
+        show_complete: false,
+        complete_disabled: false
       }
     },
     watch: {
@@ -76,8 +77,13 @@
         this.control_complete_button_visibility()
       },
       control_complete_button_visibility() {
+        this.complete_disabled = false
+
         if (this._survey.isLastPage && this.response_is_valid && !this._survey.isCurrentPageHasErrors) {
           this.show_complete = true
+        } else if (this._survey.isLastPage && (this._survey.isCurrentPageHasErrors || !this.response_is_valid)) {
+          this.show_complete = true
+          this.complete_disabled = true
         } else {
           this.show_complete = false
         }
