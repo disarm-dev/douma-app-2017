@@ -39,23 +39,30 @@
         <p>Version hash: {{commit_hash}}</p>
       </md-toolbar>
 
-      <md-list v-if='user'>
-        <md-list-item v-for='applet in applets' :key='applet' @click.native="navigate(applet.name)">
-          <md-icon>{{applet.icon}}</md-icon><span>{{applet.title}}</span>
-        </md-list-item>
+      <md-list>
+        <template v-if='user'>
+          <md-list-item v-for='applet in applets' :key='applet' @click.native="navigate(applet.name)">
+            <md-icon>{{applet.icon}}</md-icon><span>{{applet.title}}</span>
+          </md-list-item>
 
-        <md-divider class="md-inset"></md-divider>
+          <md-divider class="md-inset"></md-divider>
 
 
-        <md-list-item @click.native="navigate('meta:home')">
-          <md-icon>person</md-icon><span>User</span>
-        </md-list-item>
+          <md-list-item @click.native="navigate('meta:home')">
+            <md-icon>person</md-icon><span>User</span>
+          </md-list-item>
 
-        <md-list-item class='md-accent' @click.native="navigate('meta:logout')">
-          <md-icon>exit_to_app</md-icon><span>Logout</span>
+          <md-list-item class='md-accent' @click.native="navigate('meta:logout')">
+            <md-icon>exit_to_app</md-icon><span>Logout</span>
+          </md-list-item>
+        </template>
+
+        <md-list-item @click.native="navigate('meta:help')">
+          <md-icon>help</md-icon><span>Help</span>
         </md-list-item>
 
       </md-list>
+
     </md-sidenav>
 
     <!-- SNACKBAR -->

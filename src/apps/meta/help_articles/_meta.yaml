@@ -1,0 +1,10 @@
+- title: Log-in
+  image:
+  content: Just click login.
+
+- title: Log-out
+  image:
+  content: Just click logout.
+
+- title: I've lost my password
+  content: Please ask someone.
