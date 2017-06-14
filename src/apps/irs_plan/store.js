@@ -80,7 +80,7 @@ export default {
       state.areas_excluded_by_click = []
       state.bulk_selected_ids = []
       state.plan = null
-      // state.unsaved_changes = true
+      state.unsaved_changes = true
     },
     'set_plan': (state, plan) => {
       state.current_plan = plan
@@ -95,9 +95,9 @@ export default {
         country,
         targets
       }
-
+      
       return create_plan(plan)
-        .then(res => {
+        .then(() => {
           context.commit('set_plan', plan)
           context.commit('set_unsaved_changes', false)
         })
