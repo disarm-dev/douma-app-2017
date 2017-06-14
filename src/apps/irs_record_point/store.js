@@ -1,4 +1,4 @@
-import {create_record} from '@/lib/data/remote'
+import {create_record} from 'lib/data/remote'
 
 export default {
   namespaced: true,

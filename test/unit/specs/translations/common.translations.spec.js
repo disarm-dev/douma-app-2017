@@ -1,7 +1,7 @@
-import BwaTranslations from '@/lib/translations/bwa.translations.js'
-import NamTranslations from '@/lib/translations/nam.translations.js'
-import SwzTranslations from '@/lib/translations/swz.translations.js'
-import ZweTranslations from '@/lib/translations/zwe.translations.js'
+import BwaTranslations from 'lib/translations/bwa.translations.js'
+import NamTranslations from 'lib/translations/nam.translations.js'
+import SwzTranslations from 'lib/translations/swz.translations.js'
+import ZweTranslations from 'lib/translations/zwe.translations.js'
 
 const instances = {
   // bwa: BwaTranslations,
