@@ -30,37 +30,50 @@
           <!-- <img src="/assets/disarm-logo-word-grey.png" style="height: 50px;"> -->
 
         </div>
+
+        <!--Status/top of sidebar: LOGGED-IN-->
         <div v-if="user">
           <p @click="navigate('meta:home')">Logged in: {{user.name}}</p>
         </div>
+
+        <!--Status/top of sidebar: LOGGED-OUT-->
         <div v-else>
           <p>Nope, not logged in.</p>
         </div>
         <p>Version hash: {{commit_hash}}</p>
       </md-toolbar>
 
-      <md-list>
-        <template v-if='user'>
-          <md-list-item v-for='applet in applets' :key='applet' @click.native="navigate(applet.name)">
-            <md-icon>{{applet.icon}}</md-icon><span>{{applet.title}}</span>
-          </md-list-item>
+      <!--Sidebar: LOGGED IN-->
+      <md-list v-if="user">
+        <md-list-item v-for='applet in applets' :key='applet' @click.native="navigate(applet.name)">
+          <md-icon>{{applet.icon}}</md-icon><span>{{applet.title}}</span>
+        </md-list-item>
 
-          <md-divider class="md-inset"></md-divider>
+        <md-divider class="md-inset"></md-divider>
 
 
-          <md-list-item @click.native="navigate('meta:home')">
-            <md-icon>person</md-icon><span>User</span>
-          </md-list-item>
+        <md-list-item @click.native="navigate('meta:home')">
+          <md-icon>person</md-icon><span>User</span>
+        </md-list-item>
 
-          <md-list-item class='md-accent' @click.native="navigate('meta:logout')">
-            <md-icon>exit_to_app</md-icon><span>Logout</span>
-          </md-list-item>
-        </template>
+        <md-list-item class='md-accent' @click.native="navigate('meta:logout')">
+          <md-icon>exit_to_app</md-icon><span>Logout</span>
+        </md-list-item>
 
         <md-list-item @click.native="navigate('meta:help')">
           <md-icon>help</md-icon><span>Help</span>
         </md-list-item>
+      </md-list>
 
+      <!--Sidebar: LOGGED OUT-->
+      <md-list v-else>
+        <md-list-item class='md-accent' @click.native="navigate('meta:login')">
+          <md-icon>exit_to_app</md-icon><span>Login</span>
+        </md-list-item>
+
+        <md-list-item @click.native="navigate('meta:help')">
+          <md-icon>help</md-icon><span>Help</span>
+        </md-list-item>
       </md-list>
 
     </md-sidenav>

@@ -21,6 +21,7 @@
 
           <md-button class="md-accent md-raised login-button" :disabled='disabled || !can_login' type="submit">Login</md-button>
         </form>
+        <router-link to="/meta/help">Help</router-link>
      </md-card-content>
     </md-card>
 
