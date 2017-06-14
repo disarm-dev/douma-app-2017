@@ -27,7 +27,7 @@
 
       <!--PLAN SUMMARY-->
       <md-card class="card"><md-card-content>
-        <plan_summary :geodata_ready="geodata_ready"></plan_summary>
+        <!--<plan_summary :geodata_ready="geodata_ready"></plan_summary>-->
       </md-card-content></md-card>
     </div>
 
@@ -71,7 +71,7 @@
     },
     computed: {
       ...mapState({
-        denominator_def: state => state.instance_config.spatial_hierarchy[0],
+        top_level_spatial_hierarchy: state => state.instance_config.spatial_hierarchy[0],
         slug: state => state.instance_config.slug,
         unsaved_changes: state => state.irs_plan.unsaved_changes,
         online: state => state.network_online,
@@ -100,7 +100,12 @@
     methods: {
       load_geo_data() {
         this.$store.commit('root:set_loading', true)
-        this.$store.dispatch('irs_plan/get_geodata', {slug: this.slug, level: this.denominator_def.name, cache: cache, store: this.$store})
+        this.$store.dispatch('irs_plan/get_geodata', {
+          slug: this.slug,
+          level: this.top_level_spatial_hierarchy.name,
+          cache: cache,
+          store: this.$store
+        })
           .then(() => {
             this.$store.commit('root:set_loading', false)
             this.geodata_ready = true
@@ -127,22 +132,23 @@
       },
       save_plan() {
 
-        const target_areas = cache.geodata.all_target_areas.features.filter(feature => {
-          return this.selected_target_area_ids.includes(feature.properties[this.denominator_def.field_name])
+        const selected_target_areas = cache.geodata.all_target_areas.features.filter(feature => {
+          return this.selected_target_area_ids.includes(feature.properties[this.top_level_spatial_hierarchy.field_name])
         })
 
-        const key_name = Object.keys(this.denominator_def.denominator.fields)[0]
-        const denominator_field_name = this.denominator_def.denominator.fields[key_name]
+        const denominator_definition = this.top_level_spatial_hierarchy.denominator
+        const standard_denominator = Object.keys(denominator_definition)[0] // e.g. number_of_structures
+        const instance_specific_denominator_field = denominator_definition[standard_denominator] // e.g. NmStrct
 
-        const targets = target_areas.map((area) => {
+        const decorated_targets = selected_target_areas.map((area) => {
           const obj = {}
-          obj[key_name] = area.properties[denominator_field_name]
-          obj[this.denominator_def.field_name] = area.properties[this.denominator_def.field_name]
+          obj[standard_denominator] = area.properties[instance_specific_denominator_field]
+          obj.id = area.properties[this.top_level_spatial_hierarchy.field_name]
           return obj
         })
 
         this.$store.commit('root:set_loading', true)
-        this.$store.dispatch('irs_plan/save_plan', targets)
+        this.$store.dispatch('irs_plan/save_plan', decorated_targets)
           .then(() => {
             this.$store.commit('root:set_snackbar', {message: 'Successful save'})
             this.$store.commit('root:set_loading', false)

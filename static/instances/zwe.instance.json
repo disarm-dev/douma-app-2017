@@ -37,7 +37,6 @@
   "spatial_hierarchy": [
     {
       "denominator": {
-        "fields": {}
       },
       "field_name": "ZIMWARDSID",
       "name": "wards"
