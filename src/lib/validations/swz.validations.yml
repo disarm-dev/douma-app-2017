@@ -15,9 +15,3 @@
       expression: number_structures_total === (number_of_structures_sprayed + n_rooms_baby + n_rooms_food + n_rooms_funeral + n_rooms_kitchen + n_rooms_locked + n_rooms_material + n_rooms_nobody + n_rooms_other + n_rooms_patient + n_rooms_refused)
       message: Total structures does not equal structures sprayed and number of structures unsprayed.
 
-- type: errors
-  validations:
-    - name: just_an_error
-      precondition: 
-      expression: number_of_structures_sprayed <= number_structures_total
-      message: There are more structures sprayed than total structures.
