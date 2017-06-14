@@ -2,43 +2,47 @@
   <div class='container'>
 
     <div class="chip-holder">
-      <md-chip :class="{orange: !validation_result_empty}" @click.native="toggle_show_validation_result">
+      <md-button :class="{orange: !validation_result_empty, 'md-raised': !show_validation_result}" :disabled="validation_result_empty" @click.native="toggle_show_validation_result">
         {{ validation_result_empty ? "No validation issues" : "Validation issues"}}
-      </md-chip>
+      </md-button>
 
-      <md-chip :class="{green: location_is_valid, orange: !location_is_valid}" @click.native="toggle_show_location">
+      <md-button :class="{orange: !location_is_valid, 'md-raised': !show_location } " @click.native="toggle_show_location">
         {{ location_is_valid ? "Location" : "Set location"}}
-      </md-chip>
+      </md-button>
     </div>
+    
+    <transition name="slide-fade">
+      <md-card v-show="show_validation_result">
+        <md-card-content>
+          <review
+            ref="validation_result"
+            :validations='validation_result'
+          ></review>
+        </md-card-content>
+      </md-card>
+    </transition>
+    
+    <transition name="slide-fade">
+      <md-card class='location' v-show="show_location">
+        <md-card-content>
+          <location_record
+            @change='on_location_change'
+            :initial_location='initial_response.location'
+          ></location_record>
 
-    <md-card v-show="show_validation_result">
-      <md-card-content>
-        <review
-          ref="validation_result"
-          :validations='validation_result'
-        ></review>
-      </md-card-content>
-    </md-card>
-
-    <md-card class='location' v-show="show_location">
-      <md-card-content>
-        <location_record
-          @change='on_location_change'
-          :initial_location='initial_response.location'
-        ></location_record>
-
-        <multiselect
-          v-model="response.location_selection"
-          :options="location_options"
-          group-values="locations"
-          group-label="category"
-          placeholder="Alternative location search"
-          track-by="id"
-          label="name">
-          <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
-        </multiselect>
-      </md-card-content>
-    </md-card>
+          <multiselect
+            v-model="response.location_selection"
+            :options="location_options"
+            group-values="locations"
+            group-label="category"
+            placeholder="Alternative location search"
+            track-by="id"
+            label="name">
+            <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
+          </multiselect>
+        </md-card-content>
+      </md-card>
+    </transition>
 
     <md-card>
       <md-card-content>
@@ -234,11 +238,23 @@
   }
   .orange {
     background-color: orange !important;
-    color: white;
+    color: white !important;
   }
   .green {
     background-color: green !important;
-    color: white;
+    color: white !important;
+  }
+
+  .slide-fade-enter-active {
+    transition: all .3s ease;
+  }
+  .slide-fade-leave-active {
+    transition: all .3s ease;
+  }
+  .slide-fade-enter, .slide-fade-leave-to
+  /* .slide-fade-leave-active for <2.1.8 */ {
+    transform: translateY(-10px);
+    opacity: 0;
   }
 
 </style>
