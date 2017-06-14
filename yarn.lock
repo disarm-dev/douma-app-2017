@@ -94,11 +94,11 @@
   dependencies:
     "@turf/meta" "^3.14.0"
 
-"@turf/bbox@^4.1.0", "@turf/bbox@^4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@turf/bbox/-/bbox-4.3.0.tgz#644c4b745172d21aae70d1584b2a7866f1040865"
+"@turf/bbox@^4.1.0", "@turf/bbox@^4.4.0":
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/@turf/bbox/-/bbox-4.4.0.tgz#3149458eb41404427cf786a90fb3680a0e8aab55"
   dependencies:
-    "@turf/meta" "^4.3.0"
+    "@turf/meta" "^4.4.0"
 
 "@turf/bearing@^4.1.0":
   version "4.1.0"
@@ -131,19 +131,19 @@
     "@turf/helpers" "^4.1.0"
     "@turf/meta" "^4.1.0"
 
-"@turf/center@^4.1.0", "@turf/center@^4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@turf/center/-/center-4.3.0.tgz#9587959d3c1717fb99b7a53c878aaa571009fbb4"
+"@turf/center@^4.1.0", "@turf/center@^4.4.0":
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/@turf/center/-/center-4.4.0.tgz#5907b4d64faa8b92b6e5446b84f2a150c3e0e09b"
   dependencies:
-    "@turf/bbox" "^4.3.0"
-    "@turf/helpers" "^4.3.0"
+    "@turf/bbox" "^4.4.0"
+    "@turf/helpers" "^4.4.0"
 
-"@turf/centroid@^4.1.0", "@turf/centroid@latest":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@turf/centroid/-/centroid-4.3.0.tgz#086f6f562b934f3a4ccfb9d453c872357462d739"
+"@turf/centroid@^4.1.0", "@turf/centroid@^4.4.0":
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/@turf/centroid/-/centroid-4.4.0.tgz#48c7affdfdf5e6f8ba5782b342d17dc2be57e698"
   dependencies:
-    "@turf/helpers" "^4.3.0"
-    "@turf/meta" "^4.3.0"
+    "@turf/helpers" "^4.4.0"
+    "@turf/meta" "^4.4.0"
 
 "@turf/circle@^4.1.0":
   version "4.1.0"
@@ -257,9 +257,9 @@
   version "3.13.0"
   resolved "https://registry.yarnpkg.com/@turf/helpers/-/helpers-3.13.0.tgz#d06078a1464cf56cdb7ea624ea1e13a71b88b806"
 
-"@turf/helpers@^4.1.0", "@turf/helpers@^4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@turf/helpers/-/helpers-4.3.0.tgz#7b2f733aa0eb3ea1f07d467ac02ede00cc6cde0d"
+"@turf/helpers@^4.1.0", "@turf/helpers@^4.3.0", "@turf/helpers@^4.4.0":
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/@turf/helpers/-/helpers-4.4.0.tgz#c83112f7fbe6ed183c7c0c2f776481b94d1cbd01"
 
 "@turf/hex-grid@^4.1.0":
   version "4.1.0"
@@ -290,9 +290,9 @@
   dependencies:
     "@turf/invariant" "^4.1.0"
 
-"@turf/intersect@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@turf/intersect/-/intersect-4.1.0.tgz#b89be789921ed723158f49e4e29d714fb7836fb2"
+"@turf/intersect@^4.1.0", "@turf/intersect@^4.4.0":
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/@turf/intersect/-/intersect-4.4.0.tgz#a3019c215e46581777fdf1e1971470ff268e821a"
   dependencies:
     jsts "1.3.0"
 
@@ -427,9 +427,9 @@
   version "3.14.0"
   resolved "https://registry.yarnpkg.com/@turf/meta/-/meta-3.14.0.tgz#8d3050c1a0f44bf406a633b6bd28c510f7bcee27"
 
-"@turf/meta@^4.1.0", "@turf/meta@^4.3.0":
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/@turf/meta/-/meta-4.3.0.tgz#eb11dd2c2511524258123767fe0f5c3bd963e8d7"
+"@turf/meta@^4.1.0", "@turf/meta@^4.4.0":
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/@turf/meta/-/meta-4.4.0.tgz#4fa25d4cc0525bd4cdbaf4ff68a6f8ae81f1975f"
 
 "@turf/midpoint@^4.1.0":
   version "4.1.0"
@@ -940,10 +940,6 @@ ast-types@0.x.x:
 async-each@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/async-each/-/async-each-1.0.1.tgz#19d386a1d9edc6e7c1c85d388aedbcc56d33602d"
-
-async@1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/async/-/async-1.5.0.tgz#2796642723573859565633fc6274444bee2f8ce3"
 
 async@1.x, async@^1.4.0:
   version "1.5.2"
@@ -2003,11 +1999,11 @@ chalk@~0.4.0:
     has-color "~0.1.0"
     strip-ansi "~0.1.0"
 
-chart.js@^2.5.0:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-2.5.0.tgz#fe6e751a893769f56e72bee5ad91207e1c592957"
+chart.js@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-2.6.0.tgz#308f9a4b0bfed5a154c14f5deb1d9470d22abe71"
   dependencies:
-    chartjs-color "^2.0.0"
+    chartjs-color "^2.1.0"
     moment "^2.10.6"
 
 chartjs-color-string@^0.4.0:
@@ -2016,7 +2012,7 @@ chartjs-color-string@^0.4.0:
   dependencies:
     color-name "^1.0.0"
 
-chartjs-color@^2.0.0:
+chartjs-color@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/chartjs-color/-/chartjs-color-2.1.0.tgz#9c39ac830ccd98996ae80c9f11086ff12c98a756"
   dependencies:
@@ -3878,15 +3874,6 @@ handlebars@^4.0.1:
   optionalDependencies:
     uglify-js "^2.6"
 
-happypack@^4.0.0-beta.1:
-  version "4.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/happypack/-/happypack-4.0.0-beta.1.tgz#1b81b11ab8fad2cd23fa3cec82052ee291614ead"
-  dependencies:
-    async "1.5.0"
-    json-stringify-safe "5.0.1"
-    loader-utils "0.2.16"
-    serialize-error "^2.1.0"
-
 har-schema@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/har-schema/-/har-schema-1.0.5.tgz#d263135f43307c02c602afc8fe95970c0151369e"
@@ -4466,6 +4453,10 @@ js-beautify@^1.6.3:
     mkdirp "~0.5.0"
     nopt "~3.0.1"
 
+"js-schema@git+https://github.com/disarm-platform/js-schema.git":
+  version "1.0.1"
+  resolved "git+https://github.com/disarm-platform/js-schema.git#906ed65ffb8571b9cb6a33f2a380315719deecc7"
+
 js-tokens@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.1.tgz#08e9f132484a2c45a30907e9dc4d5567b7f114d7"
@@ -4516,7 +4507,7 @@ json-stable-stringify@^1.0.0, json-stable-stringify@^1.0.1:
   dependencies:
     jsonify "~0.0.0"
 
-json-stringify-safe@5.0.1, json-stringify-safe@~5.0.1:
+json-stringify-safe@~5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
 
@@ -4714,14 +4705,6 @@ lcid@^1.0.0:
   dependencies:
     invert-kv "^1.0.0"
 
-leaflet.locatecontrol@^0.60.0:
-  version "0.60.0"
-  resolved "https://registry.yarnpkg.com/leaflet.locatecontrol/-/leaflet.locatecontrol-0.60.0.tgz#fc7be657ca9b7e8b8ba7263e52b0bb902b7cd965"
-
-leaflet@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.0.3.tgz#1f401b98b45c8192134c6c8d69686253805007c8"
-
 levn@^0.3.0, levn@~0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/levn/-/levn-0.3.0.tgz#3b09924edf9f083c0490fdd4c0bc4421e04764ee"
@@ -4768,15 +4751,6 @@ loader-fs-cache@^1.0.0:
 loader-runner@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/loader-runner/-/loader-runner-2.3.0.tgz#f482aea82d543e07921700d5a46ef26fdac6b8a2"
-
-loader-utils@0.2.16:
-  version "0.2.16"
-  resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-0.2.16.tgz#f08632066ed8282835dff88dfb52704765adee6d"
-  dependencies:
-    big.js "^3.1.3"
-    emojis-list "^2.0.0"
-    json5 "^0.5.0"
-    object-assign "^4.0.1"
 
 loader-utils@^0.2.15, loader-utils@^0.2.16, loader-utils@^0.2.5:
   version "0.2.17"
@@ -6794,10 +6768,6 @@ send@0.15.1:
     range-parser "~1.2.0"
     statuses "~1.3.1"
 
-serialize-error@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/serialize-error/-/serialize-error-2.1.0.tgz#50b679d5635cdf84667bdc8e59af4e5b81d5f60a"
-
 serve-static@1.12.1:
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/serve-static/-/serve-static-1.12.1.tgz#7443a965e3ced647aceb5639fa06bf4d1bbe0039"
@@ -7249,16 +7219,16 @@ supports-color@^3.2.3:
   dependencies:
     has-flag "^1.0.0"
 
-survey-jquery@^0.12.15:
-  version "0.12.15"
-  resolved "https://registry.yarnpkg.com/survey-jquery/-/survey-jquery-0.12.15.tgz#37f47816cb47742a5f210b5a345c115a62efe485"
+survey-jquery@^0.12.17:
+  version "0.12.17"
+  resolved "https://registry.yarnpkg.com/survey-jquery/-/survey-jquery-0.12.17.tgz#fd9aabcb1003f42429612ad30ac61323f9073615"
   dependencies:
     "@types/react" "15.0.21"
     jquery ">=1.12.4"
 
-survey-vue@^0.12.15:
-  version "0.12.15"
-  resolved "https://registry.yarnpkg.com/survey-vue/-/survey-vue-0.12.15.tgz#3de62b97adb406a9885d8214027a883093fdd6db"
+survey-vue@^0.12.17:
+  version "0.12.17"
+  resolved "https://registry.yarnpkg.com/survey-vue/-/survey-vue-0.12.17.tgz#c8b307ca2a12a80139edcca894d222f3f709eb9f"
   dependencies:
     vue "^2.1.10"
 
@@ -7764,9 +7734,9 @@ vt-pbf@^2.0.2:
     point-geometry "0.0.0"
     vector-tile "^1.1.3"
 
-vue-chartjs@^2.6.2:
-  version "2.6.2"
-  resolved "https://registry.yarnpkg.com/vue-chartjs/-/vue-chartjs-2.6.2.tgz#f0fe61892494325db8e2462cb0397b948b4434f4"
+vue-chartjs@^2.6.5:
+  version "2.6.5"
+  resolved "https://registry.yarnpkg.com/vue-chartjs/-/vue-chartjs-2.6.5.tgz#a0cac5c160568b0ce57e5b861abb1957641ee320"
   dependencies:
     lodash "^4.17.4"
 
@@ -7798,7 +7768,7 @@ vue-material@^0.7.1:
   dependencies:
     vue "^2.1.10"
 
-vue-multiselect@next:
+vue-multiselect@^2.0.0-beta.15:
   version "2.0.0-beta.15"
   resolved "https://registry.yarnpkg.com/vue-multiselect/-/vue-multiselect-2.0.0-beta.15.tgz#fc29af67d9bdfb682311bdf8cd2ed89d588d73e1"
 
@@ -7814,7 +7784,7 @@ vue-resource@^0.9.0:
   version "0.9.3"
   resolved "https://registry.yarnpkg.com/vue-resource/-/vue-resource-0.9.3.tgz#ab46e1c44ea219142dcc28ae4043b3b04c80959d"
 
-vue-router@^2.5.2:
+vue-router@^2.5.3:
   version "2.5.3"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-2.5.3.tgz#073783f564b6aece6c8a59c63e298dc2aabfb51b"
 
@@ -7829,9 +7799,9 @@ vue-style-loader@^3.0.0, vue-style-loader@^3.0.1:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
 
-vue-tables-2@^0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/vue-tables-2/-/vue-tables-2-0.6.2.tgz#0b67349b4e321459e12138905275045f9351fd8f"
+vue-tables-2@^0.6.23:
+  version "0.6.26"
+  resolved "https://registry.yarnpkg.com/vue-tables-2/-/vue-tables-2-0.6.26.tgz#6d56f77c657fb91d7d91a05617674a9b448fc116"
   dependencies:
     array-intersection "^0.1.2"
     clone "^2.1.0"
@@ -7841,9 +7811,9 @@ vue-tables-2@^0.6.2:
     vue-pagination-2 "^0.3"
     vue-resource "^0.9.0"
 
-vue-template-compiler@^2.3.3:
-  version "2.3.3"
-  resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.3.3.tgz#b5bab9ec57309c906b82a78c81a02179dbc2f470"
+vue-template-compiler@^2.3.4:
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.3.4.tgz#5a88ac2c5e4d5d6218e6aa80e7e221fb7e67894c"
   dependencies:
     de-indent "^1.0.2"
     he "^1.1.0"
@@ -7852,7 +7822,7 @@ vue-template-es2015-compiler@^1.2.2:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.5.2.tgz#a0a6c50c941d2a4abda963f2f42c337ac450ee95"
 
-vue-touch@next:
+vue-touch@^2.0.0-beta.4:
   version "2.0.0-beta.4"
   resolved "https://registry.yarnpkg.com/vue-touch/-/vue-touch-2.0.0-beta.4.tgz#0259a5fbf89fed12d5e5d789fffb99b874ae0501"
   dependencies:
@@ -7861,9 +7831,9 @@ vue-touch@next:
     rollup-plugin-commonjs "^7.0.0"
     rollup-plugin-node-resolve "^2.0.0"
 
-vue@>=2.0.0, vue@^2.1.10, vue@^2.3.3:
-  version "2.3.3"
-  resolved "https://registry.yarnpkg.com/vue/-/vue-2.3.3.tgz#d1eaa8fde5240735a4563e74f2c7fead9cbb064c"
+vue@>=2.0.0, vue@^2.1.10, vue@^2.3.4:
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.3.4.tgz#5ec3b87a191da8090bbef56b7cfabd4158038171"
 
 vuex-persistedstate@^1.4.1:
   version "1.4.1"

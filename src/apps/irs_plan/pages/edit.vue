@@ -147,6 +147,8 @@
           return obj
         })
 
+
+
         this.$store.commit('root:set_loading', true)
         this.$store.dispatch('irs_plan/save_plan', decorated_targets)
           .then(() => {
