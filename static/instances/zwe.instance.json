@@ -4,118 +4,26 @@
       "components": [
         {
           "height_constraint": "none",
-          "name": "line_chart",
+          "name": "zwe_chart_prop_room_sprayed",
+          "width_constraint": "half"
+        },
+        {
+          "height_constraint": "none",
+          "name": "zwe_chart_prop_people_covered",
+          "width_constraint": "half"
+        },
+        {
+          "height_constraint": "none",
+          "name": "zwe_chart_refusal_pie",
           "width_constraint": "half"
         }
       ]
     },
-    "irs_plan": {},
-    "irs_record_point": {
-      "location_type": "other"
+    "irs_plan": {
+      "number_of_structures": "NumHouseho"
     },
+    "irs_record_point": {},
     "meta": {}
-  },
-  "denominator": {
-    "aggregate_by": "WARDPCODE",
-    "aggregate_to": "wards",
-    "extract_from": "clusters",
-    "fields": [
-      "NumStructures"
-    ]
-  },
-  "form": {
-    "pages": [
-      {
-        "elements": [
-          {
-            "inputType": "date",
-            "isRequired": true,
-            "name": "date",
-            "title": "Date",
-            "type": "text"
-          },
-          {
-            "choices": [
-              {
-                "text": "Yes",
-                "value": "1"
-              },
-              {
-                "text": "No",
-                "value": "2"
-              },
-              {
-                "text": "Partially Sprayed",
-                "value": "3"
-              }
-            ],
-            "isRequired": true,
-            "name": "sprayed",
-            "title": "Was this household sprayed?",
-            "type": "radiogroup"
-          }
-        ],
-        "name": "page1"
-      },
-      {
-        "elements": [
-          {
-            "choices": [
-              {
-                "text": "DDT",
-                "value": "1"
-              },
-              {
-                "text": "PY",
-                "value": "2"
-              },
-              {
-                "text": "OP",
-                "value": "3"
-              }
-            ],
-            "isRequired": true,
-            "name": "chemical_used",
-            "type": "radiogroup",
-            "visible": false,
-            "visibleIf": "{sprayed} = 1 or {sprayed} = 3"
-          }
-        ],
-        "name": "page2"
-      },
-      {
-        "elements": [
-          {
-            "choices": [
-              {
-                "text": "Locked",
-                "value": "1"
-              },
-              {
-                "text": "Refused",
-                "value": "2"
-              },
-              {
-                "text": "Absent",
-                "value": "3"
-              },
-              {
-                "text": "Away",
-                "value": "4"
-              }
-            ],
-            "hasOther": true,
-            "isRequired": true,
-            "name": "reason",
-            "title": "Reason for Unsprayed Rooms",
-            "type": "checkbox",
-            "visible": false,
-            "visibleIf": "{sprayed} = 2"
-          }
-        ],
-        "name": "page3"
-      }
-    ]
   },
   "map_focus": {
     "centre": {
@@ -128,6 +36,8 @@
   "slug": "zwe",
   "spatial_hierarchy": [
     {
+      "denominator": {
+      },
       "field_name": "ZIMWARDSID",
       "name": "wards"
     },

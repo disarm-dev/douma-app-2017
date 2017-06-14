@@ -18,7 +18,7 @@ export default class Translations {
 
 
 
-    const responses_sorted_by_area = areas.map((area) => {
+    const responses_grouped_by_area = areas.map((area) => {
       const filtered_responses = responses.filter((response) => response.form_data[field_name] === area)
       const aggregation_names = Object.keys(this.aggregations)
 
@@ -35,6 +35,6 @@ export default class Translations {
 
     })
 
-    return responses_sorted_by_area
+    return responses_grouped_by_area
   }
 }

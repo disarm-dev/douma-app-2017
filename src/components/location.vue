@@ -3,6 +3,7 @@
     <md-button :disabled='hunting_location' class='md-raised md-primary' ref="update_location_button" @click.native="check_for_location">
       Get/Update point location
     </md-button>
+    <md-button class='md-warn' @click.native="fake_location">Use demo location</md-button>
     <p class='message'>{{location_message}}</p>
   </div>
 </template>
@@ -28,6 +29,18 @@
       }
     },
     methods: {
+      fake_location() {
+        const map_focus = this.$store.state.instance_config.map_focus
+        this.location = {
+          coords: {
+            latitude: map_focus.centre.lat + Math.random(),
+            longitude: map_focus.centre.lng + Math.random(),
+            accuracy: 150
+          }
+        }
+        this.location_message = `${this.location.coords.latitude}, ${this.location.coords.longitude} (accuracy: ${this.location.coords.accuracy} m)`
+        this.$emit('change', this.location)
+      },
       check_for_location() {
         if ('geolocation' in navigator) {
           const options = {

@@ -26,8 +26,8 @@ export default {
       }
       return sum
     }, 0)
-
-    return percentage(structures_found / denominator.structures_targeted)
+    console.warn('🏠 Using households instead of structures for denominator')
+    return percentage(structures_found / denominator.number_of_households)
   },
 
   "structures sprayed": (responses, denominator) => {
@@ -46,7 +46,8 @@ export default {
       }
       return sum
     }, 0)
-    return percentage(structures_sprayed / denominator.structures_targeted)
+    console.warn('🏠 Using households instead of structures for denominator')
+    return percentage(structures_sprayed / denominator.number_of_households)
   },
 
   'sprayable structures not sprayed': (responses, denominator) =>  {

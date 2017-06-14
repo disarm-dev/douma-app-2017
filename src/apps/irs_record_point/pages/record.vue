@@ -1,24 +1,42 @@
 <template>
   <div class='container'>
 
-    <md-button class='md-raised' @click.native="$router.push('/irs/record_point/list')">List</md-button>
+    <div class="chip-holder">
+      <md-chip :class="{orange: !validation_result_empty}" @click.native="toggle_show_validation_result">
+        {{ validation_result_empty ? "No validation issues" : "Validation issues"}}
+      </md-chip>
 
-    <h1>{{page_title}} record <md-chip>Unsaved data</md-chip></h1>
+      <md-chip :class="{green: location_is_valid, orange: !location_is_valid}" @click.native="toggle_show_location">
+        {{ location_is_valid ? "Location" : "Set location"}}
+      </md-chip>
+    </div>
 
-    <md-card>
+    <md-card v-show="show_validation_result">
       <md-card-content>
         <review
+          ref="validation_result"
           :validations='validation_result'
         ></review>
       </md-card-content>
     </md-card>
 
-    <md-card>
+    <md-card class='location' v-show="show_location">
       <md-card-content>
         <location_record
           @change='on_location_change'
           :initial_location='initial_response.location'
         ></location_record>
+
+        <multiselect
+          v-model="response.location_selection"
+          :options="location_options"
+          group-values="locations"
+          group-label="category"
+          placeholder="Alternative location search"
+          track-by="id"
+          label="name">
+          <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
+        </multiselect>
       </md-card-content>
     </md-card>
 
@@ -34,7 +52,6 @@
       </md-card-content>
     </md-card>
 
-
   </div>
 </template>
 
@@ -45,15 +62,20 @@
   import review from './review.vue'
   import form_renderer from './form.vue'
   import Validators from '@/lib/validations'
+  import array_unique from 'array-unique'
+
+  import Multiselect from 'vue-multiselect'
+  import 'vue-multiselect/dist/vue-multiselect.min.css'
 
   export default {
 
     name: 'Record',
-    components: {location_record, form_renderer, review},
+    components: {location_record, form_renderer, review, Multiselect},
     props: ['response_id'],
     data () {
       return {
         response: {
+          location_selection: {},
           location: {},
           form_data: {}
         },
@@ -61,10 +83,34 @@
         validation_result: {
           errors: [],
           warnings: []
-        }
+        },
+        show_validation_result: false,
+        show_location: false
       }
     },
     computed: {
+      location_options() {
+        const raw = this.$store.state.instance_config.location
+
+        const categories = array_unique(raw.map(r => r.category)).sort()
+
+        const nested = categories.map(category => {
+          const matches = raw
+            .filter(r => r.category === category)
+            .map(r => {
+              return {
+                name: r.name,
+                id: r.id
+              }
+            })
+          return {
+            category,
+            locations: matches
+          }
+        })
+
+        return nested
+      },
       user_name() {
         return this.$store.state.meta.user.name
       },
@@ -79,6 +125,7 @@
           return this.$store.state.irs_record_point.responses.find(r => r.id === this.response_id)
         } else {
           return {
+            location_selection: {},
             location: {},
             form_data: {}
           }
@@ -86,14 +133,31 @@
       },
       response_is_valid() {
         return (this.validation_result.errors.length === 0)
+      },
+      validation_result_empty() {
+        return (this.validation_result.errors.length === 0) && (this.validation_result.warnings.length === 0)
+      },
+      location_is_valid() {
+        return this.validation_result.errors.filter(e => e.name === 'no_location').length === 0
       }
     },
     mounted() {
       // We need to run validations when we start,
       // otherwise it only happens after a question has been answered.
       this.validate()
+
+      // Display validations on initial validate only
+      this.show_validation_result = !this.validation_result_empty
+      this.show_location = !this.location_is_valid
+
     },
     methods: {
+      toggle_show_validation_result() {
+        this.show_validation_result = !this.show_validation_result
+      },
+      toggle_show_location() {
+        this.show_location = !this.show_location
+      },
       // TODO: @feature Implement clear_form"
       on_location_change(location) {
         this.response.location = location
@@ -114,6 +178,8 @@
       },
       validate() {
         this.validation_result = Validators[this.slug](this.response, this.$store.state.instance_config.form)
+        if (this.validation_result_empty) this.show_validation_result = false
+        if (this.location_is_valid) this.show_location = false
       },
       save_response() {
         // TODO: @refac Move to a proper response model, with tests. And cake.
@@ -121,8 +187,7 @@
         const recorded_on = this.response.recorded_on || new Date()
 
         const response = {
-          form_data: this.response.form_data,
-          location: this.response.location,
+          ...this.response,
           recorded_on: recorded_on,
           id: id,
           synced: false,
@@ -152,10 +217,28 @@
 <style lang="css" scoped>
   .container {
     margin: 0 auto;
-    width: 90%;
+    max-width: 760px;
+  }
+
+  .location {
+    overflow: visible;
+    z-index: 999;
+  }
+
+  .chip-holder {
+    margin: 10px;
   }
 
   .md-card {
     margin: 10px;
   }
+  .orange {
+    background-color: orange !important;
+    color: white;
+  }
+  .green {
+    background-color: green !important;
+    color: white;
+  }
+
 </style>

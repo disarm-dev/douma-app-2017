@@ -1,7 +1,3 @@
-// Some basics to get started
-import 'whatwg-fetch'
-import "babel-polyfill"
-
 // CSS
 import './fonts/Roboto.css'
 import './fonts/MaterialIcons.css'
@@ -18,8 +14,11 @@ import {instance_config} from './lib/router-helper.js'
 import add_network_status_watcher from './lib/network-status.js'
 import configure_application from './lib/application.js'
 
+// Components
 import {ClientTable} from 'vue-tables-2'
 Vue.use(ClientTable)
+import VueTouch from 'vue-touch'
+Vue.use(VueTouch)
 
 // configure_error_tracking!!
 configure_error_tracking()
@@ -38,6 +37,6 @@ instance_config()
     add_network_status_watcher(douma_app)
 
     // Keep track of what version we're working on
-    console.info('🚀 Launching DOUMA version: ' + COMMIT_HASH)
+    console.info('🚀  Launching DOUMA version: ' + COMMIT_HASH)
   })
   .catch(err => console.error(err))
