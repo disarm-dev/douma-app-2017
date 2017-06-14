@@ -30,7 +30,7 @@
     "downloadjs": "^1.4.7",
     "geoposition-to-object": "^1.0.2",
     "jquery": "^3.2.1",
-    "js-schema": "git+https://github.com/disarm-platform/js-schema.git",
+    "js-schema": "https://github.com/disarm-platform/js-schema",
     "json2csv": "^3.7.3",
     "lodash.debounce": "^4.0.8",
     "lodash.defer": "^4.1.0",

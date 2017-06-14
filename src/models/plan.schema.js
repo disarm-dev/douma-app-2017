@@ -5,5 +5,5 @@ import {TargetSchema} from './target.schema.js'
 export const PlanSchema = schema({
   planned_at: Date,
   country: String,
-  targets: Array.xof(TargetSchema)
+  targets: Array.of_x(1, Infinity, TargetSchema)
 })

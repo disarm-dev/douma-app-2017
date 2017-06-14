@@ -21,7 +21,7 @@ const required_functions = [
 for(const instance_name in instances) {
   const InstanceTranslations = instances[instance_name]
 
-  describe(`${instance_name.toUpperCase()} translations`, () => {
+  xdescribe(`${instance_name.toUpperCase()} translations`, () => {
 
     // can create without specifying options
 

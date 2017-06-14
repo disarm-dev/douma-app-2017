@@ -16,7 +16,7 @@ const fake_responses = [
   }
 ]
 
-describe(`NAM translations detailed`, () => {
+xdescribe(`NAM translations detailed`, () => {
   it('sprayed_count should calculate correctly', () => {
     const t = new Translations({responses: fake_responses})
     assert.equal(t.sprayed_count(), 10)

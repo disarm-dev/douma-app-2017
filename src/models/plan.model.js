@@ -20,6 +20,8 @@ export class Plan {
       throw 'Missing required properties on top_level_spatial_hierarchy'
     }
 
+    if(!selected_target_area_ids) throw new Error('Missing selected_target_area_ids')
+
     const selected_target_areas = cache.geodata.all_target_areas.features.filter(feature => {
       return selected_target_area_ids.includes(feature.properties[top_level_spatial_hierarchy.field_name])
     })
