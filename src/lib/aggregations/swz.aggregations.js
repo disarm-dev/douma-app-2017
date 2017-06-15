@@ -1,5 +1,5 @@
 export default {
-  "homesteads found": {
+  'homesteads found': {
     numerator_function: () => 1
   },
   'structures found': {
@@ -9,7 +9,7 @@ export default {
     numerator_function: (d) => d.number_structures_total,
     denominator_field: 'structures_targeted'
   },
-  "structures sprayed": {
+  'structures sprayed': {
     numerator_function: (d) => d.number_of_structures_sprayed
   },
   "structures sprayed %": {

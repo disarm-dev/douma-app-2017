@@ -19,29 +19,44 @@ export class Aggregator {
       throw new Error(`Missing aggregation ${aggregation_name} for ${this.slug}`)
     }
 
-
     if (aggregation.hasOwnProperty('numerator_function') && aggregation.hasOwnProperty('denominator_field')) {
       // Calculate proportion
-      const numerator = this._calculate_numerator(responses, aggregation.numerator_function)
-      const denominator = this._calculate_denominator(denominators, aggregation.denominator_field)
-      return numerator / denominator
+      try {
+        const numerator = this._calculate_numerator(responses, aggregation.numerator_function, aggregation.precondition)
+        const denominator = this._calculate_denominator(denominators, aggregation.denominator_field)
+        return numerator / denominator
+      } catch (e) {
+        console.log(e)
+        return 0
+      }
 
     } else if (aggregation.hasOwnProperty('numerator_function')) {
       // Calculate numerator only
-      const numerator = this._calculate_numerator(responses, aggregation.numerator_function)
-      return numerator
+      try {
+        const numerator = this._calculate_numerator(responses, aggregation.numerator_function, aggregation.precondition)
+        return numerator
+      } catch (e) {
+        console.log(e)
+        return 0
+      }
 
     } else if (aggregation.hasOwnProperty('denominator_field')) {
       // Calculate denominator only
-      const denominator = this._calculate_denominator(denominators, aggregation.denominator_field)
-      return denominator
+      try {
+        const denominator = this._calculate_denominator(denominators, aggregation.denominator_field)
+        return denominator
+      } catch (e) {
+        console.log(e)
+        return 0
+      }
 
     }
 
   }
 
-  _calculate_numerator(responses, fn) {
+  _calculate_numerator(responses, fn, precondition) {
     return responses.reduce((sum, {form_data}) => {
+      if (precondition && !precondition(form_data)) return sum
       return sum + fn(form_data)
     }, 0)
   }
