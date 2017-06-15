@@ -84,7 +84,7 @@
       <md-button class="md-accent" md-theme="light-blue" @click.native="snackbar_action">OK</md-button>
     </md-snackbar>
 
-    <!-- DIALOG -->
+    <!--ServiceWorker message DIALOG -->
     <md-dialog ref="sw_dialog">
       <md-dialog-title>{{sw_message.title}}</md-dialog-title>
 
@@ -92,7 +92,20 @@
 
       <md-dialog-actions>
         <md-button class="md-primary" @click.native="reload">Refresh</md-button>
-        <md-button class="md-primary" @click.native="sw_dialog_close">Dismiss</md-button>
+        <md-button class="md-primary" @click.native="close_dialog('sw_dialog')">Dismiss</md-button>
+      </md-dialog-actions>
+    </md-dialog>
+
+    <!-- HELP -->
+    <md-dialog ref="help">
+      <md-dialog-title>Help</md-dialog-title>
+
+      <md-dialog-content>
+        <help></help>
+      </md-dialog-content>
+
+      <md-dialog-actions>
+        <md-button class="md-primary" @click.native="close_dialog('help')">Dismiss</md-button>
       </md-dialog-actions>
     </md-dialog>
 
@@ -107,12 +120,11 @@
 <script>
   import BreadCrumbs from './breadCrumbs.vue'
   import generate_applet_routes from '../lib/applet_routes.js'
+  import help from 'components/help.vue'
 
   export default {
     name: 'DOUMA',
-    components: {
-      BreadCrumbs
-    },
+    components: {BreadCrumbs, help},
     props: ['theme'],
     watch: {
       '$store.state.snackbar': 'snackbar_open',
@@ -170,8 +182,8 @@
       sw_dialog_open() {
         this.$refs.sw_dialog.open()
       },
-      sw_dialog_close() {
-        this.$refs.sw_dialog.close()
+      close_dialog(ref) {
+        this.$refs[ref].close()
       },
       snackbar_open() {
         this.$refs.snackbar.open()
