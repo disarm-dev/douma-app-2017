@@ -102,7 +102,7 @@ export default {
         try {
           new Plan().validate(plan_json)
         } catch (e) {
-          console.warn('TODO: @feature Broken plan. Ideally inform the user')
+          context.commit('root:set_snackbar', {message: 'ERROR: Plan is not valid'}, {root: true})
         }
 
         let target_areas = plan_json.targets.map(area => {
