@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import location from '@/components/location.vue'
+import location from 'components/location.vue'
 Vue.config.devtools = false
 
 import geolocate from 'mock-geolocation'
@@ -38,16 +38,6 @@ describe('location.vue', () => {
     assert.isTrue("geolocation" in navigator)
   })
 
-  it('should start with `location_mode` set to "point"', () => {
-    const vm = new Constructor().$mount()
-    assert.equal(vm.location_mode, "point")
-  })
-
-  it('should not render input box if geolocation API is available', () => {
-    const vm = new Constructor().$mount()
-    assert.equal(vm.$el.querySelector('.md-input-container').style.display, 'none')
-  })
-
   it('should set position if position found', () => {
     const vm = new Constructor().$mount()
     const coords = {latitude: 2, longitude: 2}
@@ -68,7 +58,7 @@ describe('location.vue', () => {
       done()
     })
   })
-  
+
   it('should set and return `existing_location` if passed in', (done) => {
     let existing_location = {
       coords: {
@@ -83,23 +73,9 @@ describe('location.vue', () => {
       var expected_text = existing_location.coords.latitude + ', ' + existing_location.coords.longitude
       assert.equal(vm.position.coords.latitude, existing_location.coords.latitude)
       assert.equal(vm.position.coords.longitude, existing_location.coords.longitude)
-      
+
       assert.equal(vm.$el.querySelector('p').textContent, expected_text)
       done()
     })
   })
-
-
-  // should display coordinates if position found
-  it('should `emit` any location found, or text entered', () => {
-    assert.isTrue(false)
-  })
-  // display errors if API errors found
-  // show text input if `getCurrentLocation` fails
-
-  // user can trigger new getCurrentPosition by clicking button
-  it('can receive a click', () => {
-    assert(true)
-  })
-
 })

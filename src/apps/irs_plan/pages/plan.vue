@@ -27,7 +27,7 @@
 
       <!--PLAN SUMMARY-->
       <md-card class="card"><md-card-content>
-        <plan_summary :geodata_ready="geodata_ready"></plan_summary>
+        <!--<plan_summary :geodata_ready="geodata_ready"></plan_summary>-->
       </md-card-content></md-card>
     </div>
 
@@ -57,10 +57,11 @@
 
   import plan_summary from './plan-summary.vue'
   import plan_map from './plan-map.vue'
-  import cache from '@/lib/cache.js'
+  import cache from 'lib/cache.js'
+  import {Plan} from 'models/plan.model.js'
 
   export default {
-    name: 'edit',
+    name: 'Plan',
     components: {plan_summary, plan_map},
     data() {
       return {
@@ -71,7 +72,7 @@
     },
     computed: {
       ...mapState({
-        denominator_def: state => state.instance_config.spatial_hierarchy[0],
+        top_level_spatial_hierarchy: state => state.instance_config.spatial_hierarchy[0],
         slug: state => state.instance_config.slug,
         unsaved_changes: state => state.irs_plan.unsaved_changes,
         online: state => state.network_online,
@@ -100,7 +101,12 @@
     methods: {
       load_geo_data() {
         this.$store.commit('root:set_loading', true)
-        this.$store.dispatch('irs_plan/get_geodata', {slug: this.slug, level: this.denominator_def.name, cache: cache, store: this.$store})
+        this.$store.dispatch('irs_plan/get_geodata', {
+          slug: this.slug,
+          level: this.top_level_spatial_hierarchy.name,
+          cache: cache,
+          store: this.$store
+        })
           .then(() => {
             this.$store.commit('root:set_loading', false)
             this.geodata_ready = true
@@ -126,23 +132,14 @@
 
       },
       save_plan() {
-
-        const target_areas = cache.geodata.all_target_areas.features.filter(feature => {
-          return this.selected_target_area_ids.includes(feature.properties[this.denominator_def.field_name])
-        })
-
-        const key_name = Object.keys(this.denominator_def.denominator.fields)[0]
-        const denominator_field_name = this.denominator_def.denominator.fields[key_name]
-
-        const targets = target_areas.map((area) => {
-          const obj = {}
-          obj[key_name] = area.properties[denominator_field_name]
-          obj[this.denominator_def.field_name] = area.properties[this.denominator_def.field_name]
-          return obj
+        const plan = new Plan().create({
+          selected_target_area_ids: this.selected_target_area_ids,
+          top_level_spatial_hierarchy: this.top_level_spatial_hierarchy,
+          country: this.slug
         })
 
         this.$store.commit('root:set_loading', true)
-        this.$store.dispatch('irs_plan/save_plan', targets)
+        this.$store.dispatch('irs_plan/save_plan', plan)
           .then(() => {
             this.$store.commit('root:set_snackbar', {message: 'Successful save'})
             this.$store.commit('root:set_loading', false)

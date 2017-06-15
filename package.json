@@ -29,12 +29,13 @@
     "dexie": "^1.5.1",
     "downloadjs": "^1.4.7",
     "expr-eval": "^1.0.1",
+    "fuse.js": "^3.0.5",
     "geoposition-to-object": "^1.0.2",
+    "is-number": "^3.0.0",
     "jquery": "^3.2.1",
     "js-yaml": "^3.8.4",
+    "js-schema": "https://github.com/disarm-platform/js-schema",
     "json2csv": "^3.7.3",
-    "leaflet": "^1.0.3",
-    "leaflet.locatecontrol": "^0.60.0",
     "lodash.debounce": "^4.0.8",
     "lodash.defer": "^4.1.0",
     "lodash.pick": "^4.4.0",
@@ -122,7 +123,8 @@
     "webpack-dev-middleware": "^1.10.0",
     "webpack-hot-middleware": "^2.18.0",
     "webpack-merge": "^4.1.0",
-    "webpack-visualizer-plugin": "^0.1.11"
+    "webpack-visualizer-plugin": "^0.1.11",
+    "yaml-include-loader": "^1.0.0"
   },
   "engines": {
     "node": ">= 4.0.0",

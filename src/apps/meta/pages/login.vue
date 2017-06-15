@@ -21,6 +21,8 @@
 
           <md-button class="md-accent md-raised login-button" :disabled='disabled || !can_login' type="submit">Login</md-button>
         </form>
+
+        <md-button @click.native="$store.commit('root:trigger_help_visible')">Help</md-button>
      </md-card-content>
     </md-card>
 

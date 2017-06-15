@@ -12,7 +12,10 @@
           <!-- <bread-crumbs></bread-crumbs> -->
           {{country}}
         </h2>
-        <div v-if="!online" @click="try_online">
+        <div>
+          <md-icon @click.native="$store.commit('root:trigger_help_visible')">help</md-icon>
+        </div>
+        <div v-if="!online">
           offline
           <md-icon>settings_ethernet</md-icon>
         </div>
@@ -30,16 +33,21 @@
           <!-- <img src="/assets/disarm-logo-word-grey.png" style="height: 50px;"> -->
 
         </div>
+
+        <!--Status/top of sidebar: LOGGED-IN-->
         <div v-if="user">
           <p @click="navigate('meta:home')">Logged in: {{user.name}}</p>
         </div>
+
+        <!--Status/top of sidebar: LOGGED-OUT-->
         <div v-else>
           <p>Nope, not logged in.</p>
         </div>
         <p>Version hash: {{commit_hash}}</p>
       </md-toolbar>
 
-      <md-list v-if='user'>
+      <!--Sidebar: LOGGED IN-->
+      <md-list v-if="user">
         <md-list-item v-for='applet in applets' :key='applet' @click.native="navigate(applet.name)">
           <md-icon>{{applet.icon}}</md-icon><span>{{applet.title}}</span>
         </md-list-item>
@@ -55,7 +63,22 @@
           <md-icon>exit_to_app</md-icon><span>Logout</span>
         </md-list-item>
 
+        <md-list-item @click.native="open_dialog_help">
+          <md-icon>help</md-icon><span>Help</span>
+        </md-list-item>
       </md-list>
+
+      <!--Sidebar: LOGGED OUT-->
+      <md-list v-else>
+        <md-list-item class='md-accent' @click.native="navigate('meta:login')">
+          <md-icon>exit_to_app</md-icon><span>Login</span>
+        </md-list-item>
+
+        <md-list-item @click.native="open_dialog_help">
+          <md-icon>help</md-icon><span>Help</span>
+        </md-list-item>
+      </md-list>
+
     </md-sidenav>
 
     <!-- SNACKBAR -->
@@ -64,7 +87,7 @@
       <md-button class="md-accent" md-theme="light-blue" @click.native="snackbar_action">OK</md-button>
     </md-snackbar>
 
-    <!-- DIALOG -->
+    <!--ServiceWorker message DIALOG -->
     <md-dialog ref="sw_dialog">
       <md-dialog-title>{{sw_message.title}}</md-dialog-title>
 
@@ -72,9 +95,24 @@
 
       <md-dialog-actions>
         <md-button class="md-primary" @click.native="reload">Refresh</md-button>
-        <md-button class="md-primary" @click.native="sw_dialog_close">Dismiss</md-button>
+        <md-button class="md-primary" @click.native="close_dialog('sw_dialog')">Dismiss</md-button>
       </md-dialog-actions>
     </md-dialog>
+
+    <!-- HELP -->
+    <keep-alive>
+      <md-dialog ref="help" class="help">
+        <md-dialog-title>Help</md-dialog-title>
+
+        <md-dialog-content>
+          <help></help>
+        </md-dialog-content>
+
+        <md-dialog-actions>
+          <md-button class="md-primary" @click.native="close_dialog_help">Dismiss</md-button>
+        </md-dialog-actions>
+      </md-dialog>
+    </keep-alive>
 
 
     <!-- APPLET CONTAINER -->
@@ -87,16 +125,16 @@
 <script>
   import BreadCrumbs from './breadCrumbs.vue'
   import generate_applet_routes from '../lib/applet_routes.js'
+  import help from 'components/help.vue'
 
   export default {
     name: 'DOUMA',
-    components: {
-      BreadCrumbs
-    },
+    components: {BreadCrumbs, help},
     props: ['theme'],
     watch: {
       '$store.state.snackbar': 'snackbar_open',
-      '$store.state.sw_message': 'sw_dialog_open'
+      '$store.state.sw_message': 'open_dialog_sw',
+      '$store.state.trigger_help_visible_irrelevant_value': 'open_dialog_help'
     },
     mounted() {
       // if ((typeof this.$store.state.user !== 'undefined') && (this.$store.state.meta.user.version !== COMMIT_HASH)) {
@@ -137,7 +175,7 @@
       },
       commit_hash() {
         return COMMIT_HASH.substring(0, 6)
-      }
+      },
     },
     methods: {
       navigate(name) {
@@ -147,23 +185,27 @@
       toggleSideNav() {
         this.$refs.sideNav.toggle();
       },
-      sw_dialog_open() {
-        this.$refs.sw_dialog.open()
+      // Dialog
+      close_dialog(ref) {
+        this.$refs[ref].close()
       },
-      sw_dialog_close() {
-        this.$refs.sw_dialog.close()
+      // Help
+      open_dialog_help() {
+        this.$refs.help.open()
       },
+      close_dialog_help() {
+        this.$refs.help.close()
+      },
+      // Snackbar
       snackbar_open() {
         this.$refs.snackbar.open()
       },
       snackbar_action() {
         this.$refs.snackbar.close()
       },
+      // Reload page
       reload() {
         location.reload()
-      },
-      try_online() {
-
       }
     }
   }
@@ -184,5 +226,10 @@
 
   [v-cloak] {
     display: none;
+  }
+
+  .help > .md-dialog {
+    min-width: 90%;
+    height: 90%;
   }
 </style>

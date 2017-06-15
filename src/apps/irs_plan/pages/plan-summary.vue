@@ -1,14 +1,10 @@
 <template>
   <div>
-    
+    <h3>Calculator</h3>
     <div>
-      <h3>Calculator</h3>
-      <div>
       At a rate of  <input class="slim-input" type="numer" v-model="calculator.structures"/> structures per team per day, with  <input class="slim-input" type="number" v-model="calculator.teams"/> teams this would take {{days_to_spray}} days
     </div>
-    <br>
 
-    </div>
     <h3>Selected regions:</h3>
     <md-button class='md-raised md-primary' @click.native="download_plan">Download plan</md-button>
     <p>Working with {{selected_target_area_ids.length}} regions, containing in total {{number_of_structures}} structures, YY rooms, ZZ population</p>
@@ -18,7 +14,6 @@
       :columns="table.columns"
     ></v-client-table>
   </div>
-
 </template>
 
 <script>
@@ -27,7 +22,7 @@
   import moment from 'moment'
   import {mapState, mapGetters} from 'vuex'
 
-  import cache from '@/lib/cache.js'
+  import cache from 'lib/cache.js'
 
   export default {
     name: 'plan_summary',

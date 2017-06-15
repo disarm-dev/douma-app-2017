@@ -1,22 +1,20 @@
 <template>
   <div class='profile'>
-    <md-card style="margin: 1em 0;">
+    <md-card>
       <md-card-content>
+        <div>Logged in as: {{user.name}} ({{user.username}})</div>
+        <div>Access to:</div>
         <md-button v-for='app in applets' :key='app' class='md-raised md-accent' @click.native="$router.push({name: app.name})">{{app.title}}</md-button>
       </md-card-content>
     </md-card>
 
-    <md-card>
-      <md-card-content>
-        <md-button v-if='geolocation_test_response === ""' @click.native='check_geolocation'>Check device has geolocation</md-button>
-        <p>{{geolocation_test_response}}</p>
-      </md-card-content>
-    </md-card>
+    <p v-if="geolocation_test_response">{{geolocation_test_response}}</p>
 
-    <router-link to="/meta/location">location</router-link>
-    <router-link to="/meta/building">building</router-link>
-    <a @click="reset_config()">reset config</a>
-    <a href="/3rdpartylicenses.txt">licenses</a>
+    <router-link to="/meta/location">location</router-link> |
+    <router-link to="/meta/building">building</router-link> |
+    <a @click="check_geolocation()">check geolocation</a> |
+    <a @click="reset_config()">reset config</a> |
+    <a href="/3rdpartylicenses.txt">licenses</a> |
     <a @click="log_form_elements">form_elements</a>
     <router-link to="/meta/validations">validations</router-link>
     <p>{{commit_hash}}</p>
@@ -41,6 +39,9 @@
       },
       commit_hash() {
         return COMMIT_HASH
+      },
+      user() {
+        return this.$store.state.meta.user
       }
     },
     methods: {
@@ -69,6 +70,10 @@
     max-width: 500px;
     margin: 0 auto;
     padding: 1em 0.5em;
+  }
+
+  .md-card {
+    margin: 1em 0;
   }
 
   .profile-title {

@@ -6,7 +6,7 @@
     <div id="surveyContainer"></div>
     <md-button v-if="show_previous" @click.native="previous_page"class="md-raised">Previous</md-button>
     <md-button v-if="show_next" @click.native="next_page"class="md-raised">Next</md-button>
-    <md-button v-if="show_complete" @click.native="complete"class="md-raised md-primary">Complete</md-button>
+    <md-button v-if="show_complete" :disabled="complete_disabled" @click.native="complete"class="md-raised md-primary">Complete</md-button>
   </v-touch>
 </template>
 
@@ -21,7 +21,8 @@
         _survey: {},
         show_previous: false,
         show_next: true,
-        show_complete: false
+        show_complete: false,
+        complete_disabled: false
       }
     },
     watch: {
@@ -56,31 +57,51 @@
         el.Survey({
           model: this._survey,
           onValueChanged: this.on_form_change,
-          onCurrentPageChanged: this.on_page_change
+          onCurrentPageChanged: this.on_page_changed
         });
 
       },
-      on_page_change() {
-        this.show_next = false
-        this.show_previous = false
-        this.show_complete = false
-
-        if (!this._survey.isLastPage) this.show_next = true
-        if (!this._survey.isFirstPage) this.show_previous = true
-
+      on_page_changed() {
+        this.control_navigation_visibility()
         this.control_complete_button_visibility()
       },
       on_form_change() {
         this.$emit('change', this._survey.data)
-
         this.control_complete_button_visibility()
       },
+      control_navigation_visibility() {
+        this.show_next = false
+        this.show_previous = false
+
+        if (!this._survey.isLastPage) this.show_next = true
+        if (!this._survey.isFirstPage) this.show_previous = true
+      },
       control_complete_button_visibility() {
-        if (this._survey.isLastPage && this.response_is_valid && !this._survey.isCurrentPageHasErrors) {
-          this.show_complete = true
-        } else {
+        this.$nextTick(() => {
           this.show_complete = false
-        }
+          this.complete_disabled = true
+
+          if (Object.keys(this._survey.data).length === 0) {
+            // No questions answered
+            return
+          }
+
+          if (this._survey.isLastPage && (this._survey.isCurrentPageHasErrors || !this.response_is_valid)) {
+            console.log(this._survey.isLastPage)
+            // Last page, but with errors
+
+            this.show_complete = true
+            this.complete_disabled = true
+            return
+          }
+
+          if (this._survey.isLastPage && this.response_is_valid && !this._survey.isCurrentPageHasErrors) {
+            // All good, complete!
+            this.show_complete = true
+            this.complete_disabled = false
+            return
+          } 
+        })
       },
       next_page() {
         this._survey.nextPage()

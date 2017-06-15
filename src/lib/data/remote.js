@@ -111,6 +111,7 @@ export const create_record = (record) => {
 
 // GEODATA
 
+// $store passed-in to update loading progress bar
 export const get_geodata = ({slug, level, cache, store}) => {
   const urls = [
   `/static/geo/${slug}/spatial_hierarchy/${slug}.${level}.geojson`,
@@ -121,10 +122,9 @@ export const get_geodata = ({slug, level, cache, store}) => {
 
   let options = {
     timeout: 300000,
-    onDownloadProgress: (progress) => {
-      // console.log(Object.keys(progress_cache).length, urls.length)
-      // if (Object.keys(progress_cache).length !== urls.length) return console.log('not all files going.')
 
+    // Calculate progress
+    onDownloadProgress: (progress) => {
       const key = progress.target.responseURL
 
       if (!progress_cache[key]) {
@@ -155,5 +155,10 @@ export const get_geodata = ({slug, level, cache, store}) => {
       cache.geodata.all_target_areas = jsons[0]
       cache.geodata.clusters = jsons[1]
     })
+}
 
+export const get_geodata_area = ({slug, level}) => {
+  let url = `/static/geo/${slug}/spatial_hierarchy/${slug}.${level}.geojson`
+
+  return standard_handler(url)
 }

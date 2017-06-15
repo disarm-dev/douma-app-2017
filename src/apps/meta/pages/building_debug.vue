@@ -1,53 +1,42 @@
 <template>
   <div>
     <div class="container">
-      <md-input-container>
-        <label>Upload GeoJSON</label>
-        <md-file @selected="upload_buildings"></md-file>
-      </md-input-container>
-      <p>Clicked on osm_id: {{osm_id_from_map}}</p>
-      <md-input-container>
-        <label>OSM ID</label>
-        <md-input :disabled='!buildings_loaded' v-model="osm_id" placeholder="Will match the LAST few digits."></md-input>
-      </md-input-container>
+      <md-card v-if="!buildings_loaded || !selected_building_field">
+        <md-card-content>
+          <md-input-container>
+            <label>Upload GeoJSON</label>
+            <md-file :disabled="!map_ready" @selected="upload_buildings"></md-file>
+          </md-input-container>
+
+          <md-input-container>
+            <label>Field</label>
+            <md-select :disabled="buildings_fields_options.length === 0" v-model="selected_building_field">
+              <md-option v-for='option in buildings_fields_options' :key='option' :value="option">{{option}}</md-option>
+            </md-select>
+          </md-input-container>
+        </md-card-content>
+      </md-card>
+
+      <md-card v-if="buildings_loaded && selected_building_field">
+        <md-card-content>
+          <p>Clicked on building: {{building_clicked}}</p>
+          <md-input-container>
+            <label>OSM ID</label>
+            <md-input :disabled='!buildings_loaded' v-model="building_typed" placeholder="Will match the LAST few digits."></md-input>
+          </md-input-container>
+        </md-card-content>
+      </md-card>
     </div>
 
     <div id="map"></div>
 
-    <div class="container">
-      <h3>Load samples</h3>
-      <md-button @click.native="add_buildings('mpaka')">Mpaka</md-button>
-      <md-button @click.native="add_buildings('hlane')">Hlane</md-button>
-      <md-button @click.native="add_buildings('simunye')">Simunye</md-button>
-      <md-button @click.native="add_buildings('mbabane')">Mbabane</md-button>
-    </div>
-    <md-button class='md-raised md-primary' @click.native="get_current_position" :disabled='getting_position'>Get current location</md-button>
-    <md-checkbox v-model="enableHighAccuracy">High accuracy</md-checkbox>
-    <md-button class='md-raised md-accent' @click.native='sync' :disabled='syncing'>Sync</md-button>
-
-    <md-list>
-      <md-list-item v-for="location in locations" :key="location.timestamp">
-        <md-icon>location_searching</md-icon>
-        <span>{{ human_time(location.timestamp) }} ({{location.coords.accuracy}}m, {{location.duration}}s)</span>
-
-        <md-list-expand>
-          <p>{{location}}</p>
-          <md-button @click.native='delete_location(location)' class='md-warn'>Delete</md-button>
-        </md-list-expand>
-      </md-list-item>
-    </md-list>
   </div>
 </template>
 
 <script>
-  import Leaflet from 'leaflet'
-  import 'leaflet/dist/leaflet.css'
-  import locatecontrol from 'leaflet.locatecontrol'
-  import center from '@turf/center'
-  import centroid from '@turf/centroid'
+  import mapboxgl from 'mapbox-gl'
   import bbox from '@turf/bbox'
   import moment from 'moment'
-  import uuid from 'uuid/v4'
 
   import {get_current_position} from '../../../lib/location_helper.js'
 
@@ -55,44 +44,87 @@
     name: 'building_debug',
     data () {
       return {
-        osm_id: '',
-        osm_id_from_map: '',
+        // config
         _map: {},
-        _buildings_layer: null,
-        syncing: false,
-        enableHighAccuracy: false,
-        getting_position: false,
-        buildings_loaded: false
+        map_ready: false,
+        buildings_loaded: false,
+        handler: { click: null },
+        _buildings_geojson: null,
+        buildings_fields_options: [],
+        _user_location_marker: null,
+
+        // user input
+        selected_building_field: null,
+        building_typed: '',
+        building_clicked: '',
+        matching_building_ids: []
       }
     },
-    computed: {
-      locations() {
-        return this.$store.state.meta.locations
-      },
-      map_focus() {
-        return this.$store.state.instance_config.map_focus
-      },
-    },
     watch: {
-      'osm_id': 'highlight_building',
+      'building_typed': 'highlight_building',
+      'selected_building_field': 'select_field'
     },
     mounted() {
       this.create_map()
     },
     methods: {
+      // Map
       create_map() {
-        this._map = Leaflet.map('map', {
-          tms: true,
-          center: [this.map_focus.centre.lat, this.map_focus.centre.lng],
-          zoom: this.map_focus.zoom
+        this._map = new mapboxgl.Map({
+          container: 'map',
+          style: 'mapbox://styles/mapbox/streets-v9',
+          center: [22.63977015806131, -25.276453102086563],
+          zoom: 4
         });
 
-        const url = 'https://api.mapbox.com/styles/v1/onlyjsmith/civ9t5x7e001y2imopb8c7p52/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA'
+        // User geolocation
+        const geolocate_control = new mapboxgl.GeolocateControl({
+          positionOptions: {
+            enableHighAccuracy: true
+          },
+          watchPosition: true
+        })
 
-        L.control.locate().addTo(this._map);
+        geolocate_control.on('error', (e) => {
+          console.error('geolocate:error', e)
+        })
 
-        Leaflet.tileLayer(url).addTo(this._map);
+        geolocate_control.on('geolocate', (e) => {
+          const user_coords = [e.coords.longitude, e.coords.latitude]
+
+          if (this._user_location_marker) {
+            console.log('existing marker')
+            this._user_location_marker.setLngLat(user_coords)
+          } else {
+            console.log('new marker')
+            let el = document.createElement('div')
+            el.className = 'user_location'
+
+            this._user_location_marker = new mapboxgl.Marker(el)
+              .setLngLat(user_coords)
+            this._user_location_marker.addTo(this._map)
+          }
+        })
+        this._map.addControl(geolocate_control)
+
+
+        // Get map ready to go
+        this._map.on('load', () => {
+          this.map_ready = true
+        })
       },
+      add_map_listeners() {
+        this._map.on('click',  (e) => {
+          const feature = this._map.queryRenderedFeatures(e.point, {layers: ['buildings']})[0]
+
+          if (feature) {
+            this.building_clicked = feature.properties[this.selected_building_field]
+          }
+        })
+      },
+
+
+      // Buildings
       upload_buildings(e) {
         if (e.length === 0) return
 
@@ -100,125 +132,102 @@
         const file_reader = new FileReader();
 
         file_reader.onload = (e) => {
-          const buildings_geojson= JSON.parse(e.target.result)
-          this.add_buildings_to_map(buildings_geojson)
+          this._buildings_geojson = JSON.parse(e.target.result)
+          this.buildings_fields_options = Object.keys(this._buildings_geojson.features[0].properties)
+          this.buildings_loaded = true
         }
 
         file_reader.readAsText(file)
       },
-      add_buildings_to_map(buildings_geojson) {
-        if(typeof this._buildings_layer !== 'undefined') {
-          this._map.removeLayer(this._buildings_layer)
-          this._buildings_layer = null
+      select_field() {
+        if (this.selected_building_field) this.add_buildings_to_map()
+      },
+
+      add_buildings_to_map() {
+        if (this._buildings_geojson.length === 0) return
+
+        if (this._map.getLayer('buildings')) {
+          this._map.removeLayer('buildings')
         }
 
-        this._buildings_layer = L.geoJSON(buildings_geojson, {
-          style: (feature, layer) => {
-            let base_style = {
-              weight: 0.8
-            }
+        if (this._map.getSource('buildings')) {
+          this._map.removeSource('buildings')
+        }
 
-            return base_style
+        this._map.addLayer({
+          id: 'buildings',
+          type: 'fill',
+          source: {
+            type: 'geojson',
+            data: this._buildings_geojson
           },
-          onEachFeature: (feature, layer) => {
-            layer.on('click', () => {
-              this.osm_id_from_map = feature.properties.osm_id
-            })
-          }
+          paint: {
+            'fill-color': '#f909bd',
+            'fill-opacity': 0.8,
+            'fill-outline-color': '#a80088'
+          },
+          filter: ['!in', this.selected_building_field].concat(this.matching_building_ids)
         })
 
-        this.buildings_loaded = true
-        this._buildings_layer.addTo(this._map)
+        this._map.addLayer({
+          id: 'highlighted_buildings',
+          type: 'fill',
+          source: {
+            type: 'geojson',
+            data: this._buildings_geojson
+          },
+          paint: {
+            'fill-color': '#f9f52e',
+            'fill-opacity': 0.8,
+            'fill-outline-color': '#ff8d00'
+          },
+          filter: ['in', this.selected_building_field].concat(this.matching_building_ids)
+        })
 
-        const bounds = bbox(buildings_geojson)
-        this._map.fitBounds([[bounds[1], bounds[0]], [bounds[3], bounds[2]]])
-      },
-      add_buildings(place) {
-
-        fetch(`/static/structure_samples/${place}_buildings.json`)
-          .then(res => res.json())
-          .then(geojson => {
-            this.add_buildings_to_map(geojson)
-
-          }).catch(err => console.log(err))
+        const bounds = bbox(this._buildings_geojson)
+        this._map.fitBounds(bounds, {padding: 20})
+        this.add_map_listeners()
       },
       highlight_building() {
-        this._buildings_layer.setStyle((feature, layer) => {
-          const regex = new RegExp(this.osm_id + "$")
-          if (this.osm_id && regex.test(feature.properties.osm_id)) {
+        if (this.building_typed === '') {
+          // Stop matching everything with a blank input
+          this.matching_building_ids = []
+        } else {
+          const regex = new RegExp(this.building_typed + "$")
+          this.matching_building_ids = this._buildings_geojson.features.filter(building => {
+            const id = building.properties[this.selected_building_field]
+            return regex.test(id)
+          }).map(building => building.properties[this.selected_building_field])
+        }
 
-             let base_style = {
-               weight: 0.8,
-               color: 'red'
-             }
-
-             return base_style
-          } else {
-            return {color: '#3388ff'}
-          }
-         })
+        this._map.setFilter('buildings', ['!in', this.selected_building_field].concat(this.matching_building_ids))
+        this._map.setFilter('highlighted_buildings', ['in', this.selected_building_field].concat(this.matching_building_ids))
       },
+
+      // Presentation
       human_time(timestamp) {
         return moment(timestamp).format('kk:mm:ss:SS ddd')
       },
-      create_position_object(position, duration) {
-        if (this.osm_id) {
-          position.osm_id = this.osm_id
-        }
-        position.duration = duration
-        position.username = this.$store.state.meta.user.username
-        position.id = uuid()
-        position.user_agent = navigator.userAgent
-        return position
-      },
-      get_current_position(feature) {
-        this.getting_position = true
-
-
-        const start_stamp = moment()
-        const options = {enableHighAccuracy: this.enableHighAccuracy}
-
-        get_current_position(options).then((position) => {
-          this.getting_position = false
-
-          const end_stamp = moment()
-          const duration = this.get_duration(start_stamp, end_stamp)
-
-          const new_position = this.create_position_object(position, duration)
-          this.add_location(new_position)
-        })
-      },
-      add_location(position) {
-        this.$store.commit('meta/add_location', position)
-      },
-      delete_location(position) {
-        this.$store.commit('meta/delete_location', position)
-      },
-      get_duration(start_stamp, end_stamp) {
-        return moment.utc(moment(end_stamp,"DD/MM/YYYY HH:mm:ss").diff(moment(start_stamp,"DD/MM/YYYY HH:mm:ss"))).format("s")
-      },
-      sync() {
-        this.syncing = true
-        Promise.all(
-          this.locations
-            .map((location) => {
-              return fetch(`https://disarm-platform.firebaseio.com/locations/${location.id}.json`, {
-                method: 'PUT',
-                body: JSON.stringify(location)
-              }).then(() => {
-                this.$store.commit('meta/delete_location', location)
-              })
-            })
-        ).then(res => {
-          this.syncing = false
-        })
-      }
     }
   }
 </script>
 
+
 <style scoped>
   #map {
     height: calc(80vh - 200px);
+  }
+
+  .md-card {
+    margin: 10px;
+  }
+</style>
+
+<style>
+  .user_location {
+    width: 14px;
+    height: 14px;
+    background-color: #0070ff;
+    border-radius: 8px;
   }
 </style>

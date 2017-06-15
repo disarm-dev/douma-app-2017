@@ -1,6 +1,6 @@
 export default {
   geodata: {
-    all_target_areas: null,
-    clusters: null
+    all_target_areas: null, // FeatureCollection 
+    clusters: null // FeatureCollection
   }
 }

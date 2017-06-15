@@ -1,6 +1,10 @@
 {
   "applets": {
     "irs_monitor": {
+      "aggregations": {
+        "map": "structures sprayed %",
+        "table": ["structures sprayed", "structures sprayed %"]
+      },
       "components": [
         {
           "height_constraint": "viewport",
@@ -10,7 +14,7 @@
       ]
     },
     "irs_plan": {
-      "number_of_structures": "NmHshld"
+      "number_of_households": "NmHshld"
     },
     "irs_record_point": {},
     "meta": {}
@@ -27,9 +31,7 @@
   "spatial_hierarchy": [
     {
       "denominator": {
-        "fields": {
-          "number_of_households": "NmHshld"
-        }
+        "number_of_households": "NmHshld"
       },
       "field_name": "OBJECTID",
       "name": "constituencies"

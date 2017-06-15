@@ -1,6 +1,10 @@
 {
   "applets": {
     "irs_monitor": {
+      "aggregations": {
+        "map": "",
+        "table": []
+      },
       "components": [
         {
           "height_constraint": "none",
@@ -37,7 +41,6 @@
   "spatial_hierarchy": [
     {
       "denominator": {
-        "fields": {}
       },
       "field_name": "ZIMWARDSID",
       "name": "wards"
