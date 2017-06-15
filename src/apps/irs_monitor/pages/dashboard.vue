@@ -140,6 +140,8 @@
         filtered_denominators: 'irs_monitor/filtered_denominators'
       }),
       aggregations() {
+        if(!this.filtered_responses.length || !this.filtered_denominators.length) return []
+
         const instance_presenters = new Presenters[this.instance_config.slug](this.instance_config) // TODO: @refac Improve signature, remove duplication
         const data = instance_presenters.get_aggregated_responses({
           responses: this.filtered_responses,

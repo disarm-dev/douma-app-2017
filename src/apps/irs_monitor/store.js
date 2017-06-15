@@ -33,6 +33,7 @@ export default {
   },
   getters: {
     filtered_responses(state, getters) {
+      if(!state.plan || !state.responses.length) return []
       return state.responses.filter(response => {
         // TODO: @debug This first filter is more of a DEBUG filter, making sure we have valid responses
         return Object.keys(response.location_selection).length !== 0 // TODO: @feature Add actual filtering
@@ -40,6 +41,7 @@ export default {
       })
     },
     filtered_denominators(state, getters) {
+      if(!state.plan) return []
       return state.plan.targets.filter(response => {
         return true // TODO: @feature Add actual filtering
       })

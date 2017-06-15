@@ -1,10 +1,11 @@
+import isNumber from 'is-number'
+
 import bwa from './bwa.aggregations.js'
 import nam from './nam.aggregations.js'
 import swz from './swz.aggregations.js'
 import zwe from './zwe.aggregations.js'
 
-// const aggregations = {bwa, nam, swz, zwe}
-const aggregations = {swz}
+const aggregations = {bwa, nam, swz, zwe}
 
 export class Aggregator {
   constructor(slug) {
@@ -24,7 +25,11 @@ export class Aggregator {
       try {
         const numerator = this._calculate_numerator(responses, aggregation.numerator_function, aggregation.precondition)
         const denominator = this._calculate_denominator(denominators, aggregation.denominator_field)
-        return numerator / denominator
+        const result = numerator / denominator
+
+        if (!isNumber(result)) return 0
+
+        return result
       } catch (e) {
         console.log(e)
         return 0
@@ -57,7 +62,9 @@ export class Aggregator {
   _calculate_numerator(responses, fn, precondition) {
     return responses.reduce((sum, {form_data}) => {
       if (precondition && !precondition(form_data)) return sum
-      return sum + fn(form_data)
+      const result = fn(form_data)
+      if (!isNumber(result)) return sum
+      return sum + result
     }, 0)
   }
 
@@ -65,7 +72,9 @@ export class Aggregator {
     if (!Array.isArray(denominators)) denominators = [denominators]
 
     return denominators.reduce((sum, denominator) =>  {
-      return sum + denominator[field]
+      const result = denominator[field]
+      if (!isNumber(result)) return sum
+      return sum + result
     }, 0)
   }
 

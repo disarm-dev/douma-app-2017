@@ -11,7 +11,7 @@ export default class Presenters {
 
   get_aggregated_responses({responses, denominators, instance_config}) {
     // Get from instance_config
-    const required_aggregations = ['structures sprayed', 'structures sprayed %']
+    const required_aggregations = instance_config.applets.irs_monitor.aggregations.table
 
     // Get id_field from instance_config
     let target_area_id_field
@@ -42,7 +42,6 @@ export default class Presenters {
           aggregation_name: aggregation_name
         })
       })
-
       return denominator_row
     })
 
@@ -55,8 +54,11 @@ export default class Presenters {
 
     responses_grouped_by_area.push(total_row)
 
-    // Remove null, empty
-    const flat_responses_grouped_by_area = responses_grouped_by_area.filter(r => r)
+    // Remove null, empty, keep zeroes
+    const flat_responses_grouped_by_area = responses_grouped_by_area.filter(r => {
+      if (r === 0) return true
+      return r
+    })
 
     return flat_responses_grouped_by_area
   }

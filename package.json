@@ -30,6 +30,7 @@
     "downloadjs": "^1.4.7",
     "fuse.js": "^3.0.5",
     "geoposition-to-object": "^1.0.2",
+    "is-number": "^3.0.0",
     "jquery": "^3.2.1",
     "js-schema": "https://github.com/disarm-platform/js-schema",
     "json2csv": "^3.7.3",

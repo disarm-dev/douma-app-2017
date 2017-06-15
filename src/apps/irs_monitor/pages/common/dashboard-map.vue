@@ -245,7 +245,7 @@
 
 //        let aggregations = AllAggregations[this.instance_config.slug]
 
-        let aggregation = aggregations[this.instance_config.applets.irs_monitor.aggregation_for_map]
+        let aggregation = aggregations[this.instance_config.applets.irs_monitor.aggregations.map]
 
         // console.log('area', area.properties[field_name], responses_for_area.length)
         let coverage = aggregation(responses_for_area, this.denominator)

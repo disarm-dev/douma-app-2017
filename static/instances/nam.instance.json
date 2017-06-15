@@ -1,7 +1,10 @@
 {
   "applets": {
     "irs_monitor": {
-      "aggregation_for_map": "structures sprayed %",
+      "aggregations": {
+        "map": "structures sprayed %",
+        "table": ["structures sprayed", "structures sprayed %"]
+      },
       "components": [
         {
           "height_constraint": "viewport",
@@ -11,7 +14,7 @@
       ]
     },
     "irs_plan": {
-      "number_of_structures": "NmHshld"
+      "number_of_households": "NmHshld"
     },
     "irs_record_point": {},
     "meta": {}

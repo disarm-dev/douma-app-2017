@@ -7,14 +7,14 @@ export default {
   },
   'structures found %': {
     numerator_function: (d) => d.number_sprayable + d.number_unsprayable,
-    denominator_field: 'number_of_structures'
+    denominator_field: 'number_of_households'
   },
   "structures sprayed": {
     numerator_function: (d) => d.numbersprayed_delta + d.numbersprayed_ddt
   },
   'structures sprayed %': {
     numerator_function: (d) => d.numbersprayed_delta + d.numbersprayed_ddt,
-    denominator_field: 'number_of_structures'
+    denominator_field: 'number_of_households'
   },
   'sprayable structures not sprayed': {
     numerator_function: (d) => (d.number_sprayable - (d.numbersprayed_delta + d.numbersprayed_ddt))
@@ -26,7 +26,7 @@ export default {
   'sprayable structures not sprayed (refused) %': {
     precondition: (d) => d.reasons_notspraying.includes('refused'),
     numerator_function: (d) => (d.number_sprayable - (d.numbersprayed_delta + d.numbersprayed_ddt)),
-    denominator_field: 'number_of_structures'
+    denominator_field: 'number_of_households'
   }
 }
 
