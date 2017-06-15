@@ -1,10 +1,6 @@
-import Base from './base.translations.js'
+import Base from './base.presenters.js'
 
 export default class extends Base {
-  getTableData(responses, denominator) {
-    const field_name = 'inkhundla'
-    return super.getTableData(responses, denominator, field_name)
-  }
 
   getMapStyle() {
     return {

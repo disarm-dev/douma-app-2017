@@ -9,10 +9,11 @@
   import download from 'downloadjs'
   import json2csv from 'json2csv'
   import moment from 'moment'
-  import Translations from 'lib/translations'
+  import numeral from 'numeral'
+  import Presenters from 'lib/presenters'
 
   export default {
-    props: ['responses', 'denominator'],
+    props: ['response_aggregations'],
     data() {
       return {
         tableData: [],
@@ -32,13 +33,21 @@
     },
     methods: {
       prepare_table_data(){
-        if (this.responses.length === 0) return
+        if (this.response_aggregations.length === 0) return
 
-        const instance_translations = new Translations[this.instance_config.slug](this.instance_config) // TODO: @refac Improve signature, remove duplication
-        const data = instance_translations.getTableData(this.responses, this.denominator)
+        // Filter/pluck to get just the columns needed for the table
+        this.columns = Object.keys(this.response_aggregations[0])
+        const columns_to_format = this.columns.filter(column => /\%$/.test(column))
 
-        this.columns = Object.keys(data[0])
-        this.tableData = data
+        const presented_rows = this.response_aggregations.map(row => {
+          columns_to_format.forEach(column => {
+            row[column] = numeral(row[column]).format('0.[0]%')
+          })
+          return row
+        })
+
+        this.tableData = presented_rows
+
       },
       download_content(){
         const fields = this.columns

@@ -1,4 +1,4 @@
-import edit from './pages/edit.vue'
+import edit from './pages/plan.vue'
 
 export default [
   {

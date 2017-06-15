@@ -2,11 +2,13 @@ import cache from 'lib/cache'
 import {PlanSchema} from './plan.schema'
 
 export class Plan {
-  constructor({country, selected_target_area_ids, top_level_spatial_hierarchy}) {
-    const decorated_targets = this.decorate_targets({selected_target_area_ids, top_level_spatial_hierarchy})
+  model;
+
+  create({country, selected_target_area_ids, top_level_spatial_hierarchy}) {
+    const decorated_targets = this._decorate_targets({selected_target_area_ids, top_level_spatial_hierarchy})
 
     this.model = {
-      planned_at: new Date(),
+      planned_at: new Date().toISOString(),
       targets: decorated_targets,
       country: country
     }
@@ -15,7 +17,17 @@ export class Plan {
     return this.model
   }
 
-  decorate_targets({selected_target_area_ids, top_level_spatial_hierarchy}) {
+  validate(model) {
+    const errors = PlanSchema.errors(model)
+
+    if (errors) {
+      console.log(errors)
+      throw new Error('PlanSchema validation failed')
+
+    }
+  }
+
+  _decorate_targets({selected_target_area_ids, top_level_spatial_hierarchy}) {
     if (!top_level_spatial_hierarchy.hasOwnProperty('field_name') || !top_level_spatial_hierarchy.hasOwnProperty('field_name')) {
       throw 'Missing required properties on top_level_spatial_hierarchy'
     }
@@ -38,12 +50,4 @@ export class Plan {
     })
   }
 
-  validate(model) {
-    const errors = PlanSchema.errors(model)
-
-    if (errors) {
-      console.log(errors)
-      throw new Error('PlanSchema validation failed')
-    }
-  }
 }

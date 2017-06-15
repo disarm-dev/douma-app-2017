@@ -1,41 +1,22 @@
-import numeral from 'numeral'
-
-function percentage(value) {
-  return numeral(value).format('0.[0]%')
-}
-
 export default {
-  'homesteads found': (responses, denominator) => {
-    return responses.length
+  'homesteads found': {
+    numerator_function: () => 1
   },
-  'structures found': (responses, denominator) =>  {
-    return responses.reduce((sum, {form_data}) => {
-      return sum + form_data.number_structures_total
-    }, 0)
+  'structures found': {
+    numerator_function: (d) => d.number_structures_total
   },
-  'structures found %': (responses, denominator) => {
-
-    let structures_found_so_far = responses.reduce((sum, {form_data}) => {
-      return sum + form_data.number_structures_total
-    }, 0)
-
-    return percentage(structures_found_so_far / denominator.structures_targeted)
+  'structures found %': {
+    numerator_function: (d) => d.number_structures_total,
+    denominator_field: 'structures_targeted'
   },
-  "structures sprayed": (responses, denominator) => {
-    return responses.reduce((sum, {form_data}) => {
-      return sum + form_data.number_of_structures_sprayed
-    }, 0)
+  'structures sprayed': {
+    numerator_function: (d) => d.number_of_structures_sprayed
   },
-  'structures sprayed %': (responses, denominator) => {
-    let structures_sprayed = responses.reduce((sum, {form_data}) => {
-      return sum + form_data.number_of_structures_sprayed
-    }, 0)
-
-    return percentage(structures_sprayed / denominator.structures_targeted)
+  "structures sprayed %": {
+    numerator_function: (d) => d.number_of_structures_sprayed,
+    denominator_field: 'number_of_structures'
   },
-  'sprayable structures not sprayed': (responses, denominator) =>  {
-    return responses.reduce((sum, {form_data}) => {
-      return sum + (form_data.number_structures_total - form_data.number_of_structures_sprayed)
-    }, 0)
+  'sprayable structures not sprayed': {
+    numerator_function: (d) => d.number_structures_total - d.number_of_structures_sprayed
   }
 }

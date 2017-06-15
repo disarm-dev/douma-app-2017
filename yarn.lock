@@ -4300,6 +4300,12 @@ is-number@^2.0.2, is-number@^2.1.0:
   dependencies:
     kind-of "^3.0.2"
 
+is-number@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/is-number/-/is-number-3.0.0.tgz#24fd6201a4782cf50561c810276afc7d12d71195"
+  dependencies:
+    kind-of "^3.0.2"
+
 is-obj@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/is-obj/-/is-obj-1.0.1.tgz#3e4729ac1f5fde025cd7d83a896dab9f4f67db0f"
@@ -4463,10 +4469,6 @@ js-beautify@^1.6.3:
     editorconfig "^0.13.2"
     mkdirp "~0.5.0"
     nopt "~3.0.1"
-
-"js-schema@git+https://github.com/disarm-platform/js-schema.git":
-  version "1.0.1"
-  resolved "git+https://github.com/disarm-platform/js-schema.git#906ed65ffb8571b9cb6a33f2a380315719deecc7"
 
 "js-schema@https://github.com/disarm-platform/js-schema":
   version "1.0.2"

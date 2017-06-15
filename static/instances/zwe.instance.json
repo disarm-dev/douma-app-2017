@@ -1,6 +1,10 @@
 {
   "applets": {
     "irs_monitor": {
+      "aggregations": {
+        "map": "",
+        "table": []
+      },
       "components": [
         {
           "height_constraint": "none",

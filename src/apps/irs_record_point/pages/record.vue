@@ -10,7 +10,7 @@
         {{ location_is_valid ? "Location" : "Set location"}}
       </md-button>
     </div>
-    
+
     <transition name="slide-fade">
       <md-card v-show="show_validation_result">
         <md-card-content>
@@ -21,7 +21,7 @@
         </md-card-content>
       </md-card>
     </transition>
-    
+
     <transition name="slide-fade">
       <md-card class='location' v-show="show_location">
         <md-card-content>
