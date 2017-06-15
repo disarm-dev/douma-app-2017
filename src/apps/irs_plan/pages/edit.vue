@@ -62,6 +62,9 @@
   import {Plan} from 'models/plan.model.js'
 
 
+  import {Plan} from '@/models/plan.model.js'
+
+
   export default {
     name: 'edit',
     components: {plan_summary, plan_map},

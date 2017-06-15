@@ -4464,6 +4464,14 @@ js-beautify@^1.6.3:
     mkdirp "~0.5.0"
     nopt "~3.0.1"
 
+"js-schema@git+https://github.com/disarm-platform/js-schema.git":
+  version "1.0.1"
+  resolved "git+https://github.com/disarm-platform/js-schema.git#906ed65ffb8571b9cb6a33f2a380315719deecc7"
+
+"js-schema@https://github.com/disarm-platform/js-schema":
+  version "1.0.2"
+  resolved "https://github.com/disarm-platform/js-schema#9889e59f46b06875bf6c956bb1a162077a94754e"
+
 js-tokens@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.1.tgz#08e9f132484a2c45a30907e9dc4d5567b7f114d7"

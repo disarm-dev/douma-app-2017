@@ -2,8 +2,6 @@ import array_unique from 'array-unique'
 
 import {create_plan, get_current_plan, get_geodata} from 'lib/data/remote'
 
-
-
 export default {
   namespaced: true,
   state: {
