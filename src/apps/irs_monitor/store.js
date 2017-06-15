@@ -36,6 +36,7 @@ export default {
       return state.responses.filter(response => {
         // TODO: @debug This first filter is more of a DEBUG filter, making sure we have valid responses
         return Object.keys(response.location_selection).length !== 0 // TODO: @feature Add actual filtering
+          && state.plan.targets.find(t => t.id === response.location_selection.id)
       })
     },
     filtered_denominators(state, getters) {

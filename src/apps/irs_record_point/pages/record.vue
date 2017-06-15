@@ -104,7 +104,7 @@
             .map(r => {
               return {
                 name: r.name,
-                id: r.id // TODO: @refac into a real model, and set _id or otherwise stop creating `id` & `_id`
+                id: r.id
               }
             })
           return {

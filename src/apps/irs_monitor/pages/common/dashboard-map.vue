@@ -13,7 +13,7 @@
   import Presenters from 'lib/presenters'
   import {get_area} from 'lib/data/remote'
   import logscale from 'lib/log_scale.js'
-  import AllAggregations from 'lib/aggregations'
+  import {Aggregator} from 'lib/aggregations'
 
   export default {
     props: ['responses', 'denominator', 'area'],
@@ -243,7 +243,7 @@
           return res.location_selection.id === area.properties[field_name]
         })
 
-        let aggregations = AllAggregations[this.instance_config.slug]
+//        let aggregations = AllAggregations[this.instance_config.slug]
 
         let aggregation = aggregations[this.instance_config.applets.irs_monitor.aggregation_for_map]
 

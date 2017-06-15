@@ -155,7 +155,6 @@
     created() {
     },
     mounted() {
-      console.log(this.aggregations)
     },
     methods: {
 //      filter(filter) {
