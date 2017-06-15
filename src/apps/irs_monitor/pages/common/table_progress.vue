@@ -34,8 +34,8 @@
       prepare_table_data(){
         if (this.responses.length === 0) return
 
-        const instance_translations = new Translations[this.instance_config.slug](this.instance_config) // TODO: @refac Improve signature, remove duplication
-        const data = instance_translations.getTableData(this.responses, this.denominator)
+        const instance_presenters = new Presenters[this.instance_config.slug](this.instance_config) // TODO: @refac Improve signature, remove duplication
+        const data = instance_presenters.getTableData(this.responses, this.denominator)
 
         this.columns = Object.keys(data[0])
         this.tableData = data

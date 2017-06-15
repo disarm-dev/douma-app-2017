@@ -20,7 +20,7 @@
     data() {
       return {
         _map: null,
-        _instance_translations: null,
+        _instance_presenters: null,
         map_loaded: false,
         areas: null
       }
@@ -49,7 +49,7 @@
       }
     },
     mounted() {
-      this._instance_translations = new Translations[this.instance_config.slug](this.instance_config)
+      this._instance_presenters = new Presenters[this.instance_config.slug](this.instance_config)
       this.create_map()
     },
     methods: {
@@ -101,7 +101,7 @@
             },
             'circle-stroke-width': 1,
             'circle-stroke-color': '#959292',
-            ...this._instance_translations.getMapStyle()
+            ...this._instance_presenters.getMapStyle()
           }
         })
 
@@ -122,7 +122,7 @@
           if (feature) {
             new mapboxgl.Popup({closeOnClick: true})
               .setLngLat(e.lngLat)
-              .setHTML(this._instance_translations.getPopupDescription(feature))
+              .setHTML(this._instance_presenters.getPopupDescription(feature))
               .addTo(this._map);
           }
 
