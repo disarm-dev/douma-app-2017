@@ -6,6 +6,7 @@ export default {
   namespaced: true,
   state: {
     geodata_loading_progress: 0,
+
     current_plan: null,
     areas_included_by_click: [],
     areas_excluded_by_click: [],
@@ -78,7 +79,7 @@ export default {
       state.areas_included_by_click = []
       state.areas_excluded_by_click = []
       state.bulk_selected_ids = []
-      state.plan = null
+      state.current_plan = null
       state.unsaved_changes = true
     },
     'set_plan': (state, plan) => {
@@ -96,21 +97,22 @@ export default {
     },
     'get_current_plan': (context) => {
       const country = context.rootState.instance_config.slug
-      const field_name = context.rootState.instance_config.spatial_hierarchy[0].field_name
 
       return get_current_plan(country).then(plan_json => {
         try {
           new Plan().validate(plan_json)
         } catch (e) {
-          context.commit('root:set_snackbar', {message: 'ERROR, Plan is not valid'})
+          context.rootState.commit('root:set_snackbar', {message: 'ERROR, Plan is not valid'})
         }
 
+        console.log(plan_json)
+
         let target_areas = plan_json.targets.map(area => {
-          return area[field_name]
+          return area.id
         })
 
-        context.commit('set_plan', plan_json)
         context.commit('clear_plan')
+        context.commit('set_plan', plan_json)
         context.commit('add_selected_target_areas', target_areas)
         context.commit('set_unsaved_changes', false)
       })
