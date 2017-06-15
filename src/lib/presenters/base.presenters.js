@@ -1,6 +1,6 @@
 import AllAggregations from 'lib/aggregations'
 
-export default class Translations {
+export default class Presenters {
   constructor(instance_config) {
     this.instance_config = instance_config
     this.slug = instance_config.slug

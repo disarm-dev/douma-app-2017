@@ -1,4 +1,4 @@
-import Translations from 'lib/translations/nam.translations.js'
+import Translations from 'nam.presenters.js'
 
 const fake_responses = [
   {

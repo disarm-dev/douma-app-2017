@@ -10,7 +10,7 @@
 <script>
   import mapboxgl from 'mapbox-gl'
   import TurfHelpers from '@turf/helpers'
-  import Translations from 'lib/translations'
+  import Presenters from 'lib/presenters'
   import {get_area} from 'lib/data/remote'
   import logscale from 'lib/log_scale.js'
   import AllAggregations from 'lib/aggregations'

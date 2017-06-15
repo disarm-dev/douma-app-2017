@@ -1,19 +1,19 @@
-import Base from './base.translations.js'
+import Base from './base.presenters.js'
 
 export default class extends Base {
   getTableData(responses, denominator) {
-    const field_name = 'inkhundla'
+    const field_name = 'village_chobe'
     return super.getTableData(responses, denominator, field_name)
   }
 
   getMapStyle() {
-    return {
+     return {
       'circle-color': {
-        property: 'visit_type',
+        property: 'any_sprayed',
         type: 'categorical',
         stops: [
-          ['first_visit', '#22ff31'],
-          ['mopup', '#f51506']
+          ['yes', 'green'],
+          ['no', 'orange']
         ]
       }
     }
@@ -24,8 +24,8 @@ export default class extends Base {
     return `
       <p><b>Date:</b> ${record.recorded_on}</p>
       <p><b>Recorded by:</b> ${record.user}</p>
-      <p><b>Visit type:</b> ${record.visit_type}</p>
-      <p><b>Number of structures:</b> ${record.number_structures_total}\n</p>
+      <p><b>Sprayed:</b> ${record.any_sprayed}</p>
+      <p><b>Number of people:</b> ${record.n_people_homestead}\n</p>
     `
   }
 }

@@ -9,7 +9,7 @@
   import download from 'downloadjs'
   import json2csv from 'json2csv'
   import moment from 'moment'
-  import Translations from 'lib/translations'
+  import Presenters from 'lib/presenters'
 
   export default {
     props: ['responses', 'denominator'],

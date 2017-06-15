@@ -1,4 +1,4 @@
-import Translations from 'lib/translations/zwe.translations.js'
+import Translations from 'zwe.presenters.js'
 
 const fake_responses = [
   {
