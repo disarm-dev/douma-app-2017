@@ -62,10 +62,10 @@
 <script>
   import uuid from 'uuid/v4'
 
-  import location_record from '@/components/location.vue'
+  import location_record from 'components/location.vue'
   import review from './review.vue'
   import form_renderer from './form.vue'
-  import Validators from '@/lib/validations'
+  import Validators from 'lib/validations'
   import array_unique from 'array-unique'
 
   import Multiselect from 'vue-multiselect'
