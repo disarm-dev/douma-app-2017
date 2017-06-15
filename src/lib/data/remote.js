@@ -157,7 +157,7 @@ export const get_geodata = ({slug, level, cache, store}) => {
     })
 }
 
-export const get_area = ({slug, level}) => {
+export const get_geodata_area = ({slug, level}) => {
   let url = `/static/geo/${slug}/spatial_hierarchy/${slug}.${level}.geojson`
 
   return standard_handler(url)

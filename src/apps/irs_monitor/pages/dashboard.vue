@@ -21,14 +21,14 @@
       <!--MAP-->
       <md-card class="card">
         <md-card-content>
-          <!--<map_progress :responses="filtered_responses" :denominator="filtered_denominator"></map_progress>-->
+          <map_progress :response_aggregations="response_aggregations"></map_progress>
         </md-card-content>
       </md-card>
 
       <!--TABLE-->
       <md-card class="card">
         <md-card-content>
-          <table_progress :response_aggregations="aggregations"></table_progress>
+          <table_progress :response_aggregations="response_aggregations"></table_progress>
         </md-card-content>
       </md-card>
 
@@ -139,7 +139,7 @@
         filtered_responses: 'irs_monitor/filtered_responses',
         filtered_denominators: 'irs_monitor/filtered_denominators'
       }),
-      aggregations() {
+      response_aggregations() {
         if(!this.filtered_responses.length || !this.filtered_denominators.length) return []
 
         const instance_presenters = new Presenters[this.instance_config.slug](this.instance_config) // TODO: @refac Improve signature, remove duplication
