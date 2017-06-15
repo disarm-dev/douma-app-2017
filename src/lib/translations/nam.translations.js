@@ -1,6 +1,6 @@
 import Base from './base.translations.js'
 
-import Aggregations from '@/lib/aggregations/nam.aggregations'
+import Aggregations from 'lib/aggregations/nam.aggregations'
 
 export default class extends Base {
   getTableData(responses, denominator) {

@@ -1,6 +1,6 @@
 // CommitChart.js
 import { Line } from 'vue-chartjs'
-import Aggregations from '@/lib/aggregations/swz.aggregations'
+import Aggregations from 'lib/aggregations/swz.aggregations'
 
 export default Line.extend({
   props: ['responses', 'denominator'],
@@ -31,7 +31,7 @@ export default Line.extend({
         ]
       }, {
         title: {
-          display: true, 
+          display: true,
           text: "Structures sprayed %"
         },
         scales: {
@@ -42,7 +42,7 @@ export default Line.extend({
               min: 0,
               callback: (value, index, values) => {
                 return value + '%'
-              }          
+              }
             }
           }]
         }
@@ -59,7 +59,7 @@ export default Line.extend({
     // },
     // get_data_for_week(week) {
     //   let responses = this.responses.filter(response => response.week === week)
-      
+
     //   let res = Aggregations['structures sprayed %'](responses, this.denominator)
     //   // debugger
     //   return res
