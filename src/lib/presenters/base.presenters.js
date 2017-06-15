@@ -9,7 +9,7 @@ export default class Presenters {
 
   getMapData() {}
 
-  getTableData({responses, denominators, instance_config}) {
+  get_aggregated_responses({responses, denominators, instance_config}) {
     // Get from instance_config
     const required_aggregations = ['structures sprayed', 'structures sprayed %']
 

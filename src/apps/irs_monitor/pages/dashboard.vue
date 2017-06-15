@@ -141,7 +141,7 @@
       }),
       aggregations() {
         const instance_presenters = new Presenters[this.instance_config.slug](this.instance_config) // TODO: @refac Improve signature, remove duplication
-        const data = instance_presenters.getTableData({
+        const data = instance_presenters.get_aggregated_responses({
           responses: this.filtered_responses,
           denominators: this.filtered_denominators,
           instance_config: this.instance_config
