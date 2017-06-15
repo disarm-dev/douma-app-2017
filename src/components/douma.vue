@@ -12,7 +12,10 @@
           <!-- <bread-crumbs></bread-crumbs> -->
           {{country}}
         </h2>
-        <div v-if="!online" @click="try_online">
+        <div>
+          <md-icon @click.native="$store.commit('root:trigger_help_visible')">help</md-icon>
+        </div>
+        <div v-if="!online">
           offline
           <md-icon>settings_ethernet</md-icon>
         </div>
@@ -60,7 +63,7 @@
           <md-icon>exit_to_app</md-icon><span>Logout</span>
         </md-list-item>
 
-        <md-list-item @click.native="navigate('meta:help')">
+        <md-list-item @click.native="open_dialog_help">
           <md-icon>help</md-icon><span>Help</span>
         </md-list-item>
       </md-list>
@@ -71,7 +74,7 @@
           <md-icon>exit_to_app</md-icon><span>Login</span>
         </md-list-item>
 
-        <md-list-item @click.native="navigate('meta:help')">
+        <md-list-item @click.native="open_dialog_help">
           <md-icon>help</md-icon><span>Help</span>
         </md-list-item>
       </md-list>
@@ -97,17 +100,19 @@
     </md-dialog>
 
     <!-- HELP -->
-    <md-dialog ref="help">
-      <md-dialog-title>Help</md-dialog-title>
+    <keep-alive>
+      <md-dialog ref="help" class="help">
+        <md-dialog-title>Help</md-dialog-title>
 
-      <md-dialog-content>
-        <help></help>
-      </md-dialog-content>
+        <md-dialog-content>
+          <help></help>
+        </md-dialog-content>
 
-      <md-dialog-actions>
-        <md-button class="md-primary" @click.native="close_dialog('help')">Dismiss</md-button>
-      </md-dialog-actions>
-    </md-dialog>
+        <md-dialog-actions>
+          <md-button class="md-primary" @click.native="close_dialog_help">Dismiss</md-button>
+        </md-dialog-actions>
+      </md-dialog>
+    </keep-alive>
 
 
     <!-- APPLET CONTAINER -->
@@ -128,7 +133,8 @@
     props: ['theme'],
     watch: {
       '$store.state.snackbar': 'snackbar_open',
-      '$store.state.sw_message': 'sw_dialog_open'
+      '$store.state.sw_message': 'open_dialog_sw',
+      '$store.state.trigger_help_visible_irrelevant_value': 'open_dialog_help'
     },
     mounted() {
       // if ((typeof this.$store.state.user !== 'undefined') && (this.$store.state.meta.user.version !== COMMIT_HASH)) {
@@ -169,7 +175,7 @@
       },
       commit_hash() {
         return COMMIT_HASH.substring(0, 6)
-      }
+      },
     },
     methods: {
       navigate(name) {
@@ -179,23 +185,27 @@
       toggleSideNav() {
         this.$refs.sideNav.toggle();
       },
-      sw_dialog_open() {
-        this.$refs.sw_dialog.open()
-      },
+      // Dialog
       close_dialog(ref) {
         this.$refs[ref].close()
       },
+      // Help
+      open_dialog_help() {
+        this.$refs.help.open()
+      },
+      close_dialog_help() {
+        this.$refs.help.close()
+      },
+      // Snackbar
       snackbar_open() {
         this.$refs.snackbar.open()
       },
       snackbar_action() {
         this.$refs.snackbar.close()
       },
+      // Reload page
       reload() {
         location.reload()
-      },
-      try_online() {
-
       }
     }
   }
@@ -216,5 +226,9 @@
 
   [v-cloak] {
     display: none;
+  }
+
+  .help > .md-dialog {
+    height: 90%;
   }
 </style>

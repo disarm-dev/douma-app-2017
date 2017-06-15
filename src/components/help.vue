@@ -1,9 +1,5 @@
 <template>
   <div class="container">
-    <h3>
-      <md-icon>help</md-icon>
-      Help
-    </h3>
     <md-input-container>
       <label>Search</label>
       <md-input v-model="search_term"></md-input>
