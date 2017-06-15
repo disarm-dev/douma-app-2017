@@ -69,7 +69,7 @@
     },
     methods: {
       prepare_help_items() {
-        const truncate_at = 150
+        const truncate_at = 125
         const section_titles = help_content.map(section => {
           return section.section_title
         })
