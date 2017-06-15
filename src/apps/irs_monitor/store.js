@@ -1,6 +1,6 @@
 import moment from 'moment'
 
-import {get_all_records, get_current_plan} from '@/lib/data/remote'
+import {get_all_records, get_current_plan} from 'lib/data/remote'
 
 export default {
   namespaced: true,

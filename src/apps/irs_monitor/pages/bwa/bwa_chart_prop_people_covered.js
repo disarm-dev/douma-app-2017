@@ -1,7 +1,7 @@
 import {Line} from 'vue-chartjs'
 import moment from 'moment'
 
-import Aggregations from '@/lib/aggregations/bwa.aggregations'
+import Aggregations from 'lib/aggregations/bwa.aggregations'
 
 export default Line.extend({
   // name: 'bwa_chart_prop_people_covered',
@@ -16,7 +16,7 @@ export default Line.extend({
   methods: {
     create_chart() {
       // let weeks = this.get_weeks()
-      
+
       // let data = weeks.map(week => {
       //   let responses = this.responses.filter(response => response.week === week)
       //   return this.get_data_for_week(responses, week)

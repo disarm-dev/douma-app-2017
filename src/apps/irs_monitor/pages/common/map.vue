@@ -10,10 +10,10 @@
 <script>
   import mapboxgl from 'mapbox-gl'
   import TurfHelpers from '@turf/helpers'
-  import Translations from '@/lib/translations'
-  import {get_area} from '@/lib/data/remote'
-  import logscale from '@/lib/log_scale.js'
-  import AllAggregations from '@/lib/aggregations'
+  import Translations from 'lib/translations'
+  import {get_area} from 'lib/data/remote'
+  import logscale from 'lib/log_scale.js'
+  import AllAggregations from 'lib/aggregations'
 
   export default {
     props: ['responses', 'denominator', 'area'],
@@ -33,7 +33,7 @@
         let points = this.responses.map((response) => {
           let {latitude, longitude} = response.location.coords
           let point = TurfHelpers.point([longitude, latitude])
-          /* 
+          /*
             Mapbox does not support dynamic styling via child properties
             so trying to decide color from 'form_data.visit_type' won't work
             so we move all form_data properties to the properties of the geojson feature
@@ -79,11 +79,11 @@
       add_records() {
         if (this.responses.length === 0) return
 
-        if (this._map.getLayer('records')) { 
+        if (this._map.getLayer('records')) {
           this._map.removeLayer('records')
         }
 
-        if (this._map.getSource('records')) { 
+        if (this._map.getSource('records')) {
           this._map.removeSource('records')
         }
 
@@ -145,7 +145,7 @@
           .catch((e) => {
             console.log(e)
           })
-        
+
       },
       add_areas_by_risk() {
         this.clear_map()
@@ -196,7 +196,7 @@
         this.clear_map()
 
         let area_field_name = this.instance_config.spatial_hierarchy[0].field_name
-        
+
 
         let features = this.areas.features.map((feature) => {
           feature.properties.coverage = this.get_coverage_for_local_area(feature, area_field_name)
@@ -252,7 +252,7 @@
 
         coverage = parseFloat(coverage.substring(0, coverage.length -1))
 
-        
+
         if (coverage !== 0) {
           console.log('area', field_name, area.properties[field_name])
           console.log('coverage', coverage)
@@ -266,7 +266,7 @@
 
         const mino = Math.min(...non_zeros)
         const maxo = Math.max(...values_array) * 1.001
-        
+
 
         this.log_scale = logscale(mino, maxo)
 
@@ -276,15 +276,15 @@
       },
       clear_map() {
         ['areas_by_coverage', 'areas_by_risk'].forEach((id) => {
-          if (this._map.getLayer(id)) { 
+          if (this._map.getLayer(id)) {
             this._map.removeLayer(id)
           }
 
-          if (this._map.getSource(id)) { 
+          if (this._map.getSource(id)) {
             this._map.removeSource(id)
           }
         })
-         
+
       }
     }
   }

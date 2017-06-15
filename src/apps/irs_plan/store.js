@@ -1,7 +1,8 @@
 import array_unique from 'array-unique'
 
-import {create_plan, get_current_plan, get_geodata} from '@/lib/data/remote'
-import cache from '@/lib/cache.js'
+import {create_plan, get_current_plan, get_geodata} from 'lib/data/remote'
+
+
 
 export default {
   namespaced: true,
@@ -87,15 +88,8 @@ export default {
     }
   },
   actions: {
-    'save_plan': (context, targets) => {
-      const country = context.rootState.instance_config.slug
+    'save_plan': (context, plan) => {
 
-      const plan = {
-        planned_at: new Date(),
-        country,
-        targets
-      }
-      
       return create_plan(plan)
         .then(() => {
           context.commit('set_plan', plan)

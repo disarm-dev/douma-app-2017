@@ -3,7 +3,7 @@ import nam from './nam.validations.js'
 import swz from './swz.validations.js'
 import zwe from './zwe.validations.js'
 
-import {elements_array} from '@/lib/form_helpers'
+import {elements_array} from 'lib/form_helpers'
 
 const check_rules = (form_rules) => {
 

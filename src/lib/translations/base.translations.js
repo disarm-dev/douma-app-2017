@@ -1,4 +1,4 @@
-import AllAggregations from '@/lib/aggregations'
+import AllAggregations from 'lib/aggregations'
 
 export default class Translations {
   constructor(instance_config) {
