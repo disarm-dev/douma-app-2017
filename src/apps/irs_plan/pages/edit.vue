@@ -132,7 +132,7 @@
 
       },
       save_plan() {
-        const plan = new Plan({
+        const plan = new Plan().create({
           selected_target_area_ids: this.selected_target_area_ids,
           top_level_spatial_hierarchy: this.top_level_spatial_hierarchy,
           country: this.slug

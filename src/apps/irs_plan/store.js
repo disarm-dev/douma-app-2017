@@ -98,18 +98,21 @@ export default {
       const country = context.rootState.instance_config.slug
       const field_name = context.rootState.instance_config.spatial_hierarchy[0].field_name
 
-      return get_current_plan(country).then(plan => {
-
-        if (plan.hasOwnProperty('targets') && plan.targets.length !== 0 ) {
-          let target_areas = plan.targets.map(area => {
-            return area[field_name]
-          })
-
-          context.commit('set_plan', plan)
-          context.commit('clear_plan')
-          context.commit('add_selected_target_areas', target_areas)
-          context.commit('set_unsaved_changes', false)
+      return get_current_plan(country).then(plan_json => {
+        try {
+          new Plan().validate(plan_json)
+        } catch (e) {
+          context.commit('root:set_snackbar', {message: 'ERROR, Plan is not valid'})
         }
+
+        let target_areas = plan_json.targets.map(area => {
+          return area[field_name]
+        })
+
+        context.commit('set_plan', plan_json)
+        context.commit('clear_plan')
+        context.commit('add_selected_target_areas', target_areas)
+        context.commit('set_unsaved_changes', false)
       })
     },
     'get_geodata': (context, options) => {
