@@ -64,6 +64,7 @@ export default {
     },
     'set_bulk_selected_ids': (state, selected_target_area_ids) => {
       state.bulk_selected_ids = selected_target_area_ids
+      state.unsaved_changes = true
     },
     'add_selected_target_areas': (state, selected_target_area_ids) => {
       let temp_array = state.areas_included_by_click.concat(selected_target_area_ids)

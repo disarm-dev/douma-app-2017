@@ -21,14 +21,14 @@
       <!--MAP-->
       <md-card class="card">
         <md-card-content>
-          <!--<map_progress :responses="filtered_responses" :denominator="denominator"></map_progress>-->
+          <!--<map_progress :responses="filtered_responses" :denominator="filtered_denominator"></map_progress>-->
         </md-card-content>
       </md-card>
 
       <!--TABLE-->
       <md-card class="card">
         <md-card-content>
-          <!--<table_progress :responses="filtered_responses" :denominator="denominator"></table_progress>-->
+          <table_progress :response_aggregations="aggregations"></table_progress>
         </md-card-content>
       </md-card>
 
@@ -59,8 +59,8 @@
   import Filters from './filters.vue'
   import basic_chart from './common/basic_chart.js'
   import line_chart from './common/line_chart.js'
-  import table_progress from './common/table_progress.vue'
-  import map_progress from './common/map.vue'
+  import table_progress from './common/dashboard-table.vue'
+  import map_progress from './common/dashboard-map.vue'
 
   // SWZ
   import swz_chart_pop_covered from './swz/swz_chart_pop_covered'
@@ -81,6 +81,8 @@
   import zwe_chart_prop_room_sprayed from './zwe/zwe_chart_prop_room_sprayed'
   import zwe_chart_prop_people_covered from './zwe/zwe_chart_prop_people_covered'
   import zwe_chart_refusal_pie from './zwe/zwe_chart_refusal_pie'
+
+  import Presenters from 'lib/presenters'
 
   export default {
     name: 'Dashboard',
@@ -128,21 +130,32 @@
     },
     computed: {
       ...mapState({
-        slug: state => state.instance_config.slug,
+        instance_config: state => state.instance_config,
         country: state => state.instance_config.name,
         components: state => state.instance_config.applets.irs_monitor.components,
         online: state => state.network_online,
-        responses: state => state.irs_monitor.responses,
-        plan: state => state.irs_monitor.plan,
       }),
       ...mapGetters({
-        filtered_responses: 'irs_monitor/filtered_responses'
+        filtered_responses: 'irs_monitor/filtered_responses',
+        filtered_denominators: 'irs_monitor/filtered_denominators'
       }),
+      aggregations() {
+        const instance_presenters = new Presenters[this.instance_config.slug](this.instance_config) // TODO: @refac Improve signature, remove duplication
+        const data = instance_presenters.getTableData({
+          responses: this.filtered_responses,
+          denominators: this.filtered_denominators,
+          instance_config: this.instance_config
+        })
+        return data
+      },
       window_height() {
         return (window.innerHeight - 64) - 200
       },
     },
     created() {
+    },
+    mounted() {
+      console.log(this.aggregations)
     },
     methods: {
 //      filter(filter) {

@@ -1,4 +1,4 @@
-import view from './pages/not-a-dashboard.vue'
+import view from './pages/dashboard.vue'
 
 export default [
   {

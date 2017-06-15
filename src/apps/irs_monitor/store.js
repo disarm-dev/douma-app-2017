@@ -34,6 +34,12 @@ export default {
   getters: {
     filtered_responses(state, getters) {
       return state.responses.filter(response => {
+        // TODO: @debug This first filter is more of a DEBUG filter, making sure we have valid responses
+        return Object.keys(response.location_selection).length !== 0 // TODO: @feature Add actual filtering
+      })
+    },
+    filtered_denominators(state, getters) {
+      return state.plan.targets.filter(response => {
         return true // TODO: @feature Add actual filtering
       })
     }
@@ -46,7 +52,6 @@ export default {
           r.week = moment(r.recorded_on).week()
           return r
         })
-        console.log(responses)
         context.commit('set_responses', responses)
       })
     },
