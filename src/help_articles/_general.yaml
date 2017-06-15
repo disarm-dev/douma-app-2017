@@ -8,7 +8,6 @@
     Just click logout on the sidebar.
     Note that if you somehow logout when you are offline, you won't be able to use DiSARM again until you login
     (which you can only do if you're online).
-    This one is pretty long. How do we truncate it with ellipsis, and then show it when you click it?
 
 - title: I've lost my password
   content: Please ask someone.
