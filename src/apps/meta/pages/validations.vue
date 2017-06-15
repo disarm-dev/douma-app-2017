@@ -12,7 +12,7 @@
         </md-list-item>
       </md-list>
     </div>
-    
+
     <md-card v-if="active_validation">
       <md-card-header>
         <md-card-header-text>
@@ -54,12 +54,13 @@
   import download from 'downloadjs'
   import moment from 'moment'
 
-  import {elements_array} from '@/lib/form_helpers'
+  import {elements_array} from 'lib/form_helpers'
 
-	export default {
+
+  export default {
     data() {
       return {
-        validations: [],
+        raw_validations: [],
         active_validation: null
       }
     },
@@ -69,10 +70,33 @@
       },
       form_elements() {
         return elements_array(this.$store.state.instance_config.form)
+      },
+      validations() {
+        let warnings = this.raw_validations.find((i) => i.type === 'warnings')
+        if (warnings && warnings.hasOwnProperty('validations') && warnings.validations.length) {
+          warnings = warnings.validations.map((i) => {
+            i.type = "warning"
+            return i
+          })
+        } else {
+          warnings = []
+        }
+
+        let errors = this.raw_validations.find((i) => i.type === 'errors')
+        if (errors && errors.hasOwnProperty('validations') && errors.validations.length) {
+          errors = errors.validations.map((i) => {
+            i.type = "error"
+            return i
+          })
+        } else {
+          errors = []
+        }
+
+        return errors.concat(warnings)
       }
     },
     mounted() {
-
+      this.raw_validations = require("json-loader!yaml-include-loader!lib/validations/" + this.instance_config.slug  + ".validations.yaml")
     },
     methods: {
       set_active_validation(validation) {
@@ -90,18 +114,7 @@
         const file_reader = new FileReader();
 
         file_reader.onload = (f) => {
-          let json = yaml.load(f.target.result)
-
-          let warnings = json.find((i) => i.type === 'warnings').validations.map((i) => { 
-            i.type = "warning"
-            return i
-          })
-          let errors = json.find((i) => i.type === 'errors').validations.map((i) => {
-            i.type = "error"
-            return i
-          })
-
-          this.validations = errors.concat(warnings)
+          this.raw_validations = yaml.load(f.target.result)
         }
 
 
@@ -125,7 +138,7 @@
           }
         ]
 
-        
+
         const content = yaml.safeDump(result)
         const date = moment().format('YYYY-MM-DD_HHmm')
         download(content, `${this.instance_config.slug}_validations_${date}.yml`)
