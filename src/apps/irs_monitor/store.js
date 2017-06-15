@@ -1,6 +1,7 @@
 import moment from 'moment'
 
 import {get_all_records, get_current_plan} from 'lib/data/remote'
+import {Plan} from 'models/plan.model'
 
 export default {
   namespaced: true,
@@ -14,7 +15,7 @@ export default {
       state.responses = responses
     },
     set_plan: (state, plan) => {
-
+      state.plan = plan
     },
     toggle_filter: (state, filter) => {
       let index = state.filters.findIndex(f => f.type === filter.type && f.value === filter.value)
@@ -27,6 +28,13 @@ export default {
     remove_filter: (state, type) => {
       state.filters = state.filters.filter((f) => {
         return f.type !== type
+      })
+    }
+  },
+  getters: {
+    filtered_responses(state, getters) {
+      return state.responses.filter(response => {
+        return true // TODO: @feature Add actual filtering
       })
     }
   },
@@ -45,9 +53,15 @@ export default {
     get_current_plan: (context) => {
       const country = context.rootState.instance_config.slug
       return get_current_plan(country)
-        // If we want, for debug
-        // plan = {...plan, population: 500, structures_targeted: 150}
-        .then(plan => context.commit('set_plan', plan))
+        .then(plan_json => {
+          try {
+            new Plan().validate(plan_json)
+          } catch (e) {
+            context.commit('root:set_snackbar', {message: 'ERROR: Plan is not valid'}, {root: true})
+          }
+
+          context.commit('set_plan', plan_json)
+        })
     }
   }
 }

@@ -8,7 +8,7 @@ export class Plan {
     const decorated_targets = this._decorate_targets({selected_target_area_ids, top_level_spatial_hierarchy})
 
     this.model = {
-      planned_at: new Date(),
+      planned_at: new Date().toISOString(),
       targets: decorated_targets,
       country: country
     }

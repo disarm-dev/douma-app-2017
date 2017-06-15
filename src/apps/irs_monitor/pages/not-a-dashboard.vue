@@ -6,41 +6,45 @@
     <div>
       <md-card class="card">
         <md-card-content>
-          <p>{{responses.length}} record{{responses.length === 1 ? '' : 's' }}</p>
+          <p>{{filtered_responses.length}} record{{filtered_responses.length === 1 ? '' : 's' }}</p>
           <md-button class="md-raised md-primary" @click.native="refresh_data" :disabled="loading">Refresh data</md-button>
         </md-card-content>
       </md-card>
 
+      <!--FILTERS-->
       <md-card v-if='filters_on' class="card">
         <md-card-content>
           <filters v-on:filter="filter"></filters>
         </md-card-content>
       </md-card>
 
+      <!--MAP-->
       <md-card class="card">
         <md-card-content>
-          <map_progress :responses="responses" :denominator="denominator"></map_progress>
+          <!--<map_progress :responses="filtered_responses" :denominator="denominator"></map_progress>-->
         </md-card-content>
       </md-card>
 
+      <!--TABLE-->
       <md-card class="card">
         <md-card-content>
-          <table_progress :responses="responses" :denominator="denominator"></table_progress>
+          <!--<table_progress :responses="filtered_responses" :denominator="denominator"></table_progress>-->
         </md-card-content>
       </md-card>
 
-      <h2>Charts below use static data only</h2>
-      <md-card v-for="component in components" :key="component.name" class="card" :ref="component.name" :class="{'card-half-width': component.width_constraint == 'half'}">
-        <md-card-content>
-          <component
-            :is="component.name"
-            :height="component.height_constraint == 'viewport' ? window_height : undefined"
-            :responses='responses'
-            :denominator='denominator'
-            :component_config='component'
-            ></component>
-        </md-card-content>
-      </md-card>
+      <!--STATIC-DATA CHARTS, etc-->
+      <!--<h2>Charts below use static data only</h2>-->
+      <!--<md-card v-for="component in components" :key="component.name" class="card" :ref="component.name" :class="{'card-half-width': component.width_constraint == 'half'}">-->
+        <!--<md-card-content>-->
+          <!--<component-->
+            <!--:is="component.name"-->
+            <!--:height="component.height_constraint == 'viewport' ? window_height : undefined"-->
+            <!--:responses='filtered_responses'-->
+            <!--:denominator='denominator'-->
+            <!--:component_config='component'-->
+            <!--&gt;</component>-->
+        <!--</md-card-content>-->
+      <!--</md-card>-->
     </div>
 
   </div>
@@ -49,7 +53,7 @@
 <script>
   import numeral from 'numeral'
   import moment from 'moment'
-  import {mapState} from 'vuex'
+  import {mapState, mapGetters} from 'vuex'
 
   // Common components
   import Filters from './filters.vue'
@@ -59,28 +63,27 @@
   import map_progress from './common/map.vue'
 
   // SWZ
-   import swz_chart_pop_covered from './swz/swz_chart_pop_covered'
-   import swz_chart_structures_sprayed from './swz/swz_chart_structures_sprayed'
-   import swz_chart_locked_vs_sprayed from './swz/swz_chart_locked_vs_sprayed'
-   import swz_chart_pop_covered_vs_structures from './swz/swz_chart_pop_covered_vs_structures'
-   import swz_chart_structures_pr_supervisor from './swz/swz_chart_structures_pr_supervisor'
+  import swz_chart_pop_covered from './swz/swz_chart_pop_covered'
+  import swz_chart_structures_sprayed from './swz/swz_chart_structures_sprayed'
+  import swz_chart_locked_vs_sprayed from './swz/swz_chart_locked_vs_sprayed'
+  import swz_chart_pop_covered_vs_structures from './swz/swz_chart_pop_covered_vs_structures'
+  import swz_chart_structures_pr_supervisor from './swz/swz_chart_structures_pr_supervisor'
 
-   // NAM
-   import nam_chart_structures_sprayed_doughnut from './nam/nam_chart_structures_sprayed_doughnut'
+  // NAM
+  import nam_chart_structures_sprayed_doughnut from './nam/nam_chart_structures_sprayed_doughnut'
 
-   // BWA
-   import bwa_chart_prop_room_sprayed from './bwa/bwa_chart_prop_room_sprayed'
-   import bwa_chart_prop_people_covered from './bwa/bwa_chart_prop_people_covered'
-   import bwa_chart_refusal_pie from './bwa/bwa_chart_refusal_pie'
+  // BWA
+  import bwa_chart_prop_room_sprayed from './bwa/bwa_chart_prop_room_sprayed'
+  import bwa_chart_prop_people_covered from './bwa/bwa_chart_prop_people_covered'
+  import bwa_chart_refusal_pie from './bwa/bwa_chart_refusal_pie'
 
-   // ZWE
-
-   import zwe_chart_prop_room_sprayed from './zwe/zwe_chart_prop_room_sprayed'
-   import zwe_chart_prop_people_covered from './zwe/zwe_chart_prop_people_covered'
-   import zwe_chart_refusal_pie from './zwe/zwe_chart_refusal_pie'
+  // ZWE
+  import zwe_chart_prop_room_sprayed from './zwe/zwe_chart_prop_room_sprayed'
+  import zwe_chart_prop_people_covered from './zwe/zwe_chart_prop_people_covered'
+  import zwe_chart_refusal_pie from './zwe/zwe_chart_refusal_pie'
 
   export default {
-    name: 'MonitorDashboard',
+    name: 'Dashboard',
     components: {
       // Common
       Filters,
@@ -121,7 +124,6 @@
 
         // Debug
         filters_on: false,
-        denominator: {population: 500, structures_targeted: 15, number_of_households: 15},
       }
     },
     computed: {
@@ -130,7 +132,11 @@
         country: state => state.instance_config.name,
         components: state => state.instance_config.applets.irs_monitor.components,
         online: state => state.network_online,
-        responses: state => state.irs_monitor.responses
+        responses: state => state.irs_monitor.responses,
+        plan: state => state.irs_monitor.plan,
+      }),
+      ...mapGetters({
+        filtered_responses: 'irs_monitor/filtered_responses'
       }),
       window_height() {
         return (window.innerHeight - 64) - 200
