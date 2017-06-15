@@ -6,11 +6,20 @@
     </md-input-container>
 
     <div class='section' v-for="section in sections" :key="section">
-      <h4>{{section}}</h4>
-        <div class="item" v-for="{title, image, content} in items_for_section(section)" :key="title">
-          <h5>{{title}}</h5>
-          <div>{{content}}</div>
+      <h4>
+        {{section}}
+      </h4>
+        <div
+          class="item"
+          v-for="{title, image, content, excerpt, show_excerpt} in items_for_section(section)"
+          :key="title"
+          @click="toggle_show_excerpt(title, section)"
+        >
+          <h5>• {{title}}</h5>
+          <div v-if="show_excerpt">{{excerpt}}</div>
+          <div v-else>{{content}}</div>
         </div>
+      <hr>
     </div>
   </div>
 </template>
@@ -56,27 +65,43 @@
       },
     },
     created() {
-      const section_titles = help_content.map(section => {
-        return section.section_title
-      })
-
-      section_titles.forEach(section_title => {
-        help_content.find(section => section.section_title === section_title).articles.forEach(article => {
-          article.section_title = section_title
-          this.flat_help.push(article)
-        })
-      })
+      this.prepare_help_items()
     },
     methods: {
+      prepare_help_items() {
+        const truncate_at = 150
+        const section_titles = help_content.map(section => {
+          return section.section_title
+        })
+
+        section_titles.forEach(section_title => {
+          help_content.find(section => section.section_title === section_title).articles.forEach(article => {
+            article.section_title = section_title
+            article.excerpt = article.content.length > truncate_at ? article.content.slice(0, truncate_at) + "..." : article.content
+            article.show_excerpt = true
+            this.flat_help.push(article)
+          })
+        })
+      },
       items_for_section(section_title) {
         return this.filtered_help_content.filter(c => c.section_title === section_title)
       },
+      toggle_show_excerpt(title, section) {
+        const item = this.filtered_help_content.filter(item => {
+          return item.section_title == section && item.title == title
+        })[0]
+
+        if (item) {
+          item.show_excerpt = !item.show_excerpt
+        }
+      }
     }
   }
 </script>
 
 <style>
   .container {
-    margin: 10px;
+    padding: 10px;
+    width: 100%;
   }
 </style>
