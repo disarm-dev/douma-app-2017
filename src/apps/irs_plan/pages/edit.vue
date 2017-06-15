@@ -58,9 +58,7 @@
   import plan_summary from './plan-summary.vue'
   import plan_map from './plan-map.vue'
   import cache from 'lib/cache.js'
-
   import {Plan} from 'models/plan.model.js'
-
 
   export default {
     name: 'edit',
