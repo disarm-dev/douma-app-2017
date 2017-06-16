@@ -30,20 +30,19 @@
       <md-toolbar class="md-medium">
         <div class="md-toolbar-container">
           <h3>Country: {{$store.state.instance_config.name}}</h3>
-          <!-- <img src="/assets/disarm-logo-word-grey.png" style="height: 50px;"> -->
-
         </div>
 
         <!--Status/top of sidebar: LOGGED-IN-->
         <div v-if="user">
           <p @click="navigate('meta:home')">Logged in: {{user.name}}</p>
+          <p><em>Version {{commit_hash}}</em></p>
         </div>
 
         <!--Status/top of sidebar: LOGGED-OUT-->
         <div v-else>
           <p>Nope, not logged in.</p>
+          <p><em>Version {{commit_hash}}</em></p>
         </div>
-        <p>Version hash: {{commit_hash}}</p>
       </md-toolbar>
 
       <!--Sidebar: LOGGED IN-->
@@ -54,28 +53,27 @@
 
         <md-divider class="md-inset"></md-divider>
 
-
         <md-list-item @click.native="navigate('meta:home')">
           <md-icon>person</md-icon><span>User</span>
+        </md-list-item>
+
+        <md-list-item class='md-primary' @click.native="open_dialog_help">
+          <md-icon>help</md-icon><span>Help</span>
         </md-list-item>
 
         <md-list-item class='md-accent' @click.native="navigate('meta:logout')">
           <md-icon>exit_to_app</md-icon><span>Logout</span>
         </md-list-item>
-
-        <md-list-item @click.native="open_dialog_help">
-          <md-icon>help</md-icon><span>Help</span>
-        </md-list-item>
       </md-list>
 
       <!--Sidebar: LOGGED OUT-->
       <md-list v-else>
-        <md-list-item class='md-accent' @click.native="navigate('meta:login')">
-          <md-icon>exit_to_app</md-icon><span>Login</span>
+        <md-list-item class='md-primary' @click.native="open_dialog_help">
+          <md-icon>help</md-icon><span>Help</span>
         </md-list-item>
 
-        <md-list-item @click.native="open_dialog_help">
-          <md-icon>help</md-icon><span>Help</span>
+        <md-list-item class='md-accent' @click.native="navigate('meta:login')">
+          <md-icon>exit_to_app</md-icon><span>Login</span>
         </md-list-item>
       </md-list>
 

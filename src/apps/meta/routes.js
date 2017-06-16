@@ -3,6 +3,7 @@ import home from './pages/home.vue'
 import login from './pages/login.vue'
 import logout from './pages/logout.vue'
 
+import debug from './pages/debug.vue'
 import location from './pages/location_debug.vue'
 import building from './pages/building_debug.vue'
 import validations from './pages/validations.vue'
@@ -30,17 +31,21 @@ export default [
         component: logout,
       }
     ]
-  },{
-    path: '/meta/location',
+  }, {
+    path: '/meta/debug',
+    component: debug,
+    name: 'meta:debug'
+  }, {
+    path: '/meta/debug/location',
     component: location,
-    name: 'meta:location'
-  },{
-    path: '/meta/building',
+    name: 'meta:debug:location'
+  }, {
+    path: '/meta/debug/building',
     component: building,
-    name: 'meta:building'
-  },{
-    path: '/meta/validations',
+    name: 'meta:debug:building'
+  }, {
+    path: '/meta/debug/validations',
     component: validations,
-    name: 'meta:validations'
+    name: 'meta:debug:validations'
   }
 ]
