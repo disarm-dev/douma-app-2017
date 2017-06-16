@@ -3,7 +3,9 @@
     :options="{touchAction: 'pan-y'}"
     v-on:swipeleft="next_page"
     v-on:swiperight="previous_page">
+
     <div id="surveyContainer"></div>
+
     <md-button v-if="show_previous" @click.native="previous_page"class="md-raised">Previous</md-button>
     <md-button v-if="show_next" @click.native="next_page"class="md-raised">Next</md-button>
     <md-button v-if="show_complete" :disabled="complete_disabled" @click.native="complete"class="md-raised md-primary">Complete</md-button>
@@ -11,7 +13,8 @@
 </template>
 
 <script>
-  import * as Survey from 'survey-jquery'
+//  import * as Survey from 'survey-jquery'
+  import * as Survey from 'survey-knockout'
 
   export default {
     name: 'form',
@@ -30,32 +33,23 @@
     },
     created() {
       // Configure form
-      this.form = {
-        ...this.$store.state.instance_config.form,
-        completeText: "Save",
-        showNavigationButtons: false
-      }
     },
     mounted(){
       this.create_form()
     },
     methods: {
       create_form() {
-        // TODO: @feature Destroy form on exit (#beforeDestroy)
-        this._survey = new Survey.Model(this.form)
-
-        if (this.initial_form_data) {
-          this._survey.data = this.initial_form_data
+        const form_options = {
+          ...this.$store.state.instance_config.form,
+          showNavigationButtons: false
         }
 
-        const el = $("#surveyContainer")
+        // KNOCKOUT
+        this._survey = new Survey.Model(form_options, "surveyContainer")
+        this._survey.onValueChanged.add(this.on_form_change)
+        this._survey.onCurrentPageChanged.add(this.on_page_changed)
 
-        el.Survey({
-          model: this._survey,
-          onValueChanged: this.on_form_change,
-          onCurrentPageChanged: this.on_page_changed
-        });
-
+        this.hide_native_navigation_buttons() // Required for bug in Knockout version of SurveyJS
       },
       on_page_changed() {
         this.control_navigation_visibility()
@@ -71,6 +65,13 @@
 
         if (!this._survey.isLastPage) this.show_next = true
         if (!this._survey.isFirstPage) this.show_previous = true
+
+        this.hide_native_navigation_buttons() // Required for bug in Knockout version of SurveyJS
+      },
+      hide_native_navigation_buttons() {
+        // Hide navigation button on first page
+        const el = document.querySelector('.sv_nav')
+        el.style.display = 'none'
       },
       control_complete_button_visibility() {
         this.$nextTick(() => {
