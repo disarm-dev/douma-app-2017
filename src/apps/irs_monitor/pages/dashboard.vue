@@ -32,19 +32,25 @@
         </md-card-content>
       </md-card>
 
-      <!--STATIC-DATA CHARTS, etc-->
-      <!--<h2>Charts below use static data only</h2>-->
-      <!--<md-card v-for="component in components" :key="component.name" class="card" :ref="component.name" :class="{'card-half-width': component.width_constraint == 'half'}">-->
-        <!--<md-card-content>-->
-          <!--<component-->
-            <!--:is="component.name"-->
-            <!--:height="component.height_constraint == 'viewport' ? window_height : undefined"-->
-            <!--:responses='filtered_responses'-->
-            <!--:denominator='denominator'-->
-            <!--:component_config='component'-->
-            <!--&gt;</component>-->
-        <!--</md-card-content>-->
-      <!--</md-card>-->
+
+      <!-- STATIC-DATA CHARTS, etc -->
+      <h2>Charts below use static data only</h2>
+      <md-card 
+        v-for="component in components" 
+        :key="component.name" 
+        class="card" 
+        :ref="component.name" 
+        :class="{'card-half-width': component.width_constraint == 'half'}">
+        <md-card-content>
+          <component
+            :is="component.name"
+            :height="component.height_constraint == 'viewport' ? window_height : undefined"
+            :responses='filtered_responses'
+            :denominator="denominator"
+            :component_config='component'>
+          </component>
+        </md-card-content>
+      </md-card>
     </div>
 
   </div>
@@ -123,6 +129,7 @@
     data () {
       return {
         loading: false,
+        denominator: {},
 
         // Debug
         filters_on: false,
