@@ -1,9 +1,14 @@
+- title: What is DiSARM
+  content: >
+    DiSARM is the Disease Surveillance And Risk Monitoring platform.
+    Find out more at <a href='http://www.disarm.io'>disarm.io</a>
+
 - title: Log-in
-  image:
+  image: login.png
   content: Enter your username and password, Just click login.
 
 - title: Log-out
-  image:
+  image: logout.png
   content: >
     Just click logout on the sidebar.
     Note that if you somehow logout when you are offline, you won't be able to use DiSARM again until you login
@@ -16,4 +21,4 @@
   content: If you don't have these, please ask the person who set up DiSARM for you.
 
 - title: How can I report if something is broken?
-  content: Please send an email to help@disarm.io to get help.
+  content: Please send an email to <a href='mailto://help@disarm.io'>help@disarm.io</a> to get help.

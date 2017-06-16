@@ -11,13 +11,14 @@
       </h4>
         <div
           class="item"
-          v-for="{title, image, content, excerpt, show_excerpt} in items_for_section(section)"
+          v-for="{title, image, content, show_excerpt} in items_for_section(section)"
           :key="title"
-          @click="toggle_show_excerpt(title, section)"
+
         >
-          <h5>• {{title}}</h5>
-          <div v-if="show_excerpt">{{excerpt}}</div>
-          <div v-else>{{content}}</div>
+          <h5 v-if='show_excerpt' @click="toggle_show_excerpt(title, section)" class="item-header"><md-icon>expand_more</md-icon> {{title}}</h5>
+          <h5 v-if='!show_excerpt' @click="toggle_show_excerpt(title, section)" class="item-header"><md-icon>expand_less</md-icon> {{title}}</h5>
+          <div v-if="!show_excerpt" v-html="content"></div>
+          <img v-if="!show_excerpt && image" :src="`/static/help_images/${image}`">
         </div>
       <hr>
     </div>
@@ -77,7 +78,6 @@
         section_titles.forEach(section_title => {
           help_content.find(section => section.section_title === section_title).articles.forEach(article => {
             article.section_title = section_title
-            article.excerpt = article.content.length > truncate_at ? article.content.slice(0, truncate_at) + "..." : article.content
             article.show_excerpt = true
             this.flat_help.push(article)
           })
@@ -99,9 +99,19 @@
   }
 </script>
 
-<style>
+<style scoped>
   .container {
     padding: 10px;
     width: 100%;
   }
+  .item-header {
+    cursor: pointer;
+  }
+  .item-header a {
+    cursor: pointer;
+  }
+  .see_more {
+    color: blue;
+  }
+
 </style>
