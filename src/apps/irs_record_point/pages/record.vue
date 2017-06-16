@@ -2,7 +2,7 @@
   <div class='container'>
 
     <div class="chip-holder">
-      <md-button :class="{orange: !validation_result_empty, 'md-raised': !show_validation_result}" :disabled="validation_result_empty" @click.native="toggle_show_validation_result">
+      <md-button :class="{orange: have_warnings, red: have_errors, 'md-raised': !show_validation_result}" :disabled="validation_result_empty" @click.native="toggle_show_validation_result">
         {{ validation_result_empty ? "No validation issues" : "Validation issues"}}
       </md-button>
 
@@ -17,6 +17,7 @@
           <review
             ref="validation_result"
             :validations='validation_result'
+            :survey="survey"
           ></review>
         </md-card-content>
       </md-card>
@@ -65,7 +66,7 @@
   import location_record from 'components/location.vue'
   import review from './review.vue'
   import form_renderer from './form.vue'
-  import Validators from 'lib/validations'
+  import {Validator} from 'lib/validations'
   import array_unique from 'array-unique'
 
   import Multiselect from 'vue-multiselect'
@@ -78,11 +79,16 @@
     props: ['response_id'],
     data () {
       return {
+        _validator: null,
+
         response: {
           location_selection: {},
           location: {},
           form_data: {}
         },
+
+        survey: null,
+
         // Validation result will return object looking like this:
         validation_result: {
           errors: [],
@@ -118,8 +124,8 @@
       user_name() {
         return this.$store.state.meta.user.name
       },
-      slug() {
-        return this.$store.state.instance_config.slug
+      instance_config() {
+        return this.$store.state.instance_config
       },
       page_title() {
         return this.response_id ? 'Update' : 'Create'
@@ -143,12 +149,21 @@
       },
       location_is_valid() {
         return this.validation_result.errors.filter(e => e.name === 'no_location').length === 0
+      },
+      have_errors() {
+        return this.validation_result.errors.length
+      },
+      have_warnings() {
+        return this.validation_result.warnings.length
       }
+    },
+    created() {
+      this._validator = new Validator(this.instance_config)
     },
     mounted() {
       // We need to run validations when we start,
       // otherwise it only happens after a question has been answered.
-      this.validate()
+      this.validate(this.response)
 
       // Display validations on initial validate only
       this.show_validation_result = !this.validation_result_empty
@@ -162,17 +177,20 @@
       toggle_show_location() {
         this.show_location = !this.show_location
       },
+
       // TODO: @feature Implement clear_form"
+
       on_location_change(location) {
         this.response.location = location
-        this.validate()
+        this.validate(this.response)
       },
-      on_form_change(form_data) {
-        this.response.form_data = form_data
-        this.validate()
+      on_form_change(survey) {
+        this.response.form_data = survey.data
+        this.survey = survey
+        this.validate(this.response)
       },
-      on_form_complete(form_data) {
-        this.on_form_change(form_data)
+      on_form_complete(survey) {
+        this.on_form_change(survey)
 
         if (this.response_is_valid) {
           this.save_response()
@@ -180,8 +198,9 @@
           console.log('No idea what we do here.')
         }
       },
-      validate() {
-        this.validation_result = Validators[this.slug](this.response, this.$store.state.instance_config.form)
+      validate(response) {
+        this.validation_result = this._validator.validate(response)
+
         if (this.validation_result_empty) this.show_validation_result = false
         if (this.location_is_valid) this.show_location = false
       },
@@ -196,7 +215,7 @@
           id: id,
           synced: false,
           userAgent: navigator.userAgent,
-          country: this.slug,
+          country: this.instance_config.slug,
           user: this.user_name
         }
 
@@ -238,6 +257,10 @@
   }
   .orange {
     background-color: orange !important;
+    color: white !important;
+  }
+  .red {
+    background-color: red !important;
     color: white !important;
   }
   .green {

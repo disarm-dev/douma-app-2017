@@ -110,7 +110,7 @@
             if (found) {
               feature.properties.coverage = (found[aggregation_name] * 100) // Aggregation value is a proportion, not a percentage
             } else {
-              feature.properties.coverage = Math.random() * 100
+              feature.properties.coverage = 0
             }
 
             return feature

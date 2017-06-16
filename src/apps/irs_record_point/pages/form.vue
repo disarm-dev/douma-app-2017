@@ -3,7 +3,9 @@
     :options="{touchAction: 'pan-y'}"
     v-on:swipeleft="next_page"
     v-on:swiperight="previous_page">
+
     <div id="surveyContainer"></div>
+
     <md-button v-if="show_previous" @click.native="previous_page"class="md-raised">Previous</md-button>
     <md-button v-if="show_next" @click.native="next_page"class="md-raised">Next</md-button>
     <md-button v-if="show_complete" :disabled="complete_disabled" @click.native="complete"class="md-raised md-primary">Complete</md-button>
@@ -11,7 +13,8 @@
 </template>
 
 <script>
-  import * as Survey from 'survey-jquery'
+//  import * as Survey from 'survey-jquery'
+  import * as Survey from 'survey-knockout'
 
   export default {
     name: 'form',
@@ -29,44 +32,29 @@
       'response_is_valid': 'control_complete_button_visibility'
     },
     created() {
-//      let goNextPageAutomatic = true
-//      if (this.initial_form_data) {
-//        goNextPageAutomatic = false
-//      }
-      this.form = this.$store.state.instance_config.form
-      this.form = {
-        ...this.form,
-        completeText: "Save",
-        showNavigationButtons: false
-      }
+      // Configure form
     },
     mounted(){
       this.create_form()
     },
     methods: {
       create_form() {
-        // TODO: @feature Destroy form on exit (#beforeDestroy)
-        this._survey = new Survey.Model(this.form)
-
-        if (this.initial_form_data) {
-          this._survey.data = this.initial_form_data
+        const form_options = {
+          ...this.$store.state.instance_config.form,
+          showNavigationButtons: false
         }
 
-        const el = $("#surveyContainer")
-
-        el.Survey({
-          model: this._survey,
-          onValueChanged: this.on_form_change,
-          onCurrentPageChanged: this.on_page_changed
-        });
-
+        // KNOCKOUT
+        this._survey = new Survey.Model(form_options, "surveyContainer")
+        this._survey.onValueChanged.add(this.on_form_change)
+        this._survey.onCurrentPageChanged.add(this.on_page_changed)
       },
       on_page_changed() {
         this.control_navigation_visibility()
         this.control_complete_button_visibility()
       },
       on_form_change() {
-        this.$emit('change', this._survey.data)
+        this.$emit('change', this._survey)
         this.control_complete_button_visibility()
       },
       control_navigation_visibility() {
@@ -100,7 +88,7 @@
             this.show_complete = true
             this.complete_disabled = false
             return
-          } 
+          }
         })
       },
       next_page() {
@@ -110,7 +98,7 @@
         this._survey.prevPage()
       },
       complete() {
-        this.$emit('complete', this._survey.data)
+        this.$emit('complete', this._survey)
       }
     }
   }

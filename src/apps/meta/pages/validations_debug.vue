@@ -5,9 +5,9 @@
       <md-file @selected="upload_validations"></md-file>
     </md-input-container>
     <md-button class="md-raised md-primary" @click.native="download"> Download </md-button>
-    <div v-if="validations">
+    <div v-if="validations_debug">
       <md-list>
-        <md-list-item v-for="validation in validations" :key="validation.name" @click.native="set_active_validation(validation)">
+        <md-list-item v-for="validation in validations_debug" :key="validation.name" @click.native="set_active_validation(validation)">
            {{validation.name}}
         </md-list-item>
       </md-list>
@@ -50,7 +50,6 @@
 	</div>
 </template>
 <script type="text/javascript">
-  import yaml from 'js-yaml'
   import download from 'downloadjs'
   import moment from 'moment'
 
@@ -73,8 +72,8 @@
       },
       validations() {
         let warnings = this.raw_validations.find((i) => i.type === 'warnings')
-        if (warnings && warnings.hasOwnProperty('validations') && warnings.validations.length) {
-          warnings = warnings.validations.map((i) => {
+        if (warnings && warnings.hasOwnProperty('validations_debug') && warnings.validations_debug.length) {
+          warnings = warnings.validations_debug.map((i) => {
             i.type = "warning"
             return i
           })
@@ -83,8 +82,8 @@
         }
 
         let errors = this.raw_validations.find((i) => i.type === 'errors')
-        if (errors && errors.hasOwnProperty('validations') && errors.validations.length) {
-          errors = errors.validations.map((i) => {
+        if (errors && errors.hasOwnProperty('validations_debug') && errors.validations_debug.length) {
+          errors = errors.validations_debug.map((i) => {
             i.type = "error"
             return i
           })
@@ -96,15 +95,15 @@
       }
     },
     mounted() {
-      this.raw_validations = require("json-loader!yaml-include-loader!lib/validations/" + this.instance_config.slug  + ".validations.yaml")
+      this.raw_validations = require("json-loader!lib/validations/" + this.instance_config.slug  + ".validations_debug.json")
     },
     methods: {
       set_active_validation(validation) {
         this.active_validation = validation
       },
       save_validation() {
-        let index = this.validations.findIndex((i) => i.name === this.active_validation.name)
-        this.validations.splice(index, this.active_validation)
+        let index = this.validations_debug.findIndex((i) => i.name === this.active_validation.name)
+        this.validations_debug.splice(index, this.active_validation)
         this.active_validation = null
       },
       upload_validations(e) {
@@ -114,7 +113,7 @@
         const file_reader = new FileReader();
 
         file_reader.onload = (f) => {
-          this.raw_validations = yaml.load(f.target.result)
+          this.raw_validations = JSON.parse(f.target.result)
         }
 
 
@@ -139,9 +138,9 @@
         ]
 
 
-        const content = yaml.safeDump(result)
+        const content = JSON.stringify(result)
         const date = moment().format('YYYY-MM-DD_HHmm')
-        download(content, `${this.instance_config.slug}_validations_${date}.yml`)
+        download(content, `${this.instance_config.slug}_validations_${date}.json`)
       }
     }
   }
