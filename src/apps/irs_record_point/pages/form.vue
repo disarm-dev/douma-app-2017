@@ -48,8 +48,6 @@
         this._survey = new Survey.Model(form_options, "surveyContainer")
         this._survey.onValueChanged.add(this.on_form_change)
         this._survey.onCurrentPageChanged.add(this.on_page_changed)
-
-        this.hide_native_navigation_buttons() // Required for bug in Knockout version of SurveyJS
       },
       on_page_changed() {
         this.control_navigation_visibility()
@@ -65,13 +63,6 @@
 
         if (!this._survey.isLastPage) this.show_next = true
         if (!this._survey.isFirstPage) this.show_previous = true
-
-        this.hide_native_navigation_buttons() // Required for bug in Knockout version of SurveyJS
-      },
-      hide_native_navigation_buttons() {
-        // Hide navigation button on first page
-        const el = document.querySelector('.sv_nav')
-        el.style.display = 'none'
       },
       control_complete_button_visibility() {
         this.$nextTick(() => {
