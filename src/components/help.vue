@@ -16,8 +16,8 @@
           @click="toggle_show_excerpt(title, section)"
         >
           <h5>• {{title}}</h5>
-          <div v-if="show_excerpt">{{excerpt}}</div>
-          <div v-else>{{content}}</div>
+          <div v-if="show_excerpt" v-html="excerpt"></div>
+          <div v-else v-html="content"></div>
         </div>
       <hr>
     </div>

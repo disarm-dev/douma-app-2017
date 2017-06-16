@@ -1,0 +1,11 @@
+- type: errors
+  validations: []
+
+- type: warnings
+  validations:
+    - name: total_sprayed
+      precondition: null
+      expression: >-
+        number_sprayable  == numbersprayed_ddt + numbersprayed_PY +
+        numbersprayed_OP
+      message: Total sprayed does not equal `ddt`+ `deltamethrin`.
