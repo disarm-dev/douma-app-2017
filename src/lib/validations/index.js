@@ -51,20 +51,14 @@ export class Validator {
   }
 
   validate(response) {
-    // console.log('validating', response, survey)
-
     let results = []
 
-    if (response.location) { // We only pass response to get the location and location_selection
-      const location_results = this._validate_location(response.location)
-      const location_selection_results = this._validate_location_selection(response.location_selection)
-      results = results.concat(location_results, location_selection_results)
-    }
+    const location_results = this._validate_location(response.location)
+    const location_selection_results = this._validate_location_selection(response.location_selection)
+    results = results.concat(location_results, location_selection_results)
 
-    if (response.form_data && Object.keys(response.form_data).length) {
-      const survey_results = this._validate_form_data(response.form_data)
-      results = results.concat(survey_results)
-    }
+    const survey_results = this._validate_form_data(response.form_data)
+    results = results.concat(survey_results)
 
     const errors = results.filter(r => r.type === 'error')
     const warnings = results.filter(r => r.type === 'warning')
@@ -73,8 +67,11 @@ export class Validator {
   }
 
   _validate_form_data(form_data) {
+    if (!Object.keys(form_data).length) return []
+
+    const survey_variables = Object.keys(form_data)
+
     const survey_validations = this.validations.map(validation=> {
-      const survey_variables = Object.keys(form_data)
 
       if (validation.precondition) {
         let precondition_passed = false
@@ -96,16 +93,23 @@ export class Validator {
       const expression_expr = new Parser.parse(validation.expression)
       const expression_vars = expression_expr.variables()
       const expression_vars_exist = expression_vars.every(i => survey_variables.includes(i))
+
+      // Not enough variables to run the test
+      if (!expression_vars_exist) {
+        return {
+          ...validation,
+          questions: expression_vars,
+          status: 'not_ready'
+        }
+      }
+
       const expression_eval_result = expression_expr.evaluate(form_data)
 
-      if (expression_vars_exist && expression_eval_result) {
+      if (expression_eval_result) {
         // Can run expression, and it passes
-        // console.log('expression_passed', validation)
-        // return false
         return {...validation, questions: expression_vars, status: 'passed'}
       } else {
         // Can run expression, and it fails
-        // console.log('expression failed', validation)
         return {...validation, questions: expression_vars, status: 'failed'}
       }
     })
