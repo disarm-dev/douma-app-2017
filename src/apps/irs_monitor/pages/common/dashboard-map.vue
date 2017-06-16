@@ -1,8 +1,9 @@
 <template>
   <div>
     <div>
-      <md-button class="md-raised" :disabled='!geodata_areas' @click.native="add_areas_coloured_by_risk">Show areas by risk</md-button>
-      <md-button class="md-raised" :disabled='!geodata_areas' @click.native="add_areas_coloured_by_coverage">Show areas by spray coverage</md-button>
+      <md-button class="md-raised" :disabled='!geodata_areas' @click.native="add_areas_coloured_by_risk">Show plan areas by risk</md-button>
+      <md-button class="md-raised" :disabled='!geodata_areas' @click.native="add_areas_coloured_by_coverage">Show plan areas by spray coverage</md-button>
+      <md-checkbox v-model="limit_to_plan">Limit to plan areas</md-checkbox>
     </div>
     <div id="map"></div>
   </div>
@@ -25,6 +26,7 @@
       return {
         _map: null,
         geodata_areas: null,
+        limit_to_plan: true
       }
     },
     watch: {
@@ -33,6 +35,15 @@
       instance_config() {
         return this.$store.state.instance_config
       },
+      plan_target_area_ids() {
+        return this.$store.state.irs_monitor.plan.targets.map(target => target.id)
+      },
+      target_area_id_field() {
+        // Get field name e.g AggUniCod
+        const found = this.instance_config.spatial_hierarchy.find(h => h.hasOwnProperty('denominator'))
+        if (!found) throw new Error('Cannot find denominator field_name on instance_config')
+        return found.field_name
+      }
     },
     mounted() {
       this.create_map()
@@ -87,21 +98,22 @@
       add_areas_coloured_by_coverage() {
         this.clear_map()
 
-        // Get field name e.g AggUniCod
-        const found = this.instance_config.spatial_hierarchy.find(h => h.hasOwnProperty('denominator'))
-        if (!found) throw new Error('Cannot find denominator field_name on instance_config')
-        const target_area_id_field = found.field_name
-
         // Get aggregation name
         const aggregation_name = this.instance_config.applets.irs_monitor.aggregations.map
 
+        // Filter features/areas to only those in the plan (i.e. in response_aggregations), then add aggregated property to each
+        const features = this.geodata_areas.features.filter(feature => {
+          if(!this.limit_to_plan) return true
+          return this.plan_target_area_ids.includes(feature.properties[this.target_area_id_field])
+        }).map((feature) => {
+            const found = this.response_aggregations.find(aggregation => aggregation[this.target_area_id_field] === feature.properties[this.target_area_id_field])
+            if (found) {
+              feature.properties.coverage = (found[aggregation_name] * 100) // Aggregation value is a proportion, not a percentage
+            } else {
+              feature.properties.coverage = Math.random() * 100
+            }
 
-        const features = this.geodata_areas.features.map((feature) => {
-          const found = this.response_aggregations.find(a => a[target_area_id_field] === feature.properties[target_area_id_field])
-          if (found) {
-            feature.properties.coverage = (found[aggregation_name] * 100) // Aggregation value is a proportion, not a percentage
-          }
-          return feature
+            return feature
         })
 
         const areas_with_coverage = featureCollection(features)
@@ -154,7 +166,10 @@
 
         this.get_log_values(this.geodata_areas)
 
-        const features = this.geodata_areas.features.map((feature) => {
+        const features = this.geodata_areas.features.filter(feature => {
+          if(!this.limit_to_plan) return true
+          return this.plan_target_area_ids.includes(feature.properties[this.target_area_id_field])
+        }).map((feature) => {
           feature.properties.normalised_risk = this.log_scale(feature.properties.risk)
           return feature
         })
