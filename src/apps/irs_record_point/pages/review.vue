@@ -11,8 +11,10 @@
           <md-list-expand>
             <md-list>
               <md-list-item v-for="question_name in questions" :key="question_name">
-                <a @click="go_to_page_for(question_name)">{{question_name}}</a>
-                <span>Current value: {{current_value_for(question_name)}}</span>
+                <a @click="go_to_page_for(question_name)">
+                  {{question_name}}
+                  <span>{{current_value_for(question_name)}}</span>
+                </a>
               </md-list-item>
             </md-list>
           </md-list-expand>
@@ -28,9 +30,9 @@
           <span>{{message}}</span>
           <md-list-expand>
             <md-list>
-              <md-list-item v-for="question_name in questions" :key="question_name">
-                <a @click="go_to_page_for(question_name)">{{question_name}}</a>
-                <span>Current value: {{current_value_for(question_name)}}</span>
+              <md-list-item @click.native="go_to_page_for(question_name)" v-for="question_name in questions" :key="question_name">
+                <span>{{question_name}}</span>
+                <span>{{current_value_for(question_name)}}</span>
               </md-list-item>
             </md-list>
           </md-list-expand>
@@ -45,12 +47,6 @@
   export default {
     props: ['validations', 'survey'],
     name: 'Review',
-    computed: {
-      where_stuff_is_broken_and_what_the_current_value_is() {
-        console.log(this.validations, this.survey)
-
-      }
-    },
     methods: {
       go_to_page_for(question_name) {
         if(!question_name) return
