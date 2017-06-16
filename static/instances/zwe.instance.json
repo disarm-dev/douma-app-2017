@@ -2,8 +2,8 @@
   "applets": {
     "irs_monitor": {
       "aggregations": {
-        "map": "",
-        "table": []
+        "map": "structures sprayed %",
+        "table": ["structures sprayed", "structures sprayed %"]
       },
       "components": [
         {
@@ -24,7 +24,7 @@
       ]
     },
     "irs_plan": {
-      "number_of_structures": "NumHouseho"
+      "number_of_households": "NumHouseho"
     },
     "irs_record_point": {},
     "meta": {}
@@ -41,6 +41,7 @@
   "spatial_hierarchy": [
     {
       "denominator": {
+        "number_of_households": "NumHouseho"
       },
       "field_name": "ZIMWARDSID",
       "name": "wards"

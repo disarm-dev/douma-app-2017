@@ -107,7 +107,7 @@
         </md-dialog-content>
 
         <md-dialog-actions>
-          <md-button class="md-primary" @click.native="close_dialog_help">Dismiss</md-button>
+          <md-button class="md-primary" @click.native="close_dialog_help">Close</md-button>
         </md-dialog-actions>
       </md-dialog>
     </keep-alive>
@@ -133,18 +133,6 @@
       '$store.state.snackbar': 'snackbar_open',
       '$store.state.sw_message': 'open_dialog_sw',
       '$store.state.trigger_help_visible_irrelevant_value': 'open_dialog_help'
-    },
-    mounted() {
-      // if ((typeof this.$store.state.user !== 'undefined') && (this.$store.state.meta.user.version !== COMMIT_HASH)) {
-      //   console.log("Version has changed. Need to reload.")
-      //   this.$store.commit('meta:login_user', null)
-      //   this.$router.push({name: 'meta:login'})
-      // }
-    },
-    data() {
-      return {
-        showNav: true
-      }
     },
     computed: {
       country() {
