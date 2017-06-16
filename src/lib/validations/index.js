@@ -58,6 +58,7 @@ export class Validator {
   }
 
   _validate_location(location) {
+
     const validation = {
       name: 'no_geo_location',
       message: 'Geolocation missing',
@@ -65,8 +66,8 @@ export class Validator {
       is_location: true
     }
 
-    const validation_function = (location) => {
-      return location && location.hasOwnProperty('coords') && location.coords.hasOwnProperty('accuracy')
+    const validation_function = (location_to_test) => {
+      return location_to_test && location_to_test.hasOwnProperty('coords') && location_to_test.coords.hasOwnProperty('accuracy')
     }
 
     if (!validation_function(location)) return {...validation, status: 'failed'}
@@ -76,6 +77,7 @@ export class Validator {
   }
 
   _validate_location_selection(location_selection) {
+
     const validation = {
       name: 'no_location_selection',
       message: 'Missing location selection',
@@ -83,11 +85,11 @@ export class Validator {
       is_location: true
     }
 
-    const validation_function = (location) => {
-      return location && location.hasOwnProperty('id') && location.hasOwnProperty('name')
+    const validation_function = (location_to_test) => {
+      return location_to_test && location_to_test.hasOwnProperty('id') && location_to_test.hasOwnProperty('name')
     }
 
-    if (!validation_function(location)) return {...validation, status: 'failed'}
+    if (!validation_function(location_selection)) return {...validation, status: 'failed'}
 
     return {...validation, status: 'passed'}
   }

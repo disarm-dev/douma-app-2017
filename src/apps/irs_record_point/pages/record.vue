@@ -49,7 +49,8 @@
           ></location_record>
 
           <multiselect
-            v-model="response.location_selection"
+            v-model="fake_location_selection"
+            @select="on_location_selection_selected"
             :options="location_options"
             group-values="locations"
             group-label="category"
@@ -102,6 +103,7 @@
     data () {
       return {
         _validator: null,
+        fake_location_selection: null,
 
         response: {
           location_selection: {},
@@ -204,6 +206,10 @@
 
       on_location_change(location) {
         this.response.location = location
+        this.validate(this.response)
+      },
+      on_location_selection_selected(location_selection){
+        this.response.location_selection = location_selection
         this.validate(this.response)
       },
       on_form_change(survey) {
