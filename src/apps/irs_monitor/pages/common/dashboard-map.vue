@@ -41,7 +41,7 @@
       create_map() {
         this._map = new mapboxgl.Map({
           container: 'map',
-          style: 'mapbox://styles/mapbox/streets-v9',
+          style: 'mapbox://styles/mapbox/light-v9',
           center: [22.63977015806131, -25.276453102086563],
           zoom: 4
         });
@@ -125,7 +125,7 @@
               property: 'coverage',
               stops: stops
             },
-            'fill-opacity': 0.7,
+            'fill-opacity': 0.9,
             'fill-outline-color': '#262626'
           }
         })
@@ -159,8 +159,10 @@
           return feature
         })
 
+        const areas_with_normalised_risk = featureCollection(features)
+
         // create stops
-        const scale = chroma.scale("RdYlBu").colors(11)
+        const scale = chroma.scale("RdYlBu").colors(11).reverse()
         const steps = Array.from(new Array(11), (x,i) => i * 10)
         const stops = steps.map((step, index) => {
           return [step, scale[index]]
@@ -171,7 +173,7 @@
           type: 'fill',
           source: {
             type: 'geojson',
-            data: featureCollection(features)
+            data: areas_with_normalised_risk
           },
           paint: {
             'fill-color': {
@@ -179,10 +181,12 @@
               // TODO: @feature Use a different palette
               stops: stops
             },
-            'fill-opacity': 0.7,
+            'fill-opacity': 0.9,
             'fill-outline-color': 'black'
           }
         }, 'records')
+
+        this._map.fitBounds(bbox(areas_with_normalised_risk), {padding: 20});
       },
       get_log_values(areas) {
         const values_array = areas.features.map(area => area.properties.risk).sort()
