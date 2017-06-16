@@ -29,7 +29,7 @@
           <md-list-expand>
             <md-list>
               <md-list-item v-for="question_name in questions" :key="question_name">
-                <a @click="go_to_page_for(question_name)">{{question_name}}</a>
+                <a @click="go_to_page_for(question_name)">{{question_for_question_name(question_name)}}</a>
                 <span>Current value: {{current_value_for(question_name)}}</span>
               </md-list-item>
             </md-list>
@@ -61,6 +61,9 @@
       current_value_for(question_name) {
         if(!question_name) return
         return this.survey.data[question_name]
+      },
+      question_for_question_name(question_name) {
+        return this.survey.getQuestionByName(question_name).title
       }
     }
   }

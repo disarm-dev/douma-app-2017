@@ -8,7 +8,7 @@
   },
   {
     "name": "partial_rooms_sprayed",
-    "precondition": "all_rooms_sprayed == 'no' && any_rooms_sprayed == 'yes'",
+    "precondition": "all_rooms_sprayed == 'no' and any_rooms_sprayed == 'yes'",
     "expression": "num_rooms == (rooms_sprayed + rooms_unsprayed)",
     "message": "Total rooms must equal number of sprayed and unsprayed rooms.",
     "type": "warning"
@@ -37,7 +37,7 @@
   {
     "name": "number_of_people",
     "precondition": null,
-    "expression": "ppl_in_hs == (ppl_in_hs_under5 + ppl_in_hs_above5)",
+    "expression": "n_people_homestead == (n_people_homestead_underage5 + n_people_homestead_overage5)",
     "message": "Number of people does not add up.",
     "type": "warning"
   }

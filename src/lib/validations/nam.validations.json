@@ -26,5 +26,12 @@
     "expression": "number_sprayable < 20",
     "message": "Number of sprayable structures seems high. Please check the value.",
     "type": "warning"
+  },
+  {
+    "name": "population",
+    "precondition": "sprayable == 'yes'",
+    "expression": " total_population_sprayedrooms <= house_population",
+    "message": "More people sleeping in sprayed rooms than population of houshold.",
+    "type": "warning"
   }
 ]
