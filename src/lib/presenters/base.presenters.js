@@ -55,11 +55,11 @@ export default class Presenters {
     responses_grouped_by_area.push(total_row)
 
     // Remove null, empty, keep zeroes
-    const flat_responses_grouped_by_area = responses_grouped_by_area.filter(r => {
+    const truthy_responses_grouped_by_area = responses_grouped_by_area.filter(r => {
       if (r === 0) return true
       return r
     })
 
-    return flat_responses_grouped_by_area
+    return truthy_responses_grouped_by_area
   }
 }

@@ -17,6 +17,7 @@
           <review
             ref="validation_result"
             :validations='validation_result'
+            :survey="survey"
           ></review>
         </md-card-content>
       </md-card>
@@ -86,6 +87,8 @@
           form_data: {}
         },
 
+        survey: null,
+
         // Validation result will return object looking like this:
         validation_result: {
           errors: [],
@@ -148,11 +151,13 @@
         return this.validation_result.errors.filter(e => e.name === 'no_location').length === 0
       }
     },
+    created() {
+      this._validator = new Validator(this.instance_config)
+    },
     mounted() {
       // We need to run validations when we start,
       // otherwise it only happens after a question has been answered.
-      this._validator = new Validator(this.instance_config)
-      this.validate(this.response)
+      this.validate({response: this.response})
 
       // Display validations on initial validate only
       this.show_validation_result = !this.validation_result_empty
@@ -171,11 +176,11 @@
 
       on_location_change(location) {
         this.response.location = location
-        this.validate(this.response)
+        this.validate({response: this.response})
       },
       on_form_change(survey) {
         this.response.form_data = survey.data
-        this.validate(this.response)
+        this.validate({response: this.response, survey: survey})
       },
       on_form_complete(survey) {
         this.on_form_change(survey)
@@ -186,8 +191,8 @@
           console.log('No idea what we do here.')
         }
       },
-      validate(response) {
-        this.validation_result = this._validator.validate(response)
+      validate({response, survey}) {
+        this.validation_result = this._validator.validate({response, survey})
 
         if (this.validation_result_empty) this.show_validation_result = false
         if (this.location_is_valid) this.show_location = false

@@ -1,4 +1,4 @@
-<template>
+\<template>
   <div>
     <!--<h4>Result of validation</h4>-->
     <!--<p>Validation count: {{validations.errors.length}} errors, {{validations.warnings.length}} warnings</p>-->
@@ -41,8 +41,13 @@
 
 <script>
   export default {
-    props: ['validations'],
+    props: ['validations', 'survey'],
     name: 'Review',
+    computed: {
+      where_stuff_is_broken_and_what_the_current_value_is() {
+        console.log(this.validations, this.survey)
+      }
+    }
   }
 </script>
 
