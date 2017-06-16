@@ -23,7 +23,6 @@
       return {
         _map: null,
         geodata_areas: null,
-        _saved: []
       }
     },
     watch: {
@@ -104,7 +103,6 @@
         })
 
         const areas_with_coverage = featureCollection(features)
-        this._saved = areas_with_coverage
 
         this._map.addLayer({
           id: 'areas_by_coverage',
