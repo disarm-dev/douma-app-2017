@@ -6,7 +6,7 @@ import logout from './pages/logout.vue'
 import debug from './pages/debug.vue'
 import location from './pages/location_debug.vue'
 import building from './pages/building_debug.vue'
-import validations from './pages/validations.vue'
+import validations from './pages/validations_debug.vue'
 
 export default [
   {
