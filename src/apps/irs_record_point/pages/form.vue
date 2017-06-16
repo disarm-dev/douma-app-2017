@@ -29,13 +29,9 @@
       'response_is_valid': 'control_complete_button_visibility'
     },
     created() {
-//      let goNextPageAutomatic = true
-//      if (this.initial_form_data) {
-//        goNextPageAutomatic = false
-//      }
-      this.form = this.$store.state.instance_config.form
+      // Configure form
       this.form = {
-        ...this.form,
+        ...this.$store.state.instance_config.form,
         completeText: "Save",
         showNavigationButtons: false
       }
@@ -66,7 +62,7 @@
         this.control_complete_button_visibility()
       },
       on_form_change() {
-        this.$emit('change', this._survey.data)
+        this.$emit('change', this._survey)
         this.control_complete_button_visibility()
       },
       control_navigation_visibility() {
@@ -100,7 +96,7 @@
             this.show_complete = true
             this.complete_disabled = false
             return
-          } 
+          }
         })
       },
       next_page() {
@@ -110,7 +106,7 @@
         this._survey.prevPage()
       },
       complete() {
-        this.$emit('complete', this._survey.data)
+        this.$emit('complete', this._survey)
       }
     }
   }
