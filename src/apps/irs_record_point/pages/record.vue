@@ -157,7 +157,7 @@
     mounted() {
       // We need to run validations when we start,
       // otherwise it only happens after a question has been answered.
-      this.validate({response: this.response})
+      this.validate(this.response)
 
       // Display validations on initial validate only
       this.show_validation_result = !this.validation_result_empty
@@ -176,11 +176,12 @@
 
       on_location_change(location) {
         this.response.location = location
-        this.validate({response: this.response})
+        this.validate(this.response)
       },
       on_form_change(survey) {
         this.response.form_data = survey.data
-        this.validate({response: this.response, survey: survey})
+        this.survey = survey
+        this.validate(this.response)
       },
       on_form_complete(survey) {
         this.on_form_change(survey)
@@ -191,8 +192,8 @@
           console.log('No idea what we do here.')
         }
       },
-      validate({response, survey}) {
-        this.validation_result = this._validator.validate({response, survey})
+      validate(response) {
+        this.validation_result = this._validator.validate(response)
 
         if (this.validation_result_empty) this.show_validation_result = false
         if (this.location_is_valid) this.show_location = false

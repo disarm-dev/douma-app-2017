@@ -50,19 +50,19 @@ export class Validator {
     return this
   }
 
-  validate({response, survey}) {
+  validate(response) {
     // console.log('validating', response, survey)
 
     let results = []
 
-    if (response) { // We only pass response to get the location and location_selection
+    if (response.location) { // We only pass response to get the location and location_selection
       const location_results = this._validate_location(response.location)
       const location_selection_results = this._validate_location_selection(response.location_selection)
       results = results.concat(location_results, location_selection_results)
     }
 
-    if (survey) {
-      const survey_results = this._validate_survey(survey)
+    if (response.form_data && Object.keys(response.form_data).length) {
+      const survey_results = this._validate_form_data(response.form_data)
       results = results.concat(survey_results)
     }
 
@@ -72,16 +72,16 @@ export class Validator {
     return {errors, warnings}
   }
 
-  _validate_survey(survey) {
-    const survey_validations = this.validations.map((validation, index)=> {
-      const survey_variables = Object.keys(survey.data)
+  _validate_form_data(form_data) {
+    const survey_validations = this.validations.map(validation=> {
+      const survey_variables = Object.keys(form_data)
 
       if (validation.precondition) {
         let precondition_passed = false
         const precondition_expr = new Parser.parse(validation.precondition)
         const precondition_vars = precondition_expr.variables()
         const precondition_vars_exist = precondition_vars.every(i => survey_variables.includes(i))
-        if (precondition_vars_exist && precondition_expr.evaluate(survey.data)) {
+        if (precondition_vars_exist && precondition_expr.evaluate(form_data)) {
           precondition_passed = true
         }
 
@@ -96,7 +96,7 @@ export class Validator {
       const expression_expr = new Parser.parse(validation.expression)
       const expression_vars = expression_expr.variables()
       const expression_vars_exist = expression_vars.every(i => survey_variables.includes(i))
-      const expression_eval_result = expression_expr.evaluate(survey.data)
+      const expression_eval_result = expression_expr.evaluate(form_data)
 
       if (expression_vars_exist && expression_eval_result) {
         // Can run expression, and it passes
