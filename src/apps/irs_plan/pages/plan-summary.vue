@@ -9,7 +9,7 @@
     <md-button class='md-raised md-primary' @click.native="download_plan">Download plan</md-button>
     <p>Working with {{selected_target_area_ids.length}} regions, containing in total {{number_of_structures}} structures, YY rooms, ZZ population</p>
     <v-client-table
-      v-if="render_table && selected_target_area_ids.length !== 0"
+      v-if="geodata_ready && selected_target_area_ids.length !== 0"
       :data="table.data"
       :columns="table.columns"
     ></v-client-table>
@@ -33,7 +33,6 @@
           structures: 40,
           teams: 20
         },
-        render_table: false,
         _geodata: {
           all_target_areas: null,
           clusters: null
@@ -54,7 +53,7 @@
         selected_target_area_ids: 'irs_plan/all_selected_area_ids'
       }),
       table() {
-        if (this._geodata.all_target_areas) {
+        if (this.geodata_ready) {
           const selected_areas = this.selected_target_area_ids.map(id => {
             return this._geodata.all_target_areas.features.find(feature => feature.properties[this.field_name] === id)
           })
@@ -68,18 +67,20 @@
         return this.number_of_structures / structures_per_day
       },
       number_of_structures() {
-        let field_name = this.structures_field_name
-        return this.selected_target_area_ids.map(id => {
-          return this._geodata.all_target_areas.features.find(feature => feature.properties[this.field_name] === id)
-        }).reduce((sum, area) => {
-          return sum + area.properties[this.structures_field_name]
-        }, 0)
+        if (this.geodata_ready) {
+          let field_name = this.structures_field_name
+          return this.selected_target_area_ids.map(id => {
+            return this._geodata.all_target_areas.features.find(feature => feature.properties[this.field_name] === id)
+          }).reduce((sum, area) => {
+            return sum + area.properties[this.structures_field_name]
+          }, 0)
+        }
+        return 0
       }
     },
     methods: {
       populate_data_from_global() {
         this._geodata = cache.geodata
-        this.render_table = true
       },
 
       download_plan() {
