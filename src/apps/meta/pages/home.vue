@@ -16,6 +16,7 @@
     <a @click="reset_config()">reset config</a> |
     <a href="/3rdpartylicenses.txt">licenses</a> |
     <a @click="log_form_elements">form_elements</a>
+    <router-link to="/meta/validations">validations</router-link>
     <p>{{commit_hash}}</p>
   </div>
 </template>

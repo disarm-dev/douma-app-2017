@@ -7,10 +7,12 @@
     <div id="map"></div>
   </div>
 </template>
+
 <script>
   import mapboxgl from 'mapbox-gl'
   import {featureCollection} from '@turf/helpers'
   import bbox from '@turf/bbox'
+  import chroma from 'chroma-js'
 
   import Presenters from 'lib/presenters'
   import {get_geodata_area} from 'lib/data/remote'
@@ -23,7 +25,6 @@
       return {
         _map: null,
         geodata_areas: null,
-        _saved: []
       }
     },
     watch: {
@@ -104,7 +105,13 @@
         })
 
         const areas_with_coverage = featureCollection(features)
-        this._saved = areas_with_coverage
+
+        // create stops
+        const scale = chroma.scale("RdYlGn").colors(11)
+        const steps = Array.from(new Array(11), (x,i) => i * 10)
+        const stops = steps.map((step, index) => {
+          return [step, scale[index]]
+        })
 
         this._map.addLayer({
           id: 'areas_by_coverage',
@@ -116,23 +123,10 @@
           paint: {
             'fill-color': {
               property: 'coverage',
-              // TODO: @feature Use a different palette
-              stops: [
-                [0, '#f44336'],
-                [10, '#e34e39'],
-                [20, '#d2593b'],
-                [30, '#c2633e'],
-                [40, '#b16e40'],
-                [50, '#a07943'],
-                [60, '#8f8446'],
-                [70, '#7e8f48'],
-                [80, '#6e994b'],
-                [90, '#5da44d'],
-                [100, '#4caf50']
-              ]
+              stops: stops
             },
             'fill-opacity': 0.7,
-            'fill-outline-color': 'black'
+            'fill-outline-color': '#262626'
           }
         })
 
@@ -160,40 +154,30 @@
 
         this.get_log_values(this.geodata_areas)
 
-        let features = this.geodata_areas.features.map((feature) => {
+        const features = this.geodata_areas.features.map((feature) => {
           feature.properties.normalised_risk = this.log_scale(feature.properties.risk)
           return feature
         })
 
-        let fc = {
-          type: 'FeatureCollection',
-          features
-        }
+        // create stops
+        const scale = chroma.scale("RdYlBu").colors(11)
+        const steps = Array.from(new Array(11), (x,i) => i * 10)
+        const stops = steps.map((step, index) => {
+          return [step, scale[index]]
+        })
 
         this._map.addLayer({
           id: 'areas_by_risk',
           type: 'fill',
           source: {
             type: 'geojson',
-            data: fc
+            data: featureCollection(features)
           },
           paint: {
             'fill-color': {
               property: 'normalised_risk',
               // TODO: @feature Use a different palette
-              stops: [
-                [0, '#F2F12D'],
-                [10, '#F2F12D'],
-                [20, '#F2F12D'],
-                [30, '#EED322'],
-                [40, '#E6B71E'],
-                [50, '#DA9C20'],
-                [60, '#CA8323'],
-                [70, '#B86B25'],
-                [80, '#A25626'],
-                [90, '#8B4225'],
-                [100, '#723122']
-              ]
+              stops: stops
             },
             'fill-opacity': 0.7,
             'fill-outline-color': 'black'
@@ -207,12 +191,10 @@
         const mino = Math.min(...non_zeros)
         const maxo = Math.max(...values_array) * 1.001
 
-
         this.log_scale = logscale(mino, maxo)
 
-        console.log('// TODO: @refac Move to tests')
-        console.log('min should be 0', this.log_scale(mino))
-        console.log('max should be 100', this.log_scale(maxo))
+        if (this.log_scale(mino) !== 0) console.log('min should be 0', this.log_scale(mino))
+        if (this.log_scale(maxo) !== 100) console.log('max should be 100', this.log_scale(maxo))
       },
 
     }
