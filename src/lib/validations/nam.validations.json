@@ -6,6 +6,18 @@
     "type": "warning"
   },
   {
+    "name": "sprayed more with ddt than total",
+    "expression": "numbersprayed_ddt <= number_sprayable",
+    "message": "Sprayed more with DDT than total",
+    "type": "error"
+  },
+  {
+    "name": "sprayed more with deltamethrin than total",
+    "expression": "numbersprayed_delta <= number_sprayable",
+    "message": "Sprayed more with deltamethrin than total",
+    "type": "warning"
+  },
+  {
     "name": "missing_sprayed_structures",
     "precondition": "sprayable_unsprayed == 'no'",
     "expression": "numbersprayed_ddt + numbersprayed_delta == number_sprayable",

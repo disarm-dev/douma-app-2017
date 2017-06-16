@@ -4,7 +4,7 @@
     <!--<p>Validation count: {{validations.errors.length}} errors, {{validations.warnings.length}} warnings</p>-->
     <div v-if="validations.errors.length > 0">
       <md-icon class="error">error</md-icon>
-      <span>{{validations.errors.length}} Errors</span>
+      <span>{{validations.errors.length}} Errors</span> <em>cannot save without fixing</em>
       <md-list>
         <md-list-item v-for="{message, name, questions} in validations.errors" :key="name">
           <span>{{message}}</span>
@@ -24,7 +24,7 @@
 
     <div v-if="validations.warnings.length > 0">
       <md-icon class="warning">warning</md-icon>
-      <span>{{validations.warnings.length}} Errors</span>
+      <span>{{validations.warnings.length}} Warnings</span> <em>can save without fixing</em>
       <md-list>
         <md-list-item v-for="{message, name, questions} in validations.warnings" :key="name">
           <span>{{message}}</span>

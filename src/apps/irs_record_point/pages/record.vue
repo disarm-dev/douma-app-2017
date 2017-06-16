@@ -2,7 +2,7 @@
   <div class='container'>
 
     <div class="chip-holder">
-      <md-button :class="{orange: !validation_result_empty, 'md-raised': !show_validation_result}" :disabled="validation_result_empty" @click.native="toggle_show_validation_result">
+      <md-button :class="{orange: have_warnings, red: have_errors, 'md-raised': !show_validation_result}" :disabled="validation_result_empty" @click.native="toggle_show_validation_result">
         {{ validation_result_empty ? "No validation issues" : "Validation issues"}}
       </md-button>
 
@@ -149,6 +149,12 @@
       },
       location_is_valid() {
         return this.validation_result.errors.filter(e => e.name === 'no_location').length === 0
+      },
+      have_errors() {
+        return this.validation_result.errors.length
+      },
+      have_warnings() {
+        return this.validation_result.warnings.length
       }
     },
     created() {
@@ -251,6 +257,10 @@
   }
   .orange {
     background-color: orange !important;
+    color: white !important;
+  }
+  .red {
+    background-color: red !important;
     color: white !important;
   }
   .green {
