@@ -26,23 +26,21 @@
     {
      "type": "text",
      "inputType": "number",
-     "isRequired": true,
      "name": "number_sprayable",
      "title": "How many sprayable structures?",
      "validators": [
       {
        "type": "numeric",
-       "minValue": "-0",
+       "minValue": "0",
        "text": "Minimum Value is Zero"
       }
      ],
      "visible": false,
-     "visibleIf": "{sprayable} = yes"
+     "visibleIf": "{sprayable}='yes'"
     },
     {
      "type": "text",
      "inputType": "number",
-     "isRequired": true,
      "name": "number_unsprayable",
      "title": "How many unsprayable structures?",
      "validators": [
@@ -53,7 +51,7 @@
       }
      ],
      "visible": false,
-     "visibleIf": "{sprayable} = yes"
+     "visibleIf": "{sprayable}='yes'"
     }
    ],
    "name": "page2"
@@ -73,12 +71,11 @@
       }
      ],
      "visible": false,
-     "visibleIf": "{sprayable} = yes"
+     "visibleIf": "{sprayable}='yes'"
     },
     {
      "type": "text",
      "inputType": "number",
-     "isRequired": true,
      "name": "numbersprayed_delta",
      "title": "How many structures were sprayed with Deltamethrin/K-Othrin? ( If 0, enter 0)",
      "validators": [
@@ -89,7 +86,7 @@
       }
      ],
      "visible": false,
-     "visibleIf": "{sprayable} = yes"
+     "visibleIf": "{sprayable}='yes'"
     }
    ],
    "name": "page3"
@@ -108,16 +105,14 @@
        "text": "No"
       }
      ],
-     "isRequired": true,
      "name": "sprayable_unsprayed",
      "title": "Were there sprayable  structures you did not spray?",
      "visible": false,
-     "visibleIf": "{sprayable} = yes"
+     "visibleIf": "{sprayable}='yes'"
     },
     {
      "type": "text",
      "inputType": "number",
-     "isRequired": true,
      "name": "number_unsprayed",
      "title": "How many sprayable structures were not sprayed?",
      "validators": [
@@ -147,7 +142,6 @@
       }
      ],
      "hasOther": true,
-     "isRequired": true,
      "name": "reasons_notspraying",
      "title": "Reasons for not spraying ( Choose all reasons relevant for this homestead)",
      "visible": false,
@@ -191,7 +185,6 @@
       }
      ],
      "hasOther": true,
-     "isRequired": true,
      "name": "Unsprayable_reason",
      "title": "Type of unsprayable structures?",
      "visible": false,
@@ -205,7 +198,6 @@
     {
      "type": "text",
      "inputType": "number",
-     "isRequired": true,
      "name": "house_population",
      "title": "Total Population in the homestead/house",
      "validators": [
@@ -216,12 +208,11 @@
       }
      ],
      "visible": false,
-     "visibleIf": "{sprayable} = yes"
+     "visibleIf": "{sprayable}='yes'"
     },
     {
      "type": "text",
      "inputType": "number",
-     "isRequired": true,
      "name": "total_population_sprayedrooms",
      "title": "Population sleeping in sprayed rooms",
      "validators": [
@@ -232,7 +223,7 @@
       }
      ],
      "visible": false,
-     "visibleIf": "{sprayable} = yes"
+     "visibleIf": "{sprayable}='yes'"
     }
    ],
    "name": "page6"
@@ -241,42 +232,39 @@
    "elements": [
     {
      "type": "text",
-     "isRequired": true,
      "name": "name_household",
      "title": "Head of Household Name",
      "visible": false,
-     "visibleIf": "{sprayable} = yes"
+     "visibleIf": "{sprayable}='yes'"
     },
     {
      "type": "text",
-     "isRequired": true,
      "name": "health_number",
      "title": "Household Health Number (Enter the number on the sticker given to the head of household)",
      "visible": false,
-     "visibleIf": "{sprayable} = yes"
+     "visibleIf": "{sprayable}='yes'"
     },
     {
      "type": "text",
      "name": "confirm",
      "title": "Confirm Household Health Number: ",
      "visible": false,
-     "visibleIf": "{sprayable} = yes"
+     "visibleIf": "{sprayable}='yes'"
     },
     {
      "type": "text",
      "inputType": "number",
-     "isRequired": true,
      "name": "number_bednets",
      "title": "Total Number of Bednets in use",
      "validators": [
       {
        "type": "numeric",
-       "minValue": "-0",
+       "minValue": "0",
        "text": "Minimum Value is Zero"
       }
      ],
      "visible": false,
-     "visibleIf": "{sprayable} = yes"
+     "visibleIf": "{sprayable}='yes'"
     }
    ],
    "name": "page8"
