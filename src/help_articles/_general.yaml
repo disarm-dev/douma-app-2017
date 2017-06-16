@@ -22,3 +22,8 @@
 
 - title: How can I report if something is broken?
   content: Please send an email to <a href='mailto://help@disarm.io'>help@disarm.io</a> to get help.
+  
+- title: Offline functionality
+  content: Offline functionality is primarily designed to work for the IRS Record componenent, which allows users to collect data out in the field offline. 
+           Other parts of the application may work offline, however these are not fully functional.
+
