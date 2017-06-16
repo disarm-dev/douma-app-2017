@@ -1,67 +1,42 @@
-\<template>
+<template>
   <div>
-    <!--<h4>Result of validation</h4>-->
-    <!--<p>Validation count: {{validations.errors.length}} errors, {{validations.warnings.length}} warnings</p>-->
-    <div v-if="validations.errors.length > 0">
-      <md-icon class="error">error</md-icon>
-      <span>{{validations.errors.length}} Errors</span> <em>cannot save without fixing</em>
-      <md-list>
-        <md-list-item v-for="{message, name, questions} in validations.errors" :key="name">
-          <span>{{message}}</span>
-          <md-list-expand>
-            <md-list>
-              <md-list-item v-for="question_name in questions" :key="question_name">
-                <a @click="go_to_page_for(question_name)">
-                  {{question_name}}
-                  <span>{{current_value_for(question_name)}}</span>
-                </a>
-              </md-list-item>
-            </md-list>
-          </md-list-expand>
-        </md-list-item>
-      </md-list>
-    </div>
+    <md-card-header>
+      <div class="md-title"><md-icon class="error">error</md-icon> {{validations.errors.length || 0}} Errors</div>
+      <div class="md-subhead">cannot save without fixing</div>
+    </md-card-header>
 
-    <div v-if="validations.warnings.length > 0">
-      <md-icon class="warning">warning</md-icon>
-      <span>{{validations.warnings.length}} Warnings</span> <em>can save without fixing</em>
-      <md-list>
-        <md-list-item v-for="{message, name, questions} in validations.warnings" :key="name">
-          <span>{{message}}</span>
-          <md-list-expand>
-            <md-list>
-              <md-list-item @click.native="go_to_page_for(question_name)" v-for="question_name in questions" :key="question_name">
-                <span>{{question_name}}</span>
-                <span>{{current_value_for(question_name)}}</span>
-              </md-list-item>
-            </md-list>
-          </md-list-expand>
-        </md-list-item>
-      </md-list>
-    </div>
+    <md-card-content>
+      <validation_list
+        v-if="validations.errors.length > 0"
+        :messages="validations.errors"
+        :survey="survey"
+        v-on:show_location="$emit('show_location')">
+      </validation_list>
+    </md-card-content>
 
+    <md-card-header>
+      <div class="md-title"><md-icon class="warning">warning</md-icon> {{validations.warnings.length || 0}} Warnings</div>
+      <div class="md-subhead">can save without fixing</div>
+    </md-card-header>
+
+    <md-card-content>
+      <validation_list
+        v-if="validations.warnings.length > 0"
+        :messages="validations.warnings"
+        :survey="survey"
+        v-on:show_location="$emit('show_location')">
+      </validation_list>
+    </md-card-content>
   </div>
 </template>
 
 <script>
+  import validation_list from './validation_list.vue'
+
   export default {
     props: ['validations', 'survey'],
-    name: 'Review',
-    methods: {
-      go_to_page_for(question_name) {
-        if(!question_name) return
-        const question = this.survey.getQuestionByName(question_name)
-        const page = this.survey.getPageByQuestion(question)
-        this.survey.currentPage = page
-      },
-      current_value_for(question_name) {
-        if(!question_name) return
-        return this.survey.data[question_name]
-      },
-      question_for_question_name(question_name) {
-        return this.survey.getQuestionByName(question_name).title
-      }
-    }
+    components: {validation_list},
+    name: 'Review'
   }
 </script>
 

@@ -2,27 +2,44 @@
   <div class='container'>
 
     <div class="chip-holder">
-      <md-button :class="{orange: have_warnings, red: have_errors, 'md-raised': !show_validation_result}" :disabled="validation_result_empty" @click.native="toggle_show_validation_result">
+
+      <!--VALIDATIONS CARD TOGGLE-->
+      <md-button
+        :class="{orange: have_warnings, red: have_errors, 'md-raised': !show_validation_result}"
+        :disabled="validation_result_empty"
+        @click.native="toggle_show_validation_result"
+      >
         {{ validation_result_empty ? "No validation issues" : "Validation issues"}}
       </md-button>
 
-      <md-button :class="{orange: !location_is_valid, 'md-raised': !show_location } " @click.native="toggle_show_location">
+
+      <!--LOCATION CARD TOGGLE-->
+      <md-button
+        :class="{red: !location_is_valid, 'md-raised': !show_location } "
+        @click.native="toggle_show_location"
+      >
         {{ location_is_valid ? "Location" : "Set location"}}
       </md-button>
     </div>
 
+
+    <!--VALIDATION CARD-->
     <transition name="slide-fade">
       <md-card v-show="show_validation_result">
-        <md-card-content>
-          <review
-            ref="validation_result"
-            :validations='validation_result'
-            :survey="survey"
-          ></review>
-        </md-card-content>
+        <review
+          ref="validation_result"
+          :validations='validation_result'
+          :survey="survey"
+          v-on:show_location="show_location = true"
+        ></review>
+        <md-card-actions>
+          <md-button @click.native="show_validation_result = false">Hide</md-button>
+        </md-card-actions>
       </md-card>
     </transition>
 
+
+    <!--LOCATION CARD-->
     <transition name="slide-fade">
       <md-card class='location' v-show="show_location">
         <md-card-content>
@@ -42,9 +59,14 @@
             <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
           </multiselect>
         </md-card-content>
+        <md-card-actions>
+          <md-button @click.native="show_location = false">Hide</md-button>
+        </md-card-actions>
       </md-card>
     </transition>
 
+
+    <!--FORM-->
     <md-card>
       <md-card-content>
         <form_renderer
@@ -148,7 +170,7 @@
         return (this.validation_result.errors.length === 0) && (this.validation_result.warnings.length === 0)
       },
       location_is_valid() {
-        return this.validation_result.errors.filter(e => e.name === 'no_location').length === 0
+        return this.validation_result.errors.filter(e => e.is_location).length === 0
       },
       have_errors() {
         return this.validation_result.errors.length
@@ -200,9 +222,7 @@
       },
       validate(response) {
         this.validation_result = this._validator.validate(response)
-
         if (this.validation_result_empty) this.show_validation_result = false
-        if (this.location_is_valid) this.show_location = false
       },
       save_response() {
         // TODO: @refac Move to a proper response model, with tests. And cake.
@@ -269,14 +289,13 @@
   }
 
   .slide-fade-enter-active {
-    transition: all .3s ease;
+    transition: all 1s ease;
   }
   .slide-fade-leave-active {
-    transition: all .3s ease;
+    transition: all 1s ease;
   }
-  .slide-fade-enter, .slide-fade-leave-to
-  /* .slide-fade-leave-active for <2.1.8 */ {
-    transform: translateY(-10px);
+  .slide-fade-enter, .slide-fade-leave-to{
+    transform: translateY(-5px);
     opacity: 0;
   }
 
