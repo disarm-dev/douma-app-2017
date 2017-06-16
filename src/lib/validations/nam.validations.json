@@ -1,13 +1,12 @@
 [
   {
-    "name": "total_sprayed_structures",
-    "precondition": "sprayable_unsprayed == 'yes'",
-    "expression": "numbersprayed_ddt + numbersprayed_delta == number_sprayable",
-    "message": "Total sprayed does not equal `ddt`+ `deltamethrin`.",
+    "name": "sprayed more than total structures",
+    "expression": "numbersprayed_ddt + numbersprayed_delta <= number_sprayable",
+    "message": "Total sprayed is less than sprayed with ddt + deltamethrin",
     "type": "warning"
   },
   {
-    "name": "total_sprayed_structures",
+    "name": "missing_sprayed_structures",
     "precondition": "sprayable_unsprayed == 'no'",
     "expression": "numbersprayed_ddt + numbersprayed_delta == number_sprayable",
     "message": "Total sprayed does not equal `ddt`+ `deltamethrin`.",
