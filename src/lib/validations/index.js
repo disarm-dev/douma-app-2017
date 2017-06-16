@@ -1,15 +1,13 @@
-import bwa from './bwa.validations.js'
-import nam from './nam.validations.js'
-import swz from './swz.validations.js'
-import zwe from './zwe.validations.js'
+import bwa from './bwa.validations.json'
+import nam from './nam.validations.json'
+import swz from './swz.validations.json'
+import zwe from './zwe.validations.json'
 
 import {elements_array} from 'lib/form_helpers'
 
 const check_rules = (form_rules) => {
 
   return (response, form) => {
-
-    let elements = elements_array(form)
 
     let failed_validations = []
 

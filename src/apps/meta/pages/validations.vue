@@ -50,7 +50,6 @@
 	</div>
 </template>
 <script type="text/javascript">
-  import yaml from 'js-yaml'
   import download from 'downloadjs'
   import moment from 'moment'
 
@@ -96,7 +95,7 @@
       }
     },
     mounted() {
-      this.raw_validations = require("json-loader!yaml-include-loader!lib/validations/" + this.instance_config.slug  + ".validations.yaml")
+      this.raw_validations = require("json-loader!lib/validations/" + this.instance_config.slug  + ".validations.json")
     },
     methods: {
       set_active_validation(validation) {
@@ -114,7 +113,7 @@
         const file_reader = new FileReader();
 
         file_reader.onload = (f) => {
-          this.raw_validations = yaml.load(f.target.result)
+          this.raw_validations = JSON.parse(f.target.result)
         }
 
 
@@ -139,9 +138,9 @@
         ]
 
 
-        const content = yaml.safeDump(result)
+        const content = JSON.stringify(result)
         const date = moment().format('YYYY-MM-DD_HHmm')
-        download(content, `${this.instance_config.slug}_validations_${date}.yml`)
+        download(content, `${this.instance_config.slug}_validations_${date}.json`)
       }
     }
   }
