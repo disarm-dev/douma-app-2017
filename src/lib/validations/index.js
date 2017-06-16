@@ -7,41 +7,6 @@ import zwe from './zwe.validations.json'
 
 const all_validations = {bwa, nam, swz, zwe}
 
-
-const check_rules = (form_rules) => {
-
-  return (response, form) => {
-
-    let failed_validations = []
-
-    form_rules.forEach((rule) => {
-      if (hasAllRequiredAnswers(response.form_data, rule.relevant_questions)) {
-        let rule_passed = rule.fn(response.form_data)
-        if (!rule_passed) failed_validations.push(rule)
-      }
-    })
-    let validation_result = {
-      errors: failed_validations.filter(v => v.type === 'error'),
-      warnings: failed_validations.filter(v => v.type === 'warning')
-    }
-    return validation_result
-  }
-}
-
-
-function hasAllRequiredAnswers(object = {}, properties) {
-  for (var i = properties.length - 1; i >= 0; i--) {
-    let property = properties[i]
-    if (object.hasOwnProperty(property) && object[property] !== undefined) {
-      continue
-    } else {
-      return false
-    }
-  }
-  return true
-}
-
-
 export class Validator {
   constructor(instance_config) {
     const slug = instance_config.slug
