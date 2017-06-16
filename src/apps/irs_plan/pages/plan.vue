@@ -27,7 +27,7 @@
 
       <!--PLAN SUMMARY-->
       <md-card class="card"><md-card-content>
-        <!--<plan_summary :geodata_ready="geodata_ready"></plan_summary>-->
+        <plan_summary :geodata_ready="geodata_ready"></plan_summary>
       </md-card-content></md-card>
     </div>
 
