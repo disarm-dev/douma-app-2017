@@ -19,12 +19,5 @@
     "name": "total_sprayed_and_unsprayed",
     "precondition": "any_structures_unsprayed == 'yes'",
     "type": "warning"
-  },
-  {
-    "expression": "true",
-    "message": "Ok!",
-    "name": "just an error",
-    "precondition": null,
-    "type": "error"
   }
 ]
