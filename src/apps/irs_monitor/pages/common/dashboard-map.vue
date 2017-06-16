@@ -11,6 +11,7 @@
   import mapboxgl from 'mapbox-gl'
   import {featureCollection} from '@turf/helpers'
   import bbox from '@turf/bbox'
+  import chroma from 'chroma-js'
 
   import Presenters from 'lib/presenters'
   import {get_geodata_area} from 'lib/data/remote'
@@ -103,6 +104,8 @@
         })
 
         const areas_with_coverage = featureCollection(features)
+
+        const stops = []
 
         this._map.addLayer({
           id: 'areas_by_coverage',
