@@ -13,7 +13,7 @@
           {{country}}
         </h2>
         <div>
-          <md-icon @click.native="$store.commit('root:trigger_help_visible')">help</md-icon>
+          <md-icon class='help_button' @click.native="$store.commit('root:trigger_help_visible')">help</md-icon>
         </div>
         <div v-if="!online">
           offline
@@ -177,6 +177,7 @@
       },
       // Help
       open_dialog_help() {
+        this.$ga.event('meta', 'open_help')
         this.$refs.help.open()
       },
       close_dialog_help() {
@@ -212,6 +213,10 @@
 
   [v-cloak] {
     display: none;
+  }
+
+  .help_button {
+    cursor: pointer;
   }
 
   .help > .md-dialog {

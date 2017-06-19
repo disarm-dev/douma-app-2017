@@ -78,6 +78,7 @@
           this.disabled = true
 
           this.$store.dispatch('meta/login', this.user).then(() => {
+            this.$ga.set("user", `${this.$store.state.meta.user.username}/${this.$store.state.meta.user.name}`)
             this.$store.commit('root:set_loading', false)
             this.disabled = false
             this.continue()
