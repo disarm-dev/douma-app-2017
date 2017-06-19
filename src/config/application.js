@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import VueAnalytics from 'vue-analytics'
+
 import create_router from '../router'
 import register_applets from '../applets'
 import DoumaComponent from '../components/douma.vue'
@@ -19,10 +21,11 @@ export default (instance_config) => {
     instance_routes.push(registered_applets.routes[id])
   }
 
-  // Make DOUMA App
+  // Make store and router
   const store = create_store(registered_applets.stores)
   const router = create_router(instance_routes, store)
 
+  // Instantiate Vue app
   const douma_app = new Vue({
     el: '#douma',
     router,

@@ -1,8 +1,8 @@
 const applets = {
-  meta: require('./apps/meta'),
-  irs_record_point: require('./apps/irs_record_point'),
-  irs_monitor: require('./apps/irs_monitor'),
-  irs_plan: require('./apps/irs_plan'),
+  meta: require('../apps/meta/index'),
+  irs_record_point: require('../apps/irs_record_point/index'),
+  irs_monitor: require('../apps/irs_monitor/index'),
+  irs_plan: require('../apps/irs_plan/index'),
 }
 
 function register_applets(instance_applet_ids) {

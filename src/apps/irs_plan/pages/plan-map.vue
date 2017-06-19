@@ -18,7 +18,7 @@
   import intersect from '@turf/intersect'
   import debounce from 'lodash.debounce'
 
-  import cache from 'lib/cache.js'
+  import cache from 'config/cache.js'
   import logslider from 'lib/log_slider.js'
 
   export default {
