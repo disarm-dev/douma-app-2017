@@ -15,7 +15,7 @@ export class Response {
       user,
 
       userAgent: navigator.userAgent,
-      recorded_on: recorded_on || new Date,
+      recorded_on: recorded_on || new Date(),
       id: id || uuid(),
       synced: false,
     }
