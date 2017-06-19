@@ -90,12 +90,13 @@
 </template>
 
 <script>
-  import uuid from 'uuid/v4'
+  
 
   import location_record from 'components/location.vue'
   import review from './review.vue'
   import form_renderer from './form.vue'
   import {Validator} from 'lib/validations'
+  import {Response} from 'models/response.model'
   import array_unique from 'array-unique'
 
   import Multiselect from 'vue-multiselect'
@@ -257,17 +258,18 @@
       },
       save_response() {
         // TODO: @refac Move to a proper response model, with tests. And cake.
-        const id = this.response_id || uuid()
-        const recorded_on = this.response.recorded_on || new Date()
-
-        const response = {
-          ...this.response,
-          recorded_on: recorded_on,
-          id: id,
-          synced: false,
-          userAgent: navigator.userAgent,
-          country: this.instance_config.slug,
-          user: this.user_name
+        let response
+        
+        try {
+          response = new Response().create({
+            ...this.response,
+            recorded_on: this.response.recorded_on,
+            id: this.response_id,
+            country: this.instance_config.slug,
+            user: this.user_name
+          })
+        } catch (e) {
+          return console.log(e)
         }
 
         if (this.response_id) {
