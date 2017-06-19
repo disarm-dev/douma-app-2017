@@ -7,7 +7,8 @@ const configure_analytics = (router) => {
     const fake_plugin = {
       install(Vue, options) {
         Vue.prototype.$ga = {
-          event() {}
+          event() {},
+          set() {}
         }
       }
     }
