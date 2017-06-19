@@ -4,13 +4,19 @@
     <div class="chip-holder">
 
       <!--VALIDATIONS CARD TOGGLE-->
-      <md-button
-        :class="{orange: have_warnings, red: have_errors, 'md-raised': !show_validation_result}"
-        :disabled="validation_result_empty"
-        @click.native="toggle_show_validation_result"
-      >
-        {{ validation_result_empty ? "No validation issues" : "Validation issues"}}
-      </md-button>
+        <md-button
+          class="animated"
+          :class="{orange: have_warnings, red: have_errors, 'md-raised': !show_validation_result, shake: shake_button}"
+          :disabled="validation_result_empty"
+          @click.native="toggle_show_validation_result"
+        >
+          
+          <span v-if="!validation_result_empty">
+            {{validation_result.errors.length + validation_result.warnings.length}}
+          </span>
+          
+          {{ validation_result_empty ? "No validation issues" : (validation_length  === 1 ? "Validation issue" : "Validation issues")}}
+        </md-button>
 
 
       <!--LOCATION CARD TOGGLE-->
@@ -84,12 +90,13 @@
 </template>
 
 <script>
-  import uuid from 'uuid/v4'
+  
 
   import location_record from 'components/location.vue'
   import review from './review.vue'
   import form_renderer from './form.vue'
   import {Validator} from 'lib/validations'
+  import {Response} from 'models/response.model'
   import array_unique from 'array-unique'
 
   import Multiselect from 'vue-multiselect'
@@ -119,8 +126,13 @@
           warnings: []
         },
         show_validation_result: false,
-        show_location: false
+        show_location: false,
+
+        shake_button: false
       }
+    },
+    watch: {
+      'validation_length': 'shake_validations'
     },
     computed: {
       location_options() {
@@ -179,6 +191,9 @@
       },
       have_warnings() {
         return this.validation_result.warnings.length
+      },
+      validation_length() {
+        return this.validation_result.errors.length  + this.validation_result.warnings.length
       }
     },
     created() {
@@ -195,6 +210,14 @@
 
     },
     methods: {
+      shake_validations(newVal, oldVal) {
+        if (newVal > oldVal) {
+          this.shake_button = !this.shake_button
+          setTimeout(() => {
+            this.shake_button = !this.shake_button
+          }, 2000)
+        }
+      },  
       toggle_show_validation_result() {
         this.show_validation_result = !this.show_validation_result
       },
@@ -232,17 +255,18 @@
       },
       save_response() {
         // TODO: @refac Move to a proper response model, with tests. And cake.
-        const id = this.response_id || uuid()
-        const recorded_on = this.response.recorded_on || new Date()
-
-        const response = {
-          ...this.response,
-          recorded_on: recorded_on,
-          id: id,
-          synced: false,
-          userAgent: navigator.userAgent,
-          country: this.instance_config.slug,
-          user: this.user_name
+        let response
+        
+        try {
+          response = new Response().create({
+            ...this.response,
+            recorded_on: this.response.recorded_on,
+            id: this.response_id,
+            country: this.instance_config.slug,
+            user: this.user_name
+          })
+        } catch (e) {
+          return console.log(e)
         }
 
         if (this.response_id) {
@@ -303,6 +327,32 @@
   .slide-fade-enter, .slide-fade-leave-to{
     transform: translateY(-5px);
     opacity: 0;
+  }
+  
+
+  /* From animate.css */
+  .animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+  }
+
+  @keyframes shake {
+    from, to {
+      transform: translate3d(0, 0, 0);
+    }
+
+    10%, 30%, 50%, 70%, 90% {
+      transform: translate3d(-10px, 0, 0);
+    }
+
+    20%, 40%, 60%, 80% {
+      transform: translate3d(10px, 0, 0);
+    }
+  }
+
+  .shake {
+    background-color: orange !important;
+    animation-name: shake;
   }
 
 </style>
