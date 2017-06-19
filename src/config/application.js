@@ -1,8 +1,11 @@
 import Vue from 'vue'
+
 import create_router from '../router'
-import register_applets from '../applets'
+import register_applets from './applets'
 import DoumaComponent from '../components/douma.vue'
 import create_store from '../store'
+
+import {configure_analytics, configure_common_properties} from 'config/analytics'
 
 export default (instance_config) => {
   // console.log('🌴 hunt the log', instance_config)
@@ -19,16 +22,23 @@ export default (instance_config) => {
     instance_routes.push(registered_applets.routes[id])
   }
 
-  // Make DOUMA App
+  // Make store and router
   const store = create_store(registered_applets.stores)
   const router = create_router(instance_routes, store)
 
+  // Analytics 1/2 (see below)
+  configure_analytics(router)
+
+  // Instantiate Vue app
   const douma_app = new Vue({
     el: '#douma',
     router,
     store,
     render: createElement => createElement(DoumaComponent),
   })
+
+  // Analytics 2/2 - set common properties
+  configure_common_properties(douma_app)
 
   douma_app.$store.commit('root:set_loading', false)
   douma_app.$store.commit('root:set_instance_config', instance_config)

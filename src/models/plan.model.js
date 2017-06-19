@@ -1,4 +1,4 @@
-import cache from 'lib/cache'
+import cache from 'config/cache'
 import {PlanSchema} from './plan.schema'
 
 export class Plan {

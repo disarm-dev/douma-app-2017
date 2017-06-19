@@ -22,7 +22,7 @@
   import moment from 'moment'
   import {mapState, mapGetters} from 'vuex'
 
-  import cache from 'lib/cache.js'
+  import cache from 'config/cache.js'
 
   export default {
     name: 'plan_summary',

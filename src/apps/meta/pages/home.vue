@@ -28,6 +28,9 @@
         return this.$store.state.meta.user
       }
     },
+    mounted() {
+      this.$ga.event('meta', 'view_home')
+    }
   }
 </script>
 

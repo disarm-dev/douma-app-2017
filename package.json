@@ -53,6 +53,7 @@
     "sw-offline-google-analytics": "^0.0.19",
     "uuid": "^3.0.1",
     "vue": "^2.3.4",
+    "vue-analytics": "^4.1.2",
     "vue-chartjs": "^2.6.5",
     "vue-material": "^0.7.1",
     "vue-multiselect": "^2.0.0-beta.15",
