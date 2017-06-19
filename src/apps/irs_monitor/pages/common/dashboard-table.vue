@@ -1,6 +1,35 @@
 <template>
   <div>
-    <v-client-table :data="tableData" :columns="columns"></v-client-table>
+
+    <md-table md-sort-type="desc" @select="onSelect" @sort="onSort">
+      <md-table-header>
+        <md-table-row>
+          <md-table-head v-for="(column, column_index) in columns" :key="column_index" :md-sort-by="columns[0]">{{column}}</md-table-head>
+        </md-table-row>
+      </md-table-header>
+
+      <md-table-body>
+        <md-table-row v-for="(row, row_index) in tableData" :key="row_index" :md-item="row">
+          <md-table-cell v-for="(column, column_index) in row" :key="column_index" >
+            {{ column }}
+          </md-table-cell>
+        </md-table-row>
+      </md-table-body>
+    </md-table>
+
+    <md-table-pagination
+      md-size="5"
+      md-total="10"
+      md-page="1"
+      md-label="Rows"
+      md-separator="of"
+      :md-page-options="[5, 10, 25, 50]"
+      @pagination="onPagination"></md-table-pagination>
+
+
+
+
+
     <md-button @click.native="download_content">Download</md-button>
   </div>
 </template>
@@ -55,7 +84,10 @@
         const content = json2csv({data, fields})
         const date = moment().format('YYYY-MM-DD_HHmm')
         download(content, `${this.instance_config.slug}_irs_progress_${date}.csv`)
-      }
+      },
+      onSelect() {},
+      onSort() {},
+      onPagination() {}
     }
   }
 </script>
