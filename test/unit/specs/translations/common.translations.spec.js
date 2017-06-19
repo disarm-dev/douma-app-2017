@@ -1,7 +1,7 @@
-import BwaTranslations from 'bwa.presenters.js'
-import NamTranslations from 'nam.presenters.js'
-import SwzTranslations from 'swz.presenters.js'
-import ZweTranslations from 'zwe.presenters.js'
+import BwaTranslations from 'lib/presenters/bwa.presenters.js'
+import NamTranslations from 'lib/presenters/nam.presenters.js'
+import SwzTranslations from 'lib/presenters/swz.presenters.js'
+import ZweTranslations from 'lib/presenters/zwe.presenters.js'
 
 const instances = {
   // bwa: BwaTranslations,
