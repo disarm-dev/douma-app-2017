@@ -15,8 +15,8 @@
             v-for="question_name in questions"
             :key="question_name"
           >
-            <span>{{title_for_question_name(question_name)}}</span>
-            <span>{{current_value_for(question_name)}}</span>
+            <a class="question-name">{{title_for_question_name(question_name)}}</a>
+            <span class="question-value">{{current_value_for(question_name)}}</span>
           </md-list-item>
         </md-list>
       </md-list-expand>
@@ -45,3 +45,15 @@
     }
   }
 </script>
+<style scoped>
+  .question-name {
+    padding-left: 20px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .question-value {
+    padding-left: 15px;
+  }
+</style>
