@@ -15,7 +15,7 @@
             {{validation_result.errors.length + validation_result.warnings.length}}
           </span>
           
-          {{ validation_result_empty ? "No validation issues" : "Validation issues"}}
+          {{ validation_result_empty ? "No validation issues" : (validation_length  === 1 ? "Validation issue" : "Validation issues")}}
         </md-button>
 
 
