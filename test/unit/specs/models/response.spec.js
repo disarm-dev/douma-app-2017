@@ -2,7 +2,7 @@ import {Response} from 'models/response.model.js'
 
 describe('Response model', () => {
   
-  it('should be created with valid inputs', () => {
+  it('exising data can be edited as response model', () => {
     const fn = () => {
       new Response().create({
         id: 'id',

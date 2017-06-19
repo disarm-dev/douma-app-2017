@@ -212,13 +212,10 @@
     methods: {
       shake_validations(newVal, oldVal) {
         if (newVal > oldVal) {
-
-        this.shake_button = !this.shake_button
-          this.$nextTick(() => {
-            setTimeout(() => {
-              this.shake_button = !this.shake_button
-            }, 2000)
-          })
+          this.shake_button = !this.shake_button
+          setTimeout(() => {
+            this.shake_button = !this.shake_button
+          }, 2000)
         }
       },  
       toggle_show_validation_result() {
@@ -354,6 +351,7 @@
   }
 
   .shake {
+    background-color: orange !important;
     animation-name: shake;
   }
 

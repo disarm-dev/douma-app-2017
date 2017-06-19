@@ -7,6 +7,8 @@ export class Response {
 
   create({recorded_on, id, country, user, location_selection, location, form_data}) {
 
+    //TODO: @feature check that recoded_on and id either both exist or both don't exists
+
     this.model = {
       location_selection,
       location,
