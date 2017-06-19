@@ -361,7 +361,11 @@
         this.get_log_values(this._geodata.all_target_areas)
 
         const features = this._geodata.all_target_areas.features.map((feature) => {
-          feature.properties.normalised_risk = this.log_scale(feature.properties.risk)
+          if (feature.properties.risk === 0) {
+            feature.properties.normalised_risk = 0
+          } else {
+            feature.properties.normalised_risk = this.log_scale(feature.properties.risk)
+          }
           return feature
         })
 
