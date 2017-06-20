@@ -1,0 +1,7 @@
+{
+  "DOUMA_API_URL": "https://douma-api.herokuapp.com",
+  "DOUMA_API_VERSION": "v3",
+  "WEATHER_API_URL": "https://weather.api.disarm.io/processor/output",
+  "R_SERVER_URL": "https://cluster.api.disarm.io"
+
+}
