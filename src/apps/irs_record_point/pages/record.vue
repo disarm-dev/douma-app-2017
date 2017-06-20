@@ -200,14 +200,6 @@
       this._validator = new Validator(this.instance_config)
     },
     mounted() {
-      // We need to run validations when we start,
-      // otherwise it only happens after a question has been answered.
-      this.validate(this.response)
-
-      // Display validations on initial validate only
-      this.show_validation_result = !this.validation_result_empty
-      this.show_location = !this.location_is_valid
-
     },
     methods: {
       shake_validations(newVal, oldVal) {
