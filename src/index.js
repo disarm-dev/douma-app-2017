@@ -3,7 +3,6 @@ import './fonts/Roboto.css'
 import './fonts/MaterialIcons.css'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
-import 'survey-vue/survey.css'
 
 // Imports
 import Vue from 'vue'
