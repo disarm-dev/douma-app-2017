@@ -112,10 +112,12 @@
             this.geodata_ready = true
           })
           .catch(() => {
+            this.$store.commit('root:set_snackbar', {message: 'Network error. Please reload to try resuming.'})
+            this.$refs.geodata_loading_modal.close()
             this.$store.commit('root:set_loading', false)
           })
 
-        // Only show progress modal if request taking more than 2 secs
+        // Only show progress modal if request taking more than 1 sec
         // (i.e. probably not coming from SW/browser cache
         setTimeout(() => {
           if (!this.geodata_ready) {

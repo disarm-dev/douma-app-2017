@@ -8,6 +8,8 @@
         <md-card-content>
           <p>{{filtered_responses.length}} record{{filtered_responses.length === 1 ? '' : 's' }}</p>
           <md-button class="md-raised md-primary" @click.native="refresh_data" :disabled="loading">Refresh data</md-button>
+          <md-button class="md-raised md-primary" @click.native="download_responses" :disabled="loading">Download responses</md-button>
+          <p>Last updated: {{responses_last_updated_at}}</p>
         </md-card-content>
       </md-card>
 
@@ -59,6 +61,8 @@
 <script>
   import numeral from 'numeral'
   import moment from 'moment'
+  import download from 'downloadjs'
+  import json2csv from 'json2csv'
   import {mapState, mapGetters} from 'vuex'
 
   // Common components
@@ -141,6 +145,13 @@
         country: state => state.instance_config.name,
         components: state => state.instance_config.applets.irs_monitor.components,
         online: state => state.network_online,
+        responses_last_updated_at: state => {
+          if (state.irs_monitor.responses_last_updated_at) {
+            return moment(state.irs_monitor.responses_last_updated_at).format("dddd, MMMM Do YYYY, h:mm:ss a")
+          } else {
+            return "not yet updated"
+          }
+        }
       }),
       ...mapGetters({
         filtered_responses: 'irs_monitor/filtered_responses',
@@ -189,6 +200,16 @@
             this.$store.commit('root:set_loading', false)
           })
       },
+      download_responses() {
+        if(!this.filtered_responses.length) return
+
+        const fields = Object.keys(this.filtered_responses[0])
+        const data = this.filtered_responses
+        const content = json2csv({data, fields})
+
+        const date = moment().format('YYYY-MM-DD_HHmm')
+        download(content, `${this.instance_config.slug}_responses_${date}.csv`)
+      }
     }
   }
 </script>

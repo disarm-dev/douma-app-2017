@@ -120,7 +120,7 @@
 
         // create stops
         const scale = chroma.scale("RdYlGn").colors(11)
-        const steps = Array.from(new Array(11), (x,i) => i * 10)
+        const steps = [...Array(11).keys()].map(i => i * 10)
         const stops = steps.map((step, index) => {
           return [step, scale[index]]
         })
@@ -178,7 +178,7 @@
 
         // create stops
         const scale = chroma.scale("RdYlBu").colors(11).reverse()
-        const steps = Array.from(new Array(11), (x,i) => i * 10)
+        const steps = [...Array(11).keys()].map(i => i * 10)
         const stops = steps.map((step, index) => {
           return [step, scale[index]]
         })
