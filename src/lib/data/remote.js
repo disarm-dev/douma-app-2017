@@ -62,7 +62,8 @@ export const authenticate = (user) => {
 
   let options = {
     data: {user},
-    method: 'post'
+    method: 'post',
+    timeout: 10000
   }
   return standard_handler(url, options)
 }
