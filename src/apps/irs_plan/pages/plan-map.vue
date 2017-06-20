@@ -5,6 +5,7 @@
     <input  id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value">
     </div>
     <md-checkbox :disabled='!geodata_ready || clusters_disabled' v-model="clusters_visible">Show clusters</md-checkbox>
+    <md-checkbox :disabled='!geodata_ready' v-model="risk_visible">Show risk</md-checkbox>
     <div id="map"></div>
   </div>
 </template>
@@ -16,10 +17,13 @@
   mapboxgl.accessToken = 'pk.eyJ1Ijoibmljb2xhaWRhdmllcyIsImEiOiJjaXlhNWw1NnkwMDJoMndwMXlsaGo5NGJoIn0.T1wTBzV42MZ1O-2dy8SpOw'
   import bbox from '@turf/bbox'
   import intersect from '@turf/intersect'
+  import {featureCollection} from '@turf/helpers'
   import debounce from 'lodash.debounce'
+  import chroma from 'chroma-js'
 
   import cache from 'config/cache.js'
   import logslider from 'lib/log_slider.js'
+  import logscale from 'lib/log_scale.js'
 
   export default {
     name: 'plan_map',
@@ -34,6 +38,7 @@
         risk_slider_value: 0,
         logslider: null,
 
+        risk_visible: false,
         clusters_disabled: true, // Before map_loaded
         clusters_visible: false,
         user_map_focus: false,
@@ -80,7 +85,8 @@
       'edit_mode': 'manage_map_mode',
       'geodata_ready': 'populate_data_from_global',
       'selected_target_area_ids': 'redraw_target_areas',
-      'risk_slider_value': 'set_risk_slider_value'
+      'risk_slider_value': 'set_risk_slider_value',
+      'risk_visible': 'toggle_show_areas_by_risk'
     },
     methods: {
       // Get some data in
@@ -340,6 +346,69 @@
         const mino = Math.min(...non_zeros)
         const maxo = Math.max(...values_array) * 1.001
         this.logslider = logslider(this.slider.min, this.slider.max, mino, maxo)
+      },
+      // RISK
+      toggle_show_areas_by_risk() {
+        if (this.risk_visible) {
+          this.add_areas_coloured_by_risk()
+        } else {
+          this._map.removeLayer('areas_by_risk')
+          this._map.removeSource('areas_by_risk')
+        }
+      },
+      add_areas_coloured_by_risk() {
+
+        this.get_log_values(this._geodata.all_target_areas)
+
+        const features = this._geodata.all_target_areas.features.map((feature) => {
+          if (feature.properties.risk === 0) {
+            feature.properties.normalised_risk = 0
+          } else {
+            feature.properties.normalised_risk = this.log_scale(feature.properties.risk)
+          }
+          return feature
+        })
+
+        const areas_with_normalised_risk = featureCollection(features)
+
+        // create stops
+        const scale = chroma.scale("RdYlBu").colors(11).reverse()
+        const steps = [...Array(11).keys()].map(i => i * 10)
+        const stops = steps.map((step, index) => {
+          return [step, scale[index]]
+        })
+
+        this._map.addLayer({
+          id: 'areas_by_risk',
+          type: 'fill',
+          source: {
+            type: 'geojson',
+            data: areas_with_normalised_risk
+          },
+          paint: {
+            'fill-color': {
+              property: 'normalised_risk',
+              // TODO: @feature Use a different palette
+              stops: stops
+            },
+            'fill-opacity': 0.9,
+            'fill-outline-color': 'black'
+          }
+        }, 'records')
+
+        this._map.fitBounds(bbox(areas_with_normalised_risk), {padding: 20});
+      },
+      get_log_values(areas) {
+        const values_array = areas.features.map(area => area.properties.risk).sort()
+        const non_zeros = values_array.filter(v => v !== 0)
+
+        const mino = Math.min(...non_zeros)
+        const maxo = Math.max(...values_array) * 1.001
+
+        this.log_scale = logscale(mino, maxo)
+
+        if (this.log_scale(mino) !== 0) console.log('min should be 0', this.log_scale(mino))
+        if (this.log_scale(maxo) !== 100) console.log('max should be 100', this.log_scale(maxo))
       },
     }
   }
