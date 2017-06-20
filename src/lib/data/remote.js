@@ -1,9 +1,11 @@
 import axios from 'axios'
-import numeral from 'numeral'
 
-const douma_api_root = `${DOUMA_API_URL}/${DOUMA_API_VERSION}`
+import config from 'config/common_config.json'
 
-// Create axios HTTP
+// Get basic root URL from static configuration
+const douma_api_root = `${config.DOUMA_API_URL}/${config.DOUMA_API_VERSION}`
+
+// Create axios HTTP object and the standard handler
 const HTTP = axios.create()
 HTTP.defaults.timeout = 5000
 HTTP.interceptors.response.use(function (response) {
@@ -16,16 +18,16 @@ HTTP.interceptors.response.use(function (response) {
   return Promise.reject(error)
 })
 
-
 const standard_handler = (url, options = {}) => {
   options.url = url
   return HTTP(options)
     .then(json => json.data)
 }
 
-//
+
+
+
 // Instance configuration and related files
-//
 export const get_all_instance_config = (slug) => {
   const urls = [
     `/static/instances/${slug}.instance.json`,
@@ -53,10 +55,7 @@ export const get_all_instance_config = (slug) => {
 }
 
 
-
-//
 // User authentiction
-//
 export const authenticate = (user) => {
   let url = douma_api_root + `/auth`
 
@@ -70,7 +69,6 @@ export const authenticate = (user) => {
 
 
 // PLANS
-
 export const get_current_plan = (country) => {
   let url = douma_api_root + `/plan/current?country=${country}`
   let options = {timeout: 10000}
@@ -91,7 +89,6 @@ export const create_plan = (plan) => {
 
 
 // RECORDS
-
 export const get_all_records = (country) => {
   let url = douma_api_root + `/record/all?country=${country}`
 
@@ -111,9 +108,8 @@ export const create_record = (record) => {
 
 
 // GEODATA
-
-// $store passed-in to update loading progress bar
 export const get_geodata = ({slug, level, cache, store}) => {
+  // $store is passed in order to update loading progress bar
   const urls = [
   `/static/geo/${slug}/spatial_hierarchy/${slug}.${level}.geojson`,
     `/static/geo/${slug}/spatial_hierarchy/${slug}.clusters.geojson`,
