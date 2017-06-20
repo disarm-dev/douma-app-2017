@@ -61,6 +61,8 @@
 <script>
   import numeral from 'numeral'
   import moment from 'moment'
+  import download from 'downloadjs'
+  import json2csv from 'json2csv'
   import {mapState, mapGetters} from 'vuex'
 
   // Common components
@@ -198,6 +200,16 @@
             this.$store.commit('root:set_loading', false)
           })
       },
+      download_responses() {
+        if(!this.filtered_responses.length) return
+
+        const fields = Object.keys(this.filtered_responses[0])
+        const data = this.filtered_responses
+        const content = json2csv({data, fields})
+
+        const date = moment().format('YYYY-MM-DD_HHmm')
+        download(content, `${this.instance_config.slug}_responses_${date}.csv`)
+      }
     }
   }
 </script>
