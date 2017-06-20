@@ -7,8 +7,9 @@ export default {
   namespaced: true,
   state: {
     responses: [],
+    responses_last_updated_at: null,
     filters: [],
-    plan: null
+    plan: null,
   },
   mutations: {
     set_responses: (state, responses) => {
@@ -29,7 +30,10 @@ export default {
       state.filters = state.filters.filter((f) => {
         return f.type !== type
       })
-    }
+    },
+    update_responses_last_updated_at:(state) => {
+      state.responses_last_updated_at = new Date
+}
   },
   getters: {
     filtered_responses(state, getters) {
@@ -55,6 +59,7 @@ export default {
           r.week = moment(r.recorded_on).week()
           return r
         })
+        context.commit('update_responses_last_updated_at')
         context.commit('set_responses', responses)
       })
     },

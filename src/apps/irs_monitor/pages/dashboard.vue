@@ -8,6 +8,8 @@
         <md-card-content>
           <p>{{filtered_responses.length}} record{{filtered_responses.length === 1 ? '' : 's' }}</p>
           <md-button class="md-raised md-primary" @click.native="refresh_data" :disabled="loading">Refresh data</md-button>
+          <md-button class="md-raised md-primary" @click.native="download_responses" :disabled="loading">Download responses</md-button>
+          <p>Last updated: {{responses_last_updated_at}}</p>
         </md-card-content>
       </md-card>
 
@@ -141,6 +143,13 @@
         country: state => state.instance_config.name,
         components: state => state.instance_config.applets.irs_monitor.components,
         online: state => state.network_online,
+        responses_last_updated_at: state => {
+          if (state.irs_monitor.responses_last_updated_at) {
+            return moment(state.irs_monitor.responses_last_updated_at).format("dddd, MMMM Do YYYY, h:mm:ss a")
+          } else {
+            return "not yet updated"
+          }
+        }
       }),
       ...mapGetters({
         filtered_responses: 'irs_monitor/filtered_responses',
