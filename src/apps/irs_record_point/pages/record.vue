@@ -10,11 +10,11 @@
           :disabled="validation_result_empty"
           @click.native="toggle_show_validation_result"
         >
-          
+
           <span v-if="!validation_result_empty">
             {{validation_result.errors.length + validation_result.warnings.length}}
           </span>
-          
+
           {{ validation_result_empty ? "No validation issues" : (validation_length  === 1 ? "Validation issue" : "Validation issues")}}
         </md-button>
 
@@ -54,6 +54,10 @@
             :initial_location='initial_response.location'
           ></location_record>
 
+          <md-card-header>
+            <div>2. Select nearest location</div>
+          </md-card-header>
+
           <multiselect
             v-model="fake_location_selection"
             @select="on_location_selection_selected"
@@ -90,7 +94,7 @@
 </template>
 
 <script>
-  
+
 
   import location_record from 'components/location.vue'
   import review from './review.vue'
@@ -209,7 +213,7 @@
             this.shake_button = !this.shake_button
           }, 2000)
         }
-      },  
+      },
       toggle_show_validation_result() {
         this.show_validation_result = !this.show_validation_result
       },
@@ -248,7 +252,7 @@
       save_response() {
         // TODO: @refac Move to a proper response model, with tests. And cake.
         let response
-        
+
         try {
           response = new Response().create({
             ...this.response,
@@ -320,7 +324,7 @@
     transform: translateY(-5px);
     opacity: 0;
   }
-  
+
 
   /* From animate.css */
   .animated {
