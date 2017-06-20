@@ -12,7 +12,7 @@ function create_store(instance_stores) {
     plugins: [persisted],
     state: {
       cache: {},
-      snackbar: {},
+      snackbar: {message: null},
       loading: false,
       sw_message: {message: 'null', title: 'null'},
       instance_config: {},
