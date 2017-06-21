@@ -6,9 +6,8 @@
     </div> -->
     <p>Show areas by:</p>
     <div>
-      <md-radio v-model="selected" :disabled='!geodata_areas' name="my-test-group1" md-value="risk" @change="select_map_type">Risk</md-radio>
-      <md-radio v-model="selected" :disabled='!geodata_areas' name="my-test-group1" md-value="coverage" @change="select_map_type">Coverage</md-radio>
-      <md-radio v-model="selected" :disabled='!geodata_areas' name="my-test-group1" md-value="clear" @change="select_map_type">Nothing</md-radio>
+      <md-radio v-model="selected" :disabled='!geodata_areas' name="map-type" md-value="risk" @change="select_map_type">Risk</md-radio>
+      <md-radio v-model="selected" :disabled='!geodata_areas' name="map-type" md-value="coverage" @change="select_map_type">Coverage</md-radio>
     </div>
     <md-checkbox v-model="limit_to_plan">Limit to plan areas</md-checkbox>
     <div id="map"></div>
@@ -18,6 +17,7 @@
 <script>
   import {featureCollection} from '@turf/helpers'
   import bbox from '@turf/bbox'
+  import mapboxgl from 'mapbox-gl'
   import chroma from 'chroma-js'
 
   import {basic_map} from 'lib/basic_map.js'
@@ -106,8 +106,6 @@
             return this.add_areas_coloured_by_risk()
           case 'coverage':
             return this.add_areas_coloured_by_coverage()
-          case 'clear':
-            return this.clear_map()
         }
       },
 
