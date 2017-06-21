@@ -9,7 +9,6 @@
         </md-button>
         <!-- BREADCRUMBS -->
         <h2 class="md-title" style="flex: 1">
-          <!-- <bread-crumbs></bread-crumbs> -->
           {{country}}
         </h2>
         <div>
@@ -82,7 +81,7 @@
     <!-- SNACKBAR -->
     <md-snackbar md-position="top center" ref="snackbar" :md-duration="snackbar.duration">
       <span>{{snackbar.message}}</span>
-      <md-button class="md-accent" md-theme="light-blue" @click.native="snackbar_action">OK</md-button>
+      <md-button class="md-accent" @click.native="snackbar_action">OK</md-button>
     </md-snackbar>
 
     <!--ServiceWorker message DIALOG -->
@@ -121,14 +120,12 @@
 </template>
 
 <script>
-  import BreadCrumbs from './breadCrumbs.vue'
   import generate_applet_routes from 'lib/applet_routes.js'
   import help from 'components/help.vue'
 
   export default {
     name: 'DOUMA',
-    components: {BreadCrumbs, help},
-    props: ['theme'],
+    components: {help},
     watch: {
       '$store.state.snackbar': 'snackbar_open',
       '$store.state.sw_message': 'open_dialog_sw',
