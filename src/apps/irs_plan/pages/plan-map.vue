@@ -5,7 +5,6 @@
     <input  id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value">
     </div>
     <md-checkbox :disabled='!geodata_ready || clusters_disabled' v-model="clusters_visible">Show clusters</md-checkbox>
-    <md-checkbox :disabled='!geodata_ready' v-model="risk_visible">Show risk</md-checkbox>
     <div id="map"></div>
   </div>
 </template>
@@ -27,7 +26,7 @@
 
   export default {
     name: 'plan_map',
-    props: ['edit_mode', 'geodata_ready'],
+    props: ['edit_mode', 'geodata_ready', 'risk_visible'],
     data() {
       return {
         slider: {
@@ -38,7 +37,6 @@
         risk_slider_value: 0,
         logslider: null,
 
-        risk_visible: false,
         clusters_disabled: true, // Before map_loaded
         clusters_visible: false,
         user_map_focus: false,
@@ -122,8 +120,10 @@
         }
       },
       remove_map_listeners() {
-        if (this._map.listens('click') && this.handler.click) this._map.off('click', this.handler.click)
-        if (this._map.listens('mousemove') && this.handler.move) this._map.off('mousemove', this.handler.move)
+        if (this._map) {
+          if (this._map.listens('click') && this.handler.click) this._map.off('click', this.handler.click)
+          if (this._map.listens('mousemove') && this.handler.move) this._map.off('mousemove', this.handler.move)
+        }
       },
       add_map_listeners() {
         this.remove_map_listeners()
@@ -150,12 +150,12 @@
       },
       manage_map_mode() {
         // Check if you're in editing mode
-        if(!this.edit_mode && this._map && this._map.loaded()) {
-          this.remove_map_listeners()
-          this.remove_draw_controls()
-        } else {
+        if(this.edit_mode) {
           this.add_map_listeners()
           this.add_draw_controls()
+        } else {
+          this.remove_map_listeners()
+          this.remove_draw_controls()
         }
       },
 
@@ -231,7 +231,7 @@
           this._map.removeLayer('bulk_unselected')
       },
       redraw_target_areas() {
-        if (this.geodata_ready) {
+        if (this.geodata_ready && this._map.loaded()) {
           // redraw target areas
           this.remove_target_areas()
           this.add_target_areas()
@@ -280,25 +280,27 @@
 
       // Draw controls
       add_draw_controls () {
-        const options = {
-          boxSelect: false,
-          keyBindings: false,
-          displayControlsDefault: false,
-          controls: {
-            polygon: true
+        if (this._map) {
+          const options = {
+            boxSelect: false,
+            keyBindings: false,
+            displayControlsDefault: false,
+            controls: {
+              polygon: true
+            }
           }
+          this.draw = new MapboxDraw(options)
+
+          this._map.on('draw.create', (e) => {
+            this.finish_drawing(e.features)
+          })
+
+          this._map.on('draw.modechange', (e) => {
+            if(e.mode === 'draw_polygon') this.remove_map_listeners()
+          })
+
+          this._map.addControl(this.draw)
         }
-        this.draw = new MapboxDraw(options)
-
-        this._map.on('draw.create', (e) => {
-          this.finish_drawing(e.features)
-        })
-
-        this._map.on('draw.modechange', (e) => {
-          if(e.mode === 'draw_polygon') this.remove_map_listeners()
-        })
-
-        this._map.addControl(this.draw)
       },
       remove_draw_controls () {
         if (this.draw) {

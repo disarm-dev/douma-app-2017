@@ -24,9 +24,7 @@
       ],
       "title": "Dashboard"
     },
-    "irs_plan": {
-      "number_of_structures": "NmStrct"
-    },
+    "irs_plan": {},
     "irs_record_point": {},
     "meta": {}
   },

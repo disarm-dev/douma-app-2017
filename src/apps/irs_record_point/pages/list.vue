@@ -7,7 +7,7 @@
       Sync {{unsynced_count}} responses
     </md-button>
     <md-button class="md-raised md-warn" :disabled="syncing || synced_count === 0" @click.native="clear_synced_responses">
-      Remove synced responses
+      Hide synced responses
     </md-button>
     <md-list>
       <md-list-item

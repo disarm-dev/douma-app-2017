@@ -2,12 +2,12 @@
   <div>
     <h3>Calculator</h3>
     <div>
-      At a rate of  <input class="slim-input" type="numer" v-model="calculator.structures"/> structures per team per day, with  <input class="slim-input" type="number" v-model="calculator.teams"/> teams this would take {{days_to_spray}} days
+      At a rate of  <input class="slim-input" type="numer" v-model="calculator.structures"/> {{structures_or_something_else}} per team per day, with  <input class="slim-input" type="number" v-model="calculator.teams"/> teams this would take {{days_to_spray}} days
     </div>
 
     <h3>Selected regions:</h3>
     <md-button class='md-raised md-primary' @click.native="download_plan">Download plan</md-button>
-    <p>Working with {{selected_target_area_ids.length}} regions, containing in total {{number_of_structures}} structures, YY rooms, ZZ population</p>
+    <p>Working with {{selected_target_area_ids.length}} regions, containing in total {{number_of_structures}} {{structures_or_something_else}}</p>
     <v-client-table
       v-if="geodata_ready && selected_target_area_ids.length !== 0"
       :data="table.data"
@@ -30,6 +30,7 @@
     data() {
       return {
         calculator: {
+          // TODO: @refac Not structures
           structures: 40,
           teams: 20
         },
@@ -47,7 +48,11 @@
         slug: state => state.instance_config.slug,
         denominator: state => state.instance_config.denominator,
         field_name: state => state.instance_config.spatial_hierarchy[0].field_name,
-        structures_field_name: state => state.instance_config.applets.irs_plan.number_of_structures,
+        structures_field_name: (state) => {
+          let hierarchy = state.instance_config.spatial_hierarchy.find(sp => sp.hasOwnProperty('denominator'))
+          let key = Object.keys(hierarchy.denominator)[0]
+          return hierarchy.denominator[key]
+        }
       }),
       ...mapGetters({
         selected_target_area_ids: 'irs_plan/all_selected_area_ids'
@@ -76,6 +81,18 @@
           }, 0)
         }
         return 0
+      },
+      structures_or_something_else() {
+        console.warn("TODO: @fix Wow. This is horrible. 🙈")
+        switch (this.$store.state.instance_config.slug) {
+          case 'zwe':
+            return 'rooms'
+          case 'nam':
+            return 'households'
+          default:
+            return 'structures'
+        }
+
       }
     },
     methods: {

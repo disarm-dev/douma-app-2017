@@ -23,9 +23,7 @@
         }
       ]
     },
-    "irs_plan": {
-      "number_of_households": "NumHouseho"
-    },
+    "irs_plan": {},
     "irs_record_point": {},
     "meta": {}
   },
