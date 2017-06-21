@@ -173,7 +173,7 @@
       },
     },
     created() {
-      this.refresh_data()
+      // this.refresh_data()
     },
     mounted() {
     },
