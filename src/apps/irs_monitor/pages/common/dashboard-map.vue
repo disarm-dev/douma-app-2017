@@ -1,10 +1,16 @@
 <template>
   <div>
-    <div>
+    <!-- <div>
       <md-button class="md-raised" :disabled='!geodata_areas' @click.native="add_areas_coloured_by_risk">Show plan areas by risk</md-button>
       <md-button class="md-raised" :disabled='!geodata_areas' @click.native="add_areas_coloured_by_coverage">Show plan areas by spray coverage</md-button>
-      <md-checkbox v-model="limit_to_plan">Limit to plan areas</md-checkbox>
+    </div> -->
+    <p>Show areas by:</p>
+    <div>
+      <md-radio v-model="selected" :disabled='!geodata_areas' name="my-test-group1" md-value="risk" @change="select_map_type">Risk</md-radio>
+      <md-radio v-model="selected" :disabled='!geodata_areas' name="my-test-group1" md-value="coverage" @change="select_map_type">Coverage</md-radio>
+      <md-radio v-model="selected" :disabled='!geodata_areas' name="my-test-group1" md-value="clear" @change="select_map_type">Nothing</md-radio>
     </div>
+    <md-checkbox v-model="limit_to_plan">Limit to plan areas</md-checkbox>
     <div id="map"></div>
   </div>
 </template>
@@ -26,7 +32,8 @@
       return {
         _map: null,
         geodata_areas: null,
-        limit_to_plan: true
+        limit_to_plan: true,
+        selected: 'risk'
       }
     },
     watch: {
@@ -53,7 +60,9 @@
         this._map = basic_map(this.$store)
 
         this._map.on('load', () => {
-          this.load_geodata()
+          this.load_geodata().then(() => {
+            this.add_areas_coloured_by_risk()
+          })
         })
 
       },
@@ -80,14 +89,26 @@
           console.warn('Using the first spatial spatial_hierarchy for instance:', area_type)
         }
 
-        get_geodata_area({slug: this.instance_config.slug, level: area_type})
+        return get_geodata_area({slug: this.instance_config.slug, level: area_type})
           .then((areas) => {
             this.geodata_areas = areas
+            return Promise.resolve()
           })
           .catch((e) => {
             console.log(e)
           })
 
+      },
+
+      select_map_type(type) {
+        switch (type) {
+          case 'risk':
+            return this.add_areas_coloured_by_risk()
+          case 'coverage':
+            return this.add_areas_coloured_by_coverage()
+          case 'clear':
+            return this.clear_map()
+        }
       },
 
       // COVERAGE
