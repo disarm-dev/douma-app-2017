@@ -15,10 +15,10 @@
   import bbox from '@turf/bbox'
   import chroma from 'chroma-js'
 
-  import Presenters from 'lib/presenters'
+  import Presenters from 'lib_instances/presenters'
   import {get_geodata_area} from 'lib/data/remote'
   import logscale from 'lib/log_scale.js'
-  import {Aggregator} from 'lib/aggregations'
+  import {Aggregator} from 'lib_instances/aggregations'
 
   export default {
     props: ['response_aggregations'],

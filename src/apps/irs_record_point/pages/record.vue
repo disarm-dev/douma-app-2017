@@ -94,13 +94,11 @@
 </template>
 
 <script>
-
-
   import location_record from 'components/location.vue'
   import review from './review.vue'
   import form_renderer from './form.vue'
-  import {Validator} from 'lib/validations'
-  import {Response} from 'models/response.model'
+  import {Validator} from 'lib_instances/validations'
+  import {Response} from 'lib/models/response.model'
   import array_unique from 'array-unique'
 
   import Multiselect from 'vue-multiselect'

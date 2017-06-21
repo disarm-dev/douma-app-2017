@@ -134,7 +134,7 @@
       },
     },
     created() {
-      this.validations = require("json-loader!lib/validations/" + this.instance_config.slug  + ".validations.json")
+      this.validations = require("json-loader!lib_instances/validations/" + this.instance_config.slug  + ".validations.json")
       this._original_validations = deep_clone(this.validations)
     },
     methods: {

@@ -1,7 +1,7 @@
-import {Response} from 'models/response.model.js'
+import {Response} from 'lib/models/response.model.js'
 
 describe('Response model', () => {
-  
+
   it('exising data can be edited as response model', () => {
     const fn = () => {
       new Response().create({
@@ -46,7 +46,7 @@ describe('Response model', () => {
         location_selection: {
           name: "location",
           id: "1"
-        }    
+        }
       })
     }
 

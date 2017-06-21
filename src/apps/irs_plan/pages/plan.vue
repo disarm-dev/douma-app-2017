@@ -58,7 +58,7 @@
   import plan_summary from './plan-summary.vue'
   import plan_map from './plan-map.vue'
   import cache from 'config/cache.js'
-  import {Plan} from 'models/plan.model.js'
+  import {Plan} from 'lib/models/plan.model.js'
 
   export default {
     name: 'Plan',

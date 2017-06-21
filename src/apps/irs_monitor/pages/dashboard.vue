@@ -92,7 +92,7 @@
   import zwe_chart_prop_people_covered from './zwe/zwe_chart_prop_people_covered'
   import zwe_chart_refusal_pie from './zwe/zwe_chart_refusal_pie'
 
-  import Presenters from 'lib/presenters'
+  import Presenters from 'lib_instances/presenters'
 
   export default {
     name: 'Dashboard',
