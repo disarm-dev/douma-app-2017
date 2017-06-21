@@ -26,6 +26,13 @@
       >
         {{ location_is_valid ? "Location" : "Set location"}}
       </md-button>
+
+      <md-button
+        v-if="response_id"
+        @click.native="$router.push('/irs/record_point')"
+      >
+        Back to list
+      </md-button>
     </div>
 
 
