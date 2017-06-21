@@ -1,12 +1,13 @@
 import array_unique from 'array-unique'
 
-import {create_plan, get_current_plan, get_geodata} from '@/lib/data/remote'
-import cache from '@/lib/cache.js'
+import {create_plan, get_current_plan, get_geodata} from 'lib/data/remote'
+import {Plan} from 'lib/models/plan.model'
 
 export default {
   namespaced: true,
   state: {
     geodata_loading_progress: 0,
+
     current_plan: null,
     areas_included_by_click: [],
     areas_excluded_by_click: [],
@@ -64,6 +65,7 @@ export default {
     },
     'set_bulk_selected_ids': (state, selected_target_area_ids) => {
       state.bulk_selected_ids = selected_target_area_ids
+      state.unsaved_changes = true
     },
     'add_selected_target_areas': (state, selected_target_area_ids) => {
       let temp_array = state.areas_included_by_click.concat(selected_target_area_ids)
@@ -79,45 +81,40 @@ export default {
       state.areas_included_by_click = []
       state.areas_excluded_by_click = []
       state.bulk_selected_ids = []
-      state.plan = null
-      // state.unsaved_changes = true
+      state.current_plan = null
+      state.unsaved_changes = true
     },
     'set_plan': (state, plan) => {
       state.current_plan = plan
     }
   },
   actions: {
-    'save_plan': (context, targets) => {
-      const country = context.rootState.instance_config.slug
-
-      const plan = {
-        planned_at: new Date(),
-        country,
-        targets
-      }
+    'save_plan': (context, plan) => {
 
       return create_plan(plan)
-        .then(res => {
+        .then(() => {
           context.commit('set_plan', plan)
           context.commit('set_unsaved_changes', false)
         })
     },
     'get_current_plan': (context) => {
       const country = context.rootState.instance_config.slug
-      const field_name = context.rootState.instance_config.spatial_hierarchy[0].field_name
 
-      return get_current_plan(country).then(plan => {
-
-        if (plan.hasOwnProperty('targets') && plan.targets.length !== 0 ) {
-          let target_areas = plan.targets.map(area => {
-            return area[field_name]
-          })
-
-          context.commit('set_plan', plan)
-          context.commit('clear_plan')
-          context.commit('add_selected_target_areas', target_areas)
-          context.commit('set_unsaved_changes', false)
+      return get_current_plan(country).then(plan_json => {
+        try {
+          new Plan().validate(plan_json)
+        } catch (e) {
+          context.commit('root:set_snackbar', {message: 'ERROR: Plan is not valid'}, {root: true})
         }
+
+        let target_areas = plan_json.targets.map(area => {
+          return area.id
+        })
+
+        context.commit('clear_plan')
+        context.commit('set_plan', plan_json)
+        context.commit('add_selected_target_areas', target_areas)
+        context.commit('set_unsaved_changes', false)
       })
     },
     'get_geodata': (context, options) => {

@@ -27,7 +27,12 @@ module.exports = {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      '@': resolve('src')
+      '@': resolve('src'),
+      'apps': resolve('src/apps'),
+      'components': resolve('src/components'),
+      'config': resolve('src/config'),
+      'lib': resolve('src/lib'),
+      'lib_instances': resolve('src/lib_instances'),
     }
   },
   module: {
@@ -58,7 +63,7 @@ module.exports = {
           limit: 10000,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
-      }
+      },
     ]
   },
   plugins: [
@@ -68,12 +73,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       "COMMIT_HASH": JSON.stringify(commitHash),
-      "DOUMA_DEV_MODE": process.env.NODE_ENV !== 'production',
-      DOUMA_API_URL: "'https://douma-api.herokuapp.com'",
-      DOUMA_API_VERSION: "'v3'",
-      // DOUMA_API_URL: "'http://localhost:3000'",
-      WEATHER_API_URL: "'https://weather.api.disarm.io/processor/output'",
-      R_SERVER_URL: "'https://cluster.api.disarm.io'"
+      "DOUMA_PRODUCTION_MODE": process.env.NODE_ENV === 'production'
     }),
   ]
 }

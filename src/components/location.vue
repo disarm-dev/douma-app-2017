@@ -1,9 +1,12 @@
 <template>
   <div>
+    <md-card-header>
+      <div>1. Get GPS coordinates</div>
+    </md-card-header>
     <md-button :disabled='hunting_location' class='md-raised md-primary' ref="update_location_button" @click.native="check_for_location">
       Get/Update point location
     </md-button>
-    <md-button class='md-warn' @click.native="fake_location">Use demo location</md-button>
+    <md-button class='md-warn' @click.native="add_demo_location">Use demo location</md-button>
     <p class='message'>{{location_message}}</p>
   </div>
 </template>
@@ -29,7 +32,7 @@
       }
     },
     methods: {
-      fake_location() {
+      add_demo_location() {
         const map_focus = this.$store.state.instance_config.map_focus
         this.location = {
           coords: {

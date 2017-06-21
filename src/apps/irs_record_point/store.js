@@ -1,4 +1,4 @@
-import {create_record} from '@/lib/data/remote'
+import {create_records} from 'lib/data/remote'
 
 export default {
   namespaced: true,
@@ -22,9 +22,8 @@ export default {
     }
   },
   actions: {
-    create_record: (context, record) => {
-      // TODO: @feature Maybe test this before using it?
-      return create_record(record)
+    create_records: (context, records) => {
+      return create_records(records)
     },
     clear_synced_responses: (context) => {
       let synced_responses = context.state.responses.filter(r => r.synced)

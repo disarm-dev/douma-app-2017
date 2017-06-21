@@ -1,10 +1,24 @@
 {
   "applets": {
     "irs_monitor": {
+      "aggregations": {
+        "map": "structures sprayed %",
+        "table": ["structures sprayed", "structures sprayed %"]
+      },
       "components": [
         {
           "height_constraint": "none",
-          "name": "line_chart",
+          "name": "zwe_chart_prop_room_sprayed",
+          "width_constraint": "half"
+        },
+        {
+          "height_constraint": "none",
+          "name": "zwe_chart_prop_people_covered",
+          "width_constraint": "half"
+        },
+        {
+          "height_constraint": "none",
+          "name": "zwe_chart_refusal_pie",
           "width_constraint": "half"
         }
       ]
@@ -25,7 +39,7 @@
   "spatial_hierarchy": [
     {
       "denominator": {
-        "fields": {}
+        "number_of_households": "NumHouseho"
       },
       "field_name": "ZIMWARDSID",
       "name": "wards"

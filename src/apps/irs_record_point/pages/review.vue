@@ -1,48 +1,42 @@
 <template>
   <div>
-    <!--<h4>Result of validation</h4>-->
-    <!--<p>Validation count: {{validations.errors.length}} errors, {{validations.warnings.length}} warnings</p>-->
+    <md-card-header>
+      <div class="md-title"><md-icon class="error">error</md-icon> {{validations.errors.length || 0}} Errors</div>
+      <div class="md-subhead">cannot save without fixing</div>
+    </md-card-header>
 
-    <div v-if="validations.errors.length > 0">
-      <md-list>
-        <md-list-item class="error">
-          <md-icon  class="error">error</md-icon>
-          <span class="error">{{validations.errors.length}} Errors</span>
-          <md-list-expand>
-            <md-list>
-              <md-list-item v-for="{message, name, relevant_questions} in validations.errors" :key="name">
-                <span>{{message}}</span>
-              </md-list-item>
-            </md-list>
-          </md-list-expand>
-        </md-list-item>
-      </md-list>
-    </div>
+    <md-card-content>
+      <validation_list
+        v-if="validations.errors.length > 0"
+        :messages="validations.errors"
+        :survey="survey"
+        v-on:show_location="$emit('show_location')">
+      </validation_list>
+    </md-card-content>
 
-    <div v-if="validations.warnings.length > 0">
-      <md-list>
-        <md-list-item class="warning">
-          <md-icon  class="warning">warning</md-icon>
-          <span>{{validations.warnings.length}} Errors</span>
-          <md-list-expand>
-            <md-list>
-              <md-list-item v-for="{message, name, relevant_questions} in validations.warnings" :key="name">
-                <span>{{message}}</span>
-              </md-list-item>
-            </md-list>
-          </md-list-expand>
-        </md-list-item>
-      </md-list>
+    <md-card-header>
+      <div class="md-title"><md-icon class="warning">warning</md-icon> {{validations.warnings.length || 0}} Warnings</div>
+      <div class="md-subhead">can save without fixing</div>
+    </md-card-header>
 
-    </div>
-
+    <md-card-content>
+      <validation_list
+        v-if="validations.warnings.length > 0"
+        :messages="validations.warnings"
+        :survey="survey"
+        v-on:show_location="$emit('show_location')">
+      </validation_list>
+    </md-card-content>
   </div>
 </template>
 
 <script>
+  import validation_list from './validation_list.vue'
+
   export default {
-    props: ['validations'],
-    name: 'Review',
+    props: ['validations', 'survey'],
+    components: {validation_list},
+    name: 'Review'
   }
 </script>
 

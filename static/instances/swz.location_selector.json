@@ -1,1782 +1,1777 @@
 [
   {
-    "category": "category",
-    "id": "id",
-    "name": "name"
-  },
-  {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "346000_347000_348000_413000_414000_415000",
-    "name": "Siteki (DVOKODVWENI)"
+    "name": "Siteki (Dvokodvweni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "67000",
-    "name": "Bhunya (MHLAMBANYATSI)"
+    "name": "Bhunya (Mhlambanyatsi)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "56000",
-    "name": "Bhunya (LAMGABHI)"
+    "name": "Bhunya (Lamgabhi)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "193000",
-    "name": "Hhelehhele (NTFONJENI)"
+    "name": "Hhelehhele (Ntfonjeni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "96000_97000",
-    "name": "Mpuluzi (MANGCONGCO)"
+    "name": "Mpuluzi (Mangcongco)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "449000",
-    "name": "Matsapha (KWALUSENI)"
+    "name": "Matsapha (Kwaluseni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "35000",
-    "name": "Matsapha (KWALUSENI)"
+    "name": "Matsapha (Kwaluseni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "19000",
-    "name": "Manzini (MANZINI)"
+    "name": "Manzini (Manzini)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "52000",
-    "name": "Luyengo (MAHLANYA)"
+    "name": "Luyengo (Mahlanya)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "93000",
-    "name": "Lundzi (MHLAMBANYATSI)"
+    "name": "Lundzi (Mhlambanyatsi)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "66000",
-    "name": "Dwalile (NHLAMBENI)"
+    "name": "Dwalile (Nhlambeni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "159000_160000",
-    "name": "Tonkwane (MBABANE)"
+    "name": "Tonkwane (Mbabane)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "247000_507000",
-    "name": "Ekwendzeni (MTSAMBAMA)"
+    "name": "Ekwendzeni (Mtsambama)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "153000_154000_155000",
-    "name": "Siphocosini (MBABANE)"
+    "name": "Siphocosini (Mbabane)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "435000",
-    "name": "Mpaka (DVOKODVWENI)"
+    "name": "Mpaka (Dvokodvweni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "368000",
-    "name": "Maphungwane (TIKHUBA)"
+    "name": "Maphungwane (Tikhuba)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "379000_380000",
-    "name": "Mantambe (HOSEA)"
+    "name": "Mantambe (Hosea)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "235000",
-    "name": "Magubheleni (GEGE)"
+    "name": "Magubheleni (Gege)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "301000_302000_303000",
-    "name": "Ezindwendweni (SIGWE)"
+    "name": "Ezindwendweni (Sigwe)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "161000_162000",
-    "name": "Nkhaba (NKABA)"
+    "name": "Nkhaba (Nkaba)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "170000",
-    "name": "Maphalaleni (MAPHALALENI)"
+    "name": "Maphalaleni (Maphalaleni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "121000",
-    "name": "Dvokolwako (MKHIWENI)"
+    "name": "Dvokolwako (Mkhiweni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "458000",
-    "name": "Mbangweni (MBANGWENI)"
+    "name": "Mbangweni (Mbangweni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "83000_84000",
-    "name": "Dvudvusini (NGWEMPISI)"
+    "name": "Dvudvusini (Ngwempisi)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "416000",
-    "name": "Shewula (LOMAHASHA)"
+    "name": "Shewula (Lomahasha)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "72000_73000_74000",
-    "name": "Buseleni (MAHLANGATJA)"
+    "name": "Buseleni (Mahlangatja)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "412000",
-    "name": "Ngcina (MPOLONJENI)"
+    "name": "Ngcina (Mpolonjeni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "304000",
-    "name": "Ntjanini (NGUDZENI)"
+    "name": "Ntjanini (Ngudzeni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "173000",
-    "name": "Ndzingeni (NDZINGENI)"
+    "name": "Ndzingeni (Ndzingeni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "339000",
-    "name": "Ka-Phunga (KUBUTA)"
+    "name": "Ka-Phunga (Kubuta)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "133000_134000",
-    "name": "Ka-Kholwane (MAHLANGATJA)"
+    "name": "Ka-Kholwane (Mahlangatja)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "450000_451000",
-    "name": "Nqandweni (SITHOBELA)"
+    "name": "Nqandweni (Sithobela)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "345000",
-    "name": "Sitsatsaweni (MBANGWENI)"
+    "name": "Sitsatsaweni (Mbangweni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "417000",
-    "name": "Shewula (LOMAHASHA)"
+    "name": "Shewula (Lomahasha)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "410000_411000",
-    "name": "Tambuti (SIPHOFANENI)"
+    "name": "Tambuti (Siphofaneni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "430000",
-    "name": "Dvokolwako (MHLUME)"
+    "name": "Dvokolwako (Mhlume)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "14000_244000",
-    "name": "Mahamba (MASEYISINI)"
+    "name": "Mahamba (Maseyisini)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "437000",
-    "name": "Lomahasha (LOMAHASHA)"
+    "name": "Lomahasha (Lomahasha)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "59000",
-    "name": "Ntondozi (NTONDOZI)"
+    "name": "Ntondozi (Ntondozi)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "429000",
-    "name": "Big- Bend (NKILONGO)"
+    "name": "Big- Bend (Nkilongo)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "263000_265000_264000_266000",
-    "name": "Magele (MTSAMBAMA)"
+    "name": "Magele (Mtsambama)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "499000",
-    "name": "Mbabane (MBABANE)"
+    "name": "Mbabane (Mbabane)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "77000",
-    "name": "Mankayane (NGWEMPISI)"
+    "name": "Mankayane (Ngwempisi)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "226000",
-    "name": "Mbabane (MBABANE)"
+    "name": "Mbabane (Mbabane)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "136000",
-    "name": "Mpisi Farm (MKHIWENI)"
+    "name": "Mpisi Farm (Mkhiweni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "223000",
-    "name": "Lobamba (LOBAMBA)"
+    "name": "Lobamba (Lobamba)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "65000",
-    "name": "Dwalile (MANGCONGCO)"
+    "name": "Dwalile (Mangcongco)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "8000_267000_268000_269000_270000_271000",
-    "name": "Mahlalini (MBANGWENI)"
+    "name": "Mahlalini (Mbangweni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "10000_151000_152000",
-    "name": "Komati (PIGG'S PEAK)"
+    "name": "Komati (Pigg'S PEAK)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "259000_517000",
-    "name": "Bhekinkosi (KUKHANYENI)"
+    "name": "Bhekinkosi (Kukhanyeni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "418000",
-    "name": "Tabankulu (MHLUME)"
+    "name": "Tabankulu (Mhlume)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "117000",
-    "name": "Nkiliji (KUKHANYENI)"
+    "name": "Nkiliji (Kukhanyeni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "36000_37000",
-    "name": "Matsapha (MANZINI)"
+    "name": "Matsapha (Manzini)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "149000_150000",
-    "name": "Mhlangatane (MAYIWANE)"
+    "name": "Mhlangatane (Mayiwane)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "49000",
-    "name": "Malkerns (MAHLANYA)"
+    "name": "Malkerns (Mahlanya)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "28000",
-    "name": "Matsapha (KWALUSENI)"
+    "name": "Matsapha (Kwaluseni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "215000",
-    "name": "Maphalaleni (NSANGWINI)"
+    "name": "Maphalaleni (Nsangwini)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "126000",
-    "name": "Ngculwini (MAFUTSENI)"
+    "name": "Ngculwini (Mafutseni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "91000_92000",
-    "name": "Gundvwini (MTHONGWANENI)"
+    "name": "Gundvwini (Mthongwaneni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "386000",
-    "name": "Buseleni (NKWENE)"
+    "name": "Buseleni (Nkwene)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "481000",
-    "name": "Big- Bend (NKILONGO)"
+    "name": "Big- Bend (Nkilongo)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "484000",
-    "name": "Siphofaneni (SIPHOFANENI)"
+    "name": "Siphofaneni (Siphofaneni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "85000",
-    "name": "Nyakeni (KUKHANYENI)"
+    "name": "Nyakeni (Kukhanyeni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "41000",
-    "name": "Zombodze (LUDZELUDZE)"
+    "name": "Zombodze (Ludzeludze)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "333000",
-    "name": "Makhosini (MASEYISINI)"
+    "name": "Makhosini (Maseyisini)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "258000",
-    "name": "Luhlendlweni (MOTJANE)"
+    "name": "Luhlendlweni (Motjane)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "396000_397000",
-    "name": "Ko-Ntjingila (MTSAMBAMA)"
+    "name": "Ko-Ntjingila (Mtsambama)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "383000",
-    "name": "Matsanjeni (MATSANJENI)"
+    "name": "Matsanjeni (Matsanjeni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "166000",
-    "name": "Maphalaleni (MAPHALALENI)"
+    "name": "Maphalaleni (Maphalaleni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "115000",
-    "name": "Ka-Khuphuka (MKHIWENI)"
+    "name": "Ka-Khuphuka (Mkhiweni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "205000",
-    "name": "Mshingishingini (NTFONJENI)"
+    "name": "Mshingishingini (Ntfonjeni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "308000_309000",
-    "name": "Mgamude (HOSEA)"
+    "name": "Mgamude (Hosea)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "206000_207000_208000",
-    "name": "Nyakatfo (MAYIWANE)"
+    "name": "Nyakatfo (Mayiwane)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "192000",
-    "name": "Herefords (MAYIWANE)"
+    "name": "Herefords (Mayiwane)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "342000",
-    "name": "Sandleni (SANDLENI)"
+    "name": "Sandleni (Sandleni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "466000",
-    "name": "Lukhetseni (MPOLONJENI)"
+    "name": "Lukhetseni (Mpolonjeni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "490000_491000",
-    "name": "Siphofaneni (SIPHOFANENI)"
+    "name": "Siphofaneni (Siphofaneni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "310000",
-    "name": "Qomintaba (MATSANJENI)"
+    "name": "Qomintaba (Matsanjeni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "447000",
-    "name": "Mdojane (LAMGABHI)"
+    "name": "Mdojane (Lamgabhi)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "2000_46000_47000",
-    "name": "Masundvwini (NHLAMBENI)"
+    "name": "Masundvwini (Nhlambeni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "402000",
-    "name": "Ka-Shoba (MPOLONJENI)"
+    "name": "Ka-Shoba (Mpolonjeni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "289000_290000_291000",
-    "name": "Ka-Shiba (SANDLENI)"
+    "name": "Ka-Shiba (Sandleni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "436000",
-    "name": "Lomahasha (LOMAHASHA)"
+    "name": "Lomahasha (Lomahasha)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "409000",
-    "name": "Siphofaneni (SIPHOFANENI)"
+    "name": "Siphofaneni (Siphofaneni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "495000",
-    "name": "Ka-Phunga (SIPHOFANENI)"
+    "name": "Ka-Phunga (Siphofaneni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "486000_487000_488000",
-    "name": "Macetjeni (SIPHOFANENI)"
+    "name": "Macetjeni (Siphofaneni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "236000",
-    "name": "Gege (GEGE)"
+    "name": "Gege (Gege)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "50000",
-    "name": "Sigombeni (LUDZELUDZE)"
+    "name": "Sigombeni (Ludzeludze)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "387000",
-    "name": "Ko-Ntjingila (KUBUTA)"
+    "name": "Ko-Ntjingila (Kubuta)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "465000",
-    "name": "Mambane (TIKHUBA)"
+    "name": "Mambane (Tikhuba)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "433000",
-    "name": "Malindza (HLANE)"
+    "name": "Malindza (Hlane)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "146000",
-    "name": "Mhlangatane (MHLANGATANE)"
+    "name": "Mhlangatane (Mhlangatane)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "365000",
-    "name": "Tikhuba (TIKHUBA)"
+    "name": "Tikhuba (Tikhuba)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "13000_340000_509000_511000_513000",
-    "name": "Ko-Ntjingila (MTSAMBAMA)"
+    "name": "Ko-Ntjingila (Mtsambama)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "273000_274000_275000",
-    "name": "Shiselweni Forest (GEGE)"
+    "name": "Shiselweni Forest (Gege)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "57000",
-    "name": "Ntondozi (NTONDOZI)"
+    "name": "Ntondozi (Ntondozi)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "445000_448000",
-    "name": "Manzini (MANZINI)"
+    "name": "Manzini (Manzini)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "457000",
-    "name": "Gege (GEGE)"
+    "name": "Gege (Gege)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "23000",
-    "name": "Manzini (MANZINI)"
+    "name": "Manzini (Manzini)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "211000",
-    "name": "Sihhoye (MHLANGATANE)"
+    "name": "Sihhoye (Mhlangatane)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "439000",
-    "name": "Lomahasha (LOMAHASHA)"
+    "name": "Lomahasha (Lomahasha)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "375000",
-    "name": "Lucolweni (HOSEA)"
+    "name": "Lucolweni (Hosea)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "9000_196000",
-    "name": "Nkamazi (NDZINGENI)"
+    "name": "Nkamazi (Ndzingeni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "364000",
-    "name": "Maphungwane (TIKHUBA)"
+    "name": "Maphungwane (Tikhuba)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "75000_76000",
-    "name": "Mhlambanyatsi (MHLAMBANYATSI)"
+    "name": "Mhlambanyatsi (Mhlambanyatsi)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "477000_478000_479000",
-    "name": "Big- Bend (SITHOBELA)"
+    "name": "Big- Bend (Sithobela)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "202000",
-    "name": "Ntfonjeni (NTFONJENI)"
+    "name": "Ntfonjeni (Ntfonjeni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "122000_123000_124000",
-    "name": "Nsenga (MAPHALALENI)"
+    "name": "Nsenga (Maphalaleni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "239000",
-    "name": "Mahamba (MASEYISINI)"
+    "name": "Mahamba (Maseyisini)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "401000",
-    "name": "Hluti (HOSEA)"
+    "name": "Hluti (Hosea)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "217000",
-    "name": "Nsingweni (MAPHALALENI)"
+    "name": "Nsingweni (Maphalaleni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "178000",
-    "name": "Phophonyane (NTFONJENI)"
+    "name": "Phophonyane (Ntfonjeni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "7000_11000_256000",
-    "name": "Luhlangotsini (MHLANGATANE)"
+    "name": "Luhlangotsini (Mhlangatane)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "337000",
-    "name": "Ka-Phunga (KUBUTA)"
+    "name": "Ka-Phunga (Kubuta)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "428000",
-    "name": "Ngomane (MHLUME)"
+    "name": "Ngomane (Mhlume)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "230000_320000_321000",
-    "name": "Mgazini (GEGE)"
+    "name": "Mgazini (Gege)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "195000",
-    "name": "Herefords (MAYIWANE)"
+    "name": "Herefords (Mayiwane)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "370000_371000",
-    "name": "Ngololweni (SANDLENI)"
+    "name": "Ngololweni (Sandleni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "334000",
-    "name": "Nhlangano (MBANGWENI)"
+    "name": "Nhlangano (Mbangweni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "384000_385000",
-    "name": "Mgampondo (MATSANJENI)"
+    "name": "Mgampondo (Matsanjeni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "503000",
-    "name": "Luyengo (MAHLANYA)"
+    "name": "Luyengo (Mahlanya)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "398000",
-    "name": "Ko-Ntjingila (MTSAMBAMA)"
+    "name": "Ko-Ntjingila (Mtsambama)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "485000",
-    "name": "Sigcaweni (MPOLONJENI)"
+    "name": "Sigcaweni (Mpolonjeni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "296000_297000",
-    "name": "Makhosini (ZOMBODZE)"
+    "name": "Makhosini (Zombodze)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "203000",
-    "name": "KaLomshiyo (NTFONJENI)"
+    "name": "KaLomshiyo (Ntfonjeni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "332000",
-    "name": "Nhlangano (MBANGWENI)"
+    "name": "Nhlangano (Mbangweni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "188000_189000_190000",
-    "name": "Emsahweni (NTFONJENI)"
+    "name": "Emsahweni (Ntfonjeni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "197000",
-    "name": "Mgobodzi (NTFONJENI)"
+    "name": "Mgobodzi (Ntfonjeni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "233000",
-    "name": "Mahlangatsha (GEGE)"
+    "name": "Mahlangatsha (Gege)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "88000_89000",
-    "name": "Dwaleni (MAHLANYA)"
+    "name": "Dwaleni (Mahlanya)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "30000_31000",
-    "name": "Manzini (MANZINI)"
+    "name": "Manzini (Manzini)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "5000_298000_299000",
-    "name": "Zombodze (ZOMBODZE)"
+    "name": "Zombodze (Zombodze)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "26000",
-    "name": "Manzini (MANZINI)"
+    "name": "Manzini (Manzini)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "359000",
-    "name": "Lubuli (LUBULI)"
+    "name": "Lubuli (Lubuli)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "272000",
-    "name": "Ekwendzeni (NKWENE)"
+    "name": "Ekwendzeni (Nkwene)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "250000_251000",
-    "name": "Ndlalambi (TIMPISINI)"
+    "name": "Ndlalambi (Timpisini)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "300000",
-    "name": "Makhosini (MASEYISINI)"
+    "name": "Makhosini (Maseyisini)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "221000",
-    "name": "Lobamba (LOBAMBA)"
+    "name": "Lobamba (Lobamba)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "111000_112000",
-    "name": "Bhekinkosi (MBANGWENI)"
+    "name": "Bhekinkosi (Mbangweni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "423000",
-    "name": "Hlane (HLANE)"
+    "name": "Hlane (Hlane)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "500000",
-    "name": "Mbabane (MBABANE)"
+    "name": "Mbabane (Mbabane)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "419000",
-    "name": "Simunye (MHLUME)"
+    "name": "Simunye (Mhlume)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "132000",
-    "name": "Bulunga (MTHONGWANENI)"
+    "name": "Bulunga (Mthongwaneni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "483000",
-    "name": "Big- Bend (NKILONGO)"
+    "name": "Big- Bend (Nkilongo)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "501000_518000",
-    "name": "Mbabane (MBABANE)"
+    "name": "Mbabane (Mbabane)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "38000",
-    "name": "Masundvwini (NHLAMBENI)"
+    "name": "Masundvwini (Nhlambeni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "110000",
-    "name": "Mahlangatja (MAHLANGATJA)"
+    "name": "Mahlangatja (Mahlangatja)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "79000_80000_314000_315000",
-    "name": "Bhunya (MANGCONGCO)"
+    "name": "Bhunya (Mangcongco)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "344000",
-    "name": "Sitsatsaweni (LUGONGOLWENI)"
+    "name": "Sitsatsaweni (Lugongolweni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "167000_168000_322000_323000",
-    "name": "Dlangeni (HHUKWINI)"
+    "name": "Dlangeni (Hhukwini)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "191000",
-    "name": "Herefords (NTFONJENI)"
+    "name": "Herefords (Ntfonjeni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "174000",
-    "name": "Bulembu (NHLAMBENI)"
+    "name": "Bulembu (Nhlambeni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "212000",
-    "name": "Madlangempisi (MADLANGAMPISI)"
+    "name": "Madlangempisi (Madlangampisi)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "358000",
-    "name": "Lubuli (LUBULI)"
+    "name": "Lubuli (Lubuli)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "357000",
-    "name": "Ngwavuma (LUBULI)"
+    "name": "Ngwavuma (Lubuli)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "163000",
-    "name": "Mnyokane (NKABA)"
+    "name": "Mnyokane (Nkaba)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "403000",
-    "name": "Ka-Mkhweli (SIPHOFANENI)"
+    "name": "Ka-Mkhweli (Siphofaneni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "425000",
-    "name": "Tshaneni (MHLUME)"
+    "name": "Tshaneni (Mhlume)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "171000_172000",
-    "name": "Nsangwini (NDZINGENI)"
+    "name": "Nsangwini (Ndzingeni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "82000",
-    "name": "Makhungutsha (MAHLANGATJA)"
+    "name": "Makhungutsha (Mahlangatja)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "1000_227000_324000_325000",
-    "name": "Thurso Farm (MBABANE)"
+    "name": "Thurso Farm (Mbabane)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "29000",
-    "name": "Matsapha (KWALUSENI)"
+    "name": "Matsapha (Kwaluseni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "338000",
-    "name": "Lavumisa (LAVUMISA)"
+    "name": "Lavumisa (Lavumisa)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "179000_180000",
-    "name": "Emvembili (NTFONJENI)"
+    "name": "Emvembili (Ntfonjeni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "391000",
-    "name": "Ngobolweni (KUBUTA)"
+    "name": "Ngobolweni (Kubuta)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "119000",
-    "name": "Luve (MKHIWENI)"
+    "name": "Luve (Mkhiweni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "497000",
-    "name": "Mbabane (MBABANE)"
+    "name": "Mbabane (Mbabane)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "293000_294000",
-    "name": "Makhosini (ZOMBODZE)"
+    "name": "Makhosini (Zombodze)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "442000",
-    "name": "Mbabane (MBABANE)"
+    "name": "Mbabane (Mbabane)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "44000_45000",
-    "name": "Ekudzeni (MAPHALALENI)"
+    "name": "Ekudzeni (Maphalaleni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "220000",
-    "name": "Ezulwini (LOBAMBA)"
+    "name": "Ezulwini (Lobamba)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "399000",
-    "name": "Hluti (SHISELWENI 1)"
+    "name": "Hluti (Shiselweni 1)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "440000",
-    "name": "Lomahasha (LOMAHASHA)"
+    "name": "Lomahasha (Lomahasha)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "381000",
-    "name": "Nsalitje (MATSANJENI)"
+    "name": "Nsalitje (Matsanjeni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "404000_405000",
-    "name": "Siteki (DVOKODVWENI)"
+    "name": "Siteki (Dvokodvweni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "343000_369000",
-    "name": "Ngudzeni (NGUDZENI)"
+    "name": "Ngudzeni (Ngudzeni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "198000",
-    "name": "Buhleni (NDZINGENI)"
+    "name": "Buhleni (Ndzingeni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "362000",
-    "name": "Big- Bend (NKILONGO)"
+    "name": "Big- Bend (Nkilongo)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "42000",
-    "name": "Zombodze (LUDZELUDZE)"
+    "name": "Zombodze (Ludzeludze)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "213000_214000",
-    "name": "Bhalekane (NDZINGENI)"
+    "name": "Bhalekane (Ndzingeni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "181000",
-    "name": "Emvembili (NTFONJENI)"
+    "name": "Emvembili (Ntfonjeni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "472000",
-    "name": "Lubuli (LUBULI)"
+    "name": "Lubuli (Lubuli)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "199000",
-    "name": "Bulandzeni (ZOMBODZE)"
+    "name": "Bulandzeni (Zombodze)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "330000",
-    "name": "Matsanjeni (MATSANJENI)"
+    "name": "Matsanjeni (Matsanjeni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "71000",
-    "name": "Malutha (MANGCONGCO)"
+    "name": "Malutha (Mangcongco)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "147000_148000",
-    "name": "Nkambeni (MHLANGATANE)"
+    "name": "Nkambeni (Mhlangatane)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "376000_377000",
-    "name": "Ezikhotheni (HOSEA)"
+    "name": "Ezikhotheni (Hosea)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "424000",
-    "name": "Mhlume (MHLUME)"
+    "name": "Mhlume (Mhlume)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "260000_261000_262000_311000_312000_313000",
-    "name": "Nyakeni (KUKHANYENI)"
+    "name": "Nyakeni (Kukhanyeni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "87000",
-    "name": "Dwalile (NGWEMPISI)"
+    "name": "Dwalile (Ngwempisi)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "108000",
-    "name": "Ngwempisi (NGWEMPISI)"
+    "name": "Ngwempisi (Ngwempisi)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "169000",
-    "name": "Mdzimba (HHUKWINI)"
+    "name": "Mdzimba (Hhukwini)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "90000",
-    "name": "Bhahwini (MAHLANGATJA)"
+    "name": "Bhahwini (Mahlangatja)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "94000",
-    "name": "Velezizweni (NGWEMPISI)"
+    "name": "Velezizweni (Ngwempisi)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "139000",
-    "name": "Mafutseni (MAYIWANE)"
+    "name": "Mafutseni (Mayiwane)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "407000_408000",
-    "name": "Ka-Langa (DVOKODVWENI)"
+    "name": "Ka-Langa (Dvokodvweni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "209000_210000",
-    "name": "Nkambeni (MHLANGATANE)"
+    "name": "Nkambeni (Mhlangatane)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "366000",
-    "name": "Mambane (TIKHUBA)"
+    "name": "Mambane (Tikhuba)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "105000_317000",
-    "name": "Ngwempisi (NGWEMPISI)"
+    "name": "Ngwempisi (Ngwempisi)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "219000",
-    "name": "Langeni (LOBAMBA)"
+    "name": "Langeni (Lobamba)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "21000",
-    "name": "Manzini (MANZINI)"
+    "name": "Manzini (Manzini)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "276000_277000_278000_279000",
-    "name": "Nkungwini (SANDLENI)"
+    "name": "Nkungwini (Sandleni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "229000",
-    "name": "Mbabane (MBABANE)"
+    "name": "Mbabane (Mbabane)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "135000",
-    "name": "Mhlangeni (LAMGABHI)"
+    "name": "Mhlangeni (Lamgabhi)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "249000",
-    "name": "Mbabane (MBABANE)"
+    "name": "Mbabane (Mbabane)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "194000",
-    "name": "Herefords (NDZINGENI)"
+    "name": "Herefords (Ndzingeni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "60000",
-    "name": "Gebeni (NTONDOZI)"
+    "name": "Gebeni (Ntondozi)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "422000",
-    "name": "Maphungwane (TIKHUBA)"
+    "name": "Maphungwane (Tikhuba)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "141000_142000",
-    "name": "Sidvokodvo (MTHONGWANENI)"
+    "name": "Sidvokodvo (Mthongwaneni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "382000",
-    "name": "Lavumisa Town (LAVUMISA)"
+    "name": "Lavumisa Town (Lavumisa)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "350000_516000",
-    "name": "Siteki (LUGONGOLWENI)"
+    "name": "Siteki (Lugongolweni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "237000_238000",
-    "name": "Mahlangatsha (GEGE)"
+    "name": "Mahlangatsha (Gege)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "116000",
-    "name": "Ka-Khuphuka (MKHIWENI)"
+    "name": "Ka-Khuphuka (Mkhiweni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "55000",
-    "name": "La-Mgabhi (LAMGABHI)"
+    "name": "La-Mgabhi (Lamgabhi)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "86000",
-    "name": "Dwalile (MANGCONGCO)"
+    "name": "Dwalile (Mangcongco)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "372000_373000",
-    "name": "Mooi-Hoek (MTSAMBAMA)"
+    "name": "Mooi-Hoek (Mtsambama)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "95000",
-    "name": "Dvudvusini (NGWEMPISI)"
+    "name": "Dvudvusini (Ngwempisi)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "504000",
-    "name": "Mbabane (MBABANE)"
+    "name": "Mbabane (Mbabane)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "4000_243000",
-    "name": "Mahamba (MTSAMBAMA)"
+    "name": "Mahamba (Mtsambama)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "459000",
-    "name": "Mpolonjeni (MOTJANE)"
+    "name": "Mpolonjeni (Motjane)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "482000",
-    "name": "Big- Bend (NKILONGO)"
+    "name": "Big- Bend (Nkilongo)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "54000",
-    "name": "La-Mgabhi (HHUKWINI)"
+    "name": "La-Mgabhi (Hhukwini)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "502000",
-    "name": "Mbabane (MBABANE)"
+    "name": "Mbabane (Mbabane)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "470000_471000",
-    "name": "Sithobela (SITHOBELA)"
+    "name": "Sithobela (Sithobela)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "360000_361000",
-    "name": "Big- Bend (NKILONGO)"
+    "name": "Big- Bend (Nkilongo)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "331000",
-    "name": "Ka-Mbhoke (MTSAMBAMA)"
+    "name": "Ka-Mbhoke (Mtsambama)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "280000",
-    "name": "Madulini (MBANGWENI)"
+    "name": "Madulini (Mbangweni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "355000",
-    "name": "Siteki Town (LUGONGOLWENI)"
+    "name": "Siteki Town (Lugongolweni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "24000",
-    "name": "Manzini (MANZINI)"
+    "name": "Manzini (Manzini)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "400000",
-    "name": "Hluti (SHISELWENI 1)"
+    "name": "Hluti (Shiselweni 1)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "200000_201000",
-    "name": "Gucuka (MAPHALALENI)"
+    "name": "Gucuka (Maphalaleni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "473000_474000",
-    "name": "Ka-Ngcamphalala (SITHOBELA)"
+    "name": "Ka-Ngcamphalala (Sithobela)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "62000",
-    "name": "Ngwempisi (NGWEMPISI)"
+    "name": "Ngwempisi (Ngwempisi)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "61000",
-    "name": "Bhadzeni (NGWEMPISI)"
+    "name": "Bhadzeni (Ngwempisi)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "341000",
-    "name": "Mbelebeleni (SANDLENI)"
+    "name": "Mbelebeleni (Sandleni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "393000_394000",
-    "name": "Ko-Ntjingila (MTSAMBAMA)"
+    "name": "Ko-Ntjingila (Mtsambama)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "53000",
-    "name": "Mahlanya (MAHLANYA)"
+    "name": "Mahlanya (Mahlanya)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "228000",
-    "name": "Mbabane (MBABANE)"
+    "name": "Mbabane (Mbabane)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "175000",
-    "name": "Nkhaba (NKABA)"
+    "name": "Nkhaba (Nkaba)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "257000",
-    "name": "Luhlangotsini (PIGG'S PEAK)"
+    "name": "Luhlangotsini (Pigg'S PEAK)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "480000",
-    "name": "Big- Bend (NKILONGO)"
+    "name": "Big- Bend (Nkilongo)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "492000",
-    "name": "Nceka (SITHOBELA)"
+    "name": "Nceka (Sithobela)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "98000",
-    "name": "Bhahwini (MAHLANGATJA)"
+    "name": "Bhahwini (Mahlangatja)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "127000",
-    "name": "Ngculwini (MTHONGWANENI)"
+    "name": "Ngculwini (Mthongwaneni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "63000_64000_389000",
-    "name": "Bhadzeni (MANGCONGCO)"
+    "name": "Bhadzeni (Mangcongco)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "443000",
-    "name": "Mbabane (MBABANE)"
+    "name": "Mbabane (Mbabane)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "378000",
-    "name": "Zombodze (ZOMBODZE)"
+    "name": "Zombodze (Zombodze)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "390000_512000",
-    "name": "Ko-Ntjingila (MTSAMBAMA)"
+    "name": "Ko-Ntjingila (Mtsambama)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "15000",
-    "name": "Manzini (MANZINI)"
+    "name": "Manzini (Manzini)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "101000",
-    "name": "Sigcineni (MAHLANGATJA)"
+    "name": "Sigcineni (Mahlangatja)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "99000_100000",
-    "name": "Ngcoseni (NGWEMPISI)"
+    "name": "Ngcoseni (Ngwempisi)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "20000",
-    "name": "Manzini (MANZINI)"
+    "name": "Manzini (Manzini)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "183000",
-    "name": "Mashobeni (TIMPISINI)"
+    "name": "Mashobeni (Timpisini)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "468000",
-    "name": "Maloma (SITHOBELA)"
+    "name": "Maloma (Sithobela)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "128000",
-    "name": "Ngculwini (MAFUTSENI)"
+    "name": "Ngculwini (Mafutseni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "328000_329000",
-    "name": "Mlindazwe (MATSANJENI)"
+    "name": "Mlindazwe (Matsanjeni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "281000_282000",
-    "name": "Mbangweni (MBANGWENI)"
+    "name": "Mbangweni (Mbangweni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "106000",
-    "name": "Mahlangatja (MAHLANGATJA)"
+    "name": "Mahlangatja (Mahlangatja)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "34000",
-    "name": "Matsapha (KWALUSENI)"
+    "name": "Matsapha (Kwaluseni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "444000",
-    "name": "Pigg's Peak (PIGG'S PEAK)"
+    "name": "Pigg's Peak (Pigg'S PEAK)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "222000",
-    "name": "Ezulwini (LOBAMBA)"
+    "name": "Ezulwini (Lobamba)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "246000",
-    "name": "Mahamba (MASEYISINI)"
+    "name": "Mahamba (Maseyisini)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "246000",
-    "name": "Mahamba (MASEYISINI)"
+    "name": "Mahamba (Maseyisini)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "185000_231000_232000_253000_254000",
-    "name": "Ndlalambi (MAYIWANE)"
+    "name": "Ndlalambi (Mayiwane)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "185000_231000_232000_253000_254000",
-    "name": "Ndlalambi (MAYIWANE)"
+    "name": "Ndlalambi (Mayiwane)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "81000",
-    "name": "Makhungutsha (NGWEMPISI)"
+    "name": "Makhungutsha (Ngwempisi)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "81000",
-    "name": "Makhungutsha (NGWEMPISI)"
+    "name": "Makhungutsha (Ngwempisi)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "374000",
-    "name": "Lucolweni (SANDLENI)"
+    "name": "Lucolweni (Sandleni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "392000",
-    "name": "Buseleni (NKWENE)"
+    "name": "Buseleni (Nkwene)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "374000",
-    "name": "Lucolweni (SANDLENI)"
+    "name": "Lucolweni (Sandleni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "452000_460000_461000",
-    "name": "Nqandweni (LUBULI)"
+    "name": "Nqandweni (Lubuli)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "452000_460000_461000",
-    "name": "Nqandweni (LUBULI)"
+    "name": "Nqandweni (Lubuli)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "216000",
-    "name": "Maphalaleni (MAPHALALENI)"
+    "name": "Maphalaleni (Maphalaleni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "216000",
-    "name": "Maphalaleni (MAPHALALENI)"
+    "name": "Maphalaleni (Maphalaleni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "475000",
-    "name": "Gucuka (SITHOBELA)"
+    "name": "Gucuka (Sithobela)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "475000",
-    "name": "Gucuka (SITHOBELA)"
+    "name": "Gucuka (Sithobela)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "388000_510000",
-    "name": "Ko-Ntjingila (MTSAMBAMA)"
+    "name": "Ko-Ntjingila (Mtsambama)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "388000_510000",
-    "name": "Ko-Ntjingila (MTSAMBAMA)"
+    "name": "Ko-Ntjingila (Mtsambama)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "39000_40000_431000_432000",
-    "name": "Elwandle (MTHONGWANENI)"
+    "name": "Elwandle (Mthongwaneni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "184000_186000_187000",
-    "name": "Ndlalambi (TIMPISINI)"
+    "name": "Ndlalambi (Timpisini)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "39000_40000_431000_432000",
-    "name": "Malindza (HLANE)"
+    "name": "Malindza (Hlane)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "375000",
-    "name": "Lucolweni (HOSEA)"
+    "name": "Lucolweni (Hosea)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "375000",
-    "name": "Lucolweni (HOSEA)"
+    "name": "Lucolweni (Hosea)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "304000",
-    "name": "Ntjanini (NGUDZENI)"
+    "name": "Ntjanini (Ngudzeni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "304000",
-    "name": "Ntjanini (NGUDZENI)"
+    "name": "Ntjanini (Ngudzeni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "218000",
-    "name": "Ezulwini (LOBAMBA)"
+    "name": "Ezulwini (Lobamba)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "498000",
-    "name": "Mbabane (MBABANE)"
+    "name": "Mbabane (Mbabane)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "22000",
-    "name": "Manzini (MANZINI)"
+    "name": "Manzini (Manzini)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "426000_427000",
-    "name": "Tshaneni (MHLUME)"
+    "name": "Tshaneni (Mhlume)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "286000",
-    "name": "Mhlosheni (ZOMBODZE)"
+    "name": "Mhlosheni (Zombodze)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "3000_176000",
-    "name": "Mantjolo (NKABA)"
+    "name": "Mantjolo (Nkaba)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "234000",
-    "name": "Mahlangatsha (GEGE)"
+    "name": "Mahlangatsha (Gege)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "78000",
-    "name": "Mankayane (MAHLANGATJA)"
+    "name": "Mankayane (Mahlangatja)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "118000",
-    "name": "Luve (MKHIWENI)"
+    "name": "Luve (Mkhiweni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "131000",
-    "name": "Ngculwini (MTHONGWANENI)"
+    "name": "Ngculwini (Mthongwaneni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "496000",
-    "name": "Sithobela (SITHOBELA)"
+    "name": "Sithobela (Sithobela)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "58000",
-    "name": "Ka-Ndinda (NTONDOZI)"
+    "name": "Ka-Ndinda (Ntondozi)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "68000_69000",
-    "name": "Maliyaduma (KUKHANYENI)"
+    "name": "Maliyaduma (Kukhanyeni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "406000",
-    "name": "Mpholonjeni (MPOLONJENI)"
+    "name": "Mpholonjeni (Mpolonjeni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "283000_284000_285000",
-    "name": "Mthombe (SANDLENI)"
+    "name": "Mthombe (Sandleni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "441000",
-    "name": "Tsambokhulu (LOMAHASHA)"
+    "name": "Tsambokhulu (Lomahasha)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "145000",
-    "name": "Motjane (MOTJANE)"
+    "name": "Motjane (Motjane)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "120000",
-    "name": "Luve (MKHIWENI)"
+    "name": "Luve (Mkhiweni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "434000",
-    "name": "Mdumezulu (DVOKODVWENI)"
+    "name": "Mdumezulu (Dvokodvweni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "252000_255000_505000_506000",
-    "name": "Ndlalambi (MAYIWANE)"
+    "name": "Ndlalambi (Mayiwane)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "467000_469000",
-    "name": "Maloma (SIGWE)"
+    "name": "Maloma (Sigwe)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "367000",
-    "name": "Maphungwane (MPOLONJENI)"
+    "name": "Maphungwane (Mpolonjeni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "12000_140000",
-    "name": "Mafutseni (MAFUTSENI)"
+    "name": "Mafutseni (Mafutseni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "104000",
-    "name": "Mgazini (NGWEMPISI)"
+    "name": "Mgazini (Ngwempisi)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "287000_288000",
-    "name": "Makhosini (MBANGWENI)"
+    "name": "Makhosini (Mbangweni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "158000",
-    "name": "Ekupheleni (MOTJANE)"
+    "name": "Ekupheleni (Motjane)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "240000_241000_242000",
-    "name": "Mkhitsini (MTSAMBAMA)"
+    "name": "Mkhitsini (Mtsambama)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "109000",
-    "name": "Lushikishini (NGWEMPISI)"
+    "name": "Lushikishini (Ngwempisi)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "103000_318000_319000",
-    "name": "Mgazini (NGWEMPISI)"
+    "name": "Mgazini (Ngwempisi)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "43000",
-    "name": "Mbekelweni (LUDZELUDZE)"
+    "name": "Mbekelweni (Ludzeludze)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "326000_327000",
-    "name": "Hluti (HOSEA)"
+    "name": "Hluti (Hosea)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "204000",
-    "name": "Mgungundlovu (NDZINGENI)"
+    "name": "Mgungundlovu (Ndzingeni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "395000_508000_514000",
-    "name": "Hlatikulu (MTSAMBAMA)"
+    "name": "Hlatikulu (Mtsambama)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "420000",
-    "name": "Shewula (LOMAHASHA)"
+    "name": "Shewula (Lomahasha)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "292000",
-    "name": "Zombodze (ZOMBODZE)"
+    "name": "Zombodze (Zombodze)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "125000",
-    "name": "Mafutseni (MAFUTSENI)"
+    "name": "Mafutseni (Mafutseni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "129000_130000",
-    "name": "Ngculwini (MAFUTSENI)"
+    "name": "Ngculwini (Mafutseni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "70000",
-    "name": "Nkiliji (KUKHANYENI)"
+    "name": "Nkiliji (Kukhanyeni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "306000_307000",
-    "name": "Lulakeni (SIGWE)"
+    "name": "Lulakeni (Sigwe)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "6000_248000_462000_463000",
-    "name": "Dvokolwako (MADLANGAMPISI)"
+    "name": "Dvokolwako (Madlangampisi)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "454000_455000_456000",
-    "name": "Lulakeni (SIGWE)"
+    "name": "Lulakeni (Sigwe)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "335000_336000",
-    "name": "Mahamba (GEGE)"
+    "name": "Mahamba (Gege)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "351000",
-    "name": "Maphungwane (MPOLONJENI)"
+    "name": "Maphungwane (Mpolonjeni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "32000_33000",
-    "name": "Manzini (LUDZELUDZE)"
+    "name": "Manzini (Ludzeludze)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "156000_157000",
-    "name": "Sigangeni (MOTJANE)"
+    "name": "Sigangeni (Motjane)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "356000",
-    "name": "Lubuli (LUBULI)"
+    "name": "Lubuli (Lubuli)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "352000_353000_354000",
-    "name": "Maphungwane (MPOLONJENI)"
+    "name": "Maphungwane (Mpolonjeni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "182000",
-    "name": "Emvembili (TIMPISINI)"
+    "name": "Emvembili (Timpisini)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "48000",
-    "name": "Maliyaduma (KUKHANYENI)"
+    "name": "Maliyaduma (Kukhanyeni)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "295000",
-    "name": "Makhosini (MASEYISINI)"
+    "name": "Makhosini (Maseyisini)"
   },
   {
-    "category": "SHISELWENI",
+    "category": "Shiselweni",
     "id": "305000",
-    "name": "Ntjanini (SIGWE)"
+    "name": "Ntjanini (Sigwe)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "137000_138000",
-    "name": "Dvokolwako (MKHIWENI)"
+    "name": "Dvokolwako (Mkhiweni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "421000_515000",
-    "name": "Mlawula (LUGONGOLWENI)"
+    "name": "Mlawula (Lugongolweni)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "489000",
-    "name": "Bulunga (SIPHOFANENI)"
+    "name": "Bulunga (Siphofaneni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "143000_144000",
-    "name": "Motjane (PIGG'S PEAK)"
+    "name": "Motjane (Pigg'S PEAK)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "25000_27000",
-    "name": "Matsapha (KWALUSENI)"
+    "name": "Matsapha (Kwaluseni)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "177000",
-    "name": "Mondi (PIGG'S PEAK)"
+    "name": "Mondi (Pigg'S PEAK)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "363000",
-    "name": "Big- Bend (NKILONGO)"
+    "name": "Big- Bend (Nkilongo)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "493000_494000",
-    "name": "Sithobela (KUBUTA)"
+    "name": "Sithobela (Kubuta)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "51000",
-    "name": "Bethany (MAHLANYA)"
+    "name": "Bethany (Mahlanya)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "453000",
-    "name": "Ka-Mamba (SITHOBELA)"
+    "name": "Ka-Mamba (Sithobela)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "446000",
-    "name": "Mbabane (MBABANE)"
+    "name": "Mbabane (Mbabane)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "102000",
-    "name": "Lushikishini (NGWEMPISI)"
+    "name": "Lushikishini (Ngwempisi)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "224000_225000",
-    "name": "Malagwane (MBABANE)"
+    "name": "Malagwane (Mbabane)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "107000",
-    "name": "Lundzi (MANGCONGCO)"
+    "name": "Lundzi (Mangcongco)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "113000_114000",
-    "name": "Ka-Khuphuka (MKHIWENI)"
+    "name": "Ka-Khuphuka (Mkhiweni)"
   },
   {
-    "category": "MANZINI",
+    "category": "Manzini",
     "id": "16000_17000_18000",
-    "name": "Manzini (MANZINI)"
+    "name": "Manzini (Manzini)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "349000",
-    "name": "Maphungwane (TIKHUBA)"
+    "name": "Maphungwane (Tikhuba)"
   },
   {
-    "category": "HHOHHO",
+    "category": "Hhohho",
     "id": "164000_165000",
-    "name": "Ejubukweni (NKABA)"
+    "name": "Ejubukweni (Nkaba)"
   },
   {
-    "category": "LUBOMBO",
+    "category": "Lubombo",
     "id": "438000_464000",
-    "name": "Lomahasha (LOMAHASHA)"
+    "name": "Lomahasha (Lomahasha)"
   }
 ]

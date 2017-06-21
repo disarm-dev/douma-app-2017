@@ -1,0 +1,29 @@
+- title: What is DiSARM?
+  content: >
+    DiSARM is the Disease Surveillance And Risk Monitoring platform.
+    Find out more at <a href='http://www.disarm.io'>disarm.io</a>
+
+- title: Log-in
+  image: login.png
+  content: Enter your username and password, Just click login.
+
+- title: Log-out
+  image: logout.png
+  content: >
+    Just click logout on the sidebar.
+    Note that if you somehow logout when you are offline, you won't be able to use DiSARM again until you login
+    (which you can only do if you're online).
+
+- title: I've lost my password
+  content: Please ask someone.
+
+- title: What is my username or password?
+  content: If you don't have these, please ask the person who set up DiSARM for you.
+
+- title: How can I report if something is broken?
+  content: Please send an email to <a href='mailto://help@disarm.io'>help@disarm.io</a> to get help.
+  
+- title: Offline functionality
+  content: Offline functionality is primarily designed to work for the IRS Record componenent, which allows users to collect data out in the field offline. 
+           Other parts of the application may work offline, however these are not fully functional.
+

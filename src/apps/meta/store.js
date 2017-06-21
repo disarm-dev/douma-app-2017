@@ -1,4 +1,4 @@
-import {authenticate} from '../../lib/data/remote'
+import {authenticate} from 'lib/data/remote'
 
 export default {
   namespaced: true,
@@ -34,11 +34,15 @@ export default {
           return Promise.reject(response)
         }
 
-        let authenticated_user = response
-        authenticated_user.version = COMMIT_HASH
-        context.commit('set_user', authenticated_user)
-        
-        return Promise.resolve(authenticated_user)
+        if (response.country === context.rootState.instance_config.slug || response.country === 'all') {
+          let authenticated_user = response
+          authenticated_user.version = COMMIT_HASH
+          context.commit('set_user', authenticated_user)
+
+          return Promise.resolve(authenticated_user)
+        } else {
+          return Promise.reject('User not authenticated for this instance')
+        }
       })
     },
     logout: (context) => {

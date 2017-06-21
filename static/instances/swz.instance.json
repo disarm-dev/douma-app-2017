@@ -1,6 +1,10 @@
 {
   "applets": {
     "irs_monitor": {
+      "aggregations": {
+        "map": "structures sprayed %",
+        "table": ["structures sprayed", "structures sprayed %"]
+      },
       "components": [
         {
           "height_constraint": "none",
@@ -29,7 +33,7 @@
         }
       ]
     },
-    "irs_plan": {},
+    "irs_plan": {}
     "irs_record_point": {},
     "meta": {}
   },
@@ -45,9 +49,7 @@
   "spatial_hierarchy": [
     {
       "denominator": {
-        "fields": {
-          "number_of_structures": "NmStrct"
-        }
+        "number_of_structures": "NmStrct"
       },
       "field_name": "AggUniCode",
       "name": "localities"

@@ -1,6 +1,10 @@
 {
   "applets": {
     "irs_monitor": {
+      "aggregations": {
+        "map": "number of rooms sprayed (total)",
+        "table": ["number of rooms sprayed (total)"]
+      },
       "components": [
         {
           "height_constraint": "none",
@@ -36,9 +40,7 @@
   "spatial_hierarchy": [
     {
       "denominator": {
-        "fields": {
-          "number_of_structures": "NmStrct"
-        }
+        "number_of_structures": "NmStrct"
       },
       "field_name": "OBJECTID",
       "name": "villages"

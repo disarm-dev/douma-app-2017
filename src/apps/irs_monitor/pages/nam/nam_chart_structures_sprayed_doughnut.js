@@ -7,7 +7,7 @@ export default Doughnut.extend({
       datasets: [
         {
           backgroundColor: "#33691E",
-          data: [22, 2, 66],
+          data: [22, 5, 40],
           backgroundColor: [
                 "#8BC34A",
                 "#FF9800",
@@ -23,7 +23,7 @@ export default Doughnut.extend({
     }, {
       title: {
         display: true,
-        text: ""
+        text: "Refusal reason"
       }
     })
   }
