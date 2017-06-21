@@ -10,7 +10,6 @@
 </template>
 
 <script>
-  import mapboxgl from 'mapbox-gl'
   import {featureCollection} from '@turf/helpers'
   import bbox from '@turf/bbox'
   import chroma from 'chroma-js'

@@ -1,3 +1,5 @@
+import mapboxgl from 'mapbox-gl'
+
 const basic_map = (store) => {
   const map = new mapboxgl.Map({
     container: 'map',
