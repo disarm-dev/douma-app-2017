@@ -37,45 +37,4 @@ describe('location.vue', () => {
   it('should be able to find geolocation in navigator', () => {
     assert.isTrue("geolocation" in navigator)
   })
-
-  it('should set position if position found', () => {
-    const vm = new Constructor().$mount()
-    const coords = {latitude: 2, longitude: 2}
-    geolocate.send(coords)
-    assert.equal(vm.position.coords.latitude, coords.latitude)
-    assert.equal(vm.position.coords.longitude, coords.longitude)
-  })
-
-  it('should display coordinates if position found', (done) => {
-    const vm = new Constructor().$mount()
-    const coords = {latitude: 2, longitude: 2}
-    assert.equal(vm.$el.querySelector('p').style.display, 'none')
-    geolocate.send(coords)
-    Vue.nextTick(() => {
-      var expected_text = coords.latitude + ', ' + coords.longitude
-      assert.equal(vm.$el.querySelector('p').style.display, '')
-      assert.equal(vm.$el.querySelector('p').textContent, expected_text)
-      done()
-    })
-  })
-
-  it('should set and return `existing_location` if passed in', (done) => {
-    let existing_location = {
-      coords: {
-        latitude: -26.3,
-        longitude: 31.1,
-      }
-    }
-
-    const vm = new Constructor({propsData: {existing_location}}).$mount()
-
-    Vue.nextTick(() => {
-      var expected_text = existing_location.coords.latitude + ', ' + existing_location.coords.longitude
-      assert.equal(vm.position.coords.latitude, existing_location.coords.latitude)
-      assert.equal(vm.position.coords.longitude, existing_location.coords.longitude)
-
-      assert.equal(vm.$el.querySelector('p').textContent, expected_text)
-      done()
-    })
-  })
 })
