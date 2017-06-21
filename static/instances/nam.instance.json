@@ -13,9 +13,7 @@
         }
       ]
     },
-    "irs_plan": {
-      "number_of_households": "NmHshld"
-    },
+    "irs_plan": {},
     "irs_record_point": {},
     "meta": {}
   },

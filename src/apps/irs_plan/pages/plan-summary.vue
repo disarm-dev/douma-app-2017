@@ -47,7 +47,11 @@
         slug: state => state.instance_config.slug,
         denominator: state => state.instance_config.denominator,
         field_name: state => state.instance_config.spatial_hierarchy[0].field_name,
-        structures_field_name: state => state.instance_config.applets.irs_plan.number_of_structures,
+        structures_field_name: (state) => {
+          let hierarchy = state.instance_config.spatial_hierarchy.find(sp => sp.hasOwnProperty('denominator'))
+          let key = Object.keys(hierarchy.denominator)[0]
+          return hierarchy.denominator[key]
+        }
       }),
       ...mapGetters({
         selected_target_area_ids: 'irs_plan/all_selected_area_ids'
