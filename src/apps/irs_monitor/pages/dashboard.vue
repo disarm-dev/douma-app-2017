@@ -7,9 +7,9 @@
       <md-card class="card">
         <md-card-content>
           <p>{{filtered_responses.length}} record{{filtered_responses.length === 1 ? '' : 's' }}</p>
+          <p>Last updated: {{responses_last_updated_at}}</p>
           <md-button class="md-raised md-primary" @click.native="refresh_data" :disabled="loading">Refresh data</md-button>
           <md-button class="md-raised md-primary" @click.native="download_responses" :disabled="loading || !filtered_responses.length">Download responses</md-button>
-          <p>Last updated: {{responses_last_updated_at}}</p>
         </md-card-content>
       </md-card>
 
@@ -173,6 +173,7 @@
       },
     },
     created() {
+      this.refresh_data()
     },
     mounted() {
     },
