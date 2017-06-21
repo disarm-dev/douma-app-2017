@@ -53,22 +53,13 @@
             @change='on_location_change'
             :initial_location='initial_response.location'
           ></location_record>
-
-          <md-card-header>
-            <div>2. Select nearest location</div>
-          </md-card-header>
-
-          <multiselect
-            v-model="fake_location_selection"
-            @select="on_location_selection_selected"
-            :options="location_options"
-            group-values="locations"
-            group-label="category"
-            placeholder="Alternative location search"
-            track-by="id"
-            label="name">
-            <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
-          </multiselect>
+        
+        <location_selection
+          @change="on_location_selection_selected"
+          :initial_location_selection="initial_response.location_selection"
+        >
+        </location_selection>
+          
         </md-card-content>
         <md-card-actions>
           <md-button @click.native="show_location = false">Hide</md-button>
@@ -95,24 +86,19 @@
 
 <script>
   import location_record from 'components/location.vue'
+  import location_selection from './location_selection'
   import review from './review.vue'
   import form_renderer from './form.vue'
   import {Validator} from 'lib_instances/validations'
   import {Response} from 'lib/models/response.model'
-  import array_unique from 'array-unique'
-
-  import Multiselect from 'vue-multiselect'
-  import 'vue-multiselect/dist/vue-multiselect.min.css'
 
   export default {
-
     name: 'Record',
-    components: {location_record, form_renderer, review, Multiselect},
+    components: {location_record, form_renderer, review, location_selection},
     props: ['response_id'],
     data () {
       return {
         _validator: null,
-        fake_location_selection: null,
 
         response: {
           location_selection: {},
@@ -137,28 +123,7 @@
       'validation_length': 'shake_validations'
     },
     computed: {
-      location_options() {
-        const raw = this.$store.state.instance_config.location
-
-        const categories = array_unique(raw.map(r => r.category)).sort()
-
-        const nested = categories.map(category => {
-          const matches = raw
-            .filter(r => r.category === category)
-            .map(r => {
-              return {
-                name: r.name,
-                id: r.id
-              }
-            })
-          return {
-            category,
-            locations: matches
-          }
-        })
-
-        return nested
-      },
+      
       user_name() {
         return this.$store.state.meta.user.name
       },
