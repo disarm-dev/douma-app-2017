@@ -8,7 +8,7 @@
       <md-button class='md-warn' v-if="is_location" @click.native="$emit('show_location')">Fix location</md-button>
 
       <!-- Show questions where there are questions-->
-      <md-list-expand v-if="questions">
+      <md-list-expand v-if="!is_location">
         <md-list>
           <md-list-item
             @click.native="go_to_page_for(question_name)"
