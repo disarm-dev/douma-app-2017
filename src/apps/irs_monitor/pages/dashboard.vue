@@ -37,11 +37,11 @@
 
       <!-- STATIC-DATA CHARTS, etc -->
       <h2>Charts below use static data only</h2>
-      <md-card 
-        v-for="component in components" 
-        :key="component.name" 
-        class="card" 
-        :ref="component.name" 
+      <md-card
+        v-for="component in components"
+        :key="component.name"
+        class="card"
+        :ref="component.name"
         :class="{'card-half-width': component.width_constraint == 'half'}">
         <md-card-content>
           <component
