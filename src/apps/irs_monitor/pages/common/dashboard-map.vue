@@ -15,6 +15,7 @@
   import bbox from '@turf/bbox'
   import chroma from 'chroma-js'
 
+  import {basic_map} from 'lib/basic_map.js'
   import Presenters from 'lib_instances/presenters'
   import {get_geodata_area} from 'lib/data/remote'
   import logscale from 'lib/log_scale.js'
@@ -50,20 +51,12 @@
     },
     methods: {
       create_map() {
-        this._map = new mapboxgl.Map({
-          container: 'map',
-          style: 'mapbox://styles/mapbox/light-v9',
-          center: [22.63977015806131, -25.276453102086563],
-          zoom: 4
-        });
+        this._map = basic_map(this.$store)
 
         this._map.on('load', () => {
           this.load_geodata()
         })
 
-        this._map.on('error', (e) => {
-          this.$store.commit('root:set_snackbar', {message: 'Problem loading basemap'})
-        })
       },
       clear_map() {
         ['areas_by_coverage', 'areas_by_risk'].forEach((id) => {
