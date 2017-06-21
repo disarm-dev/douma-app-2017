@@ -9,6 +9,7 @@
     <div v-if="online">
       <!--SELECT MODE-->
       <md-checkbox v-model="edit_mode" :disabled="edit_disabled">Edit mode</md-checkbox>
+      <md-checkbox :disabled='!geodata_ready || edit_mode' v-model="risk_visible">Show risk</md-checkbox>
 
       <!--VIEW MODE-->
       <md-button v-if='!edit_mode' :disabled='!geodata_ready' class='md-raised' @click.native="load_plan">Load from remote</md-button>
@@ -21,7 +22,12 @@
       <!--PLAN MAP-->
       <md-card>
         <md-card-content>
-          <plan_map :geodata_ready="geodata_ready" :edit_mode="edit_mode" v-on:map_loaded="edit_disabled = false"></plan_map>
+          <plan_map 
+            :geodata_ready="geodata_ready" 
+            :edit_mode="edit_mode" 
+            :risk_visible="risk_visible" 
+            v-on:map_loaded="edit_disabled = false" 
+          ></plan_map>
         </md-card-content>
       </md-card>
 
@@ -68,6 +74,7 @@
         geodata_ready: false,
         edit_mode: false,
         edit_disabled: true,
+        risk_visible: false
       }
     },
     computed: {
@@ -94,6 +101,9 @@
       can_clear() {
         return this.selected_target_area_ids.length !== 0
       }
+    },
+    watch: {
+      'edit_mode': 'disable_risk_in_edit_mode'
     },
     mounted() {
       this.load_geo_data()
@@ -154,6 +164,11 @@
       },
       clear_plan() {
         this.$store.commit('irs_plan/clear_plan')
+      },
+      disable_risk_in_edit_mode() {
+        if (this.edit_mode) {
+          this.risk_visible = false
+        }
       }
     }
   }

@@ -5,7 +5,6 @@
     <input  id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value">
     </div>
     <md-checkbox :disabled='!geodata_ready || clusters_disabled' v-model="clusters_visible">Show clusters</md-checkbox>
-    <md-checkbox :disabled='!geodata_ready' v-model="risk_visible">Show risk</md-checkbox>
     <div id="map"></div>
   </div>
 </template>
@@ -27,7 +26,7 @@
 
   export default {
     name: 'plan_map',
-    props: ['edit_mode', 'geodata_ready'],
+    props: ['edit_mode', 'geodata_ready', 'risk_visible'],
     data() {
       return {
         slider: {
@@ -38,7 +37,6 @@
         risk_slider_value: 0,
         logslider: null,
 
-        risk_visible: false,
         clusters_disabled: true, // Before map_loaded
         clusters_visible: false,
         user_map_focus: false,
