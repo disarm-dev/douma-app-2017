@@ -97,6 +97,7 @@
     },
     mounted() {
       this.load_geo_data()
+      this.load_plan()
     },
     methods: {
       load_geo_data() {
