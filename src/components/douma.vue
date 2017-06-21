@@ -122,7 +122,7 @@
 
 <script>
   import BreadCrumbs from './breadCrumbs.vue'
-  import generate_applet_routes from '../lib/applet_routes.js'
+  import generate_applet_routes from 'lib/applet_routes.js'
   import help from 'components/help.vue'
 
   export default {

@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import create_router from '../router'
 import register_applets from './applets'
-import DoumaComponent from '../components/douma.vue'
+import DoumaComponent from 'components/douma.vue'
 import create_store from '../store'
 
 import {configure_analytics, configure_common_properties} from 'config/analytics'

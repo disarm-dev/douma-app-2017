@@ -18,7 +18,7 @@
 </template>
 
 <script>
-  import {elements_array}from '../../../lib/form_helpers'
+  import {elements_array}from 'lib/form_helpers'
 
   export default {
     name: 'debug',
