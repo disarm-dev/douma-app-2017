@@ -26,10 +26,6 @@
       :md-page-options="[5, 10, 25, 50]"
       @pagination="onPagination"></md-table-pagination>
 
-
-
-
-
     <md-button @click.native="download_content">Download</md-button>
   </div>
 </template>
