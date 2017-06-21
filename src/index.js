@@ -24,8 +24,6 @@ configure_error_tracking()
 // LAUNCH
 instance_config()
   .then(instance_config => {
-    configure_themes()
-
     const douma_app = configure_application(instance_config)
 
     // ServiceWorker
