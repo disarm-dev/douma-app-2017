@@ -28,7 +28,7 @@
     <md-sidenav class="md-left" ref="sideNav">
       <md-toolbar class="md-medium">
         <div class="md-toolbar-container">
-          <h3>Country: {{$store.state.instance_config.name}}</h3>
+          <h3>{{$store.state.instance_config.name}}</h3>
         </div>
 
         <!--Status/top of sidebar: LOGGED-IN-->
