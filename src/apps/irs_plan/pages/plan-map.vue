@@ -120,8 +120,10 @@
         }
       },
       remove_map_listeners() {
-        if (this._map.listens('click') && this.handler.click) this._map.off('click', this.handler.click)
-        if (this._map.listens('mousemove') && this.handler.move) this._map.off('mousemove', this.handler.move)
+        if (this._map) {
+          if (this._map.listens('click') && this.handler.click) this._map.off('click', this.handler.click)
+          if (this._map.listens('mousemove') && this.handler.move) this._map.off('mousemove', this.handler.move)
+        }
       },
       add_map_listeners() {
         this.remove_map_listeners()
@@ -148,12 +150,12 @@
       },
       manage_map_mode() {
         // Check if you're in editing mode
-        if(!this.edit_mode && this._map && this._map.loaded()) {
-          this.remove_map_listeners()
-          this.remove_draw_controls()
-        } else {
+        if(this.edit_mode) {
           this.add_map_listeners()
           this.add_draw_controls()
+        } else {
+          this.remove_map_listeners()
+          this.remove_draw_controls()
         }
       },
 
@@ -278,25 +280,27 @@
 
       // Draw controls
       add_draw_controls () {
-        const options = {
-          boxSelect: false,
-          keyBindings: false,
-          displayControlsDefault: false,
-          controls: {
-            polygon: true
+        if (this._map) {
+          const options = {
+            boxSelect: false,
+            keyBindings: false,
+            displayControlsDefault: false,
+            controls: {
+              polygon: true
+            }
           }
+          this.draw = new MapboxDraw(options)
+
+          this._map.on('draw.create', (e) => {
+            this.finish_drawing(e.features)
+          })
+
+          this._map.on('draw.modechange', (e) => {
+            if(e.mode === 'draw_polygon') this.remove_map_listeners()
+          })
+
+          this._map.addControl(this.draw)
         }
-        this.draw = new MapboxDraw(options)
-
-        this._map.on('draw.create', (e) => {
-          this.finish_drawing(e.features)
-        })
-
-        this._map.on('draw.modechange', (e) => {
-          if(e.mode === 'draw_polygon') this.remove_map_listeners()
-        })
-
-        this._map.addControl(this.draw)
       },
       remove_draw_controls () {
         if (this.draw) {
