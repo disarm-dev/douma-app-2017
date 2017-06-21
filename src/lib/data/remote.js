@@ -95,11 +95,11 @@ export const get_all_records = (country) => {
   return standard_handler(url)
 }
 
-export const create_record = (record) => {
-  let url = douma_api_root + `/record/create`
+export const create_records = (records) => {
+  let url = douma_api_root + `/record/create_multiple`
 
   let options = {
-    data: record,
+    data: records,
     method: 'post'
   }
 

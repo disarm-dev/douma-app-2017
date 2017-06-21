@@ -57,21 +57,24 @@
       sync() {
         this.$store.commit('root:set_loading', true)
         this.syncing = true
-        Promise.all(
 
-          this.responses.filter(r => r.synced === false).map((response) => {
-            return this.$store.dispatch('irs_record_point/create_record', response).then((res) => {
+        let responses_to_sync = this.responses.filter(r => !r.synced)
+
+        this.$store.dispatch('irs_record_point/create_records', responses_to_sync)
+          .then(() => {
+            responses_to_sync.forEach((response) => {
               response.synced = true
               this.$store.commit('irs_record_point/update_response', response)
             })
+
+            this.$store.commit('root:set_loading', false)
+            this.syncing = false
+            this.$store.commit('root:set_snackbar', {message: 'Successfully synced responses'})
           })
-        )
-        .then(() => {
-          this.syncing = false
-          this.$store.commit('root:set_loading', false)
-          this.$store.commit('root:set_snackbar', {message: 'Successfully synced responses'})
-        })
-        .catch(() => this.$store.commit('root:set_loading', false))
+          .catch(() => {
+            this.$store.commit('root:set_loading', false)
+            this.syncing = false
+          })
       },
       clear_synced_responses() {
         this.$store.dispatch('irs_record_point/clear_synced_responses')
