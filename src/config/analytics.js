@@ -3,21 +3,21 @@ import Vue from 'vue'
 import VueAnalytics from 'vue-analytics'
 
 const configure_analytics = (router) => {
-  if (DOUMA_DEV_MODE) {
-    const fake_plugin = {
-      install(Vue, options) {
-        Vue.prototype.$ga = {
-          event() {},
-          set() {}
-        }
-      }
-    }
-    Vue.use(fake_plugin)
-  } else {
+  if (DOUMA_PRODUCTION_MODE) {
     Vue.use(VueAnalytics, {
       id: 'UA-88844641-2',
       router
     })
+  } else {
+    const fake_plugin = {
+      install(Vue, options) {
+        Vue.prototype.$ga = {
+          event() {},
+          set() { }
+        }
+      }
+    }
+    Vue.use(fake_plugin)
   }
 }
 
