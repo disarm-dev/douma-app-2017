@@ -7,7 +7,6 @@ import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 // Imports
 import Vue from 'vue'
 import configure_error_tracking from './config/error-tracking.js'
-import configure_themes from './config/theme'
 import configure_service_worker from './config/service-worker-client'
 import {instance_config} from './lib/router-helper.js'
 import add_network_status_watcher from './lib/network-status.js'
