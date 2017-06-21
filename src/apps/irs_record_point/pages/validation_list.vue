@@ -1,5 +1,5 @@
 <template>
-    <md-list>
+  <md-list>
     <md-list-item v-for="{message, name, questions, is_location} in messages" :key="name">
       <!-- Show message for everything-->
       <span>{{message}}</span>
