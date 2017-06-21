@@ -60,6 +60,10 @@
         this._map.on('load', () => {
           this.load_geodata()
         })
+
+        this._map.on('error', (e) => {
+          this.$store.commit('root:set_snackbar', {message: 'Problem loading basemap'})
+        })
       },
       clear_map() {
         ['areas_by_coverage', 'areas_by_risk'].forEach((id) => {
