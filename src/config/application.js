@@ -1,8 +1,27 @@
 import Vue from 'vue'
 
+// Components
+import {ClientTable} from 'vue-tables-2'
+Vue.use(ClientTable)
+import VueTouch from 'vue-touch'
+Vue.use(VueTouch)
+
+// VueMaterial
+import VueMaterial from 'vue-material'
+Vue.use(VueMaterial)
+import 'vue-material/dist/vue-material.css'
+
+Vue.material.registerTheme({
+  default: {
+    primary: 'blue',
+    accent: 'pink'
+  }
+})
+
+
 import create_router from '../router'
 import register_applets from './applets'
-import DoumaComponent from '../components/douma.vue'
+import DoumaComponent from 'components/douma.vue'
 import create_store from '../store'
 
 import {configure_analytics, configure_common_properties} from 'config/analytics'

@@ -1,7 +1,7 @@
 import {Line, mixins} from 'vue-chartjs'
 import moment from 'moment'
 
-import aggregations from 'lib/aggregations/bwa.aggregations'
+import aggregations from 'lib_instances/aggregations/bwa.aggregations'
 
 export default Line.extend({
   props: ['responses', 'denominator'],

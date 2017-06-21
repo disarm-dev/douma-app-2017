@@ -3,7 +3,9 @@
 //
 
 export default (DOUMA) => {
-  if ('serviceWorker' in navigator) {
+  if (!DOUMA_PRODUCTION_MODE) return console.warn("DOUMA ServiceWorker disabled in development")
+
+  if (DOUMA_PRODUCTION_MODE && 'serviceWorker' in navigator) {
     navigator.serviceWorker.register('/service-worker.js').then(function(reg) {
       reg.onupdatefound = function() {
         var installingWorker = reg.installing;
@@ -50,7 +52,5 @@ export default (DOUMA) => {
         }
       });
     });
-  } else {
-    console.warn("DOUMA ServiceWorker disabled by development flags")
   }
 }

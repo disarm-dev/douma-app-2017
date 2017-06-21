@@ -3,22 +3,13 @@ import './fonts/Roboto.css'
 import './fonts/MaterialIcons.css'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
-import 'survey-vue/survey.css'
 
 // Imports
-import Vue from 'vue'
-import configure_error_tracking from './config/error-tracking.js'
-import configure_themes from './config/theme'
-import configure_service_worker from './config/service-worker-client'
-import {instance_config} from './lib/router-helper.js'
-import add_network_status_watcher from './lib/network-status.js'
-import configure_application from './config/application.js'
-
-// Components
-import {ClientTable} from 'vue-tables-2'
-Vue.use(ClientTable)
-import VueTouch from 'vue-touch'
-Vue.use(VueTouch)
+import configure_error_tracking from 'config/error-tracking.js'
+import configure_service_worker from 'config/service-worker-client'
+import {instance_config} from 'lib/router-helper.js'
+import add_network_status_watcher from 'lib/network-status.js'
+import configure_application from 'config/application.js'
 
 // configure_error_tracking!!
 configure_error_tracking()
@@ -26,8 +17,6 @@ configure_error_tracking()
 // LAUNCH
 instance_config()
   .then(instance_config => {
-    configure_themes()
-
     const douma_app = configure_application(instance_config)
 
     // ServiceWorker

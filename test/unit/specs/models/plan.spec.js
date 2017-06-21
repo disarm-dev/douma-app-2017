@@ -1,5 +1,5 @@
 import cache from 'config/cache'
-import {Plan} from 'models/plan.model.js'
+import {Plan} from 'lib/models/plan.model.js'
 
 describe('Plan model', () => {
 

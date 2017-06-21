@@ -1,4 +1,4 @@
-import {Aggregator} from 'lib/aggregations'
+import {Aggregator} from 'lib_instances/aggregations'
 
 export default class Presenters {
   constructor(instance_config) {

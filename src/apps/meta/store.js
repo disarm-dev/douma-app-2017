@@ -1,4 +1,4 @@
-import {authenticate} from '../../lib/data/remote'
+import {authenticate} from 'lib/data/remote'
 
 export default {
   namespaced: true,

@@ -28,10 +28,11 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
+      'apps': resolve('src/apps'),
+      'components': resolve('src/components'),
       'config': resolve('src/config'),
       'lib': resolve('src/lib'),
-      'models': resolve('src/models'),
-      'components': resolve('src/components'),
+      'lib_instances': resolve('src/lib_instances'),
     }
   },
   module: {
@@ -72,7 +73,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       "COMMIT_HASH": JSON.stringify(commitHash),
-      "DOUMA_DEV_MODE": process.env.NODE_ENV !== 'production'
+      "DOUMA_PRODUCTION_MODE": process.env.NODE_ENV === 'production'
     }),
   ]
 }

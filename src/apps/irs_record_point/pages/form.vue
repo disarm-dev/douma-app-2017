@@ -13,8 +13,9 @@
 </template>
 
 <script>
-//  import * as Survey from 'survey-jquery'
   import * as Survey from 'survey-knockout'
+  import 'survey-knockout/survey.css'
+  import 'lib/bootstrap-extract.css'
 
   export default {
     name: 'form',

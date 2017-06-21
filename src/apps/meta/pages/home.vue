@@ -12,7 +12,7 @@
 </template>
 
 <script>
-  import generate_applet_routes from '../../../lib/applet_routes.js'
+  import generate_applet_routes from 'lib/applet_routes.js'
 
   export default {
 

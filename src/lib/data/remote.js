@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-import config from 'config/common_config.json'
+import config from 'config/common_config.js'
 
 // Get basic root URL from static configuration
-const douma_api_root = `${config.DOUMA_API_URL}/${config.DOUMA_API_VERSION}`
+const douma_api_root = `${config.api.url}/${config.api.version}`
 
 // Create axios HTTP object and the standard handler
 const HTTP = axios.create()
