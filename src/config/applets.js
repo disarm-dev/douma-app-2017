@@ -24,6 +24,7 @@ export function get_instance_stores_and_routes(instance_config) {
     }
   })
 
+  // This is kind-of piggy-backing in here, but it's an ok place for a piggy-back
   create_decorated_applets(instance_config)
 
   return stores_and_routes
@@ -38,7 +39,6 @@ function create_decorated_applets(instance_config) {
     decorated_applets.push({name, ...title_and_icon_for(name, instance_config)})
   })
 }
-
 
 function title_and_icon_for (name, instance_config) {
   if (!name) return {}

@@ -9,7 +9,13 @@
         </md-button>
         <!-- BREADCRUMBS -->
         <h2 class="md-title" style="flex: 1">
-          {{country}} <span v-show="current_applet_header"> - <md-icon>{{current_applet_header.icon}}</md-icon> {{current_applet_header.title}}</span>
+          <span v-if="current_applet_header">
+            <md-icon>{{current_applet_header.icon}}</md-icon>
+            {{current_applet_header.title}}
+          </span>
+          <span v-else>
+            {{instance_name}}
+          </span>
         </h2>
         <div>
           <md-icon class='help_button' @click.native="$store.commit('root:trigger_help_visible')">help</md-icon>
@@ -131,12 +137,11 @@
     data() {
       return {
         decorated_applets: [],
-        current_applet_header: {icon: '', title: '', name: ''}
       }
     },
     computed: {
       ...mapState({
-        country: state => state.instance_config.name,
+        instance_name: state => state.instance_config.name,
         sw_message: state => state.sw_message,
         user: state => state.meta.user,
         snackbar: state => ({ ...state.snackbar, duration: 7000}),
@@ -146,6 +151,15 @@
       commit_hash() {
         return COMMIT_HASH.substring(0, 6)
       },
+      current_applet_header() {
+        const current_applet_name = this.$route.name.split(':')[0]
+        const found = this.decorated_applets.find(applet => applet.name === current_applet_name)
+        if (found) {
+          return found
+        } else {
+          return false
+        }
+      }
     },
     watch: {
       '$store.state.snackbar': 'snackbar_open',
