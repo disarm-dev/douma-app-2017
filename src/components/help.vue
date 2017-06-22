@@ -1,14 +1,17 @@
 <template>
-  <div class="container">
-    <md-input-container>
-      <label>Search</label>
-      <md-input v-model="search_term"></md-input>
-    </md-input-container>
+  <md-dialog ref="help" class="help">
+    <md-dialog-title>Help</md-dialog-title>
 
-    <div class='section' v-for="section in sections" :key="section">
-      <h4>
-        {{section}}
-      </h4>
+    <md-dialog-content>
+      <md-input-container>
+        <label>Search</label>
+        <md-input v-model="search_term"></md-input>
+      </md-input-container>
+
+      <div class='section' v-for="section in sections" :key="section">
+        <h4>
+          {{section}}
+        </h4>
         <div
           class="item"
           v-for="{title, image, content, show_excerpt} in items_for_section(section)"
@@ -20,9 +23,14 @@
           <div v-if="!show_excerpt" v-html="content"></div>
           <img v-if="!show_excerpt && image" :src="`/static/help_images/${image}`">
         </div>
-      <hr>
-    </div>
-  </div>
+        <hr>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions>
+      <md-button class="md-primary" @click.native="close_dialog_help">Close</md-button>
+    </md-dialog-actions>
+  </md-dialog>
 </template>
 
 <script>
@@ -65,10 +73,20 @@
         return array_unique(this.filtered_help_content.map(c => c.section_title))
       },
     },
+    watch: {
+      '$store.state.trigger_help_visible_irrelevant_value': 'open_dialog_help',
+    },
     created() {
       this.prepare_help_items()
     },
     methods: {
+      open_dialog_help() {
+        this.$ga.event('meta', 'open_help')
+        this.$refs.help.open()
+      },
+      close_dialog_help() {
+        this.$refs.help.close()
+      },
       prepare_help_items() {
         const truncate_at = 125
         const section_titles = help_content.map(section => {

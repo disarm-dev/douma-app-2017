@@ -21,7 +21,7 @@
     <!--Sidebar: LOGGED IN-->
     <md-list v-if="user">
       <md-list-item v-for='applet in decorated_applets' :key='applet' @click.native="navigate(applet.name)">
-        <md-icon>{{applet.icon}}</md-icon><span>{{applet.title}}</span>
+        <md-icon>{{applet.icon}}</md-icon><span class="applet-item">{{applet.title}}</span>
       </md-list-item>
 
       <md-divider class="md-inset"></md-divider>
@@ -30,7 +30,7 @@
         <md-icon>person</md-icon><span>User</span>
       </md-list-item>
 
-      <md-list-item class='md-primary' @click.native="open_dialog_help">
+      <md-list-item class='md-primary' @click.native="toggle_help">
         <md-icon>help</md-icon><span>Help</span>
       </md-list-item>
 
@@ -41,7 +41,7 @@
 
     <!--Sidebar: LOGGED OUT-->
     <md-list v-else>
-      <md-list-item class='md-primary' @click.native="open_dialog_help">
+      <md-list-item class='md-primary' @click.native="toggle_help">
         <md-icon>help</md-icon><span>Help</span>
       </md-list-item>
 
@@ -70,7 +70,7 @@
       },
     },
     watch: {
-      '$store.state.trigger_sidebar_visible_irrelevant_value': 'toggle_sidebar'
+      '$store.state.trigger_sidebar_visible_irrelevant_value': 'show_hide_sidebar'
     },
     created() {
       this.decorated_applets = decorated_applets
@@ -80,10 +80,20 @@
         this.$router.push({name})
         this.$store.commit('root:toggle_sidebar')
       },
-      toggle_sidebar() {
+      show_hide_sidebar() {
         this.$refs.sidebar.toggle()
+      },
+      toggle_help() {
+        this.$store.commit('root:trigger_help_visible')
       },
     },
   }
 </script>
 
+<style scoped>
+  .applet-item {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+</style>
