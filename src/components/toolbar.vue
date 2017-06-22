@@ -77,4 +77,8 @@
     top: 0;
     z-index: 5;
   }
+
+  .help_button {
+    cursor: pointer;
+  }
 </style>

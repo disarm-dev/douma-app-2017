@@ -1,36 +1,38 @@
 <template>
-  <md-dialog ref="help" class="help">
-    <md-dialog-title>Help</md-dialog-title>
+  <keep-alive>
+    <md-dialog ref="help" class="help">
+      <md-dialog-title>Help</md-dialog-title>
 
-    <md-dialog-content>
-      <md-input-container>
-        <label>Search</label>
-        <md-input v-model="search_term"></md-input>
-      </md-input-container>
+      <md-dialog-content>
+        <md-input-container>
+          <label>Search</label>
+          <md-input v-model="search_term"></md-input>
+        </md-input-container>
 
-      <div class='section' v-for="section in sections" :key="section">
-        <h4>
-          {{section}}
-        </h4>
-        <div
-          class="item"
-          v-for="{title, image, content, show_excerpt} in items_for_section(section)"
-          :key="title"
+        <div class='section' v-for="section in sections" :key="section">
+          <h4>
+            {{section}}
+          </h4>
+          <div
+            class="item"
+            v-for="{title, image, content, show_excerpt} in items_for_section(section)"
+            :key="title"
 
-        >
-          <h5 v-if='show_excerpt' @click="toggle_show_excerpt(title, section)" class="item-header"><md-icon>expand_more</md-icon> {{title}}</h5>
-          <h5 v-if='!show_excerpt' @click="toggle_show_excerpt(title, section)" class="item-header"><md-icon>expand_less</md-icon> {{title}}</h5>
-          <div v-if="!show_excerpt" v-html="content"></div>
-          <img v-if="!show_excerpt && image" :src="`/static/help_images/${image}`">
+          >
+            <h5 v-if='show_excerpt' @click="toggle_show_excerpt(title, section)" class="item-header"><md-icon>expand_more</md-icon> {{title}}</h5>
+            <h5 v-if='!show_excerpt' @click="toggle_show_excerpt(title, section)" class="item-header"><md-icon>expand_less</md-icon> {{title}}</h5>
+            <div v-if="!show_excerpt" v-html="content"></div>
+            <img v-if="!show_excerpt && image" :src="`/static/help_images/${image}`">
+          </div>
+          <hr>
         </div>
-        <hr>
-      </div>
-    </md-dialog-content>
+      </md-dialog-content>
 
-    <md-dialog-actions>
-      <md-button class="md-primary" @click.native="close_dialog_help">Close</md-button>
-    </md-dialog-actions>
-  </md-dialog>
+      <md-dialog-actions>
+        <md-button class="md-primary" @click.native="close_dialog_help">Close</md-button>
+      </md-dialog-actions>
+    </md-dialog>
+  </keep-alive>
 </template>
 
 <script>
@@ -128,8 +130,11 @@
   .item-header a {
     cursor: pointer;
   }
-  .see_more {
-    color: blue;
-  }
+</style>
 
+<style>
+  .help > .md-dialog {
+    min-width: 90%;
+    height: 90%;
+  }
 </style>
