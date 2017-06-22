@@ -4,9 +4,10 @@
     <div class="douma-toolbar">
 
       <md-toolbar class="md-whiteframe-1dp" >
-        <md-button class="md-icon-button" @click.native="toggleSideNav">
+        <md-button class="md-icon-button" @click.native="toggle_sidebar">
           <md-icon>menu</md-icon>
         </md-button>
+
         <!-- BREADCRUMBS -->
         <h2 class="md-title" style="flex: 1">
           <span v-if="current_applet_header">
@@ -31,58 +32,7 @@
     </div>
 
     <!-- SIDENAV -->
-    <md-sidenav class="md-left" ref="sideNav">
-      <md-toolbar class="md-medium">
-        <div class="md-toolbar-container">
-          <h3>{{$store.state.instance_config.name}}</h3>
-        </div>
-
-        <!--Status/top of sidebar: LOGGED-IN-->
-        <div v-if="user">
-          <p @click="navigate('meta:home')">Logged in: {{user.name}}</p>
-          <p><em>Version {{commit_hash}}</em></p>
-        </div>
-
-        <!--Status/top of sidebar: LOGGED-OUT-->
-        <div v-else>
-          <p>Nope, not logged in.</p>
-          <p><em>Version {{commit_hash}}</em></p>
-        </div>
-      </md-toolbar>
-
-      <!--Sidebar: LOGGED IN-->
-      <md-list v-if="user">
-        <md-list-item v-for='applet in decorated_applets' :key='applet' @click.native="navigate(applet.name)">
-          <md-icon>{{applet.icon}}</md-icon><span>{{applet.title}}</span>
-        </md-list-item>
-
-        <md-divider class="md-inset"></md-divider>
-
-        <md-list-item @click.native="navigate('meta:home')">
-          <md-icon>person</md-icon><span>User</span>
-        </md-list-item>
-
-        <md-list-item class='md-primary' @click.native="open_dialog_help">
-          <md-icon>help</md-icon><span>Help</span>
-        </md-list-item>
-
-        <md-list-item class='md-accent' @click.native="navigate('meta:logout')">
-          <md-icon>exit_to_app</md-icon><span>Logout</span>
-        </md-list-item>
-      </md-list>
-
-      <!--Sidebar: LOGGED OUT-->
-      <md-list v-else>
-        <md-list-item class='md-primary' @click.native="open_dialog_help">
-          <md-icon>help</md-icon><span>Help</span>
-        </md-list-item>
-
-        <md-list-item class='md-accent' @click.native="navigate('meta:login')">
-          <md-icon>exit_to_app</md-icon><span>Login</span>
-        </md-list-item>
-      </md-list>
-
-    </md-sidenav>
+    <sidebar></sidebar>
 
     <!-- SNACKBAR -->
     <md-snackbar md-position="top center" ref="snackbar" :md-duration="snackbar.duration">
@@ -128,12 +78,13 @@
 <script>
   import {mapState} from 'vuex'
 
+  import sidebar from 'components/sidebar.vue'
   import help from 'components/help.vue'
   import {decorated_applets} from 'config/applets'
 
   export default {
     name: 'DOUMA',
-    components: {help},
+    components: {help, sidebar},
     data() {
       return {
         decorated_applets: [],
@@ -143,14 +94,10 @@
       ...mapState({
         instance_name: state => state.instance_config.name,
         sw_message: state => state.sw_message,
-        user: state => state.meta.user,
         snackbar: state => ({ ...state.snackbar, duration: 7000}),
         loading: state => state.loading,
         online: state => state.network_online
       }),
-      commit_hash() {
-        return COMMIT_HASH.substring(0, 6)
-      },
       current_applet_header() {
         const current_applet_name = this.$route.name.split(':')[0]
         const found = this.decorated_applets.find(applet => applet.name === current_applet_name)
@@ -164,18 +111,11 @@
     watch: {
       '$store.state.snackbar': 'snackbar_open',
       '$store.state.sw_message': 'open_dialog_sw',
-      '$store.state.trigger_help_visible_irrelevant_value': 'open_dialog_help'
-    },
-    created() {
-      this.decorated_applets = decorated_applets
+      '$store.state.trigger_help_visible_irrelevant_value': 'open_dialog_help',
     },
     methods: {
-      navigate(name) {
-        this.$router.push({name})
-        this.toggleSideNav()
-      },
-      toggleSideNav() {
-        this.$refs.sideNav.toggle();
+      toggle_sidebar() {
+        this.$store.commit('root:toggle_sidebar')
       },
       // Dialog
       close_dialog(ref) {
