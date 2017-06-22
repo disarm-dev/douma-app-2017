@@ -1,22 +1,25 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
-Vue.use(Vuex)
 
-const persisted = createPersistedState()
-
-function create_store(instance_stores) {
+export function create_store(instance_stores) {
+  Vue.use(Vuex)
 
   return new Vuex.Store({
     modules: instance_stores,
-    plugins: [persisted],
+    plugins: [createPersistedState()],
     state: {
-      cache: {},
+      // Global config
+      instance_config: {}, // Really important, should be somewhere else
+
+      // Global UI
       snackbar: {message: null},
       loading: false,
       sw_message: {message: 'null', title: 'null'},
-      instance_config: {},
       network_online: false,
+
+      // Irrelevant values: only watched for changes
+      trigger_sidebar_visible_irrelevant_value: false,
       trigger_help_visible_irrelevant_value: false // Beware - don't care whether it true or false, just that it changes
     },
     mutations: {
@@ -37,9 +40,11 @@ function create_store(instance_stores) {
       },
       'root:trigger_help_visible': (state) => {
         state.trigger_help_visible_irrelevant_value = !state.trigger_help_visible_irrelevant_value
+      },
+      'root:toggle_sidebar': (state) => {
+        state.trigger_sidebar_visible_irrelevant_value= !state.trigger_sidebar_visible_irrelevant_value
       }
     },
   })
 }
 
-export default create_store

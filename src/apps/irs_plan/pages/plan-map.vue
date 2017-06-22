@@ -231,7 +231,7 @@
           this._map.removeLayer('bulk_unselected')
       },
       redraw_target_areas() {
-        if (this.geodata_ready) {
+        if (this.geodata_ready && this._map.loaded()) {
           // redraw target areas
           this.remove_target_areas()
           this.add_target_areas()

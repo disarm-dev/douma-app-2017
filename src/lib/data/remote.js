@@ -28,7 +28,7 @@ const standard_handler = (url, options = {}) => {
 
 
 // Instance configuration and related files
-export const get_all_instance_config = (slug) => {
+export const get_instance_files = (slug) => {
   const urls = [
     `/static/instances/${slug}.instance.json`,
     `/static/instances/${slug}.form.json`,

@@ -1,6 +1,5 @@
 <template>
   <div class='container'>
-    <h1>IRS Record</h1>
     <div v-if="!online">Offline - unable to sync</div>
     <md-button class='md-raised' @click.native='$router.push("/irs/record_point/new")'><md-icon>create</md-icon>Add new</md-button>
     <md-button class="md-raised md-warn" :disabled="syncing || unsynced_count === 0 || !online" @click.native="sync">
