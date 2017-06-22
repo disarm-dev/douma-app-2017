@@ -2,7 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
-export default (instance_routes, store) => {
+
+
+export default (instance_routes, store, instance_config) => {
 
   // Configure routes for all Applets
   const routes = [
@@ -23,16 +25,13 @@ export default (instance_routes, store) => {
 
   // Add the guards
   router.beforeEach((to, from, next) => {
-    
-    if (to.meta.hasOwnProperty('title')) {
-      let {title, icon} = to.meta
-      store.commit('root:set_page_title', {title, icon})      
-    } else {
-      store.commit('root:set_page_title', {title: '', icon: ''})
-    }
+    console.log(to)
+    const {title, icon} = to.meta
+    store.commit('root:set_applet_header', {title, icon})      
+
     
     if (!store.state.meta || !store.state.meta.user) {
-      if (to.name === 'meta:login' || to.name === 'meta:help') {
+      if (to.name === 'meta:login') {
         return next()
       }
       store.state.meta.previousRoute = to.path
@@ -43,11 +42,6 @@ export default (instance_routes, store) => {
 
   })
 
-  router.afterEach((to, from) => {
-  })
-
   return router;
 }
-
-
 

@@ -20,7 +20,7 @@ Vue.material.registerTheme({
 
 
 import create_router from '../router'
-import register_applets from './applets'
+import {get_instance_stores_and_routes} from './applets'
 import DoumaComponent from 'components/douma.vue'
 import create_store from '../store'
 
@@ -33,17 +33,20 @@ export default (instance_config) => {
     throw new Error('No applets for current instance')
   }
 
-  const applet_ids = Object.keys(instance_config.applets)
-  const registered_applets = register_applets(applet_ids)
-
-  let instance_routes = []
-  for (var id in registered_applets.routes) {
-    instance_routes.push(registered_applets.routes[id])
+  const instance_applet_ids = Object.keys(instance_config.applets)
+  const instance_applets_stores_and_routes = get_instance_stores_and_routes(instance_applet_ids)
+  console.log(instance_applets_stores_and_routes)
+  
+  // Get the routes for this instance. e.g. routes for SWZ
+  let instance_routes_array = []
+  for (const applet_name in instance_applets_stores_and_routes.routes) {
+    instance_routes_array.push(instance_applets_stores_and_routes.routes[applet_name])
   }
+  console.log(instance_routes_array)
 
   // Make store and router
-  const store = create_store(registered_applets.stores)
-  const router = create_router(instance_routes, store)
+  const store = create_store(instance_applets_stores_and_routes.stores)
+  const router = create_router(instance_routes_array, store, instance_config)
 
   // Analytics 1/2 (see below)
   configure_analytics(router)

@@ -47,7 +47,7 @@
       <!--Sidebar: LOGGED IN-->
       <md-list v-if="user">
         <md-list-item v-for='applet in applets' :key='applet' @click.native="navigate(applet.name)">
-          <md-icon>{{applet.icon}}</md-icon><span>{{applet.title}}</span>
+          <md-icon>{{applet.meta.icon}}</md-icon><span>{{applet.meta.title}}</span>
         </md-list-item>
 
         <md-divider class="md-inset"></md-divider>
@@ -136,10 +136,10 @@
       ...mapState({
         country: state => state.instance_config.name,
         page_title: state =>  {
-          if (state.page_title.title.length && state.page_title.icon.length) {
-            return state.page_title
-          }
-          return false
+            return state.applet_header
+          // if (state.applet_header.title.length && state.applet_header.icon.length) {
+          // }
+          // return false
         },
         sw_message: state => state.sw_message,
         user: state => state.meta.user,

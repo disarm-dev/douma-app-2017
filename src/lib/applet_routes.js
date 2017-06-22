@@ -1,41 +1,29 @@
+import array_unique from 'array-unique'
+import common_config from 'config/common_config'
 
-function generate_applet_routes({routes, user, instance_config}) {
+function get_authorised_routes({routes, user, instance_config}) {
   if (!user) return
 
-  // applet_decorations are {icon, title}
-  const applet_decorations = routes.map((route) => {
-
-    const instance_route = instance_config.applets[route.name]
-
-    if (typeof instance_route !== 'undefined'){
-      if (instance_route.hasOwnProperty('title')) {
-        route.meta.title = instance_route.title
-      }
-
-      if (instance_route.hasOwnProperty('icon')) {
-        route.meta.icon = instance_route.icon
-      }
-    }
-    return {...route.meta, name: route.name}
+  const decorated_routes = routes.map((route) => {
+    route = {...route, ...title_and_icon_for(route.name, instance_config)}
+    return route
   })
-
-  const user_apps = arrayUnique([...user.allowed_apps.read, ...user.allowed_apps.write]).sort()
+  
+  const user_apps = array_unique([...user.allowed_apps.read, ...user.allowed_apps.write]).sort()
 
   return user_apps.map((app) => {
-    return applet_decorations.find((i) => i.name === app)
+    return decorated_routes.find((i) => i.name === app)
   }).filter(a => a)
 }
 
-export default generate_applet_routes
+export default get_authorised_routes
 
-function arrayUnique(array) {
-  var a = array.concat();
-  for(var i=0; i<a.length; ++i) {
-    for(var j=i+1; j<a.length; ++j) {
-      if(a[i] === a[j])
-        a.splice(j--, 1);
-    }
-  }
 
-  return a;
+function title_and_icon_for (name, instance_config) {
+  if (!name) return {}
+
+  const applet_name = name.split(':')[0]
+  const instance_config_for_applet = instance_config.applets[applet_name]
+  const common_config_for_applet = common_config.applets[applet_name]
+  return {meta: {...common_config_for_applet, ...instance_config_for_applet}}
 }
