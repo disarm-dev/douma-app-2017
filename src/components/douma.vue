@@ -9,7 +9,7 @@
         </md-button>
         <!-- BREADCRUMBS -->
         <h2 class="md-title" style="flex: 1">
-          {{country}}
+          {{country}} <span v-show="page_title"> - <md-icon>{{page_title.icon}}</md-icon> {{page_title.title}}</span>
         </h2>
         <div>
           <md-icon class='help_button' @click.native="$store.commit('root:trigger_help_visible')">help</md-icon>
@@ -120,6 +120,7 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
   import generate_applet_routes from 'lib/applet_routes.js'
   import help from 'components/help.vue'
 
@@ -132,29 +133,22 @@
       '$store.state.trigger_help_visible_irrelevant_value': 'open_dialog_help'
     },
     computed: {
-      country() {
-        return this.$store.state.instance_config.name
-      },
-      sw_message() {
-        return this.$store.state.sw_message
-      },
-      applets() {
+      ...mapState({
+        country: state => state.instance_config.name,
+        page_title: state =>  {
+          if (state.page_title.title.length && state.page_title.icon.length) {
+            return state.page_title
+          }
+          return false
+        },
+        sw_message: state => state.sw_message,
+        user: state => state.meta.user,
+        snackbar: state => ({ ...state.snackbar, duration: 7000}),
+        loading: state => state.loading,
+        online: state => state.network_online
+      }),
+      applets(){ 
         return generate_applet_routes({routes: this.$router.options.routes, user: this.$store.state.meta.user, instance_config: this.$store.state.instance_config})
-      },
-      user() {
-        return this.$store.state.meta.user
-      },
-      snackbar() {
-        return {
-          ...this.$store.state.snackbar,
-          duration: 7000
-        }
-      },
-      loading() {
-        return this.$store.state.loading
-      },
-      online() {
-        return this.$store.state.network_online
       },
       commit_hash() {
         return COMMIT_HASH.substring(0, 6)

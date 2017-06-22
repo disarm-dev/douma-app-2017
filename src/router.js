@@ -23,7 +23,14 @@ export default (instance_routes, store) => {
 
   // Add the guards
   router.beforeEach((to, from, next) => {
-    // console.log(from, to)
+    
+    if (to.meta.hasOwnProperty('title')) {
+      let {title, icon} = to.meta
+      store.commit('root:set_page_title', {title, icon})      
+    } else {
+      store.commit('root:set_page_title', {title: '', icon: ''})
+    }
+    
     if (!store.state.meta || !store.state.meta.user) {
       if (to.name === 'meta:login' || to.name === 'meta:help') {
         return next()

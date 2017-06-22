@@ -11,6 +11,7 @@ function create_store(instance_stores) {
     modules: instance_stores,
     plugins: [persisted],
     state: {
+      page_title: {title: '', icon: ''},
       cache: {},
       snackbar: {message: null},
       loading: false,
@@ -37,6 +38,9 @@ function create_store(instance_stores) {
       },
       'root:trigger_help_visible': (state) => {
         state.trigger_help_visible_irrelevant_value = !state.trigger_help_visible_irrelevant_value
+      },
+      'root:set_page_title': (state, {title, icon}) => {
+        state.page_title = {title, icon}
       }
     },
   })
