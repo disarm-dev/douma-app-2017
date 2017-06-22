@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
 
-export default () => {
+export function configure_error_tracking (){
 // Keep track of Errors
   if (process.env.NODE_ENV !== 'development') {
     Raven

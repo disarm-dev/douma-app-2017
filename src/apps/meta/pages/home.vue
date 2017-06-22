@@ -3,7 +3,13 @@
     <md-card>
       <md-card-content>
         <div>Hi <em>{{user.name}}</em>, you are logged in as <em>{{user.username}}</em>, with access to</div>
-        <md-button v-for='app in applets' :key='app' class='md-raised md-accent' @click.native="$router.push({name: app.name})">{{app.title}}</md-button>
+        <md-button
+          v-for='applet in decorated_applets'
+          :key='applet'
+          class='md-raised md-accent'
+          @click.native="$router.push({name: applet.name})">
+          {{applet.title}}
+        </md-button>
       </md-card-content>
     </md-card>
 
@@ -12,15 +18,17 @@
 </template>
 
 <script>
-  import generate_applet_routes from 'lib/applet_routes.js'
+  import {decorated_applets} from 'config/applets'
 
   export default {
 
     name: 'home',
+    data() {
+      return {
+        decorated_applets: [],
+      }
+    },
     computed: {
-      applets() {
-        return generate_applet_routes({routes: this.$router.options.routes, user: this.$store.state.meta.user, instance_config: this.$store.state.instance_config})
-      },
       commit_hash() {
         return COMMIT_HASH.substring(0, 6)
       },
@@ -29,6 +37,7 @@
       }
     },
     mounted() {
+      this.decorated_applets = decorated_applets
       this.$ga.event('meta', 'view_home')
     }
   }

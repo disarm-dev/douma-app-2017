@@ -14,7 +14,6 @@ export default [
     component: applet,
     redirect: '/meta/home',
     name: 'meta',
-    meta: {title: 'User', icon: 'person'},
     children: [
       {
         path: 'home',

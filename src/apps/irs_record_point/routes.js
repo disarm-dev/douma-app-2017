@@ -6,12 +6,10 @@ export default [
     path: '/irs/record_point',
     redirect: '/irs/record_point/list',
     name: 'irs_record_point',
-    meta: {title: 'IRS Record', icon: 'assignment'}
   },{
     path: '/irs/record_point/list',
     component: list,
-    name: 'irs_record_point:list',
-    meta: {title: 'IRS Record', icon: 'assignment'}
+    name: 'irs_record_point:list'
   },{
     path: '/irs/record_point/new',
     component: record,
