@@ -1,17 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
-Vue.use(Vuex)
 
-const persisted = createPersistedState()
-
-function create_store(instance_stores) {
+export function create_store(instance_stores) {
+  Vue.use(Vuex)
 
   return new Vuex.Store({
     modules: instance_stores,
-    plugins: [persisted],
+    plugins: [createPersistedState()],
     state: {
-      applet_header: {title: '', icon: ''},
       cache: {},
       snackbar: {message: null},
       loading: false,
@@ -39,11 +36,7 @@ function create_store(instance_stores) {
       'root:trigger_help_visible': (state) => {
         state.trigger_help_visible_irrelevant_value = !state.trigger_help_visible_irrelevant_value
       },
-      'root:set_applet_header': (state, {title = '', icon = ''}) => {
-        state.applet_header = {title, icon}
-      }
     },
   })
 }
 
-export default create_store

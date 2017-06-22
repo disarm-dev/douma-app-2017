@@ -1,10 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-Vue.use(VueRouter)
 
-
-
-export default (instance_routes, store, instance_config) => {
+export function create_router(instance_routes, store) {
+  Vue.use(VueRouter)
 
   // Configure routes for all Applets
   const routes = [
@@ -25,18 +23,16 @@ export default (instance_routes, store, instance_config) => {
 
   // Add the guards
   router.beforeEach((to, from, next) => {
-    console.log(to)
-    const {title, icon} = to.meta
-    store.commit('root:set_applet_header', {title, icon})      
-
-    
     if (!store.state.meta || !store.state.meta.user) {
       if (to.name === 'meta:login') {
         return next()
+      } else {
+        store.state.meta.previousRoute = to.path
+        return next({name: 'meta:login'})
       }
-      store.state.meta.previousRoute = to.path
-      return next({name: 'meta:login'})
     }
+
+    console.warn("TODO: @feature Check if user authorised for route")
 
     next()
 

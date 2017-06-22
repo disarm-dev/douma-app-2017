@@ -9,7 +9,7 @@
         </md-button>
         <!-- BREADCRUMBS -->
         <h2 class="md-title" style="flex: 1">
-          {{country}} <span v-show="page_title"> - <md-icon>{{page_title.icon}}</md-icon> {{page_title.title}}</span>
+          {{country}} <span v-show="current_applet_header"> - <md-icon>{{current_applet_header.icon}}</md-icon> {{current_applet_header.title}}</span>
         </h2>
         <div>
           <md-icon class='help_button' @click.native="$store.commit('root:trigger_help_visible')">help</md-icon>
@@ -46,8 +46,8 @@
 
       <!--Sidebar: LOGGED IN-->
       <md-list v-if="user">
-        <md-list-item v-for='applet in applets' :key='applet' @click.native="navigate(applet.name)">
-          <md-icon>{{applet.meta.icon}}</md-icon><span>{{applet.meta.title}}</span>
+        <md-list-item v-for='applet in decorated_applets' :key='applet' @click.native="navigate(applet.name)">
+          <md-icon>{{applet.icon}}</md-icon><span>{{applet.title}}</span>
         </md-list-item>
 
         <md-divider class="md-inset"></md-divider>
@@ -121,38 +121,40 @@
 
 <script>
   import {mapState} from 'vuex'
-  import generate_applet_routes from 'lib/applet_routes.js'
+
   import help from 'components/help.vue'
+  import {decorated_applets} from 'config/applets'
 
   export default {
     name: 'DOUMA',
     components: {help},
-    watch: {
-      '$store.state.snackbar': 'snackbar_open',
-      '$store.state.sw_message': 'open_dialog_sw',
-      '$store.state.trigger_help_visible_irrelevant_value': 'open_dialog_help'
+    data() {
+      return {
+        decorated_applets: [],
+        current_applet_header: {icon: '', title: '', name: ''}
+      }
     },
     computed: {
       ...mapState({
         country: state => state.instance_config.name,
-        page_title: state =>  {
-            return state.applet_header
-          // if (state.applet_header.title.length && state.applet_header.icon.length) {
-          // }
-          // return false
-        },
         sw_message: state => state.sw_message,
         user: state => state.meta.user,
         snackbar: state => ({ ...state.snackbar, duration: 7000}),
         loading: state => state.loading,
         online: state => state.network_online
       }),
-      applets(){ 
-        return generate_applet_routes({routes: this.$router.options.routes, user: this.$store.state.meta.user, instance_config: this.$store.state.instance_config})
-      },
       commit_hash() {
         return COMMIT_HASH.substring(0, 6)
       },
+    },
+    watch: {
+      '$store.state.snackbar': 'snackbar_open',
+      '$store.state.sw_message': 'open_dialog_sw',
+      '$store.state.trigger_help_visible_irrelevant_value': 'open_dialog_help'
+    },
+    created() {
+      console.log(decorated_applets)
+      this.decorated_applets = decorated_applets
     },
     methods: {
       navigate(name) {

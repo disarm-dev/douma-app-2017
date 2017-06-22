@@ -2,7 +2,7 @@
 import Vue from 'vue'
 import VueAnalytics from 'vue-analytics'
 
-const configure_analytics = (router) => {
+const instantiate_analytics = (router) => {
   if (DOUMA_PRODUCTION_MODE) {
     Vue.use(VueAnalytics, {
       id: 'UA-88844641-2',
@@ -21,7 +21,7 @@ const configure_analytics = (router) => {
   }
 }
 
-const configure_common_properties = (app) => {
+const set_common_analytics = (app) => {
   app.$ga.set('commit_hash', COMMIT_HASH)
   app.$ga.set('instance_slug', app.$store.state.instance_config.slug)
 
@@ -31,4 +31,4 @@ const configure_common_properties = (app) => {
   }
 }
 
-export {configure_analytics, configure_common_properties}
+export {instantiate_analytics, set_common_analytics}

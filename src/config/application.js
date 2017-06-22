@@ -9,7 +9,6 @@ Vue.use(VueTouch)
 // VueMaterial
 import VueMaterial from 'vue-material'
 Vue.use(VueMaterial)
-import 'vue-material/dist/vue-material.css'
 
 Vue.material.registerTheme({
   default: {
@@ -18,40 +17,26 @@ Vue.material.registerTheme({
   }
 })
 
-
-import create_router from '../router'
-import {get_instance_stores_and_routes} from './applets'
 import DoumaComponent from 'components/douma.vue'
-import create_store from '../store'
+import {create_router} from '../router'
+import {create_store} from '../store'
+import {get_instance_stores_and_routes} from './applets'
+import {instantiate_analytics, set_common_analytics} from 'config/analytics'
 
-import {configure_analytics, configure_common_properties} from 'config/analytics'
+export function configure_application (instance_config) {
+  // TODO: @refac Do better checking of instance config e.g. at/before deploy
 
-export default (instance_config) => {
-  // console.log('🌴 hunt the log', instance_config)
+  // Collect stores and routes for applets ONLY in this instance {stores: {}, routes: []}
+  const instance_applets_stores_and_routes = get_instance_stores_and_routes(instance_config)
 
-  if (Object.keys(instance_config.applets).length === 0) {
-    throw new Error('No applets for current instance')
-  }
-
-  const instance_applet_ids = Object.keys(instance_config.applets)
-  const instance_applets_stores_and_routes = get_instance_stores_and_routes(instance_applet_ids)
-  console.log(instance_applets_stores_and_routes)
-  
-  // Get the routes for this instance. e.g. routes for SWZ
-  let instance_routes_array = []
-  for (const applet_name in instance_applets_stores_and_routes.routes) {
-    instance_routes_array.push(instance_applets_stores_and_routes.routes[applet_name])
-  }
-  console.log(instance_routes_array)
-
-  // Make store and router
+  // Make Vuex#$store and a Vue#$router from what you got
   const store = create_store(instance_applets_stores_and_routes.stores)
-  const router = create_router(instance_routes_array, store, instance_config)
+  const router = create_router(instance_applets_stores_and_routes.routes, store)
 
-  // Analytics 1/2 (see below)
-  configure_analytics(router)
+  // Analytics 1/2: instantiate analytics before you create the application
+  instantiate_analytics(router)
 
-  // Instantiate Vue app
+  // Instantiate Vue app with store and router
   const douma_app = new Vue({
     el: '#douma',
     router,
@@ -59,10 +44,8 @@ export default (instance_config) => {
     render: createElement => createElement(DoumaComponent),
   })
 
-  // Analytics 2/2 - set common properties
-  configure_common_properties(douma_app)
+  // Analytics 2/2: set common properties (e.g. user) for every event
+  set_common_analytics(douma_app)
 
-  douma_app.$store.commit('root:set_loading', false)
-  douma_app.$store.commit('root:set_instance_config', instance_config)
   return douma_app
 }

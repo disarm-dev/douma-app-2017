@@ -2,7 +2,7 @@
 // SERVICE WORKER
 //
 
-export default (DOUMA) => {
+export function configure_service_worker (DOUMA) {
   if (!DOUMA_PRODUCTION_MODE) return console.warn("DOUMA ServiceWorker disabled in development")
 
   if (DOUMA_PRODUCTION_MODE && 'serviceWorker' in navigator) {
