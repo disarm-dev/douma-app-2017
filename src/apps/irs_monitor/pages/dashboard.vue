@@ -1,7 +1,5 @@
 <template>
   <div class='container'>
-    <h1>IRS Dashboard</h1>
-
     <h2>Table and map update with real records</h2>
     <div>
       <md-card class="card">

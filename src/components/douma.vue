@@ -167,7 +167,6 @@
       '$store.state.trigger_help_visible_irrelevant_value': 'open_dialog_help'
     },
     created() {
-      console.log(decorated_applets)
       this.decorated_applets = decorated_applets
     },
     methods: {

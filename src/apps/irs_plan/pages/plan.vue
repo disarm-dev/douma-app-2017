@@ -1,7 +1,5 @@
 <template>
   <div class='container'>
-    <h1>IRS Plan</h1>
-
     <h4>
       {{title}} plan {{current_plan_date ? `from ${current_plan_date}` : ''}}
     </h4>
@@ -22,11 +20,11 @@
       <!--PLAN MAP-->
       <md-card>
         <md-card-content>
-          <plan_map 
-            :geodata_ready="geodata_ready" 
-            :edit_mode="edit_mode" 
-            :risk_visible="risk_visible" 
-            v-on:map_loaded="edit_disabled = false" 
+          <plan_map
+            :geodata_ready="geodata_ready"
+            :edit_mode="edit_mode"
+            :risk_visible="risk_visible"
+            v-on:map_loaded="edit_disabled = false"
           ></plan_map>
         </md-card-content>
       </md-card>
