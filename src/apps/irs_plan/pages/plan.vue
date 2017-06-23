@@ -173,12 +173,6 @@
 </script>
 
 <style scoped>
-  .container {
-    margin: 0 auto;
-    width: 90%;
-    padding: 10px;
-  }
-
   .card {
     margin-top: 10px;
   }

@@ -34,4 +34,9 @@
     background-color: white;
     padding-top: 64px;
   }
+
+  .container {
+    margin: 1em auto;
+    width: 90%;
+  }
 </style>
