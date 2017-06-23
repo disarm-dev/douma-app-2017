@@ -30,9 +30,6 @@ describe('Response model', () => {
   })
 
   it('should throw an error if location is missing', () => {
-    const country = 'bobland'
-    const user = "bob"
-    const userAgent = "chrome"
 
     const fn = () => {
       new Response().create({
@@ -79,6 +76,56 @@ describe('Response model', () => {
 
     assert.doesNotThrow(fn, 'Should throw no errors if recorded_on or id is missing')
     done()
+  })
+
+  it('should throw an error if recorded_on is passed, but id is not', () => {
+    const fn = () => {
+      let response = new Response().create({
+        country: 'bobland',
+        userAgent: 'chrome',
+        user: 'bob',
+        recorded_on: "today",
+        form_data: {},
+        location: {
+          coords: {
+            latitude: 24,
+            longitude: 31,
+            accuracy: 10
+          },
+        },
+        location_selection: {
+          name: "location",
+          id: "1"
+        }
+      })
+    }
+
+    assert.throws(fn, /Response is not valid/)
+  })
+
+  it('should throw an error if id is passed, but recorded_on is not', () => {
+    const fn = () => {
+      let response = new Response().create({
+        id: '123',
+        country: 'bobland',
+        userAgent: 'chrome',
+        user: 'bob',
+        form_data: {},
+        location: {
+          coords: {
+            latitude: 24,
+            longitude: 31,
+            accuracy: 10
+          },
+        },
+        location_selection: {
+          name: "location",
+          id: "1"
+        }
+      })
+    }
+
+    assert.throws(fn, /Response is not valid/)
   })
 
 })
