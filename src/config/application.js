@@ -17,7 +17,7 @@ Vue.material.registerTheme({
   }
 })
 
-import DoumaComponent from 'app.vue'
+import DoumaComponent from 'components/app.vue'
 import {create_router} from '../router'
 import {create_store} from '../store'
 import {get_instance_stores_and_routes} from './applets'
