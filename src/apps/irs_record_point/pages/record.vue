@@ -94,7 +94,7 @@
 <script>
   import location_record from 'components/location.vue'
   import location_selection from './location_selection'
-  import review from './review.vue'
+  import review from './validation.vue'
   import form_renderer from './form.vue'
   import {Validator} from 'lib_instances/validations'
   import {Response} from 'lib/models/response.model'
@@ -218,8 +218,15 @@
       validate(response) {
         this.validation_result = this._validator.validate(response)
         if (this.validation_result_empty) this.show_validation_result = false
-        this.$ga('irs_record','validation_issues', 'errors', this.validation_result.errors.length)
-        this.$ga('irs_record','validation_issues', 'warning', this.validation_result.warnings.length)
+
+        // Events
+        const non_location_errors = this.validation_result.errors.filter(r => !r.is_location).length
+        if (non_location_errors) {
+          this.$ga.event('irs_record','validation_issues', 'errors', this.validation_result.errors.map(r => r.name).join('.'))
+        }
+        if (this.validation_result.warnings.length) {
+          this.$ga.event('irs_record','validation_issues', 'warning', this.validation_result.warnings.map(w => w.name).join('.'))
+        }
       },
       save_response() {
         // TODO: @refac Move to a proper response model, with tests. And cake.
