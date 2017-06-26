@@ -116,8 +116,8 @@
       },
 
       remove_click_handlers() {
-        this._map.off('click', this._coverage_click_handler)
-        this._map.off('click', this._risk_click_handler)
+        this._map.off('click', 'areas_by_coverage', this._coverage_click_handler)
+        this._map.off('click', 'areas_by_risk', this._risk_click_handler)
       },
 
       // COVERAGE
@@ -174,7 +174,7 @@
       },
       bind_coverage_popup() {
         this._coverage_click_handler = (e) => {
-          const feature = this._map.queryRenderedFeatures(e.point, {layers: ['areas_by_coverage']})[0]
+          const feature = this._map.queryRenderedFeatures(e.point)[0]
 
           if (feature) {
             new mapboxgl.Popup({closeOnClick: true})
@@ -184,7 +184,7 @@
           }
         }
 
-        this._map.on('click', this._coverage_click_handler)
+        this._map.on('click', 'areas_by_coverage', this._coverage_click_handler)
       },
 
       // RISK
@@ -233,7 +233,7 @@
       },
       bind_risk_popup() {
         this._risk_click_handler = (e) => {
-          const feature = this._map.queryRenderedFeatures(e.point, {layers: ['areas_by_risk']})[0]
+          const feature = this._map.queryRenderedFeatures(e.point)[0]
 
           if (feature) {
             new mapboxgl.Popup({closeOnClick: true})
@@ -243,7 +243,7 @@
           }
 
         }
-        this._map.on('click', this._risk_click_handler)
+        this._map.on('click', 'areas_by_risk', this._risk_click_handler)
       },
 
 
