@@ -107,9 +107,3 @@
     }
   }
 </script>
-
-<style lang="css" scoped>
-  .container {
-    margin: 10px;
-  }
-</style>
