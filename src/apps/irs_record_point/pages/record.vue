@@ -94,7 +94,7 @@
 <script>
   import location_record from 'components/location.vue'
   import location_selection from './location_selection'
-  import review from './review.vue'
+  import review from './validation.vue'
   import form_renderer from './form.vue'
   import {Validator} from 'lib_instances/validations'
   import {Response} from 'lib/models/response.model'
