@@ -214,11 +214,6 @@
 </script>
 
 <style scoped>
-  .container {
-    margin: 1em auto;
-    width: 90%;
-  }
-
   .card {
     display: inline-block;
     margin: 2.5%;
