@@ -30,13 +30,15 @@
       return {
         geodata_areas: null,
         palette: [],
-        selected_team: null
+        selected_team: null,
+        click_handler: null
       }
     },
     computed: {
       ...mapState({
         instance_config: state => state.instance_config,
         teams: state => state.irs_tasker.teams,
+        id_field: state => state.instance_config.spatial_hierarchy.find((sp) => sp.hasOwnProperty('denominator')).field_name 
       })
     },
     created() {
@@ -110,20 +112,31 @@
 
         this._map.fitBounds(bbox(this.geodata_areas), {padding: 20});
       },
+
+      // Click listeners
       bind_click_handler() {
-        this._map.on('click', 'areas', (e) => {
+        this.click_handler = (e) => {
           const clicked_feature = this._map.queryRenderedFeatures(e.point)[0]
 
-          const field_name = this.instance_config.spatial_hierarchy.find((sp) => sp.hasOwnProperty('denominator')).field_name 
-
           // TODO: @feature Add clicked areas to an array of selected areas
-          let index = this.geodata_areas.features.findIndex((feature) => feature.properties[field_name] === clicked_feature.properties[field_name])
-          this.geodata_areas.features[index].properties.team = this.selected_team.id
-          
+          let index = this.geodata_areas.features.findIndex((feature) => feature.properties[this.id_field] === clicked_feature.properties[this.id_field])
+
+
+          let selected_area_id = this.geodata_areas.features[index].properties[this.id_field]
+          this.$store.commit('irs_tasker/toggle_selected_area', {team: this.selected_team.id, area_id: selected_area_id})
+
           // This seems like a good way to handle updating the map
+          this.geodata_areas.features[index].properties.team = this.selected_team.id
           this._map.getSource('areas').setData(this.geodata_areas)         
-        })
+        }
+        this._map.on('click', 'areas', this.click_handler)
       },
+      remove_click_handler() {
+        this._map.off('click', 'areas', this.click_handler)
+        this.click_handler = null
+      },
+
+      // Draw controls
       add_draw_controls () {
         if (this._map) {
           const options = {
@@ -140,19 +153,28 @@
             let drawn_polygon = e.features[0]
 
             let polygons = this.geodata_areas.features
-            let selected_areas = []
-            polygons.forEach((polygon) => {
+            let selected_area_indicies = []
+            polygons.forEach((polygon, index) => {
               if (intersect(drawn_polygon, polygon)) {
-                  // TODO: @feature Add selected areas to an array of selected areas for that team
-                  console.log(polygon)
-                  // selected_areas.push(feature_id)
+                  selected_area_indicies.push(index)
+                  const area_id = polygon.properties[this.id_field]
+                  this.$store.commit('irs_tasker/toggle_selected_area', {team: this.selected_team.id, area_id: area_id })
               }
             })
+
+            selected_area_indicies.forEach((index) => {
+              this.geodata_areas.features[index].properties.team = this.selected_team.id
+            })
+            this._map.getSource('areas').setData(this.geodata_areas)  
+            this.draw.deleteAll()
+            setTimeout(() => {
+              this.bind_click_handler()
+              
+            }, 200)
           })
 
           this._map.on('draw.modechange', (e) => {
-            // Disable click handlers here
-            // if(e.mode === 'draw_polygon') this.remove_map_listeners()
+            if(e.mode === 'draw_polygon') this.remove_click_handler()
           })
 
           this._map.addControl(this.draw)
