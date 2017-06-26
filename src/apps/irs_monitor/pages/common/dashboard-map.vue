@@ -109,8 +109,10 @@
 
         switch (type) {
           case 'risk':
+            this.$ga('irs_monitor','view_risk')
             return this.add_areas_coloured_by_risk()
           case 'coverage':
+            this.$ga('irs_monitor','view_coverage')
             return this.add_areas_coloured_by_coverage()
         }
       },

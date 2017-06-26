@@ -105,6 +105,7 @@
         const date = moment().format('YYYY-MM-DD_HHmm')
 
         download(content, `${this.slug}_irs_plan_${date}.csv`)
+        this.$ga('irs_plan','click_download_plan')
       }
     }
   }

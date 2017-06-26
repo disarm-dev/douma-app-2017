@@ -60,13 +60,13 @@
             @change='on_location_change'
             :initial_location='initial_response.location'
           ></location_record>
-        
+
         <location_selection
           @change="on_location_selection_selected"
           :initial_location_selection="initial_response.location_selection"
         >
         </location_selection>
-          
+
         </md-card-content>
         <md-card-actions>
           <md-button @click.native="show_location = false">Hide</md-button>
@@ -130,7 +130,7 @@
       'validation_length': 'shake_validations'
     },
     computed: {
-      
+
       user_name() {
         return this.$store.state.meta.user.name
       },
@@ -218,6 +218,8 @@
       validate(response) {
         this.validation_result = this._validator.validate(response)
         if (this.validation_result_empty) this.show_validation_result = false
+        this.$ga('irs_record','validation_issues', 'errors', this.validation_result.errors.length)
+        this.$ga('irs_record','validation_issues', 'warning', this.validation_result.warnings.length)
       },
       save_response() {
         // TODO: @refac Move to a proper response model, with tests. And cake.
