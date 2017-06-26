@@ -7,7 +7,13 @@ export class Response {
 
   create({recorded_on, id, country, user, location_selection, location, form_data}) {
 
-    //TODO: @feature check that recoded_on and id either both exist or both don't exists
+    if (recorded_on && !id) {
+      throw new Error('Response is not valid. Recorded_on was passed but no id. Ensure both are either passed or not.')
+    }
+
+    if (!recorded_on && id) {
+      throw new Error('Response is not valid. Id was passed but no recorded_on. Ensure both are either passed or not.')
+    }
 
     this.model = {
       location_selection,

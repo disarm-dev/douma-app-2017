@@ -81,10 +81,3 @@
     }
   }
 </script>
-
-<style lang="css" scoped>
-  .container {
-    margin: 0 auto;
-    width: 90%;
-  }
-</style>

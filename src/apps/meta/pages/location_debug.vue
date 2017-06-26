@@ -164,9 +164,3 @@
     }
   }
 </script>
-
-<style scoped>
-  .container {
-    margin: 10px;
-  }
-</style>

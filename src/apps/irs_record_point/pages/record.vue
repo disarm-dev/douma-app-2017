@@ -1,5 +1,5 @@
 <template>
-  <div class='container'>
+  <div class='record-container'>
 
     <div class="chip-holder">
 
@@ -254,7 +254,7 @@
 </script>
 
 <style lang="css" scoped>
-  .container {
+  .record-container {
     margin: 0 auto;
     max-width: 760px;
   }
