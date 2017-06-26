@@ -33,7 +33,11 @@
         _map: null,
         geodata_areas: null,
         limit_to_plan: true,
-        selected: 'risk'
+        selected: 'risk',
+
+        // Click handlers
+        _risk_click_handler: null,
+        _coverage_click_handler: null,
       }
     },
     watch: {
@@ -101,12 +105,19 @@
       },
 
       select_map_type(type) {
+        this.remove_click_handlers()
+
         switch (type) {
           case 'risk':
             return this.add_areas_coloured_by_risk()
           case 'coverage':
             return this.add_areas_coloured_by_coverage()
         }
+      },
+
+      remove_click_handlers() {
+        this._map.off('click', this._coverage_click_handler)
+        this._map.off('click', this._risk_click_handler)
       },
 
       // COVERAGE
@@ -158,21 +169,22 @@
         })
 
         this._map.fitBounds(bbox(areas_with_coverage), {padding: 20});
-        this.bind_popup()
+        this.bind_coverage_popup()
 
       },
-      bind_popup() {
-        this._map.on('click', (e) => {
+      bind_coverage_popup() {
+        this._coverage_click_handler = (e) => {
           const feature = this._map.queryRenderedFeatures(e.point, {layers: ['areas_by_coverage']})[0]
 
           if (feature) {
             new mapboxgl.Popup({closeOnClick: true})
               .setLngLat(e.lngLat)
-              .setHTML(JSON.stringify(feature.properties.coverage))
+              .setHTML(`<p>Coverage: ${feature.properties.coverage}</p>`)
               .addTo(this._map);
           }
+        }
 
-        })
+        this._map.on('click', this._coverage_click_handler)
       },
 
       // RISK
@@ -217,7 +229,24 @@
         }, 'records')
 
         this._map.fitBounds(bbox(areas_with_normalised_risk), {padding: 20});
+        this.bind_risk_popup()
       },
+      bind_risk_popup() {
+        this._risk_click_handler = (e) => {
+          const feature = this._map.queryRenderedFeatures(e.point, {layers: ['areas_by_risk']})[0]
+
+          if (feature) {
+            new mapboxgl.Popup({closeOnClick: true})
+              .setLngLat(e.lngLat)
+              .setHTML(`<p>Risk: ${feature.properties.normalised_risk}</p>`)
+              .addTo(this._map);
+          }
+
+        }
+        this._map.on('click', this._risk_click_handler)
+      },
+
+
       get_log_values(areas) {
         const values_array = areas.features.map(area => area.properties.risk).sort()
         const non_zeros = values_array.filter(v => v !== 0)
