@@ -6,6 +6,7 @@ const applets = {
   irs_record_point: require('apps/irs_record_point/index'),
   irs_monitor: require('apps/irs_monitor/index'),
   irs_plan: require('apps/irs_plan/index'),
+  irs_tasker: require('apps/irs_tasker/index'),
 }
 
 // Decorated object full of applets, ready for sidebar and applet_header
