@@ -83,9 +83,8 @@
     },
     methods: {
       open_dialog_help() {
-        this.$ga.event('meta', 'open_help')
         this.$refs.help.open()
-        this.$ga('meta','trigger_help')
+        this.$ga.event('meta','trigger_help')
       },
       close_dialog_help() {
         this.$refs.help.close()

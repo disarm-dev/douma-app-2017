@@ -38,7 +38,6 @@
     },
     mounted() {
       this.decorated_applets = decorated_applets
-      this.$ga.event('meta', 'view_home')
     }
   }
 </script>
