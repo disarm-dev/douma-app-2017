@@ -20,6 +20,8 @@
 <script> 
   import {mapState} from 'vuex'
   import bbox from '@turf/bbox'
+  import MapboxDraw from '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw'
+  import intersect from '@turf/intersect'
   import {get_geodata_area} from 'lib/data/remote'
   import {basic_map} from 'lib/basic_map.js'
 
@@ -62,6 +64,7 @@
 
             this.add_areas()
             this.bind_click_handler()
+            this.add_draw_controls()
           })
         })
       },
@@ -104,7 +107,6 @@
             'fill-outline-color': '#262626'
           }
         })
-        console.log('draw', this.palette)
 
         this._map.fitBounds(bbox(this.geodata_areas), {padding: 20});
       },
@@ -114,11 +116,53 @@
 
           const field_name = this.instance_config.spatial_hierarchy.find((sp) => sp.hasOwnProperty('denominator')).field_name 
 
+          // TODO: @feature Add clicked areas to an array of selected areas
           let index = this.geodata_areas.features.findIndex((feature) => feature.properties[field_name] === clicked_feature.properties[field_name])
           this.geodata_areas.features[index].properties.team = this.selected_team.id
           
+          // This seems like a good way to handle updating the map
           this._map.getSource('areas').setData(this.geodata_areas)         
         })
+      },
+      add_draw_controls () {
+        if (this._map) {
+          const options = {
+            boxSelect: false,
+            keyBindings: false,
+            displayControlsDefault: false,
+            controls: {
+              polygon: true
+            }
+          }
+          this.draw = new MapboxDraw(options)
+
+          this._map.on('draw.create', (e) => {
+            let drawn_polygon = e.features[0]
+
+            let polygons = this.geodata_areas.features
+            let selected_areas = []
+            polygons.forEach((polygon) => {
+              if (intersect(drawn_polygon, polygon)) {
+                  // TODO: @feature Add selected areas to an array of selected areas for that team
+                  console.log(polygon)
+                  // selected_areas.push(feature_id)
+              }
+            })
+          })
+
+          this._map.on('draw.modechange', (e) => {
+            // Disable click handlers here
+            // if(e.mode === 'draw_polygon') this.remove_map_listeners()
+          })
+
+          this._map.addControl(this.draw)
+        }
+      },
+      remove_draw_controls () {
+        if (this.draw) {
+          this._map.removeControl(this.draw)
+          this.draw = null
+        }
       }
     }
   }
