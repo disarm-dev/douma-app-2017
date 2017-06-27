@@ -101,11 +101,16 @@
             const geo_data = areas[0]
             const plan = areas[1]
 
-            const planned_areas = array_unique(plan.targets.map(({id}) => {
+            let planned_areas = array_unique(plan.targets.map(({id}) => {
               return geo_data.features.find((feature) => {
                 return feature.properties[this.id_field] === id
               })
             }))
+
+            planned_areas = planned_areas.map((area) => {
+              area.properties.team_name = UNASSIGNED_TEAM.team_name
+              return area
+            })
 
             this.target_areas = featureCollection(planned_areas)
 
@@ -135,6 +140,9 @@
         if (this._map.getSource('areas')) {
           this._map.removeSource('areas')
         }
+        const palette = this.decorated_teams.map(({team_name, colour}) => {
+          return [team_name, colour]
+        })
 
         this._map.addLayer({
           id: 'areas',
@@ -148,9 +156,7 @@
             'fill-color': {
               type: 'categorical',
               property: 'team_name',
-              stops: this.decorated_teams.map(({team_name, colour}) => {
-                return [team_name, colour]
-              })
+              stops: palette
             },
             'fill-opacity': 0.9,
             'fill-outline-color': '#262626'

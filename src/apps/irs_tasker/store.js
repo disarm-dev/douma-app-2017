@@ -29,14 +29,14 @@ export default {
   },
   actions: {
     'update_teams': (context, teams) => {
-      // sort by name
-      teams = teams.sort((a, b) =>{
-        if(a.name < b.name) return -1;
-        if(a.name > b.name) return 1;
+      // TODO: @featuer acutally sort by name
+      const sorted_teams = teams.sort((a, b) =>{
+        if(a < b) return -1;
+        if(a > b) return 1;
         return 0;
       })
       
-      context.commit('set_teams', teams)
+      context.commit('set_teams', sorted_teams)
     },
     'assign_area_to_team': (context, {area_id, team_name}) => {
       if (team_name === null) {

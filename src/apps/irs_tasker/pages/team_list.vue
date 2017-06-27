@@ -62,7 +62,7 @@
     computed: {
       ...mapState({
         'country': state => state.instance_config.name,
-        'teams': state => state.irs_tasker.teams,
+        'team_names': state => state.irs_tasker.teams,
       })
     },
     methods: {
@@ -82,7 +82,7 @@
           }
         }
 
-        this.$store.commit('irs_tasker/set_teams', this.teams.concat(this.name))
+        this.$store.dispatch('irs_tasker/update_teams', this.team_names.concat(this.name))
         this.show_input = false
         this.name = ""
       }
