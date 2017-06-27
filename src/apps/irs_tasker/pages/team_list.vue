@@ -8,18 +8,18 @@
         </md-list-item>
 
 
-        <md-list-item v-if="!teams.length">
+        <md-list-item v-if="!decorated_teams.length">
           There are currently no teams. Add one below.
         </md-list-item>
         
-        <md-list-item v-for="team in teams" :key="team.id">
+        <md-list-item v-for="(team, index) in decorated_teams" :key="index">
           
           <md-avatar :style="{'background-color': team.colour}" class="md-avatar-icon">
             <md-icon>people</md-icon>
           </md-avatar>
           
           <div class="md-list-text-container">
-            <span>{{team.name}}</span>
+            <span>{{team.team_name}}</span>
             <span>Assigned XX areas</span>
           </div>
 
@@ -52,7 +52,7 @@
 <script>
   import {mapState} from 'vuex'
   export default {
-    props: ['teams'],
+    props: ['decorated_teams'],
     data() {
       return {
         name: '',
@@ -62,6 +62,7 @@
     computed: {
       ...mapState({
         'country': state => state.instance_config.name,
+        'teams': state => state.irs_tasker.teams,
       })
     },
     methods: {
@@ -70,13 +71,13 @@
       },
       save_teams() {
 
-        if (this.teams.length == 12) {
+        if (this.decorated_teams.length == 12) {
           return console.log('Max 12 teams')
         }
         
         // Check name is unique
-        for (var i = this.teams.length - 1; i >= 0; i--) {
-          if (this.teams[i].name === this.name) {
+        for (var i = this.decorated_teams.length - 1; i >= 0; i--) {
+          if (this.decorated_teams[i].team_name === this.name) {
             return console.log('Name must be unique')
           }
         }

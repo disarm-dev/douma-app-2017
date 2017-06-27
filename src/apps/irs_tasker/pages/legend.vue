@@ -1,16 +1,21 @@
 <template>
   <div>
-      <div v-for="{name, colour} in teams" class="legend" :class="{'selected': selected_team.name === name}" @click="selected_team = {name, colour}">
+      <div v-for="{team_name, colour} in decorated_teams" class="legend" :class="{'selected': selected_team_name === team_name}" @click="select_team(team_name)">
         <div class="legend-box" :style="{'background-color': colour}"></div>
-        <div class="legend-name">{{name}}</div>
+        <div class="legend-name">{{team_name}}</div>
       </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['teams'],
-  name: 'legend'
+  props: ['decorated_teams', 'selected_team_name'],
+  name: 'legend',
+  methods: {
+    select_team(team_name) {
+      this.$emit('selected_team', team_name)
+    }
+  }
 };
 </script>
 

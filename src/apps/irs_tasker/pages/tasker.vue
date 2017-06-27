@@ -2,11 +2,11 @@
   <div class="container">
     <h1>Assign teams</h1>
 
-    <!-- <legend :decorated_teams="decorated_teams"></legend> -->
+    <tasker_legend :decorated_teams="decorated_teams" :selected_team_name="selected_team_name" @selected_team="select_team"></tasker_legend>
 
     <div id="map"></div>
 
-    <!-- <team_list :decorated_teams="decorated_teams"></team_list> -->
+    <team_list :decorated_teams="decorated_teams"></team_list>
 
   </div>
 </template>
@@ -15,11 +15,13 @@
   import bbox from '@turf/bbox'
   import MapboxDraw from '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw'
   import intersect from '@turf/intersect'
+  import {featureCollection} from '@turf/helpers'
   import chroma from 'chroma-js'
+  import array_unique from 'array-unique'
   import {get_geodata_area, get_current_plan} from 'lib/data/remote'
   import {basic_map} from 'lib/basic_map.js'
   import team_list from './team_list'
-  import legend from './legend'
+  import tasker_legend from './legend'
 
   const PALETTE = chroma.brewer.Set3
 
@@ -30,12 +32,12 @@
   }
 
   export default {
-    components: {team_list, legend},
+    components: {team_list, tasker_legend},
     data() {
       return {
         _geodata_areas: null,
         target_areas: null,
-        selected_team: '',
+        selected_team_name: '',
         click_handler: null,
       }
     },
@@ -49,13 +51,13 @@
         id_field: state => state.instance_config.spatial_hierarchy.find((sp) => sp.hasOwnProperty('denominator')).field_name ,
       }),
       decorated_teams() {
-        const unassigned_count = assignments.filter(a => a.team_name === null).length
+        const unassigned_count = this.assignments.filter(a => a.team_name === null).length
 
         const teams = this.$store.state.irs_tasker.teams.map((team_name, index) => {
           return {
             team_name,
             colour: PALETTE[index],
-            count: assignments.filter(a => a.team_name === team_name).length
+            count: this.assignments.filter(a => a.team_name === team_name).length
           }
         }).concat({...UNASSIGNED_TEAM, count: unassigned_count})
 
@@ -64,8 +66,12 @@
     },
     mounted() {
       this.create_map()
+      this.selected_team_name = this.$store.state.irs_tasker.teams[0]
     },
     methods: {
+      select_team(team_name) {
+        this.selected_team_name = team_name
+      },
       teams_with_count() {
         let teams = this.teams
         this.target_areas.features.forEach((feature) => {
@@ -84,6 +90,9 @@
 
         return teams
       },
+      assign_area_to_team(area_id) {
+        this.$store.dispatch('irs_tasker/assign_area_to_team', {area_id, team_name: this.selected_team_name})        
+      },
       create_map() {
         this._map = basic_map(this.$store)
 
@@ -92,7 +101,14 @@
             const geo_data = areas[0]
             const plan = areas[1]
 
-            this.target_areas =
+            const planned_areas = array_unique(plan.targets.map(({id}) => {
+              return geo_data.features.find((feature) => {
+                return feature.properties[this.id_field] === id
+              })
+            }))
+
+            this.target_areas = featureCollection(planned_areas)
+
             this.draw_areas()
             this.bind_click_handler()
             this.add_draw_controls()
@@ -149,12 +165,13 @@
         this.click_handler = (e) => {
           const clicked_feature = this._map.queryRenderedFeatures(e.point)[0]
 
+          // Update the map
           let index = this.target_areas.features.findIndex((feature) => feature.properties[this.id_field] === clicked_feature.properties[this.id_field])
-
-          // This seems like a good way to handle updating the map
-          this.target_areas.features[index].properties.team_name = this.selected_team.name
-
+          this.target_areas.features[index].properties.team_name = this.selected_team_name
           this._map.getSource('areas').setData(this.target_areas)
+
+          // Update store
+          this.assign_area_to_team(clicked_feature.properties[this.id_field])
         }
         this._map.on('click', 'areas', this.click_handler)
       },
@@ -184,11 +201,12 @@
             polygons.forEach((polygon, index) => {
               if (intersect(drawn_polygon, polygon)) {
                   selected_area_indicies.push(index)
+                  this.assign_area_to_team(polygon.properties[this.id_field])
               }
             })
 
             selected_area_indicies.forEach((index) => {
-              this.target_areas.features[index].properties.team_name = this.selected_team.name
+              this.target_areas.features[index].properties.team_name = this.selected_team_name
             })
 
             this._map.getSource('areas').setData(this.target_areas)
