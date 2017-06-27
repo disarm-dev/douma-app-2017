@@ -1,5 +1,5 @@
 <template>
-  <div class="container"> 
+  <div> 
     <md-card>
       <md-list>
         
@@ -23,17 +23,26 @@
             <span>Assigned XX areas</span>
           </div>
 
-          <md-button @click.native="edit_team(team.id)">
+          <!-- <md-button @click.native="edit_team(team.id)">
             Edit 
-          </md-button>
+          </md-button> -->
 
+        </md-list-item>
+
+        <md-list-item v-if="show_input">
+          <md-input-container>
+            <label>Team name</label>
+            <md-input v-model="name"></md-input>
+          </md-input-container>
+          <md-button @click.native="save_teams">
+            Save
+          </md-button>
         </md-list-item>
           
         <md-divider></md-divider>
 
         <md-list-item>
-          <md-button class="md-raised" @click.native="assign_teams">Assign Teams</md-button>
-          <md-button class="md-raised md-primary" @click.native="add_team">Add team</md-button>
+          <md-button class="md-raised md-primary" @click.native="show_add_team_input">Add team</md-button>
         </md-list-item>
 
       </md-list>
@@ -43,24 +52,38 @@
 <script>
   import {mapState} from 'vuex'
   export default {
+    props: ['teams'],
+    data() {
+      return {
+        name: '',
+        show_input: false
+      }
+    },
     computed: {
       ...mapState({
         'country': state => state.instance_config.name,
-        'teams': state => state.irs_tasker.teams
       })
     },
     methods: {
-      add_team() {
-        this.$router.push({name: 'irs_tasker:add_team'})
+      show_add_team_input() {
+        this.show_input = true
       },
-      edit_team(team_id) {
-        this.$router.push({name: 'irs_tasker:add_team', params: {team_id}})
-      },
-      remove_team(team) {
-        this.$store.dispatch('irs_tasker/remove_team', {team})
-      },
-      assign_teams() {
-        this.$router.push({name: 'irs_tasker:assign_teams'})
+      save_teams() {
+
+        if (this.teams.length == 12) {
+          return console.log('Maz 12 teams')
+        }
+        
+        // Check name is unique
+        for (var i = this.teams.length - 1; i >= 0; i--) {
+          if (this.teams[i].name === this.name) {
+            return console.log('Name must be unique')
+          }
+        }
+
+        this.$store.commit('irs_tasker/set_teams', this.teams.concat({name: this.name}))
+        this.show_input = false
+        this.name = ""
       }
     }
   }
