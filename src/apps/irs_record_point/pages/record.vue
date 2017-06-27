@@ -60,13 +60,13 @@
             @change='on_location_change'
             :initial_location='initial_response.location'
           ></location_record>
-        
+
         <location_selection
           @change="on_location_selection_selected"
           :initial_location_selection="initial_response.location_selection"
         >
         </location_selection>
-          
+
         </md-card-content>
         <md-card-actions>
           <md-button @click.native="show_location = false">Hide</md-button>
@@ -94,7 +94,7 @@
 <script>
   import location_record from 'components/location.vue'
   import location_selection from './location_selection'
-  import review from './review.vue'
+  import review from './validation.vue'
   import form_renderer from './form.vue'
   import {Validator} from 'lib_instances/validations'
   import {Response} from 'lib/models/response.model'
@@ -130,7 +130,7 @@
       'validation_length': 'shake_validations'
     },
     computed: {
-      
+
       user_name() {
         return this.$store.state.meta.user.name
       },
@@ -218,6 +218,15 @@
       validate(response) {
         this.validation_result = this._validator.validate(response)
         if (this.validation_result_empty) this.show_validation_result = false
+
+        // Events
+        const non_location_errors = this.validation_result.errors.filter(r => !r.is_location).length
+        if (non_location_errors) {
+          this.$ga.event('irs_record','validation_issues', 'errors', this.validation_result.errors.map(r => r.name).join('.'))
+        }
+        if (this.validation_result.warnings.length) {
+          this.$ga.event('irs_record','validation_issues', 'warning', this.validation_result.warnings.map(w => w.name).join('.'))
+        }
       },
       save_response() {
         // TODO: @refac Move to a proper response model, with tests. And cake.

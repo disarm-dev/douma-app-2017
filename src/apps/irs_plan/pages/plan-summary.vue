@@ -23,6 +23,7 @@
   import {mapState, mapGetters} from 'vuex'
 
   import cache from 'config/cache.js'
+  import {physical_denominator} from 'lib/denominator_helper'
 
   export default {
     name: 'plan_summary',
@@ -48,10 +49,8 @@
         slug: state => state.instance_config.slug,
         denominator: state => state.instance_config.denominator,
         field_name: state => state.instance_config.spatial_hierarchy[0].field_name,
-        structures_field_name: (state) => {
-          let hierarchy = state.instance_config.spatial_hierarchy.find(sp => sp.hasOwnProperty('denominator'))
-          let key = Object.keys(hierarchy.denominator)[0]
-          return hierarchy.denominator[key]
+        enumerable_field_name: (state) => {
+          return physical_denominator(state.instance_config).id_field
         }
       }),
       ...mapGetters({
@@ -73,11 +72,10 @@
       },
       number_of_structures() {
         if (this.geodata_ready) {
-          let field_name = this.structures_field_name
           return this.selected_target_area_ids.map(id => {
             return this._geodata.all_target_areas.features.find(feature => feature.properties[this.field_name] === id)
           }).reduce((sum, area) => {
-            return sum + area.properties[this.structures_field_name]
+            return sum + area.properties[this.enumerable_field_name]
           }, 0)
         }
         return 0
@@ -107,6 +105,7 @@
         const date = moment().format('YYYY-MM-DD_HHmm')
 
         download(content, `${this.slug}_irs_plan_${date}.csv`)
+        this.$ga.event('irs_plan','click_download_plan')
       }
     }
   }

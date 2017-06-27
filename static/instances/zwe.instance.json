@@ -39,8 +39,15 @@
   "slug": "zwe",
   "spatial_hierarchy": [
     {
-      "denominator": {
-        "number_of_households": "NumHouseho"
+      "denominator_units": {
+        "physical": {
+          "id_field": "NumHouseho",
+          "enumerable": "household"
+        },
+        "human": {
+          "id_field": "population",
+          "enumerable": "person"
+        }
       },
       "field_name": "ZIMWARDSID",
       "name": "wards"

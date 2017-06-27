@@ -1,18 +1,18 @@
 <template>
   <div>
-    <!-- MAIN PAGE 'TOOLBAR' -->
+    <!-- Toolbar -->
     <toolbar></toolbar>
 
-    <!-- SIDENAV -->
+    <!-- Sidenav -->
     <sidebar></sidebar>
 
-    <!-- NOTIFICATIONS (snackbar and serviceWorker dialog-->
+    <!-- Notifications (snackbar and serviceWorker dialog-->
     <notifications></notifications>
 
-    <!-- HELP -->
+    <!-- Help -->
     <help></help>
 
-    <!-- APPLET CONTAINER -->
+    <!-- Applet container -->
     <router-view></router-view>
   </div>
 </template>

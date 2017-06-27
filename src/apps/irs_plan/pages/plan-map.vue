@@ -272,9 +272,11 @@
               'fill-outline-color': colour
             },
           })
+          this.$ga.event('irs_plan','change_clusters_visibility','visible', true)
 
         } else {
           this._map.removeLayer('clusters')
+          this.$ga.event('irs_plan','change_clusters_visibility','visible', false)
         }
       },
 
@@ -340,6 +342,7 @@
 
         this.$store.commit('irs_plan/set_bulk_selected_ids', area_ids)
         this.refilter_target_areas()
+        this.$ga.event('irs_plan','change_risk_slider')
       }, 750),
       set_slider_range() {
         const values_array = this._geodata.all_target_areas.features.map(area => area.properties.risk).sort()

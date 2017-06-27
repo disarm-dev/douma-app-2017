@@ -55,6 +55,7 @@
         const content = json2csv({data, fields})
         const date = moment().format('YYYY-MM-DD_HHmm')
         download(content, `${this.instance_config.slug}_irs_progress_${date}.csv`)
+        this.$ga.event('irs_monitor','click_download_progress_table')
       }
     }
   }
