@@ -38,16 +38,9 @@
   "name": "Zimbabwe",
   "slug": "zwe",
   "spatial_hierarchy": [
-    {
-      "denominator_units": {
-        "physical": {
-          "id_field": "NumHouseho",
-          "enumerable": "household"
-        },
-        "human": {
-          "id_field": "population",
-          "enumerable": "person"
-        }
+    { 
+      "denominator": {
+        "number_of_households": "NumHouseho"
       },
       "field_name": "ZIMWARDSID",
       "name": "wards"
