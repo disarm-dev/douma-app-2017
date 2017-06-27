@@ -69,6 +69,9 @@
       this.selected_team_name = this.$store.state.irs_tasker.teams[0]
     },
     methods: {
+      update_map() {
+
+      },
       select_team(team_name) {
         this.selected_team_name = team_name
       },
@@ -97,7 +100,15 @@
         this._map = basic_map(this.$store)
 
         this._map.on('load', () => {
-          Promise.all([this.load_geodata(), this.load_current_plan()]).then((areas) => {
+          this.load_data().then(() => {
+            this.draw_areas()
+            this.bind_click_handler()
+            this.add_draw_controls()
+          })
+        })
+      },
+      load_data() {
+        return Promise.all([this.load_geodata(), this.load_current_plan()]).then((areas) => {
             const geo_data = areas[0]
             const plan = areas[1]
 
@@ -107,18 +118,20 @@
               })
             }))
 
-            planned_areas = planned_areas.map((area) => {
-              area.properties.team_name = UNASSIGNED_TEAM.team_name
-              return area
-            })
+            // BELOW IS WRONG
+            // planned_areas.forEach(({id, assigned_to_team_name}) => {
+            //   this.$store.commit('irs_tasker/set_assignment', {area_id: id, team_name: assigned_to_team_name})
+            // })
+
+            // planned_areas = planned_areas.map(({id, assigned_to_team_name}) => {
+            //   area.properties.team_name = assigned_to_team_name
+            //   return area
+            // })
 
             this.target_areas = featureCollection(planned_areas)
 
-            this.draw_areas()
-            this.bind_click_handler()
-            this.add_draw_controls()
+            return Promise.resolve()
           })
-        })
       },
       load_current_plan() {
         // TODO: @feature handle failure

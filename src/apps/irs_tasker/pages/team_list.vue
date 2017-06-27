@@ -20,7 +20,7 @@
           
           <div class="md-list-text-container">
             <span>{{team.team_name}}</span>
-            <span>Assigned XX areas</span>
+            <span>Assigned {{team.count}} areas</span>
           </div>
 
           <!-- <md-button @click.native="edit_team(team.id)">
