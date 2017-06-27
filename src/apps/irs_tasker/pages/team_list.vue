@@ -1,5 +1,5 @@
 <template>
-  <div> 
+  <div style="margin-top:1em;">
     <md-card>
       <md-list>
         
@@ -71,7 +71,7 @@
       save_teams() {
 
         if (this.teams.length == 12) {
-          return console.log('Maz 12 teams')
+          return console.log('Max 12 teams')
         }
         
         // Check name is unique
@@ -81,7 +81,7 @@
           }
         }
 
-        this.$store.commit('irs_tasker/set_teams', this.teams.concat({name: this.name}))
+        this.$store.commit('irs_tasker/set_teams', this.teams.concat(this.name))
         this.show_input = false
         this.name = ""
       }

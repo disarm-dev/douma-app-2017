@@ -45,6 +45,7 @@ export class Plan {
     return selected_target_areas.map((area) => {
       const obj = {}
       obj[standard_denominator] = area.properties[instance_specific_denominator_field]
+      obj.assigned_to_team_name = null
       obj.id = area.properties[top_level_spatial_hierarchy.field_name]
       return obj
     })
