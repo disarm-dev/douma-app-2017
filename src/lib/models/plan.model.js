@@ -17,8 +17,8 @@ export class Plan {
     return this.model
   }
 
-  validate(model) {
-    const errors = PlanSchema.errors(model)
+  validate(plan_json) {
+    const errors = PlanSchema.errors(plan_json)
 
     if (errors) {
       console.error('Validation errors:', errors)
@@ -50,4 +50,17 @@ export class Plan {
     })
   }
 
+  /**
+   * Create Assignments from a JSON representation of a Plan.
+   * @param plan_json
+   * @return [Assignments]
+   */
+  get_assignments(plan_json) {
+    return plan_json.targets.map(target => {
+      return {
+        id: target.id,
+        assigned_to_team_name: target.assigned_to_team_name
+      }
+    })
+  }
 }

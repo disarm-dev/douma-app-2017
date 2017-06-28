@@ -4,7 +4,7 @@
 
     <tasker_legend :decorated_teams="decorated_teams" :selected_team_name="selected_team_name" @selected_team="select_team"></tasker_legend>
 
-    <div id="map"></div>
+    <tasker_map :assignments="assignments"></tasker_map>
 
     <team_list :decorated_teams="decorated_teams"></team_list>
 
@@ -18,10 +18,12 @@
   import {featureCollection} from '@turf/helpers'
   import chroma from 'chroma-js'
   import array_unique from 'array-unique'
+
   import {get_geodata_area, get_current_plan} from 'lib/data/remote'
-  import {basic_map} from 'lib/basic_map.js'
+
   import team_list from './team_list'
   import tasker_legend from './legend'
+  import tasker_map from './tasker-map.vue'
 
   const PALETTE = chroma.brewer.Set3
 
@@ -32,7 +34,7 @@
   }
 
   export default {
-    components: {team_list, tasker_legend},
+    components: {team_list, tasker_map, tasker_legend},
     data() {
       return {
         _geodata_areas: null,
@@ -94,7 +96,7 @@
         return teams
       },
       assign_area_to_team(area_id) {
-        this.$store.dispatch('irs_tasker/assign_area_to_team', {area_id, team_name: this.selected_team_name})        
+        this.$store.dispatch('irs_tasker/assign_area_to_team', {area_id, team_name: this.selected_team_name})
       },
       create_map() {
         this._map = basic_map(this.$store)
