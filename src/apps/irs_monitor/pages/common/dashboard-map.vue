@@ -101,7 +101,6 @@
           .catch((e) => {
             console.log(e)
           })
-
       },
 
       select_map_type(type) {

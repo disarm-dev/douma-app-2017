@@ -57,7 +57,8 @@
     "vue-tables-2": "^0.6.23",
     "vue-touch": "^2.0.0-beta.4",
     "vuex": "^2.3.1",
-    "vuex-persistedstate": "^1.4.1"
+    "vuex-persistedstate": "^1.4.1",
+    "object-path": "latest"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",

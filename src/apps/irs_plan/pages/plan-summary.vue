@@ -35,14 +35,7 @@
           structures: 40,
           teams: 20
         },
-        _geodata: {
-          all_target_areas: null,
-          clusters: null
-        }
       }
-    },
-    watch: {
-      'geodata_ready': 'populate_data_from_global'
     },
     computed: {
       ...mapState({
@@ -56,7 +49,7 @@
       table() {
         if (this.geodata_ready) {
           const selected_areas = this.selected_target_area_ids.map(id => {
-            return this._geodata.all_target_areas.features.find(feature => feature.properties[this.field_name] === id)
+            return cache.geodata.all_target_areas.features.find(feature => feature.properties[this.field_name] === id)
           })
           const data = selected_areas.map(r => r.properties)
           const columns = Object.keys(data[0])
@@ -64,13 +57,13 @@
         }
       },
       days_to_spray() {
-        let structures_per_day = this.calculator.structures * this.calculator.teams
+        const structures_per_day = this.calculator.structures * this.calculator.teams
         return this.number_of_structures / structures_per_day
       },
       number_of_structures() {
         if (this.geodata_ready) {
           return this.selected_target_area_ids.map(id => {
-            return this._geodata.all_target_areas.features.find(feature => feature.properties[this.field_name] === id)
+            return cache.geodata.all_target_areas.features.find(feature => feature.properties[this.field_name] === id)
           }).reduce((sum, area) => {
             return sum + area.properties[this.field_name]
           }, 0)
@@ -91,10 +84,6 @@
       }
     },
     methods: {
-      populate_data_from_global() {
-        this._geodata = cache.geodata
-      },
-
       download_plan() {
         const data = this.table.data
         const fields = this.table.columns

@@ -42,10 +42,8 @@
         user_map_focus: false,
         draw: null,
         _map: null,
-        _geodata: {
-          all_target_areas: null,
-          clusters: null
-        },
+        map_loaded: false,
+
         handler: {
           click: null,
           move: null
@@ -75,7 +73,6 @@
           converted_value = this.logslider(this.risk_slider_value)
         }
         return converted_value
-        // return numeral(converted_value).format('0.00') // values for ZWE are too small to view this way
       }
     },
     watch: {
@@ -89,18 +86,17 @@
     methods: {
       // Get some data in
       populate_data_from_global() {
-        this._geodata = cache.geodata
+        if (this.geodata_ready) {
+          this._map = this.create_map()
 
-        this._map = this.create_map()
-
-
-        this._map.on('load', () => {
-          this.clusters_disabled = false
-          this.manage_map_mode()
-          this.add_target_areas()
-          this.$emit('map_loaded')
-          this.set_slider_range()
-        })
+          this._map.on('load', () => {
+            this.clusters_disabled = false
+            this.manage_map_mode()
+            this.add_target_areas()
+            this.$emit('map_loaded')
+            this.set_slider_range()
+          })
+        }
       },
 
       // Create map
@@ -161,12 +157,12 @@
 
       // Add and handle target_areas
       add_target_areas() {
-        const geojson = this._geodata.all_target_areas
+        const geojson = cache.geodata.all_target_areas
 
         if(!this._map.getSource('target_areas_source')) {
           this._map.addSource('target_areas_source', {
             'type': 'geojson',
-            'data': this._geodata.all_target_areas
+            'data': geojson
           })
         }
 
@@ -255,7 +251,7 @@
         if(!this._map.getSource('clusters_source')) {
           this._map.addSource('clusters_source', {
             type: 'geojson',
-            data: this._geodata.clusters
+            data: cache.clusters
           })
         }
 
@@ -313,7 +309,7 @@
       finish_drawing(features) {
         let drawn_polygon = features[0]
 
-        let polygons = this._geodata.all_target_areas.features
+        let polygons = cache.geodata.all_target_areas.features
         let selected_areas = []
         polygons.forEach((polygon) => {
           if (intersect(drawn_polygon, polygon)) {
@@ -332,7 +328,7 @@
       // Risk slider
       set_risk_slider_value: debounce(function(){
 
-        let areas = this._geodata.all_target_areas.features.filter((feature) => {
+        let areas = cache.geodata.all_target_areas.features.filter((feature) => {
           return feature.properties.risk >= this.converted_slider_value
         })
 
@@ -345,13 +341,14 @@
         this.$ga.event('irs_plan','change_risk_slider')
       }, 750),
       set_slider_range() {
-        const values_array = this._geodata.all_target_areas.features.map(area => area.properties.risk).sort()
+        const values_array = cache.geodata.all_target_areas.features.map(area => area.properties.risk).sort()
         const non_zeros = values_array.filter(v => v !== 0)
 
         const mino = Math.min(...non_zeros)
         const maxo = Math.max(...values_array) * 1.001
         this.logslider = logslider(this.slider.min, this.slider.max, mino, maxo)
       },
+
       // RISK
       toggle_show_areas_by_risk() {
         if (this.risk_visible) {
@@ -363,9 +360,9 @@
       },
       add_areas_coloured_by_risk() {
 
-        this.get_log_values(this._geodata.all_target_areas)
+        this.get_log_values(cache.geodata.all_target_areas)
 
-        const features = this._geodata.all_target_areas.features.map((feature) => {
+        const features = cache.geodata.all_target_areas.features.map((feature) => {
           if (feature.properties.risk === 0) {
             feature.properties.normalised_risk = 0
           } else {

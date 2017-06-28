@@ -1,6 +1,11 @@
 <template>
   <div>
-      <div v-for="{team_name, colour} in decorated_teams" class="legend" :class="{'selected': selected_team_name === team_name}" @click="select_team(team_name)">
+      <div
+        v-for="{team_name, colour} in decorated_teams"
+        class="legend"
+        :class="{'selected': selected_team_name === team_name}"
+        @click="select_team(team_name)"
+      >
         <div class="legend-box" :style="{'background-color': colour}"></div>
         <div class="legend-name">{{team_name}}</div>
       </div>
