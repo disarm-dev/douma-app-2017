@@ -27,8 +27,7 @@ get_instance_config()
     // Configure on/offline watcher
     add_network_status_watcher(douma_app)
 
-    // Make sure to overwrite loading bar status set in store
-    douma_app.$store.commit('root:set_loading', false)
+    // Make sure to overwrite any global UI statuses set in store
     douma_app.$store.commit('root:set_instance_config', instance_config)
 
     // Keep track of what version we're working on

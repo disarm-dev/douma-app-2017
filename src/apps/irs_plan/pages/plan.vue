@@ -20,12 +20,12 @@
       <!--PLAN MAP-->
       <md-card>
         <md-card-content>
-          <plan_map
-            :geodata_ready="geodata_ready"
-            :edit_mode="edit_mode"
-            :risk_visible="risk_visible"
-            v-on:map_loaded="edit_disabled = false"
-          ></plan_map>
+          <!--<plan_map-->
+            <!--:geodata_ready="geodata_ready"-->
+            <!--:edit_mode="edit_mode"-->
+            <!--:risk_visible="risk_visible"-->
+            <!--v-on:map_loaded="edit_disabled = false"-->
+          <!--&gt;</plan_map>-->
         </md-card-content>
       </md-card>
 
@@ -63,13 +63,13 @@
   import plan_map from './plan-map.vue'
   import cache from 'config/cache.js'
   import {Plan} from 'lib/models/plan.model.js'
+  import {get_geodata} from 'lib/data/remote'
 
   export default {
     name: 'Plan',
     components: {plan_summary, plan_map},
     data() {
       return {
-        geodata_ready: false,
         edit_mode: false,
         edit_disabled: true,
         risk_visible: false
@@ -81,7 +81,8 @@
         slug: state => state.instance_config.slug,
         unsaved_changes: state => state.irs_plan.unsaved_changes,
         online: state => state.network_online,
-        geodata_loading_progress: state => state.irs_plan.geodata_loading_progress,
+        geodata_loading_progress: state => state.geodata_loading_progress,
+        geodata_ready: state => state.geodata_ready,
         current_plan_date: state =>  {
           if (state.irs_plan.current_plan) {
             return moment(state.irs_plan.current_plan.planned_at).format('hh:mm a DD MMM YYYY')
@@ -104,36 +105,9 @@
       'edit_mode': 'disable_risk_in_edit_mode'
     },
     mounted() {
-      this.load_geo_data()
-      this.load_plan()
+      get_geodata(this.$store).then(this.load_plan)
     },
     methods: {
-      load_geo_data() {
-        this.$store.commit('root:set_loading', true)
-        this.$store.dispatch('irs_plan/get_geodata', {
-          slug: this.slug,
-          level: this.top_level_spatial_hierarchy.name,
-          cache: cache,
-          store: this.$store
-        })
-          .then(() => {
-            this.$store.commit('root:set_loading', false)
-            this.geodata_ready = true
-          })
-          .catch(() => {
-            this.$store.commit('root:set_snackbar', {message: 'Network error. Please reload to try resuming.'})
-            this.$refs.geodata_loading_modal.close()
-            this.$store.commit('root:set_loading', false)
-          })
-
-        // Only show progress modal if request taking more than 1 sec
-        // (i.e. probably not coming from SW/browser cache
-        setTimeout(() => {
-          if (!this.geodata_ready) {
-            this.$refs.geodata_loading_modal.open()
-          }
-        }, 1000)
-      },
       load_plan() {
         this.$store.commit('root:set_loading', true)
 

@@ -11,7 +11,7 @@
           <p class="md-body-1 login-text login-error" v-if="error">{{error}}</p>
           <md-input-container>
             <label>Username</label>
-            <md-input v-model="user.username" required type="email"></md-input>
+            <md-input ref='username' v-model="user.username" required type="email"></md-input>
           </md-input-container>
 
           <md-input-container>
@@ -54,6 +54,7 @@
       if (this.$store.state.meta.user) {
         this.$router.push('/')
       }
+      this.$refs.username.$el.focus()
     },
     methods: {
       user_is_valid() {

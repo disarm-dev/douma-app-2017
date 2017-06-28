@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 import config from 'config/common_config.js'
+import cache from 'config/cache'
 import {InstanceConfigSchema} from '../models/instance_config.schema'
 
 // Get basic root URL from static configuration
@@ -116,7 +117,18 @@ export const create_records = (records) => {
 
 
 // GEODATA
-export const get_geodata = ({slug, level, cache, store}) => {
+export const get_geodata = (store) => {
+  // Check if cache already populated
+  if (cache.geodata.all_target_areas !== null && cache.geodata.clusters !== null) {
+    console.log(cache.geodata.all_target_areas, cache.geodata.clusters)
+    return Promise.resolve()
+  }
+
+  // Get slug and level
+  const level = store.state.instance_config.spatial_hierarchy[0].name // This is top-level spatial_hierarchy
+  const slug = store.state.instance_config.slug
+
+
   // $store is passed in order to update loading progress bar
   const urls = [
   `/static/geo/${slug}/spatial_hierarchy/${slug}.${level}.geojson`,
@@ -151,14 +163,22 @@ export const get_geodata = ({slug, level, cache, store}) => {
 
       const progress_calc = (loaded_bytes_all / total_all_files) * 100
 
-      store.commit('irs_plan/set_geodata_loading_progress', progress_calc)
+      store.commit('root:set_geodata_loading_progress', progress_calc)
     }
   }
 
+  store.commit('root:set_loading', true)
   return Promise.all(urls.map(url => standard_handler(url, options)))
     .then(jsons => {
       cache.geodata.all_target_areas = jsons[0]
       cache.geodata.clusters = jsons[1]
+      store.commit('root:set_loading', false)
+      store.commit('root:set_geodata_ready', true)
+    })
+    .catch(() => {
+      store.commit('root:set_geodata_ready', 'error')
+      store.commit('root:set_loading', false)
+      store.commit('root:set_snackbar', {message: 'Network error. Please reload to try resuming.'})
     })
 }
 

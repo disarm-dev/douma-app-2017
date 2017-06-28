@@ -6,8 +6,6 @@ import {Plan} from 'lib/models/plan.model'
 export default {
   namespaced: true,
   state: {
-    geodata_loading_progress: 0,
-
     current_plan: null,
     areas_included_by_click: [],
     areas_excluded_by_click: [],
@@ -33,9 +31,6 @@ export default {
     },
   },
   mutations: {
-    'set_geodata_loading_progress': (state, progress) => {
-      state.geodata_loading_progress = progress
-    },
     "toggle_selected_target_area_id": (state, target_area_id) => {
       if (state.areas_included_by_click.includes(target_area_id)) {
         // remove target area from included
@@ -117,9 +112,6 @@ export default {
         context.commit('add_selected_target_areas', target_areas)
         context.commit('set_unsaved_changes', false)
       })
-    },
-    'get_geodata': (context, options) => {
-      return get_geodata(options)
     }
   }
 }
