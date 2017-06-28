@@ -19,6 +19,7 @@ export default {
         assignment.team_name = team_name
       } else {
         const assignment = {area_id, team_name}
+
         if (AssignmentSchema(assignment)) {
           state.assignments.push(assignment)
         } else {

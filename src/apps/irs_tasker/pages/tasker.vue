@@ -27,7 +27,7 @@
 
   const PALETTE = chroma.brewer.Set3
 
-  const UNASSIGNED_TEAM = {
+  const DECORATED_UNASSIGNED_TEAM = {
     team_name: 'Unassigned',
     colour: 'grey',
     count: 0
@@ -50,7 +50,7 @@
         team_names: state => state.irs_tasker.teams
       }),
       decorated_teams() {
-        const unassigned_count = this.assignments.filter(a => a.team_name === UNASSIGNED_TEAM.team_name).length
+        const unassigned_count = this.assignments.filter(a => !a.team_name).length
 
         const teams = this.team_names.map((team_name, index) => {
           return {
@@ -58,19 +58,16 @@
             colour: PALETTE[index],
             count: this.assignments.filter(a => a.team_name === team_name).length
           }
-        }).concat({...UNASSIGNED_TEAM, count: unassigned_count})
+        }).concat({...DECORATED_UNASSIGNED_TEAM, count: unassigned_count})
 
         return teams
       }
     },
     mounted() {
-      this.selected_team_name = this.$store.state.irs_tasker.teams[0]
     },
     methods: {
       assign_areas_to_selected_team(area_ids) {
-        if (!Array.isArray(area_ids)) {
-          area_ids = [area_ids]
-        }
+        if (!Array.isArray(area_ids)) area_ids = [area_ids]
 
         area_ids.forEach(area_id => {
           this.$store.dispatch('irs_tasker/assign_area_to_team', {area_id, team_name: this.selected_team_name})
@@ -89,6 +86,7 @@
           const teams = new Assignment().team_names_from_assignments(assignments)
           this.$store.commit('irs_tasker/set_teams', teams)
 
+          this.selected_team_name = this.decorated_teams[0].team_name
         })
       },
     }

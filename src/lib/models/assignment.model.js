@@ -29,4 +29,8 @@ export class Assignment {
       return team_names
     }, [])
   }
+
+  decorate_teams() {
+
+  }
 }

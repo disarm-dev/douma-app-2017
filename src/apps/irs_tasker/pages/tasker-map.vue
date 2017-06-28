@@ -29,7 +29,9 @@
         id_field: state => state.instance_config.spatial_hierarchy.find((sp) => sp.hasOwnProperty('denominator')).field_name ,
       })
     },
-    watch: {'assignments': 'redraw_assignments'},
+    watch: {
+      'assignments': 'redraw_assignments'
+    },
     mounted() {
       this.create_map()
     },
@@ -50,7 +52,6 @@
         })
       },
       draw_areas() {
-        debugger
         if (this._map.getLayer('areas')) {
           this._map.removeLayer('areas')
         }
@@ -60,8 +61,9 @@
         }
 
         const palette = this.decorated_teams.map(({team_name, colour}) => {
+          if (team_name === null) return null
           return [team_name, colour]
-        })
+        }).filter(i => i)
 
         this._map.addLayer({
           id: 'areas',
@@ -71,11 +73,11 @@
             data: this.assignment_fc
           },
           paint: {
-            'fill-color': 'green',
             'fill-color': {
               type: 'categorical',
               property: 'team_name',
-              stops: palette
+              stops: palette,
+              default: 'grey'
             },
             'fill-opacity': 0.9,
             'fill-outline-color': '#262626'
@@ -163,13 +165,13 @@
           console.warn("No idea about assignments, please give me a plan")
           return null
         } else {
-          const features = this.assignments.map(a => {
-            const found = cache.geodata.all_target_areas.features.find(f => f.properties[this.id_field] === a.area_id)
+          const features = this.assignments.map(assignment => {
+            const found = cache.geodata.all_target_areas.features.find(f => f.properties[this.id_field] === assignment.area_id)
 
             if (found) {
-              found.properties.team_name = a.team_name
+              found.properties.team_name = assignment.team_name
             } else {
-              throw new Error(`Cannot find geodata for ${a.area_id}`)
+              throw new Error(`Cannot find geodata for ${assignment.area_id}`)
             }
 
             return found
@@ -179,7 +181,16 @@
         }
       },
       redraw_assignments() {
-        console.log("doing what? ")
+        // Update team assignments on assignments_fc
+        this.assignment_fc.features.forEach(assignment_feature => {
+          const assignment = this.assignments.find(i => i.area_id === assignment_feature.properties[this.id_field])
+          if (assignment) {
+            assignment_feature.properties.team_name = assignment.team_name
+          } else {
+            assignment_feature.properties.team_name = null
+          }
+        })
+        console.log('update something in here')
         this.draw_areas()
       }
     }
