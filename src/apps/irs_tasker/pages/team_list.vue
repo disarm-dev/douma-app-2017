@@ -2,7 +2,7 @@
   <div style="margin-top:1em;">
     <md-card>
       <md-list>
-        
+
         <md-list-item>
           <p class="md-title">Teams for {{country}}</p>
         </md-list-item>
@@ -11,20 +11,20 @@
         <md-list-item v-if="!decorated_teams.length">
           There are currently no teams. Add one below.
         </md-list-item>
-        
+
         <md-list-item v-for="(team, index) in decorated_teams" :key="index">
-          
+
           <md-avatar :style="{'background-color': team.colour}" class="md-avatar-icon">
             <md-icon>people</md-icon>
           </md-avatar>
-          
+
           <div class="md-list-text-container">
             <span>{{team.team_name}}</span>
             <span>Assigned {{team.count}} areas</span>
           </div>
 
           <!-- <md-button @click.native="edit_team(team.id)">
-            Edit 
+            Edit
           </md-button> -->
 
         </md-list-item>
@@ -38,7 +38,7 @@
             Save
           </md-button>
         </md-list-item>
-          
+
         <md-divider></md-divider>
 
         <md-list-item>
@@ -49,8 +49,10 @@
     </md-card>
   </div>
 </template>
+
 <script>
   import {mapState} from 'vuex'
+
   export default {
     props: ['decorated_teams'],
     data() {
@@ -74,7 +76,7 @@
         if (this.decorated_teams.length == 12) {
           return console.log('Max 12 teams')
         }
-        
+
         // Check name is unique
         for (var i = this.decorated_teams.length - 1; i >= 0; i--) {
           if (this.decorated_teams[i].team_name === this.name) {

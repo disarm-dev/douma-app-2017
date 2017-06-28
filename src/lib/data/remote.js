@@ -116,11 +116,16 @@ export const create_records = (records) => {
 }
 
 
-// GEODATA
+/**
+ * Sets `geodata` on the `cache` object, which can be imported anywhere.
+ * If it doesn't already exist, will make remote request to load it.
+ * ServiceWorker will then do its own caching.
+ * @param store
+ * @returns {*}
+ */
 export const get_geodata = (store) => {
   // Check if cache already populated
   if (cache.geodata.all_target_areas !== null && cache.geodata.clusters !== null) {
-    console.log(cache.geodata.all_target_areas, cache.geodata.clusters)
     return Promise.resolve()
   }
 

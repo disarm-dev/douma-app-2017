@@ -1,10 +1,11 @@
 import chroma from 'chroma-js'
+import {AssignmentSchema} from '../../lib/models/assignment.schema'
 
 export default {
   namespaced: true,
   state: {
     teams: [],
-    assignments: []
+    assignments: [] // Array of {area_id, team_name}
   },
   mutations: {
     "set_teams": (state, teams) => {
@@ -14,13 +15,20 @@ export default {
       const assignment = state.assignments.find(a => a.area_id === area_id)
 
       if (assignment) {
-        assignment.team_name = team_name
         // update it
-        // state.assignments.splice(1, index, assignment)
-        // Vue.set(vm.someObject, 'b', 2)
+        assignment.team_name = team_name
       } else {
-        state.assignments.push({area_id, team_name})
+        const assignment = {area_id, team_name}
+        if (AssignmentSchema(assignment)) {
+          state.assignments.push(assignment)
+        } else {
+          console.error(AssignmentSchema.errors(assignment))
+          throw new Error('Invalid Assignment')
+        }
       }
+    },
+    "set_assignments": (state, assignments) => {
+      state.assignments = assignments
     },
     "delete_assignment": (state, assignment) => {
       const index = state.assignments.findIndex(a => a.area_id === assignment.area_id)
