@@ -54,8 +54,8 @@ export const InstanceConfigSchema = schema({
   slug: String,
   spatial_hierarchy: Array.of_x(1, Infinity, SpatialHierarchySchema),
   // TODO: @fix Don't currently have a way to validate the denominator on spatial_hierarchy - could do as separate property
-  denominator: {
-    '?number_of_structures': String,
-    '?number_of_households': String
-  },
+  // denominator: {
+  //   '?number_of_structures': String,
+  //   '?number_of_households': String
+  // },
 })
