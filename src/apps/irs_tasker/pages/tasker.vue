@@ -4,7 +4,11 @@
     <md-button class="md-accent" @click.native="recreate_assignments_from_plan">Recreate assignments from most recent Plan</md-button>
     <tasker_legend :decorated_teams="decorated_teams" :selected_team_name="selected_team_name" @selected_team="select_team"></tasker_legend>
 
-    <tasker_map :assignments="assignments" :decorated_teams="decorated_teams"></tasker_map>
+    <tasker_map
+      :assignments="assignments"
+      :decorated_teams="decorated_teams"
+      @assign_areas_to_selected_team="assign_areas_to_selected_team"
+    ></tasker_map>
 
     <team_list :assignments="assignments" :decorated_teams="decorated_teams"></team_list>
 
@@ -43,11 +47,12 @@
       ...mapState({
         instance_config: state => state.instance_config,
         assignments: state => state.irs_tasker.assignments,
+        team_names: state => state.irs_tasker.teams
       }),
       decorated_teams() {
-        const unassigned_count = this.assignments.filter(a => a.team_name === null).length
+        const unassigned_count = this.assignments.filter(a => a.team_name === UNASSIGNED_TEAM.team_name).length
 
-        const teams = this.$store.state.irs_tasker.teams.map((team_name, index) => {
+        const teams = this.team_names.map((team_name, index) => {
           return {
             team_name,
             colour: PALETTE[index],
@@ -62,8 +67,14 @@
       this.selected_team_name = this.$store.state.irs_tasker.teams[0]
     },
     methods: {
-      assign_area_to_team(area_id) {
-        this.$store.dispatch('irs_tasker/assign_area_to_team', {area_id, team_name: this.selected_team_name})
+      assign_areas_to_selected_team(area_ids) {
+        if (!Array.isArray(area_ids)) {
+          area_ids = [area_ids]
+        }
+
+        area_ids.forEach(area_id => {
+          this.$store.dispatch('irs_tasker/assign_area_to_team', {area_id, team_name: this.selected_team_name})
+        })
       },
       select_team(team_name) {
         this.selected_team_name = team_name
@@ -74,6 +85,10 @@
 
           const assignments = new Assignment().assignments_from_plan(plan_json)
           this.$store.commit('irs_tasker/set_assignments', assignments)
+
+          const teams = new Assignment().team_names_from_assignments(assignments)
+          this.$store.commit('irs_tasker/set_teams', teams)
+
         })
       },
     }

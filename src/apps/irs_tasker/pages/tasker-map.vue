@@ -49,7 +49,8 @@
           })
         })
       },
-      draw_areas(areas) {
+      draw_areas() {
+        debugger
         if (this._map.getLayer('areas')) {
           this._map.removeLayer('areas')
         }
@@ -95,7 +96,8 @@
           this._map.getSource('areas').setData(this.assignment_fc)
 
           // Update store
-          this.assign_area_to_team(clicked_feature.properties[this.id_field])
+          const area_id = clicked_feature.properties[this.id_field]
+          this.$emit('assign_areas_to_selected_team', area_id)
         }
         this._map.on('click', 'areas', this._click_handler)
       },
@@ -118,33 +120,34 @@
         }
         this._draw_control = new MapboxDraw(options)
 
-        this._map.on('draw.create', (e) => {
-          const drawn_polygon = e.features[0]
-
-          const polygons = this.assignment_fc.features
-          const selected_area_indices = []
-          polygons.forEach((polygon, index) => {
-            if (intersect(drawn_polygon, polygon)) {
-              selected_area_indices.push(index)
-              this.assign_area_to_team(polygon.properties[this.id_field])
-            }
-          })
-
-          selected_area_indices.forEach((index) => {
-            this.assignment_fc.features[index].properties.team_name = this.selected_team_name
-          })
-
-          this._map.getSource('areas').setData(this.assignment_fc)
-          this._draw_control.deleteAll()
-
-          setTimeout(() => { // TODO: @refac remove timeout hack
-            this.bind_click_handler()
-          }, 200)
-        })
-
+        // Remove click handler when you start to draw - avoids selecting first polygon
         this._map.on('draw.modechange', (e) => {
           if(e.mode === 'draw_polygon') this.remove_click_handler()
         })
+
+        // Watch for a new polygon being completed
+        this._map.on('draw.create', (e) => {
+          const drawn_polygon = e.features[0]
+          const all_polygons = this.assignment_fc.features
+          const area_ids = []
+
+          // Find all polygons which intersect with the drawn polygon
+          all_polygons.forEach((polygon, index) => {
+            if (intersect(drawn_polygon, polygon)) {
+              const area_id = polygon.properties[this.id_field]
+              area_ids.push(area_id)
+            }
+          })
+
+          this.$emit('assign_areas_to_selected_team', area_ids)
+
+          // Clear your lovely polygon
+          this._draw_control.deleteAll()
+
+          // Rebind the original click handler
+          this.bind_click_handler()
+        })
+
 
         this._map.addControl(this._draw_control)
       },
@@ -176,7 +179,8 @@
         }
       },
       redraw_assignments() {
-        console.log("doing what?")
+        console.log("doing what? ")
+        this.draw_areas()
       }
     }
   }

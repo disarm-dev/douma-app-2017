@@ -32,7 +32,7 @@
         <md-list-item v-if="show_input">
           <md-input-container>
             <label>Team name</label>
-            <md-input v-model="name"></md-input>
+            <md-input v-model="new_name"></md-input>
           </md-input-container>
           <md-button @click.native="save_teams">
             Save
@@ -57,36 +57,38 @@
     props: ['decorated_teams'],
     data() {
       return {
-        name: '',
+        new_name: '',
         show_input: false
       }
     },
     computed: {
       ...mapState({
-        'country': state => state.instance_config.name,
-        'team_names': state => state.irs_tasker.teams,
+        country: state => state.instance_config.name,
+        team_names: state => state.irs_tasker.teams,
       })
     },
     methods: {
       show_add_team_input() {
+        if (this.decorated_teams.length == 12) {
+          this.show_input = false
+          this.$store.commit('root:set_snackbar', {message: 'Maximum 12 teams.'})
+        }
         this.show_input = true
       },
       save_teams() {
-
-        if (this.decorated_teams.length == 12) {
-          return console.log('Max 12 teams')
+        // Names must be unique
+        if (this.team_names.includes(this.new_name)) {
+          return this.$store.commit('root:set_snackbar', {message: 'Names must be unique.'})
         }
 
-        // Check name is unique
-        for (var i = this.decorated_teams.length - 1; i >= 0; i--) {
-          if (this.decorated_teams[i].team_name === this.name) {
-            return console.log('Name must be unique')
-          }
+        // Name cannot be "Unassigned". We use that.
+        if (this.new_name.toLowerCase() === 'unassigned') {
+          return this.$store.commit('root:set_snackbar', {message: 'Cannot use "Unassigned" as team name!'})
         }
 
-        this.$store.dispatch('irs_tasker/update_teams', this.team_names.concat(this.name))
+        this.$store.dispatch('irs_tasker/update_teams', this.team_names.concat(this.new_name))
         this.show_input = false
-        this.name = ""
+        this.new_name = ""
       }
     }
   }
