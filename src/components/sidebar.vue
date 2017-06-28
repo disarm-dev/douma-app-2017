@@ -20,32 +20,32 @@
 
     <!--Sidebar: LOGGED IN-->
     <md-list v-if="user">
-      <md-list-item v-for='applet in decorated_applets' :key='applet' @click.native="navigate(applet.name)">
+      <md-list-item v-for='applet in decorated_applets' :key='applet' @click="navigate(applet.name)">
         <md-icon>{{applet.icon}}</md-icon><span class="applet-item">{{applet.title}}</span>
       </md-list-item>
 
       <md-divider class="md-inset"></md-divider>
 
-      <md-list-item @click.native="navigate('meta:home')">
+      <md-list-item @click="navigate('meta:home')">
         <md-icon>person</md-icon><span>User</span>
       </md-list-item>
 
-      <md-list-item class='md-primary' @click.native="toggle_help">
+      <md-list-item class='md-primary' @click="toggle_help">
         <md-icon>help</md-icon><span>Help</span>
       </md-list-item>
 
-      <md-list-item class='md-accent' @click.native="navigate('meta:logout')">
+      <md-list-item class='md-accent' @click="navigate('meta:logout')">
         <md-icon>exit_to_app</md-icon><span>Logout</span>
       </md-list-item>
     </md-list>
 
     <!--Sidebar: LOGGED OUT-->
     <md-list v-else>
-      <md-list-item class='md-primary' @click.native="toggle_help">
+      <md-list-item class='md-primary' @click="toggle_help">
         <md-icon>help</md-icon><span>Help</span>
       </md-list-item>
 
-      <md-list-item class='md-accent' @click.native="navigate('meta:login')">
+      <md-list-item class='md-accent' @click="navigate('meta:login')">
         <md-icon>exit_to_app</md-icon><span>Login</span>
       </md-list-item>
     </md-list>

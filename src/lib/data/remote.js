@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 import config from 'config/common_config.js'
+import {InstanceConfigSchema} from '../models/instance_config.schema'
 
 // Get basic root URL from static configuration
 const douma_api_root = `${config.api.url}/${config.api.version}`
@@ -26,7 +27,6 @@ const standard_handler = (url, options = {}) => {
 
 
 
-
 // Instance configuration and related files
 export const get_instance_files = (slug) => {
   const urls = [
@@ -41,7 +41,15 @@ export const get_instance_files = (slug) => {
 
   return Promise.all(urls.map(url => standard_handler(url, options)))
     .then(jsons => {
-      let instance_config = jsons[0]
+      const instance_config = jsons[0]
+      const errors = InstanceConfigSchema.errors(instance_config)
+
+      if (errors) {
+        const message = "Invalid instance_config"
+        console.error(errors)
+        alert(message + ": Please report this as an urgent bug.")
+        throw new Error(message)
+      }
 
       const form = jsons[1]
       const location_selection = jsons[2]

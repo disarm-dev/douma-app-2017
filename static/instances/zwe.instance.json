@@ -38,7 +38,7 @@
   "name": "Zimbabwe",
   "slug": "zwe",
   "spatial_hierarchy": [
-    { 
+    {
       "denominator": {
         "number_of_households": "NumHouseho"
       },
