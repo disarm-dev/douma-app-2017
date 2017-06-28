@@ -12,6 +12,7 @@ export class Assignment {
 
   create({area_id, team_name}) {
     const assignment = {area_id, team_name}
+
     if (AssignmentSchema(assignment)) {
       return assignment
     } else {
@@ -28,9 +29,5 @@ export class Assignment {
       }
       return team_names
     }, [])
-  }
-
-  decorate_teams() {
-
   }
 }
