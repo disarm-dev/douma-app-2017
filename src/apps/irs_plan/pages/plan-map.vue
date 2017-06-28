@@ -89,22 +89,13 @@
         if (this.geodata_ready) {
           this._map = this.create_map()
 
-          const do_stuff = () => {
+          this._map.on('load', () => {
             this.clusters_disabled = false
             this.manage_map_mode()
             this.add_target_areas()
             this.$emit('map_loaded')
             this.set_slider_range()
-          }
-
-          if (this.map_loaded) {
-            do_stuff()
-          } else {
-            this._map.on('load', () => {
-              this.map_loaded = true
-              do_stuff()
-            })
-          }
+          })
         }
       },
 
@@ -166,12 +157,12 @@
 
       // Add and handle target_areas
       add_target_areas() {
-        const geojson = cache.all_target_areas
+        const geojson = cache.geodata.all_target_areas
 
         if(!this._map.getSource('target_areas_source')) {
           this._map.addSource('target_areas_source', {
             'type': 'geojson',
-            'data': cache.all_target_areas
+            'data': geojson
           })
         }
 
@@ -318,7 +309,7 @@
       finish_drawing(features) {
         let drawn_polygon = features[0]
 
-        let polygons = cache.all_target_areas.features
+        let polygons = cache.geodata.all_target_areas.features
         let selected_areas = []
         polygons.forEach((polygon) => {
           if (intersect(drawn_polygon, polygon)) {
@@ -337,7 +328,7 @@
       // Risk slider
       set_risk_slider_value: debounce(function(){
 
-        let areas = cache.all_target_areas.features.filter((feature) => {
+        let areas = cache.geodata.all_target_areas.features.filter((feature) => {
           return feature.properties.risk >= this.converted_slider_value
         })
 
@@ -350,7 +341,7 @@
         this.$ga.event('irs_plan','change_risk_slider')
       }, 750),
       set_slider_range() {
-        const values_array = cache.all_target_areas.features.map(area => area.properties.risk).sort()
+        const values_array = cache.geodata.all_target_areas.features.map(area => area.properties.risk).sort()
         const non_zeros = values_array.filter(v => v !== 0)
 
         const mino = Math.min(...non_zeros)
@@ -369,9 +360,9 @@
       },
       add_areas_coloured_by_risk() {
 
-        this.get_log_values(cache.all_target_areas)
+        this.get_log_values(cache.geodata.all_target_areas)
 
-        const features = cache.all_target_areas.features.map((feature) => {
+        const features = cache.geodata.all_target_areas.features.map((feature) => {
           if (feature.properties.risk === 0) {
             feature.properties.normalised_risk = 0
           } else {

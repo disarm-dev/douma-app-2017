@@ -62,8 +62,6 @@
       },
       number_of_structures() {
         if (this.geodata_ready) {
-          console.log("I cannot get here unless geodata_ready is true. It is: ", this.geodata_ready, cache)
-
           return this.selected_target_area_ids.map(id => {
             return cache.geodata.all_target_areas.features.find(feature => feature.properties[this.field_name] === id)
           }).reduce((sum, area) => {

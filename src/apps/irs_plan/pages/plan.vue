@@ -20,12 +20,12 @@
       <!--PLAN MAP-->
       <md-card>
         <md-card-content>
-          <!--<plan_map-->
-            <!--:geodata_ready="geodata_ready"-->
-            <!--:edit_mode="edit_mode"-->
-            <!--:risk_visible="risk_visible"-->
-            <!--v-on:map_loaded="edit_disabled = false"-->
-          <!--&gt;</plan_map>-->
+          <plan_map
+            :geodata_ready="geodata_ready"
+            :edit_mode="edit_mode"
+            :risk_visible="risk_visible"
+            v-on:map_loaded="edit_disabled = false"
+          ></plan_map>
         </md-card-content>
       </md-card>
 
