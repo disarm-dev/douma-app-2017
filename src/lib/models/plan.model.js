@@ -21,9 +21,8 @@ export class Plan {
     const errors = PlanSchema.errors(model)
 
     if (errors) {
-      console.log(errors)
+      console.error('Validation errors:', errors)
       throw new Error('PlanSchema validation failed')
-
     }
   }
 

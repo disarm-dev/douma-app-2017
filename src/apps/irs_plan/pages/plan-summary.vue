@@ -2,7 +2,7 @@
   <div>
     <h3>Calculator</h3>
     <div>
-      At a rate of  <input class="slim-input" type="numer" v-model="calculator.structures"/> {{structures_or_something_else}} per team per day, with  <input class="slim-input" type="number" v-model="calculator.teams"/> teams this would take {{days_to_spray}} days
+      At a rate of <input class="slim-input" type="number" v-model="calculator.structures"/> {{structures_or_something_else}} per team per day, with  <input class="slim-input" type="number" v-model="calculator.teams"/> teams this would take {{days_to_spray}} days
     </div>
 
     <h3>Selected regions:</h3>
@@ -47,11 +47,8 @@
     computed: {
       ...mapState({
         slug: state => state.instance_config.slug,
-        denominator: state => state.instance_config.denominator,
+        denominator: state => state.instance_config.spatial_hierarchy[0].denominator,
         field_name: state => state.instance_config.spatial_hierarchy[0].field_name,
-        enumerable_field_name: (state) => {
-          return physical_denominator(state.instance_config).id_field
-        }
       }),
       ...mapGetters({
         selected_target_area_ids: 'irs_plan/all_selected_area_ids'
@@ -75,7 +72,7 @@
           return this.selected_target_area_ids.map(id => {
             return this._geodata.all_target_areas.features.find(feature => feature.properties[this.field_name] === id)
           }).reduce((sum, area) => {
-            return sum + area.properties[this.enumerable_field_name]
+            return sum + area.properties[this.field_name]
           }, 0)
         }
         return 0

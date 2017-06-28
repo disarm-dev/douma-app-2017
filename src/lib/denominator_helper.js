@@ -1,3 +1,4 @@
+// TODO: @refac Move this into the instance_config schema (think it's mostly there)
 // Help us get the right data out of instance configs
 
 import schema from 'js-schema'

@@ -70,6 +70,7 @@ export default {
           try {
             new Plan().validate(plan_json)
           } catch (e) {
+            console.error(e)
             context.commit('root:set_snackbar', {message: 'ERROR: Plan is not valid'}, {root: true})
           }
 
