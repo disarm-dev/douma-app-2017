@@ -25,7 +25,6 @@
   import tasker_map from './tasker-map.vue'
   import {Assignment} from 'lib/models/assignment.model'
   import {DECORATED_UNASSIGNED_TEAM} from '../unassigned_team'
-  import {get_geodata} from 'lib/data/remote'
 
   const PALETTE = chroma.brewer.Set3
 
@@ -59,9 +58,6 @@
 
         return teams
       }
-    },
-    mounted() {
-      get_geodata(this.$store)
     },
     methods: {
       assign_areas_to_selected_team(area_ids) {

@@ -36,19 +36,25 @@
       'assignments': 'redraw_assignments'
     },
     mounted() {
-      this.render_map()
+      get_geodata(this.$store).then(() => {
+        if (this.geodata_ready) {
+          // geodata_ready is not changing, so render the map now 
+          this.render_map()
+        }
+      })
     },
     methods: {
       render_map() {
-        if (this.geodata_ready) {
-          this._map = basic_map(this.$store)
+        // Don't want to create map twice
+        if (this._map) return 
 
-          this._map.on('load', () => {
-            this.bind_click_handler()
-            this.add_draw_controls()
-            this.redraw_assignments()
-          })
-        }
+        this._map = basic_map(this.$store)
+
+        this._map.on('load', () => {
+          this.bind_click_handler()
+          this.add_draw_controls()
+          this.redraw_assignments()
+        })
       },
       draw_areas() {
         if (this._map.getLayer('areas')) {
@@ -91,14 +97,12 @@
         this._click_handler = (e) => {
           const clicked_feature = this._map.queryRenderedFeatures(e.point)[0]
 
-          // Update the map
-          const index = this.assignment_fc.features.findIndex((feature) => feature.properties[this.id_field] === clicked_feature.properties[this.id_field])
-          this.assignment_fc.features[index].properties.team_name = this.selected_team_name
-          this._map.getSource('areas').setData(this.assignment_fc)
-
           // Update store
           const area_id = clicked_feature.properties[this.id_field]
           this.$emit('assign_areas_to_selected_team', area_id)
+
+          // Update the map
+          this.redraw_assignments()
         }
         this._map.on('click', 'areas', this._click_handler)
       },
@@ -147,6 +151,9 @@
 
           // Rebind the original click handler
           this.bind_click_handler()
+          
+          // Update the map
+          this.redraw_assignments()
         })
 
 
@@ -181,8 +188,13 @@
       },
 
       redraw_assignments() {
-//         Set assignment_fc if it doesn't exist
-
+        if (!this.assignment_fc) {
+          if (this.geodata_ready && this.assignments.length) {
+            this.assignment_fc = this.create_assignment_polygons()
+          } else {
+            return
+          }
+        }
         // Update team assignments on assignments_fc
         this.assignment_fc.features.forEach(assignment_feature => {
           const assignment = this.assignments.find(i => i.area_id === assignment_feature.properties[this.id_field])
@@ -192,7 +204,6 @@
             assignment_feature.properties.team_name = DECORATED_UNASSIGNED_TEAM.team_name
           }
         })
-        console.log('update something in here')
         this.draw_areas()
       }
     }
