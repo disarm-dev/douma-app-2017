@@ -23,6 +23,7 @@
   import cache from 'config/cache.js'
   import logslider from 'lib/log_slider.js'
   import logscale from 'lib/log_scale.js'
+  import {basic_map} from 'lib/basic_map'
 
   export default {
     name: 'plan_map',
@@ -78,16 +79,19 @@
     watch: {
       'clusters_visible': 'toggle_cluster_visiblity',
       'edit_mode': 'manage_map_mode',
-      'geodata_ready': 'populate_data_from_global',
+      'geodata_ready': 'render_map',
       'selected_target_area_ids': 'redraw_target_areas',
       'risk_slider_value': 'set_risk_slider_value',
       'risk_visible': 'toggle_show_areas_by_risk'
     },
+    mounted() {
+      this.render_map()
+    },
     methods: {
       // Get some data in
-      populate_data_from_global() {
+      render_map() {
         if (this.geodata_ready) {
-          this._map = this.create_map()
+          this._map = basic_map(this.$store)
 
           this._map.on('load', () => {
             this.clusters_disabled = false
@@ -99,15 +103,6 @@
         }
       },
 
-      // Create map
-      create_map() {
-        return new mapboxgl.Map({
-          container: 'map',
-          style: 'mapbox://styles/mapbox/streets-v9',
-          center: [23.31117652857256, -25.74823900711678],
-          zoom: 3.9642688564
-        });
-      },
       fit_bounds(geojson) {
         if (!this.user_map_focus) {
           const bounds = bbox(geojson)

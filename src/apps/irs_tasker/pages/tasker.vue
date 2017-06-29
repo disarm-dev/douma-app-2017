@@ -25,6 +25,7 @@
   import tasker_map from './tasker-map.vue'
   import {Assignment} from 'lib/models/assignment.model'
   import {DECORATED_UNASSIGNED_TEAM} from 'apps/irs_tasker/unassigned_team'
+  import {get_geodata} from 'lib/data/remote'
 
   const PALETTE = chroma.brewer.Set3
 
@@ -43,10 +44,10 @@
       ...mapState({
         instance_config: state => state.instance_config,
         assignments: state => state.irs_tasker.assignments,
-        team_names: state => state.irs_tasker.teams
+        team_names: state => state.irs_tasker.teams,
       }),
       decorated_teams() {
-        const unassigned_count = this.assignments.filter(a => !a.team_name).length
+        const unassigned_count = this.assignments.filter(a => a.team_name === DECORATED_UNASSIGNED_TEAM.team_name).length
 
         const teams = this.team_names.map((team_name, index) => {
           return {
@@ -60,6 +61,7 @@
       }
     },
     mounted() {
+      get_geodata(this.$store)
     },
     methods: {
       assign_areas_to_selected_team(area_ids) {

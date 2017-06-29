@@ -27,29 +27,27 @@
     computed: {
       ...mapState({
         id_field: state => state.instance_config.spatial_hierarchy.find((sp) => sp.hasOwnProperty('denominator')).field_name ,
+        geodata_ready: state => state.geodata_ready,
       })
     },
     watch: {
+      'geodata_ready': 'render_map',
       'assignments': 'redraw_assignments'
     },
     mounted() {
-      this.create_map()
+      this.render_map()
     },
     methods: {
-      create_map() {
-        this._map = basic_map(this.$store)
+      render_map() {
+        if (this.geodata_ready) {
+          this._map = basic_map(this.$store)
 
-        this._map.on('load', () => {
-          get_geodata(this.$store).then(() => {
-            this.assignment_fc = this.create_assignment_polygons()
-
-            if (this.assignment_fc) {
-              this.draw_areas()
-              this.bind_click_handler()
-              this.add_draw_controls()
-            }
+          this._map.on('load', () => {
+            this.bind_click_handler()
+            this.add_draw_controls()
+            this.redraw_assignments()
           })
-        })
+        }
       },
       draw_areas() {
         if (this._map.getLayer('areas')) {
@@ -84,7 +82,7 @@
           }
         })
 
-        this._map.fitBounds(bbox(this.assignment_fc), {padding: 20});
+        // this._map.fitBounds(bbox(this.assignment_fc), {padding: 20});
       },
 
       // Click listeners
@@ -180,6 +178,7 @@
           return featureCollection(features)
         }
       },
+
       redraw_assignments() {
         // Update team assignments on assignments_fc
         this.assignment_fc.features.forEach(assignment_feature => {

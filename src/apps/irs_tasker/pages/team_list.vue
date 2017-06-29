@@ -42,7 +42,7 @@
         <md-divider></md-divider>
 
         <md-list-item>
-          <md-button class="md-raised md-primary" @click.native="show_add_team_input">Add team</md-button>
+          <md-button :disabled='assignments.length === 0' class="md-raised md-primary" @click.native="show_add_team_input">Add team</md-button>
         </md-list-item>
 
       </md-list>
@@ -67,6 +67,7 @@
       ...mapState({
         country: state => state.instance_config.name,
         team_names: state => state.irs_tasker.teams,
+        assignments: state => state.irs_tasker.assignments,
       })
     },
     methods: {
@@ -85,6 +86,7 @@
 
         // Name cannot be "Unassigned". We use that.
         if (this.new_name.toLowerCase() === DECORATED_UNASSIGNED_TEAM.team_name.toLowerCase()) {
+          this.new_name = ''
           return this.$store.commit('root:set_snackbar', {message: `Cannot use "${DECORATED_UNASSIGNED_TEAM.team_name}" as team name!`})
         }
 
