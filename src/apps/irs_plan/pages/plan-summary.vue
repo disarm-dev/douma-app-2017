@@ -42,6 +42,12 @@
         slug: state => state.instance_config.slug,
         denominator: state => state.instance_config.spatial_hierarchy[0].denominator,
         field_name: state => state.instance_config.spatial_hierarchy[0].field_name,
+        structure_field_name: state => {
+          // number_of_households or number_of_structures
+          let field = Object.keys(state.instance_config.spatial_hierarchy[0].denominator)[0]
+          // gets 'NumHouseho' or 'NmStrct'
+          return state.instance_config.spatial_hierarchy[0].denominator[field]
+        }
       }),
       ...mapGetters({
         selected_target_area_ids: 'irs_plan/all_selected_area_ids'
@@ -65,8 +71,7 @@
           return this.selected_target_area_ids.map(id => {
             return cache.geodata.all_target_areas.features.find(feature => feature.properties[this.field_name] === id)
           }).reduce((sum, area) => {
-            // TODO: @feature Grab the correct field for households or structures, currently gets AggUniCod
-            return sum + area.properties[this.field_name]
+            return sum + area.properties[this.structure_field_name]
           }, 0)
         }
         return 0
