@@ -27,7 +27,7 @@
   import {Aggregator} from 'lib_instances/aggregations'
 
   export default {
-    props: ['response_aggregations'],
+    props: ['aggregated_responses'],
     data() {
       return {
         _map: null,
@@ -128,12 +128,12 @@
         // Get aggregation name
         const aggregation_name = this.instance_config.applets.irs_monitor.aggregations.map
 
-        // Filter features/areas to only those in the plan (i.e. in response_aggregations), then add aggregated property to each
+        // Filter features/areas to only those in the plan (i.e. in aggregated_responses), then add aggregated property to each
         const features = this.geodata_areas.features.filter(feature => {
           if(!this.limit_to_plan) return true
           return this.plan_target_area_ids.includes(feature.properties[this.target_area_id_field])
         }).map((feature) => {
-            const found = this.response_aggregations.find(aggregation => aggregation[this.target_area_id_field] === feature.properties[this.target_area_id_field])
+            const found = this.aggregated_responses.find(aggregation => aggregation[this.target_area_id_field] === feature.properties[this.target_area_id_field])
             if (found) {
               feature.properties.coverage = (found[aggregation_name] * 100) // Aggregation value is a proportion, not a percentage
             } else {

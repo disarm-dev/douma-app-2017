@@ -2,6 +2,8 @@
   <div class='container'>
     <h2>Table and map update with real records</h2>
     <div>
+
+      <!--  DUMPING GROUND FOR SUMMARY, LOAD, DOWNLOAD -->
       <md-card class="card">
         <md-card-content>
           <p>{{filtered_responses.length}} record{{filtered_responses.length === 1 ? '' : 's' }} lie within the planned areas.</p>
@@ -12,23 +14,23 @@
       </md-card>
 
       <!--FILTERS-->
-      <md-card v-if='filters_on' class="card">
+      <md-card v-if='debug_filters' class="card">
         <md-card-content>
-          <filters v-on:filter="filter"></filters>
+          <filters></filters>
         </md-card-content>
       </md-card>
 
       <!--MAP-->
       <md-card class="card">
         <md-card-content>
-          <map_progress :response_aggregations="response_aggregations"></map_progress>
+          <map_progress :aggregated_responses="aggregated_responses"></map_progress>
         </md-card-content>
       </md-card>
 
       <!--TABLE-->
       <md-card class="card">
         <md-card-content>
-          <table_progress :response_aggregations="response_aggregations"></table_progress>
+          <table_progress :aggregated_responses="aggregated_responses"></table_progress>
         </md-card-content>
       </md-card>
 
@@ -46,7 +48,7 @@
             :is="component.name"
             :height="component.height_constraint == 'viewport' ? window_height : undefined"
             :responses='filtered_responses'
-            :denominator="denominator"
+            :denominator="{}"
             :component_config='component'>
           </component>
         </md-card-content>
@@ -57,7 +59,6 @@
 </template>
 
 <script>
-  import numeral from 'numeral'
   import moment from 'moment'
   import download from 'downloadjs'
   import json2csv from 'json2csv'
@@ -90,8 +91,6 @@
   import zwe_chart_prop_people_covered from './zwe/zwe_chart_prop_people_covered'
   import zwe_chart_refusal_pie from './zwe/zwe_chart_refusal_pie'
 
-  import Presenters from 'lib_instances/presenters'
-
   export default {
     name: 'Dashboard',
     components: {
@@ -123,22 +122,15 @@
       zwe_chart_refusal_pie
 
     },
-    filters: {
-      two_decimals(value) {
-        return numeral(value).format('0.[00]')
-      }
-    },
     data () {
       return {
-        loading: false,
-        denominator: {},
-
         // Debug
-        filters_on: false,
+        debug_filters: false,
       }
     },
     computed: {
       ...mapState({
+        loading: state => state.loading,
         instance_config: state => state.instance_config,
         country: state => state.instance_config.name,
         components: state => state.instance_config.applets.irs_monitor.components,
@@ -153,49 +145,24 @@
       }),
       ...mapGetters({
         filtered_responses: 'irs_monitor/filtered_responses',
-        filtered_denominators: 'irs_monitor/filtered_denominators'
+        aggregated_denominators: 'irs_monitor/aggregated_denominators',
+        aggregated_responses: "irs_monitor/aggregated_responses",
       }),
-      response_aggregations() {
-        if(!this.filtered_responses.length || !this.filtered_denominators.length) return []
-
-        const instance_presenters = new Presenters[this.instance_config.slug](this.instance_config) // TODO: @refac Improve signature, remove duplication
-        const data = instance_presenters.get_aggregated_responses({
-          responses: this.filtered_responses,
-          denominators: this.filtered_denominators,
-          instance_config: this.instance_config
-        })
-        return data
-      },
       window_height() {
         return (window.innerHeight - 64) - 200
       },
     },
-    created() {
-      // this.refresh_data()
-    },
-    mounted() {
-    },
     methods: {
-//      filter(filter) {
-//        if (filter.value === 'all') {
-//          this.$store.commit('irs_monitor/remove_filter', filter.type)
-//        } else {
-//          this.$store.commit('irs_monitor/toggle_filter', filter)
-//        }
-//      },
       refresh_data() {
-        this.loading = true
         this.$store.commit('root:set_loading', true)
 
         Promise.all([this.$store.dispatch('irs_monitor/get_all_records'), this.$store.dispatch('irs_monitor/get_current_plan')])
           .then(() => {
-            this.loading = false
             this.$store.commit('root:set_loading', false)
             this.$store.commit('root:set_snackbar', {message: 'Successfully retrieved records'})
           })
           .catch(e => {
             console.log(e)
-            this.loading = false
             this.$store.commit('root:set_loading', false)
           })
       },

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-client-table :data="tableData" :columns="columns"></v-client-table>
-    <md-button @click.native="download_content">Download</md-button>
+    <v-client-table :data="table_data" :columns="table_columns"></v-client-table>
+    <md-button @click.native="download_aggregations">Download</md-button>
   </div>
 </template>
 
@@ -13,48 +13,37 @@
   import Presenters from 'lib_instances/presenters'
 
   export default {
-    props: ['response_aggregations'],
-    data() {
-      return {
-        tableData: [],
-        columns: []
-      }
-    },
+    props: ['aggregated_responses'],
     computed: {
-      instance_config() {
-        return this.$store.state.instance_config
-      }
-    },
-    watch: {
-      'responses': 'prepare_table_data',
-    },
-    mounted() {
-      this.prepare_table_data()
-    },
-    methods: {
-      prepare_table_data(){
-        if (this.response_aggregations.length === 0) return
+      slug() {
+        return this.$store.state.instance_config.slug
+      },
+      table_columns() {
+        return Object.keys(this.aggregated_responses[0])
+      },
+      table_data() {
+        if (this.aggregated_responses.length === 0) return
 
         // Filter/pluck to get just the columns needed for the table
-        this.columns = Object.keys(this.response_aggregations[0])
-        const columns_to_format = this.columns.filter(column => /\%$/.test(column))
+        const columns_to_format = this.table_columns.filter(column => /\%$/.test(column))
 
-        const presented_rows = this.response_aggregations.map(row => {
+        const presented_rows = this.aggregated_responses.map(row => {
           columns_to_format.forEach(column => {
             row[column] = numeral(row[column]).format('0.[0]%')
           })
           return row
         })
 
-        this.tableData = presented_rows
-
-      },
-      download_content(){
-        const fields = this.columns
-        const data = this.tableData
+        return presented_rows
+      }
+    },
+    methods: {
+      download_aggregations(){
+        const fields = this.table_columns
+        const data = this.table_data
         const content = json2csv({data, fields})
         const date = moment().format('YYYY-MM-DD_HHmm')
-        download(content, `${this.instance_config.slug}_irs_progress_${date}.csv`)
+        download(content, `${this.slug}_irs_progress_${date}.csv`)
         this.$ga.event('irs_monitor','click_download_progress_table')
       }
     }

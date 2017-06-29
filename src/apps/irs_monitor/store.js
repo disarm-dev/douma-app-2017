@@ -2,6 +2,7 @@ import moment from 'moment'
 
 import {get_all_records, get_current_plan} from 'lib/data/remote'
 import {Plan} from 'lib/models/plan.model'
+import Presenters from 'lib_instances/presenters'
 
 export default {
   namespaced: true,
@@ -36,6 +37,9 @@ export default {
 }
   },
   getters: {
+    // Responses which are contained by current plan
+    // ideally, filtered_responses should change in response to the 
+    // settings of the filter e.g. "locality #2"
     filtered_responses(state, getters) {
       if(!state.plan || !state.responses.length) return []
       return state.responses.filter(response => {
@@ -44,12 +48,33 @@ export default {
           && state.plan.targets.find(t => t.id === response.location_selection.id)
       })
     },
-    filtered_denominators(state, getters) {
+
+    // Currently this is just all the targets from the plan
+    // We need this to be aggregated to the same level as the current
+    // filter - e.g. if filtering at "region #2", but the target_areas in 
+    // the plan are "locality" then aggregate up from locality -> region level
+    aggregated_denominators(state, getters) {
       if(!state.plan) return []
-      return state.plan.targets.filter(response => {
-        return true // TODO: @feature Add actual filtering
+      // Aggregate from plan target_areas up to current filter leve
+      // e.g. from locality to region level
+      return state.plan.targets
+    },
+
+    // We need to get agregations at the level below the filtered level.
+    // e.g. filter "locality #1", so calculate the coverage for each of the next level down
+    // which is "structure-clusters".
+    aggregated_responses(state, getters, rootState) {
+      if(!getters.filtered_responses.length || !getters.aggregated_denominators.length) return []
+
+      const instance_presenters = new Presenters[rootState.instance_config.slug](rootState.instance_config) // TODO: @refac Improve Presenters signature, remove duplication
+      const data = instance_presenters.get_aggregated_responses({
+        responses: getters.filtered_responses,
+        denominators: getters.aggregated_denominators,
+        instance_config: rootState.instance_config
       })
-    }
+      return data
+    },
+
   },
   actions: {
     get_all_records: (context) => {
