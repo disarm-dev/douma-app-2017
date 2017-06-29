@@ -2,6 +2,7 @@
   <div class="container">
     <h1>Assign teams</h1>
     <md-button class="md-accent" @click.native="recreate_assignments_from_plan">Recreate assignments from most recent Plan</md-button>
+    <md-button class="md-primary md-raised" @click.native="save">Save</md-button>
     <tasker_legend :decorated_teams="decorated_teams" :selected_team_name="selected_team_name" @selected_team="select_team"></tasker_legend>
 
     <tasker_map
@@ -83,6 +84,16 @@
           this.selected_team_name = this.decorated_teams[0].team_name
         })
       },
+      save() {
+        get_current_plan(this.instance_config.slug).then((plan_json) => {
+          let new_targets = plan_json.targets.map((target) => {
+            let assignment = this.assignments.find((a) => a.area_id === target.id)
+            target.assigned_to_team_name = assignment.team_name
+            return target
+          })
+          console.log('new_targets', new_targets)
+        })
+      }
     }
   }
 </script>
