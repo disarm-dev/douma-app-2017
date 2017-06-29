@@ -19,7 +19,7 @@
   import {mapState} from 'vuex'
   import chroma from 'chroma-js'
 
-  import {get_current_plan} from 'lib/data/remote'
+  import {get_current_plan, create_plan} from 'lib/data/remote'
 
   import team_list from './team_list'
   import tasker_legend from './legend'
@@ -74,7 +74,6 @@
       recreate_assignments_from_plan() {
         // TODO: @feature handle failure
         return get_current_plan(this.instance_config.slug).then((plan_json) => {
-
           const assignments = new Assignment().assignments_from_plan(plan_json)
           this.$store.commit('irs_tasker/set_assignments', assignments)
 
@@ -92,6 +91,20 @@
             return target
           })
           console.log('new_targets', new_targets)
+          const plan = {
+            ...plan_json,
+            targets: new_targets
+          }
+
+          // Mongo complains if we try insert a document with an existing ID
+          delete plan._id
+
+          console.log(plan)
+
+          // Something is 
+          create_plan(plan).then(() => {
+            this.$store.commit('root:set_snackbar', {message: 'Assignments updated succesfully'})
+          })
         })
       }
     }
