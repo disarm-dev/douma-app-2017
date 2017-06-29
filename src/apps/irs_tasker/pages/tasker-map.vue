@@ -12,6 +12,7 @@
   import {basic_map} from 'lib/basic_map.js'
   import cache from 'config/cache'
   import {get_geodata} from 'lib/data/remote'
+  import {DECORATED_UNASSIGNED_TEAM} from '../unassigned_team'
 
   export default {
     name: 'tasker-map',
@@ -180,13 +181,15 @@
       },
 
       redraw_assignments() {
+//         Set assignment_fc if it doesn't exist
+
         // Update team assignments on assignments_fc
         this.assignment_fc.features.forEach(assignment_feature => {
           const assignment = this.assignments.find(i => i.area_id === assignment_feature.properties[this.id_field])
           if (assignment) {
             assignment_feature.properties.team_name = assignment.team_name
           } else {
-            assignment_feature.properties.team_name = null
+            assignment_feature.properties.team_name = DECORATED_UNASSIGNED_TEAM.team_name
           }
         })
         console.log('update something in here')

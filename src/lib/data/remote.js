@@ -128,7 +128,7 @@ export const get_geodata = (store) => {
   if (cache.geodata.all_target_areas !== null && cache.geodata.clusters !== null) {
     // store.commit('root:set_loading', false)
     // store.commit('root:set_geodata_ready', true)
-    console.warn("This nevers gets called")
+    console.warn("This never gets called")
     return Promise.resolve()
   }
 

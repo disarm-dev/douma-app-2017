@@ -53,7 +53,7 @@
 <script>
   import {mapState} from 'vuex'
 
-  import {DECORATED_UNASSIGNED_TEAM} from 'apps/irs_tasker/unassigned_team'
+  import {DECORATED_UNASSIGNED_TEAM} from '../unassigned_team'
 
   export default {
     props: ['decorated_teams'],

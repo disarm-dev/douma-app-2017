@@ -24,7 +24,7 @@
   import tasker_legend from './legend'
   import tasker_map from './tasker-map.vue'
   import {Assignment} from 'lib/models/assignment.model'
-  import {DECORATED_UNASSIGNED_TEAM} from 'apps/irs_tasker/unassigned_team'
+  import {DECORATED_UNASSIGNED_TEAM} from '../unassigned_team'
   import {get_geodata} from 'lib/data/remote'
 
   const PALETTE = chroma.brewer.Set3
