@@ -24,14 +24,10 @@
   import tasker_legend from './legend'
   import tasker_map from './tasker-map.vue'
   import {Assignment} from 'lib/models/assignment.model'
+  import {DECORATED_UNASSIGNED_TEAM} from 'apps/irs_tasker/unassigned_team'
 
   const PALETTE = chroma.brewer.Set3
 
-  const DECORATED_UNASSIGNED_TEAM = {
-    team_name: 'Unassigned',
-    colour: 'grey',
-    count: 0
-  }
 
   export default {
     components: {team_list, tasker_map, tasker_legend},

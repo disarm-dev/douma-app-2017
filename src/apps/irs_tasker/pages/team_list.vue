@@ -53,6 +53,8 @@
 <script>
   import {mapState} from 'vuex'
 
+  import {DECORATED_UNASSIGNED_TEAM} from 'apps/irs_tasker/unassigned_team'
+
   export default {
     props: ['decorated_teams'],
     data() {
@@ -82,8 +84,8 @@
         }
 
         // Name cannot be "Unassigned". We use that.
-        if (this.new_name.toLowerCase() === 'unassigned') {
-          return this.$store.commit('root:set_snackbar', {message: 'Cannot use "Unassigned" as team name!'})
+        if (this.new_name.toLowerCase() === DECORATED_UNASSIGNED_TEAM.team_name.toLowerCase()) {
+          return this.$store.commit('root:set_snackbar', {message: `Cannot use "${DECORATED_UNASSIGNED_TEAM.team_name}" as team name!`})
         }
 
         this.$store.dispatch('irs_tasker/update_teams', this.team_names.concat(this.new_name))

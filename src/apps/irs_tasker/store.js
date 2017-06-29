@@ -1,5 +1,6 @@
 import chroma from 'chroma-js'
 import {AssignmentSchema} from '../../lib/models/assignment.schema'
+import {DECORATED_UNASSIGNED_TEAM} from 'apps/irs_tasker/unassigned_team'
 
 export default {
   namespaced: true,
@@ -54,7 +55,10 @@ export default {
         context.commit('set_assignment', {area_id, team_name})
       }
     },
-    'load_assignments_from_plan': () => {},
+    'load_assignments_from_plan': (context) => {
+      // If team_name is not in teams, set to
+      DECORATED_UNASSIGNED_TEAM.team_name
+    },
     'save_assignments_to_plan': () => {}
   }
 }
