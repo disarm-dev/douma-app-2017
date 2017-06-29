@@ -65,6 +65,7 @@
           return this.selected_target_area_ids.map(id => {
             return cache.geodata.all_target_areas.features.find(feature => feature.properties[this.field_name] === id)
           }).reduce((sum, area) => {
+            // TODO: @feature Grab the correct field for households or structures, currently gets AggUniCod
             return sum + area.properties[this.field_name]
           }, 0)
         }
