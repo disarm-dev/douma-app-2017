@@ -18,16 +18,44 @@
       <md-button v-if='edit_mode' :disabled='!can_clear' class='md-raised' @click.native="clear_plan">Clear plan</md-button>
 
       <!--PLAN MAP-->
-      <md-card>
-        <md-card-content>
-          <plan_map
-            :geodata_ready="geodata_ready"
-            :edit_mode="edit_mode"
-            :risk_visible="risk_visible"
-            v-on:map_loaded="edit_disabled = false"
-          ></plan_map>
-        </md-card-content>
-      </md-card>
+      <div class="not-container">
+        <md-card class="not-container-child">
+          <md-card-content>
+            <plan_map
+              :geodata_ready="geodata_ready"
+              :edit_mode="edit_mode"
+              :risk_visible="risk_visible"
+              v-on:map_loaded="edit_disabled = false"
+            ></plan_map>
+          </md-card-content>
+        </md-card>
+
+        <md-card class="not-container-child">
+          <md-card-content>
+            <h3>Plan level</h3>
+            <md-button-toggle md-single>
+              <!-- <md-button >Country</md-button> -->
+              <md-button >Region</md-button>
+              <!-- <md-button >Constituency</md-button> -->
+              <md-button  md-toggle>Locality</md-button>
+              <md-button >NotClusters (not a cluster)</md-button>
+              <!-- <md-button >Random</md-button> -->
+              <md-button >Structures</md-button>
+            </md-button-toggle>
+  
+            <h3>Selection level</h3>
+            <md-button-toggle md-single>
+              <!-- <md-button>Country</md-button> -->
+              <md-button>Region</md-button>
+              <!-- <md-button>Constituency</md-button> -->
+              <md-button>Locality</md-button>
+              <md-button>NotClusters (not a cluster)</md-button>
+              <!-- <md-button>Random</md-button> -->
+              <md-button>Structures</md-button>
+            </md-button-toggle>
+          </md-card-content>
+        </md-card>
+      </div>
 
       <!--PLAN SUMMARY-->
       <md-card class="card"><md-card-content>
@@ -158,6 +186,14 @@
   .md-chip {
     background: orange;
     color: white;
+  }
+
+  .not-container {
+    display: flex;
+  }
+
+  .not-container-child {
+    flex: 1;
   }
 
 
