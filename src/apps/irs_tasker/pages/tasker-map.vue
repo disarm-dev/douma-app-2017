@@ -29,6 +29,7 @@
       ...mapState({
         id_field: state => state.instance_config.spatial_hierarchy.find((sp) => sp.hasOwnProperty('denominator')).field_name ,
         geodata_ready: state => state.geodata_ready,
+        map_focus: state => state.instance_config.map_focus
       })
     },
     watch: {
@@ -51,10 +52,18 @@
         this._map = basic_map(this.$store)
 
         this._map.on('load', () => {
+          this.zoom_in()
           this.bind_click_handler()
           this.add_draw_controls()
           this.redraw_assignments()
         })
+      },
+      zoom_in() {
+        let options = {
+          center: this.map_focus.centre,
+          zoom: this.map_focus.zoom
+        }
+        this._map.flyTo(options);
       },
       draw_areas() {
         if (this._map.getLayer('areas')) {
@@ -88,8 +97,6 @@
             'fill-outline-color': '#262626'
           }
         })
-
-        // this._map.fitBounds(bbox(this.assignment_fc), {padding: 20});
       },
 
       // Click listeners
