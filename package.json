@@ -15,12 +15,14 @@
   "dependencies": {
     "@mapbox/mapbox-gl-draw": "^0.18.1",
     "@turf/bbox": "^4.4.0",
+    "@turf/bbox-polygon": "^4.4.0",
     "@turf/center": "^4.4.0",
     "@turf/centroid": "^4.4.0",
     "@turf/distance": "^4.3.0",
     "@turf/helpers": "^4.4.0",
     "@turf/intersect": "^4.4.0",
     "@turf/turf": "^4.1.0",
+    "@turf/within": "^4.4.0",
     "array-unique": "^0.3.2",
     "axios": "^0.16.2",
     "babel-polyfill": "^6.23.0",
@@ -41,6 +43,7 @@
     "mapbox-gl": "^0.37.0",
     "moment": "^2.18.1",
     "numeral": "^2.0.6",
+    "object-path": "latest",
     "raven-js": "^3.15.0",
     "survey-jquery": "^0.12.17",
     "survey-knockout": "^0.12.17",
@@ -57,8 +60,7 @@
     "vue-tables-2": "^0.6.23",
     "vue-touch": "^2.0.0-beta.4",
     "vuex": "^2.3.1",
-    "vuex-persistedstate": "^1.4.1",
-    "object-path": "latest"
+    "vuex-persistedstate": "^1.4.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",

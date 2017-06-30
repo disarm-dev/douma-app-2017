@@ -30,14 +30,14 @@
   "spatial_hierarchy": [
     {
       "denominator": {
-        "number_of_households": "NmHshld"
+        "number_of_structures": "NumStructu"
       },
-      "field_name": "OBJECTID",
-      "name": "constituencies"
+      "field_name": "ClusterID",
+      "name": "clusters"
     },
     {
-      "field_name": "???",
-      "name": "villages"
+      "field_name": "OBJECTID",
+      "name": "constituencies"
     }
   ]
 }
