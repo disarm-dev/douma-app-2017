@@ -1,9 +1,5 @@
 <template>
   <div>
-    <!-- <div>
-      <md-button class="md-raised" :disabled='!geodata_areas' @click.native="add_areas_coloured_by_risk">Show plan areas by risk</md-button>
-      <md-button class="md-raised" :disabled='!geodata_areas' @click.native="add_areas_coloured_by_coverage">Show plan areas by spray coverage</md-button>
-    </div> -->
     <p>Show areas by:</p>
     <div>
       <md-radio v-model="selected" :disabled='!geodata_areas' name="map-type" md-value="risk" @change="select_map_type">Risk</md-radio>
