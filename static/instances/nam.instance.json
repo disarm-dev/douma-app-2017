@@ -30,7 +30,7 @@
   "spatial_hierarchy": [
     {
       "denominator": {
-        "number_of_structures": "NumStructu"
+        "number_of_households": "NmHshld"
       },
       "field_name": "OBJECTID",
       "name": "constituencies"
