@@ -27,3 +27,6 @@
   content: Offline functionality is primarily designed to work for the IRS Record componenent, which allows users to collect data out in the field offline. 
            Other parts of the application may work offline, however these are not fully functional.
 
+- title: Another help thing
+  content: >
+    This is for a longer bit of help. But try to avoid long help!
