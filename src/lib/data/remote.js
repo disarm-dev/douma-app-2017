@@ -126,6 +126,9 @@ export const create_records = (records) => {
 export const get_geodata = (store) => {
   // Check if cache already populated
   if (cache.geodata.all_target_areas !== null && cache.geodata.clusters !== null) {
+    // store.commit('root:set_loading', false)
+    // store.commit('root:set_geodata_ready', true)
+    console.warn("This never gets called")
     return Promise.resolve()
   }
 
@@ -173,6 +176,7 @@ export const get_geodata = (store) => {
   }
 
   store.commit('root:set_loading', true)
+
   return Promise.all(urls.map(url => standard_handler(url, options)))
     .then(jsons => {
       cache.geodata.all_target_areas = jsons[0]

@@ -12,6 +12,7 @@
   import {basic_map} from 'lib/basic_map.js'
   import cache from 'config/cache'
   import {get_geodata} from 'lib/data/remote'
+  import {DECORATED_UNASSIGNED_TEAM} from '../unassigned_team'
 
   export default {
     name: 'tasker-map',
@@ -27,29 +28,42 @@
     computed: {
       ...mapState({
         id_field: state => state.instance_config.spatial_hierarchy.find((sp) => sp.hasOwnProperty('denominator')).field_name ,
+        geodata_ready: state => state.geodata_ready,
+        map_focus: state => state.instance_config.map_focus
       })
     },
     watch: {
+      'geodata_ready': 'render_map',
       'assignments': 'redraw_assignments'
     },
     mounted() {
-      this.create_map()
+      get_geodata(this.$store).then(() => {
+        if (this.geodata_ready) {
+          // geodata_ready is not changing, so render the map now 
+          this.render_map()
+        }
+      })
     },
     methods: {
-      create_map() {
+      render_map() {
+        // Don't want to create map twice
+        if (this._map) return 
+
         this._map = basic_map(this.$store)
 
         this._map.on('load', () => {
-          get_geodata(this.$store).then(() => {
-            this.assignment_fc = this.create_assignment_polygons()
-
-            if (this.assignment_fc) {
-              this.draw_areas()
-              this.bind_click_handler()
-              this.add_draw_controls()
-            }
-          })
+          this.zoom_in()
+          this.bind_click_handler()
+          this.add_draw_controls()
+          this.redraw_assignments()
         })
+      },
+      zoom_in() {
+        let options = {
+          center: this.map_focus.centre,
+          zoom: this.map_focus.zoom
+        }
+        this._map.flyTo(options);
       },
       draw_areas() {
         if (this._map.getLayer('areas')) {
@@ -83,8 +97,6 @@
             'fill-outline-color': '#262626'
           }
         })
-
-        this._map.fitBounds(bbox(this.assignment_fc), {padding: 20});
       },
 
       // Click listeners
@@ -92,14 +104,12 @@
         this._click_handler = (e) => {
           const clicked_feature = this._map.queryRenderedFeatures(e.point)[0]
 
-          // Update the map
-          const index = this.assignment_fc.features.findIndex((feature) => feature.properties[this.id_field] === clicked_feature.properties[this.id_field])
-          this.assignment_fc.features[index].properties.team_name = this.selected_team_name
-          this._map.getSource('areas').setData(this.assignment_fc)
-
           // Update store
           const area_id = clicked_feature.properties[this.id_field]
           this.$emit('assign_areas_to_selected_team', area_id)
+
+          // Update the map
+          this.redraw_assignments()
         }
         this._map.on('click', 'areas', this._click_handler)
       },
@@ -148,6 +158,9 @@
 
           // Rebind the original click handler
           this.bind_click_handler()
+          
+          // Update the map
+          this.redraw_assignments()
         })
 
 
@@ -180,17 +193,24 @@
           return featureCollection(features)
         }
       },
+
       redraw_assignments() {
+        if (!this.assignment_fc) {
+          if (this.geodata_ready && this.assignments.length) {
+            this.assignment_fc = this.create_assignment_polygons()
+          } else {
+            return
+          }
+        }
         // Update team assignments on assignments_fc
         this.assignment_fc.features.forEach(assignment_feature => {
           const assignment = this.assignments.find(i => i.area_id === assignment_feature.properties[this.id_field])
           if (assignment) {
             assignment_feature.properties.team_name = assignment.team_name
           } else {
-            assignment_feature.properties.team_name = null
+            assignment_feature.properties.team_name = DECORATED_UNASSIGNED_TEAM.team_name
           }
         })
-        console.log('update something in here')
         this.draw_areas()
       }
     }

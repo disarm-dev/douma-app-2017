@@ -2,6 +2,9 @@
   <div class="container">
     <h1>Assign teams</h1>
     <md-button class="md-accent" @click.native="recreate_assignments_from_plan">Recreate assignments from most recent Plan</md-button>
+    
+    <md-button class="md-primary md-raised" :disabled="!assignments.length" @click.native="save">Save</md-button>
+
     <tasker_legend :decorated_teams="decorated_teams" :selected_team_name="selected_team_name" @selected_team="select_team"></tasker_legend>
 
     <tasker_map
@@ -18,20 +21,16 @@
   import {mapState} from 'vuex'
   import chroma from 'chroma-js'
 
-  import {get_current_plan} from 'lib/data/remote'
+  import {get_current_plan, create_plan} from 'lib/data/remote'
 
   import team_list from './team_list'
   import tasker_legend from './legend'
   import tasker_map from './tasker-map.vue'
   import {Assignment} from 'lib/models/assignment.model'
+  import {DECORATED_UNASSIGNED_TEAM} from '../unassigned_team'
 
   const PALETTE = chroma.brewer.Set3
 
-  const DECORATED_UNASSIGNED_TEAM = {
-    team_name: 'Unassigned',
-    colour: 'grey',
-    count: 0
-  }
 
   export default {
     components: {team_list, tasker_map, tasker_legend},
@@ -47,10 +46,10 @@
       ...mapState({
         instance_config: state => state.instance_config,
         assignments: state => state.irs_tasker.assignments,
-        team_names: state => state.irs_tasker.teams
+        team_names: state => state.irs_tasker.teams,
       }),
       decorated_teams() {
-        const unassigned_count = this.assignments.filter(a => !a.team_name).length
+        const unassigned_count = this.assignments.filter(a => a.team_name === DECORATED_UNASSIGNED_TEAM.team_name).length
 
         const teams = this.team_names.map((team_name, index) => {
           return {
@@ -62,8 +61,6 @@
 
         return teams
       }
-    },
-    mounted() {
     },
     methods: {
       assign_areas_to_selected_team(area_ids) {
@@ -79,7 +76,6 @@
       recreate_assignments_from_plan() {
         // TODO: @feature handle failure
         return get_current_plan(this.instance_config.slug).then((plan_json) => {
-
           const assignments = new Assignment().assignments_from_plan(plan_json)
           this.$store.commit('irs_tasker/set_assignments', assignments)
 
@@ -89,6 +85,37 @@
           this.selected_team_name = this.decorated_teams[0].team_name
         })
       },
+      save() {
+        get_current_plan(this.instance_config.slug).then((plan_json) => {
+          let new_targets = plan_json.targets.map((target) => {
+            let assignment = this.assignments.find((a) => a.area_id === target.id)
+            target.assigned_to_team_name = assignment.team_name
+            return target
+          })
+          
+          const plan = {
+            ...plan_json,
+            targets: new_targets
+          }
+
+          // Bump time by 10 seconds to make this plan newer than the old one
+          const new_date = new Date(plan.planned_at)
+          
+          new_date.setSeconds(new_date.getSeconds() + 10)
+
+          plan.planned_at = new_date
+
+          // Mongo complains if we try insert a document with an existing ID
+          delete plan._id
+
+          console.log(plan)
+
+          // Something is 
+          create_plan(plan).then(() => {
+            this.$store.commit('root:set_snackbar', {message: 'Assignments updated succesfully'})
+          })
+        })
+      }
     }
   }
 </script>
