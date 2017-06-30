@@ -19,19 +19,22 @@
         return this.$store.state.instance_config.slug
       },
       table_columns() {
+        if (this.aggregated_responses.length === 0) return []
         return Object.keys(this.aggregated_responses[0])
       },
       table_data() {
-        if (this.aggregated_responses.length === 0) return
-
+        if (this.aggregated_responses.length === 0) return []
         // Filter/pluck to get just the columns needed for the table
         const columns_to_format = this.table_columns.filter(column => /\%$/.test(column))
 
         const presented_rows = this.aggregated_responses.map(row => {
+          // If we don't copy the row, we are editing aggregated responses.
+          // This stops the map from showing the correct coverage
+          let new_row = {...row}
           columns_to_format.forEach(column => {
-            row[column] = numeral(row[column]).format('0.[0]%')
+            new_row[column] = numeral(row[column]).format('0.[0]%')
           })
-          return row
+          return new_row
         })
 
         return presented_rows
