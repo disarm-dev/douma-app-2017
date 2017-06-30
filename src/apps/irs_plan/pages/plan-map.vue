@@ -305,10 +305,7 @@
         }
       },
       find_selected_polygons(polygon_drawn) {
-        console.time('all')
-        // polygon_drawn = {"id":"0277d71c7d2d74a6c6dd026b95f89ec7","type":"Feature","properties":{},"geometry":{"coordinates":[[[16.287820666790736,-18.060117608834418],[16.287820666790736,-18.20902206592693],[16.40132655118228,-18.21839762518897],[16.40132655118228,-18.16213670349852],[16.306327060975946,-18.164481270854637],[16.31866465710837,-18.050733562746686],[16.287820666790736,-18.060117608834418]]],"type":"Polygon"}}
 
-        console.time('centroids')
         const all_polygons = cache.geodata.all_target_areas
         
         // calculate centroids for all polygons
@@ -318,35 +315,36 @@
           return c
         }))
         
-        console.timeEnd('centroids')
         // Create a Bbox from polygon_drawn
         const bounding_box = bbox(polygon_drawn)
 
         // bounding_box_centroids =  Find all centroids in bbox
         const bounding_box_centroids = within(featureCollection(all_centroids), featureCollection([bboxPolygon(bounding_box)]))
-        console.log('bounding_box_centroids', bounding_box_centroids)
 
         // find centroids in polygon_drawn
         const centroids_in_polygon_drawn = within(bounding_box_centroids, featureCollection([polygon_drawn]))
-        console.log('centroids_in_polygon_drawn', centroids_in_polygon_drawn)
-        console.timeEnd('all')
+
         // return ids of centroids in polygon_drawn
         return centroids_in_polygon_drawn
       },
       finish_drawing(features) {
         let polygon_drawn = features[0]
 
-        // const a = this.find_selected_polygons(polygon_drawn)
-        // return console.log(a)
+        // 1. Approach using centroids
+        // doesn't capture as many polygons though
+        const polygons_within_polygon_drawn = this.find_selected_polygons(polygon_drawn)
+        const selected_areas = polygons_within_polygon_drawn.features.map(f => f.properties[this.field_name])
 
-        let polygons = cache.geodata.all_target_areas.features
-        let selected_areas = []
-        polygons.forEach((polygon) => {
-          if (intersect(polygon_drawn, polygon)) {
-              const feature_id = polygon.properties[this.field_name]
-              selected_areas.push(feature_id)
-          }
-        })
+        // 2. Approach using intersection
+        // let polygons = cache.geodata.all_target_areas.features
+        // let selected_areas = []
+        // polygons.forEach((polygon) => {
+        //   if (intersect(polygon_drawn, polygon)) {
+        //       const feature_id = polygon.properties[this.field_name]
+        //       selected_areas.push(feature_id)
+        //   }
+        // })
+
         this.$store.commit('irs_plan/add_selected_target_areas', selected_areas)
 
         this.draw.deleteAll()

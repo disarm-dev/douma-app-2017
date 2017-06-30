@@ -7,7 +7,10 @@
   import {featureCollection} from '@turf/helpers'
   import bbox from '@turf/bbox'
   import MapboxDraw from '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw'
+  import centroid from '@turf/centroid'
+  import within from '@turf/within'
   import intersect from '@turf/intersect'
+  import bboxPolygon from '@turf/bbox-polygon'
 
   import {basic_map} from 'lib/basic_map.js'
   import cache from 'config/cache'
@@ -119,6 +122,29 @@
       },
 
       // Draw controls
+      find_selected_polygons(polygon_drawn) {
+
+        const all_polygons = this.assignment_fc.features
+        
+        // calculate centroids for all polygons
+        const all_centroids = all_polygons.features.map((feature => {
+          const c = centroid(feature)
+          c.properties = feature.properties
+          return c
+        }))
+        
+        // Create a Bbox from polygon_drawn
+        const bounding_box = bbox(polygon_drawn)
+
+        // bounding_box_centroids =  Find all centroids in bbox
+        const bounding_box_centroids = within(featureCollection(all_centroids), featureCollection([bboxPolygon(bounding_box)]))
+
+        // find centroids in polygon_drawn
+        const centroids_in_polygon_drawn = within(bounding_box_centroids, featureCollection([polygon_drawn]))
+
+        // return ids of centroids in polygon_drawn
+        return centroids_in_polygon_drawn
+      },
       add_draw_controls () {
         if (!this._map) return
 
@@ -140,16 +166,22 @@
         // Watch for a new polygon being completed
         this._map.on('draw.create', (e) => {
           const drawn_polygon = e.features[0]
-          const all_polygons = this.assignment_fc.features
-          const area_ids = []
 
+          // 1. Approach using centroids, faster than one below
+          // doesn't capture as many polygons though
+          const polygons_within_polygon_drawn = this.find_selected_polygons(drawn_polygon)
+          const area_ids = polygons_within_polygon_drawn.features.map(f => f.properties[this.id_field])
+
+          // 2. Approach using intersection
+          // const all_polygons = this.assignment_fc.features
+          // const area_ids = []
           // Find all polygons which intersect with the drawn polygon
-          all_polygons.forEach((polygon, index) => {
-            if (intersect(drawn_polygon, polygon)) {
-              const area_id = polygon.properties[this.id_field]
-              area_ids.push(area_id)
-            }
-          })
+          // all_polygons.forEach((polygon, index) => {
+          //   if (intersect(drawn_polygon, polygon)) {
+          //     const area_id = polygon.properties[this.id_field]
+          //     area_ids.push(area_id)
+          //   }
+          // })
 
           this.$emit('assign_areas_to_selected_team', area_ids)
 
