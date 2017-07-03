@@ -21,6 +21,7 @@
   import {get_geodata_area} from 'lib/data/remote'
   import logscale from 'lib/log_scale.js'
   import {Aggregator} from 'lib_instances/aggregations'
+  import {get_planning_level_id_field} from 'lib/spatial_hierarchy_helper'
 
   export default {
     props: ['aggregated_responses'],
@@ -45,11 +46,8 @@
       plan_target_area_ids() {
         return this.$store.state.irs_monitor.plan.targets.map(target => target.id)
       },
-      target_area_id_field() {
-        // Get field name e.g AggUniCod
-        const found = this.instance_config.spatial_hierarchy.find(h => h.hasOwnProperty('denominator'))
-        if (!found) throw new Error('Cannot find denominator field_name on instance_config')
-        return found.field_name
+      planning_level_id_field() {
+        return get_planning_level_id_field(this.instance_config) // Get field name e.g AggUniCod
       }
     },
     mounted() {
@@ -127,9 +125,9 @@
         // Filter features/areas to only those in the plan (i.e. in aggregated_responses), then add aggregated property to each
         const features = this.geodata_areas.features.filter(feature => {
           if(!this.limit_to_plan) return true
-          return this.plan_target_area_ids.includes(feature.properties[this.target_area_id_field])
+          return this.plan_target_area_ids.includes(feature.properties[this.planning_level_id_field])
         }).map((feature) => {
-            const found = this.aggregated_responses.find(aggregation => aggregation[this.target_area_id_field] === feature.properties[this.target_area_id_field])
+            const found = this.aggregated_responses.find(aggregation => aggregation[this.planning_level_id_field] === feature.properties[this.planning_level_id_field])
             if (found) {
               feature.properties.coverage = (found[aggregation_name] * 100) // Aggregation value is a proportion, not a percentage
             } else {
@@ -192,7 +190,7 @@
 
         const features = this.geodata_areas.features.filter(feature => {
           if(!this.limit_to_plan) return true
-          return this.plan_target_area_ids.includes(feature.properties[this.target_area_id_field])
+          return this.plan_target_area_ids.includes(feature.properties[this.planning_level_id_field])
         }).map((feature) => {
           feature.properties.normalised_risk = this.log_scale(feature.properties.risk)
           return feature

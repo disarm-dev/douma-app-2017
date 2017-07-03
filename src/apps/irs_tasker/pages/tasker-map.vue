@@ -16,6 +16,7 @@
   import cache from 'config/cache'
   import {get_geodata} from 'lib/data/remote'
   import {DECORATED_UNASSIGNED_TEAM} from '../unassigned_team'
+  import {get_planning_level_id_field} from 'lib/spatial_hierarchy_helper'
 
   export default {
     name: 'tasker-map',
@@ -30,10 +31,13 @@
     },
     computed: {
       ...mapState({
-        id_field: state => state.instance_config.spatial_hierarchy.find((sp) => sp.hasOwnProperty('denominator')).field_name ,
+        instance_config: state => state.instance_config,
         geodata_ready: state => state.geodata_ready,
         map_focus: state => state.instance_config.map_focus
-      })
+      }),
+      planning_level_id_field() {
+        return get_planning_level_id_field(this.instance_config) // e.g. AggUniCode for SWZ
+      }
     },
     watch: {
       'geodata_ready': 'render_map',
@@ -42,7 +46,7 @@
     mounted() {
       get_geodata(this.$store).then(() => {
         if (this.geodata_ready) {
-          // geodata_ready is not changing, so render the map now 
+          // geodata_ready is not changing, so render the map now
           this.render_map()
         }
       })
@@ -50,7 +54,7 @@
     methods: {
       render_map() {
         // Don't want to create map twice
-        if (this._map) return 
+        if (this._map) return
 
         this._map = basic_map(this.$store)
 
@@ -108,7 +112,7 @@
           const clicked_feature = this._map.queryRenderedFeatures(e.point)[0]
 
           // Update store
-          const area_id = clicked_feature.properties[this.id_field]
+          const area_id = clicked_feature.properties[this.planning_level_id_field]
           this.$emit('assign_areas_to_selected_team', area_id)
 
           // Update the map
@@ -125,14 +129,14 @@
       find_selected_polygons(polygon_drawn) {
 
         const all_polygons = this.assignment_fc.features
-        
+
         // calculate centroids for all polygons
         const all_centroids = all_polygons.map((feature => {
           const c = centroid(feature)
           c.properties = feature.properties
           return c
         }))
-        
+
         // Create a Bbox from polygon_drawn
         const bounding_box = bbox(polygon_drawn)
 
@@ -170,7 +174,7 @@
           // 1. Approach using centroids, faster than one below
           // doesn't capture as many polygons though
           const polygons_within_polygon_drawn = this.find_selected_polygons(drawn_polygon)
-          const area_ids = polygons_within_polygon_drawn.features.map(f => f.properties[this.id_field])
+          const area_ids = polygons_within_polygon_drawn.features.map(f => f.properties[this.planning_level_id_field])
 
           // 2. Approach using intersection
           // const all_polygons = this.assignment_fc.features
@@ -178,7 +182,7 @@
           // Find all polygons which intersect with the drawn polygon
           // all_polygons.forEach((polygon, index) => {
           //   if (intersect(drawn_polygon, polygon)) {
-          //     const area_id = polygon.properties[this.id_field]
+          //     const area_id = polygon.properties[this.planning_level_id_field]
           //     area_ids.push(area_id)
           //   }
           // })
@@ -190,7 +194,7 @@
 
           // Rebind the original click handler
           this.bind_click_handler()
-          
+
           // Update the map
           this.redraw_assignments()
         })
@@ -211,7 +215,7 @@
           return null
         } else {
           const features = this.assignments.map(assignment => {
-            const found = cache.geodata.all_target_areas.features.find(f => f.properties[this.id_field] === assignment.area_id)
+            const found = cache.geodata.all_target_areas.features.find(f => f.properties[this.planning_level_id_field] === assignment.area_id)
 
             if (found) {
               found.properties.team_name = assignment.team_name
@@ -236,7 +240,7 @@
         }
         // Update team assignments on assignments_fc
         this.assignment_fc.features.forEach(assignment_feature => {
-          const assignment = this.assignments.find(i => i.area_id === assignment_feature.properties[this.id_field])
+          const assignment = this.assignments.find(i => i.area_id === assignment_feature.properties[this.planning_level_id_field])
           if (assignment) {
             assignment_feature.properties.team_name = assignment.team_name
           } else {

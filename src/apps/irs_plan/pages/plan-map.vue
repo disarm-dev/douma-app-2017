@@ -27,6 +27,7 @@
   import logslider from 'lib/log_slider.js'
   import logscale from 'lib/log_scale.js'
   import {basic_map} from 'lib/basic_map'
+  import {get_planning_level_id_field} from 'lib/spatial_hierarchy_helper'
 
   export default {
     name: 'plan_map',
@@ -57,9 +58,6 @@
     computed: {
       ...mapState({
         instance_config: state => state.instance_config,
-        field_name: state => state.instance_config.spatial_hierarchy[0].field_name,
-        denominator: state => state.instance_config.denominator,
-        slug: state => state.instance_config.slug,
         areas_included_by_click: state => state.irs_plan.areas_included_by_click,
         areas_excluded_by_click: state => state.irs_plan.areas_excluded_by_click,
         bulk_selected_ids: state => state.irs_plan.bulk_selected_ids,
@@ -67,6 +65,9 @@
       ...mapGetters({
         selected_target_area_ids: 'irs_plan/all_selected_area_ids'
       }),
+      planning_level_id_field() {
+        return get_planning_level_id_field(this.instance_config)
+      },
       converted_slider_value() {
         if (!this.logslider) return 0
 
@@ -125,7 +126,7 @@
           const feature = this._map.queryRenderedFeatures(e.point, {layers: ['selected', 'unselected', 'bulk_selected', 'bulk_unselected']})[0]
 
           if (feature) {
-            const feature_id = feature.properties[this.field_name]
+            const feature_id = feature.properties[this.planning_level_id_field]
             this.$store.commit('irs_plan/toggle_selected_target_area_id', feature_id)
             this.refilter_target_areas()
           }
@@ -173,7 +174,7 @@
             'fill-opacity': 0.7,
             'fill-outline-color': 'black'
           },
-          filter: ['in', this.field_name].concat(this.bulk_selected_ids)
+          filter: ['in', this.planning_level_id_field].concat(this.bulk_selected_ids)
         }, 'clusters')
 
         this._map.addLayer({
@@ -185,7 +186,7 @@
             'fill-opacity': 0.5,
             'fill-outline-color': 'black'
           },
-          filter: ['!in', this.field_name].concat(this.bulk_selected_ids)
+          filter: ['!in', this.planning_level_id_field].concat(this.bulk_selected_ids)
         }, 'clusters')
 
         this._map.addLayer({
@@ -197,7 +198,7 @@
             'fill-opacity': 0.7,
             'fill-outline-color': 'black'
           },
-          filter: ['in', this.field_name].concat(this.areas_included_by_click)
+          filter: ['in', this.planning_level_id_field].concat(this.areas_included_by_click)
         }, 'clusters')
 
         this._map.addLayer({
@@ -209,7 +210,7 @@
             'fill-opacity': 0.7,
             'fill-outline-color': 'black'
           },
-          filter: ['in', this.field_name].concat(this.areas_excluded_by_click)
+          filter: ['in', this.planning_level_id_field].concat(this.areas_excluded_by_click)
         }, 'clusters')
 
         this.fit_bounds(geojson)
@@ -237,10 +238,10 @@
       },
       refilter_target_areas() {
 
-        this._map.setFilter('bulk_selected', ['in', this.field_name].concat(this.bulk_selected_ids))
-        this._map.setFilter('bulk_unselected', ['!in', this.field_name].concat(this.bulk_selected_ids))
-        this._map.setFilter('selected', ['in', this.field_name].concat(this.areas_included_by_click))
-        this._map.setFilter('unselected', ['in', this.field_name].concat(this.areas_excluded_by_click))
+        this._map.setFilter('bulk_selected', ['in', this.planning_level_id_field].concat(this.bulk_selected_ids))
+        this._map.setFilter('bulk_unselected', ['!in', this.planning_level_id_field].concat(this.bulk_selected_ids))
+        this._map.setFilter('selected', ['in', this.planning_level_id_field].concat(this.areas_included_by_click))
+        this._map.setFilter('unselected', ['in', this.planning_level_id_field].concat(this.areas_excluded_by_click))
       },
 
       // Clusters
@@ -307,14 +308,14 @@
       find_selected_polygons(polygon_drawn) {
 
         const all_polygons = cache.geodata.all_target_areas
-        
+
         // calculate centroids for all polygons
         const all_centroids = all_polygons.features.map((feature => {
           const c = centroid(feature)
           c.properties = feature.properties
           return c
         }))
-        
+
         // Create a Bbox from polygon_drawn
         const bounding_box = bbox(polygon_drawn)
 
@@ -333,14 +334,14 @@
         // 1. Approach using centroids
         // doesn't capture as many polygons though
         const polygons_within_polygon_drawn = this.find_selected_polygons(polygon_drawn)
-        const selected_areas = polygons_within_polygon_drawn.features.map(f => f.properties[this.field_name])
+        const selected_areas = polygons_within_polygon_drawn.features.map(f => f.properties[this.planning_level_id_field])
 
         // 2. Approach using intersection
         // let polygons = cache.geodata.all_target_areas.features
         // let selected_areas = []
         // polygons.forEach((polygon) => {
         //   if (intersect(polygon_drawn, polygon)) {
-        //       const feature_id = polygon.properties[this.field_name]
+        //       const feature_id = polygon.properties[this.planning_level_id_field]
         //       selected_areas.push(feature_id)
         //   }
         // })
@@ -361,7 +362,7 @@
         })
 
         let area_ids = areas.map((area) => {
-          return area.properties[this.field_name]
+          return area.properties[this.planning_level_id_field]
         })
 
         this.$store.commit('irs_plan/set_bulk_selected_ids', area_ids)
