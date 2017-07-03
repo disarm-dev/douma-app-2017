@@ -37,17 +37,22 @@
   },
   "name": "Zimbabwe",
   "slug": "zwe",
-  "spatial_hierarchy": [
-    {
-      "denominator": {
+  "spatial_hierarchy": {
+    "markers": {
+      "planning_level_name": "wards",
+      "denominator_fields": {
         "number_of_households": "NumHouseho"
-      },
-      "field_name": "ZIMWARDSID",
-      "name": "wards"
+      }
     },
-    {
-      "field_name": "ClusterID",
-      "name": "clusters"
-    }
-  ]
+    "levels": [
+      {
+        "field_name": "ZIMWARDSID",
+        "name": "wards"
+      },
+      {
+        "field_name": "ClusterID",
+        "name": "clusters"
+      }
+    ]
+  }
 }

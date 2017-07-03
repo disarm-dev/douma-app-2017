@@ -27,18 +27,22 @@
   },
   "name": "Namibia",
   "slug": "nam",
-  "spatial_hierarchy": [
-    {
-      "denominator": {
+  "spatial_hierarchy": {
+    "markers": {
+      "planning_level_name": "constituencies",
+      "denominator_fields": {
         "number_of_households": "NmHshld"
-      },
-      "field_name": "OBJECTID",
-      "name": "constituencies"
+      }
     },
-    {
-      
-      "field_name": "ClusterID",
-      "name": "clusters"
-    }
-  ]
+    "levels": [
+      {
+        "field_name": "OBJECTID",
+        "name": "constituencies"
+      },
+      {
+        "field_name": "ClusterID",
+        "name": "clusters"
+      }
+    ]
+  }
 }

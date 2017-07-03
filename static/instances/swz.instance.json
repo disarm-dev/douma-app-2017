@@ -47,17 +47,22 @@
   },
   "name": "Swaziland",
   "slug": "swz",
-  "spatial_hierarchy": [
-    {
-      "denominator": {
+  "spatial_hierarchy": {
+    "markers": {
+      "planning_level_name": "localities",
+      "denominator_fields": {
         "number_of_structures": "NmStrct"
-      },
-      "field_name": "AggUniCode",
-      "name": "localities"
+      }
     },
-    {
-      "field_name": "ClusterID",
-      "name": "clusters"
-    }
-  ]
+    "levels": [
+      {
+        "field_name": "AggUniCode",
+        "name": "localities"
+      },
+      {
+        "field_name": "ClusterID",
+        "name": "clusters"
+      }
+    ]
+  }
 }
