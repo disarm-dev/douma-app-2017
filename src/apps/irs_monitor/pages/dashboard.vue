@@ -63,6 +63,10 @@
   import download from 'downloadjs'
   import json2csv from 'json2csv'
   import {mapState, mapGetters} from 'vuex'
+  import which_polygon from 'which-polygon'
+
+  import cache from 'config/cache.js'
+  import {get_planning_level_id_field, get_planning_level_name} from 'lib/spatial_hierarchy_helper'
 
   // Common components
   import Filters from './filters.vue'
@@ -128,6 +132,9 @@
         debug_filters: false,
       }
     },
+    watch:{
+      "$store.state.irs_monitor.responses": 'find_polygons_for_points'
+    },
     computed: {
       ...mapState({
         loading: state => state.loading,
@@ -150,6 +157,9 @@
       }),
       window_height() {
         return (window.innerHeight - 64) - 200
+      },
+      planning_level_name() {
+        return get_planning_level_name(this.instance_config)
       },
     },
     methods: {
@@ -176,6 +186,27 @@
         const date = moment().format('YYYY-MM-DD_HHmm')
         download(content, `${this.instance_config.slug}_responses_${date}.csv`)
         this.$ga.event('irs_monitor','click_download_responses')
+      },
+      find_polygons_for_points() {
+        // TODO: @feature Load geodata properly on this component
+        console.log('find_polygons_for_points')
+        if (!Object.keys(cache).length) return
+
+
+        const points = this.$store.state.irs_monitor.responses.map((response) => {
+          let {latitude, longitude} = response.location.coords
+          return [latitude, longitude]
+        })
+
+        console.log(cache, points)
+        // TODO: @feature Wrap this in a loop of the spatial_hierarchy levels
+        const query = which_polygon(cache.geodata['constituencies' || this.planning_level_name])
+
+        let results = []
+        points.forEach((point) => {
+          results.push(query(point))
+        })
+        console.log(results)
       }
     }
   }
