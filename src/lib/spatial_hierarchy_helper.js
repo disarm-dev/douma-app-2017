@@ -19,5 +19,9 @@ const get_denominator_fields = (instance_config) => {
   return instance_config.spatial_hierarchy.markers.denominator_fields
 }
 
-export {get_planning_level_id_field, get_denominator_fields, get_planning_level_name}
+const get_all_spatial_hierarchy_levels = (instance_config) => {
+  return instance_config.spatial_hierarchy.levels.map(level => level.name)
+}
+
+export {get_planning_level_id_field, get_denominator_fields, get_planning_level_name, get_all_spatial_hierarchy_levels}
 

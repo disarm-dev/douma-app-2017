@@ -17,9 +17,12 @@
   import bbox from '@turf/bbox'
   import centroid from '@turf/centroid'
   import within from '@turf/within'
+  import inside from '@turf/inside'
   import intersect from '@turf/intersect'
   import bboxPolygon from '@turf/bbox-polygon'
   import {featureCollection} from '@turf/helpers'
+  import {getCoord} from '@turf/invariant'
+  import which_polygon from 'which-polygon'
   import debounce from 'lodash.debounce'
   import chroma from 'chroma-js'
 
@@ -27,7 +30,7 @@
   import logslider from 'lib/log_slider.js'
   import logscale from 'lib/log_scale.js'
   import {basic_map} from 'lib/basic_map'
-  import {get_planning_level_id_field} from 'lib/spatial_hierarchy_helper'
+  import {get_planning_level_id_field, get_planning_level_name} from 'lib/spatial_hierarchy_helper'
 
   export default {
     name: 'plan_map',
@@ -65,6 +68,9 @@
       ...mapGetters({
         selected_target_area_ids: 'irs_plan/all_selected_area_ids'
       }),
+      planning_level_name() {
+        return get_planning_level_name(this.instance_config)
+      },
       planning_level_id_field() {
         return get_planning_level_id_field(this.instance_config)
       },
@@ -156,7 +162,7 @@
 
       // Add and handle target_areas
       add_target_areas() {
-        const geojson = cache.geodata.all_target_areas
+        const geojson = cache.geodata[this.planning_level_name]
 
         if(!this._map.getSource('target_areas_source')) {
           this._map.addSource('target_areas_source', {
@@ -237,7 +243,6 @@
         }
       },
       refilter_target_areas() {
-
         this._map.setFilter('bulk_selected', ['in', this.planning_level_id_field].concat(this.bulk_selected_ids))
         this._map.setFilter('bulk_unselected', ['!in', this.planning_level_id_field].concat(this.bulk_selected_ids))
         this._map.setFilter('selected', ['in', this.planning_level_id_field].concat(this.areas_included_by_click))
@@ -307,7 +312,7 @@
       },
       find_selected_polygons(polygon_drawn) {
 
-        const all_polygons = cache.geodata.all_target_areas
+        const all_polygons = cache.geodata[this.planning_level_name]
 
         // calculate centroids for all polygons
         const all_centroids = all_polygons.features.map((feature => {
@@ -337,7 +342,7 @@
         const selected_areas = polygons_within_polygon_drawn.features.map(f => f.properties[this.planning_level_id_field])
 
         // 2. Approach using intersection
-        // let polygons = cache.geodata.all_target_areas.features
+        // let polygons = cache.geodata[this.planning_level_name].features
         // let selected_areas = []
         // polygons.forEach((polygon) => {
         //   if (intersect(polygon_drawn, polygon)) {
@@ -357,7 +362,7 @@
       // Risk slider
       set_risk_slider_value: debounce(function(){
 
-        let areas = cache.geodata.all_target_areas.features.filter((feature) => {
+        let areas = cache.geodata[this.planning_level_name].features.filter((feature) => {
           return feature.properties.risk >= this.converted_slider_value
         })
 
@@ -370,7 +375,7 @@
         this.$ga.event('irs_plan','change_risk_slider')
       }, 750),
       set_slider_range() {
-        const values_array = cache.geodata.all_target_areas.features.map(area => area.properties.risk).sort()
+        const values_array = cache.geodata[this.planning_level_name].features.map(area => area.properties.risk).sort()
         const non_zeros = values_array.filter(v => v !== 0)
 
         const mino = Math.min(...non_zeros)
@@ -389,9 +394,9 @@
       },
       add_areas_coloured_by_risk() {
 
-        this.get_log_values(cache.geodata.all_target_areas)
+        this.get_log_values(cache.geodata[this.planning_level_name])
 
-        const features = cache.geodata.all_target_areas.features.map((feature) => {
+        const features = cache.geodata[this.planning_level_name].features.map((feature) => {
           if (feature.properties.risk === 0) {
             feature.properties.normalised_risk = 0
           } else {
@@ -441,6 +446,27 @@
         if (this.log_scale(mino) !== 0) console.log('min should be 0', this.log_scale(mino))
         if (this.log_scale(maxo) !== 100) console.log('max should be 100', this.log_scale(maxo))
       },
+      which_poly_is_this_point_in() {
+        console.time('centroids')
+        const centroids = cache.geodata[this.planning_level_name].features.map(feature => {
+          return getCoord(centroid(feature))
+        })
+        console.timeEnd('centroids')
+
+        console.time('index')
+        const polys = cache.geodata[this.planning_level_name].features
+        const query = which_polygon(featureCollection(polys))
+        console.timeEnd('index')
+
+        console.time('which_poly_is_this_point_in')
+        let results = []
+        centroids.forEach(c => {
+          const result = query(c)
+          results.push(result)
+        })
+        console.timeEnd('which_poly_is_this_point_in')
+        console.log('results', results)
+      }
     }
   }
 </script>

@@ -38,7 +38,7 @@ export default {
   },
   getters: {
     // Responses which are contained by current plan
-    // ideally, filtered_responses should change in response to the 
+    // ideally, filtered_responses should change in response to the
     // settings of the filter e.g. "locality #2"
     filtered_responses(state, getters) {
       if(!state.plan || !state.responses.length) return []
@@ -51,11 +51,11 @@ export default {
 
     // Currently this is just all the targets from the plan
     // We need this to be aggregated to the same level as the current
-    // filter - e.g. if filtering at "region #2", but the target_areas in 
+    // filter - e.g. if filtering at "region #2", but the target_areas in
     // the plan are "locality" then aggregate up from locality -> region level
     aggregated_denominators(state, getters) {
       if(!state.plan) return []
-      // Aggregate from plan target_areas up to current filter leve
+      // TODO: @feature Aggregate from plan target_areas up to current filter level
       // e.g. from locality to region level
       return state.plan.targets
     },

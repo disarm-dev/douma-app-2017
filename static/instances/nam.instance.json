@@ -29,7 +29,7 @@
   "slug": "nam",
   "spatial_hierarchy": {
     "markers": {
-      "planning_level_name": "constituencies",
+      "planning_level_name": "clusters",
       "denominator_fields": {
         "number_of_households": "NmHshld"
       }

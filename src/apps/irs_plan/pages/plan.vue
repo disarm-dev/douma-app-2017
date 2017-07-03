@@ -108,6 +108,7 @@
     },
     mounted() {
       get_geodata(this.$store).then(this.load_plan)
+      window.c = cache
     },
     methods: {
       load_plan() {
