@@ -44,6 +44,10 @@
         return this.$store.state.instance_config
       },
       plan_target_area_ids() {
+        if (!this.$store.state.irs_monitor.plan) {
+          return []
+        }
+
         return this.$store.state.irs_monitor.plan.targets.map(target => target.id)
       },
       planning_level_id_field() {
