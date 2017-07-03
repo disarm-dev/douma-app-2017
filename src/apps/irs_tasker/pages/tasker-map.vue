@@ -127,7 +127,7 @@
         const all_polygons = this.assignment_fc.features
         
         // calculate centroids for all polygons
-        const all_centroids = all_polygons.features.map((feature => {
+        const all_centroids = all_polygons.map((feature => {
           const c = centroid(feature)
           c.properties = feature.properties
           return c
