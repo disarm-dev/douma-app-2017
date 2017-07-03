@@ -21,7 +21,7 @@
   import {get_geodata_area} from 'lib/data/remote'
   import logscale from 'lib/log_scale.js'
   import {Aggregator} from 'lib_instances/aggregations'
-  import {get_planning_level_id_field} from 'lib/spatial_hierarchy_helper'
+  import {get_planning_level_id_field, get_planning_level_name} from 'lib/spatial_hierarchy_helper'
 
   export default {
     props: ['aggregated_responses'],
@@ -78,14 +78,7 @@
       },
 
       load_geodata() {
-        let area_type
-        if (this.area) {
-          // console.log('Got an area, need to do something')
-        } else {
-          // take the first spatial_hierarchy
-          area_type = this.instance_config.spatial_hierarchy[0].name
-          console.warn('Using the first spatial spatial_hierarchy for instance:', area_type)
-        }
+        const area_type = get_planning_level_name(this.instance_config)
 
         return get_geodata_area({slug: this.instance_config.slug, level: area_type})
           .then((areas) => {

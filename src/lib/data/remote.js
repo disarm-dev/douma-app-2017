@@ -2,6 +2,7 @@ import axios from 'axios'
 
 import config from 'config/common_config.js'
 import cache from 'config/cache'
+import {get_planning_level_name} from 'lib/spatial_hierarchy_helper'
 import {InstanceConfigSchema} from '../models/instance_config.schema'
 
 // Get basic root URL from static configuration
@@ -133,7 +134,7 @@ export const get_geodata = (store) => {
   }
 
   // Get slug and level
-  const level = store.state.instance_config.spatial_hierarchy[0].name // This is top-level spatial_hierarchy
+  const level = get_planning_level_name(store.state.instance_config) // This is top-level spatial_hierarchy
   const slug = store.state.instance_config.slug
 
 
