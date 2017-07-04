@@ -109,8 +109,6 @@
             this.add_target_areas()
             this.$emit('map_loaded')
             this.set_slider_range()
-            console.warn("remove debug which_poly_is_this_point_in")
-            this.which_poly_is_this_point_in()
           })
         }
       },
@@ -448,50 +446,6 @@
         if (this.log_scale(mino) !== 0) console.log('min should be 0', this.log_scale(mino))
         if (this.log_scale(maxo) !== 100) console.log('max should be 100', this.log_scale(maxo))
       },
-      which_poly_is_this_point_in() {
-        // const level = this.planning_level_name
-        const level = 'clusters'
-
-        console.time('centroids')
-        let centroids = cache.geodata[level].features.map(feature => {
-          return getCoord(centroid(feature))
-        })
-        centroids = centroids.concat(centroids.slice(), centroids.slice(), centroids.slice(), centroids.slice())
-//        centroids = centroids.concat(centroids.slice(), centroids.slice(), centroids.slice(), centroids.slice())
-//        centroids = centroids.concat(centroids.slice(), centroids.slice(), centroids.slice(), centroids.slice())
-        centroids = centroids.sort((a, b) => Math.random() > 0.5)
-//        centroids = centroids.reverse()
-        console.timeEnd('centroids')
-
-        console.time('index')
-        const polys = cache.geodata[level].features
-        const query = which_polygon(featureCollection(polys))
-        console.timeEnd('index')
-
-        window.c = centroids
-        window.p = polys
-        window.q = query
-
-        let results = []
-        console.time('which_poly_is_this_point_in OBJECT')
-        centroids.forEach(c => {
-          const result = query(c)
-//          c.location_id = result.id
-          results.push([c, result.id])
-//          results.push(result)
-        })
-        console.timeEnd('which_poly_is_this_point_in OBJECT')
-
-        results = []
-        console.time('which_poly_is_this_point_in PROPERTIES')
-        centroids.forEach(c => {
-          const result = query(c)
-//          results.push({point: c, poly: result})
-          results.push(result)
-        })
-        console.timeEnd('which_poly_is_this_point_in PROPERTIES')
-        console.log('results', results)
-      }
     }
   }
 </script>
