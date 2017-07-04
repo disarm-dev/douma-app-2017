@@ -1,10 +1,10 @@
 import {Parser} from 'expr-eval'
 import isNumber from 'is-number'
 
-import bwa from './bwa.aggregations.js'
-import nam from './nam.aggregations.js'
-import swz from './swz.aggregations.js'
-import zwe from './zwe.aggregations.js'
+import bwa from './bwa.aggregations.json'
+import nam from './nam.aggregations.json'
+import swz from './swz.aggregations.json'
+import zwe from './zwe.aggregations.json'
 
 const aggregations = {bwa, nam, swz, zwe}
 
