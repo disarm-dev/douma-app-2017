@@ -1,8 +1,12 @@
 <template>
-  <div>
-    <v-client-table :data="table_data" :columns="table_columns"></v-client-table>
-    <md-button @click.native="download_aggregations">Download</md-button>
-  </div>
+  <md-card class="card">
+    <md-card-content>
+
+      <v-client-table :data="table_data" :columns="table_columns"></v-client-table>
+      <md-button @click.native="download_aggregations">Download</md-button>
+
+    </md-card-content>
+  </md-card>
 </template>
 
 <script>

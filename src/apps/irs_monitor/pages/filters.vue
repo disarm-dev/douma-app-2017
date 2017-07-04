@@ -1,10 +1,12 @@
 <template>
-  <div>
-    <h1>Filters</h1>
-    <md-button @click.native="filter_for_week('all')">All</md-button>
-    <md-button v-for="week in [18, 19, 20, 21, 22]" :key="week" @click.native="filter_for_week(week)">Week {{week}}
-    </md-button>
-  </div>
+  <md-card v-if='false' class="card">
+    <md-card-content>
+      <h1>Filters</h1>
+      <md-button @click.native="filter_for_week('all')">All</md-button>
+      <md-button v-for="week in [18, 19, 20, 21, 22]" :key="week" @click.native="filter_for_week(week)">Week {{week}}
+      </md-button>
+    </md-card-content>
+  </md-card>
 </template>
 
 <script>

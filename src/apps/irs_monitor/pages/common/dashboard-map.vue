@@ -1,13 +1,18 @@
 <template>
-  <div>
-    <p>Show areas by:</p>
-    <div>
-      <md-radio v-model="selected" :disabled='!geodata_areas' name="map-type" md-value="risk" @change="select_map_type">Risk</md-radio>
-      <md-radio v-model="selected" :disabled='!geodata_areas' name="map-type" md-value="coverage" @change="select_map_type">Coverage</md-radio>
-    </div>
-    <md-checkbox v-model="limit_to_plan">Limit to plan areas</md-checkbox>
-    <div id="map"></div>
-  </div>
+  <md-card class="card">
+    <md-card-content>
+
+      <p>Show areas by:</p>
+      <div>
+        <md-radio v-model="selected" :disabled='!geodata_areas' name="map-type" md-value="risk" @change="select_map_type">Risk</md-radio>
+        <md-radio v-model="selected" :disabled='!geodata_areas' name="map-type" md-value="coverage" @change="select_map_type">Coverage</md-radio>
+      </div>
+      <md-checkbox v-model="limit_to_plan">Limit to plan areas</md-checkbox>
+
+      <div id="map"></div>
+
+    </md-card-content>
+  </md-card>
 </template>
 
 <script>
