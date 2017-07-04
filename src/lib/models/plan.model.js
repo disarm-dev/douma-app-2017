@@ -7,9 +7,10 @@ export class Plan {
 
   create({instance_config, selected_target_area_ids}) {
     const planning_level_id_field = get_planning_level_id_field(instance_config)
+    const planning_level_name = get_planning_level_name(instance_config)
     const denominator_fields = get_denominator_fields(instance_config)
 
-    const decorated_targets = this._decorate_targets({selected_target_area_ids, planning_level_id_field, denominator_fields})
+    const decorated_targets = this._decorate_targets({selected_target_area_ids, planning_level_id_field, planning_level_name, denominator_fields})
 
     const country = instance_config.slug
 
@@ -32,11 +33,11 @@ export class Plan {
     }
   }
 
-  _decorate_targets({selected_target_area_ids, planning_level_id_field, denominator_fields}) {
+  _decorate_targets({selected_target_area_ids, planning_level_id_field, planning_level_name, denominator_fields}) {
 
     if(!selected_target_area_ids) throw new Error('Missing selected_target_area_ids')
 
-    const selected_target_areas = cache.geodata.localities.features.filter(feature => {
+    const selected_target_areas = cache.geodata[planning_level_name].features.filter(feature => {
       return selected_target_area_ids.includes(feature.properties[planning_level_id_field])
     })
 
