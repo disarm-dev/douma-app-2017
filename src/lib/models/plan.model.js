@@ -36,7 +36,7 @@ export class Plan {
 
     if(!selected_target_area_ids) throw new Error('Missing selected_target_area_ids')
 
-    const selected_target_areas = cache.geodata.all_target_areas.features.filter(feature => {
+    const selected_target_areas = cache.geodata.localities.features.filter(feature => {
       return selected_target_area_ids.includes(feature.properties[planning_level_id_field])
     })
 

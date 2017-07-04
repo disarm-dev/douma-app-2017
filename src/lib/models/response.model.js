@@ -69,6 +69,7 @@ function get_polygon_for_responses(responses, instance_config){
     const response_point = [response.location.coords.longitude, response.location.coords.latitude]
     const found = query(response_point)
     if (found) {
+      // TODO: @doc Explain what the 'planning_target_area' is
       response.planning_target_area = found[planning_level_id_field]
     } else {
       response.planning_target_area = null

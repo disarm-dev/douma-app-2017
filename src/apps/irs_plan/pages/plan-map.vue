@@ -435,16 +435,10 @@
         this._map.fitBounds(bbox(areas_with_normalised_risk), {padding: 20});
       },
       get_log_values(areas) {
-        const values_array = areas.features.map(area => area.properties.risk).sort()
-        const non_zeros = values_array.filter(v => v !== 0)
+        const features = areas.features
+        const property = 'risk'
 
-        const mino = Math.min(...non_zeros)
-        const maxo = Math.max(...values_array) * 1.001
-
-        this.log_scale = logscale(mino, maxo)
-
-        if (this.log_scale(mino) !== 0) console.log('min should be 0', this.log_scale(mino))
-        if (this.log_scale(maxo) !== 100) console.log('max should be 100', this.log_scale(maxo))
+        this.log_scale = logscale({features, property})
       },
     }
   }

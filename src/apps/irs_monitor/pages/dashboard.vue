@@ -2,6 +2,8 @@
   <div class='container'>
     <h2>Table and map update with real records</h2>
 
+    <h4 v-if='!plan' style="color: red">No plan! No way forward until you have one</h4>
+
     <!--  SUMMARY, LOAD, DOWNLOAD (DUMPING GROUND) -->
     <dashboard_summary @refresh_data="refresh_data"></dashboard_summary>
 
@@ -9,7 +11,7 @@
     <filters></filters>
 
     <!--MAP-->
-    <!--<map_progress :aggregated_responses="aggregated_responses"></map_progress>-->
+    <map_progress v-if='geodata_ready' :aggregated_responses="aggregated_responses" :geodata_ready="geodata_ready"></map_progress>
 
     <!--TABLE-->
     <table_progress :aggregated_responses="aggregated_responses"></table_progress>
@@ -47,6 +49,8 @@
     computed: {
       ...mapState({
         instance_config: state => state.instance_config,
+        plan: state => state.irs_monitor.plan,
+        geodata_ready: state => state.geodata_ready,
       }),
       ...mapGetters({
         filtered_responses: 'irs_monitor/filtered_responses',
@@ -57,6 +61,9 @@
         return get_planning_level_name(this.instance_config)
       },
     },
+    mounted() {
+      get_geodata(this.$store)//.then(this.refresh_data())
+    },
     methods: {
       refresh_data() {
         this.$store.commit('root:set_loading', true)
@@ -64,7 +71,7 @@
         Promise.all([
           this.$store.dispatch('irs_monitor/get_all_records'),
           this.$store.dispatch('irs_monitor/get_current_plan'),
-          get_geodata(this.$store)
+
         ])
           .then(() => {
             this.$store.commit('root:set_loading', false)
