@@ -99,6 +99,6 @@ export default {
 
           context.commit('set_plan', plan_json)
         })
-    }
+    },
   }
 }

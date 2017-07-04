@@ -9,7 +9,7 @@
     <filters></filters>
 
     <!--MAP-->
-    <map_progress :aggregated_responses="aggregated_responses"></map_progress>
+    <!--<map_progress :aggregated_responses="aggregated_responses"></map_progress>-->
 
     <!--TABLE-->
     <table_progress :aggregated_responses="aggregated_responses"></table_progress>
@@ -26,6 +26,7 @@
 
   import cache from 'config/cache.js'
   import {get_planning_level_id_field, get_planning_level_name} from 'lib/spatial_hierarchy_helper'
+  import {get_geodata} from 'lib/data/remote'
 
   // Components
   import dashboard_summary from './dashboard-summary.vue'
@@ -46,7 +47,6 @@
     computed: {
       ...mapState({
         instance_config: state => state.instance_config,
-
       }),
       ...mapGetters({
         filtered_responses: 'irs_monitor/filtered_responses',
@@ -61,7 +61,11 @@
       refresh_data() {
         this.$store.commit('root:set_loading', true)
 
-        Promise.all([this.$store.dispatch('irs_monitor/get_all_records'), this.$store.dispatch('irs_monitor/get_current_plan')])
+        Promise.all([
+          this.$store.dispatch('irs_monitor/get_all_records'),
+          this.$store.dispatch('irs_monitor/get_current_plan'),
+          get_geodata(this.$store)
+        ])
           .then(() => {
             this.$store.commit('root:set_loading', false)
             this.$store.commit('root:set_snackbar', {message: 'Successfully retrieved records'})
