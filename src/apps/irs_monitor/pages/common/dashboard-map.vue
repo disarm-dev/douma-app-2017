@@ -29,31 +29,23 @@
   import logscale from 'lib/log_scale.js'
   import {Aggregator} from 'lib_instances/aggregations'
   import {get_planning_level_id_field, get_planning_level_name} from 'lib/spatial_hierarchy_helper'
+  import {layer_definitions} from 'lib/map_layers'
 
   export default {
     props: ['aggregated_responses', 'geodata_ready'],
     data() {
       return {
-        _map: null,
-        _responses_fc: null,
 
+
+        // User values
         limit_to_plan: true,
         selected_layer: 'risk',
 
+        // map cache
+        _map: null,
         _click_handler: null,
+        _responses_fc: null,
 
-        layer_definitions: {
-          risk: {
-            palette: 'RdYlBu',
-            reverse_palette: true,
-            attribute: 'normalised_risk'
-          },
-          coverage: {
-            palette: 'RdYlGn',
-            reverse_palette: false,
-            attribute: 'coverage'
-          }
-        }
       }
     },
     watch: {
@@ -78,14 +70,30 @@
       this.render_map()
     },
     methods: {
+      // Higher-level map stuff
       render_map() {
         this._map = basic_map(this.$store)
 
         this._map.on('load', () => {
-          this.calculate_attributes()
-          this.switch_layer()
+          this.redraw_layers()
         })
       },
+      redraw_layers() {
+        this.calculate_attributes()
+        this.switch_layer()
+      },
+      switch_layer() {
+        const layer_string = this.selected_layer
+
+        this.$ga.event('irs_monitor',`view_${layer_string}`)
+
+        this.add_layer(layer_string)
+
+        this._map.fitBounds(bbox(this._responses_fc), {padding: 20});
+        this.bind_popup(layer_definitions[layer_string])
+      },
+
+      // Lower-level map stuff
       clear_map() {
         const id = 'areas'
         if (this._map.getLayer(id)) {
@@ -96,30 +104,9 @@
           this._map.removeSource(id)
         }
       },
-
-      switch_layer() {
-        const layer_string = this.selected_layer
-
-        this.remove_click_handlers()
-
-        this.$ga.event('irs_monitor',`view_${layer_string}`)
-
-        this.clear_map()
-        this.add_layer(layer_string)
-
-        this._map.fitBounds(bbox(this._responses_fc), {padding: 20});
-        this.bind_popup(this.layer_definitions[layer_string])
-      },
-      redraw_layers() {
-        this.calculate_attributes()
-        this.switch_layer()
-      },
-      remove_click_handlers() {
-        this._map.off('click', 'areas', this._click_handler)
-      },
-
       add_layer(layer_string) {
-        const layer_type = this.layer_definitions[layer_string]
+        this.clear_map()
+        const layer_type = layer_definitions[layer_string]
 
         // create stops
         const palette = this.prepare_palette(layer_type)
@@ -132,6 +119,7 @@
           }))
         }
 
+        // Create layer and add to map
         this._map.addLayer({
           id: 'areas',
           type: 'fill',
@@ -149,17 +137,11 @@
           }
         })
       },
-      prepare_palette(layer_type) {
-        let scale = chroma.scale(layer_type.palette).colors(11)
-        if (layer_type.reverse_palette) scale = scale.reverse()
-
-        const steps = [...Array(11).keys()].map(i => i * 10)
-        const stops = steps.map((step, index) => {
-          return [step, scale[index]]
-        })
-        return stops
-      },
       bind_popup(layer_type) {
+        // Remove previous click handler before anything
+        this._map.off('click', 'areas', this._click_handler)
+
+        // Define new click handler
         this._click_handler = (e) => {
           const feature = this._map.queryRenderedFeatures(e.point)[0]
 
@@ -170,10 +152,12 @@
               .addTo(this._map);
           }
         }
+
+        // Add click handler to map
         this._map.on('click', 'areas', this._click_handler)
       },
 
-      // CALCULATIONS
+      // Data calculations TODO: @refac Remove calculations to lib
       calculate_attributes() {
         let features = cache.geodata[this.planning_level_name].features
 
@@ -183,7 +167,7 @@
         this._responses_fc = featureCollection(features)
       },
       calculate_coverage(features) {
-        const attribute = this.layer_definitions.coverage.attribute
+        const attribute = layer_definitions.coverage.attribute
 
         // Coverage for every planning_level area
         const aggregation_name = this.instance_config.applets.irs_monitor.aggregations.map
@@ -205,7 +189,7 @@
         })
       },
       calculate_risk(features) {
-        const attribute = this.layer_definitions.risk.attribute
+        const attribute = layer_definitions.risk.attribute
 
         const log_scale = this.get_log_values(features)
 
@@ -213,6 +197,18 @@
           feature.properties[attribute] = log_scale(feature.properties.risk)
           return feature
         })
+      },
+
+      // Utility
+      prepare_palette(layer_type) {
+        let scale = chroma.scale(layer_type.palette).colors(11)
+        if (layer_type.reverse_palette) scale = scale.reverse()
+
+        const steps = [...Array(11).keys()].map(i => i * 10)
+        const stops = steps.map((step, index) => {
+          return [step, scale[index]]
+        })
+        return stops
       },
       get_log_values(features) {
         const property = 'risk'
