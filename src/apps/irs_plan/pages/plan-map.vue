@@ -457,8 +457,10 @@
           return getCoord(centroid(feature))
         })
         centroids = centroids.concat(centroids.slice(), centroids.slice(), centroids.slice(), centroids.slice())
-        centroids = centroids.concat(centroids.slice(), centroids.slice(), centroids.slice(), centroids.slice())
-        centroids = centroids.sort((a, b) => a[0] < b[0])
+//        centroids = centroids.concat(centroids.slice(), centroids.slice(), centroids.slice(), centroids.slice())
+//        centroids = centroids.concat(centroids.slice(), centroids.slice(), centroids.slice(), centroids.slice())
+        centroids = centroids.sort((a, b) => Math.random() > 0.5)
+//        centroids = centroids.reverse()
         console.timeEnd('centroids')
 
         console.time('index')
@@ -470,13 +472,23 @@
         window.p = polys
         window.q = query
 
-        console.time('which_poly_is_this_point_in')
         let results = []
+        console.time('which_poly_is_this_point_in OBJECT')
         centroids.forEach(c => {
           const result = query(c)
+          results.push([c, result.id])
+//          results.push(result)
+        })
+        console.timeEnd('which_poly_is_this_point_in OBJECT')
+
+        results = []
+        console.time('which_poly_is_this_point_in PROPERTIES')
+        centroids.forEach(c => {
+          const result = query(c)
+//          results.push({point: c, poly: result})
           results.push(result)
         })
-        console.timeEnd('which_poly_is_this_point_in')
+        console.timeEnd('which_poly_is_this_point_in PROPERTIES')
         console.log('results', results)
       }
     }
