@@ -13,6 +13,8 @@ const basic_map = (store) => {
     store.commit('root:set_snackbar', {message: 'Problem loading basemap'})
   })
 
+  map.addControl(new mapboxgl.NavigationControl())
+
   return map
 }
 
