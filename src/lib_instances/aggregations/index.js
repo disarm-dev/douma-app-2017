@@ -21,7 +21,7 @@ export class Aggregator {
       throw new Error(`Missing aggregation ${aggregation_name} for ${this.slug}`)
     }
 
-    if (aggregation.hasOwnProperty('numerator_function') && aggregation.hasOwnProperty('denominator_field')) {
+    if (aggregation.hasOwnProperty('numerator_expr') && aggregation.hasOwnProperty('denominator_field')) {
       // Calculate proportion
       try {
         const numerator = this._calculate_numerator(responses, aggregation.numerator_expr, aggregation.precondition)
@@ -36,7 +36,7 @@ export class Aggregator {
         return 0
       }
 
-    } else if (aggregation.hasOwnProperty('numerator_function')) {
+    } else if (aggregation.hasOwnProperty('numerator_expr')) {
       // Calculate numerator only
       try {
         const numerator = this._calculate_numerator(responses, aggregation.numerator_expr, aggregation.precondition)
@@ -64,21 +64,14 @@ export class Aggregator {
     const expression = new Parser.parse(numerator_expr)
     return responses.reduce((sum, {form_data}) => {
 
-      const questions_answered = Object.keys(this.form_data)
+      const questions_answered = Object.keys(form_data)
 
       if (expression.variables().every(i => questions_answered.includes(i))) {
-        let parsed_for_numbers = []
-        questions_answered.forEach(i => {
-          const value = this.test_values[i]
-          const parsed = parseFloat(value)
-          if (Number.isNaN(parsed)) {
-            parsed_for_numbers[i] = value
-          } else {
-            parsed_for_numbers[i] = parsed
-          }
-        })
+        
         const result = expression.evaluate(form_data)
+
         if (!isNumber(result)) return sum
+        
         return sum + result
       } else {
         return sum
