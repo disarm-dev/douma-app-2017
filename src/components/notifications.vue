@@ -15,7 +15,7 @@
       </md-dialog-content>
 
       <md-dialog-actions>
-        <md-button :disabled='!geodata_ready' class="md-primary" @click.native="$refs.geodata_loading_modal.close()">Start planning!</md-button>
+        <md-button :disabled='!geodata_ready' class="md-primary" @click.native="$refs.geodata_loading_modal.close()">OK</md-button>
       </md-dialog-actions>
     </md-dialog>
 
