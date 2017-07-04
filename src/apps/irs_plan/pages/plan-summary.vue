@@ -23,7 +23,7 @@
   import {mapState, mapGetters} from 'vuex'
 
   import cache from 'config/cache.js'
-  import {physical_denominator} from 'lib/denominator_helper'
+  import {get_planning_level_id_field, get_denominator_fields, get_planning_level_name} from 'lib/spatial_hierarchy_helper'
 
   export default {
     name: 'plan_summary',
@@ -40,22 +40,26 @@
     computed: {
       ...mapState({
         slug: state => state.instance_config.slug,
-        denominator: state => state.instance_config.spatial_hierarchy[0].denominator,
-        field_name: state => state.instance_config.spatial_hierarchy[0].field_name,
-        structure_field_name: state => {
-          // number_of_households or number_of_structures
-          let field = Object.keys(state.instance_config.spatial_hierarchy[0].denominator)[0]
-          // gets 'NumHouseho' or 'NmStrct'
-          return state.instance_config.spatial_hierarchy[0].denominator[field]
-        }
+        instance_config: state => state.instance_config
       }),
       ...mapGetters({
         selected_target_area_ids: 'irs_plan/all_selected_area_ids'
       }),
+      structure_field_name() {
+        const denominator = get_denominator_fields(this.instance_config)
+        const field = Object.keys(denominator)[0] // number_of_structures or number_of_households
+        return denominator[field] // gets 'NumHouseho' or 'NmStrct'
+      },
+      planning_level_name() {
+        return get_planning_level_name(this.instance_config)
+      },
+      planning_level_id_field() {
+        return get_planning_level_id_field(this.instance_config)
+      },
       table() {
         if (this.geodata_ready) {
           const selected_areas = this.selected_target_area_ids.map(id => {
-            return cache.geodata.all_target_areas.features.find(feature => feature.properties[this.field_name] === id)
+            return cache.geodata[this.planning_level_name].features.find(feature => feature.properties[this.planning_level_id_field] === id)
           })
           const data = selected_areas.map(r => r.properties)
           const columns = Object.keys(data[0])
@@ -69,7 +73,7 @@
       number_of_structures() {
         if (this.geodata_ready) {
           return this.selected_target_area_ids.map(id => {
-            return cache.geodata.all_target_areas.features.find(feature => feature.properties[this.field_name] === id)
+            return cache.geodata[this.planning_level_name].features.find(feature => feature.properties[this.planning_level_id_field] === id)
           }).reduce((sum, area) => {
             return sum + area.properties[this.structure_field_name]
           }, 0)
@@ -86,7 +90,6 @@
           default:
             return 'structures'
         }
-
       }
     },
     methods: {

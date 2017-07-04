@@ -2,6 +2,7 @@ import moment from 'moment'
 
 import {get_all_records, get_current_plan} from 'lib/data/remote'
 import {Plan} from 'lib/models/plan.model'
+import {decorate_responses_from_json} from 'lib/models/response.model'
 import Presenters from 'lib_instances/presenters'
 
 export default {
@@ -38,7 +39,7 @@ export default {
   },
   getters: {
     // Responses which are contained by current plan
-    // ideally, filtered_responses should change in response to the 
+    // ideally, filtered_responses should change in response to the
     // settings of the filter e.g. "locality #2"
     filtered_responses(state, getters) {
       if(!state.plan || !state.responses.length) return []
@@ -51,11 +52,11 @@ export default {
 
     // Currently this is just all the targets from the plan
     // We need this to be aggregated to the same level as the current
-    // filter - e.g. if filtering at "region #2", but the target_areas in 
+    // filter - e.g. if filtering at "region #2", but the target_areas in
     // the plan are "locality" then aggregate up from locality -> region level
     aggregated_denominators(state, getters) {
       if(!state.plan) return []
-      // Aggregate from plan target_areas up to current filter leve
+      // TODO: @feature Aggregate from plan target_areas up to current filter level
       // e.g. from locality to region level
       return state.plan.targets
     },
@@ -79,11 +80,8 @@ export default {
   actions: {
     get_all_records: (context) => {
       const country = context.rootState.instance_config.slug
-      return get_all_records(country).then(records => {
-        const responses = records.map(r => {
-          r.week = moment(r.recorded_on).week()
-          return r
-        })
+      return get_all_records(country).then(res=> {
+        const responses = decorate_responses_from_json(res, context.rootState.instance_config)
         context.commit('update_responses_last_updated_at')
         context.commit('set_responses', responses)
       })
@@ -101,6 +99,6 @@ export default {
 
           context.commit('set_plan', plan_json)
         })
-    }
+    },
   }
 }

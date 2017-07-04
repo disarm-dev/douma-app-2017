@@ -3,7 +3,9 @@
     "irs_monitor": {
       "aggregations": {
         "map": "number of rooms sprayed (total)",
-        "table": ["number of rooms sprayed (total)"]
+        "table": [
+          "number of rooms sprayed (total)"
+        ]
       },
       "components": [
         {
@@ -42,17 +44,23 @@
   },
   "name": "Botswana IRS Database",
   "slug": "bwa",
-  "spatial_hierarchy": [
-    {
-      "denominator": {
+  "spatial_hierarchy": {
+    "markers": {
+      "planning_level_name": "villages",
+      "denominator_fields": {
         "number_of_structures": "NmStrct"
-      },
-      "field_name": "OBJECTID",
-      "name": "villages"
+      }
     },
-    {
-      "field_name": "ClusterID",
-      "name": "clusters"
-    }
-  ]
+    "levels": [
+      {
+        "field_name": "OBJECTID",
+        "name": "villages"
+      },
+      {
+        "field_name": "ClusterID",
+        "name": "clusters"
+      }
+    ]
+  }
 }
+

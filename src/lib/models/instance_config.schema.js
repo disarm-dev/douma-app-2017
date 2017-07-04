@@ -52,7 +52,13 @@ export const InstanceConfigSchema = schema({
   },
   name: String,
   slug: String,
-  spatial_hierarchy: Array.of_x(1, Infinity, SpatialHierarchySchema),
+  spatial_hierarchy: {
+    markers: {
+      planning_level_name: String,
+      denominator_fields: Object
+    },
+    levels: Array.of_x(1, Infinity, SpatialHierarchySchema),
+  }
   // TODO: @fix Don't currently have a way to validate the denominator on spatial_hierarchy - could do as separate property
   // denominator_units: {
   //   physical: {

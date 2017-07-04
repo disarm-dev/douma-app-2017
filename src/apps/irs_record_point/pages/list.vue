@@ -22,9 +22,9 @@
 
         <div>
           <router-link v-if='!response.synced' :to="{name: 'irs_record_point:edit', params: {response_id: response.id}}">
-            {{format_datetime(response.recorded_on)}}
+            {{ format_datetime(response.recorded_on)}} - {{format_datetime_from_now(response.recorded_on)}}
           </router-link>
-          <p v-else>{{format_datetime(response.recorded_on)}}</p>
+          <p v-else>{{ format_datetime(response.recorded_on)}} - {{format_datetime_from_now(response.recorded_on)}}</p>
         </div>
       </md-list-item>
     </md-list>
@@ -55,8 +55,11 @@
       })
     },
     methods: {
-      format_datetime(date) {
+      format_datetime_from_now(date) {
         return moment(date).fromNow()//format('hh:mm a DD MMM YYYY')
+      },
+      format_datetime(date) {
+        return moment(date).format('hh:mm a DD MMM YYYY')
       },
       sync() {
         this.$store.commit('root:set_loading', true)

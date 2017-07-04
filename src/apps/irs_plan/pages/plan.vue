@@ -29,7 +29,7 @@
         </md-card-content>
       </md-card>
 
-      
+
 
       <!--PLAN SUMMARY-->
       <md-card class="card"><md-card-content>
@@ -79,8 +79,8 @@
     },
     computed: {
       ...mapState({
-        top_level_spatial_hierarchy: state => state.instance_config.spatial_hierarchy[0],
-        slug: state => state.instance_config.slug,
+        instance_config: state => state.instance_config,
+
         unsaved_changes: state => state.irs_plan.unsaved_changes,
         online: state => state.network_online,
         geodata_loading_progress: state => state.geodata_loading_progress,
@@ -120,9 +120,8 @@
       },
       save_plan() {
         const plan = new Plan().create({
+          instance_config: this.instance_config,
           selected_target_area_ids: this.selected_target_area_ids,
-          top_level_spatial_hierarchy: this.top_level_spatial_hierarchy,
-          country: this.slug
         })
 
         this.$store.commit('root:set_loading', true)

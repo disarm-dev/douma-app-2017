@@ -2,6 +2,7 @@ import axios from 'axios'
 
 import config from 'config/common_config.js'
 import cache from 'config/cache'
+import {get_all_spatial_hierarchy_levels} from 'lib/spatial_hierarchy_helper'
 import {InstanceConfigSchema} from '../models/instance_config.schema'
 
 // Get basic root URL from static configuration
@@ -124,24 +125,24 @@ export const create_records = (records) => {
  * @returns {*}
  */
 export const get_geodata = (store) => {
+  // $store is passed in order to update loading progress bar
+
+  // Get slug and level
+  const slug = store.state.instance_config.slug
+  const levels = get_all_spatial_hierarchy_levels(store.state.instance_config)
+
   // Check if cache already populated
-  if (cache.geodata.all_target_areas !== null && cache.geodata.clusters !== null) {
-    // store.commit('root:set_loading', false)
-    // store.commit('root:set_geodata_ready', true)
-    console.warn("This never gets called")
+  if (Object.keys(cache.geodata).length !== 0) {
+    store.commit('root:set_loading', false)
+    store.commit('root:set_geodata_ready', true)
+    console.warn("This probably never gets called")
     return Promise.resolve()
   }
 
-  // Get slug and level
-  const level = store.state.instance_config.spatial_hierarchy[0].name // This is top-level spatial_hierarchy
-  const slug = store.state.instance_config.slug
-
-
-  // $store is passed in order to update loading progress bar
-  const urls = [
-  `/static/geo/${slug}/spatial_hierarchy/${slug}.${level}.geojson`,
-    `/static/geo/${slug}/spatial_hierarchy/${slug}.clusters.geojson`,
-  ]
+  // Build URLs for each level
+  const urls = levels.map(level => {
+    return `/static/geo/${slug}/spatial_hierarchy/${slug}.${level}.geojson`
+  })
 
   let progress_cache = {}
 
@@ -178,9 +179,10 @@ export const get_geodata = (store) => {
   store.commit('root:set_loading', true)
 
   return Promise.all(urls.map(url => standard_handler(url, options)))
-    .then(jsons => {
-      cache.geodata.all_target_areas = jsons[0]
-      cache.geodata.clusters = jsons[1]
+    .then(geodata_json => {
+      levels.forEach((level, index) => {
+        cache.geodata[level] = geodata_json[index]
+      })
       store.commit('root:set_loading', false)
       store.commit('root:set_geodata_ready', true)
     })
@@ -191,6 +193,7 @@ export const get_geodata = (store) => {
     })
 }
 
+// TODO: @refac Replace this with simple call to `get_geodata()`
 export const get_geodata_area = ({slug, level}) => {
   let url = `/static/geo/${slug}/spatial_hierarchy/${slug}.${level}.geojson`
 
