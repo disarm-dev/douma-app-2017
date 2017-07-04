@@ -112,7 +112,6 @@
           })
         }
       },
-
       fit_bounds(geojson) {
         if (!this.user_map_focus) {
           const bounds = bbox(geojson)
