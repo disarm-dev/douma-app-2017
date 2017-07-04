@@ -1,31 +1,29 @@
 export default {
   'homesteads found': {
-    numerator_function: () => 1
+    numerator_expr: "1"
   },
   'structures found': {
-    numerator_function: (d) => d.number_sprayable + d.number_unsprayable
+    numerator_expr: "number_sprayable + number_unsprayable"
   },
   'structures found %': {
-    numerator_function: (d) => d.number_sprayable + d.number_unsprayable,
+    numerator_expr: "number_sprayable + number_unsprayable",
     denominator_field: 'number_of_households'
   },
   "structures sprayed": {
-    numerator_function: (d) => d.numbersprayed_delta + d.numbersprayed_ddt
+    numerator_expr: "numbersprayed_delta + numbersprayed_ddt"
   },
   'structures sprayed %': {
-    numerator_function: (d) => d.numbersprayed_delta + d.numbersprayed_ddt,
+    numerator_expr: "numbersprayed_delta + numbersprayed_ddt",
     denominator_field: 'number_of_households'
   },
   'sprayable structures not sprayed': {
-    numerator_function: (d) => (d.number_sprayable - (d.numbersprayed_delta + d.numbersprayed_ddt))
+    numerator_expr: "number_sprayable - (numbersprayed_delta + numbersprayed_ddt)"
   },
   'sprayable structures not sprayed (refused)': {
-    precondition: (d) => d.reasons_notspraying.includes('refused'),
-    numerator_function: (d) => (d.number_sprayable - (d.numbersprayed_delta + d.numbersprayed_ddt))
+    numerator_expr: "number_sprayable - (numbersprayed_delta + numbersprayed_ddt)"
   },
   'sprayable structures not sprayed (refused) %': {
-    precondition: (d) => d.reasons_notspraying.includes('refused'),
-    numerator_function: (d) => (d.number_sprayable - (d.numbersprayed_delta + d.numbersprayed_ddt)),
+    numerator_expr: "number_sprayable - (numbersprayed_delta + numbersprayed_ddt)",
     denominator_field: 'number_of_households'
   }
 }

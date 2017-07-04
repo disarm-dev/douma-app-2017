@@ -1,3 +1,4 @@
+import {Parser} from 'expr-eval'
 import isNumber from 'is-number'
 
 import bwa from './bwa.aggregations.js'
@@ -23,7 +24,7 @@ export class Aggregator {
     if (aggregation.hasOwnProperty('numerator_function') && aggregation.hasOwnProperty('denominator_field')) {
       // Calculate proportion
       try {
-        const numerator = this._calculate_numerator(responses, aggregation.numerator_function, aggregation.precondition)
+        const numerator = this._calculate_numerator(responses, aggregation.numerator_expr, aggregation.precondition)
         const denominator = this._calculate_denominator(denominators, aggregation.denominator_field)
         const result = numerator / denominator
 
@@ -38,7 +39,7 @@ export class Aggregator {
     } else if (aggregation.hasOwnProperty('numerator_function')) {
       // Calculate numerator only
       try {
-        const numerator = this._calculate_numerator(responses, aggregation.numerator_function, aggregation.precondition)
+        const numerator = this._calculate_numerator(responses, aggregation.numerator_expr, aggregation.precondition)
         return numerator
       } catch (e) {
         console.log(e)
@@ -59,12 +60,30 @@ export class Aggregator {
 
   }
 
-  _calculate_numerator(responses, fn, precondition) {
+  _calculate_numerator(responses, numerator_expr, precondition) {
+    const expression = new Parser.parse(numerator_expr)
     return responses.reduce((sum, {form_data}) => {
-      if (precondition && !precondition(form_data)) return sum
-      const result = fn(form_data)
-      if (!isNumber(result)) return sum
-      return sum + result
+
+      const questions_answered = Object.keys(this.form_data)
+
+      if (expression.variables().every(i => questions_answered.includes(i))) {
+        let parsed_for_numbers = []
+        questions_answered.forEach(i => {
+          const value = this.test_values[i]
+          const parsed = parseFloat(value)
+          if (Number.isNaN(parsed)) {
+            parsed_for_numbers[i] = value
+          } else {
+            parsed_for_numbers[i] = parsed
+          }
+        })
+        const result = expression.evaluate(form_data)
+        if (!isNumber(result)) return sum
+        return sum + result
+      } else {
+        return sum
+      }
+
     }, 0)
   }
 

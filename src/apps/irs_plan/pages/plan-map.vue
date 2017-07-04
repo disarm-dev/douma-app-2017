@@ -360,7 +360,7 @@
 
       // Risk slider
       set_risk_slider_value: debounce(function(){
-
+console.time('set_risk_slider_value')
         let areas = cache.geodata[this.planning_level_name].features.filter((feature) => {
           return feature.properties.risk >= this.converted_slider_value
         })
@@ -370,7 +370,10 @@
         })
 
         this.$store.commit('irs_plan/set_bulk_selected_ids', area_ids)
+console.timeEnd('set_risk_slider_value')
+        console.time('refilter_target_areas')
         this.refilter_target_areas()
+        console.timeEnd('refilter_target_areas')
         this.$ga.event('irs_plan','change_risk_slider')
       }, 750),
       set_slider_range() {

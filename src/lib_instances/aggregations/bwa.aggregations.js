@@ -24,7 +24,8 @@ export default {
   },
 
   'number of rooms sprayed (total)': {
-    numerator_function: (d) => d.number_sprayed_ddt + d.number_sprayed_lambdacyhalothrin
+    numerator_function: (d) => d.number_sprayed_ddt + d.number_sprayed_lambdacyhalothrin,
+    numerator_expr: "number_sprayed_ddt + number_sprayed_lambdacyhalothrin"
   },
 
   'number of rooms sprayed (DDT)': {
@@ -33,7 +34,8 @@ export default {
 
   'number of rooms sprayed (lambda-cyhalothrin)': {
     numerator_function: (d) => d.number_sprayed_lambdacyhalothrin
-  }
+  },
+
 
 }
 
