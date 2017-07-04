@@ -476,6 +476,7 @@
         console.time('which_poly_is_this_point_in OBJECT')
         centroids.forEach(c => {
           const result = query(c)
+//          c.location_id = result.id
           results.push([c, result.id])
 //          results.push(result)
         })

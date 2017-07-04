@@ -71,27 +71,6 @@
             this.$store.commit('root:set_loading', false)
           })
       },
-      find_polygons_for_points() {
-        // TODO: @feature Load geodata properly on this component
-        console.log('find_polygons_for_points')
-        if (!Object.keys(cache).length) return
-
-
-        const points = this.$store.state.irs_monitor.responses.map((response) => {
-          let {latitude, longitude} = response.location.coords
-          return [latitude, longitude]
-        })
-
-        console.log(cache, points)
-        // TODO: @feature Wrap this in a loop of the spatial_hierarchy levels
-        const query = which_polygon(cache.geodata['constituencies' || this.planning_level_name])
-
-        let results = []
-        points.forEach((point) => {
-          results.push(query(point))
-        })
-        console.log(results)
-      }
     }
   }
 </script>

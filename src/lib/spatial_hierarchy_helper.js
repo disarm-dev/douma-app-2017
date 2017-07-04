@@ -1,3 +1,8 @@
+/**
+ * Something like 'AggUniCode' for SWZ or 'OBJECTID' for BWA
+ * @param instance_config
+ * @returns {*|string}
+ */
 const get_planning_level_id_field = (instance_config) => {
   const planning_level_name = instance_config.spatial_hierarchy.markers.planning_level_name // e.g. villages for NAM
   const planning_level = instance_config.spatial_hierarchy.levels.find(sp => sp.name === planning_level_name)
@@ -9,6 +14,10 @@ const get_planning_level_id_field = (instance_config) => {
   }
 }
 
+/**
+ * Something like 'villages' for NAM for 'localities' for SWZ
+ * @param instance_config
+ */
 const get_planning_level_name = (instance_config) => {
   const planning_level_name = instance_config.spatial_hierarchy.markers.planning_level_name // e.g. villages for NAM
   const planning_level = instance_config.spatial_hierarchy.levels.find(sp => sp.name === planning_level_name)

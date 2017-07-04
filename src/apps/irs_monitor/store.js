@@ -2,6 +2,7 @@ import moment from 'moment'
 
 import {get_all_records, get_current_plan} from 'lib/data/remote'
 import {Plan} from 'lib/models/plan.model'
+import {decorate_responses_from_json} from 'lib/models/response.model'
 import Presenters from 'lib_instances/presenters'
 
 export default {
@@ -79,11 +80,8 @@ export default {
   actions: {
     get_all_records: (context) => {
       const country = context.rootState.instance_config.slug
-      return get_all_records(country).then(records => {
-        const responses = records.map(r => {
-          r.week = moment(r.recorded_on).week()
-          return r
-        })
+      return get_all_records(country).then(res=> {
+        const responses = decorate_responses_from_json(res, context.rootState.instance_config)
         context.commit('update_responses_last_updated_at')
         context.commit('set_responses', responses)
       })
