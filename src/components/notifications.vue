@@ -11,7 +11,7 @@
       <md-dialog-title>Loading base layers</md-dialog-title>
 
       <md-dialog-content class="centred">
-        <md-spinner :md-progress="geodata_loading_progress"></md-spinner>
+        <md-spinner class="center-spinner" :md-progress="geodata_loading_progress"></md-spinner>
       </md-dialog-content>
 
       <md-dialog-actions>
@@ -86,5 +86,8 @@
 </script>
 
 <style scoped>
-
+  .center-spinner {
+    display: block;
+    margin: 0 auto;
+  }
 </style>
