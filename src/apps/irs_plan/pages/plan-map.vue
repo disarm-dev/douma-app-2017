@@ -109,6 +109,8 @@
             this.add_target_areas()
             this.$emit('map_loaded')
             this.set_slider_range()
+            console.warn("remove debug which_poly_is_this_point_in")
+            this.which_poly_is_this_point_in()
           })
         }
       },
@@ -447,16 +449,26 @@
         if (this.log_scale(maxo) !== 100) console.log('max should be 100', this.log_scale(maxo))
       },
       which_poly_is_this_point_in() {
+        // const level = this.planning_level_name
+        const level = 'clusters'
+
         console.time('centroids')
-        const centroids = cache.geodata[this.planning_level_name].features.map(feature => {
+        let centroids = cache.geodata[level].features.map(feature => {
           return getCoord(centroid(feature))
         })
+        centroids = centroids.concat(centroids.slice(), centroids.slice(), centroids.slice(), centroids.slice())
+        centroids = centroids.concat(centroids.slice(), centroids.slice(), centroids.slice(), centroids.slice())
+        centroids = centroids.sort((a, b) => a[0] < b[0])
         console.timeEnd('centroids')
 
         console.time('index')
-        const polys = cache.geodata[this.planning_level_name].features
+        const polys = cache.geodata[level].features
         const query = which_polygon(featureCollection(polys))
         console.timeEnd('index')
+
+        window.c = centroids
+        window.p = polys
+        window.q = query
 
         console.time('which_poly_is_this_point_in')
         let results = []
