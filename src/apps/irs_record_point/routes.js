@@ -1,5 +1,6 @@
 import record from './pages/record.vue'
 import list from './pages/list.vue'
+import view_response from './pages/view_response.vue'
 
 export default [
   {
@@ -19,5 +20,10 @@ export default [
     props: true,
     component: record,
     name: 'irs_record_point:edit',
+  },{
+    path: '/irs/record_point/view/:response_id',
+    props: true,
+    component: view_response,
+    name: 'irs_record_point:view',
   }
 ]
