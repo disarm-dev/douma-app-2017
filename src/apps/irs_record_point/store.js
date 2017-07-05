@@ -13,6 +13,9 @@ export default {
       let index = state.responses.findIndex((r) => r.id === response.id)
       state.responses.splice(index, 1, response)
     },
+    add_responses: (state, responses) => {
+      state.responses = state.responses.concat(responses)
+    },
     delete_response: (state, response) => {
       let index = state.responses.findIndex((r) => r.id === response.id)
       state.responses.splice(index, 1)

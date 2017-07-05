@@ -3,6 +3,7 @@
     <md-list-item><router-link to="/meta/debug/location">location</router-link></md-list-item>
     <md-list-item><router-link to="/meta/debug/building">building</router-link></md-list-item>
     <md-list-item><router-link to="/meta/debug/validations">validations</router-link></md-list-item>
+    <md-list-item><router-link to="/meta/debug/fake_data">fake data</router-link></md-list-item>
 
     <md-list-item><a @click="check_geolocation()">check geolocation</a></md-list-item>
     <md-list-item><a @click="reset_config()">reset config</a></md-list-item>
