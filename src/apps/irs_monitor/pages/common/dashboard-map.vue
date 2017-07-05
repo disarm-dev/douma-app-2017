@@ -97,7 +97,7 @@
         this.add_response_points()
         this.add_layer(layer_string)
 
-        this._map.fitBounds(bbox(this._aggregated_responses_fc), {padding: 20});
+//        this._map.fitBounds(bbox(this._aggregated_responses_fc), {padding: 20});
         this.bind_popup(layer_definitions[layer_string])
       },
 
