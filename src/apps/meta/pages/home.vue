@@ -18,17 +18,15 @@
 </template>
 
 <script>
-  import {decorated_applets} from 'config/applet_stores_and_routes.js'
+  import {mapGetters} from 'vuex'
 
   export default {
 
     name: 'home',
-    data() {
-      return {
-        decorated_applets: decorated_applets,
-      }
-    },
     computed: {
+      ...mapGetters({
+        decorated_applets: 'meta/decorated_applets'
+      }),
       commit_hash() {
         return COMMIT_HASH.substring(0, 6)
       },
