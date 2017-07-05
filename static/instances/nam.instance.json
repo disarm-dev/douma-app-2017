@@ -32,7 +32,7 @@
     "markers": {
       "planning_level_name": "clusters",
       "denominator_fields": {
-        "number_of_households": "NumStructu"
+        "number_of_households": "NumHouseholds"
       }
     },
     "levels": [
@@ -41,7 +41,7 @@
         "name": "constituencies"
       },
       {
-        "field_name": "ClusterID",
+        "field_name": "id",
         "name": "clusters"
       }
     ]

@@ -65,10 +65,10 @@ export default {
       return get_current_plan(context.rootState.instance_config.slug).then((plan_json) => {
 
         const assignments = new Assignment().assignments_from_plan(plan_json)
-        context.commit('irs_tasker/set_assignments', assignments)
+        context.commit('set_assignments', assignments)
 
         const teams = new Assignment().team_names_from_assignments(assignments)
-        context.commit('irs_tasker/set_teams', teams)
+        context.commit('set_teams', teams)
       })
     },
     'save_assignments': (context) => {

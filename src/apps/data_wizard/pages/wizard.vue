@@ -15,7 +15,7 @@
     },
     data() {
       return {
-        steps: ['enumeration', 'risk', 'population', 'planning_level', 'admin_levels']
+        steps: ['bounding-box', 'enumeration-structures', 'sprayable-structures', 'risk', 'population', 'planning_level', 'admin_levels']
       }
     },
     methods: {
