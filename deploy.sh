@@ -12,3 +12,4 @@ echo $(git log --oneline -n 1) |  xargs -I % curl -X "POST" "https://hooks.slack
      -d $'{
   "text": "'%I'"
 }'
+
