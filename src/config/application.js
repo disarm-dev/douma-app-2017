@@ -9,6 +9,9 @@ Vue.use(VueTouch)
 import VueWorker from 'vue-worker'
 Vue.use(VueWorker)
 
+import TreeView from "vue-json-tree-view"
+Vue.use(TreeView)
+
 // VueMaterial
 import VueMaterial from 'vue-material'
 Vue.use(VueMaterial)

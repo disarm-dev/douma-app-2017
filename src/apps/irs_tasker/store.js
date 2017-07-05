@@ -1,6 +1,7 @@
-import chroma from 'chroma-js'
-import {AssignmentSchema} from '../../lib/models/assignment.schema'
+import {AssignmentSchema} from 'lib/models/assignment.schema'
+import {Assignment} from 'lib/models/assignment.model'
 import {DECORATED_UNASSIGNED_TEAM} from 'apps/irs_tasker/unassigned_team'
+import {get_current_plan} from 'lib/data/remote.plans'
 
 export default {
   namespaced: true,
@@ -59,6 +60,19 @@ export default {
       // If team_name is not in teams, set to
       DECORATED_UNASSIGNED_TEAM.team_name
     },
-    'save_assignments_to_plan': () => {}
+    'save_assignments_to_plan': (context) => {},
+    'get_current_plan': (context) => {
+      return get_current_plan(context.rootState.instance_config.slug).then((plan_json) => {
+
+        const assignments = new Assignment().assignments_from_plan(plan_json)
+        context.commit('irs_tasker/set_assignments', assignments)
+
+        const teams = new Assignment().team_names_from_assignments(assignments)
+        context.commit('irs_tasker/set_teams', teams)
+      })
+    },
+    'save_assignments': (context) => {
+
+    },
   }
 }
