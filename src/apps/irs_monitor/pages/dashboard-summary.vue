@@ -1,6 +1,7 @@
 <template>
   <md-card class="card">
     <md-card-header>
+      <h4 v-if='!plan' style="color: red">Plan missing - no calculations until one is loaded</h4>
       <div class="md-title">Table and map update with real records</div>
     </md-card-header>
 
@@ -32,6 +33,7 @@
     computed: {
       ...mapState({
         loading: state => state.loading,
+        plan: state => state.irs_monitor.plan,
         instance_config: state => state.instance_config,
         responses_last_updated_at: state => {
           if (state.irs_monitor.responses_last_updated_at) {
@@ -44,6 +46,11 @@
       ...mapGetters({
         filtered_responses: 'irs_monitor/filtered_responses',
       })
+    },
+    mounted() {
+      if (!this.plan) {
+        this.$nextTick(() => this.$store.commit('root:set_snackbar', {message: "Plan missing - refresh data to load"}))
+      }
     },
     methods: {
       refresh_data() {
