@@ -28,7 +28,7 @@ export default {
       visit_type:"first_visit"
     }
   ],
-  zwe: [],
-  bwa: [],
-  nam: []
+  zwe: [{}, {}],
+  bwa: [{}, {}],
+  nam: [{}, {}]
 }
