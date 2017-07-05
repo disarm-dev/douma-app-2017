@@ -70,27 +70,28 @@ export default {
             "longitude": point_in_polygon[1]
           }
         },
-        "location_selection": this.location_selections[this.random_number_between(0, this.location_selections.length -1)],
+        "location_selection": this.location_selections.splice(0,50)[this.random_number_between(0, this.location_selections.splice(0,50).length -1)],
         "recorded_on": faker.date.recent(),
         "user": faker.name.firstName(),
-        "userAgent": faker.internet.userAgent()
+        "userAgent": faker.internet.userAgent(),
+        "synced": false
       }
       return response
     },
     generate_data() {
       let responses = []
 
-      this.location_selections.forEach(area => {
+      this.location_selections.splice(0, 50).forEach(area => {
         let count = 0
-        const limit = this.random_number_between(1,15)
+        const limit = this.random_number_between(1,3)
         while (count <= limit) {
           const response = this.create_response(area)
           responses.push(response)
           count += 1
         }
       })
-      console.log(responses)
-      return responses
+
+      this.$store.commit('irs_record_point/add_responses', responses)
     }
   }
 }
