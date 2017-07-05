@@ -2,8 +2,8 @@
   <md-card class="card">
     <md-card-content>
 
-      <p>Show areas by:</p>
       <div>
+        <span>Show areas by:</span>
         <md-radio v-model="selected_layer" :disabled='!geodata_ready' name="map-type" md-value="coverage">Coverage</md-radio>
         <md-radio v-model="selected_layer" :disabled='!geodata_ready' name="map-type" md-value="risk">Risk</md-radio>
       </div>

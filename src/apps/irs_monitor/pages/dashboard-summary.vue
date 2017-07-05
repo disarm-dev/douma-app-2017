@@ -1,11 +1,18 @@
 <template>
   <md-card class="card">
+    <md-card-header>
+      <div class="md-title">Table and map update with real records</div>
+    </md-card-header>
+
     <md-card-content>
-      <p>{{filtered_responses.length}} record{{filtered_responses.length === 1 ? '' : 's' }} lie within the planned areas.</p>
-      <p>Last updated: {{responses_last_updated_at}}</p>
-      <md-button class="md-raised md-primary" @click.native="refresh_data" :disabled="loading">Refresh data</md-button>
-      <md-button class="md-raised md-primary" @click.native="download_responses" :disabled="loading || !filtered_responses.length">Download responses</md-button>
+      <span>{{filtered_responses.length}} record{{filtered_responses.length === 1 ? '' : 's' }} lie within the planned areas.</span>
+      <span>Last updated: {{responses_last_updated_at}}</span>
     </md-card-content>
+
+    <md-card-actions>
+      <md-button class="md-icon-button md-mini md-raised md-primary" @click.native="refresh_data" :disabled="loading"><md-icon>refresh</md-icon></md-button>
+      <md-button class="md-icon-button md-mini md-raised md-primary" @click.native="download_responses" :disabled="loading || !filtered_responses.length"><md-icon>file_download</md-icon></md-button>
+    </md-card-actions>
   </md-card>
 </template>
 

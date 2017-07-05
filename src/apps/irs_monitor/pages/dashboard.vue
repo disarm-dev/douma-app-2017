@@ -1,7 +1,5 @@
 <template>
   <div class='container'>
-    <h2>Table and map update with real records</h2>
-
     <h4 v-if='!plan' style="color: red">No plan! No way forward until you have one</h4>
 
     <!--  SUMMARY, LOAD, DOWNLOAD (DUMPING GROUND) -->
@@ -94,8 +92,7 @@
 <style scoped>
   .card {
     display: inline-block;
-    margin: 2.5%;
-    padding: 1em;
+    margin: 1% 2.5%;
     flex: 1;
     width: 95%;
   }
