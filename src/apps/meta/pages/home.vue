@@ -25,7 +25,7 @@
     name: 'home',
     data() {
       return {
-        decorated_applets: [],
+        decorated_applets: decorated_applets,
       }
     },
     computed: {
@@ -35,9 +35,6 @@
       user() {
         return this.$store.state.meta.user
       }
-    },
-    mounted() {
-      this.decorated_applets = decorated_applets
     }
   }
 </script>

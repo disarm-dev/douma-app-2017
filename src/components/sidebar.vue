@@ -60,6 +60,11 @@
 
   export default {
     name: 'sidebar',
+    data() {
+      return {
+        decorated_applets: decorated_applets
+      }
+    },
     computed: {
       ...mapState({
         instance_name: state => state.instance_config.name,
@@ -71,9 +76,6 @@
     },
     watch: {
       '$store.state.trigger_sidebar_visible_irrelevant_value': 'show_hide_sidebar'
-    },
-    created() {
-      this.decorated_applets = decorated_applets
     },
     methods: {
       navigate(name) {
