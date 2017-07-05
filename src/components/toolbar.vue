@@ -7,11 +7,13 @@
 
       <!-- BREADCRUMBS -->
       <h2 class="md-title" style="flex: 1">
+          <!--Display custom applet header if exists -->
           <span v-if="current_applet_header">
             <md-icon>{{current_applet_header.icon}}</md-icon>
             {{current_applet_header.title}}
           </span>
-        <span v-else>
+
+          <span v-else>
             {{instance_name}}
           </span>
       </h2>
@@ -31,9 +33,7 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex'
-  import {decorated_applets} from 'config/applet_stores_and_routes.js'
-
+  import {mapState, mapGetters} from 'vuex'
 
   export default {
     name: 'toolbar',
@@ -48,9 +48,18 @@
         loading: state => state.loading,
         online: state => state.network_online
       }),
+      ...mapGetters({
+        decorated_applets: 'meta/decorated_applets'
+      }),
       current_applet_header() {
-        const current_applet_name = this.$route.name.split(':')[0]
-        const found = decorated_applets.find(applet => applet.name === current_applet_name)
+        let current_applet_name
+        if (this.$route.name) {
+          current_applet_name = this.$route.name.split(':')[0]
+        } else {
+          console.log('wtf?')
+        }
+
+        const found = this.decorated_applets.find(applet => applet.name === current_applet_name)
         if (found) {
           return found
         } else {

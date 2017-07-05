@@ -54,9 +54,7 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex'
-
-  import {decorated_applets} from 'config/applet_stores_and_routes.js'
+  import {mapState, mapGetters} from 'vuex'
 
   export default {
     name: 'sidebar',
@@ -65,15 +63,15 @@
         instance_name: state => state.instance_config.name,
         user: state => state.meta.user,
       }),
+      ...mapGetters({
+        decorated_applets: 'meta/decorated_applets'
+      }),
       commit_hash() {
         return COMMIT_HASH.substring(0, 6)
       },
     },
     watch: {
       '$store.state.trigger_sidebar_visible_irrelevant_value': 'show_hide_sidebar'
-    },
-    created() {
-      this.decorated_applets = decorated_applets
     },
     methods: {
       navigate(name) {

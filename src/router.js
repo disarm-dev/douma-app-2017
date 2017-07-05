@@ -23,27 +23,31 @@ export function create_router(instance_routes, store) {
     mode: 'history'
   })
 
-  // Add the guards
+  // Is a user logged-in
   router.beforeEach((to, from, next) => {
-    if (!store.state.meta || !store.state.meta.user) {
-      if (to.name === 'meta:login') {
-        return next()
-      } else {
-        store.state.meta.previousRoute = to.path
-        return next({name: 'meta:login'})
-      }
-    }
+    if (store.state.meta && store.state.meta.user) return next()
 
-    if (has_permission({user: store.state.meta.user, page: to.name})) {
+    if (to.name === 'meta:login') {
       next()
     } else {
-      console.log('Not allowed to go to this page')
+      store.commit('meta/set_previous_route', to.path)
+      next({name: 'meta:login'})
     }
-
-    next()
 
   })
 
-  return router;
+  // Does user have permission to visit page
+  router.beforeEach((to, from, next) => {
+    const applet_name = to.name.split(':')[0]
+
+    if (has_permission({user: store.state.meta.user, applet_name})) {
+      next()
+    } else {
+      next({name: 'meta:home'})
+    }
+
+  })
+
+  return router
 }
 

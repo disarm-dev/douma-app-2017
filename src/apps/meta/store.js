@@ -1,13 +1,17 @@
 import {authenticate} from 'lib/data/remote'
+import {decorate_applets} from 'lib/decorated_applets'
 
 export default {
   namespaced: true,
   state: {
     user: null,
-    previousRoute: '',
-    locations: []
+    previous_route: '',
+    locations: [],
   },
   mutations: {
+    set_previous_route: (state, previous_route) => {
+      state.previous_route = previous_route
+    },
     set_user: (state, user) => {
       state.user = user
     },
@@ -24,6 +28,19 @@ export default {
     },
     clear_locations: (state) => {
       state.locations = []
+    }
+  },
+  getters: {
+    decorated_applets(state, getters, rootState) {
+      // Figure out which applets are allowed, and only decorate and show these!
+      if (!state.user) return []
+
+      const user_allowed_applets = state.user.allowed_apps.read
+      const instance_applets = rootState.instance_config.applets
+
+      const decorated_applets = decorate_applets({user_allowed_applets, instance_applets})
+
+      return decorated_applets
     }
   },
   actions: {
