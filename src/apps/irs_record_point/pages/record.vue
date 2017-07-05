@@ -48,7 +48,18 @@
     <!-- METADATA EDITOR-->
     <md-card v-if="current_view === 'metadata'">
       <md-card-content>
-        <h1>Edit metadata in here</h1>
+        <md-card-header>
+          <div class="md-title">Metadata</div>
+        </md-card-header>
+        <md-list>
+          <md-list-item>username: {{username}}</md-list-item>
+          <!--<md-list-item>recorded_on: {{recorded_on}}</md-list-item>-->
+          <!--<md-input-container>-->
+            <!--<label>Team</label>-->
+            <!--<md-input v-model="team"></md-input>-->
+          <!--</md-input-container>-->
+        </md-list>
+
       </md-card-content>
       <md-card-actions>
         <md-button @click.native="set_current_view('location')" class="md-raised">Next</md-button>
@@ -58,6 +69,10 @@
     <!--LOCATION CARD-->
     <md-card v-if="current_view === 'location'" class='location'>
       <md-card-content>
+        <md-card-header>
+          <div class="md-title">Location</div>
+        </md-card-header>
+
         <location_record
           @change='on_location_change'
           :initial_location='initial_response.location'
@@ -133,7 +148,7 @@
       'validation_length': 'shake_validations'
     },
     computed: {
-      user_name() {
+      username() {
         return this.$store.state.meta.user.name
       },
       instance_config() {
@@ -181,21 +196,6 @@
       set_current_view(view) {
         this.current_view = view
       },
-//      //
-//      next_page() {
-//        this.pages.findIndex(p => p === this.current_view)
-//      },
-//      previous_page() {
-//
-//      },
-//      show_next_page_button() {
-//
-//      },
-//      show_previous_page_button() {
-//
-//      },
-
-
       shake_validations(newVal, oldVal) {
         if (newVal > oldVal) {
           this.shake_button = !this.shake_button
@@ -255,10 +255,10 @@
         try {
           response = new Response().create({
             ...this.response,
-            recorded_on: this.response.recorded_on,
             id: this.response_id,
+            recorded_on: this.response.recorded_on,
             country: this.instance_config.slug,
-            user: this.user_name
+            user: this.username
           })
         } catch (e) {
           return console.log(e)

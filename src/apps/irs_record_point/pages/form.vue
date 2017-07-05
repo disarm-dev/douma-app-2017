@@ -3,10 +3,16 @@
   :options="{touchAction: 'pan-y'}"
   v-on:swipeleft="next_page"
   v-on:swiperight="previous_page">
-    <md-card >
+
+    <md-card>
+      <md-card-header>
+        <div class="md-title">Form</div>
+      </md-card-header>
+
       <md-card-content>
         <div id="surveyContainer"></div>
       </md-card-content>
+
       <md-card-actions>
         <md-button v-if="show_back_to_location" @click.native="$emit('previous_view')" class="md-raised">Previous</md-button>
         <md-button v-if="show_previous" @click.native="previous_page" class="md-raised">Previous</md-button>
@@ -14,6 +20,7 @@
         <md-button v-if="show_complete" :disabled="complete_disabled" @click.native="complete" class="md-raised md-primary">Complete</md-button>
       </md-card-actions>
     </md-card>
+
   </v-touch>
 </template>
 
@@ -116,3 +123,10 @@
     }
   }
 </script>
+
+
+<style scoped>
+  .md-card {
+    margin: 10px;
+  }
+</style>
