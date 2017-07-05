@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+import {has_permission} from 'lib/permission_helper.js'
+
 export function create_router(instance_routes, store) {
   Vue.use(VueRouter)
 
@@ -32,7 +34,11 @@ export function create_router(instance_routes, store) {
       }
     }
 
-    console.warn("TODO: @feature Check if user authorised for route")
+    if (has_permission({user: store.state.meta.user, page: to.name})) {
+      next()
+    } else {
+      console.log('Not allowed to go to this page')
+    }
 
     next()
 

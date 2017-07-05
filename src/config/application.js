@@ -20,13 +20,14 @@ Vue.material.registerTheme({
 import DoumaComponent from 'components/app.vue'
 import {create_router} from '../router'
 import {create_store} from '../store'
-import {get_instance_stores_and_routes} from './applets'
+import {get_instance_stores_and_routes} from './applet_stores_and_routes'
 import {instantiate_analytics, set_common_analytics} from 'config/analytics'
 
 export function configure_application (instance_config) {
   // TODO: @refac Do better checking of instance config e.g. at/before deploy
 
   // Collect stores and routes for applets ONLY in this instance {stores: {}, routes: []}
+  // Ignores user permissions
   const instance_applets_stores_and_routes = get_instance_stores_and_routes(instance_config)
 
   // Make Vuex#$store and a Vue#$router from what you got
