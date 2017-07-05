@@ -38,14 +38,13 @@ export function create_router(instance_routes, store) {
 
   // Does user have permission to visit page
   router.beforeEach((to, from, next) => {
+    const applet_name = to.name.split(':')[0]
 
-    const applet = to.name.split(':')[0]
-
-    if (has_permission({user: store.state.meta.user, applet})) {
-      return next()
+    if (has_permission({user: store.state.meta.user, applet_name})) {
+      next()
     } else {
       console.log('Not allowed to go to this page')
-      return next(false)
+      next(false)
     }
 
   })
