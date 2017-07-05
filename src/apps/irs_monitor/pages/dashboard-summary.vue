@@ -5,6 +5,7 @@
       <p>Last updated: {{responses_last_updated_at}}</p>
       <md-button class="md-raised md-primary" @click.native="refresh_data" :disabled="loading">Refresh data</md-button>
       <md-button class="md-raised md-primary" @click.native="download_responses" :disabled="loading || !filtered_responses.length">Download responses</md-button>
+      <md-button class="md-raised md-primary" @click.native="populate_with_fake_data">Populate with fake data</md-button>
     </md-card-content>
   </md-card>
 </template>
@@ -53,6 +54,12 @@
         download(content, `${this.instance_config.slug}_responses_${date}.csv`)
         this.$ga.event('irs_monitor','click_download_responses')
       },
+      populate_with_fake_data() {
+        this.$store.commit('root:set_loading', true)
+        this.$store.dispatch('irs_monitor/get_fake_responses').then(() => {
+          this.$store.commit('root:set_loading', false)
+        })
+      }
     }
   }
 </script>

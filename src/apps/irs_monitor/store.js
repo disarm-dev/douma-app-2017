@@ -100,5 +100,10 @@ export default {
           context.commit('set_plan', plan_json)
         })
     },
+    get_fake_responses: (context) => {
+      const responses = require('../../../data/responses.json')
+      context.commit('set_responses', responses)
+    }
+
   }
 }

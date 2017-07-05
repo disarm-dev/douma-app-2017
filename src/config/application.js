@@ -6,6 +6,9 @@ Vue.use(ClientTable)
 import VueTouch from 'vue-touch'
 Vue.use(VueTouch)
 
+import VueWorker from 'vue-worker'
+Vue.use(VueWorker)
+
 // VueMaterial
 import VueMaterial from 'vue-material'
 Vue.use(VueMaterial)

@@ -11,11 +11,11 @@
       <md-dialog-title>Loading base layers</md-dialog-title>
 
       <md-dialog-content class="centred">
-        <md-spinner :md-progress="geodata_loading_progress"></md-spinner>
+        <md-spinner class="center-spinner" :md-progress="geodata_loading_progress"></md-spinner>
       </md-dialog-content>
 
       <md-dialog-actions>
-        <md-button :disabled='!geodata_ready' class="md-primary" @click.native="$refs.geodata_loading_modal.close()">Start planning!</md-button>
+        <md-button :disabled='!geodata_ready' class="md-primary" @click.native="$refs.geodata_loading_modal.close()">OK</md-button>
       </md-dialog-actions>
     </md-dialog>
 
@@ -86,5 +86,8 @@
 </script>
 
 <style scoped>
-
+  .center-spinner {
+    display: block;
+    margin: 0 auto;
+  }
 </style>
