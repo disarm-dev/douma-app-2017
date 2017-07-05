@@ -1,7 +1,14 @@
-import common_config from 'config/common_config'
-// import {decorated_applets} from 'config/decorated_applets'
 
-const applet_requires = require("dir-loader!../apps")
+// const applet_requires = require("dir-loader!../apps")
+const applet_requires = {
+  data_wizard: require('apps/data_wizard'),
+  meta: require('apps/meta'),
+  irs_monitor: require('apps/irs_monitor'),
+  irs_plan: require('apps/irs_plan'),
+  irs_record_point: require('apps/irs_record_point'),
+  irs_tasker: require('apps/irs_tasker')
+}
+
 
 /**
  * Collect stores and routes for applets ONLY in this instance {stores: {}, routes: []}
@@ -18,7 +25,7 @@ export function get_instance_stores_and_routes(instance_config) {
   let applets = []
 
   applet_names.forEach(applet_name => {
-    applets[applet_name] = applet_requires[applet_name]['index.js'].src
+    applets[applet_name] = applet_requires[applet_name]
   })
 
 
