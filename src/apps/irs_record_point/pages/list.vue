@@ -2,7 +2,7 @@
   <div class='container'>
     <!-- <local_record_summary></local_record_summary> -->
     <div v-if="!online">Offline - unable to sync</div>
-    <md-button class='md-raised' @click.native='$router.push("/irs/record_point/new")'><md-icon>create</md-icon>Add new</md-button>
+    <md-button class='md-raised md-primary' @click.native='$router.push("/irs/record_point/new")'><md-icon>create</md-icon>Add new</md-button>
     <md-button class="md-raised md-warn" :disabled="syncing || unsynced_count === 0 || !online" @click.native="sync">
       Sync {{unsynced_count}} responses
     </md-button>
@@ -57,7 +57,7 @@
     },
     methods: {
       format_response(response) {
-        const location_name = response.location_selection.name  
+        const location_name = response.location_selection.name
 //        const date = this.format_datetime(response.recorded_on)
         const ago = this.format_datetime_from_now(response.recorded_on)
 

@@ -1,21 +1,30 @@
 <template>
-  <md-list>
-    <md-list-item><router-link to="/meta/debug/location">location</router-link></md-list-item>
-    <md-list-item><router-link to="/meta/debug/building">building</router-link></md-list-item>
-    <md-list-item><router-link to="/meta/debug/validations">validations</router-link></md-list-item>
-    <md-list-item><router-link to="/meta/debug/fake_data">fake data</router-link></md-list-item>
+  <div>
+    <md-toolbar md-theme="white">
+      <span class="md-title">Testing and debug tools</span>
+    </md-toolbar>
+    <md-list>
+      <!--DATA-->
+      <md-list-item><router-link to="/meta/debug/validations"><md-icon>playlist_add_check</md-icon><span>validations</span></router-link></md-list-item>
+      <md-list-item><router-link to="/meta/debug/fake_data"><md-icon>flight_takeoff</md-icon><span>fake data</span></router-link></md-list-item>
+      <md-list-item @click="log_form_elements"><md-icon>assignment</md-icon><span>form elements (check devtools log)</span></md-list-item>
+      <md-divider class="md-inset"></md-divider>
 
-    <md-list-item><a @click="check_geolocation()">check geolocation</a></md-list-item>
-    <md-list-item><a @click="reset_config()">reset config</a></md-list-item>
-    <md-list-item><a @click="log_form_elements">form_elements</a></md-list-item>
+      <!-- LOCATION -->
+      <md-list-item><router-link to="/meta/debug/building"><md-icon>location_city</md-icon><span>building hunter</span></router-link></md-list-item>
+      <md-list-item><router-link to="/meta/debug/location"><md-icon>my_location</md-icon><span>location test</span></router-link></md-list-item>
+      <md-list-item @click="check_geolocation()"><md-icon>location_searching</md-icon><span>check geolocation</span></md-list-item>
+      <md-divider class="md-inset"></md-divider>
 
-    <md-list-item><a href="/3rdpartylicenses.txt">licenses</a></md-list-item>
+      <!-- LEGAL -->
+      <md-list-item href="/3rdpartylicenses.txt"><md-icon>library_books</md-icon><span>licenses</span></md-list-item>
+      <md-divider class="md-inset"></md-divider>
 
-    <p v-if="geolocation_test_response">{{geolocation_test_response}}</p>
+      <!-- CLEARING THINGS-->
+      <md-list-item @click="clear_local_storage"><md-icon class="md-warn">delete_forever</md-icon><span>clear local storage</span></md-list-item>
 
-    <router-view></router-view>
-
-  </md-list>
+    </md-list>
+  </div>
 </template>
 
 <script>
@@ -23,27 +32,24 @@
 
   export default {
     name: 'debug',
-    data () {
-      return {
-        geolocation_test_response: ''
-      }
-    },
     methods: {
-      reset_config() {
-        this.$store.commit('root:set_instance_config', null)
-        this.$store.dispatch('meta/logout').then(() => {
-          location.reload()
-        })
-      },
       check_geolocation() {
+        let message
         if ('geolocation' in navigator) {
-          this.geolocation_test_response = 'Device has geolocation'
+          message = 'Device has geolocation'
         } else {
-          this.geolocation_test_response = 'Device has NO geolocation. Will not work for data collection'
+          message = 'Device has NO geolocation. Will not work for data collection'
         }
+        this.$store.commit('root:set_snackbar', {message})
       },
       log_form_elements() {
         console.table(elements_array(this.$store.state.instance_config.form))
+      },
+      clear_local_storage() {
+        localStorage.clear()
+        console.log('Cleared localStorage')
+        this.$router.push('/')
+        location.reload()
       }
     }
   }

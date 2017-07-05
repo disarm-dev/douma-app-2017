@@ -95,9 +95,7 @@
           }
 
           if (this._survey.isLastPage && (this._survey.isCurrentPageHasErrors || !this.response_is_valid)) {
-            console.log(this._survey.isLastPage)
             // Last page, but with errors
-
             this.show_complete = true
             this.complete_disabled = true
             return

@@ -50,6 +50,7 @@
         user_map_focus: false,
         draw: null,
         _map: null,
+        bbox: [],
         map_loaded: false,
 
         handler: {
@@ -107,17 +108,15 @@
             this.clusters_disabled = false
             this.manage_map_mode()
             this.add_target_areas()
+            this.fit_bounds()
             this.$emit('map_loaded')
             this.set_slider_range()
           })
         }
       },
-      fit_bounds(geojson) {
-        if (!this.user_map_focus) {
-          const bounds = bbox(geojson)
-          this._map.fitBounds(bounds, {padding: 20})
-          this.user_map_focus = true
-        }
+
+      fit_bounds() {
+        this._map.fitBounds(this.bbox, {padding: 20})
       },
       remove_map_listeners() {
         if (this._map) {
@@ -218,7 +217,8 @@
           filter: ['in', this.planning_level_id_field].concat(this.areas_excluded_by_click)
         }, 'clusters')
 
-        this.fit_bounds(geojson)
+        this.bbox = bbox(geojson)
+
       },
       remove_target_areas() {
         if (this._map.getLayer('selected'))
@@ -360,7 +360,7 @@
 
       // Risk slider
       set_risk_slider_value: debounce(function(){
-console.time('set_risk_slider_value')
+        console.time('set_risk_slider_value')
         let areas = cache.geodata[this.planning_level_name].features.filter((feature) => {
           return feature.properties.risk >= this.converted_slider_value
         })
@@ -370,10 +370,12 @@ console.time('set_risk_slider_value')
         })
 
         this.$store.commit('irs_plan/set_bulk_selected_ids', area_ids)
-console.timeEnd('set_risk_slider_value')
+        console.timeEnd('set_risk_slider_value')
+
         console.time('refilter_target_areas')
         this.refilter_target_areas()
         console.timeEnd('refilter_target_areas')
+
         this.$ga.event('irs_plan','change_risk_slider')
       }, 750),
       set_slider_range() {
@@ -433,8 +435,6 @@ console.timeEnd('set_risk_slider_value')
             'fill-outline-color': 'black'
           }
         }, 'records')
-
-        this._map.fitBounds(bbox(areas_with_normalised_risk), {padding: 20});
       },
       get_log_values(areas) {
         const features = areas.features

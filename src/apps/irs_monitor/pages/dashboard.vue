@@ -1,6 +1,5 @@
 <template>
   <div class='container'>
-    <h4 v-if='!plan' style="color: red">No plan! No way forward until you have one</h4>
 
     <!--  SUMMARY, LOAD, DOWNLOAD (DUMPING GROUND) -->
     <dashboard_summary @refresh_data="refresh_data"></dashboard_summary>
@@ -52,7 +51,6 @@
     computed: {
       ...mapState({
         instance_config: state => state.instance_config,
-        plan: state => state.irs_monitor.plan,
         geodata_ready: state => state.geodata_ready,
       }),
       ...mapGetters({

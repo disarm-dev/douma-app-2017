@@ -13,7 +13,7 @@
       </md-card-content>
     </md-card>
 
-    <p>Version: {{commit_hash}}</p>
+    <router-link to="/meta/debug">Version: {{commit_hash}}</router-link>
   </div>
 </template>
 

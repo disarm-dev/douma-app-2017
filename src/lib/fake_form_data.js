@@ -28,7 +28,90 @@ export default {
       visit_type:"first_visit"
     }
   ],
-  zwe: [{}, {}],
-  bwa: [{}, {}],
-  nam: [{}, {}]
+  zwe: [
+  {
+    "house_population": 8,
+    "name_household": "name",
+    "number_bednets": 2,
+    "number_sprayable": 5,
+    "number_unsprayable": 0,
+    "numbersprayed_OP": 1,
+    "numbersprayed_PY": 1,
+    "numbersprayed_ddt": 3,
+    "sprayable": "yes",
+    "sprayable_unsprayed": "no",
+    "total_population_sprayedrooms": 8
+  },
+  {
+    "Unsprayable_reason": [
+      "locked_homesteadhouse"
+    ],
+    "sprayable": "no"
+  }],
+  bwa: [
+  {
+    "LLIN_used_sleeping": "no",
+    "any_sprayed": "yes",
+    "any_unsprayed": "no",
+    "first_entry_new_village": "no",
+    "household_name": "name",
+    "n_buildings": 2,
+    "n_people_homestead": 8,
+    "n_people_homestead_overage5": 4,
+    "n_people_homestead_underage5": 4,
+    "number_other_sprayed_ddt": 0,
+    "number_other_sprayed_lambdacyhalothrin": 0,
+    "number_other_structures": 0,
+    "number_rooms_modern": 1,
+    "number_rooms_traditional": 1,
+    "number_sprayed": 5,
+    "number_sprayed_ddt": 2,
+    "number_sprayed_lambdacyhalothrin": 3,
+    "number_sprayed_modern_partial_spray": 2,
+    "number_sprayed_other_partial_spray": 0,
+    "number_sprayed_traditional_partial_spray": 3,
+    "room_count": 2,
+    "team_leader_name": "chibi_yambwa",
+    "village_chobe": "Kavimba"
+  },
+  {
+    "LLIN_used_sleeping": "no",
+    "any_sprayed": "no",
+    "any_unsprayed": "no",
+    "first_entry_new_village": "no",
+    "household_name": "name",
+    "n_buildings": 5,
+    "n_people_homestead": 8,
+    "n_people_homestead_overage5": 4,
+    "n_people_homestead_underage5": 4,
+    "number_other_structures": 0,
+    "number_rooms_modern": 2,
+    "number_rooms_traditional": 2,
+    "room_count": 4,
+    "team_leader_name": "kebabonye_chinyolo",
+    "village_chobe": "Satau"
+    }
+  ],
+  nam: [
+    {
+      "confirm": "123",
+      "health_number": "123",
+      "house_population": 8,
+      "name_household": "name",
+      "number_bednets": 0,
+      "number_sprayable": 5,
+      "number_unsprayable": 0,
+      "numbersprayed_ddt": 2,
+      "numbersprayed_delta": 3,
+      "sprayable": "yes",
+      "sprayable_unsprayed": "no",
+      "total_population_sprayedrooms": 8
+    }, 
+    {
+      "Unsprayable_reason": [
+        "school"
+      ],
+      "sprayable": "no"
+    }
+  ]
 }

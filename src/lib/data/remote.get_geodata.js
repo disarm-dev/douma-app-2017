@@ -20,7 +20,6 @@ export const get_geodata = (store) => {
   if (Object.keys(cache.geodata).length !== 0) {
     store.commit('root:set_loading', false)
     store.commit('root:set_geodata_ready', true)
-    console.warn("This probably never gets called")
     return Promise.resolve()
   }
 
