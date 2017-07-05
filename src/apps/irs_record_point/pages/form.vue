@@ -122,7 +122,6 @@
   }
 </script>
 
-
 <style scoped>
   .md-card {
     margin: 10px;
