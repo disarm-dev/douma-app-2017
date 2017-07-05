@@ -33,6 +33,8 @@ export default {
   getters: {
     decorated_applets(state, getters, rootState) {
       // Figure out which applets are allowed, and only decorate and show these!
+      if (!state.user) return []
+
       const user_allowed_applets = state.user.allowed_apps.read
       const instance_applets = rootState.instance_config.applets
 

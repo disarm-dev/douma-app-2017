@@ -43,8 +43,7 @@ export function create_router(instance_routes, store) {
     if (has_permission({user: store.state.meta.user, applet_name})) {
       next()
     } else {
-      console.log('Not allowed to go to this page')
-      next(false)
+      next({name: 'meta:home'})
     }
 
   })
