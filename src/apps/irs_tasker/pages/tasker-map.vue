@@ -16,7 +16,7 @@
   import cache from 'config/cache'
   import {get_geodata} from 'lib/data/remote'
   import {DECORATED_UNASSIGNED_TEAM} from '../unassigned_team'
-  import {get_planning_level_id_field} from 'lib/spatial_hierarchy_helper'
+  import {get_planning_level_id_field, get_planning_level_name} from 'lib/spatial_hierarchy_helper'
 
   export default {
     name: 'tasker-map',
@@ -37,6 +37,9 @@
       }),
       planning_level_id_field() {
         return get_planning_level_id_field(this.instance_config) // e.g. AggUniCode for SWZ
+      },
+      planning_level_name() {
+        return get_planning_level_name(this.instance_config) // e.g. AggUniCode for SWZ
       }
     },
     watch: {
@@ -215,7 +218,7 @@
           return null
         } else {
           const features = this.assignments.map(assignment => {
-            const found = cache.geodata.all_target_areas.features.find(f => f.properties[this.planning_level_id_field] === assignment.area_id)
+            const found = cache.geodata[this.planning_level_name].features.find(f => f.properties[this.planning_level_id_field] === assignment.area_id)
 
             if (found) {
               found.properties.team_name = assignment.team_name

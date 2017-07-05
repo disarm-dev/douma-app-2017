@@ -20,6 +20,7 @@
   import download from 'downloadjs'
   import json2csv from 'json2csv'
   import moment from 'moment'
+  import isNumber from 'is-number'
   import {mapState, mapGetters} from 'vuex'
 
   import cache from 'config/cache.js'
@@ -56,12 +57,14 @@
       planning_level_id_field() {
         return get_planning_level_id_field(this.instance_config)
       },
+      selected_areas() {
+        return cache.geodata[this.planning_level_name].features.filter(feature => {
+          return this.selected_target_area_ids.includes(feature.properties[this.planning_level_id_field])
+        })
+      },
       table() {
         if (this.geodata_ready) {
-          const selected_areas = this.selected_target_area_ids.map(id => {
-            return cache.geodata[this.planning_level_name].features.find(feature => feature.properties[this.planning_level_id_field] === id)
-          })
-          const data = selected_areas.map(r => r.properties)
+          const data = this.selected_areas.map(r => r.properties)
           const columns = Object.keys(data[0])
           return {data, columns}
         }
@@ -72,10 +75,13 @@
       },
       number_of_structures() {
         if (this.geodata_ready) {
-          return this.selected_target_area_ids.map(id => {
-            return cache.geodata[this.planning_level_name].features.find(feature => feature.properties[this.planning_level_id_field] === id)
-          }).reduce((sum, area) => {
-            return sum + area.properties[this.structure_field_name]
+          this.selected_areas.reduce((sum, area) => {
+            const hope_is_number = area.properties[this.structure_field_name]
+            if (isNumber(hope_is_number)) {
+              return sum + hope_is_number
+            } else {
+              return sum
+            }
           }, 0)
         }
         return 0

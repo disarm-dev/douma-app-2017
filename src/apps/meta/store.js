@@ -34,7 +34,8 @@ export default {
           return Promise.reject(response)
         }
 
-        if (response.country === context.rootState.instance_config.slug || response.country === 'all') {
+        // Check user authorised for this instance
+        if (response.instance_slug === context.rootState.instance_config.slug || response.instance_slug === 'all') {
           let authenticated_user = response
           authenticated_user.version = COMMIT_HASH
           context.commit('set_user', authenticated_user)

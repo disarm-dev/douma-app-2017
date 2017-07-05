@@ -16,7 +16,8 @@
     "irs_plan": {},
     "irs_record_point": {},
     "irs_tasker": {},
-    "meta": {}
+    "meta": {},
+    "data_wizard": {}
   },
   "map_focus": {
     "centre": {
@@ -31,7 +32,7 @@
     "markers": {
       "planning_level_name": "clusters",
       "denominator_fields": {
-        "number_of_households": "NmHshld"
+        "number_of_households": "NumStructu"
       }
     },
     "levels": [

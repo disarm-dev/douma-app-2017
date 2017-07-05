@@ -18,7 +18,7 @@
 </template>
 
 <script>
-  import {decorated_applets} from 'config/applets'
+  import {decorated_applets} from 'config/applet_stores_and_routes.js'
 
   export default {
 

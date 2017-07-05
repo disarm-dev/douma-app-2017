@@ -3,10 +3,9 @@ var path = require('path')
 var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
+var GitRevisionPlugin = require('git-revision-webpack-plugin')
 
-var commitHash = require('child_process')
-  .execSync('git rev-parse HEAD')
-  .toString().replace(/\n/, '');
+var gitRevisionPlugin = new GitRevisionPlugin()
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -72,7 +71,8 @@ module.exports = {
       jQuery: "jquery"
     }),
     new webpack.DefinePlugin({
-      "COMMIT_HASH": JSON.stringify(commitHash),
+      "COMMIT_HASH": JSON.stringify(gitRevisionPlugin.commithash()),
+      'BRANCH': JSON.stringify(gitRevisionPlugin.branch()),
       "DOUMA_PRODUCTION_MODE": process.env.NODE_ENV === 'production'
     }),
   ]
