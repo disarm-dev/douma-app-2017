@@ -1,4 +1,4 @@
-import {standard_handler, douma_api_root} from './standard-handler.js'
+import {standard_handler, douma_api_root} from './remote.standard-handler.js'
 
 // RECORDS
 export const get_all_records = (country) => {

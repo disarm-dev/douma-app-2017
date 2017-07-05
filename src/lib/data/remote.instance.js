@@ -1,4 +1,4 @@
-import {standard_handler} from './standard-handler.js'
+import {standard_handler} from './remote.standard-handler.js'
 import {InstanceConfigSchema} from '../models/instance_config.schema'
 
 
