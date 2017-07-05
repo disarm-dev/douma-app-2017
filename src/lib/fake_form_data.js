@@ -28,7 +28,47 @@ export default {
       visit_type:"first_visit"
     }
   ],
-  zwe: [{}, {}],
+  zwe: [
+  {
+    "house_population": 8,
+    "name_household": "name",
+    "number_bednets": 2,
+    "number_sprayable": 5,
+    "number_unsprayable": 0,
+    "numbersprayed_OP": 1,
+    "numbersprayed_PY": 1,
+    "numbersprayed_ddt": 3,
+    "sprayable": "yes",
+    "sprayable_unsprayed": "no",
+    "total_population_sprayedrooms": 8
+  },
+  {
+    "Unsprayable_reason": [
+      "locked_homesteadhouse"
+    ],
+    "sprayable": "no"
+  }],
   bwa: [{}, {}],
-  nam: [{}, {}]
+  nam: [
+    {
+      "confirm": "123",
+      "health_number": "123",
+      "house_population": 8,
+      "name_household": "name",
+      "number_bednets": 0,
+      "number_sprayable": 5,
+      "number_unsprayable": 0,
+      "numbersprayed_ddt": 2,
+      "numbersprayed_delta": 3,
+      "sprayable": "yes",
+      "sprayable_unsprayed": "no",
+      "total_population_sprayedrooms": 8
+    }, 
+    {
+      "Unsprayable_reason": [
+        "school"
+      ],
+      "sprayable": "no"
+    }
+  ]
 }
