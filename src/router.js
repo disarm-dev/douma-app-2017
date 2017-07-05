@@ -27,23 +27,25 @@ export function create_router(instance_routes, store) {
   router.beforeEach((to, from, next) => {
     if (!store.state.meta || !store.state.meta.user) {
       if (to.name === 'meta:login') {
-        return next()
+        next()
       } else {
         store.state.meta.previousRoute = to.path
-        return next({name: 'meta:login'})
+        next({name: 'meta:login'})
       }
     }
-
-    if (has_permission({user: store.state.meta.user, page: to.name})) {
-      next()
-    } else {
-      console.log('Not allowed to go to this page')
-    }
-
-    next()
-
   })
 
-  return router;
+  // router.beforeEach((to, from, next) => {
+  //
+  //   if (has_permission({user: store.state.meta.user, page: to.name})) {
+  //     next()
+  //   } else {
+  //     console.log('Not allowed to go to this page')
+  //     next(false)
+  //   }
+  //
+  // })
+
+  return router
 }
 

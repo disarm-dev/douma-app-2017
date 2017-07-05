@@ -1,9 +1,9 @@
 import common_config from 'config/common_config'
+// import {decorated_applets} from 'config/decorated_applets'
 
 const applet_requires = require("dir-loader!../apps")
 
-
-export const decorated_applets = []
+export let decorated_applets = []
 
 /**
  * Collect stores and routes for applets ONLY in this instance {stores: {}, routes: []}
@@ -35,7 +35,7 @@ export function get_instance_stores_and_routes(instance_config) {
   })
 
   // This is kind-of piggy-backing in here, but it's an ok place for a piggy-back
-  decorate_applets(instance_config)
+  decorated_applets = decorate_applets(instance_config)
 
   return stores_and_routes
 }
@@ -46,13 +46,16 @@ export function get_instance_stores_and_routes(instance_config) {
  * @param instance_config
  */
 function decorate_applets(instance_config) {
+  let decorations = []
   const instance_applet_names = Object.keys(instance_config.applets)
 
   instance_applet_names.forEach(name => {
     // Ignore 'meta' in here - this is only for decoration, and it's already included in the sidebar
     if (name === 'meta') return
-    decorated_applets.push({name, ...title_and_icon_for(name, instance_config)})
+    decorations.push({name, ...title_and_icon_for(name, instance_config)})
   })
+
+  return decorations
 }
 
 function title_and_icon_for (applet_name, instance_config) {

@@ -34,7 +34,6 @@
   import {mapState} from 'vuex'
   import {decorated_applets} from 'config/applet_stores_and_routes.js'
 
-
   export default {
     name: 'toolbar',
     mounted() {
@@ -49,7 +48,14 @@
         online: state => state.network_online
       }),
       current_applet_header() {
-        const current_applet_name = this.$route.name.split(':')[0]
+        debugger
+        let current_applet_name
+        if (this.$route.name) {
+          current_applet_name = this.$route.name.split(':')[0]
+        } else {
+
+        }
+
         const found = decorated_applets.find(applet => applet.name === current_applet_name)
         if (found) {
           return found
