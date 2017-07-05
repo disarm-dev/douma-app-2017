@@ -14,9 +14,11 @@ const applet_requires = require("dir-loader!../apps")
 const applet_names = Object.keys(applet_requires)
 
 let applets = []
+
 applet_names.forEach(applet_name => {
-  applets[applet_name] = applet_requires[applet_name].src
+  applets[applet_name] = applet_requires[applet_name]['index.js'].src
 })
+
 
 export const decorated_applets = []
 
