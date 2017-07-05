@@ -100,15 +100,14 @@ export default {
       const country = context.rootState.instance_config.slug
       return get_current_plan(country)
         .then(plan_json => {
-          debugger
           try {
             new Plan().validate(plan_json)
+            context.commit('set_plan', plan_json)
           } catch (e) {
             console.error(e)
             context.commit('root:set_snackbar', {message: 'ERROR: Plan is not valid'}, {root: true})
           }
 
-          context.commit('set_plan', plan_json)
         })
     },
     get_fake_responses: (context) => {
