@@ -47,7 +47,7 @@ export function create_store(instance_stores) {
     },
     mutations: {
       'root:set_snackbar': (state, snackbar) => {
-        state.snackbar = snackbar
+        state.snackbar = snackbar // Need to have a {message: "Like this"}
       },
       'root:set_loading': (state, loading_bool) => {
         state.loading = loading_bool

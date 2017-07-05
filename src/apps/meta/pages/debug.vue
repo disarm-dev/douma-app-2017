@@ -13,7 +13,6 @@
 
     <md-list-item @click="clear_local_storage"><md-icon class="md-warn">delete_forever</md-icon><span>clear local storage</span></md-list-item>
 
-    <p v-if="geolocation_test_response">{{geolocation_test_response}}</p>
 
     <router-view></router-view>
 
@@ -25,18 +24,15 @@
 
   export default {
     name: 'debug',
-    data () {
-      return {
-        geolocation_test_response: ''
-      }
-    },
     methods: {
       check_geolocation() {
+        let message
         if ('geolocation' in navigator) {
-          this.geolocation_test_response = 'Device has geolocation'
+          message = 'Device has geolocation'
         } else {
-          this.geolocation_test_response = 'Device has NO geolocation. Will not work for data collection'
+          message = 'Device has NO geolocation. Will not work for data collection'
         }
+        this.$store.commit('root:set_snackbar', {message})
       },
       log_form_elements() {
         console.table(elements_array(this.$store.state.instance_config.form))
