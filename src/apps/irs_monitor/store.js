@@ -38,11 +38,21 @@ export default {
 }
   },
   getters: {
+    plan_target_area_ids(state) {
+      if (state.plan && state.plan.targets) {
+        return state.plan.targets.map(target => target.id)
+      } else {
+        return []
+      }
+    },
+
     // Responses which are contained by current plan
     // ideally, filtered_responses should change in response to the
     // settings of the filter e.g. "locality #2"
-    filtered_responses(state, getters) {
-      if(!state.plan || !state.responses.length) return []
+    filtered_responses(state) {
+      if (!state.plan) return []
+      if (!state.responses.length) return []
+
       return state.responses.filter(response => {
         // TODO: @debug This first filter is more of a DEBUG filter, making sure we have valid responses
         return Object.keys(response.location_selection).length !== 0 // TODO: @feature Add actual filtering
@@ -90,6 +100,7 @@ export default {
       const country = context.rootState.instance_config.slug
       return get_current_plan(country)
         .then(plan_json => {
+          debugger
           try {
             new Plan().validate(plan_json)
           } catch (e) {

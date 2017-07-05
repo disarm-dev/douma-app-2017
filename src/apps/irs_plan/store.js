@@ -1,6 +1,6 @@
 import array_unique from 'array-unique'
 
-import {create_plan, get_current_plan, get_geodata} from 'lib/data/remote'
+import {create_plan, get_current_plan} from 'lib/data/remote'
 import {Plan} from 'lib/models/plan.model'
 
 export default {

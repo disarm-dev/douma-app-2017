@@ -73,50 +73,46 @@
       select_team(team_name) {
         this.selected_team_name = team_name
       },
-      recreate_assignments_from_plan() {
-        // TODO: @feature handle failure
-        return get_current_plan(this.instance_config.slug).then((plan_json) => {
-          const assignments = new Assignment().assignments_from_plan(plan_json)
-          this.$store.commit('irs_tasker/set_assignments', assignments)
-
-          const teams = new Assignment().team_names_from_assignments(assignments)
-          this.$store.commit('irs_tasker/set_teams', teams)
-
+    recreate_assignments_from_plan() {
+      // TODO: @feature handle failure
+      this.$store.dispatch('irs_tasker/get_current_plan').then(() => {
+        if (this.decorated_teams.length) {
           this.selected_team_name = this.decorated_teams[0].team_name
+        }
+      })
+    },
+    save() {
+//      this.$store.dispatch('irs_tasker/save_assignments')
+
+      get_current_plan(this.instance_config.slug).then((plan_json) => {
+        let new_targets = plan_json.targets.map((target) => {
+          let assignment = this.assignments.find((a) => a.area_id === target.id)
+          target.assigned_to_team_name = assignment.team_name
+          return target
         })
-      },
-      save() {
-        get_current_plan(this.instance_config.slug).then((plan_json) => {
-          let new_targets = plan_json.targets.map((target) => {
-            let assignment = this.assignments.find((a) => a.area_id === target.id)
-            target.assigned_to_team_name = assignment.team_name
-            return target
-          })
 
-          const plan = {
-            ...plan_json,
-            targets: new_targets
-          }
+        const plan = {
+          ...plan_json,
+          targets: new_targets
+        }
 
-          // Bump time by 10 seconds to make this plan newer than the old one
-          const new_date = new Date(plan.planned_at)
+        // Bump time by 10 seconds to make this plan newer than the old one
+        const new_date = new Date(plan.planned_at)
+        new_date.setSeconds(new_date.getSeconds() + 10)
+        plan.planned_at = new_date
 
-          new_date.setSeconds(new_date.getSeconds() + 10)
+        // Mongo complains if we try insert a document with an existing ID
+        delete plan._id
 
-          plan.planned_at = new_date
+        console.log(plan)
 
-          // Mongo complains if we try insert a document with an existing ID
-          delete plan._id
-
-          console.log(plan)
-
-          // Something is
-          create_plan(plan).then(() => {
-            this.$store.commit('root:set_snackbar', {message: 'Assignments updated succesfully'})
-          })
+        // Something is
+        create_plan(plan).then(() => {
+          this.$store.commit('root:set_snackbar', {message: 'Assignments updated succesfully'})
         })
-      }
+      })
     }
+  }
   }
 </script>
 

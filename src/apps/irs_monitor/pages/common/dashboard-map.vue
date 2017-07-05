@@ -16,7 +16,7 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex'
+  import {mapGetters, mapState} from 'vuex'
   import {featureCollection} from '@turf/helpers'
   import bbox from '@turf/bbox'
   import mapboxgl from 'mapbox-gl'
@@ -57,7 +57,9 @@
     computed: {
       ...mapState({
         instance_config: state => state.instance_config,
-        plan_target_area_ids: state => state.irs_monitor.plan.targets.map(target => target.id)
+      }),
+      ...mapGetters({
+        plan_target_area_ids: 'irs_monitor/plan_target_area_ids'
       }),
       planning_level_name() {
         return get_planning_level_name(this.instance_config) // Get field name e.g villages
