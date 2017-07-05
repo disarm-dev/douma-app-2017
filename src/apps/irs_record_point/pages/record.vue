@@ -19,14 +19,7 @@
         </md-button>
 
 
-      <!--LOCATION CARD TOGGLE-->
-      <md-button
-        :class="{red: !location_is_valid, 'md-raised': !show_location } "
-        @click.native="toggle_show_location"
-      >
-        {{ location_is_valid ? "Location" : "Set location"}}
-      </md-button>
-
+      <!--BACK TO LIST-->
       <md-button
         v-if="response_id"
         @click.native="$router.push('/irs/record_point')"
@@ -52,41 +45,48 @@
     </transition>
 
 
+    <!-- METADATA EDITOR-->
+    <md-card v-if="current_view === 'metadata'">
+      <md-card-content>
+        <h1>Edit metadata in here</h1>
+      </md-card-content>
+      <md-card-actions>
+        <md-button @click.native="set_current_view('location')" class="md-raised">Next</md-button>
+      </md-card-actions>
+    </md-card>
+
     <!--LOCATION CARD-->
-    <transition name="slide-fade">
-      <md-card class='location' v-show="show_location">
-        <md-card-content>
-          <location_record
-            @change='on_location_change'
-            :initial_location='initial_response.location'
-          ></location_record>
+    <md-card v-if="current_view === 'location'" class='location'>
+      <md-card-content>
+        <location_record
+          @change='on_location_change'
+          :initial_location='initial_response.location'
+        ></location_record>
 
-        <location_selection
-          @change="on_location_selection_selected"
-          :initial_location_selection="initial_response.location_selection"
-        >
-        </location_selection>
+      <location_selection
+        @change="on_location_selection_selected"
+        :initial_location_selection="initial_response.location_selection"
+      >
+      </location_selection>
 
-        </md-card-content>
-        <md-card-actions>
-          <md-button @click.native="show_location = false">Hide</md-button>
-        </md-card-actions>
-      </md-card>
-    </transition>
+      </md-card-content>
+      <md-card-actions>
+        <md-button @click.native="set_current_view('metadata')" class="md-raised">Previous</md-button>
+        <md-button @click.native="set_current_view('form')" class="md-raised">Next</md-button>
+      </md-card-actions>
+    </md-card>
 
 
     <!--FORM-->
-    <md-card>
-      <md-card-content>
-        <form_renderer
-          ref="form"
-          @complete='on_form_complete'
-          @change="on_form_change"
-          :initial_form_data='initial_response.form_data'
-          :response_is_valid="response_is_valid"
-        ></form_renderer>
-      </md-card-content>
-    </md-card>
+    <form_renderer
+      v-if="current_view === 'form'"
+      ref="form"
+      @complete='on_form_complete'
+      @change="on_form_change"
+      @previous_view="set_current_view('location')"
+      :initial_form_data='initial_response.form_data'
+      :response_is_valid="response_is_valid"
+    ></form_renderer>
 
   </div>
 </template>
@@ -123,14 +123,16 @@
         show_validation_result: false,
         show_location: false,
 
-        shake_button: false
+        shake_button: false,
+
+        pages: ['metadata', 'location', 'form'],
+        current_view: 'metadata'
       }
     },
     watch: {
       'validation_length': 'shake_validations'
     },
     computed: {
-
       user_name() {
         return this.$store.state.meta.user.name
       },
@@ -176,6 +178,24 @@
     mounted() {
     },
     methods: {
+      set_current_view(view) {
+        this.current_view = view
+      },
+//      //
+//      next_page() {
+//        this.pages.findIndex(p => p === this.current_view)
+//      },
+//      previous_page() {
+//
+//      },
+//      show_next_page_button() {
+//
+//      },
+//      show_previous_page_button() {
+//
+//      },
+
+
       shake_validations(newVal, oldVal) {
         if (newVal > oldVal) {
           this.shake_button = !this.shake_button
