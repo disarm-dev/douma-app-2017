@@ -13,7 +13,8 @@ export default {
     'irs_plan': {title: 'IRS Plan', icon: 'assignment_turned_in'},
     'irs_monitor': {title: 'IRS Monitor', icon: 'dashboard'},
     'irs_tasker': {title: 'IRS Tasker', icon: 'group'},
-    'meta': {title: 'User', icon: 'person'}
+    'meta': {title: 'User', icon: 'person'},
+    'data_wizard': {title: 'Data wizard', icon: 'event_seat'},
   },
   basemap: {
     // Middle of southern Africa, start point for zooming in

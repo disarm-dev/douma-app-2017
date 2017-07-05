@@ -2,6 +2,7 @@ import common_config from 'config/common_config'
 
 // These are all the stores and routes for all the applets in the douma world
 const applets = {
+  data_wizard: require('apps/data_wizard/index'),
   meta: require('apps/meta/index'),
   irs_record_point: require('apps/irs_record_point/index'),
   irs_monitor: require('apps/irs_monitor/index'),
@@ -9,7 +10,6 @@ const applets = {
   irs_tasker: require('apps/irs_tasker/index'),
 }
 
-// Decorated object full of applets, ready for sidebar and applet_header
 export const decorated_applets = []
 
 export function get_instance_stores_and_routes(instance_config) {
@@ -26,12 +26,17 @@ export function get_instance_stores_and_routes(instance_config) {
   })
 
   // This is kind-of piggy-backing in here, but it's an ok place for a piggy-back
-  create_decorated_applets(instance_config)
+  decorate_applets(instance_config)
 
   return stores_and_routes
 }
 
-function create_decorated_applets(instance_config) {
+
+/**
+ * Export a `decorated_applets` object on this file, containing title and icon for each
+ * @param instance_config
+ */
+function decorate_applets(instance_config) {
   const instance_applet_names = Object.keys(instance_config.applets)
 
   instance_applet_names.forEach(name => {
@@ -41,12 +46,15 @@ function create_decorated_applets(instance_config) {
   })
 }
 
-function title_and_icon_for (name, instance_config) {
-  if (!name) return {}
+function title_and_icon_for (applet_name, instance_config) {
+  if (!applet_name) return {}
 
-  const applet_name = name.split(':')[0]
-  const instance_config_for_applet = instance_config.applets[applet_name]
+  // Find all possible configurations
   const common_config_for_applet = common_config.applets[applet_name]
+  const instance_config_for_applet = instance_config.applets[applet_name]
+
+  // Overwrite any common_config title and icon
   const {title, icon} = {...common_config_for_applet, ...instance_config_for_applet}
+
   return {title, icon}
 }
