@@ -24,12 +24,12 @@
 
   import {basic_map} from 'lib/basic_map.js'
   import cache from 'config/cache'
-  import Presenters from 'lib_instances/presenters'
-  import {get_geodata_area} from 'lib/data/remote'
   import logscale from 'lib/log_scale.js'
-  import {Aggregator} from 'lib_instances/aggregations'
   import {get_planning_level_id_field, get_planning_level_name} from 'lib/spatial_hierarchy_helper'
   import {layer_definitions} from 'lib/map_layers'
+
+  import Presenters from 'lib_instances/presenters'
+  import {Aggregator} from 'lib_instances/aggregations'
 
   export default {
     props: ['aggregated_responses', 'geodata_ready'],
