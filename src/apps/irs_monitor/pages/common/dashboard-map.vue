@@ -46,6 +46,7 @@
 
         // map cache
         _map: null,
+        bbox: [],
         _click_handler: null,
         _aggregated_responses_fc: null,
         _filtered_responses_fc: null,
@@ -83,7 +84,11 @@
 
         this._map.on('load', () => {
           this.redraw_layers()
+          this.fit_bounds()
         })
+      },
+      fit_bounds() {
+        this._map.fitBounds(this.bbox, {padding: 20})
       },
       redraw_layers() {
         this.calculate_attributes()
@@ -97,7 +102,7 @@
         this.add_response_points()
         this.add_layer(layer_string)
 
-//        this._map.fitBounds(bbox(this._aggregated_responses_fc), {padding: 20});
+        this.bbox = bbox(this._aggregated_responses_fc)
         this.bind_popup(layer_definitions[layer_string])
       },
 
