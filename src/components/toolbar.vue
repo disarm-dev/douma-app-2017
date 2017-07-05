@@ -48,12 +48,11 @@
         online: state => state.network_online
       }),
       current_applet_header() {
-        debugger
         let current_applet_name
         if (this.$route.name) {
           current_applet_name = this.$route.name.split(':')[0]
         } else {
-
+          console.log('wtf?')
         }
 
         const found = decorated_applets.find(applet => applet.name === current_applet_name)
