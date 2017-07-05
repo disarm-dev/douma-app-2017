@@ -3,8 +3,8 @@ export default {
     // Successful spray
     {
       any_structures_unsprayed: "no",
-      number_of_structures_sprayed: 3,
-      number_structures_total: 3,
+      number_of_structures_sprayed: 30,
+      number_structures_total: 30,
       recorded_by: "2",
       visit_type: "mopup",
     },

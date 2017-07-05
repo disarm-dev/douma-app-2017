@@ -4,8 +4,8 @@
 
       <p>Show areas by:</p>
       <div>
-        <md-radio v-model="selected_layer" :disabled='!geodata_ready' name="map-type" md-value="risk">Risk</md-radio>
         <md-radio v-model="selected_layer" :disabled='!geodata_ready' name="map-type" md-value="coverage">Coverage</md-radio>
+        <md-radio v-model="selected_layer" :disabled='!geodata_ready' name="map-type" md-value="risk">Risk</md-radio>
       </div>
       <md-checkbox v-model="limit_to_plan">Limit to plan areas</md-checkbox>
 
@@ -39,7 +39,7 @@
 
         // User values
         limit_to_plan: true,
-        selected_layer: 'risk',
+        selected_layer: 'coverage',
 
         // map cache
         _map: null,

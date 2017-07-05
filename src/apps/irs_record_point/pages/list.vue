@@ -57,7 +57,7 @@
     },
     methods: {
       format_response(response) {
-        const location_name = response.location_selection.name
+        const location_name = response.location_selection.name  
 //        const date = this.format_datetime(response.recorded_on)
         const ago = this.format_datetime_from_now(response.recorded_on)
 
