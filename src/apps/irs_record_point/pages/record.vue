@@ -36,7 +36,7 @@
           ref="validation_result"
           :validations='validation_result'
           :survey="survey"
-          v-on:show_location="show_location = true"
+          v-on:show_location="set_current_view('location')"
         ></review>
         <md-card-actions>
           <md-button @click.native="show_validation_result = false">Hide</md-button>
