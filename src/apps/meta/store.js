@@ -4,10 +4,13 @@ export default {
   namespaced: true,
   state: {
     user: null,
-    previousRoute: '',
+    previous_route: '',
     locations: []
   },
   mutations: {
+    set_previous_route: (state, previous_route) => {
+      state.previous_route = previous_route
+    },
     set_user: (state, user) => {
       state.user = user
     },
