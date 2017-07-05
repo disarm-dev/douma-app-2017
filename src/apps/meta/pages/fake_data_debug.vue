@@ -60,15 +60,14 @@ export default {
       const point_in_polygon = getCoord(random_point_in_polygon(1, polygon)[0])
 
       let response = {
-        "_id": faker.random.uuid(),
         "id": faker.random.uuid(),
         "country": this.slug,
         "form_data": this.get_form_data(),
         "location": {
           "coords": {
             "accuracy": 100,
-            "latitude": point_in_polygon[0],
-            "longitude": point_in_polygon[1]
+            "longitude": point_in_polygon[0],
+            "latitude": point_in_polygon[1],
           }
         },
         "location_selection": location_selection,

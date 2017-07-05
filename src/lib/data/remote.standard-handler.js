@@ -4,7 +4,9 @@ import common_config from 'config/common_config'
 
 // Create axios HTTP object
 const HTTP = axios.create()
-HTTP.defaults.timeout = 5000
+
+HTTP.defaults.timeout = 10000
+
 HTTP.interceptors.response.use(function (response) {
   window.dispatchEvent(new Event('online'))
   return response
