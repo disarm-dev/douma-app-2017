@@ -54,7 +54,9 @@
       if (this.$store.state.meta.user) {
         this.$router.push('/')
       }
-      this.$refs.username.$el.focus()
+      this.$nextTick(() => {
+        this.$refs.username.$el.focus()
+      })
     },
     methods: {
       user_is_valid() {
