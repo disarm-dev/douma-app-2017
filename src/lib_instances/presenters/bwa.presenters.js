@@ -3,7 +3,7 @@ import Base from './base.presenters.js'
 export default class extends Base {
 
   getMapStyle() {
-     return {
+    return {
       'circle-color': {
         property: 'any_sprayed',
         type: 'categorical',

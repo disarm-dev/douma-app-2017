@@ -1,6 +1,6 @@
 <template>
   <div class='container'>
-    <h1>IRS Record</h1>
+    <!-- <local_record_summary></local_record_summary> -->
     <div v-if="!online">Offline - unable to sync</div>
     <md-button class='md-raised' @click.native='$router.push("/irs/record_point/new")'><md-icon>create</md-icon>Add new</md-button>
     <md-button class="md-raised md-warn" :disabled="syncing || unsynced_count === 0 || !online" @click.native="sync">
@@ -9,6 +9,7 @@
     <md-button class="md-raised md-warn" :disabled="syncing || synced_count === 0" @click.native="clear_synced_responses">
       Hide synced responses
     </md-button>
+
     <md-list>
       <md-list-item
         v-for='response in responses'
@@ -21,10 +22,10 @@
         </md-icon>
 
         <div>
-          <router-link v-if='!response.synced' :to="{name: 'irs_record_point:edit', params: {response_id: response.id}}">
-            {{format_datetime(response.recorded_on)}}
+          <router-link
+            :to="{name: response.synced ? 'irs_record_point:view' : 'irs_record_point:edit', params: {response_id: response.id}}">
+            {{format_response(response)}}
           </router-link>
-          <p v-else>{{format_datetime(response.recorded_on)}}</p>
         </div>
       </md-list-item>
     </md-list>
@@ -35,11 +36,15 @@
   import moment from 'moment'
   import {mapState} from 'vuex'
 
+  import local_record_summary from './local_record_summary'
+
   export default {
     name: 'List',
+    components: {local_record_summary},
     data () {
       return {
-        syncing: false
+        syncing: false,
+        target_denominator: 0
       }
     },
     computed: {
@@ -51,8 +56,18 @@
       })
     },
     methods: {
-      format_datetime(date) {
+      format_response(response) {
+        const location_name = response.location_selection.name  
+//        const date = this.format_datetime(response.recorded_on)
+        const ago = this.format_datetime_from_now(response.recorded_on)
+
+        return `${location_name} - ${ago}`
+      },
+      format_datetime_from_now(date) {
         return moment(date).fromNow()//format('hh:mm a DD MMM YYYY')
+      },
+      format_datetime(date) {
+        return moment(date).format('hh:mm a DD MMM YYYY')
       },
       sync() {
         this.$store.commit('root:set_loading', true)
@@ -82,10 +97,3 @@
     }
   }
 </script>
-
-<style lang="css" scoped>
-  .container {
-    margin: 0 auto;
-    width: 90%;
-  }
-</style>

@@ -36,7 +36,7 @@
   export default {
     props: ['validations', 'survey'],
     components: {validation_list},
-    name: 'Review'
+    name: 'validations'
   }
 </script>
 

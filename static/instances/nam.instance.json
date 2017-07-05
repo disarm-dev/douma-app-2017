@@ -15,7 +15,9 @@
     },
     "irs_plan": {},
     "irs_record_point": {},
-    "meta": {}
+    "irs_tasker": {},
+    "meta": {},
+    "data_wizard": {}
   },
   "map_focus": {
     "centre": {
@@ -26,17 +28,22 @@
   },
   "name": "Namibia",
   "slug": "nam",
-  "spatial_hierarchy": [
-    {
-      "denominator": {
-        "number_of_households": "NmHshld"
-      },
-      "field_name": "OBJECTID",
-      "name": "constituencies"
+  "spatial_hierarchy": {
+    "markers": {
+      "planning_level_name": "clusters",
+      "denominator_fields": {
+        "number_of_households": "NumStructu"
+      }
     },
-    {
-      "field_name": "???",
-      "name": "villages"
-    }
-  ]
+    "levels": [
+      {
+        "field_name": "OBJECTID",
+        "name": "constituencies"
+      },
+      {
+        "field_name": "ClusterID",
+        "name": "clusters"
+      }
+    ]
+  }
 }

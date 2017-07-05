@@ -3,7 +3,13 @@
     <md-card>
       <md-card-content>
         <div>Hi <em>{{user.name}}</em>, you are logged in as <em>{{user.username}}</em>, with access to</div>
-        <md-button v-for='app in applets' :key='app' class='md-raised md-accent' @click.native="$router.push({name: app.name})">{{app.title}}</md-button>
+
+        <md-list>
+          <md-list-item v-for='applet in decorated_applets' :key='applet' @click="$router.push({name: applet.name})">
+            <md-icon>{{applet.icon}}</md-icon><span class="applet-item">{{applet.title}}</span>
+          </md-list-item>
+        </md-list>
+
       </md-card-content>
     </md-card>
 
@@ -12,15 +18,14 @@
 </template>
 
 <script>
-  import generate_applet_routes from 'lib/applet_routes.js'
+  import {mapGetters} from 'vuex'
 
   export default {
-
     name: 'home',
     computed: {
-      applets() {
-        return generate_applet_routes({routes: this.$router.options.routes, user: this.$store.state.meta.user, instance_config: this.$store.state.instance_config})
-      },
+      ...mapGetters({
+        decorated_applets: 'meta/decorated_applets'
+      }),
       commit_hash() {
         return COMMIT_HASH.substring(0, 6)
       },
@@ -28,9 +33,6 @@
         return this.$store.state.meta.user
       }
     },
-    mounted() {
-      this.$ga.event('meta', 'view_home')
-    }
   }
 </script>
 
@@ -55,6 +57,12 @@
 
   .debug-info {
     color: rgba(0,0,0,.54);
+  }
+
+  .applet-item {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
 </style>

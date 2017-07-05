@@ -1,7 +1,5 @@
 import Base from './base.presenters.js'
 
-import Aggregations from 'lib_instances/aggregations/nam.aggregations'
-
 export default class extends Base {
 
   getMapStyle() {

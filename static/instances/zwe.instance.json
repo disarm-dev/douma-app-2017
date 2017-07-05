@@ -25,28 +25,35 @@
     },
     "irs_plan": {},
     "irs_record_point": {},
-    "meta": {}
+    "irs_tasker": {},
+    "meta": {},
+    "data_wizard": {}
   },
   "map_focus": {
     "centre": {
       "lat": -21.73564350618581,
       "lng": 30.083462513044424
     },
-    "zoom": 7.749187
+    "zoom": 6.5
   },
   "name": "Zimbabwe",
   "slug": "zwe",
-  "spatial_hierarchy": [
-    {
-      "denominator": {
+  "spatial_hierarchy": {
+    "markers": {
+      "planning_level_name": "wards",
+      "denominator_fields": {
         "number_of_households": "NumHouseho"
-      },
-      "field_name": "ZIMWARDSID",
-      "name": "wards"
+      }
     },
-    {
-      "field_name": "ClusterID",
-      "name": "clusters"
-    }
-  ]
+    "levels": [
+      {
+        "field_name": "ZIMWARDSID",
+        "name": "wards"
+      },
+      {
+        "field_name": "ClusterID",
+        "name": "clusters"
+      }
+    ]
+  }
 }

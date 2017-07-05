@@ -15,14 +15,22 @@
   import MapboxDraw from '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw'
   mapboxgl.accessToken = 'pk.eyJ1Ijoibmljb2xhaWRhdmllcyIsImEiOiJjaXlhNWw1NnkwMDJoMndwMXlsaGo5NGJoIn0.T1wTBzV42MZ1O-2dy8SpOw'
   import bbox from '@turf/bbox'
+  import centroid from '@turf/centroid'
+  import within from '@turf/within'
+  import inside from '@turf/inside'
   import intersect from '@turf/intersect'
+  import bboxPolygon from '@turf/bbox-polygon'
   import {featureCollection} from '@turf/helpers'
+  import {getCoord} from '@turf/invariant'
+  import which_polygon from 'which-polygon'
   import debounce from 'lodash.debounce'
   import chroma from 'chroma-js'
 
   import cache from 'config/cache.js'
   import logslider from 'lib/log_slider.js'
   import logscale from 'lib/log_scale.js'
+  import {basic_map} from 'lib/basic_map'
+  import {get_planning_level_id_field, get_planning_level_name} from 'lib/spatial_hierarchy_helper'
 
   export default {
     name: 'plan_map',
@@ -42,10 +50,8 @@
         user_map_focus: false,
         draw: null,
         _map: null,
-        _geodata: {
-          all_target_areas: null,
-          clusters: null
-        },
+        map_loaded: false,
+
         handler: {
           click: null,
           move: null
@@ -55,9 +61,6 @@
     computed: {
       ...mapState({
         instance_config: state => state.instance_config,
-        field_name: state => state.instance_config.spatial_hierarchy[0].field_name,
-        denominator: state => state.instance_config.denominator,
-        slug: state => state.instance_config.slug,
         areas_included_by_click: state => state.irs_plan.areas_included_by_click,
         areas_excluded_by_click: state => state.irs_plan.areas_excluded_by_click,
         bulk_selected_ids: state => state.irs_plan.bulk_selected_ids,
@@ -65,6 +68,12 @@
       ...mapGetters({
         selected_target_area_ids: 'irs_plan/all_selected_area_ids'
       }),
+      planning_level_name() {
+        return get_planning_level_name(this.instance_config)
+      },
+      planning_level_id_field() {
+        return get_planning_level_id_field(this.instance_config)
+      },
       converted_slider_value() {
         if (!this.logslider) return 0
 
@@ -75,42 +84,33 @@
           converted_value = this.logslider(this.risk_slider_value)
         }
         return converted_value
-        // return numeral(converted_value).format('0.00') // values for ZWE are too small to view this way
       }
     },
     watch: {
       'clusters_visible': 'toggle_cluster_visiblity',
       'edit_mode': 'manage_map_mode',
-      'geodata_ready': 'populate_data_from_global',
+      'geodata_ready': 'render_map',
       'selected_target_area_ids': 'redraw_target_areas',
       'risk_slider_value': 'set_risk_slider_value',
       'risk_visible': 'toggle_show_areas_by_risk'
     },
+    mounted() {
+      this.render_map()
+    },
     methods: {
       // Get some data in
-      populate_data_from_global() {
-        this._geodata = cache.geodata
+      render_map() {
+        if (this.geodata_ready) {
+          this._map = basic_map(this.$store)
 
-        this._map = this.create_map()
-
-
-        this._map.on('load', () => {
-          this.clusters_disabled = false
-          this.manage_map_mode()
-          this.add_target_areas()
-          this.$emit('map_loaded')
-          this.set_slider_range()
-        })
-      },
-
-      // Create map
-      create_map() {
-        return new mapboxgl.Map({
-          container: 'map',
-          style: 'mapbox://styles/mapbox/streets-v9',
-          center: [23.31117652857256, -25.74823900711678],
-          zoom: 3.9642688564
-        });
+          this._map.on('load', () => {
+            this.clusters_disabled = false
+            this.manage_map_mode()
+            this.add_target_areas()
+            this.$emit('map_loaded')
+            this.set_slider_range()
+          })
+        }
       },
       fit_bounds(geojson) {
         if (!this.user_map_focus) {
@@ -131,7 +131,7 @@
           const feature = this._map.queryRenderedFeatures(e.point, {layers: ['selected', 'unselected', 'bulk_selected', 'bulk_unselected']})[0]
 
           if (feature) {
-            const feature_id = feature.properties[this.field_name]
+            const feature_id = feature.properties[this.planning_level_id_field]
             this.$store.commit('irs_plan/toggle_selected_target_area_id', feature_id)
             this.refilter_target_areas()
           }
@@ -161,12 +161,12 @@
 
       // Add and handle target_areas
       add_target_areas() {
-        const geojson = this._geodata.all_target_areas
+        const geojson = cache.geodata[this.planning_level_name]
 
         if(!this._map.getSource('target_areas_source')) {
           this._map.addSource('target_areas_source', {
             'type': 'geojson',
-            'data': this._geodata.all_target_areas
+            'data': geojson
           })
         }
 
@@ -179,7 +179,7 @@
             'fill-opacity': 0.7,
             'fill-outline-color': 'black'
           },
-          filter: ['in', this.field_name].concat(this.bulk_selected_ids)
+          filter: ['in', this.planning_level_id_field].concat(this.bulk_selected_ids)
         }, 'clusters')
 
         this._map.addLayer({
@@ -191,7 +191,7 @@
             'fill-opacity': 0.5,
             'fill-outline-color': 'black'
           },
-          filter: ['!in', this.field_name].concat(this.bulk_selected_ids)
+          filter: ['!in', this.planning_level_id_field].concat(this.bulk_selected_ids)
         }, 'clusters')
 
         this._map.addLayer({
@@ -203,7 +203,7 @@
             'fill-opacity': 0.7,
             'fill-outline-color': 'black'
           },
-          filter: ['in', this.field_name].concat(this.areas_included_by_click)
+          filter: ['in', this.planning_level_id_field].concat(this.areas_included_by_click)
         }, 'clusters')
 
         this._map.addLayer({
@@ -215,7 +215,7 @@
             'fill-opacity': 0.7,
             'fill-outline-color': 'black'
           },
-          filter: ['in', this.field_name].concat(this.areas_excluded_by_click)
+          filter: ['in', this.planning_level_id_field].concat(this.areas_excluded_by_click)
         }, 'clusters')
 
         this.fit_bounds(geojson)
@@ -242,11 +242,10 @@
         }
       },
       refilter_target_areas() {
-
-        this._map.setFilter('bulk_selected', ['in', this.field_name].concat(this.bulk_selected_ids))
-        this._map.setFilter('bulk_unselected', ['!in', this.field_name].concat(this.bulk_selected_ids))
-        this._map.setFilter('selected', ['in', this.field_name].concat(this.areas_included_by_click))
-        this._map.setFilter('unselected', ['in', this.field_name].concat(this.areas_excluded_by_click))
+        this._map.setFilter('bulk_selected', ['in', this.planning_level_id_field].concat(this.bulk_selected_ids))
+        this._map.setFilter('bulk_unselected', ['!in', this.planning_level_id_field].concat(this.bulk_selected_ids))
+        this._map.setFilter('selected', ['in', this.planning_level_id_field].concat(this.areas_included_by_click))
+        this._map.setFilter('unselected', ['in', this.planning_level_id_field].concat(this.areas_excluded_by_click))
       },
 
       // Clusters
@@ -255,7 +254,7 @@
         if(!this._map.getSource('clusters_source')) {
           this._map.addSource('clusters_source', {
             type: 'geojson',
-            data: this._geodata.clusters
+            data: cache.clusters
           })
         }
 
@@ -272,9 +271,11 @@
               'fill-outline-color': colour
             },
           })
+          this.$ga.event('irs_plan','change_clusters_visibility','visible', true)
 
         } else {
           this._map.removeLayer('clusters')
+          this.$ga.event('irs_plan','change_clusters_visibility','visible', false)
         }
       },
 
@@ -308,17 +309,47 @@
           this.draw = null
         }
       },
-      finish_drawing(features) {
-        let drawn_polygon = features[0]
+      find_selected_polygons(polygon_drawn) {
 
-        let polygons = this._geodata.all_target_areas.features
-        let selected_areas = []
-        polygons.forEach((polygon) => {
-          if (intersect(drawn_polygon, polygon)) {
-              const feature_id = polygon.properties[this.field_name]
-              selected_areas.push(feature_id)
-          }
-        })
+        const all_polygons = cache.geodata[this.planning_level_name]
+
+        // calculate centroids for all polygons
+        const all_centroids = all_polygons.features.map((feature => {
+          const c = centroid(feature)
+          c.properties = feature.properties
+          return c
+        }))
+
+        // Create a Bbox from polygon_drawn
+        const bounding_box = bbox(polygon_drawn)
+
+        // bounding_box_centroids =  Find all centroids in bbox
+        const bounding_box_centroids = within(featureCollection(all_centroids), featureCollection([bboxPolygon(bounding_box)]))
+
+        // find centroids in polygon_drawn
+        const centroids_in_polygon_drawn = within(bounding_box_centroids, featureCollection([polygon_drawn]))
+
+        // return ids of centroids in polygon_drawn
+        return centroids_in_polygon_drawn
+      },
+      finish_drawing(features) {
+        let polygon_drawn = features[0]
+
+        // 1. Approach using centroids
+        // doesn't capture as many polygons though
+        const polygons_within_polygon_drawn = this.find_selected_polygons(polygon_drawn)
+        const selected_areas = polygons_within_polygon_drawn.features.map(f => f.properties[this.planning_level_id_field])
+
+        // 2. Approach using intersection
+        // let polygons = cache.geodata[this.planning_level_name].features
+        // let selected_areas = []
+        // polygons.forEach((polygon) => {
+        //   if (intersect(polygon_drawn, polygon)) {
+        //       const feature_id = polygon.properties[this.planning_level_id_field]
+        //       selected_areas.push(feature_id)
+        //   }
+        // })
+
         this.$store.commit('irs_plan/add_selected_target_areas', selected_areas)
 
         this.draw.deleteAll()
@@ -329,26 +360,31 @@
 
       // Risk slider
       set_risk_slider_value: debounce(function(){
-
-        let areas = this._geodata.all_target_areas.features.filter((feature) => {
+console.time('set_risk_slider_value')
+        let areas = cache.geodata[this.planning_level_name].features.filter((feature) => {
           return feature.properties.risk >= this.converted_slider_value
         })
 
         let area_ids = areas.map((area) => {
-          return area.properties[this.field_name]
+          return area.properties[this.planning_level_id_field]
         })
 
         this.$store.commit('irs_plan/set_bulk_selected_ids', area_ids)
+console.timeEnd('set_risk_slider_value')
+        console.time('refilter_target_areas')
         this.refilter_target_areas()
+        console.timeEnd('refilter_target_areas')
+        this.$ga.event('irs_plan','change_risk_slider')
       }, 750),
       set_slider_range() {
-        const values_array = this._geodata.all_target_areas.features.map(area => area.properties.risk).sort()
+        const values_array = cache.geodata[this.planning_level_name].features.map(area => area.properties.risk).sort()
         const non_zeros = values_array.filter(v => v !== 0)
 
         const mino = Math.min(...non_zeros)
         const maxo = Math.max(...values_array) * 1.001
         this.logslider = logslider(this.slider.min, this.slider.max, mino, maxo)
       },
+
       // RISK
       toggle_show_areas_by_risk() {
         if (this.risk_visible) {
@@ -360,9 +396,9 @@
       },
       add_areas_coloured_by_risk() {
 
-        this.get_log_values(this._geodata.all_target_areas)
+        this.get_log_values(cache.geodata[this.planning_level_name])
 
-        const features = this._geodata.all_target_areas.features.map((feature) => {
+        const features = cache.geodata[this.planning_level_name].features.map((feature) => {
           if (feature.properties.risk === 0) {
             feature.properties.normalised_risk = 0
           } else {
@@ -401,16 +437,10 @@
         this._map.fitBounds(bbox(areas_with_normalised_risk), {padding: 20});
       },
       get_log_values(areas) {
-        const values_array = areas.features.map(area => area.properties.risk).sort()
-        const non_zeros = values_array.filter(v => v !== 0)
+        const features = areas.features
+        const property = 'risk'
 
-        const mino = Math.min(...non_zeros)
-        const maxo = Math.max(...values_array) * 1.001
-
-        this.log_scale = logscale(mino, maxo)
-
-        if (this.log_scale(mino) !== 0) console.log('min should be 0', this.log_scale(mino))
-        if (this.log_scale(maxo) !== 100) console.log('max should be 100', this.log_scale(maxo))
+        this.log_scale = logscale({features, property})
       },
     }
   }

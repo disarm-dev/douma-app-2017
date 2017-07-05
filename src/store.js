@@ -1,23 +1,49 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
-Vue.use(Vuex)
+import objectPath from 'object-path'
 
-const persisted = createPersistedState()
+export function create_store(instance_stores) {
+  Vue.use(Vuex)
 
-function create_store(instance_stores) {
+  // Exclude these paths from state persistence
+  const excluded_paths = ['geodata_ready', 'geodata_loading_progress', 'loading']
+
+  const persisted_state_options = {
+    reducer: (state) => {
+      if (excluded_paths.length === 0) {
+        return state
+      } else {
+        const state_copy = Object.assign({}, state)
+        excluded_paths.forEach(function(path) {
+          objectPath.del(state_copy, path)
+        })
+        return state_copy
+      }
+    }
+  }
 
   return new Vuex.Store({
     modules: instance_stores,
-    plugins: [persisted],
+    plugins: [createPersistedState(persisted_state_options)],
     state: {
-      cache: {},
+      // Global config
+      instance_config: {}, // Really important, should be somewhere else
+
+      // Global UI
       snackbar: {message: null},
       loading: false,
       sw_message: {message: 'null', title: 'null'},
-      instance_config: {},
       network_online: false,
-      trigger_help_visible_irrelevant_value: false // Beware - don't care whether it true or false, just that it changes
+
+      // Irrelevant values: only watched for changes
+      trigger_sidebar_visible_irrelevant_value: false,
+      trigger_help_visible_irrelevant_value: false, // Beware - don't care whether it true or false, just that it changes
+
+      // Geodata
+      geodata_loading_progress: 0,
+      geodata_ready: false,
+
     },
     mutations: {
       'root:set_snackbar': (state, snackbar) => {
@@ -37,9 +63,17 @@ function create_store(instance_stores) {
       },
       'root:trigger_help_visible': (state) => {
         state.trigger_help_visible_irrelevant_value = !state.trigger_help_visible_irrelevant_value
+      },
+      'root:toggle_sidebar': (state) => {
+        state.trigger_sidebar_visible_irrelevant_value= !state.trigger_sidebar_visible_irrelevant_value
+      },
+      'root:set_geodata_loading_progress': (state, progress) => {
+        state.geodata_loading_progress = progress
+      },
+      'root:set_geodata_ready': (state, ready) => {
+        state.geodata_ready = ready
       }
     },
   })
 }
 
-export default create_store

@@ -1,0 +1,97 @@
+<template>
+  <md-sidenav class="md-left" ref="sidebar">
+    <md-toolbar class="md-medium">
+      <div class="md-toolbar-container">
+        <h3>{{instance_name}}</h3>
+      </div>
+
+      <!--Status/top of sidebar: LOGGED-IN-->
+      <div v-if="user">
+        <p @click="navigate('meta:home')">Logged in: {{user.name}}</p>
+        <p><em>Version {{commit_hash}}</em></p>
+      </div>
+
+      <!--Status/top of sidebar: LOGGED-OUT-->
+      <div v-else>
+        <p>Nope, not logged in.</p>
+        <p><em>Version {{commit_hash}}</em></p>
+      </div>
+    </md-toolbar>
+
+    <!--Sidebar: LOGGED IN-->
+    <md-list v-if="user">
+      <md-list-item v-for='applet in decorated_applets' :key='applet' @click="navigate(applet.name)">
+        <md-icon>{{applet.icon}}</md-icon><span class="applet-item">{{applet.title}}</span>
+      </md-list-item>
+
+      <md-divider class="md-inset"></md-divider>
+
+      <md-list-item @click="navigate('meta:home')">
+        <md-icon>person</md-icon><span>User</span>
+      </md-list-item>
+
+      <md-list-item class='md-primary' @click="toggle_help">
+        <md-icon>help</md-icon><span>Help</span>
+      </md-list-item>
+
+      <md-list-item class='md-accent' @click="navigate('meta:logout')">
+        <md-icon>exit_to_app</md-icon><span>Logout</span>
+      </md-list-item>
+    </md-list>
+
+    <!--Sidebar: LOGGED OUT-->
+    <md-list v-else>
+      <md-list-item class='md-primary' @click="toggle_help">
+        <md-icon>help</md-icon><span>Help</span>
+      </md-list-item>
+
+      <md-list-item class='md-accent' @click="navigate('meta:login')">
+        <md-icon>exit_to_app</md-icon><span>Login</span>
+      </md-list-item>
+    </md-list>
+
+  </md-sidenav>
+</template>
+
+<script>
+  import {mapState, mapGetters} from 'vuex'
+
+  export default {
+    name: 'sidebar',
+    computed: {
+      ...mapState({
+        instance_name: state => state.instance_config.name,
+        user: state => state.meta.user,
+      }),
+      ...mapGetters({
+        decorated_applets: 'meta/decorated_applets'
+      }),
+      commit_hash() {
+        return COMMIT_HASH.substring(0, 6)
+      },
+    },
+    watch: {
+      '$store.state.trigger_sidebar_visible_irrelevant_value': 'show_hide_sidebar'
+    },
+    methods: {
+      navigate(name) {
+        this.$router.push({name})
+        this.$store.commit('root:toggle_sidebar')
+      },
+      show_hide_sidebar() {
+        this.$refs.sidebar.toggle()
+      },
+      toggle_help() {
+        this.$store.commit('root:trigger_help_visible')
+      },
+    },
+  }
+</script>
+
+<style scoped>
+  .applet-item {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+</style>
