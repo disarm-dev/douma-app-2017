@@ -2,12 +2,14 @@
   <md-card class="card">
     <md-card-content>
 
-      <p>Show areas by:</p>
       <div>
-        <md-radio v-model="selected_layer" :disabled='!geodata_ready' name="map-type" md-value="risk">Risk</md-radio>
+        <span>Show areas by:</span>
         <md-radio v-model="selected_layer" :disabled='!geodata_ready' name="map-type" md-value="coverage">Coverage</md-radio>
+        <md-radio v-model="selected_layer" :disabled='!geodata_ready' name="map-type" md-value="risk">Risk</md-radio>
       </div>
+
       <md-checkbox v-model="limit_to_plan">Limit to plan areas</md-checkbox>
+      <md-checkbox v-model="show_response_points">Show response points</md-checkbox>
 
       <div id="map"></div>
 
@@ -17,7 +19,7 @@
 
 <script>
   import {mapGetters, mapState} from 'vuex'
-  import {featureCollection} from '@turf/helpers'
+  import {featureCollection, point} from '@turf/helpers'
   import bbox from '@turf/bbox'
   import mapboxgl from 'mapbox-gl'
   import chroma from 'chroma-js'
@@ -32,19 +34,21 @@
   import {Aggregator} from 'lib_instances/aggregations'
 
   export default {
-    props: ['aggregated_responses', 'geodata_ready'],
+    props: ['aggregated_responses', 'geodata_ready', 'filtered_responses'],
     data() {
       return {
 
 
         // User values
         limit_to_plan: true,
-        selected_layer: 'risk',
+        show_response_points: false,
+        selected_layer: 'coverage',
 
         // map cache
         _map: null,
         _click_handler: null,
-        _responses_fc: null,
+        _aggregated_responses_fc: null,
+        _filtered_responses_fc: null,
 
       }
     },
@@ -52,7 +56,8 @@
       'aggregated_responses': 'redraw_layers',
       'selected_layer': 'switch_layer',
       'geodata_ready': 'render_map',
-      'limit_to_plan': 'redraw_layers'
+      'limit_to_plan': 'redraw_layers',
+      'show_response_points': 'redraw_layers'
     },
     computed: {
       ...mapState({
@@ -89,9 +94,10 @@
 
         this.$ga.event('irs_monitor',`view_${layer_string}`)
 
+        this.add_response_points()
         this.add_layer(layer_string)
 
-        this._map.fitBounds(bbox(this._responses_fc), {padding: 20});
+        this._map.fitBounds(bbox(this._aggregated_responses_fc), {padding: 20});
         this.bind_popup(layer_definitions[layer_string])
       },
 
@@ -114,12 +120,13 @@
         const palette = this.prepare_palette(layer_type)
 
         // Filter to plan if required
-        let filtered_responses_fc = this._responses_fc
+        let filtered_responses_fc = this._aggregated_responses_fc
         if (this.limit_to_plan) {
-          filtered_responses_fc = featureCollection(this._responses_fc.features.filter(f => {
+          filtered_responses_fc = featureCollection(this._aggregated_responses_fc.features.filter(f => {
             return this.plan_target_area_ids.includes(f.properties[this.planning_level_id_field])
           }))
         }
+
 
         // Create layer and add to map
         this._map.addLayer({
@@ -137,7 +144,50 @@
             'fill-opacity': 0.9,
             'fill-outline-color': 'black'
           }
+        }, 'responses')
+
+      },
+      add_response_points() {
+        if (this._map.getLayer('responses')) {
+          this._map.removeLayer('responses')
+        }
+
+        if (this._map.getSource('responses')) {
+          this._map.removeSource('responses')
+        }
+
+        if (!this.show_response_points) return
+
+        const points = this.filtered_responses.map(response => {
+          const coords = response.location.coords
+          if (coords) {
+            const {latitude, longitude} = coords
+            const coords_point = point([longitude, latitude])
+            coords_point.properties.sprayed_count = response.form_data
+            return coords_point
+          }
+          return null
         })
+
+        const points_fc = featureCollection(points)
+
+        this._map.addLayer({
+          id: 'responses',
+          type: 'circle',
+          source: {
+            type: 'geojson',
+            data: points_fc
+          },
+          paint: {
+            'circle-color': 'orange',
+            'circle-radius': {
+              base: 1.75,
+              stops: [[12,2],[22,180]]
+            },
+            'circle-opacity': 0.9,
+          }
+        })
+
       },
       bind_popup(layer_type) {
         // Remove previous click handler before anything
@@ -166,7 +216,7 @@
         features = this.calculate_coverage(features)
         features = this.calculate_risk(features)
 
-        this._responses_fc = featureCollection(features)
+        this._aggregated_responses_fc = featureCollection(features)
       },
       calculate_coverage(features) {
         const attribute = layer_definitions.coverage.attribute

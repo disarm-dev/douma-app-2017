@@ -1,7 +1,5 @@
 <template>
   <div class='container'>
-    <h2>Table and map update with real records</h2>
-
     <h4 v-if='!plan' style="color: red">No plan! No way forward until you have one</h4>
 
     <!--  SUMMARY, LOAD, DOWNLOAD (DUMPING GROUND) -->
@@ -11,7 +9,12 @@
     <filters></filters>
 
     <!--MAP-->
-    <map_progress v-if='geodata_ready' :aggregated_responses="aggregated_responses" :geodata_ready="geodata_ready"></map_progress>
+    <map_progress
+      v-if='geodata_ready'
+      :aggregated_responses="aggregated_responses"
+      :geodata_ready="geodata_ready"
+      :filtered_responses="filtered_responses"
+    ></map_progress>
 
     <!--TABLE-->
     <table_progress :aggregated_responses="aggregated_responses"></table_progress>
@@ -89,8 +92,7 @@
 <style scoped>
   .card {
     display: inline-block;
-    margin: 2.5%;
-    padding: 1em;
+    margin: 1% 2.5%;
     flex: 1;
     width: 95%;
   }

@@ -14,6 +14,7 @@ import fake_form_data from 'lib/fake_form_data'
 import {get_geodata} from 'lib/data/remote'
 import cache from 'config/cache'
 import {get_planning_level_id_field, get_planning_level_name} from 'lib/spatial_hierarchy_helper'
+import {ResponseSchema} from 'lib/models/response.schema'
 
 export default {
   name: 'fake_responses_debug',
@@ -54,23 +55,22 @@ export default {
     get_form_data() {
       return fake_form_data[this.slug][this.select_form_data_type()]
     },
-    create_response({id}) {
-      const polygon = this.get_polygon(id)
+    create_response(location_selection) {
+      const polygon = this.get_polygon(location_selection.id)
       const point_in_polygon = getCoord(random_point_in_polygon(1, polygon)[0])
 
       let response = {
-        "_id": faker.random.uuid(),
         "id": faker.random.uuid(),
         "country": this.slug,
         "form_data": this.get_form_data(),
         "location": {
           "coords": {
             "accuracy": 100,
-            "latitude": point_in_polygon[0],
-            "longitude": point_in_polygon[1]
+            "longitude": point_in_polygon[0],
+            "latitude": point_in_polygon[1],
           }
         },
-        "location_selection": this.location_selections.splice(0,50)[this.random_number_between(0, this.location_selections.splice(0,50).length -1)],
+        "location_selection": location_selection,
         "recorded_on": faker.date.recent(),
         "user": faker.name.firstName(),
         "userAgent": faker.internet.userAgent(),
@@ -81,16 +81,18 @@ export default {
     generate_data() {
       let responses = []
 
-      this.location_selections.splice(0, 50).forEach(area => {
+      this.location_selections.splice(0, 50).forEach(location_selection => {
         let count = 0
         const limit = this.random_number_between(1,3)
         while (count <= limit) {
-          const response = this.create_response(area)
-          responses.push(response)
+          const response = this.create_response(location_selection)
+          if (ResponseSchema(response)) {
+            responses.push(response)
+          }
           count += 1
         }
       })
-
+      console.log('Done faking')
       this.$store.commit('irs_record_point/add_responses', responses)
     }
   }

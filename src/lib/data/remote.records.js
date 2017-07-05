@@ -11,6 +11,7 @@ export const create_records = (records) => {
   let url = douma_api_root + `/record/create_multiple`
 
   let options = {
+    timeout: 20000,
     data: records,
     method: 'post'
   }

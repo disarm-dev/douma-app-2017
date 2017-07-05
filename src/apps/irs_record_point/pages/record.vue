@@ -19,14 +19,7 @@
         </md-button>
 
 
-      <!--LOCATION CARD TOGGLE-->
-      <md-button
-        :class="{red: !location_is_valid, 'md-raised': !show_location } "
-        @click.native="toggle_show_location"
-      >
-        {{ location_is_valid ? "Location" : "Set location"}}
-      </md-button>
-
+      <!--BACK TO LIST-->
       <md-button
         v-if="response_id"
         @click.native="$router.push('/irs/record_point')"
@@ -52,41 +45,63 @@
     </transition>
 
 
+    <!-- METADATA EDITOR-->
+    <md-card v-if="current_view === 'metadata'">
+      <md-card-content>
+        <md-card-header>
+          <div class="md-title">Metadata</div>
+        </md-card-header>
+        <md-list>
+          <md-list-item>username: {{username}}</md-list-item>
+          <!--<md-list-item>recorded_on: {{recorded_on}}</md-list-item>-->
+          <!--<md-input-container>-->
+            <!--<label>Team</label>-->
+            <!--<md-input v-model="team"></md-input>-->
+          <!--</md-input-container>-->
+        </md-list>
+
+      </md-card-content>
+      <md-card-actions>
+        <md-button @click.native="set_current_view('location')" class="md-raised">Next</md-button>
+      </md-card-actions>
+    </md-card>
+
     <!--LOCATION CARD-->
-    <transition name="slide-fade">
-      <md-card class='location' v-show="show_location">
-        <md-card-content>
-          <location_record
-            @change='on_location_change'
-            :initial_location='initial_response.location'
-          ></location_record>
+    <md-card v-if="current_view === 'location'" class='location'>
+      <md-card-content>
+        <md-card-header>
+          <div class="md-title">Location</div>
+        </md-card-header>
 
-        <location_selection
-          @change="on_location_selection_selected"
-          :initial_location_selection="initial_response.location_selection"
-        >
-        </location_selection>
+        <location_record
+          @change='on_location_change'
+          :initial_location='initial_response.location'
+        ></location_record>
 
-        </md-card-content>
-        <md-card-actions>
-          <md-button @click.native="show_location = false">Hide</md-button>
-        </md-card-actions>
-      </md-card>
-    </transition>
+      <location_selection
+        @change="on_location_selection_selected"
+        :initial_location_selection="initial_response.location_selection"
+      >
+      </location_selection>
+
+      </md-card-content>
+      <md-card-actions>
+        <md-button @click.native="set_current_view('metadata')" class="md-raised">Previous</md-button>
+        <md-button @click.native="set_current_view('form')" class="md-raised">Next</md-button>
+      </md-card-actions>
+    </md-card>
 
 
     <!--FORM-->
-    <md-card>
-      <md-card-content>
-        <form_renderer
-          ref="form"
-          @complete='on_form_complete'
-          @change="on_form_change"
-          :initial_form_data='initial_response.form_data'
-          :response_is_valid="response_is_valid"
-        ></form_renderer>
-      </md-card-content>
-    </md-card>
+    <form_renderer
+      v-if="current_view === 'form'"
+      ref="form"
+      @complete='on_form_complete'
+      @change="on_form_change"
+      @previous_view="set_current_view('location')"
+      :initial_form_data='initial_response.form_data'
+      :response_is_valid="response_is_valid"
+    ></form_renderer>
 
   </div>
 </template>
@@ -123,15 +138,17 @@
         show_validation_result: false,
         show_location: false,
 
-        shake_button: false
+        shake_button: false,
+
+        pages: ['metadata', 'location', 'form'],
+        current_view: 'metadata'
       }
     },
     watch: {
       'validation_length': 'shake_validations'
     },
     computed: {
-
-      user_name() {
+      username() {
         return this.$store.state.meta.user.name
       },
       instance_config() {
@@ -176,6 +193,9 @@
     mounted() {
     },
     methods: {
+      set_current_view(view) {
+        this.current_view = view
+      },
       shake_validations(newVal, oldVal) {
         if (newVal > oldVal) {
           this.shake_button = !this.shake_button
@@ -235,10 +255,10 @@
         try {
           response = new Response().create({
             ...this.response,
-            recorded_on: this.response.recorded_on,
             id: this.response_id,
+            recorded_on: this.response.recorded_on,
             country: this.instance_config.slug,
-            user: this.user_name
+            user: this.username
           })
         } catch (e) {
           return console.log(e)
