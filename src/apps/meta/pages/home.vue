@@ -5,7 +5,7 @@
         <div>Hi <em>{{user.name}}</em>, you are logged in as <em>{{user.username}}</em>, with access to</div>
 
         <md-list>
-          <md-list-item v-for='applet in decorated_applets' :key='applet' @click="navigate(applet.name)">
+          <md-list-item v-for='applet in decorated_applets' :key='applet' @click="$router.push({name: applet.name})">
             <md-icon>{{applet.icon}}</md-icon><span class="applet-item">{{applet.title}}</span>
           </md-list-item>
         </md-list>
@@ -18,17 +18,14 @@
 </template>
 
 <script>
-  import {decorated_applets} from 'config/applet_stores_and_routes.js'
+  import {mapGetters} from 'vuex'
 
   export default {
-
     name: 'home',
-    data() {
-      return {
-        decorated_applets: [],
-      }
-    },
     computed: {
+      ...mapGetters({
+        decorated_applets: 'meta/decorated_applets'
+      }),
       commit_hash() {
         return COMMIT_HASH.substring(0, 6)
       },
@@ -36,9 +33,6 @@
         return this.$store.state.meta.user
       }
     },
-    mounted() {
-      this.decorated_applets = decorated_applets
-    }
   }
 </script>
 
