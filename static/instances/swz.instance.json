@@ -36,7 +36,8 @@
     "irs_plan": {},
     "irs_record_point": {},
     "irs_tasker": {},
-    "meta": {}
+    "meta": {},
+    "data_wizard": {}
   },
   "map_focus": {
     "centre": {
