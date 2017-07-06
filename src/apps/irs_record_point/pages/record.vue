@@ -46,7 +46,7 @@
 
 
     <!-- METADATA EDITOR-->
-    <md-card v-if="current_view === 'metadata'">
+    <md-card v-show="current_view === 'metadata'">
       <md-card-content>
         <md-card-header>
           <div class="md-title">Metadata</div>
@@ -67,7 +67,7 @@
     </md-card>
 
     <!--LOCATION CARD-->
-    <md-card v-if="current_view === 'location'" class='location'>
+    <md-card v-show="current_view === 'location'" class='location'>
       <md-card-content>
         <md-card-header>
           <div class="md-title">Location</div>
@@ -94,7 +94,7 @@
 
     <!--FORM-->
     <form_renderer
-      v-if="current_view === 'form'"
+      v-show="current_view === 'form'"
       ref="form"
       @complete='on_form_complete'
       @change="on_form_change"
