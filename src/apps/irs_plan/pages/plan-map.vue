@@ -4,7 +4,7 @@
     <p>Showing areas where risk is above: {{converted_slider_value}}</p>
     <input  id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value">
     </div>
-    <md-checkbox :disabled='!geodata_ready || clusters_disabled' v-model="clusters_visible">Show clusters</md-checkbox>
+    <md-checkbox v-if="next_level_down" :disabled='!geodata_ready || clusters_disabled' v-model="clusters_visible">Show {{next_level_down.name}}</md-checkbox>
     <div id="map"></div>
   </div>
 </template>
@@ -30,7 +30,7 @@
   import logslider from 'lib/log_slider.js'
   import logscale from 'lib/log_scale.js'
   import {basic_map} from 'lib/basic_map'
-  import {get_planning_level_id_field, get_planning_level_name} from 'lib/spatial_hierarchy_helper'
+  import {get_planning_level_id_field, get_planning_level_name, get_next_level_down} from 'lib/spatial_hierarchy_helper'
 
   export default {
     name: 'plan_map',
@@ -85,6 +85,9 @@
           converted_value = this.logslider(this.risk_slider_value)
         }
         return converted_value
+      },
+      next_level_down() {
+        return get_next_level_down()
       }
     },
     watch: {
@@ -254,7 +257,7 @@
         if(!this._map.getSource('clusters_source')) {
           this._map.addSource('clusters_source', {
             type: 'geojson',
-            data: cache.clusters
+            data: cache.geodata[this.next_level_down.name]
           })
         }
 
