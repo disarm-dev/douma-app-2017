@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import objectPath from 'object-path'
 
-export function create_store(instance_stores) {
+export function create_store(instance_config, instance_stores) {
   Vue.use(Vuex)
 
   // Exclude these paths from state persistence
@@ -28,7 +28,7 @@ export function create_store(instance_stores) {
     plugins: [createPersistedState(persisted_state_options)],
     state: {
       // Global config
-      instance_config: {}, // Really important, should be somewhere else
+      instance_config: instance_config, // Really important, should maybe be somewhere else
 
       // Global UI
       snackbar: {message: null},

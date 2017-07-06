@@ -20,7 +20,7 @@
     props: ['aggregated_responses'],
     computed: {
       slug() {
-        return this.$store.state.instance_config.slug
+        return this.$store.state.instance_config.instance.slug
       },
       table_columns() {
         if (this.aggregated_responses.length === 0) return []

@@ -43,9 +43,11 @@
     },
     "zoom": 7
   },
-  "instance_title": "Botswana IRS Database",
-  "instance_location_name": "Botswana",
-  "slug": "bwa",
+  "instance": {
+    "title": "Botswana IRS Database",
+    "location_name": "Botswana",
+    "slug": "bwa"
+  },
   "spatial_hierarchy": {
     "markers": {
       "planning_level_name": "villages",

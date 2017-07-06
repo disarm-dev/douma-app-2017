@@ -25,7 +25,7 @@ export default {
   },
   computed: {
     ...mapState({
-      slug: state => state.instance_config.slug,
+      slug: state => state.instance_config.instance.slug,
       instance_config: state => state.instance_config,
       location_selections: state => state.instance_config.location
     }),

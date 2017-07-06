@@ -62,7 +62,7 @@ export default {
     },
     'save_assignments_to_plan': (context) => {},
     'get_current_plan': (context) => {
-      return get_current_plan(context.rootState.instance_config.slug).then((plan_json) => {
+      return get_current_plan(context.rootState.instance_config.instance.slug).then((plan_json) => {
 
         const assignments = new Assignment().assignments_from_plan(plan_json)
         context.commit('set_assignments', assignments)

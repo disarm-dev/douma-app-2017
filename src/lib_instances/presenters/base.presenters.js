@@ -4,7 +4,7 @@ import {get_planning_level_id_field} from 'lib/spatial_hierarchy_helper'
 export default class Presenters {
   constructor(instance_config) {
     this.instance_config = instance_config
-    this.slug = instance_config.slug
+    this.slug = instance_config.instance.slug
     this.aggregations = new Aggregator(this.slug)
   }
 

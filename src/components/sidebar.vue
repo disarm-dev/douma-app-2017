@@ -62,7 +62,7 @@
     name: 'sidebar',
     computed: {
       ...mapState({
-        instance_title: state => state.instance_config.instance_title,
+        instance_title: state => state.instance_config.instance.title,
         user: state => state.meta.user,
       }),
       ...mapGetters({
@@ -74,6 +74,9 @@
     },
     watch: {
       '$store.state.trigger_sidebar_visible_irrelevant_value': 'show_hide_sidebar'
+    },
+    mounted(){
+      console.log(this.$store.state.instance_config)
     },
     methods: {
       navigate(name) {

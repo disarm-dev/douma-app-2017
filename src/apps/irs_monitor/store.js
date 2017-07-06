@@ -77,7 +77,7 @@ export default {
     aggregated_responses(state, getters, rootState) {
       if(!getters.filtered_responses.length || !getters.aggregated_denominators.length) return []
 
-      const instance_presenters = new Presenters[rootState.instance_config.slug](rootState.instance_config) // TODO: @refac Improve Presenters signature, remove duplication
+      const instance_presenters = new Presenters[rootState.instance_config.instance.slug](rootState.instance_config) // TODO: @refac Improve Presenters signature, remove duplication
       const data = instance_presenters.get_aggregated_responses({
         responses: getters.filtered_responses,
         denominators: getters.aggregated_denominators,
@@ -89,7 +89,7 @@ export default {
   },
   actions: {
     get_all_records: (context) => {
-      const country = context.rootState.instance_config.slug
+      const country = context.rootState.instance_config.instance.slug
       return get_all_records(country).then(res=> {
         const responses = decorate_responses_from_json(res, context.rootState.instance_config)
         context.commit('update_responses_last_updated_at')
@@ -97,7 +97,7 @@ export default {
       })
     },
     get_current_plan: (context) => {
-      const country = context.rootState.instance_config.slug
+      const country = context.rootState.instance_config.instance.slug
       return get_current_plan(country)
         .then(plan_json => {
           try {
