@@ -34,6 +34,8 @@
         <md-icon>help</md-icon><span>Help</span>
       </md-list-item>
 
+      <md-divider class="md-inset"></md-divider>
+
       <md-list-item class='md-accent' @click="navigate('meta:logout')">
         <md-icon>exit_to_app</md-icon><span>Logout</span>
       </md-list-item>

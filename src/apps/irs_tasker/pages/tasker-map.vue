@@ -68,7 +68,7 @@
           this.redraw_assignments()
         })
       },
-      zoom_in() {
+      zoom_in() { // TODO: @refac swap for fit_bounds and only do once
         let options = {
           center: this.map_focus.centre,
           zoom: this.map_focus.zoom
