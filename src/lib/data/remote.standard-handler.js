@@ -2,6 +2,8 @@ import axios from 'axios'
 
 import common_config from 'config/common_config'
 
+const configure_standard_handler = (instance_config) => {}
+
 // Create axios HTTP object
 const HTTP = axios.create()
 
@@ -29,7 +31,7 @@ const standard_handler = (url, options = {}) => {
 // Get basic root URL from static configuration
 const douma_api_root = `${common_config.api.url}/${common_config.api.version}`
 
-export {standard_handler, douma_api_root}
+export {configure_standard_handler, standard_handler, douma_api_root}
 
 
 
