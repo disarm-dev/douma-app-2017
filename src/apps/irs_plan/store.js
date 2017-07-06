@@ -93,7 +93,7 @@ export default {
         })
     },
     'get_current_plan': (context) => {
-      const country = context.rootState.instance_config.slug
+      const country = context.rootState.instance_config.instance.slug
 
       return get_current_plan(country).then(plan_json => {
         try {

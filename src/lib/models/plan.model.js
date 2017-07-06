@@ -12,7 +12,7 @@ export class Plan {
 
     const decorated_targets = this._decorate_targets({selected_target_area_ids, planning_level_id_field, planning_level_name, denominator_fields})
 
-    const country = instance_config.slug
+    const country = instance_config.instance.slug
 
     this.model = {
       planned_at: new Date().toISOString(),

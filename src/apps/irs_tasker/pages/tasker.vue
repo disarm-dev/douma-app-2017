@@ -84,7 +84,7 @@
     save() {
 //      this.$store.dispatch('irs_tasker/save_assignments')
 
-      get_current_plan(this.instance_config.slug).then((plan_json) => {
+      get_current_plan(this.instance_config.instance.slug).then((plan_json) => {
         let new_targets = plan_json.targets.map((target) => {
           let assignment = this.assignments.find((a) => a.area_id === target.id)
           target.assigned_to_team_name = assignment.team_name

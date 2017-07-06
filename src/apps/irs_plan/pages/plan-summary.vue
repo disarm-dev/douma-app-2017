@@ -40,7 +40,7 @@
     },
     computed: {
       ...mapState({
-        slug: state => state.instance_config.slug,
+        slug: state => state.instance_config.instance.slug,
         instance_config: state => state.instance_config
       }),
       ...mapGetters({
@@ -88,7 +88,7 @@
       },
       structures_or_something_else() {
         console.warn("TODO: @fix Wow. This is horrible. 🙈")
-        switch (this.$store.state.instance_config.slug) {
+        switch (this.$store.state.instance_config.instance.slug) {
           case 'zwe':
             return 'rooms'
           case 'nam':

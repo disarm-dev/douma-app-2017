@@ -44,7 +44,7 @@
     },
     computed: {
       ...mapState({
-        instance_title: state => state.instance_config.instance_title,
+        instance_title: state => state.instance_config.instance.title,
         loading: state => state.loading,
         online: state => state.network_online
       }),

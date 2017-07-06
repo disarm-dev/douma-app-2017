@@ -257,7 +257,7 @@
             ...this.response,
             id: this.response_id,
             recorded_on: this.response.recorded_on,
-            country: this.instance_config.slug,
+            country: this.instance_config.instance.slug,
             user: this.username
           })
         } catch (e) {

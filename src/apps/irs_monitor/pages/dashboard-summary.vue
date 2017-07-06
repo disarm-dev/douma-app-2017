@@ -64,7 +64,7 @@
         const content = json2csv({data, fields})
 
         const date = moment().format('YYYY-MM-DD_HHmm')
-        download(content, `${this.instance_config.slug}_responses_${date}.csv`)
+        download(content, `${this.instance_config.instance.slug}_responses_${date}.csv`)
         this.$ga.event('irs_monitor','click_download_responses')
       }
     }

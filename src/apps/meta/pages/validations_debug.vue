@@ -134,7 +134,7 @@
       },
     },
     created() {
-      this.validations = require("json-loader!lib_instances/validations/" + this.instance_config.slug  + ".validations.json")
+      this.validations = require("json-loader!lib_instances/validations/" + this.instance_config.instance.slug  + ".validations.json")
       this._original_validations = deep_clone(this.validations)
     },
     methods: {
@@ -234,7 +234,7 @@
 
         const content = JSON.stringify(result)
         const date = moment().format('YYYY-MM-DD_HHmm')
-        download(content, `${this.instance_config.slug}_validations_${date}.json`)
+        download(content, `${this.instance_config.instance.slug}_validations_${date}.json`)
       }
     }
   }

@@ -45,7 +45,7 @@
     },
     computed: {
       ...mapState({
-        instance_title: state => state.instance_config.instance_title
+        instance_title: state => state.instance_config.instance.title
       }),
       can_login() {
         return this.user.username.length !== 0 && this.user.password.length !== 0

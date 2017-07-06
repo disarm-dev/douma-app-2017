@@ -65,7 +65,7 @@
     },
     computed: {
       ...mapState({
-        instance_location_name: state => state.instance_config.instance_location_name,
+        instance_location_name: state => state.instance_config.instance.location_name,
         team_names: state => state.irs_tasker.teams,
         assignments: state => state.irs_tasker.assignments,
       })
