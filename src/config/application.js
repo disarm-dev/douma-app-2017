@@ -31,10 +31,9 @@ import {instantiate_analytics, set_common_analytics} from 'config/analytics'
 import {configure_spatial_helpers} from 'lib/spatial_hierarchy_helper'
 
 export function create_and_launch_application (instance_config) {
-  // TODO: @refac Do better checking of instance config e.g. at/before deploy
-
   // Configure spatial_helpers to use instance_config
   configure_spatial_helpers(instance_config)
+  console.log('TODO: @idea 🤔 Can we start getting the tile-cover thing going here, to cache all needed vector tiles? https://github.com/mapbox/tile-cover')
 
   // Collect stores and routes for applets ONLY in this instance {stores: {}, routes: []}
   // Ignores user permissions

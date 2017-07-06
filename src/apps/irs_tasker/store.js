@@ -40,7 +40,6 @@ export default {
   },
   actions: {
     'update_teams': (context, teams) => {
-      // TODO: @feature actually sort by name - where 'space' comes after 'A', not before
       const sorted_teams = teams.sort((a, b) =>{
         if(a < b) return -1;
         if(a > b) return 1;

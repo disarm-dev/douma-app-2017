@@ -2,12 +2,12 @@
   <div>
     <h3>Calculator</h3>
     <div>
-      At a rate of <input class="slim-input" type="number" v-model="calculator.structures"/> {{structures_or_something_else}} per team per day, with  <input class="slim-input" type="number" v-model="calculator.teams"/> teams this would take {{days_to_spray}} days
+      At a rate of <input class="slim-input" type="number" v-model="calculator.enumerables"/> {{enumerable_name}} per team per day, with  <input class="slim-input" type="number" v-model="calculator.teams"/> teams this would take {{days_to_spray}} days
     </div>
 
     <h3>Selected regions:</h3>
     <md-button class='md-raised md-primary' @click.native="download_plan">Download plan</md-button>
-    <p>Working with {{selected_target_area_ids.length}} regions, containing in total {{number_of_structures}} {{structures_or_something_else}}</p>
+    <p>Working with {{selected_target_area_ids.length}} regions, containing in total {{number_of_structures}} {{enumerable_name}}</p>
     <v-client-table
       v-if="geodata_ready && selected_target_area_ids.length !== 0"
       :data="table.data"
@@ -32,8 +32,7 @@
     data() {
       return {
         calculator: {
-          // TODO: @refac Not structures
-          structures: 40,
+          enumerables: 40,
           teams: 20
         },
       }
@@ -70,7 +69,7 @@
         }
       },
       days_to_spray() {
-        const structures_per_day = this.calculator.structures * this.calculator.teams
+        const structures_per_day = this.calculator.enumerables * this.calculator.teams
         return this.number_of_structures / structures_per_day
       },
       number_of_structures() {
@@ -86,7 +85,7 @@
         }
         return 0
       },
-      structures_or_something_else() {
+      enumerable_name() {
         console.warn("TODO: @fix Wow. This is horrible. 🙈")
         switch (this.$store.state.instance_config.instance.slug) {
           case 'zwe':

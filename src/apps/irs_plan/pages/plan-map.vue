@@ -427,7 +427,6 @@
           paint: {
             'fill-color': {
               property: 'normalised_risk',
-              // TODO: @feature Use a different palette
               stops: stops
             },
             'fill-opacity': 0.9,

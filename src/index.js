@@ -27,7 +27,7 @@ get_instance_config()
     // Configure on/offline watcher
     add_network_status_watcher(douma_app)
 
-    // Keep track of what version we're working on
-    console.info('🚀  Launching DOUMA version: ' + COMMIT_HASH)
+    // Keep track of what version we're working on, in production at least.
+    if (DOUMA_PRODUCTION_MODE) console.info('🚀 Launched DiSARM version ' + COMMIT_HASH_SHORT)
   })
   .catch(err => console.error(err))

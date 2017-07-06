@@ -44,7 +44,7 @@
     },
     computed: {
       ...mapState({
-        instance_config: state => state.instance_config, // TODO: @refac Only use `slug`
+        instance_slug: state => state.instance_config.instance.slug,
         assignments: state => state.irs_tasker.assignments,
         team_names: state => state.irs_tasker.teams,
       }),
@@ -82,9 +82,10 @@
       })
     },
     save() {
+//        TODO: @refac Shift this into the save_assignment action
 //      this.$store.dispatch('irs_tasker/save_assignments')
 
-      get_current_plan(this.instance_config.instance.slug).then((plan_json) => {
+      get_current_plan(this.instance_slug).then((plan_json) => {
         let new_targets = plan_json.targets.map((target) => {
           let assignment = this.assignments.find((a) => a.area_id === target.id)
           target.assigned_to_team_name = assignment.team_name

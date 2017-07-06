@@ -69,7 +69,7 @@
         decorated_applets: 'meta/decorated_applets'
       }),
       commit_hash() {
-        return COMMIT_HASH.substring(0, 6)
+        return COMMIT_HASH_SHORT
       },
     },
     watch: {

@@ -210,9 +210,6 @@
       toggle_show_location() {
         this.show_location = !this.show_location
       },
-
-      // TODO: @feature Implement clear_form"
-
       on_location_change(location) {
         this.response.location = location
         this.validate(this.response)
