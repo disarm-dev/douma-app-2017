@@ -75,9 +75,6 @@
     watch: {
       '$store.state.trigger_sidebar_visible_irrelevant_value': 'show_hide_sidebar'
     },
-    mounted(){
-      console.log(this.$store.state.instance_config)
-    },
     methods: {
       navigate(name) {
         this.$router.push({name})

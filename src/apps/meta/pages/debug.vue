@@ -1,6 +1,6 @@
 <template>
   <div>
-    <md-toolbar md-theme="white">
+    <md-toolbar>
       <span class="md-title">Testing and debug tools</span>
     </md-toolbar>
     <md-list>
@@ -21,7 +21,7 @@
       <md-divider class="md-inset"></md-divider>
 
       <!-- CLEARING THINGS-->
-      <md-list-item @click="clear_local_storage"><md-icon class="md-warn">delete_forever</md-icon><span>clear local storage</span></md-list-item>
+      <md-list-item @click="clear_local_storage"><md-icon class="md-warn">delete_forever</md-icon><span>clear local storage (wipes all records, data, etc)</span></md-list-item>
 
     </md-list>
   </div>
