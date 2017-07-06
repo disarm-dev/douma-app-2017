@@ -8,7 +8,7 @@
 
     <!-- Geodata loading progress dialog-->
     <md-dialog ref="geodata_loading_modal" :md-click-outside-to-close="false">
-      <md-dialog-title>Loading base layers</md-dialog-title>
+      <md-dialog-title>Loading geodata</md-dialog-title>
 
       <md-dialog-content class="centred">
         <md-spinner class="center-spinner" :md-progress="geodata_loading_progress"></md-spinner>
