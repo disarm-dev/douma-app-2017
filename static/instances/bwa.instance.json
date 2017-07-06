@@ -43,7 +43,8 @@
     },
     "zoom": 7
   },
-  "name": "Botswana IRS Database",
+  "instance_title": "Botswana IRS Database",
+  "instance_location_name": "Botswana",
   "slug": "bwa",
   "spatial_hierarchy": {
     "markers": {

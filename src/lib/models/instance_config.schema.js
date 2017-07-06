@@ -50,7 +50,8 @@ export const InstanceConfigSchema = schema({
     },
     zoom: Number
   },
-  name: String,
+  instance_title: String,
+  instance_location_name: String,
   slug: String,
   spatial_hierarchy: {
     markers: {

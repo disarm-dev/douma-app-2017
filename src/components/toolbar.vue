@@ -14,7 +14,7 @@
           </span>
 
           <span v-else>
-            {{instance_name}}
+            {{instance_title}}
           </span>
       </h2>
       <div>
@@ -44,7 +44,7 @@
     },
     computed: {
       ...mapState({
-        instance_name: state => state.instance_config.name,
+        instance_title: state => state.instance_config.instance_title,
         loading: state => state.loading,
         online: state => state.network_online
       }),

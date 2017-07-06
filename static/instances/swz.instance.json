@@ -46,7 +46,8 @@
     },
     "zoom": 7.5
   },
-  "name": "Swaziland",
+  "instance_title": "Swaziland IRS Tool",
+  "instance_location_name": "Swaziland",
   "slug": "swz",
   "spatial_hierarchy": {
     "markers": {

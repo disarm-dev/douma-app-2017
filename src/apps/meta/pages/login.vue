@@ -7,7 +7,7 @@
           <div>
             <md-icon class="login-icon">person</md-icon>
           </div>
-          <p class="md-body-1 login-text">Welcome to DiSARM {{country}}</p>
+          <p class="md-body-1 login-text">Welcome to {{instance_title}}</p>
           <p class="md-body-1 login-text login-error" v-if="error">{{error}}</p>
           <md-input-container>
             <label>Username</label>
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
 
   export default {
     data() {
@@ -43,9 +44,9 @@
       }
     },
     computed: {
-      country() {
-        return this.$store.state.instance_config.name
-      },
+      ...mapState({
+        instance_title: state => state.instance_config.instance_title
+      }),
       can_login() {
         return this.user.username.length !== 0 && this.user.password.length !== 0
       }

@@ -36,7 +36,8 @@
     },
     "zoom": 6.5
   },
-  "name": "Zimbabwe",
+  "instance_title": "Zimbabwe IRS Tool",
+  "instance_location_name": "Zimbabwe (Matabeleland South)",
   "slug": "zwe",
   "spatial_hierarchy": {
     "markers": {

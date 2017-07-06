@@ -26,7 +26,8 @@
     },
     "zoom": 6
   },
-  "name": "Namibia",
+  "instance_title": "Namibia IRS Tool",
+  "instance_location_name": "Namibia",
   "slug": "nam",
   "spatial_hierarchy": {
     "markers": {

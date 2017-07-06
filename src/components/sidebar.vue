@@ -2,7 +2,7 @@
   <md-sidenav class="md-left" ref="sidebar">
     <md-toolbar class="md-medium">
       <div class="md-toolbar-container">
-        <h3>{{instance_name}}</h3>
+        <h3>{{instance_title}}</h3>
       </div>
 
       <!--Status/top of sidebar: LOGGED-IN-->
@@ -62,7 +62,7 @@
     name: 'sidebar',
     computed: {
       ...mapState({
-        instance_name: state => state.instance_config.name,
+        instance_title: state => state.instance_config.instance_title,
         user: state => state.meta.user,
       }),
       ...mapGetters({
