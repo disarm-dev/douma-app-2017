@@ -1,5 +1,6 @@
 import {authenticate} from 'lib/data/remote'
 import {decorate_applets} from 'lib/decorated_applets'
+import {User} from 'lib/models/user.model'
 
 export default {
   namespaced: true,
@@ -51,16 +52,20 @@ export default {
           return Promise.reject(response)
         }
 
-        // Check user authorised for this instance
-        if (response.instance_slug === context.rootState.instance_config.instance.slug || response.instance_slug === 'all') {
-          let authenticated_user = response
-          authenticated_user.version = COMMIT_HASH
-          context.commit('set_user', authenticated_user)
-
-          return Promise.resolve(authenticated_user)
-        } else {
-          return Promise.reject('User not authenticated for this instance')
+        // Reject user if not authorised for this instance
+        if (response.instance_slug !== context.rootState.instance_config.instance.slug && response.instance_slug !== 'all') {
+          return Promise.reject({error: 'User not authenticated for this instance'})
         }
+
+        const authenticated_user = new User(response)
+
+        if (authenticated_user.is_valid()) {
+          context.commit('set_user', authenticated_user.model)
+          return Promise.resolve(authenticated_user.model)
+        } else {
+          return Promise.reject({error: 'Validation issues with user record.'})
+        }
+
       })
     },
     logout: (context) => {

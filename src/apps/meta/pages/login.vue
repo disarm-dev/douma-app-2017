@@ -19,7 +19,7 @@
             <md-input v-model="user.password" required type="password"></md-input>
           </md-input-container>
 
-          <md-button class="md-accent md-raised login-button" :disabled='disabled || !can_login' type="submit">Login</md-button>
+          <md-button class="md-accent md-raised login-button" :disabled='login_disabled || !can_login' type="submit">Login</md-button>
         </form>
 
         <md-button @click.native="$store.commit('root:trigger_help_visible')">Help</md-button>
@@ -37,7 +37,7 @@
     data() {
       return {
         error: '',
-        disabled: false,
+        login_disabled: false,
         user: {
           username: '',
           password: ''
@@ -64,7 +64,7 @@
       })
     },
     methods: {
-      user_is_valid() {
+      valid_login_request() {
         if (!this.user.username) {
           this.error = "Please enter a username"
           return false
@@ -81,27 +81,32 @@
         this.$store.commit('root:set_loading', true)
         this.error = ""
 
-        if (this.user_is_valid()) {
+        if (!this.valid_login_request()) return
 
-          this.disabled = true
+        this.login_disabled = true
 
-          this.$store.dispatch('meta/login', this.user).then(() => {
-            this.$ga.set("user", `${this.$store.state.meta.user.username}/${this.$store.state.meta.user.name}`)
-            this.$store.commit('root:set_loading', false)
-            this.disabled = false
-            this.continue()
-          })
-          .catch(e => {
-            this.$store.commit('root:set_loading', false)
-            this.disabled = false
+        this.$store.dispatch('meta/login', this.user).then(() => {
+          this.$ga.set("user", `${this.$store.state.meta.user.username}/${this.$store.state.meta.user.name}`)
+          this.$store.commit('root:set_loading', false)
+          this.login_disabled = false
+          this.continue()
+        })
+        .catch(e => {
+          this.$store.commit('root:set_loading', false)
+          this.login_disabled = false
 
-            if (e.response && e.response.status === 401) {
-              this.error = e.response.data.error
-            } else {
-              this.error = 'Network error. Cannot login'
-            }
-          })
-        }
+          // 401 from server
+          if (e.response && e.response.status === 401) {
+            return this.error = e.response.data.error
+          }
+
+          // Anything with an error property
+          if (e.error) {
+            return this.error = e.error
+          }
+
+          this.error = 'Network error. Cannot login'
+        })
 
       },
       continue() {

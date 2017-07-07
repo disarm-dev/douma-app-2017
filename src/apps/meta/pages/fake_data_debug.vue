@@ -25,6 +25,7 @@ export default {
   },
   computed: {
     ...mapState({
+      user: state => state.meta.user.username,
       slug: state => state.instance_config.instance.slug,
       instance_config: state => state.instance_config,
       location_selections: state => state.instance_config.location
@@ -72,8 +73,8 @@ export default {
         },
         "location_selection": location_selection,
         "recorded_on": faker.date.recent(),
-        "user": faker.name.firstName(),
-        "userAgent": faker.internet.userAgent(),
+        "user": this.user,
+        "userAgent": navigator.userAgent,
         "synced": false
       }
       return response
@@ -88,6 +89,8 @@ export default {
           const response = this.create_response(location_selection)
           if (ResponseSchema(response)) {
             responses.push(response)
+          } else {
+            console.log('Fake response failed validation', ResponseSchema.errors(response))
           }
           count += 1
         }

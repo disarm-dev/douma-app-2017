@@ -246,10 +246,10 @@
         }
       },
       save_response() {
-        // TODO: @refac Move to a proper response model, with tests. And cake.
         let response
 
         try {
+          // TODO: @refac Move to a proper response model, with tests. And cake.
           response = new Response().create({
             ...this.response,
             id: this.response_id,
