@@ -202,38 +202,19 @@
 
 
       upload_validations(e) {
-        console.log(e)
         if (e.length === 0) return
 
         const file = e.item(0)
         const file_reader = new FileReader();
 
         file_reader.onload = (f) => {
-          this.raw_validations = JSON.parse(f.target.result)
+          this.validations = JSON.parse(f.target.result)
         }
 
         file_reader.readAsText(file)
       },
       download() {
-        let result = [
-          {
-            type: "errors",
-            validations: this.validations.filter((i) => i.type === 'error').map(i => {
-              delete i.type
-              return i
-            })
-          },
-          {
-            type: 'warnings',
-            validations: this.validations.filter((i) => i.type === 'warning').map(i => {
-              delete i.type
-              return i
-            })
-          }
-        ]
-
-
-        const content = JSON.stringify(result)
+        const content = JSON.stringify(this.validations)
         const date = moment().format('YYYY-MM-DD_HHmm')
         download(content, `${this.instance_config.instance.slug}_validations_${date}.json`)
       }
