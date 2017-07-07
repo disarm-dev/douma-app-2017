@@ -72,6 +72,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       "COMMIT_HASH": JSON.stringify(gitRevisionPlugin.commithash()),
+      "COMMIT_HASH_SHORT": JSON.stringify(gitRevisionPlugin.commithash().slice(0,6)),
       'BRANCH': JSON.stringify(gitRevisionPlugin.branch()),
       "DOUMA_PRODUCTION_MODE": process.env.NODE_ENV === 'production'
     }),
