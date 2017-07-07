@@ -202,6 +202,7 @@
 
 
       upload_validations(e) {
+        console.log(e)
         if (e.length === 0) return
 
         const file = e.item(0)
