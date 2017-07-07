@@ -26,6 +26,7 @@
      </md-card-content>
     </md-card>
 
+    <p>Version: {{commit_hash}}</p>
   </div>
 </template>
 
@@ -48,7 +49,10 @@
       },
       can_login() {
         return this.user.username.length !== 0 && this.user.password.length !== 0
-      }
+      },
+      commit_hash() {
+        return COMMIT_HASH_SHORT
+      },
     },
     mounted() {
       if (this.$store.state.meta.user) {
