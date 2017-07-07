@@ -22,7 +22,7 @@ export const get_instance_files = (slug) => {
       if (errors) {
         const message = "Invalid instance_config"
         console.error(errors)
-        alert(message + ": Please report this as an urgent bug.")
+        alert(message + ": If this happens when you reload, please report as an urgent bug! Thanks")
         throw new Error(message)
       }
 
