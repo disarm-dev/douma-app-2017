@@ -8,6 +8,7 @@ export default {
     user: null,
     previous_route: '',
     locations: [],
+    personalised_instance_id: 'default'
   },
   mutations: {
     set_previous_route: (state, previous_route) => {
@@ -29,6 +30,9 @@ export default {
     },
     clear_locations: (state) => {
       state.locations = []
+    },
+    set_personalised_instance_id: (state, personalised_instance_id) => {
+      state.personalised_instance_id = personalised_instance_id
     }
   },
   getters: {
@@ -45,9 +49,9 @@ export default {
     }
   },
   actions: {
-    login: (context, user) => {
+    login: (context, login_details) => {
 
-      return authenticate(user).then(response => {
+      return authenticate(login_details).then(response => {
         if (response.error) {
           return Promise.reject(response)
         }
@@ -60,6 +64,7 @@ export default {
         const authenticated_user = new User(response)
 
         if (authenticated_user.is_valid()) {
+          context.commit('set_personalised_instance_id', login_details.personalised_instance_id)
           context.commit('set_user', authenticated_user.model)
           return Promise.resolve(authenticated_user.model)
         } else {
