@@ -31,17 +31,29 @@ const standard_handler = (url, options = {}) => {
 
   const personalised_instance_id = get(store, 'state.meta.personalised_instance_id')
   const commit_hash_short = COMMIT_HASH_SHORT
+  const country = get(store, 'state.instance_config.instance.slug')
+  const user = get(store, 'state.meta.user.username')
+  const user_token = 'WE DONT HAVE TOKENS YET'
 
   options.url = url
-  options.params = {...options.params, personalised_instance_id, commit_hash_short}
+  options.params = {
+    ...options.params,
+    personalised_instance_id,
+    commit_hash_short,
+    country,
+    user,
+    user_token
+  }
+
   return HTTP(options)
     .then(json => json.data)
 }
 
 // Get basic root URL from static configuration
-const douma_api_root = `${common_config.api.url}/${common_config.api.version}`
+// const douma_api_root = `${common_config.api.url}/${common_config.api.version}`
+const douma_api_root = 'http://localhost:3000/v3'
 
-export {configure_standard_handler, standard_handler, douma_api_root, }
+export {configure_standard_handler, standard_handler, douma_api_root}
 
 
 

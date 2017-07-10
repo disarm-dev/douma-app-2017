@@ -27,7 +27,13 @@
 
     <p>
       Version: {{commit_hash}}
-      <span class='personalised_instance_id' @click="open_personalised_instance_id"><md-icon>local_laundry_service</md-icon></span>
+      <span
+        class='personalised_instance_id'
+        @click="open_personalised_instance_id"
+      >
+        <span v-if="personalised_instance_id !== 'default'">{{personalised_instance_id}}</span>
+        <md-icon :class="{'md-warn': personalised_instance_id !== 'default'}">local_laundry_service</md-icon>
+      </span>
     </p>
 
 
@@ -35,7 +41,7 @@
       md-title="Generate or enter a personalised instance ID"
       md-content="Please only change this if you know what you're doing, e.g. for training or testing."
       md-ok-text="OK"
-      md-cancel-text="Cancel"
+      md-cancel-text="Use default"
       @close="close_personalised_instance_id"
       v-model="custom_personalised_instance_id"
       ref="personalised_instance_id">
@@ -58,12 +64,13 @@
           username: '',
           password: ''
         },
-        custom_personalised_instance_id: ''
+        custom_personalised_instance_id: '',
       }
     },
     computed: {
       ...mapState({
-        instance_title: state => state.instance_config.instance.title
+        instance_title: state => state.instance_config.instance.title,
+        personalised_instance_id: state => state.meta.personalised_instance_id
       }),
       can_login() {
         return this.user_details.username.length !== 0 && this.user_details.password.length !== 0
@@ -82,12 +89,15 @@
     },
     methods: {
       open_personalised_instance_id() {
-        this.custom_personalised_instance_id = generate_personalised_instance_id()
+        this.custom_personalised_instance_id = this.personalised_instance_id === 'default' ? generate_personalised_instance_id() : this.personalised_instance_id
         this.$refs.personalised_instance_id.open()
       },
       close_personalised_instance_id(type) {
         if (type === 'cancel') {
+          this.$store.commit('meta/set_personalised_instance_id', null)
           this.custom_personalised_instance_id = ''
+        } else {
+          this.$store.commit('meta/set_personalised_instance_id', this.custom_personalised_instance_id)
         }
       },
       valid_login_request() {
@@ -111,12 +121,11 @@
 
         this.login_disabled = true
 
-        const personalised_instance_id = this.custom_personalised_instance_id || this.$store.state.meta.personalised_instance_id
 
         const login_details = {
           username: this.user_details.username,
           password: this.user_details.password,
-          personalised_instance_id
+          personalised_instance_id: this.personalised_instance_id
         }
 
         this.$store.dispatch('meta/login', login_details).then(() => {

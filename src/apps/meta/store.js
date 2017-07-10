@@ -32,7 +32,7 @@ export default {
       state.locations = []
     },
     set_personalised_instance_id: (state, personalised_instance_id) => {
-      state.personalised_instance_id = personalised_instance_id
+      state.personalised_instance_id = personalised_instance_id || 'default'
     }
   },
   getters: {
