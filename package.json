@@ -43,6 +43,7 @@
     "js-schema": "https://github.com/disarm-platform/js-schema",
     "json2csv": "^3.7.3",
     "lodash.debounce": "^4.0.8",
+    "lodash.get": "^4.4.2",
     "lodash.without": "^4.4.0",
     "mapbox-gl": "^0.37.0",
     "moment": "^2.18.1",

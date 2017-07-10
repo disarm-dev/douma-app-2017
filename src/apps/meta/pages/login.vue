@@ -11,18 +11,17 @@
           <p class="md-body-1 login-text login-error" v-if="error">{{error}}</p>
           <md-input-container>
             <label>Username</label>
-            <md-input ref='username' v-model="user.username" required type="email"></md-input>
+            <md-input ref='username' v-model="user_details.username" required type="email"></md-input>
           </md-input-container>
 
           <md-input-container>
             <label>Password</label>
-            <md-input v-model="user.password" required type="password"></md-input>
+            <md-input v-model="user_details.password" required type="password"></md-input>
           </md-input-container>
 
           <md-button class="md-accent md-raised login-button" :disabled='login_disabled || !can_login' type="submit">Login</md-button>
         </form>
 
-        <md-button @click.native="$store.commit('root:trigger_help_visible')">Help</md-button>
      </md-card-content>
     </md-card>
 
@@ -38,7 +37,7 @@
       return {
         error: '',
         login_disabled: false,
-        user: {
+        user_details: {
           username: '',
           password: ''
         }
@@ -49,7 +48,7 @@
         instance_title: state => state.instance_config.instance.title
       }),
       can_login() {
-        return this.user.username.length !== 0 && this.user.password.length !== 0
+        return this.user_details.username.length !== 0 && this.user_details.password.length !== 0
       },
       commit_hash() {
         return COMMIT_HASH_SHORT
@@ -65,12 +64,12 @@
     },
     methods: {
       valid_login_request() {
-        if (!this.user.username) {
+        if (!this.user_details.username) {
           this.error = "Please enter a username"
           return false
         }
 
-        if (!this.user.password) {
+        if (!this.user_details.password) {
           this.error = "Please enter a password"
           return false
         }
@@ -85,7 +84,15 @@
 
         this.login_disabled = true
 
-        this.$store.dispatch('meta/login', this.user).then(() => {
+        const personalised_instance_id = this.$store.state.meta.personalised_instance_id
+
+        const login_details = {
+          username: this.user_details.username,
+          password: this.user_details.password,
+          personalised_instance_id
+        }
+
+        this.$store.dispatch('meta/login', login_details).then(() => {
           this.$ga.set("user", `${this.$store.state.meta.user.username}/${this.$store.state.meta.user.name}`)
           this.$store.commit('root:set_loading', false)
           this.login_disabled = false
@@ -105,7 +112,8 @@
             return this.error = e.error
           }
 
-          this.error = 'Network error. Cannot login'
+          console.log(e)
+          this.error = 'Sorry, cannot login. Network error. Please retry.'
         })
 
       },

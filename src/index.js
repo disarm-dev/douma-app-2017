@@ -21,6 +21,8 @@ get_instance_config()
   .then(instance_config => {
     const douma_app = create_and_launch_application(instance_config)
 
+    // TODO: @feature Check if COMMIT_HASH_SHORT has changed and logout if it has
+
     // ServiceWorker
     configure_service_worker(douma_app)
 
