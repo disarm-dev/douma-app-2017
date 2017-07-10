@@ -63,10 +63,10 @@ export default {
       state.unsaved_changes = true
     },
     'add_selected_target_areas': (state, selected_target_area_ids) => {
-      let temp_array = state.areas_included_by_click.concat(selected_target_area_ids)
+      let temp_array = state.bulk_selected_ids.concat(selected_target_area_ids)
       let unique = array_unique(temp_array)
 
-      state.areas_included_by_click = unique
+      state.bulk_selected_ids = unique
       state.unsaved_changes = true
     },
     'set_unsaved_changes': (state, unsaved_changes) => {
