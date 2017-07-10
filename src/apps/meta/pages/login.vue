@@ -25,12 +25,29 @@
      </md-card-content>
     </md-card>
 
-    <p>Version: {{commit_hash}}</p>
+    <p>
+      Version: {{commit_hash}}
+      <span class='personalised_instance_id' @click="open_personalised_instance_id"><md-icon>local_laundry_service</md-icon></span>
+    </p>
+
+
+    <md-dialog-prompt
+      md-title="Generate or enter a personalised instance ID"
+      md-content="Please only change this if you know what you're doing, e.g. for training or testing."
+      md-ok-text="OK"
+      md-cancel-text="Cancel"
+      @close="close_personalised_instance_id"
+      v-model="custom_personalised_instance_id"
+      ref="personalised_instance_id">
+    </md-dialog-prompt>
+
   </div>
 </template>
 
 <script>
   import {mapState} from 'vuex'
+
+  import {generate_personalised_instance_id} from 'lib/personalised_instance_id_generator'
 
   export default {
     data() {
@@ -40,7 +57,8 @@
         user_details: {
           username: '',
           password: ''
-        }
+        },
+        custom_personalised_instance_id: ''
       }
     },
     computed: {
@@ -63,6 +81,15 @@
       })
     },
     methods: {
+      open_personalised_instance_id() {
+        this.custom_personalised_instance_id = generate_personalised_instance_id()
+        this.$refs.personalised_instance_id.open()
+      },
+      close_personalised_instance_id(type) {
+        if (type === 'cancel') {
+          this.custom_personalised_instance_id = ''
+        }
+      },
       valid_login_request() {
         if (!this.user_details.username) {
           this.error = "Please enter a username"
@@ -84,7 +111,7 @@
 
         this.login_disabled = true
 
-        const personalised_instance_id = this.$store.state.meta.personalised_instance_id
+        const personalised_instance_id = this.custom_personalised_instance_id || this.$store.state.meta.personalised_instance_id
 
         const login_details = {
           username: this.user_details.username,
@@ -112,6 +139,7 @@
             return this.error = e.error
           }
 
+          // Some other error, best to log it out and take a look
           console.log(e)
           this.error = 'Sorry, cannot login. Network error. Please retry.'
         })
@@ -160,6 +188,12 @@
 
   .text-center {
     text-align: center;
+  }
+
+  .personalised_instance_id {
+    float: right;
+    color: #d4d4d4;
+    cursor: pointer;
   }
 
 </style>

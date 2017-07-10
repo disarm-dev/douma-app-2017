@@ -64,7 +64,7 @@ export default {
         const authenticated_user = new User(response)
 
         if (authenticated_user.is_valid()) {
-          // context.commit('set_personalised_instance_id', login_details.personalised_instance_id)
+          context.commit('set_personalised_instance_id', login_details.personalised_instance_id)
           context.commit('set_user', authenticated_user.model)
           return Promise.resolve(authenticated_user.model)
         } else {
