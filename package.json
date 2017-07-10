@@ -50,6 +50,7 @@
     "object-path": "latest",
     "random-points-on-polygon": "0.0.4",
     "raven-js": "^3.15.0",
+    "showdown": "^1.7.1",
     "survey-jquery": "^0.12.17",
     "survey-knockout": "^0.12.17",
     "survey-vue": "^0.12.17",
