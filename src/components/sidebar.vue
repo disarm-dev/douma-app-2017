@@ -11,6 +11,7 @@
         <p><em>Version {{commit_hash}}</em></p>
         <p v-if="personalised_instance_id !== 'default'">
           <em>Instance ID: {{personalised_instance_id}}</em>
+          <md-icon :class="{'md-warn': personalised_instance_id !== 'default'}">local_laundry_service</md-icon>
         </p>
       </div>
 
