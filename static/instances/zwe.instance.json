@@ -2,8 +2,8 @@
   "applets": {
     "irs_monitor": {
       "aggregations": {
-        "map": "",
-        "table": []
+        "map": "structures sprayed %",
+        "table": ["structures sprayed", "structures sprayed %"]
       },
       "components": [
         {
@@ -23,31 +23,40 @@
         }
       ]
     },
-    "irs_plan": {
-      "number_of_structures": "NumHouseho"
-    },
+    "irs_plan": {},
     "irs_record_point": {},
-    "meta": {}
+    "irs_tasker": {},
+    "meta": {},
+    "data_wizard": {}
   },
   "map_focus": {
     "centre": {
       "lat": -21.73564350618581,
       "lng": 30.083462513044424
     },
-    "zoom": 7.749187
+    "zoom": 6.5
   },
-  "name": "Zimbabwe",
-  "slug": "zwe",
-  "spatial_hierarchy": [
-    {
-      "denominator": {
-      },
-      "field_name": "ZIMWARDSID",
-      "name": "wards"
+  "instance": {
+    "title": "Zimbabwe IRS Tool",
+    "location_name": "Zimbabwe (Matabeleland South)",
+    "slug": "zwe"
+  },
+  "spatial_hierarchy": {
+    "markers": {
+      "planning_level_name": "wards",
+      "denominator_fields": {
+        "number_of_households": "NumHouseho"
+      }
     },
-    {
-      "field_name": "ClusterID",
-      "name": "clusters"
-    }
-  ]
+    "levels": [
+      {
+        "field_name": "ZIMWARDSID",
+        "name": "wards"
+      },
+      {
+        "field_name": "ClusterID",
+        "name": "clusters"
+      }
+    ]
+  }
 }

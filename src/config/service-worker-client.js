@@ -2,10 +2,13 @@
 // SERVICE WORKER
 //
 
-export default (DOUMA) => {
-  if ('serviceWorker' in navigator) {
+export function configure_service_worker (DOUMA) {
+  if (!DOUMA_PRODUCTION_MODE) return console.warn("DOUMA ServiceWorker disabled in development")
+
+  if (DOUMA_PRODUCTION_MODE && 'serviceWorker' in navigator) {
     navigator.serviceWorker.register('/service-worker.js').then(function(reg) {
       reg.onupdatefound = function() {
+        DOUMA.$store.commit("root:set_sw_message", {title: 'DiSARM update available', message: "Downloading new version in background."})
         var installingWorker = reg.installing;
         installingWorker.onstatechange = function() {
           switch (installingWorker.state) {
@@ -50,7 +53,5 @@ export default (DOUMA) => {
         }
       });
     });
-  } else {
-    console.warn("DOUMA ServiceWorker disabled by development flags")
   }
 }

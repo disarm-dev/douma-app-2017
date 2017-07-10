@@ -33,7 +33,7 @@
 </template>
 
 <script>
-  import {get_current_position} from '../../../lib/location_helper.js'
+  import {get_current_position} from 'lib/location_helper.js'
   import objectify from 'geoposition-to-object'
 
   import moment from 'moment'
@@ -63,7 +63,7 @@
         return this.locations[this.locations.length-1] || 'No location set'
       },
       country() {
-        return this.$store.state.instance_config.slug
+        return this.$store.state.instance_config.instance.slug
       },
       location_activity() {
         return this.getting_position ? 'Getting current position' : ''
@@ -164,9 +164,3 @@
     }
   }
 </script>
-
-<style scoped>
-  .container {
-    margin: 10px;
-  }
-</style>

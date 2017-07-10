@@ -33,32 +33,40 @@
         }
       ]
     },
-    "irs_plan": {
-      "number_of_structures": "NmStrct"
-    },
+    "irs_plan": {},
     "irs_record_point": {},
-    "meta": {}
+    "irs_tasker": {},
+    "meta": {},
+    "data_wizard": {}
   },
   "map_focus": {
     "centre": {
       "lat": -26.502530898533244,
       "lng": 31.528015136718754
     },
-    "zoom": 8
+    "zoom": 7.5
   },
-  "name": "Swaziland",
-  "slug": "swz",
-  "spatial_hierarchy": [
-    {
-      "denominator": {
+  "instance": {
+    "title": "Swaziland IRS Tool",
+    "location_name": "Swaziland",
+    "slug": "swz"
+  },
+  "spatial_hierarchy": {
+    "markers": {
+      "planning_level_name": "localities",
+      "denominator_fields": {
         "number_of_structures": "NmStrct"
-      },
-      "field_name": "AggUniCode",
-      "name": "localities"
+      }
     },
-    {
-      "field_name": "ClusterID",
-      "name": "clusters"
-    }
-  ]
+    "levels": [
+      {
+        "field_name": "AggUniCode",
+        "name": "localities"
+      },
+      {
+        "field_name": "ClusterID",
+        "name": "clusters"
+      }
+    ]
+  }
 }

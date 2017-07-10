@@ -1,6 +1,6 @@
 // CommitChart.js
 import { Line } from 'vue-chartjs'
-import Aggregations from 'lib/aggregations/swz.aggregations'
+import Aggregations from 'lib_instances/aggregations/swz.aggregations'
 
 export default Line.extend({
   props: ['responses', 'denominator'],
@@ -12,7 +12,7 @@ export default Line.extend({
   },
   methods: {
     render_chart() {
-      console.log('TODO: @data THIS IS FAKE DATA. FIX ME')
+      console.log('TODO: @feature THIS CHARTS USES FAKE DATA. FIX ME')
 
       // let weeks = this.get_weeks()
 

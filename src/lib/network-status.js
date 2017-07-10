@@ -1,4 +1,4 @@
-export default (douma_app) => {
+export function add_network_status_watcher (douma_app) {
   function set_online() {
     return douma_app.$store.commit('root:network_online', true)
   }

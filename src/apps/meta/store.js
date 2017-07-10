@@ -1,13 +1,18 @@
-import {authenticate} from '../../lib/data/remote'
+import {authenticate} from 'lib/data/remote'
+import {decorate_applets} from 'lib/decorated_applets'
+import {User} from 'lib/models/user.model'
 
 export default {
   namespaced: true,
   state: {
     user: null,
-    previousRoute: '',
-    locations: []
+    previous_route: '',
+    locations: [],
   },
   mutations: {
+    set_previous_route: (state, previous_route) => {
+      state.previous_route = previous_route
+    },
     set_user: (state, user) => {
       state.user = user
     },
@@ -26,6 +31,19 @@ export default {
       state.locations = []
     }
   },
+  getters: {
+    decorated_applets(state, getters, rootState) {
+      // Figure out which applets are allowed, and only decorate and show these!
+      if (!state.user) return []
+
+      const user_allowed_applets = state.user.allowed_apps.read
+      const instance_applets = rootState.instance_config.applets
+
+      const decorated_applets = decorate_applets({user_allowed_applets, instance_applets})
+
+      return decorated_applets
+    }
+  },
   actions: {
     login: (context, user) => {
 
@@ -34,11 +52,20 @@ export default {
           return Promise.reject(response)
         }
 
-        let authenticated_user = response
-        authenticated_user.version = COMMIT_HASH
-        context.commit('set_user', authenticated_user)
-        
-        return Promise.resolve(authenticated_user)
+        // Reject user if not authorised for this instance
+        if (response.instance_slug !== context.rootState.instance_config.instance.slug && response.instance_slug !== 'all') {
+          return Promise.reject({error: 'User not authenticated for this instance'})
+        }
+
+        const authenticated_user = new User(response)
+
+        if (authenticated_user.is_valid()) {
+          context.commit('set_user', authenticated_user.model)
+          return Promise.resolve(authenticated_user.model)
+        } else {
+          return Promise.reject({error: 'Validation issues with user record.'})
+        }
+
       })
     },
     logout: (context) => {

@@ -3,10 +3,9 @@ var path = require('path')
 var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
+var GitRevisionPlugin = require('git-revision-webpack-plugin')
 
-var commitHash = require('child_process')
-  .execSync('git rev-parse HEAD')
-  .toString().replace(/\n/, '');
+var gitRevisionPlugin = new GitRevisionPlugin()
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -28,9 +27,11 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
-      'lib': resolve('src/lib'),
-      'models': resolve('src/models'),
+      'apps': resolve('src/apps'),
       'components': resolve('src/components'),
+      'config': resolve('src/config'),
+      'lib': resolve('src/lib'),
+      'lib_instances': resolve('src/lib_instances'),
     }
   },
   module: {
@@ -62,10 +63,6 @@ module.exports = {
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
       },
-      {
-        test: /\.yml/,
-        loader: 'json-loader!yaml-include-loader'
-      }
     ]
   },
   plugins: [
@@ -74,13 +71,10 @@ module.exports = {
       jQuery: "jquery"
     }),
     new webpack.DefinePlugin({
-      "COMMIT_HASH": JSON.stringify(commitHash),
-      "DOUMA_DEV_MODE": process.env.NODE_ENV !== 'production',
-      DOUMA_API_URL: "'https://douma-api.herokuapp.com'",
-      DOUMA_API_VERSION: "'v3'",
-      // DOUMA_API_URL: "'http://localhost:3000'",
-      WEATHER_API_URL: "'https://weather.api.disarm.io/processor/output'",
-      R_SERVER_URL: "'https://cluster.api.disarm.io'"
+      "COMMIT_HASH": JSON.stringify(gitRevisionPlugin.commithash()),
+      "COMMIT_HASH_SHORT": JSON.stringify(gitRevisionPlugin.commithash().slice(0,6)),
+      'BRANCH': JSON.stringify(gitRevisionPlugin.branch()),
+      "DOUMA_PRODUCTION_MODE": process.env.NODE_ENV === 'production'
     }),
   ]
 }

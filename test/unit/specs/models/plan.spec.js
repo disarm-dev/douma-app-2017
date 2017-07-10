@@ -1,5 +1,5 @@
-import cache from 'lib/cache'
-import {Plan} from 'models/plan.model.js'
+import cache from 'config/cache'
+import {Plan} from 'lib/models/plan.model.js'
 
 describe('Plan model', () => {
 
@@ -29,7 +29,7 @@ describe('Plan model', () => {
     const country = 'bob'
     const selected_target_area_ids = ['1ish']
 
-    const plan = new Plan({country, selected_target_area_ids, top_level_spatial_hierarchy})
+    const plan = new Plan().create({country, selected_target_area_ids, top_level_spatial_hierarchy})
 
     assert.isObject(plan)
     assert.isArray(plan.targets)
@@ -39,7 +39,7 @@ describe('Plan model', () => {
   it('should not be created with missing target_area_ids', () => {
     const country = 'bob'
     const selected_target_area_ids = null
-    const fn = () => new Plan({country, selected_target_area_ids, top_level_spatial_hierarchy})
+    const fn = () => new Plan().create({country, selected_target_area_ids, top_level_spatial_hierarchy})
 
     assert.throws(fn, /missing selected_target_area_ids/i)
   })
@@ -47,7 +47,7 @@ describe('Plan model', () => {
   it('should not be created with missing country', () => {
     const country = null
     const selected_target_area_ids = ['1ish']
-    const fn = () => new Plan({country, selected_target_area_ids, top_level_spatial_hierarchy})
+    const fn = () => new Plan().create({country, selected_target_area_ids, top_level_spatial_hierarchy})
 
     assert.throws(fn, 'PlanSchema validation failed')
   })
@@ -55,7 +55,7 @@ describe('Plan model', () => {
   it('should not be created with invalid target_areas', () => {
     const country = 'bob'
     const selected_target_area_ids = ['2ish']
-    const fn = () => new Plan({country, selected_target_area_ids, top_level_spatial_hierarchy})
+    const fn = () => new Plan().create({country, selected_target_area_ids, top_level_spatial_hierarchy})
 
     assert.throws(fn, 'PlanSchema validation failed')
   })
@@ -63,7 +63,7 @@ describe('Plan model', () => {
   it('should not be created with empty target_areas', () => {
     const country = 'bob'
     const selected_target_area_ids = []
-    const fn = () => new Plan({country, selected_target_area_ids, top_level_spatial_hierarchy})
+    const fn = () => new Plan().create({country, selected_target_area_ids, top_level_spatial_hierarchy})
 
     assert.throws(fn, 'PlanSchema validation failed')
   })

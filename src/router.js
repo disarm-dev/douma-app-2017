@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-Vue.use(VueRouter)
 
-export default (instance_routes, store) => {
+import {has_permission} from 'lib/permission_helper.js'
+
+export function create_router(instance_routes, store) {
+  Vue.use(VueRouter)
 
   // Configure routes for all Applets
   const routes = [
@@ -21,37 +23,35 @@ export default (instance_routes, store) => {
     mode: 'history'
   })
 
-  // Add the guards
+  // Check if user is logged-in
   router.beforeEach((to, from, next) => {
-    // console.log(from, to)
-    if (!store.state.meta || !store.state.meta.user) {
-      if (to.name === 'meta:login' || to.name === 'meta:help') {
-        return next()
-      }
-      store.state.meta.previousRoute = to.path
-      return next({name: 'meta:login'})
+    // next() if user already logged in
+    if (store.state.meta && store.state.meta.user) return next()
+
+    // User not logged in
+    if (to.name === 'meta:login') {
+      // next() if destination is the login page
+      next()
+    } else {
+      // Otherwise go to the login page (storing your original target)
+      store.commit('meta/set_previous_route', to.path)
+      next({name: 'meta:login'})
     }
 
-    // if (to.meta.title) {
-    //   document.title = `DiSARM - ${to.meta.title}`
-    // } else {
-    //   document.title = 'DiSARM'
-    // }
+  })
 
-    // if (to.name) {
-    //   const theme = to.name.split(/:/)[0]
-    //   router.app.$material.setCurrentTheme(theme)
-    // }
+  // Check user has permission to visit page
+  router.beforeEach((to, from, next) => {
+    const applet_name = to.name.split(':')[0]
 
-    next()
+    if (has_permission({user: store.state.meta.user, applet_name})) {
+      next()
+    } else {
+      next({name: 'meta:home'})
+    }
 
   })
 
-  router.afterEach((to, from) => {
-  })
-
-  return router;
+  return router
 }
-
-
 

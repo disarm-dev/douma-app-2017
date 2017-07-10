@@ -1,17 +1,16 @@
 import record from './pages/record.vue'
 import list from './pages/list.vue'
+import view_response from './pages/view_response.vue'
 
 export default [
   {
     path: '/irs/record_point',
     redirect: '/irs/record_point/list',
     name: 'irs_record_point',
-    meta: {title: 'IRS Record', icon: 'assignment'}
   },{
     path: '/irs/record_point/list',
     component: list,
-    name: 'irs_record_point:list',
-    meta: {title: 'IRS Record', icon: 'assignment'}
+    name: 'irs_record_point:list'
   },{
     path: '/irs/record_point/new',
     component: record,
@@ -21,5 +20,10 @@ export default [
     props: true,
     component: record,
     name: 'irs_record_point:edit',
+  },{
+    path: '/irs/record_point/view/:response_id',
+    props: true,
+    component: view_response,
+    name: 'irs_record_point:view',
   }
 ]

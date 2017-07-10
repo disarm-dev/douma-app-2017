@@ -7,11 +7,11 @@
           <div>
             <md-icon class="login-icon">person</md-icon>
           </div>
-          <p class="md-body-1 login-text">Welcome to DiSARM {{country}}</p>
+          <p class="md-body-1 login-text">Welcome to {{instance_title}}</p>
           <p class="md-body-1 login-text login-error" v-if="error">{{error}}</p>
           <md-input-container>
             <label>Username</label>
-            <md-input v-model="user.username" required type="email"></md-input>
+            <md-input ref='username' v-model="user.username" required type="email"></md-input>
           </md-input-container>
 
           <md-input-container>
@@ -19,23 +19,25 @@
             <md-input v-model="user.password" required type="password"></md-input>
           </md-input-container>
 
-          <md-button class="md-accent md-raised login-button" :disabled='disabled || !can_login' type="submit">Login</md-button>
+          <md-button class="md-accent md-raised login-button" :disabled='login_disabled || !can_login' type="submit">Login</md-button>
         </form>
 
         <md-button @click.native="$store.commit('root:trigger_help_visible')">Help</md-button>
      </md-card-content>
     </md-card>
 
+    <p>Version: {{commit_hash}}</p>
   </div>
 </template>
 
 <script>
+  import {mapState} from 'vuex'
 
   export default {
     data() {
       return {
         error: '',
-        disabled: false,
+        login_disabled: false,
         user: {
           username: '',
           password: ''
@@ -43,20 +45,26 @@
       }
     },
     computed: {
-      country() {
-        return this.$store.state.instance_config.name
-      },
+      ...mapState({
+        instance_title: state => state.instance_config.instance.title
+      }),
       can_login() {
         return this.user.username.length !== 0 && this.user.password.length !== 0
-      }
+      },
+      commit_hash() {
+        return COMMIT_HASH_SHORT
+      },
     },
     mounted() {
       if (this.$store.state.meta.user) {
         this.$router.push('/')
       }
+      this.$nextTick(() => {
+        this.$refs.username.$el.focus()
+      })
     },
     methods: {
-      user_is_valid() {
+      valid_login_request() {
         if (!this.user.username) {
           this.error = "Please enter a username"
           return false
@@ -73,31 +81,37 @@
         this.$store.commit('root:set_loading', true)
         this.error = ""
 
-        if (this.user_is_valid()) {
+        if (!this.valid_login_request()) return
 
-          this.disabled = true
+        this.login_disabled = true
 
-          this.$store.dispatch('meta/login', this.user).then(() => {
-            this.$store.commit('root:set_loading', false)
-            this.disabled = false
-            this.continue()
-          })
-          .catch(e => {
-            this.$store.commit('root:set_loading', false)
-            this.disabled = false
+        this.$store.dispatch('meta/login', this.user).then(() => {
+          this.$ga.set("user", `${this.$store.state.meta.user.username}/${this.$store.state.meta.user.name}`)
+          this.$store.commit('root:set_loading', false)
+          this.login_disabled = false
+          this.continue()
+        })
+        .catch(e => {
+          this.$store.commit('root:set_loading', false)
+          this.login_disabled = false
 
-            if (e.response && e.response.status === 401) {
-              this.error = e.response.data.error
-            } else {
-              this.error = 'Network error. Cannot login'
-            }
-          })
-        }
+          // 401 from server
+          if (e.response && e.response.status === 401) {
+            return this.error = e.response.data.error
+          }
+
+          // Anything with an error property
+          if (e.error) {
+            return this.error = e.error
+          }
+
+          this.error = 'Network error. Cannot login'
+        })
 
       },
       continue() {
-        if (this.$store.state.meta.previousRoute) {
-          let path = this.$store.state.meta.previousRoute
+        if (this.$store.state.meta.previous_route) {
+          let path = this.$store.state.meta.previous_route
           this.$router.push(path)
         } else {
           this.$router.push('/')

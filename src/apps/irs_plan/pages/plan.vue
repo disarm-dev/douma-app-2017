@@ -1,7 +1,5 @@
 <template>
   <div class='container'>
-    <h1>IRS Plan</h1>
-
     <h4>
       {{title}} plan {{current_plan_date ? `from ${current_plan_date}` : ''}}
     </h4>
@@ -9,6 +7,7 @@
     <div v-if="online">
       <!--SELECT MODE-->
       <md-checkbox v-model="edit_mode" :disabled="edit_disabled">Edit mode</md-checkbox>
+      <md-checkbox :disabled='!geodata_ready || edit_mode' v-model="risk_visible">Show risk</md-checkbox>
 
       <!--VIEW MODE-->
       <md-button v-if='!edit_mode' :disabled='!geodata_ready' class='md-raised' @click.native="load_plan">Load from remote</md-button>
@@ -21,13 +20,20 @@
       <!--PLAN MAP-->
       <md-card>
         <md-card-content>
-          <plan_map :geodata_ready="geodata_ready" :edit_mode="edit_mode" v-on:map_loaded="edit_disabled = false"></plan_map>
+          <plan_map
+            :geodata_ready="geodata_ready"
+            :edit_mode="edit_mode"
+            :risk_visible="risk_visible"
+            v-on:map_loaded="edit_disabled = false"
+          ></plan_map>
         </md-card-content>
       </md-card>
 
+
+
       <!--PLAN SUMMARY-->
       <md-card class="card"><md-card-content>
-        <!--<plan_summary :geodata_ready="geodata_ready"></plan_summary>-->
+        <plan_summary :geodata_ready="geodata_ready"></plan_summary>
       </md-card-content></md-card>
     </div>
 
@@ -57,26 +63,28 @@
 
   import plan_summary from './plan-summary.vue'
   import plan_map from './plan-map.vue'
-  import cache from 'lib/cache.js'
-  import {Plan} from 'models/plan.model.js'
+  import cache from 'config/cache.js'
+  import {Plan} from 'lib/models/plan.model.js'
+  import {get_geodata} from 'lib/data/remote'
 
   export default {
     name: 'Plan',
     components: {plan_summary, plan_map},
     data() {
       return {
-        geodata_ready: false,
         edit_mode: false,
         edit_disabled: true,
+        risk_visible: false
       }
     },
     computed: {
       ...mapState({
-        top_level_spatial_hierarchy: state => state.instance_config.spatial_hierarchy[0],
-        slug: state => state.instance_config.slug,
+        instance_config: state => state.instance_config,
+
         unsaved_changes: state => state.irs_plan.unsaved_changes,
         online: state => state.network_online,
-        geodata_loading_progress: state => state.irs_plan.geodata_loading_progress,
+        geodata_loading_progress: state => state.geodata_loading_progress,
+        geodata_ready: state => state.geodata_ready,
         current_plan_date: state =>  {
           if (state.irs_plan.current_plan) {
             return moment(state.irs_plan.current_plan.planned_at).format('hh:mm a DD MMM YYYY')
@@ -95,34 +103,13 @@
         return this.selected_target_area_ids.length !== 0
       }
     },
+    watch: {
+      'edit_mode': 'disable_risk_in_edit_mode'
+    },
     mounted() {
-      this.load_geo_data()
+      get_geodata(this.$store).then(this.load_plan)
     },
     methods: {
-      load_geo_data() {
-        this.$store.commit('root:set_loading', true)
-        this.$store.dispatch('irs_plan/get_geodata', {
-          slug: this.slug,
-          level: this.top_level_spatial_hierarchy.name,
-          cache: cache,
-          store: this.$store
-        })
-          .then(() => {
-            this.$store.commit('root:set_loading', false)
-            this.geodata_ready = true
-          })
-          .catch(() => {
-            this.$store.commit('root:set_loading', false)
-          })
-
-        // Only show progress modal if request taking more than 2 secs
-        // (i.e. probably not coming from SW/browser cache
-        setTimeout(() => {
-          if (!this.geodata_ready) {
-            this.$refs.geodata_loading_modal.open()
-          }
-        }, 1000)
-      },
       load_plan() {
         this.$store.commit('root:set_loading', true)
 
@@ -133,9 +120,8 @@
       },
       save_plan() {
         const plan = new Plan().create({
+          instance_config: this.instance_config,
           selected_target_area_ids: this.selected_target_area_ids,
-          top_level_spatial_hierarchy: this.top_level_spatial_hierarchy,
-          country: this.slug
         })
 
         this.$store.commit('root:set_loading', true)
@@ -151,18 +137,17 @@
       },
       clear_plan() {
         this.$store.commit('irs_plan/clear_plan')
+      },
+      disable_risk_in_edit_mode() {
+        if (this.edit_mode) {
+          this.risk_visible = false
+        }
       }
     }
   }
 </script>
 
 <style scoped>
-  .container {
-    margin: 0 auto;
-    width: 90%;
-    padding: 10px;
-  }
-
   .card {
     margin-top: 10px;
   }
@@ -174,6 +159,14 @@
   .md-chip {
     background: orange;
     color: white;
+  }
+
+  .not-container {
+    display: flex;
+  }
+
+  .not-container-child {
+    flex: 1;
   }
 
 

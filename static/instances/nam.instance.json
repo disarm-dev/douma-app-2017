@@ -13,11 +13,11 @@
         }
       ]
     },
-    "irs_plan": {
-      "number_of_households": "NmHshld"
-    },
+    "irs_plan": {},
     "irs_record_point": {},
-    "meta": {}
+    "irs_tasker": {},
+    "meta": {},
+    "data_wizard": {}
   },
   "map_focus": {
     "centre": {
@@ -26,19 +26,27 @@
     },
     "zoom": 6
   },
-  "name": "Namibia",
-  "slug": "nam",
-  "spatial_hierarchy": [
-    {
-      "denominator": {
-        "number_of_households": "NmHshld"
-      },
-      "field_name": "OBJECTID",
-      "name": "constituencies"
+  "instance": {
+    "title": "Namibia IRS Tool",
+    "location_name": "Namibia",
+    "slug": "nam"
+  },
+  "spatial_hierarchy": {
+    "markers": {
+      "planning_level_name": "clusters",
+      "denominator_fields": {
+        "number_of_households": "NumHouseholds"
+      }
     },
-    {
-      "field_name": "???",
-      "name": "villages"
-    }
-  ]
+    "levels": [
+      {
+        "field_name": "OBJECTID",
+        "name": "constituencies"
+      },
+      {
+        "field_name": "id",
+        "name": "clusters"
+      }
+    ]
+  }
 }

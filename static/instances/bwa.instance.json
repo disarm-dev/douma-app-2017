@@ -3,7 +3,9 @@
     "irs_monitor": {
       "aggregations": {
         "map": "number of rooms sprayed (total)",
-        "table": ["number of rooms sprayed (total)"]
+        "table": [
+          "number of rooms sprayed (total)"
+        ]
       },
       "components": [
         {
@@ -25,10 +27,14 @@
       "title": "Dashboard"
     },
     "irs_plan": {
-      "number_of_structures": "NmStrct"
+      "title": "IRS Planning and Management"
     },
-    "irs_record_point": {},
-    "meta": {}
+    "irs_record_point": {
+      "title": "IRS Data collection and Reporting Tool"
+    },
+    "irs_tasker": {},
+    "meta": {},
+    "data_wizard": {}
   },
   "map_focus": {
     "centre": {
@@ -37,19 +43,28 @@
     },
     "zoom": 7
   },
-  "name": "Botswana",
-  "slug": "bwa",
-  "spatial_hierarchy": [
-    {
-      "denominator": {
+  "instance": {
+    "title": "Botswana IRS Database",
+    "location_name": "Botswana",
+    "slug": "bwa"
+  },
+  "spatial_hierarchy": {
+    "markers": {
+      "planning_level_name": "villages",
+      "denominator_fields": {
         "number_of_structures": "NmStrct"
-      },
-      "field_name": "OBJECTID",
-      "name": "villages"
+      }
     },
-    {
-      "field_name": "ClusterID",
-      "name": "clusters"
-    }
-  ]
+    "levels": [
+      {
+        "field_name": "OBJECTID",
+        "name": "villages"
+      },
+      {
+        "field_name": "ClusterID",
+        "name": "clusters"
+      }
+    ]
+  }
 }
+

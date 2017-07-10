@@ -1,7 +1,7 @@
 // CommitChart.js
-import { Doughnut } from 'vue-chartjs'
+import { Pie } from 'vue-chartjs'
 
-export default Doughnut.extend({
+export default Pie.extend({
   mounted () {
     this.renderChart({
       labels: ["Locked","Nobody","Refused","Baby","Patient","Kitchen ","Food ","Material"],
