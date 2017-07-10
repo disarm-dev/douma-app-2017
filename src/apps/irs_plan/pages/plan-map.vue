@@ -34,7 +34,7 @@
 
   export default {
     name: 'plan_map',
-    props: ['edit_mode', 'geodata_ready', 'risk_visible'],
+    props: ['edit_mode', 'geodata_ready', 'risk_visible', 'filtered_area_ids'],
     data() {
       return {
         slider: {
@@ -96,7 +96,8 @@
       'geodata_ready': 'render_map',
       'selected_target_area_ids': 'redraw_target_areas',
       'risk_slider_value': 'set_risk_slider_value',
-      'risk_visible': 'toggle_show_areas_by_risk'
+      'risk_visible': 'toggle_show_areas_by_risk',
+      "filtered_area_ids": "redraw_target_areas"
     },
     mounted() {
       this.render_map()
@@ -164,6 +165,16 @@
       // Add and handle target_areas
       add_target_areas() {
         const geojson = cache.geodata[this.planning_level_name]
+
+        if (this.filtered_area_ids.length > 0 ) {
+          console.log('filter something')
+
+          const features = geojson.features.filter((feature) => {
+            return this.filtered_area_ids.includes(feature.properties[this.planning_level_id_field])
+          })
+
+          geojson.features = features
+        }
 
         if(!this._map.getSource('target_areas_source')) {
           this._map.addSource('target_areas_source', {

@@ -17,6 +17,13 @@
       <md-button v-if='edit_mode' :disabled="!unsaved_changes" class='md-raised md-warn' @click.native="load_plan">Cancel edits</md-button>
       <md-button v-if='edit_mode' :disabled='!can_clear' class='md-raised' @click.native="clear_plan">Clear plan</md-button>
 
+      <md-input-container>
+        <label for="filtered_area_id">Restrict to area</label>
+        <md-select name="filtered_area_id" id="filtered_area_id" v-model="filtered_area_id">
+          <md-option v-for="item in dropdown_areas" :key="item" :value="item">{{item}}</md-option>
+        </md-select>
+      </md-input-container>
+
       <!--PLAN MAP-->
       <md-card>
         <md-card-content>
@@ -24,6 +31,7 @@
             :geodata_ready="geodata_ready"
             :edit_mode="edit_mode"
             :risk_visible="risk_visible"
+            :filtered_area_ids="filtered_area_ids"
             v-on:map_loaded="edit_disabled = false"
           ></plan_map>
         </md-card-content>
@@ -60,12 +68,17 @@
 <script>
   import {mapState, mapGetters} from 'vuex'
   import moment from 'moment'
+  import whichPolygon from 'which-polygon';
+  import {featureCollection} from '@turf/helpers'
+  import centroid from '@turf/centroid'
+  import {getCoord} from '@turf/invariant'
 
   import plan_summary from './plan-summary.vue'
   import plan_map from './plan-map.vue'
   import cache from 'config/cache.js'
   import {Plan} from 'lib/models/plan.model.js'
   import {get_geodata} from 'lib/data/remote'
+  import {get_top_level_hierarchy, get_planning_level_name, get_planning_level_id_field} from 'lib/spatial_hierarchy_helper'
 
   export default {
     name: 'Plan',
@@ -74,7 +87,11 @@
       return {
         edit_mode: false,
         edit_disabled: true,
-        risk_visible: false
+        risk_visible: false,
+
+        dropdown_areas: [],
+        filtered_area_id: null,
+        filtered_area_ids: []
       }
     },
     computed: {
@@ -91,6 +108,15 @@
           }
         },
       }),
+      planning_level_id_field() {
+        return get_planning_level_id_field(this.instance_config)
+      },
+      planning_level_name() {
+        return get_planning_level_name(this.instance_config)
+      },
+      top_level_hierarchy() {
+        return get_top_level_hierarchy(this.instance_config)
+      },
       ...mapGetters({
         selected_target_area_ids: 'irs_plan/all_selected_area_ids'
       }),
@@ -104,13 +130,20 @@
       }
     },
     watch: {
-      'edit_mode': 'disable_risk_in_edit_mode'
+      'edit_mode': 'disable_risk_in_edit_mode',
+      "filtered_area_id": "redraw_map"
     },
     mounted() {
       get_geodata(this.$store).then(this.load_plan)
     },
     methods: {
       load_plan() {
+        this.dropdown_areas = cache.geodata[this.top_level_hierarchy.name].features.map((f => {
+          return f.properties[this.top_level_hierarchy.field_name]
+        })).slice(0,10)
+
+        this.filtered_area_id = this.dropdown_areas[0]
+
         this.$store.commit('root:set_loading', true)
 
         this.$store.dispatch('irs_plan/get_current_plan')
@@ -119,6 +152,7 @@
 
       },
       save_plan() {
+
         const plan = new Plan().create({
           instance_config: this.instance_config,
           selected_target_area_ids: this.selected_target_area_ids,
@@ -142,6 +176,38 @@
         if (this.edit_mode) {
           this.risk_visible = false
         }
+      },
+      redraw_map() {
+        console.log('redraw_map')
+
+        const polygon = cache.geodata[this.top_level_hierarchy.name].features.find((polygon) => {
+          return polygon.properties[this.top_level_hierarchy.field_name] === this.filtered_area_id
+        })
+
+        const query = whichPolygon(featureCollection([polygon]))
+
+        const points = cache.geodata[this.planning_level_name].features.map((feature) => {
+          const point = centroid(feature)
+          point.properties = feature.properties
+          return point
+        })
+
+
+        let points_in_polygon_properties = points.map((point) => {
+          const coordinates = getCoord(point)
+          if (query([coordinates[0], coordinates[1]])) {
+            return point.properties
+          }
+        })
+
+
+        points_in_polygon_properties = points_in_polygon_properties.filter(a => a)
+
+        const area_ids_in_polygon = points_in_polygon_properties.map((properties) => {
+          return properties[this.planning_level_id_field]
+        })
+
+        this.filtered_area_ids = area_ids_in_polygon
       }
     }
   }
