@@ -11,6 +11,9 @@ export default {
     areas_excluded_by_click: [],
     bulk_selected_ids: [],
 
+    // Map
+    selected_filter_area_id: null,
+
     unsaved_changes: false,
   },
   getters: {
@@ -81,6 +84,9 @@ export default {
     },
     'set_plan': (state, plan) => {
       state.current_plan = plan
+    },
+    'set_selected_filter_area_id': (state, id) => {
+      state.selected_filter_area_id = id
     }
   },
   actions: {

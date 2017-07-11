@@ -30,11 +30,11 @@
   import logslider from 'lib/log_slider.js'
   import logscale from 'lib/log_scale.js'
   import {basic_map} from 'lib/basic_map'
-  import {get_planning_level_id_field, get_planning_level_name, get_next_level_down_from_planning_level} from 'lib/spatial_hierarchy_helper'
+  import {get_planning_level_id_field, get_planning_level_name, get_next_level_down_from_planning_level, get_next_level_up_from_planning_level} from 'lib/spatial_hierarchy_helper'
 
   export default {
     name: 'plan_map',
-    props: ['edit_mode', 'geodata_ready', 'risk_visible', 'filtered_area_ids'],
+    props: ['edit_mode', 'geodata_ready', 'risk_visible', 'filtered_area_ids', 'selected_filter_area_id'],
     data() {
       return {
         slider: {
@@ -69,6 +69,15 @@
       ...mapGetters({
         selected_target_area_ids: 'irs_plan/all_selected_area_ids'
       }),
+      selected_filter_area() {
+        if (!this.selected_filter_area_id) return false
+
+        const level = get_next_level_up_from_planning_level()
+
+        return cache.geodata[level.name].features.find(feature => {
+          return feature.properties[level.field_name] === this.selected_filter_area_id
+        })
+      },
       planning_level_name() {
         return get_planning_level_name(this.instance_config)
       },
@@ -97,7 +106,7 @@
       'selected_target_area_ids': 'redraw_target_areas',
       'risk_slider_value': 'set_risk_slider_value',
       'risk_visible': 'toggle_show_areas_by_risk',
-      "filtered_area_ids": "redraw_target_areas"
+      'selected_filter_area_id': 'redraw_target_areas'
     },
     mounted() {
       this.render_map()
@@ -165,6 +174,7 @@
       // Add and handle target_areas
       add_target_areas() {
         const geojson = cache.geodata[this.planning_level_name]
+        this.bbox = bbox(geojson)
 
 //        if (this.filtered_area_ids.length > 0 ) {
 //          console.log('filter something')
@@ -231,7 +241,26 @@
           filter: ['in', this.planning_level_id_field].concat(this.areas_excluded_by_click)
         }, 'clusters')
 
-        this.bbox = bbox(geojson)
+        if (this.selected_filter_area) {
+          this._map.addLayer({
+            id: 'selected_filter_area',
+            type: 'line',
+            feature_type: 'fill',
+            source: {
+              type: 'geojson',
+              data: featureCollection([this.selected_filter_area])
+            },
+            paint: {
+              'line-width': 2,
+              'line-opacity': 0.7,
+              'line-color': '#f400d7',
+            },
+          })
+
+          this.bbox = bbox(this.selected_filter_area)
+          this.fit_bounds()
+        }
+
 
       },
       remove_target_areas() {
@@ -243,6 +272,10 @@
           this._map.removeLayer('bulk_selected')
         if (this._map.getLayer('bulk_unselected'))
           this._map.removeLayer('bulk_unselected')
+        if (this._map.getLayer('selected_filter_area'))
+          this._map.removeLayer('selected_filter_area')
+        if (this._map.getSource('selected_filter_area'))
+          this._map.removeSource('selected_filter_area')
       },
       redraw_target_areas() {
         if (this.geodata_ready && this._map.loaded()) {

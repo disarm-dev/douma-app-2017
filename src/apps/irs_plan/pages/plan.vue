@@ -30,6 +30,7 @@
             :geodata_ready="geodata_ready"
             :edit_mode="edit_mode"
             :risk_visible="risk_visible"
+            :selected_filter_area_id="selected_filter_area_id"
             :filtered_area_ids="filtered_area_ids"
             v-on:map_loaded="edit_disabled = false"
           ></plan_map>
@@ -90,14 +91,13 @@
         risk_visible: false,
 
         dropdown_areas: [],
-        filtered_area_id: null,
-        filtered_area_ids: []
+        filtered_area_ids: [],
       }
     },
     computed: {
       ...mapState({
         instance_config: state => state.instance_config,
-
+        selected_filter_area_id: state => state.irs_plan.selected_filter_area_id,
         unsaved_changes: state => state.irs_plan.unsaved_changes,
         online: state => state.network_online,
         geodata_loading_progress: state => state.geodata_loading_progress,
@@ -139,7 +139,7 @@
     methods: {
       // Filtering
       filter_selected(filter_option) {
-        console.log('filter_selected in plan.vue', filter_option)
+        this.$store.commit('irs_plan/set_selected_filter_area_id', filter_option.id)
       },
 
 
