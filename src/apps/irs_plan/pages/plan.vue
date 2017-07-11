@@ -83,6 +83,7 @@
   import whichPolygon from 'which-polygon';
   import {featureCollection} from '@turf/helpers'
   import centroid from '@turf/centroid'
+  import get from 'lodash.get'
 
   import plan_filter from './plan-filter.vue'
   import plan_summary from './plan-summary.vue'
@@ -111,7 +112,7 @@
         geodata_ready: state => state.geodata_ready,
 
         current_plan: state => state.irs_plan.current_plan,
-        selected_filter_area_id: state => state.irs_plan.selected_filter_area_option.id,
+        selected_filter_area_id: state => get(state, 'irs_plan.selected_filter_area_option.id', null),
         unsaved_changes: state => state.irs_plan.unsaved_changes,
         current_plan_date: state =>  {
           if (state.irs_plan.current_plan) {
