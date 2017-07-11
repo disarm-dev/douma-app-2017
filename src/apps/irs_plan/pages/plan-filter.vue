@@ -3,6 +3,7 @@
     <h4>Select area to focus plan on</h4>
     <p>With an area selected, you won't be able to edit or save anywhere else.</p>
     <multiselect
+      :disabled="unsaved_changes"
       class="filter_select"
       v-model="selected_filter_area"
       @select="select_filter"
@@ -28,6 +29,7 @@
   export default {
     name: 'plan-filter',
     components: {Multiselect},
+    props: ['unsaved_changes'],
     mounted() {
     },
     data() {

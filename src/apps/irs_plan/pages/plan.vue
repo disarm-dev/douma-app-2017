@@ -21,6 +21,7 @@
       <!-- FILTER TO LIMIT PLAN -->
       <plan_filter
         v-if="next_level_up_from_planning_level && geodata_ready"
+        :unsaved_changes="unsaved_changes"
         @filter_selected="filter_selected"
       ></plan_filter>
 

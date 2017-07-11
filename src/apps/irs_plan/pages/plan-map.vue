@@ -136,9 +136,9 @@
           if (feature) {
             const feature_id = feature.properties[this.planning_level_id_field]
 
-            const feature_id_in_filter_area = this.check_selection_in_plan_focus(feature_id, this.selected_filter_area)
-            if (feature_id_in_filter_area.length) {
-              this.$store.commit('irs_plan/toggle_selected_target_area_id', feature_id_in_filter_area)
+            const feature_id_in_filter_area_array = this.check_selection_in_plan_focus(feature_id)
+            if (feature_id_in_filter_area_array.length) {
+              this.$store.commit('irs_plan/toggle_selected_target_area_id', feature_id_in_filter_area_array)
               this.refilter_target_areas()
             }
           }
@@ -382,7 +382,7 @@
         //   }
         // })
 
-        const selected_areas_in_filter_area = this.check_selection_in_plan_focus(selected_areas, this.selected_filter_area)
+        const selected_areas_in_filter_area = this.check_selection_in_plan_focus(selected_areas)
         this.$store.commit('irs_plan/add_selected_target_areas', selected_areas_in_filter_area)
 
         this.draw.deleteAll()
@@ -401,7 +401,7 @@
           return area.properties[this.planning_level_id_field]
         })
 
-        const selected_areas_in_filter_area = this.check_selection_in_plan_focus(area_ids, this.selected_filter_area)
+        const selected_areas_in_filter_area = this.check_selection_in_plan_focus(area_ids)
         this.$store.commit('irs_plan/set_bulk_selected_ids', selected_areas_in_filter_area)
 
         this.refilter_target_areas()
@@ -471,9 +471,9 @@
 
         this.log_scale = logscale({features, property})
       },
-      check_selection_in_plan_focus(area_ids, selected_filter_area) {
-        if (!selected_filter_area) return area_ids
+      check_selection_in_plan_focus(area_ids) {
         if (!Array.isArray(area_ids)) area_ids = [area_ids]
+        if (!this.selected_filter_area) return area_ids
 
         const result = area_ids.filter(area_id => {
           const found_area = cache.geodata[this.planning_level_name].features.find(feature => {
@@ -482,7 +482,7 @@
 
           if (!found_area) return false
 
-          return inside(centroid(found_area), selected_filter_area)
+          return inside(centroid(found_area), this.selected_filter_area)
         })
         return result
       }
