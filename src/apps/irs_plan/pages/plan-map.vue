@@ -171,16 +171,6 @@
         const geojson = cache.geodata[this.planning_level_name]
         this.bbox = bbox(geojson)
 
-//        if (this.filtered_area_ids.length > 0 ) {
-//          console.log('filter something')
-//
-//          const features = geojson.features.filter((feature) => {
-//            return this.filtered_area_ids.includes(feature.properties[this.planning_level_id_field])
-//          })
-//
-//          geojson.features = features
-//        }
-
         if(!this._map.getSource('target_areas_source')) {
           this._map.addSource('target_areas_source', {
             'type': 'geojson',
@@ -485,7 +475,6 @@
         if (!selected_filter_area) return area_ids
         if (!Array.isArray(area_ids)) area_ids = [area_ids]
 
-        console.time('filter within plan_focus')
         const result = area_ids.filter(area_id => {
           const found_area = cache.geodata[this.planning_level_name].features.find(feature => {
             return feature.properties[this.planning_level_id_field] === area_id
@@ -495,8 +484,6 @@
 
           return inside(centroid(found_area), selected_filter_area)
         })
-        console.log('result', result)
-        console.timeEnd('filter within plan_focus')
         return result
       }
     }
