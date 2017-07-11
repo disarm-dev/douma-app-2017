@@ -99,10 +99,7 @@
   import moment from 'moment'
   import deep_clone from 'deep-clone'
   import {Parser} from 'expr-eval'
-
-
   import {elements_array} from 'lib/form_helpers'
-
 
   export default {
     data() {

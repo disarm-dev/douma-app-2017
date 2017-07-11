@@ -15,6 +15,7 @@ export default {
     'irs_plan': {title: 'IRS Plan', icon: 'assignment_turned_in'},
     'irs_monitor': {title: 'IRS Monitor', icon: 'dashboard'},
     'irs_tasker': {title: 'IRS Tasker', icon: 'group'},
+    // Meta below is currently ignored, and is statically included in sidebar
     'meta': {title: 'User', icon: 'person'},
   },
   basemap: {

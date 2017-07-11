@@ -18,6 +18,11 @@
       return {
         steps: [
           {
+            title: 'datastore',
+            description: 'Storage for form responses, team assignments, users+permissions',
+            remote_source: 'mongoDB somewhere'
+          },
+          {
             title: 'instance-area',
             description: 'Area of interested: search for country, region, etc.',
             remote_source: 'DiSARM Region selection Tool / Generic bounding box'

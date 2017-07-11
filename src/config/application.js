@@ -29,6 +29,7 @@ import {create_store} from '../store'
 import {get_instance_stores_and_routes} from './applet_stores_and_routes'
 import {instantiate_analytics, set_common_analytics} from 'config/analytics'
 import {configure_spatial_helpers} from 'lib/spatial_hierarchy_helper'
+import {configure_standard_handler} from 'lib/data/remote.standard-handler'
 
 export function create_and_launch_application (instance_config) {
   // Configure spatial_helpers to use instance_config
@@ -42,6 +43,9 @@ export function create_and_launch_application (instance_config) {
   // Make Vuex#$store and a Vue#$router from what you got
   const store = create_store(instance_config, instance_applets_stores_and_routes.stores)
   const router = create_router(instance_applets_stores_and_routes.routes, store)
+
+  // Configure standard_handler for remote requests
+  configure_standard_handler(store)
 
   // Analytics 1/2: instantiate analytics before you create the application
   instantiate_analytics(router)

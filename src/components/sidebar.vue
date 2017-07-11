@@ -9,6 +9,10 @@
       <div v-if="user">
         <p @click="navigate('meta:home')">Logged in: {{user.name}}</p>
         <p><em>Version {{commit_hash}}</em></p>
+        <p v-if="personalised_instance_id !== 'default'">
+          <em>Instance ID: {{personalised_instance_id}}</em>
+          <md-icon :class="{'md-warn': personalised_instance_id !== 'default'}">local_laundry_service</md-icon>
+        </p>
       </div>
 
       <!--Status/top of sidebar: LOGGED-OUT-->
@@ -64,6 +68,7 @@
       ...mapState({
         instance_title: state => state.instance_config.instance.title,
         user: state => state.meta.user,
+        personalised_instance_id: state => state.meta.personalised_instance_id
       }),
       ...mapGetters({
         decorated_applets: 'meta/decorated_applets'

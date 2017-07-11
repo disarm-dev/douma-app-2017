@@ -1,14 +1,14 @@
 import {standard_handler, douma_api_root} from './remote.standard-handler.js'
 
 // RECORDS
-export const get_all_records = (country) => {
-  let url = douma_api_root + `/record/all?country=${country}`
+export const get_all_records = () => {
+  let url = douma_api_root + `/record/all`
 
   return standard_handler(url)
 }
 
 export const create_records = (records) => {
-  let url = douma_api_root + `/record/create_multiple`
+  let url = douma_api_root + `/record/create`
 
   let options = {
     timeout: 20000,

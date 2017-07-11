@@ -1,6 +1,6 @@
 <template>
   <div class='container'>
-    <!-- <local_record_summary></local_record_summary> -->
+     <!--<local_record_summary></local_record_summary>-->
     <div v-if="!online">Offline - unable to sync</div>
     <md-button class='md-raised md-primary' @click.native='$router.push("/irs/record_point/new")'><md-icon>create</md-icon>Add new</md-button>
     <md-button class="md-raised md-warn" :disabled="syncing || unsynced_count === 0 || !online" @click.native="sync">
@@ -10,6 +10,12 @@
       Hide synced responses
     </md-button>
 
+    <!-- EXPORT RECORDS-->
+    <md-button class="md-raised" :disabled="syncing || unsynced_count === 0" @click.native="download_records">
+      Export {{unsynced_count}} unsynced
+    </md-button>
+
+    <!-- LIST ALL -->
     <md-list>
       <md-list-item
         v-for='response in responses'
@@ -33,6 +39,7 @@
 </template>
 
 <script>
+  import download from 'downloadjs'
   import moment from 'moment'
   import {mapState} from 'vuex'
 
@@ -49,16 +56,19 @@
     },
     computed: {
       ...mapState({
+        instance_config: state => state.instance_config,
         responses: state => state.irs_record_point.responses.sort((a, b) => new Date(b.recorded_on) - new Date(a.recorded_on)),
         unsynced_count: state => state.irs_record_point.responses.filter(r => !r.synced).length,
         synced_count: state => state.irs_record_point.responses.filter(r => r.synced).length,
         online: state => state.network_online
-      })
+      }),
+      unsynced_responses() {
+        return this.responses.filter(r => !r.synced)
+      }
     },
     methods: {
       format_response(response) {
         const location_name = response.location_selection.name
-//        const date = this.format_datetime(response.recorded_on)
         const ago = this.format_datetime_from_now(response.recorded_on)
 
         return `${location_name} - ${ago}`
@@ -73,11 +83,9 @@
         this.$store.commit('root:set_loading', true)
         this.syncing = true
 
-        let responses_to_sync = this.responses.filter(r => !r.synced)
-
-        this.$store.dispatch('irs_record_point/create_records', responses_to_sync)
+        this.$store.dispatch('irs_record_point/create_records', this.unsynced_responses)
           .then(() => {
-            responses_to_sync.forEach((response) => {
+            this.unsynced_responses.forEach((response) => {
               response.synced = true
               this.$store.commit('irs_record_point/update_response', response)
             })
@@ -93,6 +101,18 @@
       },
       clear_synced_responses() {
         this.$store.dispatch('irs_record_point/clear_synced_responses')
+      },
+      download_records() {
+        const content = JSON.stringify(this.unsynced_responses)
+        const date = moment().format('YYYY-MM-DD_HHmm')
+        const download_success = download(content, `${this.instance_config.instance.slug}_responses_export_${date}.json`)
+
+        if (download_success) {
+          this.unsynced_responses.forEach((response) => {
+            response.synced = true
+            this.$store.commit('irs_record_point/update_response', response)
+          })
+        }
       }
     }
   }
