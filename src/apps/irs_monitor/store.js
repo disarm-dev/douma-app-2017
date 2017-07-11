@@ -14,6 +14,12 @@ export default {
     plan: null,
   },
   mutations: {
+    clear_data_storage:(state) => {
+      state.responses = []
+      state.responses_last_updated_at = null
+      state.filters = []
+      state.plan = nill
+    },
     set_responses: (state, responses) => {
       state.responses = responses
     },
@@ -35,7 +41,7 @@ export default {
     },
     update_responses_last_updated_at:(state) => {
       state.responses_last_updated_at = new Date
-}
+    }
   },
   getters: {
     plan_target_area_ids(state) {

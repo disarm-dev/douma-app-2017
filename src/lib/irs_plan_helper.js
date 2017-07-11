@@ -6,12 +6,11 @@ import {get_planning_level_id_field, get_planning_level_name} from 'lib/spatial_
 
 
 const target_areas_inside_focus_filter_area = ({area_ids, selected_filter_area}) => {
+  if (!Array.isArray(area_ids)) area_ids = [area_ids]
+  if (!selected_filter_area) return area_ids
 
   const planning_level_name = get_planning_level_name()
   const planning_level_id_field = get_planning_level_id_field()
-
-  if (!Array.isArray(area_ids)) area_ids = [area_ids]
-  if (!selected_filter_area) return area_ids
 
   const result = area_ids.filter(area_id => {
     const found_area = cache.geodata[planning_level_name].features.find(feature => {

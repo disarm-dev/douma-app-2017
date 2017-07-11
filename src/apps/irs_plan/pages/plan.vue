@@ -50,7 +50,7 @@
 
       <!--PLAN SUMMARY-->
       <md-card class="card"><md-card-content>
-        <plan_summary :geodata_ready="geodata_ready"></plan_summary>
+        <!--<plan_summary :geodata_ready="geodata_ready"></plan_summary>-->
       </md-card-content></md-card>
     </div>
 
@@ -165,8 +165,13 @@
           })
         }
 
+        // TODO: Don't need this complicated approach
+        const focus_filter_area_just_id = {
+          id: this.selected_filter_area.properties[this.next_level_up_from_planning_level.field_name]
+        }
+
         const plan = new Plan().create({
-          focus_filter_area: this.selected_filter_area,
+          focus_filter_area: focus_filter_area_just_id,
           instance_config: this.instance_config,
           selected_target_area_ids: plan_targets
         })

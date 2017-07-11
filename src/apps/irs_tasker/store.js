@@ -10,6 +10,10 @@ export default {
     assignments: [] // Array of {area_id, team_name}
   },
   mutations: {
+    clear_data_storage:(state) => {
+      state.teams = []
+      state.assignments = []
+    },
     "set_teams": (state, teams) => {
       state.teams = teams
     },

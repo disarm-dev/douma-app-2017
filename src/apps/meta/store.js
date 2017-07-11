@@ -51,6 +51,8 @@ export default {
   actions: {
     login: (context, login_details) => {
 
+      const original_instance_id = context.state.personalised_instance_id
+
       return authenticate(login_details).then(response => {
         if (response.error) {
           return Promise.reject(response)
@@ -64,9 +66,11 @@ export default {
         const authenticated_user = new User(response)
 
         if (authenticated_user.is_valid()) {
-          context.commit('set_personalised_instance_id', login_details.personalised_instance_id)
-          context.commit('set_user', authenticated_user.model)
-          return Promise.resolve(authenticated_user.model)
+          context.dispatch('clear_data_storage').then(() => {
+            context.commit('set_personalised_instance_id', login_details.personalised_instance_id)
+            context.commit('set_user', authenticated_user.model)
+            return Promise.resolve(authenticated_user.model)
+          }).catch(err => console.warn('Something unthought of', err))
         } else {
           return Promise.reject({error: 'Validation issues with user record.'})
         }
@@ -75,6 +79,9 @@ export default {
     },
     logout: (context) => {
       context.commit('set_user', null)
+    },
+    clear_data_storage: (context) => {
+      // TODO: @feature Figure if we need to wipe out local data when changing instance_id
     }
   }
 }

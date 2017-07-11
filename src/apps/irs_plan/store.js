@@ -47,6 +47,14 @@ export default {
     }
   },
   mutations: {
+    clear_data_storage:(state) => {
+        state.current_plan = null
+        state.areas_included_by_click = []
+        state.areas_excluded_by_click = []
+        state.bulk_selected_ids = []
+        state.selected_filter_area_option = null
+        state.unsaved_changes = false
+    },
     "toggle_selected_target_area_id": (state, target_area_id) => {
       if (Array.isArray(target_area_id)) target_area_id = target_area_id[0]
 
@@ -82,7 +90,7 @@ export default {
     },
     'add_selected_target_areas': (state, selected_target_area_ids) => {
       let temp_array = state.bulk_selected_ids.concat(selected_target_area_ids)
-      let unique = array_unique(temp_array)
+      let unique = array_unique(temp_array).filter(i => i)
 
       state.bulk_selected_ids = unique
       state.unsaved_changes = true

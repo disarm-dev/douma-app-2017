@@ -95,9 +95,10 @@
       'clusters_visible': 'toggle_cluster_visiblity',
       'edit_mode': 'manage_map_mode',
       'geodata_ready': 'render_map',
-      'selected_target_area_ids': 'redraw_target_areas',
       'risk_slider_value': 'set_risk_slider_value',
       'risk_visible': 'toggle_show_areas_by_risk',
+
+      'selected_target_area_ids': 'redraw_target_areas',
       'selected_filter_area_id': 'redraw_target_areas'
     },
     mounted() {
@@ -137,7 +138,7 @@
           if (feature) {
             const feature_id = feature.properties[this.planning_level_id_field]
 
-            const feature_id_in_filter_area_array = target_areas_inside_focus_filter_area({feature_id, selected_filter_area: this.selected_areas_in_filter_area})
+            const feature_id_in_filter_area_array = target_areas_inside_focus_filter_area({area_ids: feature_id, selected_filter_area: this.selected_filter_area})
             if (feature_id_in_filter_area_array.length) {
               this.$store.commit('irs_plan/toggle_selected_target_area_id', feature_id_in_filter_area_array)
               this.refilter_target_areas()
@@ -270,7 +271,6 @@
           this.add_target_areas()
 
           // remove + add draw_controls
-          this.remove_draw_controls()
           this.add_draw_controls()
         }
       },
@@ -314,6 +314,10 @@
 
       // Draw controls
       add_draw_controls () {
+        this.remove_draw_controls()
+
+        if (!this.edit_mode) return
+
         if (this._map) {
           const options = {
             boxSelect: false,
@@ -368,22 +372,10 @@
       finish_drawing(features) {
         let polygon_drawn = features[0]
 
-        // 1. Approach using centroids
-        // doesn't capture as many polygons though
         const polygons_within_polygon_drawn = this.find_selected_polygons(polygon_drawn)
         const selected_areas = polygons_within_polygon_drawn.features.map(f => f.properties[this.planning_level_id_field])
 
-        // 2. Approach using intersection
-        // let polygons = cache.geodata[this.planning_level_name].features
-        // let selected_areas = []
-        // polygons.forEach((polygon) => {
-        //   if (intersect(polygon_drawn, polygon)) {
-        //       const feature_id = polygon.properties[this.planning_level_id_field]
-        //       selected_areas.push(feature_id)
-        //   }
-        // })
-
-        const selected_areas_in_filter_area = target_areas_inside_focus_filter_area({selected_areas, selected_filter_area: this.selected_areas_in_filter_area})
+        const selected_areas_in_filter_area = target_areas_inside_focus_filter_area({area_ids: selected_areas, selected_filter_area: this.selected_filter_area})
         this.$store.commit('irs_plan/add_selected_target_areas', selected_areas_in_filter_area)
 
         this.draw.deleteAll()
@@ -402,7 +394,7 @@
           return area.properties[this.planning_level_id_field]
         })
 
-        const selected_areas_in_filter_area = target_areas_inside_focus_filter_area({area_ids, selected_filter_area: this.selected_areas_in_filter_area})
+        const selected_areas_in_filter_area = target_areas_inside_focus_filter_area({area_ids, selected_filter_area: this.selected_filter_area})
         this.$store.commit('irs_plan/set_bulk_selected_ids', selected_areas_in_filter_area)
 
         this.refilter_target_areas()
