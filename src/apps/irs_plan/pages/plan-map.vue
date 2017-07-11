@@ -166,15 +166,15 @@
       add_target_areas() {
         const geojson = cache.geodata[this.planning_level_name]
 
-        if (this.filtered_area_ids.length > 0 ) {
-          console.log('filter something')
-
-          const features = geojson.features.filter((feature) => {
-            return this.filtered_area_ids.includes(feature.properties[this.planning_level_id_field])
-          })
-
-          geojson.features = features
-        }
+//        if (this.filtered_area_ids.length > 0 ) {
+//          console.log('filter something')
+//
+//          const features = geojson.features.filter((feature) => {
+//            return this.filtered_area_ids.includes(feature.properties[this.planning_level_id_field])
+//          })
+//
+//          geojson.features = features
+//        }
 
         if(!this._map.getSource('target_areas_source')) {
           this._map.addSource('target_areas_source', {

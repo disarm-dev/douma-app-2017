@@ -38,9 +38,10 @@ const get_all_spatial_hierarchy_levels = (instance_config) => {
   return instance_config.spatial_hierarchy.levels.map(level => level.name)
 }
 
-const get_top_level_hierarchy = (instance_config) => {
-  return instance_config.spatial_hierarchy.levels[0]
+const get_top_level_hierarchy = () => {
+  return instance_config_cache.spatial_hierarchy.levels[0]
 }
+
 /**
  * Try to get the next lowest spatial hierarchy: e.g. clusters for localities for SWZ
  * @returns a level {fieldname, name} or `false`

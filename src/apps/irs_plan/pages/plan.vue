@@ -5,6 +5,9 @@
     </h4>
 
     <div v-if="online">
+      <!-- FILTER TO LIMIT PLAN -->
+      <plan_filter @filter_selected="filter_selected"></plan_filter>
+
       <!--SELECT MODE-->
       <md-checkbox v-model="edit_mode" :disabled="edit_disabled">Edit mode</md-checkbox>
       <md-checkbox :disabled='!geodata_ready || edit_mode' v-model="risk_visible">Show risk</md-checkbox>
@@ -16,13 +19,6 @@
       <md-button v-if='edit_mode' :disabled="!unsaved_changes" class='md-raised md-primary' @click.native="save_plan">Save</md-button>
       <md-button v-if='edit_mode' :disabled="!unsaved_changes" class='md-raised md-warn' @click.native="load_plan">Cancel edits</md-button>
       <md-button v-if='edit_mode' :disabled='!can_clear' class='md-raised' @click.native="clear_plan">Clear plan</md-button>
-
-      <md-input-container>
-        <label for="filtered_area_id">Restrict to area</label>
-        <md-select name="filtered_area_id" id="filtered_area_id" v-model="filtered_area_id">
-          <md-option v-for="item in dropdown_areas" :key="item" :value="item">{{item}}</md-option>
-        </md-select>
-      </md-input-container>
 
       <!--PLAN MAP-->
       <md-card>
@@ -73,16 +69,17 @@
   import centroid from '@turf/centroid'
   import {getCoord} from '@turf/invariant'
 
+  import plan_filter from './plan-filter.vue'
   import plan_summary from './plan-summary.vue'
   import plan_map from './plan-map.vue'
   import cache from 'config/cache.js'
   import {Plan} from 'lib/models/plan.model.js'
   import {get_geodata} from 'lib/data/remote'
-  import {get_top_level_hierarchy, get_planning_level_name, get_planning_level_id_field} from 'lib/spatial_hierarchy_helper'
+  import {get_planning_level_name, get_planning_level_id_field} from 'lib/spatial_hierarchy_helper'
 
   export default {
     name: 'Plan',
-    components: {plan_summary, plan_map},
+    components: {plan_filter, plan_summary, plan_map},
     data() {
       return {
         edit_mode: false,
@@ -114,9 +111,6 @@
       planning_level_name() {
         return get_planning_level_name(this.instance_config)
       },
-      top_level_hierarchy() {
-        return get_top_level_hierarchy(this.instance_config)
-      },
       ...mapGetters({
         selected_target_area_ids: 'irs_plan/all_selected_area_ids'
       }),
@@ -137,13 +131,15 @@
       get_geodata(this.$store).then(this.load_plan)
     },
     methods: {
+      // Filtering
+      filter_selected(filter_option) {
+        console.log('filter_selected in plan.vue', filter_option)
+      },
+
+
+
+
       load_plan() {
-        this.dropdown_areas = cache.geodata[this.top_level_hierarchy.name].features.map((f => {
-          return f.properties[this.top_level_hierarchy.field_name]
-        })).slice(0,10)
-
-        this.filtered_area_id = this.dropdown_areas[0]
-
         this.$store.commit('root:set_loading', true)
 
         this.$store.dispatch('irs_plan/get_current_plan')

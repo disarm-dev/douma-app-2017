@@ -25,7 +25,6 @@
   import Fuse from 'fuse.js'
   import array_unique from 'array-unique'
   import Multiselect from 'vue-multiselect'
-  import 'vue-multiselect/dist/vue-multiselect.min.css'
 
   export default {
     props: ['initial_location_selection'],
@@ -44,11 +43,11 @@
         this.location_selection = this.initial_location_selection
         this.$emit('change', this.location_selection)
       }
-      
+
     },
     computed: {
       location_options() {
-        let result 
+        let result
         if (this.search_query.length) {
           result = this._fuse.search(this.search_query)
         } else {

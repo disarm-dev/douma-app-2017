@@ -5,6 +5,8 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 import 'lib/bootstrap-extract.css'
 import 'vue-material/dist/vue-material.css'
+import 'vue-multiselect/dist/vue-multiselect.min.css'
+
 
 // Imports
 import {get_instance_config} from './lib/instance_config'
