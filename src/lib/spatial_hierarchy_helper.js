@@ -37,11 +37,31 @@ const get_denominator_fields = (instance_config) => {
 const get_all_spatial_hierarchy_levels = (instance_config) => {
   return instance_config.spatial_hierarchy.levels.map(level => level.name)
 }
+
+const get_top_level_hierarchy = () => {
+  return instance_config_cache.spatial_hierarchy.levels[0]
+}
+
+
+
 /**
  * Try to get the next lowest spatial hierarchy: e.g. clusters for localities for SWZ
  * @returns a level {fieldname, name} or `false`
  */
-const get_next_level_down = () => {
+const get_next_level_up_from_planning_level = () => {
+  const planning_level_name = instance_config_cache.spatial_hierarchy.markers.planning_level_name
+  const levels = instance_config_cache.spatial_hierarchy.levels
+
+  const index = levels.findIndex(l => l.name === planning_level_name)
+
+  return (levels[index - 1] || false)
+}
+
+/**
+ * Try to get the next lowest spatial hierarchy: e.g. clusters for localities for SWZ
+ * @returns a level {fieldname, name} or `false`
+ */
+const get_next_level_down_from_planning_level = () => {
   const planning_level_name = instance_config_cache.spatial_hierarchy.markers.planning_level_name
   const levels = instance_config_cache.spatial_hierarchy.levels
 
@@ -56,6 +76,8 @@ export {
   get_denominator_fields,
   get_planning_level_name,
   get_all_spatial_hierarchy_levels,
-  get_next_level_down
+  get_next_level_up_from_planning_level,
+  get_next_level_down_from_planning_level,
+  get_top_level_hierarchy
 }
 
