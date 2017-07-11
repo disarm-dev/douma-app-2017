@@ -2,6 +2,8 @@ import array_unique from 'array-unique'
 
 import {create_plan, get_current_plan} from 'lib/data/remote'
 import {Plan} from 'lib/models/plan.model'
+import {get_next_level_up_from_planning_level} from 'lib/spatial_hierarchy_helper'
+import cache from 'config/cache'
 
 export default {
   namespaced: true,
@@ -32,9 +34,21 @@ export default {
       })
       return result
     },
+    'selected_filter_area': (state) => {
+      if (!state.selected_filter_area_id) return false
+
+      const level = get_next_level_up_from_planning_level()
+
+      return cache.geodata[level.name].features.find(feature => {
+        return feature.properties[level.field_name] === state.selected_filter_area_id
+      })
+
+    }
   },
   mutations: {
     "toggle_selected_target_area_id": (state, target_area_id) => {
+      if (Array.isArray(target_area_id)) target_area_id = target_area_id[0]
+
       if (state.areas_included_by_click.includes(target_area_id)) {
         // remove target area from included
 
@@ -56,7 +70,7 @@ export default {
         state.areas_included_by_click.push(target_area_id)
 
       } else {
-        console.log('💥should never see this')
+        console.log('💥should never see this - might be a feature outside a filtered_area')
       }
 
       state.unsaved_changes = true

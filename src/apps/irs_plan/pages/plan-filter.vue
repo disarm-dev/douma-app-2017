@@ -3,9 +3,8 @@
     <h4>Select area to focus plan on</h4>
     <p>With an area selected, you won't be able to edit or save anywhere else.</p>
     <multiselect
-      v-if="geodata_ready"
       class="filter_select"
-      v-model="filtered_area_id"
+      v-model="selected_filter_area"
       @select="select_filter"
       :options="filter_options"
       placeholder="Select area to limit plan "
@@ -33,7 +32,7 @@
     },
     data() {
       return {
-        filtered_area_id: '',
+        selected_filter_area: null,
       }
     },
     computed: {
@@ -53,7 +52,7 @@
     },
     methods: {
       select_filter(filter_option) {
-        this.$emit('filter_selected', filter_option)
+        this.$emit('filter_selected', filter_option.id)
       }
     }
   }

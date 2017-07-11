@@ -21,7 +21,6 @@
   import intersect from '@turf/intersect'
   import bboxPolygon from '@turf/bbox-polygon'
   import {featureCollection} from '@turf/helpers'
-  import {getCoord} from '@turf/invariant'
   import which_polygon from 'which-polygon'
   import debounce from 'lodash.debounce'
   import chroma from 'chroma-js'
@@ -30,7 +29,7 @@
   import logslider from 'lib/log_slider.js'
   import logscale from 'lib/log_scale.js'
   import {basic_map} from 'lib/basic_map'
-  import {get_planning_level_id_field, get_planning_level_name, get_next_level_down_from_planning_level, get_next_level_up_from_planning_level} from 'lib/spatial_hierarchy_helper'
+  import {get_planning_level_id_field, get_planning_level_name, get_next_level_down_from_planning_level} from 'lib/spatial_hierarchy_helper'
 
   export default {
     name: 'plan_map',
@@ -67,17 +66,9 @@
         bulk_selected_ids: state => state.irs_plan.bulk_selected_ids,
       }),
       ...mapGetters({
-        selected_target_area_ids: 'irs_plan/all_selected_area_ids'
+        selected_target_area_ids: 'irs_plan/all_selected_area_ids',
+        selected_filter_area: 'irs_plan/selected_filter_area'
       }),
-      selected_filter_area() {
-        if (!this.selected_filter_area_id) return false
-
-        const level = get_next_level_up_from_planning_level()
-
-        return cache.geodata[level.name].features.find(feature => {
-          return feature.properties[level.field_name] === this.selected_filter_area_id
-        })
-      },
       planning_level_name() {
         return get_planning_level_name(this.instance_config)
       },
@@ -144,7 +135,10 @@
 
           if (feature) {
             const feature_id = feature.properties[this.planning_level_id_field]
-            this.$store.commit('irs_plan/toggle_selected_target_area_id', feature_id)
+            // check if feature_id is within selected_filter_area
+
+            const feature_id_in_filter_area = this.check_selection_in_plan_focus(feature_id, this.selected_filter_area)
+            this.$store.commit('irs_plan/toggle_selected_target_area_id', feature_id_in_filter_area)
             this.refilter_target_areas()
           }
         }
@@ -397,7 +391,8 @@
         //   }
         // })
 
-        this.$store.commit('irs_plan/add_selected_target_areas', selected_areas)
+        const selected_areas_in_filter_area = this.check_selection_in_plan_focus(selected_areas, this.selected_filter_area)
+        this.$store.commit('irs_plan/add_selected_target_areas', selected_areas_in_filter_area)
 
         this.draw.deleteAll()
 
@@ -415,7 +410,8 @@
           return area.properties[this.planning_level_id_field]
         })
 
-        this.$store.commit('irs_plan/set_bulk_selected_ids', area_ids)
+        const selected_areas_in_filter_area = this.check_selection_in_plan_focus(area_ids, this.selected_filter_area)
+        this.$store.commit('irs_plan/set_bulk_selected_ids', selected_areas_in_filter_area)
 
         this.refilter_target_areas()
 
@@ -484,6 +480,24 @@
 
         this.log_scale = logscale({features, property})
       },
+      check_selection_in_plan_focus(area_ids, selected_filter_area) {
+        if (!selected_filter_area) return area_ids
+        if (!Array.isArray(area_ids)) area_ids = [area_ids]
+
+        console.time('filter within plan_focus')
+        const result = area_ids.filter(area_id => {
+          const found_area = cache.geodata[this.planning_level_name].features.find(feature => {
+            return feature.properties[this.planning_level_id_field] === area_id
+          })
+
+          if (!found_area) return false
+debugger
+          return inside(selected_filter_area, centroid(found_area))
+
+        })
+        console.timeEnd('filter within plan_focus')
+        return result
+      }
     }
   }
 </script>

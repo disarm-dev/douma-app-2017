@@ -7,7 +7,7 @@
     <div v-if="online">
       <!-- FILTER TO LIMIT PLAN -->
       <plan_filter
-        v-if="next_level_up_from_planning_level"
+        v-if="next_level_up_from_planning_level && geodata_ready"
         @filter_selected="filter_selected"
       ></plan_filter>
 
@@ -71,7 +71,6 @@
   import whichPolygon from 'which-polygon';
   import {featureCollection} from '@turf/helpers'
   import centroid from '@turf/centroid'
-  import {getCoord} from '@turf/invariant'
 
   import plan_filter from './plan-filter.vue'
   import plan_summary from './plan-summary.vue'
@@ -131,15 +130,14 @@
     },
     watch: {
       'edit_mode': 'disable_risk_in_edit_mode',
-      "filtered_area_id": "redraw_map"
     },
     mounted() {
       get_geodata(this.$store).then(this.load_plan)
     },
     methods: {
       // Filtering
-      filter_selected(filter_option) {
-        this.$store.commit('irs_plan/set_selected_filter_area_id', filter_option.id)
+      filter_selected(selected_filter_area_id) {
+        this.$store.commit('irs_plan/set_selected_filter_area_id', selected_filter_area_id)
       },
 
 
@@ -179,38 +177,6 @@
           this.risk_visible = false
         }
       },
-      redraw_map() {
-        console.log('redraw_map')
-
-        const polygon = cache.geodata[this.top_level_hierarchy.name].features.find((polygon) => {
-          return polygon.properties[this.top_level_hierarchy.field_name] === this.filtered_area_id
-        })
-
-        const query = whichPolygon(featureCollection([polygon]))
-
-        const points = cache.geodata[this.planning_level_name].features.map((feature) => {
-          const point = centroid(feature)
-          point.properties = feature.properties
-          return point
-        })
-
-
-        let points_in_polygon_properties = points.map((point) => {
-          const coordinates = getCoord(point)
-          if (query([coordinates[0], coordinates[1]])) {
-            return point.properties
-          }
-        })
-
-
-        points_in_polygon_properties = points_in_polygon_properties.filter(a => a)
-
-        const area_ids_in_polygon = points_in_polygon_properties.map((properties) => {
-          return properties[this.planning_level_id_field]
-        })
-
-        this.filtered_area_ids = area_ids_in_polygon
-      }
     }
   }
 </script>
