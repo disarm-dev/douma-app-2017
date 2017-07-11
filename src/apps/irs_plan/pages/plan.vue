@@ -1,12 +1,9 @@
 <template>
   <div class='container'>
     <md-card class="card">
-      <md-card-header>
-        <h4 v-if='!current_plan' style="color: red">Plan missing - no calculations until one is loaded</h4>
-        <div class="md-title">{{title}} plan {{current_plan_date ? `from ${current_plan_date}` : ''}} </div>
-      </md-card-header>
 
       <md-card-content>
+        <div class="md-title">{{title}} plan {{current_plan_date ? `from ${current_plan_date}` : ''}} </div>
       </md-card-content>
 
       <md-card-actions>
@@ -92,6 +89,7 @@
   import {Plan} from 'lib/models/plan.model.js'
   import {get_geodata} from 'lib/data/remote'
   import {get_planning_level_name, get_planning_level_id_field, get_next_level_up_from_planning_level} from 'lib/spatial_hierarchy_helper'
+  import {target_areas_inside_focus_filter_area} from 'lib/irs_plan_helper'
 
   export default {
     name: 'Plan',
@@ -158,7 +156,7 @@
 
       },
       save_plan() {
-        let plan_targets
+        let plan_targets = this.selected_target_area_ids
 
         if (this.selected_filter_area) {
           plan_targets = target_areas_inside_focus_filter_area({

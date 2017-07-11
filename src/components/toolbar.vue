@@ -20,7 +20,7 @@
       <div>
         <md-icon class='help_button' @click.native="toggle_help_visible">help</md-icon>
       </div>
-      <div v-if="!online">
+      <div v-if="!online" @click="try_reconnect">
         offline
         <md-icon>settings_ethernet</md-icon>
       </div>
@@ -34,6 +34,7 @@
 
 <script>
   import {mapState, mapGetters} from 'vuex'
+  import {try_reconnect} from 'lib/data/remote.standard-handler'
 
   export default {
     name: 'toolbar',
@@ -75,6 +76,9 @@
       toggle_help_visible() {
         this.$store.commit('root:trigger_help_visible')
       },
+      try_reconnect() {
+        try_reconnect()
+      }
     }
   }
 </script>

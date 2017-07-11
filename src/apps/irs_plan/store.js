@@ -117,21 +117,26 @@ export default {
       const country = context.rootState.instance_config.instance.slug
 
       return get_current_plan(country).then(plan_json => {
+        if (Object.keys(plan_json).length === 0) {
+          return context.commit('root:set_snackbar', {message: 'There is no plan. Please create one.'}, {root: true})
+        }
+
         try {
           new Plan().validate(plan_json)
+
+          let target_areas = plan_json.targets.map(area => {
+            return area.id
+          })
+
+          context.commit('clear_plan')
+          context.commit('set_plan', plan_json)
+          context.commit('add_selected_target_areas', target_areas)
+          context.commit('set_unsaved_changes', false)
         } catch (e) {
           console.error(e)
           context.commit('root:set_snackbar', {message: 'ERROR: Plan is not valid'}, {root: true})
         }
 
-        let target_areas = plan_json.targets.map(area => {
-          return area.id
-        })
-
-        context.commit('clear_plan')
-        context.commit('set_plan', plan_json)
-        context.commit('add_selected_target_areas', target_areas)
-        context.commit('set_unsaved_changes', false)
       })
     }
   }
