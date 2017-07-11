@@ -5,7 +5,7 @@
     <multiselect
       :disabled="unsaved_changes"
       class="filter_select"
-      v-model="selected_filter_area"
+      :value="selected_filter_area_option"
       @select="select_filter"
       :options="filter_options"
       placeholder="Select area to limit plan "
@@ -32,15 +32,11 @@
     props: ['unsaved_changes'],
     mounted() {
     },
-    data() {
-      return {
-        selected_filter_area: null,
-      }
-    },
     computed: {
       ...mapState({
         instance_config: state => state.instance_config,
-        geodata_ready: state => state.geodata_ready
+        geodata_ready: state => state.geodata_ready,
+        selected_filter_area_option: state => state.irs_plan.selected_filter_area_option
       }),
       filter_options() {
         const next_level_up_from_planning_level = get_next_level_up_from_planning_level()
@@ -54,7 +50,7 @@
     },
     methods: {
       select_filter(filter_option) {
-        this.$emit('filter_selected', filter_option.id)
+        this.$store.commit('irs_plan/set_selected_filter_area_option', filter_option)
       }
     }
   }

@@ -33,7 +33,7 @@
 
   export default {
     name: 'plan_map',
-    props: ['edit_mode', 'geodata_ready', 'risk_visible', 'filtered_area_ids', 'selected_filter_area_id'],
+    props: ['edit_mode', 'geodata_ready', 'risk_visible', 'selected_filter_area_id'],
     data() {
       return {
         slider: {

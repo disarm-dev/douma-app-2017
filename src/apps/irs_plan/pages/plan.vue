@@ -22,7 +22,6 @@
       <plan_filter
         v-if="next_level_up_from_planning_level && geodata_ready"
         :unsaved_changes="unsaved_changes"
-        @filter_selected="filter_selected"
       ></plan_filter>
 
       <!--SELECT MODE-->
@@ -45,7 +44,6 @@
             :edit_mode="edit_mode"
             :risk_visible="risk_visible"
             :selected_filter_area_id="selected_filter_area_id"
-            :filtered_area_ids="filtered_area_ids"
             v-on:map_loaded="edit_disabled = false"
           ></plan_map>
         </md-card-content>
@@ -102,9 +100,6 @@
         edit_mode: false,
         edit_disabled: true,
         risk_visible: false,
-
-        dropdown_areas: [],
-        filtered_area_ids: [],
       }
     },
     computed: {
@@ -116,7 +111,7 @@
         geodata_ready: state => state.geodata_ready,
 
         current_plan: state => state.irs_plan.current_plan,
-        selected_filter_area_id: state => state.irs_plan.selected_filter_area_id,
+        selected_filter_area_id: state => state.irs_plan.selected_filter_area_option.id,
         unsaved_changes: state => state.irs_plan.unsaved_changes,
         current_plan_date: state =>  {
           if (state.irs_plan.current_plan) {
@@ -152,14 +147,6 @@
       get_geodata(this.$store)
     },
     methods: {
-      // Filtering
-      filter_selected(selected_filter_area_id) {
-        this.$store.commit('irs_plan/set_selected_filter_area_id', selected_filter_area_id)
-      },
-
-
-
-
       load_plan() {
         this.$store.commit('root:set_loading', true)
 
@@ -169,8 +156,10 @@
 
       },
       save_plan() {
+        const focus_filter_area = {}
 
         const plan = new Plan().create({
+          focus_filter_area,
           instance_config: this.instance_config,
           selected_target_area_ids: this.selected_target_area_ids,
         })

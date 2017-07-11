@@ -14,7 +14,7 @@ export default {
     bulk_selected_ids: [],
 
     // Map
-    selected_filter_area_id: null,
+    selected_filter_area_option: null,
 
     unsaved_changes: false,
   },
@@ -35,13 +35,13 @@ export default {
       return result
     },
     'selected_filter_area': (state, getters, rootState) => {
-      if (!state.selected_filter_area_id) return false
+      if (!state.selected_filter_area_option) return false
       if (!rootState.geodata_ready) return false
 
       const level = get_next_level_up_from_planning_level()
 
       return cache.geodata[level.name].features.find(feature => {
-        return feature.properties[level.field_name] === state.selected_filter_area_id
+        return feature.properties[level.field_name] === state.selected_filter_area_option.id
       })
 
     }
@@ -100,8 +100,8 @@ export default {
     'set_plan': (state, plan) => {
       state.current_plan = plan
     },
-    'set_selected_filter_area_id': (state, id) => {
-      state.selected_filter_area_id = id
+    'set_selected_filter_area_option': (state, id) => {
+      state.selected_filter_area_option = id
     }
   },
   actions: {
