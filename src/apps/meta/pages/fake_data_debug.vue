@@ -1,6 +1,15 @@
 <template>
-  <div>
-    <md-button :disabled="disabled" @click.native="generate_data">Generate</md-button>
+  <div class="container">
+    <md-input-container>
+      <label>Number of areas (between 0 and 3 records generated for each area)</label>
+      <md-input type="number" v-model="areas_count"></md-input>
+      <md-button :disabled="!geodata_ready" @click.native="generate_data">Generate</md-button>
+    </md-input-container>
+
+    <div v-if="message">
+      {{message}}
+      <router-link to="/irs/record_point">View records</router-link>
+    </div>
   </div>
 </template>
 
@@ -20,13 +29,15 @@ export default {
   name: 'fake_responses_debug',
   data () {
     return {
-      disabled: true,
+      areas_count: 50,
+      message: ''
     }
   },
   computed: {
     ...mapState({
       user: state => state.meta.user.username,
       slug: state => state.instance_config.instance.slug,
+      geodata_ready: state => state.geodata_ready,
       instance_config: state => state.instance_config,
       location_selections: state => state.instance_config.location
     }),
@@ -38,9 +49,7 @@ export default {
     }
   },
   mounted() {
-    get_geodata(this.$store).then(() => {
-      this.disabled = false
-    })
+    get_geodata(this.$store)
   },
   methods: {
     get_polygon(id) {
@@ -82,7 +91,7 @@ export default {
     generate_data() {
       let responses = []
 
-      this.location_selections.splice(0, 50).forEach(location_selection => {
+      this.location_selections.splice(0, this.areas_count).forEach(location_selection => {
         let count = 0
         const limit = this.random_number_between(1,3)
         while (count <= limit) {
@@ -95,7 +104,7 @@ export default {
           count += 1
         }
       })
-      console.log('Done faking')
+      this.message = `Done faking. Created ${responses.length} records.`
       this.$store.commit('irs_record_point/add_responses', responses)
     }
   }
@@ -103,4 +112,5 @@ export default {
 </script>
 
 <style lang="css" scoped>
+
 </style>
