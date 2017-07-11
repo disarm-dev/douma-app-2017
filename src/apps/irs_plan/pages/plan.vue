@@ -6,7 +6,10 @@
 
     <div v-if="online">
       <!-- FILTER TO LIMIT PLAN -->
-      <plan_filter @filter_selected="filter_selected"></plan_filter>
+      <plan_filter
+        v-if="next_level_up_from_planning_level"
+        @filter_selected="filter_selected"
+      ></plan_filter>
 
       <!--SELECT MODE-->
       <md-checkbox v-model="edit_mode" :disabled="edit_disabled">Edit mode</md-checkbox>
@@ -75,7 +78,7 @@
   import cache from 'config/cache.js'
   import {Plan} from 'lib/models/plan.model.js'
   import {get_geodata} from 'lib/data/remote'
-  import {get_planning_level_name, get_planning_level_id_field} from 'lib/spatial_hierarchy_helper'
+  import {get_planning_level_name, get_planning_level_id_field, get_next_level_up_from_planning_level} from 'lib/spatial_hierarchy_helper'
 
   export default {
     name: 'Plan',
@@ -105,6 +108,9 @@
           }
         },
       }),
+      next_level_up_from_planning_level() {
+        return get_next_level_up_from_planning_level()
+      },
       planning_level_id_field() {
         return get_planning_level_id_field(this.instance_config)
       },

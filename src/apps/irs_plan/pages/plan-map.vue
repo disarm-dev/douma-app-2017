@@ -30,7 +30,7 @@
   import logslider from 'lib/log_slider.js'
   import logscale from 'lib/log_scale.js'
   import {basic_map} from 'lib/basic_map'
-  import {get_planning_level_id_field, get_planning_level_name, get_next_level_down} from 'lib/spatial_hierarchy_helper'
+  import {get_planning_level_id_field, get_planning_level_name, get_next_level_down_from_planning_level} from 'lib/spatial_hierarchy_helper'
 
   export default {
     name: 'plan_map',
@@ -87,7 +87,7 @@
         return converted_value
       },
       next_level_down() {
-        return get_next_level_down()
+        return get_next_level_down_from_planning_level()
       }
     },
     watch: {
