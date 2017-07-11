@@ -34,8 +34,9 @@ export default {
       })
       return result
     },
-    'selected_filter_area': (state) => {
+    'selected_filter_area': (state, getters, rootState) => {
       if (!state.selected_filter_area_id) return false
+      if (!rootState.geodata_ready) return false
 
       const level = get_next_level_up_from_planning_level()
 

@@ -135,11 +135,12 @@
 
           if (feature) {
             const feature_id = feature.properties[this.planning_level_id_field]
-            // check if feature_id is within selected_filter_area
 
             const feature_id_in_filter_area = this.check_selection_in_plan_focus(feature_id, this.selected_filter_area)
-            this.$store.commit('irs_plan/toggle_selected_target_area_id', feature_id_in_filter_area)
-            this.refilter_target_areas()
+            if (feature_id_in_filter_area.length) {
+              this.$store.commit('irs_plan/toggle_selected_target_area_id', feature_id_in_filter_area)
+              this.refilter_target_areas()
+            }
           }
         }
 
@@ -491,10 +492,10 @@
           })
 
           if (!found_area) return false
-debugger
-          return inside(selected_filter_area, centroid(found_area))
 
+          return inside(centroid(found_area), selected_filter_area)
         })
+        console.log('result', result)
         console.timeEnd('filter within plan_focus')
         return result
       }
