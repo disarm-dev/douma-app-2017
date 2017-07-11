@@ -30,6 +30,7 @@
   import logscale from 'lib/log_scale.js'
   import {basic_map} from 'lib/basic_map'
   import {get_planning_level_id_field, get_planning_level_name, get_next_level_down_from_planning_level} from 'lib/spatial_hierarchy_helper'
+  import {target_areas_inside_focus_filter_area} from 'lib/irs_plan_helper'
 
   export default {
     name: 'plan_map',
@@ -70,10 +71,10 @@
         selected_filter_area: 'irs_plan/selected_filter_area'
       }),
       planning_level_name() {
-        return get_planning_level_name(this.instance_config)
+        return get_planning_level_name()
       },
       planning_level_id_field() {
-        return get_planning_level_id_field(this.instance_config)
+        return get_planning_level_id_field()
       },
       converted_slider_value() {
         if (!this.logslider) return 0
@@ -136,7 +137,7 @@
           if (feature) {
             const feature_id = feature.properties[this.planning_level_id_field]
 
-            const feature_id_in_filter_area_array = this.check_selection_in_plan_focus(feature_id)
+            const feature_id_in_filter_area_array = target_areas_inside_focus_filter_area({feature_id, selected_filter_area: this.selected_areas_in_filter_area})
             if (feature_id_in_filter_area_array.length) {
               this.$store.commit('irs_plan/toggle_selected_target_area_id', feature_id_in_filter_area_array)
               this.refilter_target_areas()
@@ -382,7 +383,7 @@
         //   }
         // })
 
-        const selected_areas_in_filter_area = this.check_selection_in_plan_focus(selected_areas)
+        const selected_areas_in_filter_area = target_areas_inside_focus_filter_area({selected_areas, selected_filter_area: this.selected_areas_in_filter_area})
         this.$store.commit('irs_plan/add_selected_target_areas', selected_areas_in_filter_area)
 
         this.draw.deleteAll()
@@ -401,7 +402,7 @@
           return area.properties[this.planning_level_id_field]
         })
 
-        const selected_areas_in_filter_area = this.check_selection_in_plan_focus(area_ids)
+        const selected_areas_in_filter_area = target_areas_inside_focus_filter_area({area_ids, selected_filter_area: this.selected_areas_in_filter_area})
         this.$store.commit('irs_plan/set_bulk_selected_ids', selected_areas_in_filter_area)
 
         this.refilter_target_areas()
@@ -470,21 +471,6 @@
         const property = 'risk'
 
         this.log_scale = logscale({features, property})
-      },
-      check_selection_in_plan_focus(area_ids) {
-        if (!Array.isArray(area_ids)) area_ids = [area_ids]
-        if (!this.selected_filter_area) return area_ids
-
-        const result = area_ids.filter(area_id => {
-          const found_area = cache.geodata[this.planning_level_name].features.find(feature => {
-            return feature.properties[this.planning_level_id_field] === area_id
-          })
-
-          if (!found_area) return false
-
-          return inside(centroid(found_area), this.selected_filter_area)
-        })
-        return result
       }
     }
   }

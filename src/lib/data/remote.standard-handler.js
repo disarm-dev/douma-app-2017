@@ -50,7 +50,8 @@ const standard_handler = (url, options = {}) => {
 }
 
 // Get basic root URL from static configuration
-const douma_api_root = `${common_config.api.url}/${common_config.api.version}`
+// const douma_api_root = `${common_config.api.url}/${common_config.api.version}`
+const douma_api_root = `http://localhost:3000/${common_config.api.version}`
 
 export {configure_standard_handler, standard_handler, douma_api_root}
 

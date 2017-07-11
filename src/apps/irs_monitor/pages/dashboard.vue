@@ -59,7 +59,7 @@
         aggregated_responses: "irs_monitor/aggregated_responses",
       }),
       planning_level_name() {
-        return get_planning_level_name(this.instance_config)
+        return get_planning_level_name()
       },
     },
     mounted() {

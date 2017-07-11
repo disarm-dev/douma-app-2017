@@ -46,15 +46,15 @@
         selected_target_area_ids: 'irs_plan/all_selected_area_ids'
       }),
       structure_field_name() {
-        const denominator = get_denominator_fields(this.instance_config)
+        const denominator = get_denominator_fields()
         const field = Object.keys(denominator)[0] // number_of_structures or number_of_households
         return denominator[field] // gets 'NumHouseho' or 'NmStrct'
       },
       planning_level_name() {
-        return get_planning_level_name(this.instance_config)
+        return get_planning_level_name()
       },
       planning_level_id_field() {
-        return get_planning_level_id_field(this.instance_config)
+        return get_planning_level_id_field()
       },
       selected_areas() {
         return cache.geodata[this.planning_level_name].features.filter(feature => {

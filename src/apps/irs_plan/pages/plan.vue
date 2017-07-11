@@ -123,13 +123,14 @@
         return get_next_level_up_from_planning_level()
       },
       planning_level_id_field() {
-        return get_planning_level_id_field(this.instance_config)
+        return get_planning_level_id_field()
       },
       planning_level_name() {
-        return get_planning_level_name(this.instance_config)
+        return get_planning_level_name()
       },
       ...mapGetters({
-        selected_target_area_ids: 'irs_plan/all_selected_area_ids'
+        selected_target_area_ids: 'irs_plan/all_selected_area_ids',
+        selected_filter_area: 'irs_plan/selected_filter_area'
       }),
       title() {
         if (!this.edit_mode) return "View"
@@ -156,12 +157,19 @@
 
       },
       save_plan() {
-        const focus_filter_area = {}
+        let plan_targets
+
+        if (this.selected_filter_area) {
+          plan_targets = target_areas_inside_focus_filter_area({
+            area_ids: this.selected_target_area_ids,
+            selected_filter_area: this.selected_filter_area
+          })
+        }
 
         const plan = new Plan().create({
-          focus_filter_area,
+          focus_filter_area: this.selected_filter_area,
           instance_config: this.instance_config,
-          selected_target_area_ids: this.selected_target_area_ids,
+          selected_target_area_ids: plan_targets
         })
 
         this.$store.commit('root:set_loading', true)

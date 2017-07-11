@@ -36,10 +36,10 @@
         map_focus: state => state.instance_config.map_focus
       }),
       planning_level_id_field() {
-        return get_planning_level_id_field(this.instance_config) // e.g. AggUniCode for SWZ
+        return get_planning_level_id_field() // e.g. AggUniCode for SWZ
       },
       planning_level_name() {
-        return get_planning_level_name(this.instance_config) // e.g. AggUniCode for SWZ
+        return get_planning_level_name() // e.g. AggUniCode for SWZ
       }
     },
     watch: {

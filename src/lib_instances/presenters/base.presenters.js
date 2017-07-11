@@ -15,7 +15,7 @@ export default class Presenters {
     const required_aggregations = instance_config.applets.irs_monitor.aggregations.table
 
     // Get id_field from instance_config
-    const planning_level_id_field = get_planning_level_id_field(instance_config)
+    const planning_level_id_field = get_planning_level_id_field()
 
 
     // Collect responses for each area, and calculate every aggregation for each

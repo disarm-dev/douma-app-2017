@@ -42,10 +42,10 @@ export default {
       location_selections: state => state.instance_config.location
     }),
     planning_level_name() {
-      return get_planning_level_name(this.instance_config)
+      return get_planning_level_name()
     },
     planning_level_id_field() {
-      return get_planning_level_id_field(this.instance_config)
+      return get_planning_level_id_field()
     }
   },
   mounted() {

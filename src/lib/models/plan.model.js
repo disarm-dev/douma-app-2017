@@ -30,9 +30,9 @@ export class Plan {
   }
 
   _decorate_targets({selected_target_area_ids, instance_config}) {
-    const planning_level_id_field = get_planning_level_id_field(instance_config)
-    const planning_level_name = get_planning_level_name(instance_config)
-    const denominator_fields = get_denominator_fields(instance_config)
+    const planning_level_id_field = get_planning_level_id_field()
+    const planning_level_name = get_planning_level_name()
+    const denominator_fields = get_denominator_fields()
 
     if(!selected_target_area_ids) throw new Error('Missing selected_target_area_ids')
 

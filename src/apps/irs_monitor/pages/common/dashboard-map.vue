@@ -68,10 +68,10 @@
         plan_target_area_ids: 'irs_monitor/plan_target_area_ids'
       }),
       planning_level_name() {
-        return get_planning_level_name(this.instance_config) // Get field name e.g villages
+        return get_planning_level_name() // Get field name e.g villages
       },
       planning_level_id_field() {
-        return get_planning_level_id_field(this.instance_config) // Get field name e.g AggUniCod
+        return get_planning_level_id_field() // Get field name e.g AggUniCod
       }
     },
     mounted() {
