@@ -346,7 +346,7 @@
           this.draw = null
         }
       },
-      find_selected_polygons(polygon_drawn) {
+      find_polygons_within_drawn_polygon(polygon_drawn) {
 
         const all_polygons = cache.geodata[this.planning_level_name]
 
@@ -372,7 +372,7 @@
       finish_drawing(features) {
         let polygon_drawn = features[0]
 
-        const polygons_within_polygon_drawn = this.find_selected_polygons(polygon_drawn)
+        const polygons_within_polygon_drawn = this.find_polygons_within_drawn_polygon(polygon_drawn)
         const selected_areas = polygons_within_polygon_drawn.features.map(f => f.properties[this.planning_level_id_field])
 
         const selected_areas_in_filter_area = target_areas_inside_focus_filter_area({area_ids: selected_areas, selected_filter_area: this.selected_filter_area})

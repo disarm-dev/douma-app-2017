@@ -1,5 +1,5 @@
 import {AssignmentSchema} from 'lib/models/assignment.schema'
-import {Assignment} from 'lib/models/assignment.model'
+import {AssignmentPlan} from 'lib/models/assignment_plan.model'
 import {DECORATED_UNASSIGNED_TEAM} from 'apps/irs_tasker/unassigned_team'
 import {get_current_plan} from 'lib/data/remote.plans'
 
@@ -7,7 +7,9 @@ export default {
   namespaced: true,
   state: {
     teams: [],
-    assignments: [] // Array of {area_id, team_name}
+    assignments: [], // Array of {area_id, team_name}
+
+    plan_target_ids: [],
   },
   mutations: {
     clear_data_storage:(state) => {
@@ -30,7 +32,7 @@ export default {
           state.assignments.push(assignment)
         } else {
           console.error(AssignmentSchema.errors(assignment))
-          throw new Error('Invalid Assignment')
+          throw new Error('Invalid AssignmentPlan')
         }
       }
     },
@@ -40,6 +42,9 @@ export default {
     "delete_assignment": (state, assignment) => {
       const index = state.assignments.findIndex(a => a.area_id === assignment.area_id)
       state.assignments.splice(1, index)
+    },
+    'set_plan_targets': (state, plan_targets) => {
+      state.plan_targets = plan_targets
     }
   },
   actions: {
@@ -59,23 +64,20 @@ export default {
         context.commit('set_assignment', {area_id, team_name})
       }
     },
-    'load_assignments_from_plan': (context) => {
-      // If team_name is not in teams, set to
-      DECORATED_UNASSIGNED_TEAM.team_name
-    },
-    'save_assignments_to_plan': (context) => {},
+
     'get_current_plan': (context) => {
-      return get_current_plan(context.rootState.instance_config.instance.slug).then((plan_json) => {
-
-        const assignments = new Assignment().assignments_from_plan(plan_json)
-        context.commit('set_assignments', assignments)
-
-        const teams = new Assignment().team_names_from_assignments(assignments)
-        context.commit('set_teams', teams)
+      return get_current_plan().then((plan_json) => {
+        const plan_target_ids = new AssignmentPlan().extract_target_ids_from_plan(plan_json)
+        context.commit('set_plan_targets', plan_target_ids)
+      })
+    },
+    'load_assignment_plan': (context) => {
+      return get_current_assignment_plan().then(assignment_plan_json => {
+        console.log('assignment_plan_json', assignment_plan_json)
       })
     },
     'save_assignments': (context) => {
 
-    },
+    }
   }
 }
