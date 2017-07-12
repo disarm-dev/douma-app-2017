@@ -3,6 +3,16 @@
 
     <div class="controls">
 
+      <md-button
+        class="md-icon-button md-raised"
+        :class="{'md-warn': edit_mode}"
+        :disabled="loading || !geodata_ready"
+        @click.native='edit_mode = !edit_mode'
+      >
+        <md-icon>edit</md-icon>
+      </md-button>
+
+
       <!-- MENU -->
       <md-menu md-direction="bottom right" md-size="6">
         <md-button class="md-icon-button md-raised" md-menu-trigger>
@@ -11,8 +21,8 @@
 
         <md-menu-content>
           <md-menu-item @click="load_plan" :disabled="loading">
-            <md-icon>refresh</md-icon>
-            <span>Refresh plan</span>
+            <md-icon>assignment_turned_in</md-icon>
+            <span>Load plan</span>
           </md-menu-item>
 
           <!--EDIT MODE-->
@@ -43,7 +53,6 @@
       ></plan_filter>
 
       <!--SELECT MODE-->
-      <md-checkbox v-model="edit_mode" :disabled="edit_disabled">Edit mode</md-checkbox>
       <md-checkbox :disabled='!geodata_ready || edit_mode' v-model="risk_visible">Show risk</md-checkbox>
 
       <!--PLAN MAP-->
@@ -103,13 +112,10 @@
   import {get_geodata} from 'lib/data/remote'
   import {get_planning_level_name, get_planning_level_id_field, get_next_level_up_from_planning_level} from 'lib/spatial_hierarchy_helper'
   import {target_areas_inside_focus_filter_area} from 'lib/irs_plan_helper'
-  import MdMenuItem from '../../../../node_modules/vue-material/src/components/mdMenu/mdMenuItem'
 
   export default {
     name: 'Plan',
-    components: {
-      MdMenuItem,
-      plan_filter, plan_summary, plan_map},
+    components: {plan_filter, plan_summary, plan_map},
     data() {
       return {
         edit_mode: false,
