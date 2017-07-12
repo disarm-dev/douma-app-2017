@@ -54,6 +54,9 @@
     },
     methods: {
       // Dialog
+      open_sw_dialog() {
+        this.$refs.sw_dialog.open()
+      },
       close_sw_dialog() {
         this.$refs.sw_dialog.close()
       },
