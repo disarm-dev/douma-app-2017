@@ -1,23 +1,14 @@
 <template>
   <div class='container'>
-    <md-card class="card">
-
-      <md-card-content>
-        <div class="md-title">{{title}} plan {{current_plan_date ? `from ${current_plan_date}` : ''}} </div>
-      </md-card-content>
-
-      <md-card-actions>
-        <md-button class="md-icon-button md-mini md-raised md-primary" @click.native="load_plan" :disabled="loading"><md-icon>refresh</md-icon></md-button>
-      </md-card-actions>
-    </md-card>
-
-    <h4>
-    </h4>
+    <div>
+      {{title}} plan {{current_plan_date ? `from ${current_plan_date}` : ''}}
+      <span class='clickable' @click="load_plan" :disabled="loading"><md-icon>refresh</md-icon>Refresh plan</span>
+    </div>
 
     <div v-if="online">
       <!-- FILTER TO LIMIT PLAN -->
       <plan_filter
-        v-if="next_level_up_from_planning_level && geodata_ready"
+        v-if="can_focus_planning && geodata_ready"
         :unsaved_changes="unsaved_changes"
       ></plan_filter>
 
@@ -118,14 +109,12 @@
           }
         },
       }),
-      next_level_up_from_planning_level() {
+      can_focus_planning() {
+        // TODO: @refac Improve checking if planning can be focused
         return get_next_level_up_from_planning_level()
       },
-      planning_level_id_field() {
-        return get_planning_level_id_field()
-      },
-      planning_level_name() {
-        return get_planning_level_name()
+      next_level_up_from_planning_level() {
+        return get_next_level_up_from_planning_level()
       },
       ...mapGetters({
         selected_target_area_ids: 'irs_plan/all_selected_area_ids',

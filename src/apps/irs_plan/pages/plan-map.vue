@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div v-if="edit_mode">
-    <p>Showing areas where risk is above: {{converted_slider_value}}</p>
-    <input  id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value">
-    </div>
-    <md-checkbox v-if="next_level_down" :disabled='!geodata_ready || clusters_disabled' v-model="clusters_visible">Show {{next_level_down.name}}</md-checkbox>
     <div id="map"></div>
+    <md-checkbox v-if="next_level_down" :disabled='!geodata_ready || clusters_disabled' v-model="clusters_visible">Show {{next_level_down.name}}</md-checkbox>
+    <div v-if="edit_mode">
+      <p>Showing areas where risk is above: {{converted_slider_value}}</p>
+      <input  id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value">
+    </div>
   </div>
 </template>
 
