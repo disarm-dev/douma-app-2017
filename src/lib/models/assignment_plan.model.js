@@ -7,20 +7,18 @@ import {DECORATED_UNASSIGNED_TEAM} from 'apps/irs_tasker/unassigned_team'
 
 export class AssignmentPlan {
 
-  // assignments_from_plan(plan) {
-  //   return plan.targets.map(target => {
-  //     return this.create({
-  //       area_id: target.id,
-  //       team_name: target.assigned_to_team_name
-  //     })
-  //   })
-  // }
+  create_from_json(assignment_plan_json) {
+    const assignments = assignment_plan_json.assignments || []
+    const teams = array_unique(assignments.map(assignment => assignment.team_name)).filter(i => i)
+    return {assignments, teams}
+  }
 
   extract_target_ids_from_plan(plan_json) {
     if (!plan_json.targets) return []
 
     return plan_json.targets.map(target => target.id)
   }
+
 
   // create({area_id, team_name}) {
   //   const assignment = {area_id, team_name}

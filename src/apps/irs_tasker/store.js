@@ -2,6 +2,7 @@ import {AssignmentSchema} from 'lib/models/assignment.schema'
 import {AssignmentPlan} from 'lib/models/assignment_plan.model'
 import {DECORATED_UNASSIGNED_TEAM} from 'apps/irs_tasker/unassigned_team'
 import {get_current_plan} from 'lib/data/remote.plans'
+import {get_assignment_plan, create_assignment_plan} from 'lib/data/remote.assignment_plan'
 
 export default {
   namespaced: true,
@@ -72,8 +73,10 @@ export default {
       })
     },
     'load_assignment_plan': (context) => {
-      return get_current_assignment_plan().then(assignment_plan_json => {
-        console.log('assignment_plan_json', assignment_plan_json)
+      return get_assignment_plan().then(assignment_plan_json => {
+        const {assignments, teams} = new AssignmentPlan().create_from_json(assignment_plan_json)
+        context.commit('set_assignments', assignments)
+        context.commit('set_teams', teams)
       })
     },
     'save_assignments': (context) => {

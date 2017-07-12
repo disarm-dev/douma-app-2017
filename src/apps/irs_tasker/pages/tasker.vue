@@ -3,7 +3,7 @@
     <h1>Assign teams</h1>
 
     <md-button class="md-raised" :disabled='loading' @click.native="load_plan">Load plan</md-button>
-    <!--<md-button class="md-raised" @click.native="load_assignments">Load assignments</md-button>-->
+    <md-button class="md-raised" @click.native="load_assignments">Load assignments</md-button>
     <!--<md-button class="md-raised" :disabled="!assignments.length" @click.native="save_assignments">Save assignments</md-button>-->
 
     <tasker_legend :decorated_teams="decorated_teams" :selected_team_name="selected_team_name" @selected_team="select_team"></tasker_legend>
@@ -79,6 +79,13 @@
         this.$store.commit('root:set_loading', true)
 
         this.$store.dispatch('irs_tasker/get_current_plan')
+          .then(() => { this.$store.commit('root:set_loading', false) })
+          .catch(() => { this.$store.commit('root:set_loading', false) })
+      },
+      load_assignments() {
+        this.$store.commit('root:set_loading', true)
+
+        this.$store.dispatch('irs_tasker/load_assignment_plan')
           .then(() => { this.$store.commit('root:set_loading', false) })
           .catch(() => { this.$store.commit('root:set_loading', false) })
       },
