@@ -33,9 +33,39 @@ export class AssignmentPlan {
     return {assignments, teams}
   }
 
-  extract_target_ids_from_plan(plan_json) {
-    if (!plan_json.targets) return []
+  /**
+   * Take a plan, extract target ids.
+   * Also, create assignments by:
+   * 1. removing any existing ones that are not in the current plan
+   * 2. making empty assignments for new targets
+   * @param plan_json
+   * @param existing_assignments
+   * @returns {*}
+   */
+  extract_target_ids_and_assignments_from_plan(plan_json, existing_assignments) {
+    // Empty plan - no targets, so no assignments
+    if (!plan_json.targets) return {assignments, plan_target_ids}
 
-    return plan_json.targets.map(target => target.id)
+    // Get area_ids of new target areas
+    const plan_target_ids = plan_json.targets.map(target => target.id)
+
+    // Find only existing assignments within new plan
+    const existing_assignments_within_plan = existing_assignments.filter(a => {
+      return plan_target_ids.includes(a.area_id)
+    })
+
+    // Create assignments for each target area
+    const assignments = plan_target_ids.map(area_id => {
+      const existing_assignment = existing_assignments_within_plan.find(a => a.area_id === area_id)
+
+      if (existing_assignment) {
+        return existing_assignment
+      } else {
+        // Make a new, empty assignment
+        return {area_id, team_name: DECORATED_UNASSIGNED_TEAM.team_name}
+      }
+    }).filter(i => i)
+
+    return {assignments, plan_target_ids}
   }
 }

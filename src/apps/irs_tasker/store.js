@@ -61,12 +61,12 @@ export default {
 
     },
     'assign_area_to_team': (context, {area_id, team_name}) => {
-      if (team_name === null) {
+      if (team_name === DECORATED_UNASSIGNED_TEAM.team_name) {
         context.commit('delete_assignment', {area_id, team_name})
-
       } else {
         context.commit('set_assignment', {area_id, team_name})
       }
+
       context.commit('set_unsynced_changes',true)
     },
     'delete_team': (context, team_name) => {
@@ -82,8 +82,11 @@ export default {
     },
     'get_current_plan': (context) => {
       return get_current_plan().then((plan_json) => {
-        const plan_target_ids = new AssignmentPlan().extract_target_ids_from_plan(plan_json)
+        const existing_assignments = context.state.assignments
+        const {assignments, plan_target_ids} = new AssignmentPlan().extract_target_ids_and_assignments_from_plan(plan_json, existing_assignments)
+
         if (plan_target_ids.length) {
+          context.commit('set_assignments', assignments)
           context.commit('set_plan_target_ids', plan_target_ids)
         } else {
           context.commit('root:set_snackbar', {message: 'No plan found'}, {root: true})

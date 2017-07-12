@@ -4,10 +4,10 @@
     <!--DOING BUTTONS-->
     <div class="buttons">
       <md-button class="md-raised" :disabled='loading' @click.native="load_plan">Load plan</md-button>
+      <md-button class="md-raised md-primary" :disabled="loading || !plan_target_ids.length || !assignments.length || !unsynced_changes" @click.native="save_assignments">Save assignments</md-button>
       <md-button class="md-raised" :disabled='loading || !plan_target_ids.length' @click.native="load_assignments">Load assignments</md-button>
-      <md-button class="md-raised" :disabled="loading || !plan_target_ids.length || !assignments.length || !unsynced_changes" @click.native="save_assignments">Save assignments</md-button>
     </div>
-    
+
     <md-card>
       <md-card-content>
         <!--LEGEND-->
