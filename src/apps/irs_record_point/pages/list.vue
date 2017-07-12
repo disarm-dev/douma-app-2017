@@ -1,21 +1,42 @@
 <template>
   <div class='container'>
      <!--<local_record_summary></local_record_summary>-->
-    <div v-if="!online">Offline - unable to sync</div>
-    <md-button class='md-raised md-primary' @click.native='$router.push("/irs/record_point/new")'><md-icon>create</md-icon>Add new</md-button>
-    <md-button class="md-raised md-warn" :disabled="syncing || unsynced_count === 0 || !online" @click.native="sync">
-      Sync {{unsynced_count}} responses
-    </md-button>
-    <md-button class="md-raised md-warn" :disabled="syncing || synced_count === 0" @click.native="clear_synced_responses">
-      Hide synced responses
-    </md-button>
 
-    <!-- EXPORT RECORDS-->
-    <md-button class="md-raised" :disabled="syncing || unsynced_count === 0" @click.native="download_records">
-      Export {{unsynced_count}} unsynced
-    </md-button>
+    <div class="controls">
+      <md-button class="md-icon-button md-raised md-primary" @click.native='$router.push("/irs/record_point/new")'>
+          <md-icon>create</md-icon>
+        </md-button>
+
+        <!-- MENU -->
+        <md-menu md-direction="bottom right" md-size="6">
+          <md-button class="md-icon-button md-raised" md-menu-trigger>
+            <md-icon>more_vert</md-icon>
+          </md-button>
+
+          <md-menu-content>
+            <md-menu-item :disabled="syncing || unsynced_count === 0 || !online" @click="sync">
+              <md-icon>sync</md-icon>
+              <span>Sync {{unsynced_count}} responses</span>
+            </md-menu-item>
+
+            <md-menu-item :disabled="syncing || synced_count === 0" @click="clear_synced_responses">
+              <md-icon>close</md-icon>
+              <span>Hide synced responses</span>
+            </md-menu-item>
+
+            <md-menu-item :disabled="syncing || unsynced_count === 0" @click="download_records">
+              <md-icon>file_download</md-icon>
+              <span>Export {{unsynced_count}} unsynced</span>
+            </md-menu-item>
+
+          </md-menu-content>
+        </md-menu>
+
+        <div v-if="!online">Offline - unable to sync</div>
+    </div>
 
     <!-- LIST ALL -->
+    <h3>{{responses.length}} responses</h3>
     <md-list>
       <md-list-item
         v-for='response in responses'

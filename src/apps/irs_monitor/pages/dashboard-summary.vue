@@ -1,15 +1,39 @@
 <template>
-  <md-list>
-    <md-list-item class="side">
-      <h4 v-if='!plan' style="color: red">Plan missing - no calculations until one is loaded</h4>
-      <div>
-        {{filtered_responses.length}} record{{filtered_responses.length === 1 ? '' : 's' }} lie within the planned areas.
-        Last updated: {{responses_last_updated_at}}
-      </div>
-      <md-button class="md-icon-button md-mini" @click.native="refresh_data" :disabled="loading"><md-icon>refresh</md-icon></md-button>
-      <md-button class="md-icon-button md-mini" @click.native="download_responses" :disabled="loading || !filtered_responses.length"><md-icon>file_download</md-icon></md-button>
-    </md-list-item>
-  </md-list>
+  <div class="controls">
+    <md-button class="md-icon-button md-raised md-primary" :disabled="loading" @click.native='refresh_data'>
+      <md-icon>refresh</md-icon>
+    </md-button>
+
+    <!-- MENU -->
+    <md-menu md-direction="bottom right" md-size="6">
+      <md-button class="md-icon-button md-raised" md-menu-trigger>
+        <md-icon>more_vert</md-icon>
+      </md-button>
+
+      <md-menu-content>
+        <md-menu-item :disabled="loading" @click="refresh">
+          <md-icon>refresh</md-icon>
+          <span>Update responses, plan and teams</span>
+        </md-menu-item>
+
+        <md-menu-item :disabled="loading || !filtered_responses.length" @click="download_responses">
+          <md-icon>file_download</md-icon>
+          <span>Download responses</span>
+        </md-menu-item>
+
+      </md-menu-content>
+    </md-menu>
+
+    <div>
+      {{filtered_responses.length}} record{{filtered_responses.length === 1 ? '' : 's' }} lie within the planned areas.
+      Last updated: {{responses_last_updated_at}}
+    </div>
+
+    <div v-if='!plan' style="color: red">Plan missing - no calculations until one is loaded</div>
+
+  </div>
+
+
 </template>
 
 <script>
@@ -67,7 +91,4 @@
 </script>
 
 <style scoped>
-  .side {
-    border-left: 1px blue;
-  }
 </style>

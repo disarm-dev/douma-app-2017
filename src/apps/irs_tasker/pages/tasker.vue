@@ -1,12 +1,33 @@
 <template>
   <div class="container">
 
-    <!--DOING BUTTONS-->
-    <div class="buttons">
-      <md-button class="md-raised" :disabled='loading' @click.native="load_plan">Load plan</md-button>
-      <md-button class="md-raised md-primary" :disabled="loading || !plan_target_ids.length || !assignments.length || !unsynced_changes" @click.native="save_assignments">Save assignments</md-button>
-      <md-button class="md-raised" :disabled='loading || !plan_target_ids.length' @click.native="load_assignments">Load assignments</md-button>
+    <div class="controls">
+
+      <!-- MENU -->
+      <md-menu md-direction="bottom right" md-size="6">
+        <md-button class="md-icon-button md-raised" md-menu-trigger>
+          <md-icon>more_vert</md-icon>
+        </md-button>
+
+        <md-menu-content>
+          <md-menu-item :disabled='loading' @click="load_plan">
+            <md-icon>assignment_turned_in</md-icon>
+            <span>Load plan</span>
+          </md-menu-item>
+          <md-menu-item :disabled="loading || !plan_target_ids.length || !assignments.length || !unsynced_changes" @click="save_assignments">
+            <md-icon>save</md-icon>
+            <span>Save assignments</span>
+          </md-menu-item>
+          <md-menu-item :disabled='loading || !plan_target_ids.length' @click="load_assignments">
+            <md-icon>group</md-icon>
+            <span>Load assignments</span>
+          </md-menu-item>
+
+        </md-menu-content>
+      </md-menu>
+
     </div>
+
 
     <md-card>
       <md-card-content>

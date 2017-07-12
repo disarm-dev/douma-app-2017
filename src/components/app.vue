@@ -40,12 +40,10 @@
     width: 90%;
   }
 
-  .clickable {
-    cursor: pointer;
+  /* TODO: @refac Controls should be in a component.*/
+  .controls {
+    min-height: 70px;
   }
 
-  .clickable:hover {
-    color: red;
-  }
 
 </style>

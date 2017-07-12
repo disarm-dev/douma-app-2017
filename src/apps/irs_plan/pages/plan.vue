@@ -1,9 +1,39 @@
 <template>
   <div class='container'>
-    <div>
-      {{title}} plan {{current_plan_date ? `from ${current_plan_date}` : ''}}
-      <span class='clickable' @click="load_plan" :disabled="loading"><md-icon>refresh</md-icon>Refresh plan</span>
+
+    <div class="controls">
+
+      <!-- MENU -->
+      <md-menu md-direction="bottom right" md-size="6">
+        <md-button class="md-icon-button md-raised" md-menu-trigger>
+          <md-icon>more_vert</md-icon>
+        </md-button>
+
+        <md-menu-content>
+          <md-menu-item @click="load_plan" :disabled="loading">
+            <md-icon>refresh</md-icon>
+            <span>Refresh plan</span>
+          </md-menu-item>
+
+          <!--EDIT MODE-->
+          <md-menu-item :disabled="!unsaved_changes" @click="save_plan">
+            <md-icon>save</md-icon>
+            <span>Save plan</span>
+          </md-menu-item>
+
+          <md-menu-item :disabled='!can_clear' @click.native="clear_plan">
+            <md-icon>delete</md-icon>
+            <span>Clear plan</span>
+          </md-menu-item>
+
+        </md-menu-content>
+      </md-menu>
+
+      <div>
+        {{title}} plan {{current_plan_date ? `from ${current_plan_date}` : ''}}
+      </div>
     </div>
+
 
     <div v-if="online">
       <!-- FILTER TO LIMIT PLAN -->
@@ -15,14 +45,6 @@
       <!--SELECT MODE-->
       <md-checkbox v-model="edit_mode" :disabled="edit_disabled">Edit mode</md-checkbox>
       <md-checkbox :disabled='!geodata_ready || edit_mode' v-model="risk_visible">Show risk</md-checkbox>
-
-      <!--VIEW MODE-->
-      <!--<md-button v-if='!edit_mode' :disabled='!geodata_ready' class='md-raised' @click.native="load_plan">Load from remote</md-button>-->
-
-      <!--EDIT MODE-->
-      <md-button v-if='edit_mode' :disabled="!unsaved_changes" class='md-raised md-primary' @click.native="save_plan">Save</md-button>
-      <!--<md-button v-if='edit_mode' :disabled="!unsaved_changes" class='md-raised md-warn' @click.native="load_plan">Cancel edits</md-button>-->
-      <md-button v-if='edit_mode' :disabled='!can_clear' class='md-raised' @click.native="clear_plan">Clear plan</md-button>
 
       <!--PLAN MAP-->
       <md-card>
@@ -81,10 +103,13 @@
   import {get_geodata} from 'lib/data/remote'
   import {get_planning_level_name, get_planning_level_id_field, get_next_level_up_from_planning_level} from 'lib/spatial_hierarchy_helper'
   import {target_areas_inside_focus_filter_area} from 'lib/irs_plan_helper'
+  import MdMenuItem from '../../../../node_modules/vue-material/src/components/mdMenu/mdMenuItem'
 
   export default {
     name: 'Plan',
-    components: {plan_filter, plan_summary, plan_map},
+    components: {
+      MdMenuItem,
+      plan_filter, plan_summary, plan_map},
     data() {
       return {
         edit_mode: false,
