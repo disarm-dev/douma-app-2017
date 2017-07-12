@@ -105,7 +105,8 @@ var webpackConfig = merge(baseWebpackConfig, {
     new LicenseWebpackPlugin({
       pattern: /^(MIT|ISC|BSD.*)$/,
       unacceptablePattern: /GPL/,
-      abortOnUnacceptableLicense: true
+      abortOnUnacceptableLicense: true,
+      filename: 'static/3rdpartylicenses.txt'
     }),
     new SWPrecacheWebpackPlugin(require('../sw-precache-config.js')),
     new Visualizer()

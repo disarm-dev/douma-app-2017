@@ -51,10 +51,12 @@
     "levels": [
       {
         "field_name": "ZIMWARDSID",
+        "display_field_name": "ZIMWARDSID",
         "name": "wards"
       },
       {
         "field_name": "ClusterID",
+        "display_field_name": "ClstrID",
         "name": "clusters"
       }
     ]

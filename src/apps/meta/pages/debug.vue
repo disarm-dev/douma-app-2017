@@ -17,7 +17,7 @@
       <md-divider class="md-inset"></md-divider>
 
       <!-- LEGAL -->
-      <md-list-item href="/3rdpartylicenses.txt"><md-icon>library_books</md-icon><span>licenses</span></md-list-item>
+      <md-list-item href="/static/3rdpartylicenses.txt"><md-icon>library_books</md-icon><span>licenses</span></md-list-item>
       <md-divider class="md-inset"></md-divider>
 
       <!-- CLEARING THINGS-->

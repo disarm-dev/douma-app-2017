@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div v-if="edit_mode">
-    <p>Showing areas where risk is above: {{converted_slider_value}}</p>
-    <input  id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value">
-    </div>
-    <md-checkbox v-if="next_level_down" :disabled='!geodata_ready || clusters_disabled' v-model="clusters_visible">Show {{next_level_down.name}}</md-checkbox>
     <div id="map"></div>
+    <md-checkbox v-if="next_level_down" :disabled='!geodata_ready || clusters_disabled' v-model="clusters_visible">Show {{next_level_down.name}}</md-checkbox>
+    <div v-if="edit_mode">
+      <p>Showing areas where risk is above: {{converted_slider_value}}</p>
+      <input  id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value">
+    </div>
   </div>
 </template>
 
@@ -346,7 +346,7 @@
           this.draw = null
         }
       },
-      find_selected_polygons(polygon_drawn) {
+      find_polygons_within_drawn_polygon(polygon_drawn) {
 
         const all_polygons = cache.geodata[this.planning_level_name]
 
@@ -372,7 +372,7 @@
       finish_drawing(features) {
         let polygon_drawn = features[0]
 
-        const polygons_within_polygon_drawn = this.find_selected_polygons(polygon_drawn)
+        const polygons_within_polygon_drawn = this.find_polygons_within_drawn_polygon(polygon_drawn)
         const selected_areas = polygons_within_polygon_drawn.features.map(f => f.properties[this.planning_level_id_field])
 
         const selected_areas_in_filter_area = target_areas_inside_focus_filter_area({area_ids: selected_areas, selected_filter_area: this.selected_filter_area})

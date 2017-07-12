@@ -39,4 +39,13 @@
     margin: 1em auto;
     width: 90%;
   }
+
+  .clickable {
+    cursor: pointer;
+  }
+
+  .clickable:hover {
+    color: red;
+  }
+
 </style>

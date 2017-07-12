@@ -1,20 +1,15 @@
 <template>
-  <md-card class="card">
-    <md-card-header>
+  <md-list>
+    <md-list-item class="side">
       <h4 v-if='!plan' style="color: red">Plan missing - no calculations until one is loaded</h4>
-      <div class="md-title">Table and map update with real records</div>
-    </md-card-header>
-
-    <md-card-content>
-      <span>{{filtered_responses.length}} record{{filtered_responses.length === 1 ? '' : 's' }} lie within the planned areas.</span>
-      <span>Last updated: {{responses_last_updated_at}}</span>
-    </md-card-content>
-
-    <md-card-actions>
-      <md-button class="md-icon-button md-mini md-raised md-primary" @click.native="refresh_data" :disabled="loading"><md-icon>refresh</md-icon></md-button>
-      <md-button class="md-icon-button md-mini md-raised md-primary" @click.native="download_responses" :disabled="loading || !filtered_responses.length"><md-icon>file_download</md-icon></md-button>
-    </md-card-actions>
-  </md-card>
+      <div>
+        {{filtered_responses.length}} record{{filtered_responses.length === 1 ? '' : 's' }} lie within the planned areas.
+        Last updated: {{responses_last_updated_at}}
+      </div>
+      <md-button class="md-icon-button md-mini" @click.native="refresh_data" :disabled="loading"><md-icon>refresh</md-icon></md-button>
+      <md-button class="md-icon-button md-mini" @click.native="download_responses" :disabled="loading || !filtered_responses.length"><md-icon>file_download</md-icon></md-button>
+    </md-list-item>
+  </md-list>
 </template>
 
 <script>
@@ -72,5 +67,7 @@
 </script>
 
 <style scoped>
-
+  .side {
+    border-left: 1px blue;
+  }
 </style>

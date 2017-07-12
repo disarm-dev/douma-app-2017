@@ -2,6 +2,7 @@
   <md-card class="card">
     <md-card-content>
 
+      <div id="map"></div>
       <div>
         <span>Show areas by:</span>
         <md-radio v-model="selected_layer" :disabled='!geodata_ready' name="map-type" md-value="coverage">Coverage</md-radio>
@@ -11,7 +12,6 @@
       <md-checkbox v-model="limit_to_plan">Limit to plan areas</md-checkbox>
       <md-checkbox v-model="show_response_points">Show response points</md-checkbox>
 
-      <div id="map"></div>
 
     </md-card-content>
   </md-card>
