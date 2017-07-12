@@ -1,3 +1,5 @@
+import without from 'lodash.without'
+
 import {AssignmentSchema} from 'lib/models/assignment.schema'
 import {AssignmentPlan} from 'lib/models/assignment_plan.model'
 import {DECORATED_UNASSIGNED_TEAM} from 'apps/irs_tasker/unassigned_team'
@@ -7,35 +9,30 @@ import {get_assignment_plan, create_assignment_plan} from 'lib/data/remote.assig
 export default {
   namespaced: true,
   state: {
-    teams: [],
+    teams: [], // This is an array of team_names
     assignments: [], // Array of {area_id, team_name}
+    selected_team_name: null,
 
     plan_target_ids: [],
+    unsynced_changes: false,
   },
   mutations: {
+    set_selected_team_name: (state, selected_team_name) => {
+      state.selected_team_name = selected_team_name
+    },
     clear_data_storage:(state) => {
       state.teams = []
       state.assignments = []
     },
     "set_teams": (state, teams) => {
-      state.teams = teams
+      state.teams = teams.filter(t => t !== DECORATED_UNASSIGNED_TEAM.team_name)
     },
     "set_assignment": (state, {area_id, team_name}) => {
-      const assignment = state.assignments.find(a => a.area_id === area_id)
-
-      if (assignment) {
-        // update it
-        assignment.team_name = team_name
-      } else {
-        const assignment = {area_id, team_name}
-
-        if (AssignmentSchema(assignment)) {
-          state.assignments.push(assignment)
-        } else {
-          console.error(AssignmentSchema.errors(assignment))
-          throw new Error('Invalid AssignmentPlan')
-        }
-      }
+      const assignment_index = state.assignments.findIndex(a => a.area_id === area_id)
+      const assignment = state.assignments[assignment_index]
+      // splice it into place
+      assignment.team_name = team_name
+      state.assignments.splice(assignment_index, 1, assignment)
     },
     "set_assignments": (state, assignments) => {
       state.assignments = assignments
@@ -46,6 +43,9 @@ export default {
     },
     'set_plan_target_ids': (state, plan_target_ids) => {
       state.plan_target_ids = plan_target_ids
+    },
+    'set_unsynced_changes': (state, unsynced_changes) => {
+      state.unsynced_changes = unsynced_changes
     }
   },
   actions: {
@@ -57,15 +57,29 @@ export default {
       })
 
       context.commit('set_teams', sorted_teams)
+      context.commit('set_unsynced_changes',true)
+
     },
     'assign_area_to_team': (context, {area_id, team_name}) => {
       if (team_name === null) {
         context.commit('delete_assignment', {area_id, team_name})
+
       } else {
         context.commit('set_assignment', {area_id, team_name})
       }
+      context.commit('set_unsynced_changes',true)
     },
+    'delete_team': (context, team_name) => {
+      context.state.assignments.forEach(assignment => {
+        if (assignment.team_name === team_name) {
+          context.commit('set_assignment', {area_id: assignment.area_id, team_name: DECORATED_UNASSIGNED_TEAM.team_name})
+        }
+      })
 
+      const teams_without = without(context.state.teams, team_name)
+      context.commit('set_teams', teams_without)
+      context.commit('set_unsynced_changes',true)
+    },
     'get_current_plan': (context) => {
       return get_current_plan().then((plan_json) => {
         const plan_target_ids = new AssignmentPlan().extract_target_ids_from_plan(plan_json)
@@ -74,13 +88,25 @@ export default {
     },
     'load_assignment_plan': (context) => {
       return get_assignment_plan().then(assignment_plan_json => {
-        const {assignments, teams} = new AssignmentPlan().create_from_json(assignment_plan_json)
+        const plan_target_ids = context.state.plan_target_ids
+        const {assignments, teams} = new AssignmentPlan().load_from_json(assignment_plan_json, plan_target_ids)
         context.commit('set_assignments', assignments)
         context.commit('set_teams', teams)
+        context.commit('set_unsynced_changes',false)
       })
     },
-    'save_assignments': (context) => {
+    'save_assignment_plan': (context) => {
+      const assignment_plan_content = {
+        assignments: context.state.assignments,
+        country: context.rootState.instance_config.instance.slug
+      }
 
+      const assignment_plan = new AssignmentPlan().create(assignment_plan_content)
+
+      return create_assignment_plan(assignment_plan).then(() => {
+        context.commit('set_unsynced_changes', false)
+        context.commit('root:set_snackbar', {message: 'Assignment Plan saved'}, {root: true})
+      })
     }
   }
 }

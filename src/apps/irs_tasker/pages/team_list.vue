@@ -12,32 +12,36 @@
           There are currently no teams. Add one below.
         </md-list-item>
 
-        <md-list-item v-for="(team, index) in decorated_teams" :key="index">
+        <md-list-item
+          v-for="({team_name, colour, count}, index) in decorated_teams"
+          :key="index"
+          @click.stop="select_team(team_name)">
 
-          <md-avatar :style="{'background-color': team.colour}" class="md-avatar-icon">
+          <md-avatar :style="{'background-color': colour}" class="md-avatar-icon">
             <md-icon>people</md-icon>
           </md-avatar>
 
           <div class="md-list-text-container">
-            <span>{{team.team_name}}</span>
-            <span>Assigned {{team.count}} areas</span>
+            <span>{{team_name}}</span>
+            <span>Assigned {{count}} areas</span>
           </div>
 
-          <!-- <md-button @click.native="edit_team(team.id)">
-            Edit
-          </md-button> -->
+          <md-button
+            v-if="team_name !== DECORATED_UNASSIGNED_TEAM.team_name"
+            class="md-icon-button md-list-action"
+            @click.native="delete_team(team_name)"
+          >
+            <md-icon>delete</md-icon>
+          </md-button>
 
         </md-list-item>
 
-        <md-list-item>
+        <form @submit.prevent="add_team" class="new_team">
           <md-input-container>
             <label>Add new team</label>
-            <md-input v-model="new_name"></md-input>
+            <md-input ref='new_team_name' v-model="new_name"></md-input>
           </md-input-container>
-          <md-button @click.native="save_teams">
-            Add
-          </md-button>
-        </md-list-item>
+        </form>
 
       </md-list>
     </md-card>
@@ -54,6 +58,7 @@
     data() {
       return {
         new_name: '',
+        DECORATED_UNASSIGNED_TEAM
       }
     },
     computed: {
@@ -61,15 +66,17 @@
         instance_location_name: state => state.instance_config.instance.location_name,
         team_names: state => state.irs_tasker.teams,
         assignments: state => state.irs_tasker.assignments,
-      })
+      }),
     },
     methods: {
-      show_add_team_input() {
-        if (this.decorated_teams.length == 12) {
-          this.$store.commit('root:set_snackbar', {message: 'Maximum 12 teams.'})
-        }
+      select_team(team_name) {
+        this.$emit('selected_team', team_name)
       },
-      save_teams() {
+      add_team() {
+        // Maximum 8 teams (number of colours in palette)
+        if (this.team_names.length == 8) {
+          return this.$store.commit('root:set_snackbar', {message: 'Maximum 12 teams.'})
+        }
         // Names must be unique
         if (this.team_names.includes(this.new_name)) {
           return this.$store.commit('root:set_snackbar', {message: 'Names must be unique.'})
@@ -81,8 +88,15 @@
           return this.$store.commit('root:set_snackbar', {message: `Cannot use "${DECORATED_UNASSIGNED_TEAM.team_name}" as team name!`})
         }
 
-        this.$store.dispatch('irs_tasker/update_teams', this.team_names.concat(this.new_name))
-        this.new_name = ""
+        // Commit all team names
+        this.$store.dispatch('irs_tasker/update_teams', this.team_names.concat(this.new_name)).then(() => {
+          this.$store.commit('irs_tasker/set_selected_team_name', this.new_name)
+          this.new_name = ""
+          this.$refs.new_team_name.$el.focus()
+        })
+      },
+      delete_team(team_name) {
+        this.$store.dispatch('irs_tasker/delete_team', team_name)
       }
     }
   }
@@ -93,4 +107,9 @@
     max-width: 700px;
     margin: 0 auto;
   }
+
+  .new_team {
+    padding: 0 16px;
+  }
+
 </style>

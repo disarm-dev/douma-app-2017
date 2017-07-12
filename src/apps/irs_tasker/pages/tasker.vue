@@ -1,13 +1,19 @@
 <template>
   <div class="container">
-    <h1>Assign teams</h1>
 
+    <!--DOING BUTTONS-->
     <md-button class="md-raised" :disabled='loading' @click.native="load_plan">Load plan</md-button>
-    <md-button class="md-raised" @click.native="load_assignments">Load assignments</md-button>
-    <!--<md-button class="md-raised" :disabled="!assignments.length" @click.native="save_assignments">Save assignments</md-button>-->
+    <md-button class="md-raised" :disabled='loading || !plan_target_ids.length' @click.native="load_assignments">Load assignments</md-button>
+    <md-button class="md-raised" :disabled="loading || !plan_target_ids.length || !assignments.length || !unsynced_changes" @click.native="save_assignments">Save assignments</md-button>
 
-    <tasker_legend :decorated_teams="decorated_teams" :selected_team_name="selected_team_name" @selected_team="select_team"></tasker_legend>
+    <!--LEGEND-->
+    <tasker_legend
+      :decorated_teams="decorated_teams"
+      :selected_team_name="selected_team_name"
+      @selected_team="select_team"
+    ></tasker_legend>
 
+    <!--MAP-->
     <tasker_map
       v-if="geodata_ready"
 
@@ -18,7 +24,12 @@
       @assign_areas_to_selected_team="assign_areas_to_selected_team"
     ></tasker_map>
 
-    <team_list :assignments="assignments" :decorated_teams="decorated_teams"></team_list>
+    <!--TEAM LIST-->
+    <team_list
+      :assignments="assignments"
+      :decorated_teams="decorated_teams"
+      @selected_team="select_team"
+    ></team_list>
 
   </div>
 </template>
@@ -36,7 +47,7 @@
   import {DECORATED_UNASSIGNED_TEAM} from '../unassigned_team'
   import {get_geodata} from 'lib/data/remote.get_geodata'
 
-  const PALETTE = chroma.brewer.Set3
+  const PALETTE = chroma.brewer.Set2
 
   export default {
     components: {team_list, tasker_map, tasker_legend},
@@ -44,7 +55,6 @@
       return {
         _geodata_areas: null,
         target_areas: null,
-        selected_team_name: '',
         click_handler: null,
       }
     },
@@ -54,6 +64,8 @@
         loading: state => state.loading,
         geodata_ready: state => state.geodata_ready,
 
+        unsynced_changes: state => state.irs_tasker.unsynced_changes,
+        selected_team_name: state => state.irs_tasker.selected_team_name,
         plan_target_ids: state => state.irs_tasker.plan_target_ids,
         assignments: state => state.irs_tasker.assignments
       }),
@@ -67,7 +79,8 @@
             colour: PALETTE[index],
             count: this.assignments.filter(a => a.team_name === team_name).length
           }
-        }).concat({...DECORATED_UNASSIGNED_TEAM, count: unassigned_count})
+        }).filter(t => t.team_name !== DECORATED_UNASSIGNED_TEAM.team_name)
+          .concat({...DECORATED_UNASSIGNED_TEAM, count: unassigned_count})
       }
     },
     mounted() {
@@ -86,6 +99,13 @@
         this.$store.commit('root:set_loading', true)
 
         this.$store.dispatch('irs_tasker/load_assignment_plan')
+          .then(() => { this.$store.commit('root:set_loading', false) })
+          .catch(() => { this.$store.commit('root:set_loading', false) })
+      },
+      save_assignments() {
+        this.$store.commit('root:set_loading', true)
+
+        this.$store.dispatch('irs_tasker/save_assignment_plan')
           .then(() => { this.$store.commit('root:set_loading', false) })
           .catch(() => { this.$store.commit('root:set_loading', false) })
       },
@@ -142,7 +162,7 @@
         })
       },
       select_team(team_name) {
-        this.selected_team_name = team_name
+        this.$store.commit('irs_tasker/set_selected_team_name', team_name)
       },
 
     }
