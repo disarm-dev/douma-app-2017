@@ -27,8 +27,8 @@
       <md-dialog-content>{{sw_message.message}}</md-dialog-content>
 
       <md-dialog-actions>
-        <md-button class="md-primary" @click.native="reload">Refresh</md-button>
-        <md-button class="md-primary" @click.native="close_sw_dialog">Dismiss</md-button>
+        <md-button @click.native="close_sw_dialog">Close</md-button>
+        <md-button class="md-primary" @click.native="reload">Ok</md-button>
       </md-dialog-actions>
     </md-dialog>
   </div>
