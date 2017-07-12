@@ -3,6 +3,7 @@ import Raven from 'raven-js'
 import {authenticate} from 'lib/data/remote'
 import {decorate_applets} from 'lib/decorated_applets'
 import {User} from 'lib/models/user.model'
+import {set_raven_user_context} from 'config/error-tracking'
 
 export default {
   namespaced: true,
@@ -70,11 +71,7 @@ export default {
         if (authenticated_user.is_valid()) {
 
           // Add extra info to error logging
-          Raven.setExtraContext({
-            DOUMA_version: COMMIT_HASH,
-            personalised_instance_id: context.state.personalised_instance_id,
-            user: authenticated_user.model
-          })
+          set_raven_user_context(context.rootState)
 
           context.dispatch('clear_data_storage').then(() => {
             context.commit('set_personalised_instance_id', login_details.personalised_instance_id)
@@ -88,6 +85,10 @@ export default {
       })
     },
     logout: (context) => {
+      Raven.setUserContext({
+        instance_slug: context.rootState.instance_config.instance.slug
+      })
+
       context.commit('set_user', null)
     },
     clear_data_storage: (context) => {

@@ -10,7 +10,7 @@ import 'vue-multiselect/dist/vue-multiselect.min.css'
 
 // Imports
 import {get_instance_config} from './lib/instance_config'
-import {configure_error_tracking} from 'config/error-tracking.js'
+import {configure_error_tracking, set_raven_user_context} from 'config/error-tracking.js'
 import {configure_service_worker} from 'config/service-worker-client'
 import {add_network_status_watcher} from 'lib/network-status.js'
 import {create_and_launch_application} from 'config/application.js'
@@ -22,6 +22,9 @@ configure_error_tracking()
 get_instance_config()
   .then(instance_config => {
     const douma_app = create_and_launch_application(instance_config)
+
+    // Add extra info to error logging
+    set_raven_user_context(douma_app.$store.state)
 
     // TODO: @feature Check if COMMIT_HASH_SHORT has changed and logout if it has
 

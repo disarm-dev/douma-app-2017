@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
+import get from 'lodash.get'
 
-export function configure_error_tracking (){
+const configure_error_tracking = ()=> {
 // Keep track of Errors
   if (process.env.NODE_ENV !== 'development') {
     Raven
@@ -14,3 +15,18 @@ export function configure_error_tracking (){
     })
   }
 }
+
+// Add extra info to error logging
+const set_raven_user_context = (state) => {
+  const user = get(state, 'meta.user', {})
+
+  const user_context = {
+    instance_slug: state.instance_config.instance.slug,
+    personalised_instance_id: state.personalised_instance_id,
+    user: user
+  }
+
+  Raven.setUserContext(user_context)
+}
+
+export {configure_error_tracking, set_raven_user_context}
