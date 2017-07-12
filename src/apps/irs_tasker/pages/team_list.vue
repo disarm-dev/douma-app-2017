@@ -29,20 +29,14 @@
 
         </md-list-item>
 
-        <md-list-item v-if="show_input">
+        <md-list-item>
           <md-input-container>
-            <label>Team name</label>
+            <label>Add new team</label>
             <md-input v-model="new_name"></md-input>
           </md-input-container>
           <md-button @click.native="save_teams">
-            Save
+            Add
           </md-button>
-        </md-list-item>
-
-        <md-divider></md-divider>
-
-        <md-list-item>
-          <md-button :disabled='assignments.length === 0' class="md-raised md-primary" @click.native="show_add_team_input">Add team</md-button>
         </md-list-item>
 
       </md-list>
@@ -60,7 +54,6 @@
     data() {
       return {
         new_name: '',
-        show_input: false
       }
     },
     computed: {
@@ -73,10 +66,8 @@
     methods: {
       show_add_team_input() {
         if (this.decorated_teams.length == 12) {
-          this.show_input = false
           this.$store.commit('root:set_snackbar', {message: 'Maximum 12 teams.'})
         }
-        this.show_input = true
       },
       save_teams() {
         // Names must be unique
@@ -91,7 +82,6 @@
         }
 
         this.$store.dispatch('irs_tasker/update_teams', this.team_names.concat(this.new_name))
-        this.show_input = false
         this.new_name = ""
       }
     }

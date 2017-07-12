@@ -43,8 +43,8 @@ export default {
       const index = state.assignments.findIndex(a => a.area_id === assignment.area_id)
       state.assignments.splice(1, index)
     },
-    'set_plan_targets': (state, plan_targets) => {
-      state.plan_targets = plan_targets
+    'set_plan_target_ids': (state, plan_target_ids) => {
+      state.plan_target_ids = plan_target_ids
     }
   },
   actions: {
@@ -68,7 +68,7 @@ export default {
     'get_current_plan': (context) => {
       return get_current_plan().then((plan_json) => {
         const plan_target_ids = new AssignmentPlan().extract_target_ids_from_plan(plan_json)
-        context.commit('set_plan_targets', plan_target_ids)
+        context.commit('set_plan_target_ids', plan_target_ids)
       })
     },
     'load_assignment_plan': (context) => {

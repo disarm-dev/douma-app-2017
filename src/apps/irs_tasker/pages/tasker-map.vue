@@ -27,6 +27,10 @@
         _map: null,
         _draw_control: null,
         _click_handler: null,
+        _bbox: null,
+
+        // Hard map stuff
+        _target_areas_with_assignments_fc: null,
       }
     },
     computed: {
@@ -58,20 +62,16 @@
 
         this._map.on('load', () => {
           // Basic map stuff
-          this.zoom_in()
           this.bind_click_handler()
           this.add_draw_controls()
 
           // Hard map stuff
           this.redraw_assignments()
+          this.fit_bounds()
         })
       },
-      zoom_in() { // TODO: @refac swap for fit_bounds and only do once
-        let options = {
-          center: this.map_focus.centre,
-          zoom: this.map_focus.zoom
-        }
-        this._map.flyTo(options);
+      fit_bounds() {
+        this._map.fitBounds(this._bbox, {padding: 20})
       },
 
       // Click listeners
@@ -142,7 +142,7 @@
         this.redraw_assignments()
       },
       find_polygons_within_drawn_polygon(polygon_drawn) {
-        const all_polygons = this.assignment_fc.features
+        const all_polygons = this._target_areas_with_assignments_fc.features
 
         // calculate centroids for all polygons
         const all_centroids = all_polygons.map((feature => {
@@ -178,7 +178,9 @@
           }
           return feature
         })
-        const target_areas_with_assignments_fc = featureCollection(features)
+
+        // Save feature collection
+        this._target_areas_with_assignments_fc = featureCollection(features)
 
         // Remove existing layers
         if (this._map.getLayer('areas')) this._map.removeLayer('areas')
@@ -190,13 +192,16 @@
           return [team_name, colour]
         }).filter(i => i)
 
+        // Set bounding box
+        this._bbox = bbox(this._target_areas_with_assignments_fc)
+
         // draw the layer on the map, with pixels. and math. on your screen.
         this._map.addLayer({
           id: 'areas',
           type: 'fill',
           source: {
             type: 'geojson',
-            data: target_areas_with_assignments_fc
+            data: this._target_areas_with_assignments_fc
           },
           paint: {
             'fill-color': {
