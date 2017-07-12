@@ -11,7 +11,6 @@ export class Plan {
 
     this.model = {
       focus_filter_area,
-      planned_at: new Date().toISOString(),
       targets: decorated_targets,
       country: country
     }
