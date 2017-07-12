@@ -49,7 +49,7 @@
     },
     watch: {
       'snackbar': 'snackbar_open',
-      'sw_message': 'open_dialog_sw',
+      'sw_message': 'open_sw_dialog',
       'geodata_loading_progress': 'toggle_geodata_loading_dialog'
     },
     methods: {
