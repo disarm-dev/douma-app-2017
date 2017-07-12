@@ -71,7 +71,7 @@
         })
       },
       fit_bounds() {
-        this._map.fitBounds(this._bbox, {padding: 20})
+        if (this._bbox) this._map.fitBounds(this._bbox, {padding: 20})
       },
 
       // Click listeners
@@ -166,6 +166,9 @@
 
       // Hard map stuff
       redraw_assignments() {
+        // Not much point doing anything more, if there are no plan features to work with!
+        if (this.plan_target_ids.length === 0) return
+
         // get the target_area_polygons
         // get the assignments array this.assignments
         // map over target_area_polygons to add assignments to each
@@ -178,6 +181,7 @@
           }
           return feature
         })
+
 
         // Save feature collection
         this._target_areas_with_assignments_fc = featureCollection(features)

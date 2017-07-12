@@ -83,7 +83,11 @@ export default {
     'get_current_plan': (context) => {
       return get_current_plan().then((plan_json) => {
         const plan_target_ids = new AssignmentPlan().extract_target_ids_from_plan(plan_json)
-        context.commit('set_plan_target_ids', plan_target_ids)
+        if (plan_target_ids.length) {
+          context.commit('set_plan_target_ids', plan_target_ids)
+        } else {
+          context.commit('root:set_snackbar', {message: 'No plan found'}, {root: true})
+        }
       })
     },
     'load_assignment_plan': (context) => {
