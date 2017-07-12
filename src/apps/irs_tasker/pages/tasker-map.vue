@@ -16,7 +16,7 @@
   import cache from 'config/cache'
   import {DECORATED_UNASSIGNED_TEAM} from '../unassigned_team'
   import {get_planning_level_id_field, get_planning_level_name} from 'lib/spatial_hierarchy_helper'
-  import {magically_swap_planning_level_ids_to_features} from 'lib/geodata/polygons_from_geodata'
+  import {planning_level_ids_to_features} from 'lib/geodata/polygons_from_geodata'
 
   export default {
     name: 'tasker-map',
@@ -169,7 +169,7 @@
         // get the target_area_polygons
         // get the assignments array this.assignments
         // map over target_area_polygons to add assignments to each
-        const features = magically_swap_planning_level_ids_to_features(this.plan_target_ids, (feature) => {
+        const features = planning_level_ids_to_features(this.plan_target_ids, (feature) => {
           const assignment = this.assignments.find(i => i.area_id === feature.properties[this.planning_level_id_field])
           if (assignment) {
             feature.properties.team_name = assignment.team_name

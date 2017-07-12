@@ -37,11 +37,11 @@ function extract_polygons(planning_level_ids, planning_level_name, planning_leve
  * @param fn
  * @returns {Array}
  */
-const magically_swap_planning_level_ids_to_features = (planning_level_ids, fn) => {
+const planning_level_ids_to_features = (planning_level_ids, fn) => {
   const planning_level_name = get_planning_level_name()
   const planning_level_id_field = get_planning_level_id_field()
 
   return extract_polygons(planning_level_ids, planning_level_name, planning_level_id_field, fn)
 }
 
-export {magically_swap_planning_level_ids_to_features}
+export {planning_level_ids_to_features}
