@@ -2,27 +2,34 @@
   <div class="container">
 
     <!--DOING BUTTONS-->
-    <md-button class="md-raised" :disabled='loading' @click.native="load_plan">Load plan</md-button>
-    <md-button class="md-raised" :disabled='loading || !plan_target_ids.length' @click.native="load_assignments">Load assignments</md-button>
-    <md-button class="md-raised" :disabled="loading || !plan_target_ids.length || !assignments.length || !unsynced_changes" @click.native="save_assignments">Save assignments</md-button>
+    <div class="buttons">
+      <md-button class="md-raised" :disabled='loading' @click.native="load_plan">Load plan</md-button>
+      <md-button class="md-raised" :disabled='loading || !plan_target_ids.length' @click.native="load_assignments">Load assignments</md-button>
+      <md-button class="md-raised" :disabled="loading || !plan_target_ids.length || !assignments.length || !unsynced_changes" @click.native="save_assignments">Save assignments</md-button>
+    </div>
+    
+    <md-card>
+      <md-card-content>
+        <!--LEGEND-->
+        <tasker_legend
+          class="legend"
+          :decorated_teams="decorated_teams"
+          :selected_team_name="selected_team_name"
+          @selected_team="select_team"
+        ></tasker_legend>
 
-    <!--LEGEND-->
-    <tasker_legend
-      :decorated_teams="decorated_teams"
-      :selected_team_name="selected_team_name"
-      @selected_team="select_team"
-    ></tasker_legend>
+        <!--MAP-->
+        <tasker_map
+          v-if="geodata_ready"
 
-    <!--MAP-->
-    <tasker_map
-      v-if="geodata_ready"
+          :plan_target_ids="plan_target_ids"
+          :assignments="assignments"
+          :decorated_teams="decorated_teams"
 
-      :plan_target_ids="plan_target_ids"
-      :assignments="assignments"
-      :decorated_teams="decorated_teams"
-
-      @assign_areas_to_selected_team="assign_areas_to_selected_team"
-    ></tasker_map>
+          @assign_areas_to_selected_team="assign_areas_to_selected_team"
+        ></tasker_map>
+      </md-card-content>
+    </md-card>
 
     <!--TEAM LIST-->
     <team_list
@@ -109,50 +116,6 @@
           .then(() => { this.$store.commit('root:set_loading', false) })
           .catch(() => { this.$store.commit('root:set_loading', false) })
       },
-//      load_assignments() {
-//
-//        // TODO: @feature handle failure
-//        this.$store.dispatch('irs_tasker/get_current_plan').then(() => {
-//          if (this.decorated_teams.length) {
-//            this.selected_team_name = this.decorated_teams[0].team_name
-//          }
-//        })
-//      },
-//      save_assignments() {
-//
-//          // TODO: @refac REWRITE Tasker#save
-//  //        TODO: @refac Shift this into the save_assignment action
-//  //      this.$store.dispatch('irs_tasker/save_assignments')
-//
-//        get_current_plan(this.instance_slug).then((plan_json) => {
-//          let new_targets = plan_json.targets.map((target) => {
-//            let assignment = this.assignments.find((a) => a.area_id === target.id)
-//            target.assigned_to_team_name = assignment.team_name
-//            return target
-//          })
-//
-//          const plan = {
-//            ...plan_json,
-//            targets: new_targets
-//          }
-//
-//          // Bump time by 10 seconds to make this plan newer than the old one
-//          const new_date = new Date(plan.planned_at)
-//          new_date.setSeconds(new_date.getSeconds() + 10)
-//          plan.planned_at = new_date
-//
-//          // Mongo complains if we try insert a document with an existing ID
-//          delete plan._id
-//
-//          console.log(plan)
-//
-//          // Something is
-//          create_plan(plan).then(() => {
-//            this.$store.commit('root:set_snackbar', {message: 'Assignments updated succesfully'})
-//          })
-//        })
-//      },
-
       // Select team and assign
       assign_areas_to_selected_team(area_ids) {
         if (!Array.isArray(area_ids)) area_ids = [area_ids]
@@ -170,5 +133,11 @@
 </script>
 
 <style scoped>
+  .buttons {
+    margin-bottom: 1em;
+  }
 
+  .legend {
+    margin-bottom: 1em;
+  }
 </style>

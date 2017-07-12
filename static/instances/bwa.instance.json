@@ -58,10 +58,12 @@
     "levels": [
       {
         "field_name": "OBJECTID",
+        "display_field_name": "VILLAGE",
         "name": "villages"
       },
       {
         "field_name": "ClusterID",
+        "display_field_name": "SP_ID_1",
         "name": "clusters"
       }
     ]
