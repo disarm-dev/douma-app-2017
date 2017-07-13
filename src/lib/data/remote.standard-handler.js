@@ -54,7 +54,7 @@ const douma_api_root = `${common_config.api.url}/${common_config.api.version}`
 // const douma_api_root = `http://localhost:3000/${common_config.api.version}`
 
 const try_reconnect = () => {
-  standard_handler(common_config.api.url)
+  return standard_handler(common_config.api.url)
 }
 
 export {configure_standard_handler, standard_handler, douma_api_root, try_reconnect}
