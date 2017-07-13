@@ -28,11 +28,11 @@
     <p>
       Version: {{commit_hash}}
       <span
-        class='personalised_instance_id'
+        class='local_personalised_instance_id'
         @click="open_personalised_instance_id"
       >
-        <span v-if="personalised_instance_id !== 'default'">{{personalised_instance_id}}</span>
-        <md-icon :class="{'md-warn': personalised_instance_id !== 'default'}">local_laundry_service</md-icon>
+        <span v-if="local_personalised_instance_id !== 'default'">{{local_personalised_instance_id}}</span>
+        <md-icon :class="{'md-warn': local_personalised_instance_id !== 'default'}">local_laundry_service</md-icon>
       </span>
     </p>
 
@@ -43,8 +43,8 @@
       md-ok-text="OK"
       md-cancel-text="Use default"
       @close="close_personalised_instance_id"
-      v-model="custom_personalised_instance_id"
-      ref="personalised_instance_id">
+      v-model="local_personalised_instance_id"
+      ref="local_personalised_instance_id">
     </md-dialog-prompt>
 
   </div>
@@ -64,13 +64,12 @@
           username: '',
           password: ''
         },
-        custom_personalised_instance_id: '',
+        local_personalised_instance_id: '',
       }
     },
     computed: {
       ...mapState({
         instance_title: state => state.instance_config.instance.title,
-        personalised_instance_id: state => state.meta.personalised_instance_id
       }),
       can_login() {
         return this.user_details.username.length !== 0 && this.user_details.password.length !== 0
@@ -80,6 +79,7 @@
       },
     },
     mounted() {
+      this.local_personalised_instance_id = this.$store.state.meta.personalised_instance_id
       if (this.$store.state.meta.user) {
         this.$router.push('/')
       }
@@ -89,15 +89,14 @@
     },
     methods: {
       open_personalised_instance_id() {
-        this.custom_personalised_instance_id = this.personalised_instance_id === 'default' ? generate_personalised_instance_id() : this.personalised_instance_id
-        this.$refs.personalised_instance_id.open()
+        if (this.local_personalised_instance_id === 'default') {
+          this.local_personalised_instance_id = generate_personalised_instance_id()
+        }
+        this.$refs.local_personalised_instance_id.open()
       },
       close_personalised_instance_id(type) {
         if (type === 'cancel') {
-          this.$store.commit('meta/set_personalised_instance_id', null)
-          this.custom_personalised_instance_id = ''
-        } else {
-          this.$store.commit('meta/set_personalised_instance_id', this.custom_personalised_instance_id)
+          this.local_personalised_instance_id = 'default'
         }
       },
       valid_login_request() {
@@ -125,7 +124,7 @@
         const login_details = {
           username: this.user_details.username,
           password: this.user_details.password,
-          personalised_instance_id: this.personalised_instance_id
+          personalised_instance_id: this.local_personalised_instance_id
         }
 
         this.$store.dispatch('meta/login', login_details).then(() => {
@@ -199,7 +198,7 @@
     text-align: center;
   }
 
-  .personalised_instance_id {
+  .local_personalised_instance_id {
     float: right;
     color: #d4d4d4;
     cursor: pointer;

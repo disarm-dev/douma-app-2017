@@ -18,7 +18,7 @@ export default {
       state.responses = []
       state.responses_last_updated_at = null
       state.filters = []
-      state.plan = nill
+      state.plan = null
     },
     set_responses: (state, responses) => {
       state.responses = responses

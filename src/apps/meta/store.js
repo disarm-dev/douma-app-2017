@@ -1,4 +1,5 @@
 import Raven from 'raven-js'
+import get from 'lodash.get'
 
 import {authenticate} from 'lib/data/remote'
 import {decorate_applets} from 'lib/decorated_applets'
@@ -54,7 +55,7 @@ export default {
   actions: {
     login: (context, login_details) => {
 
-      const original_instance_id = context.state.personalised_instance_id
+      const instance_id_changed = (login_details.personalised_instance_id !== context.state.personalised_instance_id)
 
       return authenticate(login_details).then(response => {
         if (response.error) {
@@ -68,16 +69,21 @@ export default {
 
         const authenticated_user = new User(response)
 
+        // You have a valid, authenticated user
         if (authenticated_user.is_valid()) {
 
-          // Add extra info to error logging
-          set_raven_user_context(context.rootState)
+          // Start by clearing instance-specific data if instance_id has changed
+          context.dispatch('clear_data_storage', {instance_id_changed, authenticated_user: authenticated_user.model}).then(() => {
+            // Add extra info to error logging
+            set_raven_user_context(context.rootState)
 
-          context.dispatch('clear_data_storage').then(() => {
+            // Set some basic stuff
             context.commit('set_personalised_instance_id', login_details.personalised_instance_id)
             context.commit('set_user', authenticated_user.model)
             return Promise.resolve(authenticated_user.model)
+
           }).catch(err => console.warn('Something unthought of', err))
+
         } else {
           return Promise.reject({error: 'Validation issues with user record.'})
         }
@@ -91,8 +97,15 @@ export default {
 
       context.commit('set_user', null)
     },
-    clear_data_storage: (context) => {
-      // TODO: @feature Figure if we need to wipe out local data when changing instance_id
+    clear_data_storage: (context, {instance_id_changed, authenticated_user}) => {
+      if (!instance_id_changed) return // Nothing changed
+
+      const applets = get(authenticated_user, 'allowed_apps.read', [])
+      applets.forEach(applet => {
+        const mutation  = `${applet}/clear_data_storage`
+        context.commit(mutation, {}, {root: true})
+      })
+      console.warn('Instance changed. Local data storage cleared for:', applets.join(', '))
     }
   }
 }
