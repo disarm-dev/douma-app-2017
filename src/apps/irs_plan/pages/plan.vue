@@ -176,7 +176,7 @@
         if (!this.selected_filter_area) {
            // Default values if no selected filter area
           focus_filter_area = null
-          selected_filter_area_ids = this.selected_target_area_ids
+          selected_target_area_ids = this.selected_target_area_ids
           
         } else {
           // Modify plan if there is a selected_filter_area
