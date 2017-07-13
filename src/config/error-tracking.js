@@ -8,7 +8,7 @@ const configure_error_tracking = ()=> {
   if (process.env.NODE_ENV !== 'development') {
     Raven
       .config('https://05f42524abca4b84ba7a9b9d05fb620a@sentry.io/134727', {
-        release: COMMIT_HASH
+        release: VERSION_COMMIT_HASH_SHORT
       })
       .addPlugin(RavenVue, Vue)
       .install()
