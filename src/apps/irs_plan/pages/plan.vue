@@ -48,7 +48,7 @@
     <div v-if="online">
       <!-- FILTER TO LIMIT PLAN -->
       <plan_filter
-        v-if="can_focus_planning && geodata_ready"
+        v-if="must_focus_planning && geodata_ready"
         :unsaved_changes="unsaved_changes"
       ></plan_filter>
 
@@ -136,12 +136,13 @@
           }
         },
       }),
-      can_focus_planning() {
+      must_focus_planning() {
         // TODO: @refac Improve checking if planning can be focused
         return get_next_level_up_from_planning_level()
       },
       can_and_have_focused_planned() {
-        return this.can_focus_planning && this.selected_filter_area_id
+        if (!this.must_focus_planning) return true
+        return !!(this.selected_filter_area_id)
       },
       next_level_up_from_planning_level() {
         return get_next_level_up_from_planning_level()
@@ -175,15 +176,15 @@
         let focus_filter_area
         let selected_target_area_ids
 
-        
+
         if (!this.selected_filter_area) {
            // Default values if no selected filter area
           focus_filter_area = null
           selected_target_area_ids = this.selected_target_area_ids
-          
+
         } else {
           // Modify plan if there is a selected_filter_area
-          // TODO: @feature Make it obvious to the user that they need to select a filter_area before they can save. 
+          // TODO: @feature Make it obvious to the user that they need to select a filter_area before they can save.
           focus_filter_area = {
             id: this.selected_filter_area.properties[this.next_level_up_from_planning_level.field_name]
           }
@@ -193,7 +194,7 @@
             selected_filter_area: this.selected_filter_area
           })
         }
-        
+
         const plan = new Plan().create({
           instance_config: this.instance_config,
           focus_filter_area,
