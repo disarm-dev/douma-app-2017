@@ -172,24 +172,32 @@
 
       },
       save_plan() {
-        let plan_targets = this.selected_target_area_ids
+        let focus_filter_area
+        let selected_target_area_ids
 
-        if (this.selected_filter_area) {
-          plan_targets = target_areas_inside_focus_filter_area({
+        
+        if (!this.selected_filter_area) {
+           // Default values if no selected filter area
+          focus_filter_area = null
+          selected_target_area_ids = this.selected_target_area_ids
+          
+        } else {
+          // Modify plan if there is a selected_filter_area
+          // TODO: @feature Make it obvious to the user that they need to select a filter_area before they can save. 
+          focus_filter_area = {
+            id: this.selected_filter_area.properties[this.next_level_up_from_planning_level.field_name]
+          }
+
+          selected_target_area_ids = target_areas_inside_focus_filter_area({
             area_ids: this.selected_target_area_ids,
             selected_filter_area: this.selected_filter_area
           })
         }
-
-        // TODO: Don't need this complicated approach
-        const focus_filter_area_just_id = {
-          id: this.selected_filter_area.properties[this.next_level_up_from_planning_level.field_name]
-        }
-
+        
         const plan = new Plan().create({
-          focus_filter_area: focus_filter_area_just_id,
           instance_config: this.instance_config,
-          selected_target_area_ids: plan_targets
+          focus_filter_area,
+          selected_target_area_ids
         })
 
         this.$store.commit('root:set_loading', true)

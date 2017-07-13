@@ -23,6 +23,9 @@ export default {
     clear_data_storage:(state) => {
       state.teams = []
       state.assignments = []
+      state.selected_team_name = null
+      state.plan_target_ids = []
+      state.unsynced_changes = false
     },
     "set_teams": (state, teams) => {
       state.teams = teams.filter(t => t !== DECORATED_UNASSIGNED_TEAM.team_name)
@@ -36,10 +39,6 @@ export default {
     },
     "set_assignments": (state, assignments) => {
       state.assignments = assignments
-    },
-    "delete_assignment": (state, assignment) => {
-      const index = state.assignments.findIndex(a => a.area_id === assignment.area_id)
-      state.assignments.splice(1, index)
     },
     'set_plan_target_ids': (state, plan_target_ids) => {
       state.plan_target_ids = plan_target_ids
@@ -61,12 +60,7 @@ export default {
 
     },
     'assign_area_to_team': (context, {area_id, team_name}) => {
-      if (team_name === DECORATED_UNASSIGNED_TEAM.team_name) {
-        context.commit('delete_assignment', {area_id, team_name})
-      } else {
-        context.commit('set_assignment', {area_id, team_name})
-      }
-
+      context.commit('set_assignment', {area_id, team_name})
       context.commit('set_unsynced_changes',true)
     },
     'delete_team': (context, team_name) => {

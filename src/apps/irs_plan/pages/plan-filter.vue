@@ -1,11 +1,11 @@
 <template>
-  <md-card>
-    <md-card-content class="card">
+  <md-card class="filter_select">
+    <md-card-content>
       <h4>Select area to focus plan on</h4>
       <p>With an area selected, you won't be able to edit or save anywhere else.</p>
       <multiselect
         :disabled="unsaved_changes"
-        class="filter_select"
+        
         :value="selected_filter_area_option"
         @select="select_filter"
         :options="filter_options"
@@ -60,10 +60,8 @@
 
 <style scoped>
   .filter_select {
-    z-index: 2;
-  }
-  .card {
+    z-index: 4;
+    overflow: visible;
     margin-bottom: 10px;
   }
-
 </style>
