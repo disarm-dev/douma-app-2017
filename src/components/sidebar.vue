@@ -24,7 +24,7 @@
 
     <!--Sidebar: LOGGED IN-->
     <md-list v-if="user">
-      <md-list-item v-for='applet in decorated_applets' :key='applet' @click="navigate(applet.name)">
+      <md-list-item v-for='applet in decorated_applets' :key='applet.name' @click="navigate(applet.name)">
         <md-icon>{{applet.icon}}</md-icon><span class="applet-item">{{applet.title}}</span>
       </md-list-item>
 
