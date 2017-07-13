@@ -156,9 +156,6 @@
         return this.selected_target_area_ids.length !== 0
       }
     },
-    watch: {
-      'edit_mode': 'disable_risk_in_edit_mode',
-    },
     mounted() {
       get_geodata(this.$store)
     },

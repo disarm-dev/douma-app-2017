@@ -1,21 +1,23 @@
 <template>
-  <div>
-    <h4>Select area to focus plan on</h4>
-    <p>With an area selected, you won't be able to edit or save anywhere else.</p>
-    <multiselect
-      :disabled="unsaved_changes"
-      class="filter_select"
-      :value="selected_filter_area_option"
-      @select="select_filter"
-      :options="filter_options"
-      placeholder="Select area to limit plan "
-      track-by="id"
-      label="name"
-      :internal-search="true"
-    >
-      <span slot="noResult">Nothing found.</span>
-    </multiselect>
-  </div>
+  <md-card>
+    <md-card-content class="card">
+      <h4>Select area to focus plan on</h4>
+      <p>With an area selected, you won't be able to edit or save anywhere else.</p>
+      <multiselect
+        :disabled="unsaved_changes"
+        class="filter_select"
+        :value="selected_filter_area_option"
+        @select="select_filter"
+        :options="filter_options"
+        placeholder="Select area to limit plan "
+        track-by="id"
+        label="name"
+        :internal-search="true"
+      >
+        <span slot="noResult">Nothing found.</span>
+      </multiselect>
+    </md-card-content>
+  </md-card>
 
 </template>
 
@@ -60,4 +62,8 @@
   .filter_select {
     z-index: 2;
   }
+  .card {
+    margin-bottom: 10px;
+  }
+
 </style>

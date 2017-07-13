@@ -1,5 +1,6 @@
 <template>
   <div>
+    <span>Teams:</span>
       <div
         v-for="{team_name, colour} in decorated_teams"
         class="legend"
