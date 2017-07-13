@@ -160,6 +160,9 @@
         this._map.on('click', this.handler.click);
       },
       manage_map_mode() {
+        // Either show or hide risk when changing map modes
+        this.toggle_show_risk()
+        
         // Check if you're in editing mode
         if(this.edit_mode) {
           this.add_map_listeners()
@@ -271,7 +274,7 @@
           // redraw target areas
           this.remove_target_areas()
           this.add_target_areas()
-          this.add_risk()
+          this.toggle_show_risk()
 
           // remove + add draw_controls
           this.add_draw_controls()
@@ -414,7 +417,7 @@
       },
 
       // RISK
-      add_risk() {
+      toggle_show_risk() {
         if (this.risk_visible && !this.edit_mode) {
           this.add_areas_coloured_by_risk()
         } else {
