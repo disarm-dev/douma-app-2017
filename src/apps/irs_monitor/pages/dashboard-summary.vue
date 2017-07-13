@@ -11,11 +11,6 @@
       </md-button>
 
       <md-menu-content>
-        <md-menu-item :disabled="loading" @click="refresh">
-          <md-icon>refresh</md-icon>
-          <span>Update responses, plan and teams</span>
-        </md-menu-item>
-
         <md-menu-item :disabled="loading || !filtered_responses.length" @click="download_responses">
           <md-icon>file_download</md-icon>
           <span>Download responses</span>

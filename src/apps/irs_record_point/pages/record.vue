@@ -3,6 +3,11 @@
 
     <div class="chip-holder">
 
+      <!--BACK TO LIST-->
+      <md-button class="md-icon-button" @click="close_form">
+        <md-icon>arrow_back</md-icon>
+      </md-button>
+
       <!--VALIDATIONS CARD TOGGLE-->
         <md-button
           class="animated"
@@ -17,16 +22,17 @@
 
           {{ validation_result_empty ? "No validation issues" : (validation_length  === 1 ? "Validation issue" : "Validation issues")}}
         </md-button>
-
-
-      <!--BACK TO LIST-->
-      <md-button
-        v-if="response_id"
-        @click.native="$router.push('/irs/record_point')"
-      >
-        Back to list
-      </md-button>
     </div>
+
+    <!-- CONFIRM CLOSE FORM -->
+    <md-dialog-confirm
+      md-title="Closing form - you will lose any changes"
+      md-content-html="Do you want to continue?"
+      md-ok-text="continue"
+      md-cancel-text="cancel"
+      @close="respond_to_close_form_confirm"
+      ref="close_form_confirm">
+    </md-dialog-confirm>
 
 
     <!--VALIDATION CARD-->
@@ -275,6 +281,20 @@
       update_response(response) {
         this.$store.commit('irs_record_point/update_response', response)
         this.$router.push('/irs/record_point/')
+      },
+
+      close_form() {
+        if (this.response_id) {
+          this.$router.push('/irs/record_point')
+        } else {
+          this.$refs.close_form_confirm.open()
+        }
+      },
+      respond_to_close_form_confirm(type) {
+        if (type === 'cancel') {
+        } else {
+          this.$router.push('/irs/record_point')
+        }
       }
     }
   }
