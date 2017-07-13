@@ -178,9 +178,14 @@
           })
         }
 
-        // TODO: Don't need this complicated approach
         const focus_filter_area_just_id = {
-          id: this.selected_filter_area.properties[this.next_level_up_from_planning_level.field_name]
+          id: null
+        }
+        
+        // TODO: Don't need this complicated approach
+        // TODO: @feature Make it obvious to the user that they need to select a filter_area before they can save. 
+        if (this.selected_filter_area) {
+          focus_filter_area_just_id.id = this.selected_filter_area.properties[this.next_level_up_from_planning_level.field_name]
         }
 
         const plan = new Plan().create({
