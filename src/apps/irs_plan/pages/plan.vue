@@ -52,8 +52,6 @@
         :unsaved_changes="unsaved_changes"
       ></plan_filter>
 
-      <!--SELECT MODE-->
-      <md-checkbox :disabled='!geodata_ready || edit_mode' v-model="risk_visible">Show risk</md-checkbox>
 
       <!--PLAN MAP-->
       <md-card>
@@ -61,7 +59,6 @@
           <plan_map
             :geodata_ready="geodata_ready"
             :edit_mode="edit_mode"
-            :risk_visible="risk_visible"
             :selected_filter_area_id="selected_filter_area_id"
             v-on:map_loaded="edit_disabled = false"
           ></plan_map>
@@ -120,7 +117,6 @@
       return {
         edit_mode: false,
         edit_disabled: true,
-        risk_visible: false,
       }
     },
     computed: {
@@ -210,11 +206,7 @@
       clear_plan() {
         this.$store.commit('irs_plan/clear_plan')
       },
-      disable_risk_in_edit_mode() {
-        if (this.edit_mode) {
-          this.risk_visible = false
-        }
-      },
+
     }
   }
 </script>

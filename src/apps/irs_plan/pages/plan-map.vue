@@ -1,6 +1,7 @@
 <template>
   <div>
     <div id="map"></div>
+    <md-checkbox :disabled='!geodata_ready || edit_mode' v-model="risk_visible">Show risk</md-checkbox>
     <md-checkbox v-if="next_level_down" :disabled='!geodata_ready || clusters_disabled' v-model="clusters_visible">Show {{next_level_down.name}}</md-checkbox>
     <div v-if="edit_mode">
       <p>Showing areas where risk is above: {{converted_slider_value}}</p>
@@ -34,7 +35,7 @@
 
   export default {
     name: 'plan_map',
-    props: ['edit_mode', 'geodata_ready', 'risk_visible', 'selected_filter_area_id'],
+    props: ['edit_mode', 'geodata_ready', 'selected_filter_area_id'],
     data() {
       return {
         slider: {
@@ -44,6 +45,7 @@
         },
         risk_slider_value: 0,
         logslider: null,
+        risk_visible: false,
 
         clusters_disabled: true, // Before map_loaded
         clusters_visible: false,
@@ -96,10 +98,10 @@
       'edit_mode': 'manage_map_mode',
       'geodata_ready': 'render_map',
       'risk_slider_value': 'set_risk_slider_value',
-      'risk_visible': 'toggle_show_areas_by_risk',
 
+      'risk_visible': 'redraw_target_areas',
       'selected_target_area_ids': 'redraw_target_areas',
-      'selected_filter_area_id': 'redraw_target_areas'
+      'selected_filter_area_id': 'redraw_target_areas',
     },
     mounted() {
       this.render_map()
@@ -269,6 +271,7 @@
           // redraw target areas
           this.remove_target_areas()
           this.add_target_areas()
+          this.add_risk()
 
           // remove + add draw_controls
           this.add_draw_controls()
@@ -411,12 +414,12 @@
       },
 
       // RISK
-      toggle_show_areas_by_risk() {
-        if (this.risk_visible) {
+      add_risk() {
+        if (this.risk_visible && !this.edit_mode) {
           this.add_areas_coloured_by_risk()
         } else {
-          this._map.removeLayer('areas_by_risk')
-          this._map.removeSource('areas_by_risk')
+          if (this._map.getLayer('areas_by_risk')) this._map.removeLayer('areas_by_risk')
+          if (this._map.getSource('areas_by_risk')) this._map.removeSource('areas_by_risk')
         }
       },
       add_areas_coloured_by_risk() {
@@ -463,7 +466,7 @@
         const property = 'risk'
 
         this.log_scale = logscale({features, property})
-      }
+      },
     }
   }
 </script>
