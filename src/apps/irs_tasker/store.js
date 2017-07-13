@@ -23,6 +23,9 @@ export default {
     clear_data_storage:(state) => {
       state.teams = []
       state.assignments = []
+      state.selected_team_name = null
+      state.plan_target_ids = []
+      state.unsynced_changes = false
     },
     "set_teams": (state, teams) => {
       state.teams = teams.filter(t => t !== DECORATED_UNASSIGNED_TEAM.team_name)
