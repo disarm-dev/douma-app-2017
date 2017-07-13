@@ -1,3 +1,4 @@
+import series from 'es6-promise-series'
 import {create_records} from 'lib/data/remote'
 
 export default {
@@ -29,6 +30,29 @@ export default {
   },
   actions: {
     create_records: (context, records) => {
+      const max_records_in_batch = 30
+
+      // Batch creating of records
+      const promises = []
+      while (records.length > 0) {
+        const records_batch = records.splice(0, max_records_in_batch)
+        const promise = create_records.bind(null, records_batch)
+        // const promise = new Promise((resolve, reject) => {
+        //   return create_records(records_batch).then(() => {
+        //       records.forEach((record) => {
+        //         record.synced = true
+        //         context.commit('update_response', record)
+        //       })
+        //     }
+        //   )
+        // })
+        promises.push(promise)
+      }
+
+      return series(promises, 1)
+        .then((res) => console.log(res))
+        .catch((err) => console.error(err))
+
       return create_records(records)
     },
     clear_synced_responses: (context) => {

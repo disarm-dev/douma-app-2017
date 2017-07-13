@@ -106,11 +106,6 @@
 
         this.$store.dispatch('irs_record_point/create_records', this.unsynced_responses)
           .then(() => {
-            this.unsynced_responses.forEach((response) => {
-              response.synced = true
-              this.$store.commit('irs_record_point/update_response', response)
-            })
-
             this.$store.commit('root:set_loading', false)
             this.syncing = false
             this.$store.commit('root:set_snackbar', {message: 'Successfully synced responses'})
