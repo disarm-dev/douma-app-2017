@@ -1,6 +1,6 @@
 <template>
   <div class="douma-toolbar">
-    <md-toolbar class="md-whiteframe-1dp">
+    <md-toolbar class="md-whiteframe-1dp md-dense">
       <md-button class="md-icon-button" @click.native="toggle_sidebar">
         <md-icon>menu</md-icon>
       </md-button>

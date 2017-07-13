@@ -36,7 +36,7 @@
 <style>
   body {
     background-color: white;
-    padding-top: 64px;
+    padding-top: 48px;
   }
 
   .container {
