@@ -5,7 +5,7 @@
         <div>Hi <em>{{user.name}}</em>, you are logged in as <em>{{user.username}}</em>, with access to</div>
 
         <md-list>
-          <md-list-item v-for='applet in decorated_applets' :key='applet' @click="$router.push({name: applet.name})">
+          <md-list-item v-for='applet in decorated_applets' :key='applet.name' @click="$router.push({name: applet.name})">
             <md-icon>{{applet.icon}}</md-icon><span class="applet-item">{{applet.title}}</span>
           </md-list-item>
         </md-list>
