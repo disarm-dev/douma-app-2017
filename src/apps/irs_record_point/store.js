@@ -29,31 +29,27 @@ export default {
     }
   },
   actions: {
-    create_records: (context, records) => {
+    create_records: async (context, records) => {
       const max_records_in_batch = 30
 
       // Batch creating of records
-      const promises = []
+      const results = []
       while (records.length > 0) {
         const records_batch = records.splice(0, max_records_in_batch)
-        const promise = create_records.bind(null, records_batch)
-        // const promise = new Promise((resolve, reject) => {
-        //   return create_records(records_batch).then(() => {
-        //       records.forEach((record) => {
-        //         record.synced = true
-        //         context.commit('update_response', record)
-        //       })
-        //     }
-        //   )
-        // })
-        promises.push(promise)
+        let result 
+        try {
+          result = await create_records(records_batch)
+        } catch (e) {
+          result = e
+        }
+        results.push(result)
       }
+      // TODO: @feature Actually filter batches here
+      const successfully_synced_record_batches = results.filter(() => true)
 
-      return series(promises, 1)
-        .then((res) => console.log(res))
-        .catch((err) => console.error(err))
+      // Flatten array
 
-      return create_records(records)
+      //  Mark each one as synced
     },
     clear_synced_responses: (context) => {
       let synced_responses = context.state.responses.filter(r => r.synced)
