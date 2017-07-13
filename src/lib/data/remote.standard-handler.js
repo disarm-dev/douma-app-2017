@@ -30,7 +30,7 @@ const standard_handler = (url, options = {}) => {
   // Or are both equally easy to fool?...
 
   const personalised_instance_id = get(store, 'state.meta.personalised_instance_id')
-  const commit_hash_short = COMMIT_HASH_SHORT
+  const VERSION_COMMIT_HASH_SHORT = VERSION_COMMIT_HASH_SHORT
   const country = get(store, 'state.instance_config.instance.slug')
   const user = get(store, 'state.meta.user.username')
   const user_token = 'WE DONT HAVE TOKENS YET'
@@ -39,7 +39,7 @@ const standard_handler = (url, options = {}) => {
   options.params = {
     ...options.params,
     personalised_instance_id,
-    commit_hash_short,
+    VERSION_COMMIT_HASH_SHORT,
     country,
     user,
     user_token

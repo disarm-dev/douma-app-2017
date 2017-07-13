@@ -27,7 +27,7 @@
         decorated_applets: 'meta/decorated_applets'
       }),
       commit_hash() {
-        return COMMIT_HASH_SHORT
+        return VERSION_COMMIT_HASH_SHORT
       },
       user() {
         return this.$store.state.meta.user

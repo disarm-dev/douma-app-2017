@@ -7,7 +7,7 @@ export class User {
   }
 
   decorate() {
-    this.model.app_commit_hash = COMMIT_HASH_SHORT
+    this.model.app_commit_hash = VERSION_COMMIT_HASH_SHORT
   }
 
   is_valid() {

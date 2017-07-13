@@ -26,7 +26,7 @@ get_instance_config()
     // Add extra info to error logging
     set_raven_user_context(douma_app.$store.state)
 
-    // TODO: @feature Check if COMMIT_HASH_SHORT has changed and logout if it has
+    // TODO: @feature Check if VERSION_COMMIT_HASH_SHORT has changed and logout if it has
 
     // ServiceWorker
     configure_service_worker(douma_app)
@@ -35,6 +35,6 @@ get_instance_config()
     add_network_status_watcher(douma_app)
 
     // Keep track of what version we're working on, in production at least.
-    if (DOUMA_PRODUCTION_MODE) console.info('🚀 Launched DiSARM version ' + COMMIT_HASH_SHORT)
+    if (DOUMA_PRODUCTION_MODE) console.info('🚀 Launched DiSARM version ' + VERSION_COMMIT_HASH_SHORT)
   })
   .catch(err => console.error(err))

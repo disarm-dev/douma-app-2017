@@ -75,7 +75,7 @@
         return this.user_details.username.length !== 0 && this.user_details.password.length !== 0
       },
       commit_hash() {
-        return COMMIT_HASH_SHORT
+        return VERSION_COMMIT_HASH_SHORT
       },
     },
     mounted() {

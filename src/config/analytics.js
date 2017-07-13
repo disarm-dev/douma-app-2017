@@ -22,7 +22,7 @@ const instantiate_analytics = (router) => {
 }
 
 const set_common_analytics = (app) => {
-  app.$ga.set('commit_hash', COMMIT_HASH_SHORT)
+  app.$ga.set('commit_hash', VERSION_COMMIT_HASH_SHORT)
   app.$ga.set('instance_slug', app.$store.state.instance_config.instance.slug)
 
   // Set username/name if exists
