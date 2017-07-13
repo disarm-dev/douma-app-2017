@@ -6,7 +6,7 @@
       <md-button
         class="md-icon-button md-raised"
         :class="{'md-warn': edit_mode}"
-        :disabled="loading || !geodata_ready"
+        :disabled="loading || !geodata_ready || !can_and_have_focused_planned"
         @click.native='edit_mode = !edit_mode'
       >
         <md-icon>edit</md-icon>
@@ -140,6 +140,9 @@
         // TODO: @refac Improve checking if planning can be focused
         return get_next_level_up_from_planning_level()
       },
+      can_and_have_focused_planned() {
+        return this.can_focus_planning && this.selected_filter_area_id
+      },
       next_level_up_from_planning_level() {
         return get_next_level_up_from_planning_level()
       },
@@ -203,7 +206,6 @@
       clear_plan() {
         this.$store.commit('irs_plan/clear_plan')
       },
-
     }
   }
 </script>
