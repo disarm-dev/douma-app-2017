@@ -12,9 +12,6 @@ const configure_error_tracking = ()=> {
       })
       .addPlugin(RavenVue, Vue)
       .install()
-    Raven.setExtraContext({
-      DOUMA_version: COMMIT_HASH
-    })
   }
 }
 
