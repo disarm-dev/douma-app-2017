@@ -36,8 +36,11 @@
     },
     "zoom": 6.5
   },
-  "name": "Zimbabwe",
-  "slug": "zwe",
+  "instance": {
+    "title": "Zimbabwe IRS Tool",
+    "location_name": "Zimbabwe (Matabeleland South)",
+    "slug": "zwe"
+  },
   "spatial_hierarchy": {
     "markers": {
       "planning_level_name": "wards",
@@ -48,10 +51,12 @@
     "levels": [
       {
         "field_name": "ZIMWARDSID",
+        "display_field_name": "ZIMWARDSID",
         "name": "wards"
       },
       {
         "field_name": "ClusterID",
+        "display_field_name": "ClstrID",
         "name": "clusters"
       }
     ]

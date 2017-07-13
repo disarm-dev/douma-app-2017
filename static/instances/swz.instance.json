@@ -46,8 +46,11 @@
     },
     "zoom": 7.5
   },
-  "name": "Swaziland",
-  "slug": "swz",
+  "instance": {
+    "title": "Swaziland IRS Tool",
+    "location_name": "Swaziland",
+    "slug": "swz"
+  },
   "spatial_hierarchy": {
     "markers": {
       "planning_level_name": "localities",
@@ -58,10 +61,12 @@
     "levels": [
       {
         "field_name": "AggUniCode",
+        "display_field_name": "Fnl_l_1",
         "name": "localities"
       },
       {
         "field_name": "ClusterID",
+        "display_field_name": "ClstrID",
         "name": "clusters"
       }
     ]

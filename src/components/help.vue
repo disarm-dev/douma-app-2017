@@ -38,6 +38,7 @@
 <script>
   import array_unique from 'array-unique'
   import Fuse from 'fuse.js'
+  import showdown from 'showdown'
 
   const help_content = require("json-loader!yaml-include-loader!../help_articles/help.yaml")
 
@@ -90,13 +91,15 @@
         this.$refs.help.close()
       },
       prepare_help_items() {
-        const truncate_at = 125
+        const converter = new showdown.Converter()
+
         const section_titles = help_content.map(section => {
           return section.section_title
         })
 
         section_titles.forEach(section_title => {
           help_content.find(section => section.section_title === section_title).articles.forEach(article => {
+            article.content = converter.makeHtml(article.content)
             article.section_title = section_title
             article.show_excerpt = true
             this.flat_help.push(article)

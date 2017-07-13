@@ -2,6 +2,8 @@ import array_unique from 'array-unique'
 
 import {create_plan, get_current_plan} from 'lib/data/remote'
 import {Plan} from 'lib/models/plan.model'
+import {get_next_level_up_from_planning_level} from 'lib/spatial_hierarchy_helper'
+import cache from 'config/cache'
 
 export default {
   namespaced: true,
@@ -10,6 +12,9 @@ export default {
     areas_included_by_click: [],
     areas_excluded_by_click: [],
     bulk_selected_ids: [],
+
+    // Map
+    selected_filter_area_option: null,
 
     unsaved_changes: false,
   },
@@ -29,9 +34,30 @@ export default {
       })
       return result
     },
+    'selected_filter_area': (state, getters, rootState) => {
+      if (!state.selected_filter_area_option) return null
+      if (!rootState.geodata_ready) return null
+
+      const level = get_next_level_up_from_planning_level()
+
+      return cache.geodata[level.name].features.find(feature => {
+        return feature.properties[level.field_name] === state.selected_filter_area_option.id
+      })
+
+    }
   },
   mutations: {
+    clear_data_storage:(state) => {
+        state.current_plan = null
+        state.areas_included_by_click = []
+        state.areas_excluded_by_click = []
+        state.bulk_selected_ids = []
+        state.selected_filter_area_option = null
+        state.unsaved_changes = false
+    },
     "toggle_selected_target_area_id": (state, target_area_id) => {
+      if (Array.isArray(target_area_id)) target_area_id = target_area_id[0]
+
       if (state.areas_included_by_click.includes(target_area_id)) {
         // remove target area from included
 
@@ -53,7 +79,7 @@ export default {
         state.areas_included_by_click.push(target_area_id)
 
       } else {
-        console.log('💥should never see this')
+        console.log('💥should never see this - might be a feature outside a filtered_area')
       }
 
       state.unsaved_changes = true
@@ -63,10 +89,10 @@ export default {
       state.unsaved_changes = true
     },
     'add_selected_target_areas': (state, selected_target_area_ids) => {
-      let temp_array = state.areas_included_by_click.concat(selected_target_area_ids)
-      let unique = array_unique(temp_array)
+      let temp_array = state.bulk_selected_ids.concat(selected_target_area_ids)
+      let unique = array_unique(temp_array).filter(i => i)
 
-      state.areas_included_by_click = unique
+      state.bulk_selected_ids = unique
       state.unsaved_changes = true
     },
     'set_unsaved_changes': (state, unsaved_changes) => {
@@ -81,6 +107,9 @@ export default {
     },
     'set_plan': (state, plan) => {
       state.current_plan = plan
+    },
+    'set_selected_filter_area_option': (state, id) => {
+      state.selected_filter_area_option = id
     }
   },
   actions: {
@@ -93,24 +122,29 @@ export default {
         })
     },
     'get_current_plan': (context) => {
-      const country = context.rootState.instance_config.slug
+      const country = context.rootState.instance_config.instance.slug
 
       return get_current_plan(country).then(plan_json => {
+        if (Object.keys(plan_json).length === 0) {
+          return context.commit('root:set_snackbar', {message: 'There is no plan. Please create one.'}, {root: true})
+        }
+
         try {
           new Plan().validate(plan_json)
+
+          let target_areas = plan_json.targets.map(area => {
+            return area.id
+          })
+
+          context.commit('clear_plan')
+          context.commit('set_plan', plan_json)
+          context.commit('add_selected_target_areas', target_areas)
+          context.commit('set_unsaved_changes', false)
         } catch (e) {
           console.error(e)
           context.commit('root:set_snackbar', {message: 'ERROR: Plan is not valid'}, {root: true})
         }
 
-        let target_areas = plan_json.targets.map(area => {
-          return area.id
-        })
-
-        context.commit('clear_plan')
-        context.commit('set_plan', plan_json)
-        context.commit('add_selected_target_areas', target_areas)
-        context.commit('set_unsaved_changes', false)
       })
     }
   }

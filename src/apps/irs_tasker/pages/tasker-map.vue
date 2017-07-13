@@ -14,47 +14,47 @@
 
   import {basic_map} from 'lib/basic_map.js'
   import cache from 'config/cache'
-  import {get_geodata} from 'lib/data/remote'
   import {DECORATED_UNASSIGNED_TEAM} from '../unassigned_team'
   import {get_planning_level_id_field, get_planning_level_name} from 'lib/spatial_hierarchy_helper'
+  import {planning_level_ids_to_features} from 'lib/geodata/polygons_from_geodata'
 
   export default {
     name: 'tasker-map',
-    props: ['assignments', 'decorated_teams'], // The `cache` is also a source of data in this view
+    props: ['plan_target_ids', 'assignments', 'decorated_teams'], // The `cache` is also a source of data in this view
     data() {
       return {
+        // Basic map stuff
         _map: null,
         _draw_control: null,
         _click_handler: null,
-        assignment_fc: null
+        _bbox: null,
+
+        // Hard map stuff
+        _target_areas_with_assignments_fc: null,
       }
     },
     computed: {
       ...mapState({
         instance_config: state => state.instance_config,
-        geodata_ready: state => state.geodata_ready,
         map_focus: state => state.instance_config.map_focus
       }),
       planning_level_id_field() {
-        return get_planning_level_id_field(this.instance_config) // e.g. AggUniCode for SWZ
+        return get_planning_level_id_field() // e.g. AggUniCode for SWZ
       },
       planning_level_name() {
-        return get_planning_level_name(this.instance_config) // e.g. AggUniCode for SWZ
+        return get_planning_level_name() // e.g. AggUniCode for SWZ
       }
     },
     watch: {
-      'geodata_ready': 'render_map',
-      'assignments': 'redraw_assignments'
+      'plan_target_ids': 'redraw_assignments',
+      'assignments': 'redraw_assignments',
+      'decorated_teams': 'redraw_assignments'
     },
     mounted() {
-      get_geodata(this.$store).then(() => {
-        if (this.geodata_ready) {
-          // geodata_ready is not changing, so render the map now
-          this.render_map()
-        }
-      })
+      this.render_map()
     },
     methods: {
+      // Basic map stuff
       render_map() {
         // Don't want to create map twice
         if (this._map) return
@@ -62,51 +62,17 @@
         this._map = basic_map(this.$store)
 
         this._map.on('load', () => {
-          this.zoom_in()
+          // Basic map stuff
           this.bind_click_handler()
           this.add_draw_controls()
+
+          // Hard map stuff
           this.redraw_assignments()
+          this.fit_bounds()
         })
       },
-      zoom_in() {
-        let options = {
-          center: this.map_focus.centre,
-          zoom: this.map_focus.zoom
-        }
-        this._map.flyTo(options);
-      },
-      draw_areas() {
-        if (this._map.getLayer('areas')) {
-          this._map.removeLayer('areas')
-        }
-
-        if (this._map.getSource('areas')) {
-          this._map.removeSource('areas')
-        }
-
-        const palette = this.decorated_teams.map(({team_name, colour}) => {
-          if (team_name === null) return null
-          return [team_name, colour]
-        }).filter(i => i)
-
-        this._map.addLayer({
-          id: 'areas',
-          type: 'fill',
-          source: {
-            type: 'geojson',
-            data: this.assignment_fc
-          },
-          paint: {
-            'fill-color': {
-              type: 'categorical',
-              property: 'team_name',
-              stops: palette,
-              default: 'grey'
-            },
-            'fill-opacity': 0.9,
-            'fill-outline-color': '#262626'
-          }
-        })
+      fit_bounds() {
+        if (this._bbox) this._map.fitBounds(this._bbox, {padding: 20})
       },
 
       // Click listeners
@@ -129,9 +95,55 @@
       },
 
       // Draw controls
-      find_selected_polygons(polygon_drawn) {
+      add_draw_controls () {
+        if (!this._map) return
+        this.remove_draw_controls()
 
-        const all_polygons = this.assignment_fc.features
+        const options = {
+          boxSelect: false,
+          keyBindings: false,
+          displayControlsDefault: false,
+          controls: {
+            polygon: true
+          }
+        }
+        this._draw_control = new MapboxDraw(options)
+
+        // Remove click handler when you start to draw - avoids selecting first polygon
+        this._map.on('draw.modechange', (e) => {
+          if(e.mode === 'draw_polygon') this.remove_click_handler()
+        })
+
+        // Watch for a new polygon being completed
+        this._map.on('draw.create', this.finish_drawing)
+
+        this._map.addControl(this._draw_control)
+      },
+      remove_draw_controls () {
+        if (this._draw_control) {
+          this._map.removeControl(this._draw_control)
+          this._draw_control = null
+        }
+      },
+      finish_drawing(e) {
+
+        // Find polygons within drawn polygon and assign to selected team
+        const drawn_polygon = e.features[0]
+        const polygons_within_polygon_drawn = this.find_polygons_within_drawn_polygon(drawn_polygon)
+        const area_ids = polygons_within_polygon_drawn.features.map(f => f.properties[this.planning_level_id_field])
+        this.$emit('assign_areas_to_selected_team', area_ids)
+
+        // Clear your lovely polygon
+        this._draw_control.deleteAll()
+
+        // Rebind the original click handler
+        this.bind_click_handler()
+
+        // Update the map
+        this.redraw_assignments()
+      },
+      find_polygons_within_drawn_polygon(polygon_drawn) {
+        const all_polygons = this._target_areas_with_assignments_fc.features
 
         // calculate centroids for all polygons
         const all_centroids = all_polygons.map((feature => {
@@ -152,106 +164,62 @@
         // return ids of centroids in polygon_drawn
         return centroids_in_polygon_drawn
       },
-      add_draw_controls () {
-        if (!this._map) return
 
-        const options = {
-          boxSelect: false,
-          keyBindings: false,
-          displayControlsDefault: false,
-          controls: {
-            polygon: true
-          }
-        }
-        this._draw_control = new MapboxDraw(options)
-
-        // Remove click handler when you start to draw - avoids selecting first polygon
-        this._map.on('draw.modechange', (e) => {
-          if(e.mode === 'draw_polygon') this.remove_click_handler()
-        })
-
-        // Watch for a new polygon being completed
-        this._map.on('draw.create', (e) => {
-          const drawn_polygon = e.features[0]
-
-          // 1. Approach using centroids, faster than one below
-          // doesn't capture as many polygons though
-          const polygons_within_polygon_drawn = this.find_selected_polygons(drawn_polygon)
-          const area_ids = polygons_within_polygon_drawn.features.map(f => f.properties[this.planning_level_id_field])
-
-          // 2. Approach using intersection
-          // const all_polygons = this.assignment_fc.features
-          // const area_ids = []
-          // Find all polygons which intersect with the drawn polygon
-          // all_polygons.forEach((polygon, index) => {
-          //   if (intersect(drawn_polygon, polygon)) {
-          //     const area_id = polygon.properties[this.planning_level_id_field]
-          //     area_ids.push(area_id)
-          //   }
-          // })
-
-          this.$emit('assign_areas_to_selected_team', area_ids)
-
-          // Clear your lovely polygon
-          this._draw_control.deleteAll()
-
-          // Rebind the original click handler
-          this.bind_click_handler()
-
-          // Update the map
-          this.redraw_assignments()
-        })
-
-
-        this._map.addControl(this._draw_control)
-      },
-      remove_draw_controls () {
-        if (this._draw_control) {
-          this._map.removeControl(this._draw_control)
-          this._draw_control = null
-        }
-      },
-
-      create_assignment_polygons() {
-        if (!this.assignments.length) {
-          console.warn("No idea about assignments, please give me a plan")
-          return null
-        } else {
-          const features = this.assignments.map(assignment => {
-            const found = cache.geodata[this.planning_level_name].features.find(f => f.properties[this.planning_level_id_field] === assignment.area_id)
-
-            if (found) {
-              found.properties.team_name = assignment.team_name
-            } else {
-              throw new Error(`Cannot find geodata for ${assignment.area_id}`)
-            }
-
-            return found
-          })
-
-          return featureCollection(features)
-        }
-      },
-
+      // Hard map stuff
       redraw_assignments() {
-        if (!this.assignment_fc) {
-          if (this.geodata_ready && this.assignments.length) {
-            this.assignment_fc = this.create_assignment_polygons()
-          } else {
-            return
-          }
-        }
-        // Update team assignments on assignments_fc
-        this.assignment_fc.features.forEach(assignment_feature => {
-          const assignment = this.assignments.find(i => i.area_id === assignment_feature.properties[this.planning_level_id_field])
+        // Not much point doing anything more, if there are no plan features to work with!
+        if (this.plan_target_ids.length === 0) return
+
+        // get the target_area_polygons
+        // get the assignments array this.assignments
+        // map over target_area_polygons to add assignments to each
+        const features = planning_level_ids_to_features(this.plan_target_ids, (feature) => {
+          const assignment = this.assignments.find(i => i.area_id === feature.properties[this.planning_level_id_field])
           if (assignment) {
-            assignment_feature.properties.team_name = assignment.team_name
+            feature.properties.team_name = assignment.team_name
           } else {
-            assignment_feature.properties.team_name = DECORATED_UNASSIGNED_TEAM.team_name
+            feature.properties.team_name = DECORATED_UNASSIGNED_TEAM.team_name
+          }
+          return feature
+        })
+
+
+        // Save feature collection
+        this._target_areas_with_assignments_fc = featureCollection(features)
+
+        // Remove existing layers
+        if (this._map.getLayer('areas')) this._map.removeLayer('areas')
+        if (this._map.getSource('areas')) this._map.removeSource('areas')
+
+        // (Re)create palette
+        const palette = this.decorated_teams.map(({team_name, colour}) => {
+          if (team_name === null) return null
+          return [team_name, colour]
+        }).filter(i => i)
+
+        // Set bounding box
+        this._bbox = bbox(this._target_areas_with_assignments_fc)
+
+        // draw the layer on the map, with pixels. and math. on your screen.
+        this._map.addLayer({
+          id: 'areas',
+          type: 'fill',
+          source: {
+            type: 'geojson',
+            data: this._target_areas_with_assignments_fc
+          },
+          paint: {
+            'fill-color': {
+              type: 'categorical',
+              property: 'team_name',
+              stops: palette,
+              default: 'grey'
+            },
+            'fill-opacity': 0.9,
+            'fill-outline-color': '#262626'
           }
         })
-        this.draw_areas()
-      }
+      },
     }
   }
 </script>

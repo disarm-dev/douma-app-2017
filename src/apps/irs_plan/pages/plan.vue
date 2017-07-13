@@ -1,21 +1,57 @@
 <template>
   <div class='container'>
-    <h4>
-      {{title}} plan {{current_plan_date ? `from ${current_plan_date}` : ''}}
-    </h4>
+
+    <div class="controls">
+
+      <md-button
+        class="md-icon-button md-raised"
+        :class="{'md-warn': edit_mode}"
+        :disabled="loading || !geodata_ready || !can_and_have_focused_planned"
+        @click.native='edit_mode = !edit_mode'
+      >
+        <md-icon>edit</md-icon>
+      </md-button>
+
+
+      <!-- MENU -->
+      <md-menu md-direction="bottom right" md-size="6">
+        <md-button class="md-icon-button md-raised" md-menu-trigger>
+          <md-icon>more_vert</md-icon>
+        </md-button>
+
+        <md-menu-content>
+          <md-menu-item @click="load_plan" :disabled="loading">
+            <md-icon>assignment_turned_in</md-icon>
+            <span>Load plan</span>
+          </md-menu-item>
+
+          <!--EDIT MODE-->
+          <md-menu-item :disabled="!unsaved_changes" @click="save_plan">
+            <md-icon>save</md-icon>
+            <span>Save plan</span>
+          </md-menu-item>
+
+          <md-menu-item :disabled='!can_clear' @click.native="clear_plan">
+            <md-icon>delete</md-icon>
+            <span>Clear plan</span>
+          </md-menu-item>
+
+        </md-menu-content>
+      </md-menu>
+
+      <div>
+        {{title}} plan {{current_plan_date ? `from ${current_plan_date}` : ''}}
+      </div>
+    </div>
+
 
     <div v-if="online">
-      <!--SELECT MODE-->
-      <md-checkbox v-model="edit_mode" :disabled="edit_disabled">Edit mode</md-checkbox>
-      <md-checkbox :disabled='!geodata_ready || edit_mode' v-model="risk_visible">Show risk</md-checkbox>
+      <!-- FILTER TO LIMIT PLAN -->
+      <plan_filter
+        v-if="can_focus_planning && geodata_ready"
+        :unsaved_changes="unsaved_changes"
+      ></plan_filter>
 
-      <!--VIEW MODE-->
-      <md-button v-if='!edit_mode' :disabled='!geodata_ready' class='md-raised' @click.native="load_plan">Load from remote</md-button>
-
-      <!--EDIT MODE-->
-      <md-button v-if='edit_mode' :disabled="!unsaved_changes" class='md-raised md-primary' @click.native="save_plan">Save</md-button>
-      <md-button v-if='edit_mode' :disabled="!unsaved_changes" class='md-raised md-warn' @click.native="load_plan">Cancel edits</md-button>
-      <md-button v-if='edit_mode' :disabled='!can_clear' class='md-raised' @click.native="clear_plan">Clear plan</md-button>
 
       <!--PLAN MAP-->
       <md-card>
@@ -23,7 +59,7 @@
           <plan_map
             :geodata_ready="geodata_ready"
             :edit_mode="edit_mode"
-            :risk_visible="risk_visible"
+            :selected_filter_area_id="selected_filter_area_id"
             v-on:map_loaded="edit_disabled = false"
           ></plan_map>
         </md-card-content>
@@ -60,39 +96,59 @@
 <script>
   import {mapState, mapGetters} from 'vuex'
   import moment from 'moment'
+  import whichPolygon from 'which-polygon';
+  import {featureCollection} from '@turf/helpers'
+  import centroid from '@turf/centroid'
+  import get from 'lodash.get'
 
+  import plan_filter from './plan-filter.vue'
   import plan_summary from './plan-summary.vue'
   import plan_map from './plan-map.vue'
   import cache from 'config/cache.js'
   import {Plan} from 'lib/models/plan.model.js'
   import {get_geodata} from 'lib/data/remote'
+  import {get_planning_level_name, get_planning_level_id_field, get_next_level_up_from_planning_level} from 'lib/spatial_hierarchy_helper'
+  import {target_areas_inside_focus_filter_area} from 'lib/irs_plan_helper'
 
   export default {
     name: 'Plan',
-    components: {plan_summary, plan_map},
+    components: {plan_filter, plan_summary, plan_map},
     data() {
       return {
         edit_mode: false,
         edit_disabled: true,
-        risk_visible: false
       }
     },
     computed: {
       ...mapState({
         instance_config: state => state.instance_config,
-
-        unsaved_changes: state => state.irs_plan.unsaved_changes,
+        loading: state => state.loading,
         online: state => state.network_online,
         geodata_loading_progress: state => state.geodata_loading_progress,
         geodata_ready: state => state.geodata_ready,
+
+        current_plan: state => state.irs_plan.current_plan,
+        selected_filter_area_id: state => get(state, 'irs_plan.selected_filter_area_option.id', null),
+        unsaved_changes: state => state.irs_plan.unsaved_changes,
         current_plan_date: state =>  {
           if (state.irs_plan.current_plan) {
             return moment(state.irs_plan.current_plan.planned_at).format('hh:mm a DD MMM YYYY')
           }
         },
       }),
+      can_focus_planning() {
+        // TODO: @refac Improve checking if planning can be focused
+        return get_next_level_up_from_planning_level()
+      },
+      can_and_have_focused_planned() {
+        return this.can_focus_planning && this.selected_filter_area_id
+      },
+      next_level_up_from_planning_level() {
+        return get_next_level_up_from_planning_level()
+      },
       ...mapGetters({
-        selected_target_area_ids: 'irs_plan/all_selected_area_ids'
+        selected_target_area_ids: 'irs_plan/all_selected_area_ids',
+        selected_filter_area: 'irs_plan/selected_filter_area'
       }),
       title() {
         if (!this.edit_mode) return "View"
@@ -103,11 +159,8 @@
         return this.selected_target_area_ids.length !== 0
       }
     },
-    watch: {
-      'edit_mode': 'disable_risk_in_edit_mode'
-    },
     mounted() {
-      get_geodata(this.$store).then(this.load_plan)
+      get_geodata(this.$store)
     },
     methods: {
       load_plan() {
@@ -119,9 +172,32 @@
 
       },
       save_plan() {
+        let focus_filter_area
+        let selected_target_area_ids
+
+        
+        if (!this.selected_filter_area) {
+           // Default values if no selected filter area
+          focus_filter_area = null
+          selected_target_area_ids = this.selected_target_area_ids
+          
+        } else {
+          // Modify plan if there is a selected_filter_area
+          // TODO: @feature Make it obvious to the user that they need to select a filter_area before they can save. 
+          focus_filter_area = {
+            id: this.selected_filter_area.properties[this.next_level_up_from_planning_level.field_name]
+          }
+
+          selected_target_area_ids = target_areas_inside_focus_filter_area({
+            area_ids: this.selected_target_area_ids,
+            selected_filter_area: this.selected_filter_area
+          })
+        }
+        
         const plan = new Plan().create({
           instance_config: this.instance_config,
-          selected_target_area_ids: this.selected_target_area_ids,
+          focus_filter_area,
+          selected_target_area_ids
         })
 
         this.$store.commit('root:set_loading', true)
@@ -138,11 +214,6 @@
       clear_plan() {
         this.$store.commit('irs_plan/clear_plan')
       },
-      disable_risk_in_edit_mode() {
-        if (this.edit_mode) {
-          this.risk_visible = false
-        }
-      }
     }
   }
 </script>

@@ -3,6 +3,11 @@
 
     <div class="chip-holder">
 
+      <!--BACK TO LIST-->
+      <md-button class="md-icon-button" @click="close_form">
+        <md-icon>arrow_back</md-icon>
+      </md-button>
+
       <!--VALIDATIONS CARD TOGGLE-->
         <md-button
           class="animated"
@@ -17,16 +22,17 @@
 
           {{ validation_result_empty ? "No validation issues" : (validation_length  === 1 ? "Validation issue" : "Validation issues")}}
         </md-button>
-
-
-      <!--BACK TO LIST-->
-      <md-button
-        v-if="response_id"
-        @click.native="$router.push('/irs/record_point')"
-      >
-        Back to list
-      </md-button>
     </div>
+
+    <!-- CONFIRM CLOSE FORM -->
+    <md-dialog-confirm
+      md-title="Closing form - you will lose any changes"
+      md-content-html="Do you want to continue?"
+      md-ok-text="continue"
+      md-cancel-text="cancel"
+      @close="respond_to_close_form_confirm"
+      ref="close_form_confirm">
+    </md-dialog-confirm>
 
 
     <!--VALIDATION CARD-->
@@ -36,7 +42,7 @@
           ref="validation_result"
           :validations='validation_result'
           :survey="survey"
-          v-on:show_location="show_location = true"
+          v-on:show_location="set_current_view('location')"
         ></review>
         <md-card-actions>
           <md-button @click.native="show_validation_result = false">Hide</md-button>
@@ -46,13 +52,14 @@
 
 
     <!-- METADATA EDITOR-->
-    <md-card v-if="current_view === 'metadata'">
+    <md-card v-show="current_view === 'metadata'">
       <md-card-content>
         <md-card-header>
           <div class="md-title">Metadata</div>
         </md-card-header>
         <md-list>
           <md-list-item>username: {{username}}</md-list-item>
+          <!--TODO: @refac Need access to the whole response out here in Record, not just in Form-->
           <!--<md-list-item>recorded_on: {{recorded_on}}</md-list-item>-->
           <!--<md-input-container>-->
             <!--<label>Team</label>-->
@@ -67,7 +74,7 @@
     </md-card>
 
     <!--LOCATION CARD-->
-    <md-card v-if="current_view === 'location'" class='location'>
+    <md-card v-show="current_view === 'location'" class='location'>
       <md-card-content>
         <md-card-header>
           <div class="md-title">Location</div>
@@ -94,7 +101,7 @@
 
     <!--FORM-->
     <form_renderer
-      v-if="current_view === 'form'"
+      v-show="current_view === 'form'"
       ref="form"
       @complete='on_form_complete'
       @change="on_form_change"
@@ -210,9 +217,6 @@
       toggle_show_location() {
         this.show_location = !this.show_location
       },
-
-      // TODO: @feature Implement clear_form"
-
       on_location_change(location) {
         this.response.location = location
         this.validate(this.response)
@@ -249,15 +253,15 @@
         }
       },
       save_response() {
-        // TODO: @refac Move to a proper response model, with tests. And cake.
         let response
 
         try {
+          // TODO: @refac Move to a proper response model, with tests. And cake.
           response = new Response().create({
             ...this.response,
             id: this.response_id,
             recorded_on: this.response.recorded_on,
-            country: this.instance_config.slug,
+            country: this.instance_config.instance.slug,
             user: this.username
           })
         } catch (e) {
@@ -277,6 +281,20 @@
       update_response(response) {
         this.$store.commit('irs_record_point/update_response', response)
         this.$router.push('/irs/record_point/')
+      },
+
+      close_form() {
+        if (this.response_id) {
+          this.$router.push('/irs/record_point')
+        } else {
+          this.$refs.close_form_confirm.open()
+        }
+      },
+      respond_to_close_form_confirm(type) {
+        if (type === 'cancel') {
+        } else {
+          this.$router.push('/irs/record_point')
+        }
       }
     }
   }

@@ -1,20 +1,34 @@
 <template>
-  <md-card class="card">
-    <md-card-header>
-      <h4 v-if='!plan' style="color: red">Plan missing - no calculations until one is loaded</h4>
-      <div class="md-title">Table and map update with real records</div>
-    </md-card-header>
+  <div class="controls">
+    <md-button class="md-icon-button md-raised md-primary" :disabled="loading" @click.native='refresh_data'>
+      <md-icon>refresh</md-icon>
+    </md-button>
 
-    <md-card-content>
-      <span>{{filtered_responses.length}} record{{filtered_responses.length === 1 ? '' : 's' }} lie within the planned areas.</span>
-      <span>Last updated: {{responses_last_updated_at}}</span>
-    </md-card-content>
+    <!-- MENU -->
+    <md-menu md-direction="bottom right" md-size="6">
+      <md-button class="md-icon-button md-raised" md-menu-trigger>
+        <md-icon>more_vert</md-icon>
+      </md-button>
 
-    <md-card-actions>
-      <md-button class="md-icon-button md-mini md-raised md-primary" @click.native="refresh_data" :disabled="loading"><md-icon>refresh</md-icon></md-button>
-      <md-button class="md-icon-button md-mini md-raised md-primary" @click.native="download_responses" :disabled="loading || !filtered_responses.length"><md-icon>file_download</md-icon></md-button>
-    </md-card-actions>
-  </md-card>
+      <md-menu-content>
+        <md-menu-item :disabled="loading || !filtered_responses.length" @click="download_responses">
+          <md-icon>file_download</md-icon>
+          <span>Download responses</span>
+        </md-menu-item>
+
+      </md-menu-content>
+    </md-menu>
+
+    <div>
+      {{filtered_responses.length}} record{{filtered_responses.length === 1 ? '' : 's' }} lie within the planned areas.
+      Last updated: {{responses_last_updated_at}}
+    </div>
+
+    <div v-if='!plan' style="color: red">Plan missing - no calculations until one is loaded</div>
+
+  </div>
+
+
 </template>
 
 <script>
@@ -64,7 +78,7 @@
         const content = json2csv({data, fields})
 
         const date = moment().format('YYYY-MM-DD_HHmm')
-        download(content, `${this.instance_config.slug}_responses_${date}.csv`)
+        download(content, `${this.instance_config.instance.slug}_responses_${date}.csv`)
         this.$ga.event('irs_monitor','click_download_responses')
       }
     }
@@ -72,5 +86,4 @@
 </script>
 
 <style scoped>
-
 </style>

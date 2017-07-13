@@ -9,7 +9,7 @@ const all_validations = {bwa, nam, swz, zwe}
 
 export class Validator {
   constructor(instance_config) {
-    const slug = instance_config.slug
+    const slug = instance_config.instance.slug
     if(!slug) throw new Error("Cannot find slug on", instance_config)
     this.validations = all_validations[slug]
     return this

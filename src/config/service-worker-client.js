@@ -8,6 +8,7 @@ export function configure_service_worker (DOUMA) {
   if (DOUMA_PRODUCTION_MODE && 'serviceWorker' in navigator) {
     navigator.serviceWorker.register('/service-worker.js').then(function(reg) {
       reg.onupdatefound = function() {
+        DOUMA.$store.commit("root:set_sw_message", {title: 'DiSARM update available', message: "Downloading new version in background."})
         var installingWorker = reg.installing;
         installingWorker.onstatechange = function() {
           switch (installingWorker.state) {

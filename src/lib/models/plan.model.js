@@ -5,17 +5,12 @@ import {PlanSchema} from './plan.schema'
 export class Plan {
   model;
 
-  create({instance_config, selected_target_area_ids}) {
-    const planning_level_id_field = get_planning_level_id_field(instance_config)
-    const planning_level_name = get_planning_level_name(instance_config)
-    const denominator_fields = get_denominator_fields(instance_config)
-
-    const decorated_targets = this._decorate_targets({selected_target_area_ids, planning_level_id_field, planning_level_name, denominator_fields})
-
-    const country = instance_config.slug
+  create({instance_config, selected_target_area_ids, focus_filter_area}) {
+    const decorated_targets = this._decorate_targets({selected_target_area_ids, instance_config})
+    const country = instance_config.instance.slug
 
     this.model = {
-      planned_at: new Date().toISOString(),
+      focus_filter_area,
       targets: decorated_targets,
       country: country
     }
@@ -33,7 +28,10 @@ export class Plan {
     }
   }
 
-  _decorate_targets({selected_target_area_ids, planning_level_id_field, planning_level_name, denominator_fields}) {
+  _decorate_targets({selected_target_area_ids, instance_config}) {
+    const planning_level_id_field = get_planning_level_id_field()
+    const planning_level_name = get_planning_level_name()
+    const denominator_fields = get_denominator_fields()
 
     if(!selected_target_area_ids) throw new Error('Missing selected_target_area_ids')
 

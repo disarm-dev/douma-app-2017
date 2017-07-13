@@ -60,8 +60,8 @@ export const decorate_responses_from_json = (json, instance_config) => {
 }
 
 function get_polygon_for_responses(responses, instance_config){
-  const planning_level_id_field = get_planning_level_id_field(instance_config)
-  const planning_level_name = get_planning_level_name(instance_config)
+  const planning_level_id_field = get_planning_level_id_field()
+  const planning_level_name = get_planning_level_name()
   const planning_target_areas = cache.geodata[planning_level_name]
   const query = which_polygon(planning_target_areas)
 

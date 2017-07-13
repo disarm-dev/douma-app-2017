@@ -23,20 +23,24 @@ export function create_router(instance_routes, store) {
     mode: 'history'
   })
 
-  // Is a user logged-in
+  // Check if user is logged-in
   router.beforeEach((to, from, next) => {
+    // next() if user already logged in
     if (store.state.meta && store.state.meta.user) return next()
 
+    // User not logged in
     if (to.name === 'meta:login') {
+      // next() if destination is the login page
       next()
     } else {
+      // Otherwise go to the login page (storing your original target)
       store.commit('meta/set_previous_route', to.path)
       next({name: 'meta:login'})
     }
 
   })
 
-  // Does user have permission to visit page
+  // Check user has permission to visit page
   router.beforeEach((to, from, next) => {
     const applet_name = to.name.split(':')[0]
 

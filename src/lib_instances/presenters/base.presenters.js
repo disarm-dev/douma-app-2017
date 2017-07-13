@@ -4,7 +4,7 @@ import {get_planning_level_id_field} from 'lib/spatial_hierarchy_helper'
 export default class Presenters {
   constructor(instance_config) {
     this.instance_config = instance_config
-    this.slug = instance_config.slug
+    this.slug = instance_config.instance.slug
     this.aggregations = new Aggregator(this.slug)
   }
 
@@ -15,7 +15,7 @@ export default class Presenters {
     const required_aggregations = instance_config.applets.irs_monitor.aggregations.table
 
     // Get id_field from instance_config
-    const planning_level_id_field = get_planning_level_id_field(instance_config)
+    const planning_level_id_field = get_planning_level_id_field()
 
 
     // Collect responses for each area, and calculate every aggregation for each

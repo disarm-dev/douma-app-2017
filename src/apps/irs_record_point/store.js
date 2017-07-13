@@ -6,6 +6,9 @@ export default {
     responses: []
   },
   mutations: {
+    clear_data_storage: (state) => {
+      state.responses = []
+    },
     create_response: (state, response) => {
       state.responses.push(response)
     },

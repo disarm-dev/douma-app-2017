@@ -1,6 +1,6 @@
 <template>
   <div class="douma-toolbar">
-    <md-toolbar class="md-whiteframe-1dp" >
+    <md-toolbar class="md-whiteframe-1dp md-dense">
       <md-button class="md-icon-button" @click.native="toggle_sidebar">
         <md-icon>menu</md-icon>
       </md-button>
@@ -14,16 +14,20 @@
           </span>
 
           <span v-else>
-            {{instance_name}}
+            {{instance_title}}
           </span>
       </h2>
-      <div>
-        <md-icon class='help_button' @click.native="toggle_help_visible">help</md-icon>
-      </div>
-      <div v-if="!online">
-        offline
-        <md-icon>settings_ethernet</md-icon>
-      </div>
+
+      <!-- OFFLINE , TRY RECONNECT-->
+      <md-button v-if="!online" @click="try_reconnect" class="md-icon-button md-dense md-warn">
+        <md-icon>signal_wifi_off</md-icon>
+      </md-button>
+
+      <!--HELP ICON-->
+      <md-button class="md-icon-button md-dense" @click.native="toggle_help_visible">
+        <md-icon>help</md-icon>
+      </md-button>
+
     </md-toolbar>
 
     <!-- LOADING BAR -->
@@ -34,6 +38,7 @@
 
 <script>
   import {mapState, mapGetters} from 'vuex'
+  import {try_reconnect} from 'lib/data/remote.standard-handler'
 
   export default {
     name: 'toolbar',
@@ -44,7 +49,7 @@
     },
     computed: {
       ...mapState({
-        instance_name: state => state.instance_config.name,
+        instance_title: state => state.instance_config.instance.title,
         loading: state => state.loading,
         online: state => state.network_online
       }),
@@ -75,6 +80,9 @@
       toggle_help_visible() {
         this.$store.commit('root:trigger_help_visible')
       },
+      try_reconnect() {
+        try_reconnect()
+      }
     }
   }
 </script>

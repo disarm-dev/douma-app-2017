@@ -26,8 +26,11 @@
     },
     "zoom": 6
   },
-  "name": "Namibia",
-  "slug": "nam",
+  "instance": {
+    "title": "Namibia IRS Tool",
+    "location_name": "Namibia",
+    "slug": "nam"
+  },
   "spatial_hierarchy": {
     "markers": {
       "planning_level_name": "clusters",
@@ -38,10 +41,12 @@
     "levels": [
       {
         "field_name": "OBJECTID",
+        "display_field_name": "CONST",
         "name": "constituencies"
       },
       {
         "field_name": "id",
+        "display_field_name": "id",
         "name": "clusters"
       }
     ]

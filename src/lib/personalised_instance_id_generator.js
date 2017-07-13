@@ -1,4 +1,4 @@
-const generate_demo_instance_id = () => {
+const generate_personalised_instance_id = () => {
   const vowels = ["a","e","i","o","u"]
   const consonants = ["b","c","d","f","g","h","j","k","l","m","n","p","q","r","s","t","v","x","w","y","z"]
   let output = ''
@@ -14,4 +14,4 @@ const generate_demo_instance_id = () => {
   return output + '-' + new Date().getMilliseconds()
 }
 
-export {generate_demo_instance_id}
+export {generate_personalised_instance_id}

@@ -63,7 +63,7 @@
         return this.locations[this.locations.length-1] || 'No location set'
       },
       country() {
-        return this.$store.state.instance_config.slug
+        return this.$store.state.instance_config.instance.slug
       },
       location_activity() {
         return this.getting_position ? 'Getting current position' : ''

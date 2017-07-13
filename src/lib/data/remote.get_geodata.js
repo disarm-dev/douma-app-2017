@@ -13,8 +13,8 @@ export const get_geodata = (store) => {
   // $store is passed in order to update loading progress bar
 
   // Get slug and level
-  const slug = store.state.instance_config.slug
-  const levels = get_all_spatial_hierarchy_levels(store.state.instance_config)
+  const slug = store.state.instance_config.instance.slug
+  const levels = get_all_spatial_hierarchy_levels()
 
   // Check if cache already populated
   if (Object.keys(cache.geodata).length !== 0) {
@@ -25,7 +25,7 @@ export const get_geodata = (store) => {
 
   // Build URLs for each level
   const urls = levels.map(level => {
-    return `/static/geo/${slug}/spatial_hierarchy/${slug}.${level}.geojson`
+      return `/static/geo/${slug}/spatial_hierarchy/${slug}.${level}.geojson`
   })
 
   let progress_cache = {}
