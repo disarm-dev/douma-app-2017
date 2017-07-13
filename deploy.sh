@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+git fetch --tags
 rm -rf dist/
 rm -rf node_modules/
 npm install
