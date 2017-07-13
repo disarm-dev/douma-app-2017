@@ -6,6 +6,8 @@ var vueLoaderConfig = require('./vue-loader.conf')
 var GitRevisionPlugin = require('git-revision-webpack-plugin')
 
 var gitRevisionPlugin = new GitRevisionPlugin()
+var package = require('../package.json');
+var version = package.version;
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -73,6 +75,7 @@ module.exports = {
     new webpack.DefinePlugin({
       "COMMIT_HASH": JSON.stringify(gitRevisionPlugin.commithash()),
       "COMMIT_HASH_SHORT": JSON.stringify(gitRevisionPlugin.commithash().slice(0,6)),
+      "VERSION_COMMIT_HASH_SHORT": `${version}-${JSON.stringify(gitRevisionPlugin.commithash().slice(0,6))}`,
       'BRANCH': JSON.stringify(gitRevisionPlugin.branch()),
       "DOUMA_PRODUCTION_MODE": process.env.NODE_ENV === 'production'
     }),
