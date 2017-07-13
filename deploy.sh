@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 git fetch --tags
-rm -rf dist/
-rm -rf node_modules/
+#rm -rf node_modules/
 npm install
 npm run build
 rm -rf serve/
