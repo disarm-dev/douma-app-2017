@@ -47,7 +47,8 @@
     },
     watch: {
       'plan_target_ids': 'redraw_assignments',
-      'assignments': 'redraw_assignments'
+      'assignments': 'redraw_assignments',
+      'decorated_teams': 'redraw_assignments'
     },
     mounted() {
       this.render_map()

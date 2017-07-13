@@ -1,6 +1,6 @@
 <template>
   <div class="douma-toolbar">
-    <md-toolbar class="md-whiteframe-1dp" >
+    <md-toolbar class="md-whiteframe-1dp">
       <md-button class="md-icon-button" @click.native="toggle_sidebar">
         <md-icon>menu</md-icon>
       </md-button>
@@ -17,13 +17,17 @@
             {{instance_title}}
           </span>
       </h2>
-      <div>
-        <md-icon class='help_button' @click.native="toggle_help_visible">help</md-icon>
-      </div>
-      <div v-if="!online" @click="try_reconnect">
-        offline
-        <md-icon>settings_ethernet</md-icon>
-      </div>
+
+      <!-- OFFLINE , TRY RECONNECT-->
+      <md-button v-if="!online" @click="try_reconnect" class="md-icon-button md-dense md-warn">
+        <md-icon>signal_wifi_off</md-icon>
+      </md-button>
+
+      <!--HELP ICON-->
+      <md-button class="md-icon-button md-dense" @click.native="toggle_help_visible">
+        <md-icon>help</md-icon>
+      </md-button>
+
     </md-toolbar>
 
     <!-- LOADING BAR -->

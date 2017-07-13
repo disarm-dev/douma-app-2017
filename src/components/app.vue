@@ -1,5 +1,8 @@
 <template>
   <div>
+    <!--Global hotkey-->
+    <hotkeys></hotkeys>
+
     <!-- Toolbar -->
     <toolbar></toolbar>
 
@@ -18,6 +21,7 @@
 </template>
 
 <script>
+  import hotkeys from 'components/hotkeys.vue'
   import toolbar from 'components/toolbar.vue'
   import notifications from 'components/notifications.vue'
   import sidebar from 'components/sidebar.vue'
@@ -25,7 +29,7 @@
 
   export default {
     name: 'DOUMA',
-    components: {toolbar, sidebar, notifications, help},
+    components: {hotkeys, toolbar, sidebar, notifications, help},
   }
 </script>
 
@@ -40,12 +44,10 @@
     width: 90%;
   }
 
-  .clickable {
-    cursor: pointer;
+  /* TODO: @refac Controls should be in a component.*/
+  .controls {
+    min-height: 70px;
   }
 
-  .clickable:hover {
-    color: red;
-  }
 
 </style>

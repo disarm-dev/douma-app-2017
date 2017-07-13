@@ -1,9 +1,49 @@
 <template>
   <div class='container'>
-    <div>
-      {{title}} plan {{current_plan_date ? `from ${current_plan_date}` : ''}}
-      <span class='clickable' @click="load_plan" :disabled="loading"><md-icon>refresh</md-icon>Refresh plan</span>
+
+    <div class="controls">
+
+      <md-button
+        class="md-icon-button md-raised"
+        :class="{'md-warn': edit_mode}"
+        :disabled="loading || !geodata_ready"
+        @click.native='edit_mode = !edit_mode'
+      >
+        <md-icon>edit</md-icon>
+      </md-button>
+
+
+      <!-- MENU -->
+      <md-menu md-direction="bottom right" md-size="6">
+        <md-button class="md-icon-button md-raised" md-menu-trigger>
+          <md-icon>more_vert</md-icon>
+        </md-button>
+
+        <md-menu-content>
+          <md-menu-item @click="load_plan" :disabled="loading">
+            <md-icon>assignment_turned_in</md-icon>
+            <span>Load plan</span>
+          </md-menu-item>
+
+          <!--EDIT MODE-->
+          <md-menu-item :disabled="!unsaved_changes" @click="save_plan">
+            <md-icon>save</md-icon>
+            <span>Save plan</span>
+          </md-menu-item>
+
+          <md-menu-item :disabled='!can_clear' @click.native="clear_plan">
+            <md-icon>delete</md-icon>
+            <span>Clear plan</span>
+          </md-menu-item>
+
+        </md-menu-content>
+      </md-menu>
+
+      <div>
+        {{title}} plan {{current_plan_date ? `from ${current_plan_date}` : ''}}
+      </div>
     </div>
+
 
     <div v-if="online">
       <!-- FILTER TO LIMIT PLAN -->
@@ -12,17 +52,6 @@
         :unsaved_changes="unsaved_changes"
       ></plan_filter>
 
-      <!--SELECT MODE-->
-      <md-checkbox v-model="edit_mode" :disabled="edit_disabled">Edit mode</md-checkbox>
-      <md-checkbox :disabled='!geodata_ready || edit_mode' v-model="risk_visible">Show risk</md-checkbox>
-
-      <!--VIEW MODE-->
-      <!--<md-button v-if='!edit_mode' :disabled='!geodata_ready' class='md-raised' @click.native="load_plan">Load from remote</md-button>-->
-
-      <!--EDIT MODE-->
-      <md-button v-if='edit_mode' :disabled="!unsaved_changes" class='md-raised md-primary' @click.native="save_plan">Save</md-button>
-      <!--<md-button v-if='edit_mode' :disabled="!unsaved_changes" class='md-raised md-warn' @click.native="load_plan">Cancel edits</md-button>-->
-      <md-button v-if='edit_mode' :disabled='!can_clear' class='md-raised' @click.native="clear_plan">Clear plan</md-button>
 
       <!--PLAN MAP-->
       <md-card>
@@ -30,7 +59,6 @@
           <plan_map
             :geodata_ready="geodata_ready"
             :edit_mode="edit_mode"
-            :risk_visible="risk_visible"
             :selected_filter_area_id="selected_filter_area_id"
             v-on:map_loaded="edit_disabled = false"
           ></plan_map>
@@ -89,7 +117,6 @@
       return {
         edit_mode: false,
         edit_disabled: true,
-        risk_visible: false,
       }
     },
     computed: {
@@ -128,9 +155,6 @@
       can_clear() {
         return this.selected_target_area_ids.length !== 0
       }
-    },
-    watch: {
-      'edit_mode': 'disable_risk_in_edit_mode',
     },
     mounted() {
       get_geodata(this.$store)
@@ -179,11 +203,7 @@
       clear_plan() {
         this.$store.commit('irs_plan/clear_plan')
       },
-      disable_risk_in_edit_mode() {
-        if (this.edit_mode) {
-          this.risk_visible = false
-        }
-      },
+
     }
   }
 </script>

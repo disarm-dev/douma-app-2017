@@ -3,6 +3,7 @@ import Vue from 'vue'
 // Components
 import {ClientTable} from 'vue-tables-2'
 Vue.use(ClientTable)
+
 import VueTouch from 'vue-touch'
 Vue.use(VueTouch)
 
@@ -11,6 +12,9 @@ Vue.use(VueWorker)
 
 import TreeView from "vue-json-tree-view"
 Vue.use(TreeView)
+
+import VueShortkey from 'vue-shortkey'
+Vue.use(VueShortkey)
 
 // VueMaterial
 import VueMaterial from 'vue-material'

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <span>Teams:</span>
       <div
         v-for="{team_name, colour} in decorated_teams"
         class="legend"
@@ -26,14 +27,15 @@ export default {
 
 <style scoped>
   .selected {
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(165, 165, 165, 0.3);
   }
 
   .legend {
     cursor: pointer;
     padding:1px 6px;
     display: inline-block;
-    margin-right: 30px;
+    margin-right: 10px;
+    border-radius: 2px;
   }
 
   .legend-box {
