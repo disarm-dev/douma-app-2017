@@ -75,5 +75,6 @@ module.exports = {
       'BRANCH': JSON.stringify(gitRevisionPlugin.branch()),
       "DOUMA_PRODUCTION_MODE": process.env.NODE_ENV === 'production'
     }),
+    new GitRevisionPlugin() // Write VERSION and COMMITHASH files
   ]
 }
