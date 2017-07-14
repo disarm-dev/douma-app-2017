@@ -36,10 +36,10 @@
     </div>
 
     <!-- LIST ALL -->
-    <h3>{{responses.length}} responses</h3>
+    <h3>{{unsynced_count}} unsynced responses</h3>
     <md-list>
       <md-list-item
-        v-for='response in responses'
+        v-for='response in unsynced_responses'
         :index='response'
         :class="{'md-primary': !response.synced}"
         :key="response.id"
@@ -62,7 +62,7 @@
 <script>
   import download from 'downloadjs'
   import moment from 'moment'
-  import {flatten} from 'lodash.flatten'
+  import flatten from 'lodash.flatten'
   import {mapState} from 'vuex'
 
   import local_record_summary from './local_record_summary'
@@ -107,6 +107,7 @@
 
         this.$store.dispatch('irs_record_point/create_records', this.unsynced_responses)
           .then((results) => {
+            console.log('results', results)
             const last_successful_sync_count = flatten(results.pass).length
             this.$store.commit('root:set_loading', false)
             this.syncing = false
