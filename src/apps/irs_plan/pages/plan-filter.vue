@@ -51,8 +51,6 @@
           return feature.properties.category
         })))
 
-        console.log(categories)
-
         const result = categories.map(category => {
           const items = cache.geodata[next_level_up_from_planning_level.name].features.filter(feature => {
             return feature.properties.category === category
