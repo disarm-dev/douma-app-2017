@@ -112,14 +112,16 @@
 
       // Lower-level map stuff
       clear_map() {
-        const id = 'areas'
-        if (this._map.getLayer(id)) {
-          this._map.removeLayer(id)
-        }
+        const ids = ['areas', 'area_labels']
+        ids.forEach((id) => {
+          if (this._map.getLayer(id)) {
+            this._map.removeLayer(id)
+          }
 
-        if (this._map.getSource(id)) {
-          this._map.removeSource(id)
-        }
+          if (this._map.getSource(id)) {
+            this._map.removeSource(id)
+          }
+        })
       },
       add_layer(layer_string) {
         this.clear_map()
