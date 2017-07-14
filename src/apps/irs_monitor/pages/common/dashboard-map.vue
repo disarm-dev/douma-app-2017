@@ -21,6 +21,7 @@
   import {mapGetters, mapState} from 'vuex'
   import {featureCollection, point} from '@turf/helpers'
   import bbox from '@turf/bbox'
+  import centroid from '@turf/centroid'
   import mapboxgl from 'mapbox-gl'
   import chroma from 'chroma-js'
 
@@ -149,7 +150,25 @@
             'fill-opacity': 0.9,
             'fill-outline-color': 'black'
           }
-        }, 'responses')
+        }, 'area_labels')
+
+        const centroid_features = filtered_responses_fc.features.map((feature) => {
+          const c = centroid(feature)
+          c.properties = feature.properties
+          return c
+        })
+
+        this._map.addLayer({
+          id: 'area_labels',
+          type: 'symbol',
+          source: {
+            type: 'geojson',
+            data: featureCollection(centroid_features)
+          },
+          layout: {
+            'text-field': '{name}',
+          }
+        })
 
       },
       add_response_points() {
