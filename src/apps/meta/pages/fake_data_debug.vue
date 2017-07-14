@@ -91,7 +91,7 @@ export default {
     generate_data() {
       let responses = []
 
-      this.location_selections.splice(0, this.areas_count).forEach(location_selection => {
+      this.location_selections.slice(0, this.areas_count).forEach(location_selection => {
         let count = 0
         const limit = this.random_number_between(1,3)
         while (count <= limit) {

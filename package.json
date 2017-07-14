@@ -43,6 +43,7 @@
     "js-schema": "https://github.com/disarm-platform/js-schema",
     "json2csv": "^3.7.3",
     "lodash.clone": "^4.5.0",
+    "lodash.clonedeep": "^4.5.0",
     "lodash.debounce": "^4.0.8",
     "lodash.flatten": "^4.4.0",
     "lodash.get": "^4.4.2",

@@ -8,8 +8,15 @@ export const get_all_records = () => {
 }
 
 export const create_records = (records) => {
-  const result = (Math.random() > 0.5) ? Promise.resolve(records) : Promise.reject(records)
-  return result
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      (Math.random() > 0.5) ? resolve(records) : reject(records)
+    }, 2000)
+  })
+
+
+
+
   let url = douma_api_root + `/record/create`
 
   let options = {
