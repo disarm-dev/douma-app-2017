@@ -113,7 +113,7 @@
         return true
       },
       login() {
-        this.$store.commit('root:set_loading', true)
+        this.$startLoading('meta/login')
         this.error = ""
 
         if (!this.valid_login_request()) return
@@ -129,12 +129,12 @@
 
         this.$store.dispatch('meta/login', login_details).then(() => {
           this.$ga.set("user", `${this.$store.state.meta.user.username}/${this.$store.state.meta.user.name}`)
-          this.$store.commit('root:set_loading', false)
+          this.$endLoading('meta/login')
           this.login_disabled = false
           this.continue()
         })
         .catch(e => {
-          this.$store.commit('root:set_loading', false)
+          this.$endLoading('meta/login')
           this.login_disabled = false
 
           // 401 from server

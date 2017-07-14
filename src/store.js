@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
+import { createVuexLoader } from 'vuex-loading'
 import objectPath from 'object-path'
 
 export function create_store(instance_config, instance_stores) {
   Vue.use(Vuex)
 
+  // vuex-persistedstate
   // Exclude these paths from state persistence
   const excluded_paths = ['geodata_ready', 'geodata_loading_progress', 'loading']
 
@@ -23,16 +25,29 @@ export function create_store(instance_config, instance_stores) {
     }
   }
 
+  // vuex-loader
+  const VuexLoading = createVuexLoader({
+    // The Vuex module name, 'loading' by default.
+    moduleName: 'loading',
+    // The Vue component name, 'v-loading' by default.
+    componentName: 'v-loading',
+    // Vue component class name, 'v-loading' by default.
+    className: 'v-loading',
+  })
+
+  Vue.use(VuexLoading)
+
+
+
   return new Vuex.Store({
     modules: instance_stores,
-    plugins: [createPersistedState(persisted_state_options)],
+    plugins: [createPersistedState(persisted_state_options), VuexLoading.Store],
     state: {
       // Global config
       instance_config: instance_config, // Really important, should maybe be somewhere else
 
       // Global UI
       snackbar: {message: null},
-      loading: false,
       sw_message: {message: 'null', title: 'null'},
       network_online: false,
 
@@ -48,9 +63,6 @@ export function create_store(instance_config, instance_stores) {
     mutations: {
       'root:set_snackbar': (state, snackbar) => {
         state.snackbar = snackbar // Need to have a {message: "Like this"}
-      },
-      'root:set_loading': (state, loading_bool) => {
-        state.loading = loading_bool
       },
       'root:set_sw_message': (state, sw_message) => {
         state.sw_message = sw_message

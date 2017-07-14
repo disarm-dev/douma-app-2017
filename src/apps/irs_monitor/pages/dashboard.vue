@@ -67,7 +67,7 @@
     },
     methods: {
       refresh_data() {
-        this.$store.commit('root:set_loading', true)
+        this.$startLoading('irs_monitor/refresh_data')
 
         Promise.all([
           this.$store.dispatch('irs_monitor/get_all_records'),
@@ -75,12 +75,12 @@
 
         ])
           .then(() => {
-            this.$store.commit('root:set_loading', false)
+            this.$endLoading('irs_monitor/refresh_data')
             this.$store.commit('root:set_snackbar', {message: 'Successfully retrieved records'})
           })
           .catch(e => {
             console.log(e)
-            this.$store.commit('root:set_loading', false)
+            this.$endLoading('irs_monitor/refresh_data')
           })
       },
     }

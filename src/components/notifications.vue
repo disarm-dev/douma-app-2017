@@ -45,7 +45,7 @@
         snackbar: state => ({ ...state.snackbar, duration: 7000}),
         geodata_loading_progress: state => state.geodata_loading_progress,
         geodata_ready: state => state.geodata_ready
-      })
+      }),
     },
     watch: {
       'snackbar': 'snackbar_open',

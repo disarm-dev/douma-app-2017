@@ -6,7 +6,7 @@
       <md-button
         class="md-icon-button md-raised"
         :class="{'md-warn': edit_mode}"
-        :disabled="loading || !geodata_ready || !can_and_have_focused_planned"
+        :disabled="isLoading('irs_plan/load_plan') || !geodata_ready || !can_and_have_focused_planned"
         @click.native='edit_mode = !edit_mode'
       >
         <md-icon>edit</md-icon>
@@ -20,7 +20,7 @@
         </md-button>
 
         <md-menu-content>
-          <md-menu-item @click="load_plan" :disabled="loading">
+          <md-menu-item @click="load_plan" :disabled="isLoading('irs_plan/load_plan')">
             <md-icon>assignment_turned_in</md-icon>
             <span>Load plan</span>
           </md-menu-item>
@@ -122,7 +122,6 @@
     computed: {
       ...mapState({
         instance_config: state => state.instance_config,
-        loading: state => state.loading,
         online: state => state.network_online,
         geodata_loading_progress: state => state.geodata_loading_progress,
         geodata_ready: state => state.geodata_ready,
@@ -135,6 +134,9 @@
             return moment(state.irs_plan.current_plan.planned_at).format('hh:mm a DD MMM YYYY')
           }
         },
+      }),
+      ...mapGetters({
+        isLoading: 'loading/isLoading'
       }),
       must_focus_planning() {
         // TODO: @refac Improve checking if planning can be focused
@@ -165,11 +167,11 @@
     },
     methods: {
       load_plan() {
-        this.$store.commit('root:set_loading', true)
+        this.$startLoading('irs_plan/load_plan')
 
         this.$store.dispatch('irs_plan/get_current_plan')
-          .then(() => { this.$store.commit('root:set_loading', false) })
-          .catch(() => { this.$store.commit('root:set_loading', false) })
+          .then(() => { this.$endLoading('irs_plan/load_plan') })
+          .catch(() => { this.$endLoading('irs_plan/load_plan') })
 
       },
       save_plan() {
@@ -201,15 +203,15 @@
           selected_target_area_ids
         })
 
-        this.$store.commit('root:set_loading', true)
+        this.$startLoading('irs_plan/save_plan')
         this.$store.dispatch('irs_plan/save_plan', plan)
           .then(() => {
             this.$store.commit('root:set_snackbar', {message: 'Successful save'})
-            this.$store.commit('root:set_loading', false)
+            this.$endLoading('irs_plan/save_plan')
           })
           .catch(() => {
             this.$store.commit('root:set_snackbar', {message: 'Not saved. Something wrong.'})
-            this.$store.commit('root:set_loading', false)
+            this.$endLoading('irs_plan/save_plan')
           })
       },
       clear_plan() {

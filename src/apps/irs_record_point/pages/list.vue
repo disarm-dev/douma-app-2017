@@ -112,19 +112,19 @@
         return moment(date).format('hh:mm a DD MMM YYYY')
       },
       sync() {
-        this.$store.commit('root:set_loading', true)
+        this.$startLoading('irs_record_point/sync')
         this.syncing = true
 
         this.$store.dispatch('irs_record_point/create_records', this.unsynced_responses)
           .then((results) => {
             console.log('results', results)
             const last_successful_sync_count = flatten(results.pass).length
-            this.$store.commit('root:set_loading', false)
+            this.$endLoading('irs_record_point/sync')
             this.syncing = false
             this.$store.commit('root:set_snackbar', {message: `Successfully synced ${last_successful_sync_count} responses`})
           })
           .catch(() => {
-            this.$store.commit('root:set_loading', false)
+            this.$endLoading('irs_record_point/sync')
             this.syncing = false
           })
       },
