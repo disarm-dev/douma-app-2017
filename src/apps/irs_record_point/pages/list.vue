@@ -62,6 +62,7 @@
 <script>
   import download from 'downloadjs'
   import moment from 'moment'
+  import {flatten} from 'lodash.flatten'
   import {mapState} from 'vuex'
 
   import local_record_summary from './local_record_summary'
@@ -105,10 +106,11 @@
         this.syncing = true
 
         this.$store.dispatch('irs_record_point/create_records', this.unsynced_responses)
-          .then(() => {
+          .then((results) => {
+            const last_successful_sync_count = flatten(results.pass).length
             this.$store.commit('root:set_loading', false)
             this.syncing = false
-            this.$store.commit('root:set_snackbar', {message: 'Successfully synced responses'})
+            this.$store.commit('root:set_snackbar', {message: `Successfully synced ${last_successful_sync_count} responses`})
           })
           .catch(() => {
             this.$store.commit('root:set_loading', false)
