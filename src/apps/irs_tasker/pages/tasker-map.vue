@@ -190,6 +190,8 @@
         // Remove existing layers
         if (this._map.getLayer('areas')) this._map.removeLayer('areas')
         if (this._map.getSource('areas')) this._map.removeSource('areas')
+        if (this._map.getSource('area_labels')) this._map.removeSource('area_labels')
+        if (this._map.getLayer('area_labels')) this._map.removeLayer('area_labels')
 
         // (Re)create palette
         const palette = this.decorated_teams.map(({team_name, colour}) => {
@@ -217,6 +219,18 @@
             },
             'fill-opacity': 0.9,
             'fill-outline-color': '#262626'
+          }
+        })
+
+        this._map.addLayer({
+          id: 'area_labels',
+          type: 'symbol',
+          source: {
+            type: 'geojson',
+            data: this._target_areas_with_assignments_fc
+          },
+          layout: {
+            'text-field': `{${this.planning_level_id_field}}`,
           }
         })
       },
