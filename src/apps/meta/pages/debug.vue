@@ -22,8 +22,11 @@
 
       <!--NETWORK-->
       <md-list-item @click="check_network"><md-icon>settings_ethernet</md-icon><span>check network</span>
-        <md-icon v-if='network_pass' class="md-primary">check</md-icon>
         <md-icon v-if="network_checking" class="md-warn">network_check</md-icon>
+        <md-icon v-if='network_pass' class="md-primary">check</md-icon>
+      </md-list-item>
+      <md-list-item @click="check_if_update_available"> <md-icon>system_update</md-icon><span>check for update</span>
+        <md-icon v-if="update_status === 'PASS'" class="md-warn">update</md-icon>
       </md-list-item>
       <md-divider class="md-inset"></md-divider>
 
@@ -42,17 +45,24 @@
   import {mapGetters} from 'vuex'
   import get from 'lodash.get'
   import {elements_array}from 'lib/form_helpers'
-  import {try_reconnect} from 'lib/data/remote.standard-handler'
+  import {try_reconnect, get_version} from 'lib/data/remote.standard-handler'
   import cache from 'config/cache.js'
+  import {need_to_update} from 'lib/update'
+
 
   export default {
     name: 'debug',
     data() {
       return {
+        // Statuses are 'NONE', 'CHECKING', 'PASS', 'FAIL'
         geolocation_pass: false,
+
         network_checking: false,
         network_pass: false,
+
         geodata_cleared: false,
+
+        update_status: 'NONE',
       }
     },
     computed: {
@@ -89,6 +99,16 @@
           if (res) this.network_pass = true
         }).catch(() => {
           this.network_checking = false
+        })
+      },
+      check_if_update_available() {
+        this.update_status = 'CHECKING'
+        need_to_update().then(need_update => {
+          if (need_update) {
+            this.update_status = 'PASS'
+          } else {
+            this.update_status = 'NONE'
+          }
         })
       }
     }

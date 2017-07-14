@@ -23,12 +23,10 @@
     <!--ServiceWorker message DIALOG -->
     <md-dialog ref="sw_dialog">
       <md-dialog-title>{{sw_message.title}}</md-dialog-title>
-
       <md-dialog-content>{{sw_message.message}}</md-dialog-content>
-
       <md-dialog-actions>
-        <md-button @click.native="close_sw_dialog">Close</md-button>
-        <md-button class="md-primary" @click.native="reload">Ok</md-button>
+        <md-button @click.native="close_sw_dialog">Cancel</md-button>
+        <md-button class="md-primary" @click.native="reload">Reload now</md-button>
       </md-dialog-actions>
     </md-dialog>
   </div>

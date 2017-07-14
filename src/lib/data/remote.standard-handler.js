@@ -57,7 +57,11 @@ const try_reconnect = () => {
   return standard_handler(CONFIG.api.url)
 }
 
-export {configure_standard_handler, standard_handler, douma_api_root, try_reconnect}
+const get_version = () => {
+  return standard_handler('/VERSION')
+}
+
+export {configure_standard_handler, standard_handler, douma_api_root, try_reconnect, get_version}
 
 
 

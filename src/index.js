@@ -18,7 +18,10 @@ import {create_and_launch_application} from 'config/application.js'
 // configure_error_tracking!!
 configure_error_tracking()
 
-//
+// Reload with new version if available
+
+
+// Get instance_config and launch!
 get_instance_config()
   .then(instance_config => {
     const douma_app = create_and_launch_application(instance_config)

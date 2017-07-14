@@ -17,7 +17,11 @@ export function configure_service_worker (DOUMA) {
                 // have been added to the cache.
                 // It's the perfect time to display a "New content is available; please refresh."
                 // message in the page's interface.
-                DOUMA.$store.commit("root:set_sw_message", {title: 'DiSARM updated', message: "Please refresh browser to start using the newer version."})
+                DOUMA.$store.commit("root:set_sw_message", {
+                  title: 'DiSARM updated',
+                  message: "Please click 'Refresh' to reload page and start using the newer version. " +
+                    "You may lose unsaved work. Click 'Cancel' and save if you prefer "
+                })
               } else {
                 // At this point, everything has been precached.
                 // It's the perfect time to display a "Content is cached for offline use." message.
