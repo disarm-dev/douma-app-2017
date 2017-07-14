@@ -39,9 +39,15 @@
     padding-top: 48px;
   }
 
-  .container {
+  .applet_container {
     margin: 1em auto;
-    width: 90%;
+    width: 100%;
+  }
+
+  @media screen and (min-width: 600px) {
+    .applet_container {
+      width: 90%;
+    }
   }
 
   /* TODO: @refac Controls should be in a component.*/

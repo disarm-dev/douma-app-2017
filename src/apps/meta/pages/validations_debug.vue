@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div class="applet_container">
 
 	  <md-input-container v-if="show_upload">
       <label>Upload validations</label>

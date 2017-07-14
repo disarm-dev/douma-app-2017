@@ -1,5 +1,5 @@
 <template>
-  <div class='container'>
+  <div class='applet_container'>
 
     <div class="controls">
 
@@ -226,19 +226,6 @@
 
   .centred {
     margin: 0 auto;
-  }
-
-  .md-chip {
-    background: orange;
-    color: white;
-  }
-
-  .not-container {
-    display: flex;
-  }
-
-  .not-container-child {
-    flex: 1;
   }
 
 

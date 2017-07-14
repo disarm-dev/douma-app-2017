@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="applet_container">
 
     <div class="controls">
 
