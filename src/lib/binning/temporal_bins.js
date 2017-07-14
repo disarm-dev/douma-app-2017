@@ -4,22 +4,28 @@ const MOMENT_INTERVALS = ['months', 'weeks']
 
 const test_responses = [
   {
-    recorded_on: '2017-01-01'
+    recorded_on: '2017-01-01',
+    value: 1
   },
   {
-    recorded_on: '2017-01-21'
+    recorded_on: '2017-01-21',
+    value: 1
   },
   {
-    recorded_on: '2017-04-02'
+    recorded_on: '2017-04-02',
+    value: 1
   },
   {
-    recorded_on: '2017-02-15'
+    recorded_on: '2017-02-15',
+    value: 1
   },
   {
-    recorded_on: '2017-03-15'
+    recorded_on: '2017-03-15',
+    value: 1
   },
   {
-    recorded_on: '2017-11-11'
+    recorded_on: '2017-11-11',
+    value: 1
   }
 ]
 
@@ -41,7 +47,7 @@ function bin_names_from_dates({responses, interval = 'months'}) {
 
   while (now_date_ms <= end_date_ms) {
     const bin_date = get_first_of({date: now_date_ms, interval})
-    const formatted_date = bin_date.format('YYYY-MM-DD')
+    const formatted_date = format_as_bin_date(bin_date)
     bin_names.push(formatted_date)
 
     now_date_ms = moment(now_date_ms).add(1, interval).valueOf()
@@ -50,40 +56,17 @@ function bin_names_from_dates({responses, interval = 'months'}) {
   return bin_names
 }
 
-const get_temporally_binned_responses = ({responses, temporal_filter_definition}) => {
-  // find start and end dates, and use 'month' as default interval
-  console.log(bin_names_from_dates({responses,interval: 'months'}))
+const get_temporally_binned_responses = ({responses, temporal_filter_definition = {interval: 'weeks'}}) => {
+  const interval = temporal_filter_definition.interval
+  const bin_names = bin_names_from_dates({responses, interval})
+  let bins = bin_names.map(name => ({time_slice: name, responses: []}))
 
+  responses.forEach(response => {
+    const right_bin = bin_for({response, bins, interval})
+    right_bin.responses.push(response)
+  })
 
-    //
-    //
-    // // create set of bins
-    // const bins = []
-    // // iterate all responses, and put into correct bins
-    // const eg_bins = [
-    //   {
-    //     time_slice: 1,
-    //     human_readable_time_slice: '1st August to 7th August',
-    //     responses: [
-    //       {
-    //         id: 1,
-    //         ...fields
-    //       }
-    //     ]
-    //   },
-    //   {
-    //     time_slice: 2,
-    //     human_readable_time_slice: '8th August to 14th August',
-    //     responses: [
-    //       {
-    //         id: 1,
-    //         ...fields
-    //       }
-    //     ]
-    //   }]
-
-
-  // }
+  return bins
 }
 
 const get_temporally_binned_aggregations = ({responses, temporal_filter_definition}) => {
@@ -106,6 +89,13 @@ const get_first_of = ({date, interval}) => {
   } else {
     return moment(date).date(1)
   }
+}
+
+const format_as_bin_date = (moment_date) => moment_date.format('YYYY-MM-DD')
+
+const bin_for = ({response, bins, interval}) => {
+  const response_date_as_time_slice = format_as_bin_date(get_first_of({date: response.recorded_on, interval}))
+  return bins.find(bin => bin.time_slice === response_date_as_time_slice)
 }
 
 // export {get_temporally_binned_aggregations}
