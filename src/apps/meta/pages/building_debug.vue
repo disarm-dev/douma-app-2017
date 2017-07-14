@@ -1,33 +1,30 @@
 <template>
-  <div>
-    <div class="container">
-      <md-card v-if="!buildings_loaded || !selected_building_field">
-        <md-card-content>
-          <md-input-container>
-            <label>Upload GeoJSON</label>
-            <md-file :disabled="!map_ready" @selected="upload_buildings"></md-file>
-          </md-input-container>
+  <div class="applet_container">
+    <md-card v-if="!buildings_loaded || !selected_building_field">
+      <md-card-content>
+        <md-input-container>
+          <label>Upload GeoJSON</label>
+          <md-file :disabled="!map_ready" @selected="upload_buildings"></md-file>
+        </md-input-container>
 
-          <md-input-container>
-            <label>Field</label>
-            <md-select :disabled="buildings_fields_options.length === 0" v-model="selected_building_field">
-              <md-option v-for='option in buildings_fields_options' :key='option' :value="option">{{option}}</md-option>
-            </md-select>
-          </md-input-container>
-        </md-card-content>
-      </md-card>
+        <md-input-container>
+          <label>Field</label>
+          <md-select :disabled="buildings_fields_options.length === 0" v-model="selected_building_field">
+            <md-option v-for='option in buildings_fields_options' :key='option' :value="option">{{option}}</md-option>
+          </md-select>
+        </md-input-container>
+      </md-card-content>
+    </md-card>
 
-      <md-card v-if="buildings_loaded && selected_building_field">
-        <md-card-content>
-          <p>Clicked on building: {{building_clicked}}</p>
-          <md-input-container>
-            <label>OSM ID</label>
-            <md-input :disabled='!buildings_loaded' v-model="building_typed" placeholder="Will match the LAST few digits."></md-input>
-          </md-input-container>
-        </md-card-content>
-      </md-card>
-    </div>
-
+    <md-card v-if="buildings_loaded && selected_building_field">
+      <md-card-content>
+        <p>Clicked on building: {{building_clicked}}</p>
+        <md-input-container>
+          <label>OSM ID</label>
+          <md-input :disabled='!buildings_loaded' v-model="building_typed" placeholder="Will match the LAST few digits."></md-input>
+        </md-input-container>
+      </md-card-content>
+    </md-card>
     <div id="map"></div>
 
   </div>

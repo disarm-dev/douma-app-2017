@@ -1,5 +1,5 @@
 <template>
-  <div class='container'>
+  <div class='applet_container'>
 
     <!--  SUMMARY, LOAD, DOWNLOAD (DUMPING GROUND) -->
     <dashboard_summary @refresh_data="refresh_data"></dashboard_summary>

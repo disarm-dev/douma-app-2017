@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="applet_container">
     <md-input-container>
       <label>Number of areas (between 0 and 3 records generated for each area)</label>
       <md-input type="number" v-model="areas_count"></md-input>

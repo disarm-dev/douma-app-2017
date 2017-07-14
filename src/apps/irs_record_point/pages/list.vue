@@ -1,5 +1,5 @@
 <template>
-  <div class='container'>
+  <div class='applet_container'>
      <!--<local_record_summary></local_record_summary>-->
 
     <div class="controls">

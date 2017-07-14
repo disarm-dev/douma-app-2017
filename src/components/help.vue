@@ -123,7 +123,7 @@
 </script>
 
 <style scoped>
-  .container {
+  .applet_container {
     padding: 10px;
     width: 100%;
   }
