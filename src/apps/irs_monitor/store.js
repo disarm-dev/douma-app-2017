@@ -52,6 +52,17 @@ export default {
       }
     },
 
+    /**
+     * Takes all the responses.
+     * Aggregates them by time and space.
+     * @param state
+     * @returns {{time_slices: Array, spatial_aggregations: Array}}
+     */
+    binned_responses(state) {
+      const filter_definitions = {}
+      return {time_slices: [], spatial_aggregations: []}
+    },
+
     // Responses which are contained by current plan
     // ideally, filtered_responses should change in response to the
     // settings of the filter e.g. "locality #2"
