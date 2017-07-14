@@ -28,9 +28,7 @@
       <md-divider class="md-inset"></md-divider>
 
       <!-- CLEARING THINGS-->
-      <md-list-item @click="clear_geodata">
-        <md-icon>language</md-icon> <span>Clear geodata</span>
-      </md-list-item>
+      <md-list-item @click="clear_geodata"><md-icon>language</md-icon><span>clear geodata</span><md-icon v-if='geodata_cleared' class="md-primary">check</md-icon></md-list-item>
       <md-list-item v-for="applet in applets" :key="applet" @click="clear_applet_storage(applet)">
         <md-icon>delete</md-icon><span>clear storage for {{applet}}</span>
       </md-list-item>
@@ -53,7 +51,8 @@
       return {
         geolocation_pass: false,
         network_checking: false,
-        network_pass: false
+        network_pass: false,
+        geodata_cleared: false,
       }
     },
     computed: {
@@ -80,6 +79,7 @@
       },
       clear_geodata() {
         cache.geodata = {}
+        this.geodata_cleared = true
       },
       check_network() {
         this.network_pass = false
