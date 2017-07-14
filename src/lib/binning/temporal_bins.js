@@ -102,7 +102,7 @@ function responses_within_temporal_filter({responses, temporal_filter_definition
  * @param temporal_filter_definition
  * @returns {*}
  */
-const get_temporally_binned_aggregations = ({responses, temporal_filter_definition}) => {
+const get_temporally_binned_aggregations = ({responses, temporal_filter_definition = {}}) => {
   // Find relevant responses (i.e. within temporal filter range)
   const responses_within_date_filters = responses_within_temporal_filter({responses, temporal_filter_definition})
 
@@ -113,7 +113,7 @@ const get_temporally_binned_aggregations = ({responses, temporal_filter_definiti
   if (temporal_filter_definition.raw_responses) return console.log(bins)
   // return console.log(bins)
   // Work through responses in each bin, doing the aggregation
-  for (bin of bins) {
+  bins.forEach(bin => {
     bin.sum_of_values = bin.responses.reduce((acc, response) => {
       return acc + response.value
     }, 0)
@@ -126,7 +126,7 @@ const get_temporally_binned_aggregations = ({responses, temporal_filter_definiti
     //   return aggregation(bin.responses, denominator_for_bin)
     // })
     // return binned_aggregations
-  }
+  })
 
   console.log(bins)
 }
@@ -151,21 +151,21 @@ const find_bin_for = ({response, bins, interval}) => {
   return bins.find(bin => bin.time_slice === response_date_as_time_slice)
 }
 
-// export {get_temporally_binned_aggregations}
+export {get_temporally_binned_aggregations}
 
-
-
-// DEBUG
-get_temporally_binned_aggregations({
-  responses: test_responses,
-  temporal_filter_definition: {
-    interval: 'months',
-    // raw_responses: true,
-    // start_date: '2017-01-01',
-    // start_date: '2017-03-01',
-    // end_date: '2017-04-02'
-    // end_date: '2017-02-02'
-    // end_date: '2017-02-15'
-  }
-})
+//
+//
+// // DEBUG
+// get_temporally_binned_aggregations({
+//   responses: test_responses,
+//   temporal_filter_definition: {
+//     interval: 'months',
+//     // raw_responses: true,
+//     // start_date: '2017-01-01',
+//     // start_date: '2017-03-01',
+//     // end_date: '2017-04-02'
+//     // end_date: '2017-02-02'
+//     // end_date: '2017-02-15'
+//   }
+// })
 

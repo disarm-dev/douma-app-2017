@@ -13,7 +13,7 @@
         <component
           :is="component.name"
           :height="component.height_constraint == 'viewport' ? window_height : undefined"
-          :responses='filtered_responses'
+          :responses='aggregated_responses'
           :denominator="{}"
           :component_config='component'>
         </component>
@@ -77,7 +77,7 @@
       zwe_chart_prop_people_covered,
       zwe_chart_refusal_pie
     },
-    props: ['filtered_responses'],
+    props: ['aggregated_responses', 'filtered_responses'],
     mounted() {
     },
     data() {
