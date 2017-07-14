@@ -1,4 +1,6 @@
-import series from 'es6-promise-series'
+import clone from 'lodash.clone'
+
+import CONFIG from 'config/common_config'
 import {create_records} from 'lib/data/remote'
 
 export default {
@@ -30,26 +32,32 @@ export default {
   },
   actions: {
     create_records: async (context, records) => {
-      const max_records_in_batch = 30
+      const results = {pass: [], fail: []}
+      const max_records_in_batch = CONFIG.remote.max_records_batch_size
+
+      // Clone so we can easily splice. response_id ensures updating works
+      const records_left = clone(records)
 
       // Batch creating of records
-      const results = []
-      while (records.length > 0) {
-        const records_batch = records.splice(0, max_records_in_batch)
-        let result 
-        try {
-          result = await create_records(records_batch)
-        } catch (e) {
-          result = e
-        }
-        results.push(result)
+
+      while (records_left.length > 0) {
+        const records_batch = records_left.splice(0, max_records_in_batch)
+        await create_records(records_batch)
+          .then((passed_records) => {
+            // Set synced
+            passed_records.forEach(record => {
+              record.synced = true
+              context.commit('update_response', record)
+            })
+            results.pass.push(passed_records)
+          })
+          .catch((failed_records) => {
+            results.fail.push(failed_records)
+          })
       }
-      // TODO: @feature Actually filter batches here
-      const successfully_synced_record_batches = results.filter(() => true)
 
-      // Flatten array
-
-      //  Mark each one as synced
+      // Return the results array
+      return results
     },
     clear_synced_responses: (context) => {
       let synced_responses = context.state.responses.filter(r => r.synced)
