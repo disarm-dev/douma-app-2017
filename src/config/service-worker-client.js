@@ -8,7 +8,6 @@ export function configure_service_worker (DOUMA) {
   if (DOUMA_PRODUCTION_MODE && 'serviceWorker' in navigator) {
     navigator.serviceWorker.register('/service-worker.js').then(function(reg) {
       reg.onupdatefound = function() {
-        DOUMA.$store.commit("root:set_sw_message", {title: 'DiSARM update available', message: "Downloading new version in background."})
         var installingWorker = reg.installing;
         installingWorker.onstatechange = function() {
           switch (installingWorker.state) {
@@ -18,11 +17,11 @@ export function configure_service_worker (DOUMA) {
                 // have been added to the cache.
                 // It's the perfect time to display a "New content is available; please refresh."
                 // message in the page's interface.
-                DOUMA.$store.commit("root:set_sw_message", {title: 'DiSARM has updated', message: "Please refresh browser to start using the newer version."})
+                DOUMA.$store.commit("root:set_sw_message", {title: 'DiSARM updated', message: "Please refresh browser to start using the newer version."})
               } else {
                 // At this point, everything has been precached.
                 // It's the perfect time to display a "Content is cached for offline use." message.
-                DOUMA.$store.commit("root:set_snackbar", {message: "DiSARM can now go offline. You can now go offline and use 'IRS Record'"})
+                DOUMA.$store.commit("root:set_snackbar", {message: "DiSARM can now go offline for 'IRS Record'"})
               }
               break;
 
