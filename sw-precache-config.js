@@ -18,7 +18,7 @@ module.exports = {
       handler: 'cacheFirst'
     }
   ],
-  verbose: true
+  skipWaiting: true
 }
 
 
