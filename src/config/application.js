@@ -31,6 +31,7 @@ import {get_instance_stores_and_routes} from './applet_stores_and_routes'
 import {instantiate_analytics, set_common_analytics} from 'config/analytics'
 import {configure_spatial_helpers} from 'lib/spatial_hierarchy_helper'
 import {configure_standard_handler} from 'lib/data/remote.standard-handler'
+import {try_reconnect} from 'lib/data/remote.standard-handler'
 
 export function create_and_launch_application (instance_config) {
   // Configure spatial_helpers to use instance_config
@@ -40,6 +41,9 @@ export function create_and_launch_application (instance_config) {
   // Collect stores and routes for applets ONLY in this instance {stores: {}, routes: []}
   // Ignores user permissions
   const instance_applets_stores_and_routes = get_instance_stores_and_routes(instance_config)
+
+  //Trigger a ping to API, for lots of reasons, mostly that the API seems to take ages to wake up
+  try_reconnect()
 
   // Make Vuex#$store and a Vue#$router from what you got
   const store = create_store(instance_config, instance_applets_stores_and_routes.stores)

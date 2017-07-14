@@ -81,7 +81,7 @@ export default {
           }
         },
         "location_selection": location_selection,
-        "recorded_on": faker.date.recent(),
+        "recorded_on": faker.date.recent(90),
         "user": this.user,
         "userAgent": navigator.userAgent,
         "synced": false
