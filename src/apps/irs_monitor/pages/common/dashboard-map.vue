@@ -21,13 +21,14 @@
   import {mapGetters, mapState} from 'vuex'
   import {featureCollection, point} from '@turf/helpers'
   import bbox from '@turf/bbox'
+  import centroid from '@turf/centroid'
   import mapboxgl from 'mapbox-gl'
   import chroma from 'chroma-js'
 
   import {basic_map} from 'lib/basic_map.js'
   import cache from 'config/cache'
   import logscale from 'lib/log_scale.js'
-  import {get_planning_level_id_field, get_planning_level_name} from 'lib/spatial_hierarchy_helper'
+  import {get_planning_level_id_field, get_planning_level_name, get_planning_level_display_name} from 'lib/spatial_hierarchy_helper'
   import {layer_definitions} from 'lib/map_layers'
 
   import Presenters from 'lib_instances/presenters'
@@ -72,6 +73,9 @@
       },
       planning_level_id_field() {
         return get_planning_level_id_field() // Get field name e.g AggUniCod
+      },
+      planning_level_display_name() {
+        return get_planning_level_display_name()
       }
     },
     mounted() {
@@ -149,7 +153,25 @@
             'fill-opacity': 0.9,
             'fill-outline-color': 'black'
           }
-        }, 'responses')
+        }, 'area_labels')
+
+        const centroid_features = filtered_responses_fc.features.map((feature) => {
+          const c = centroid(feature)
+          c.properties = feature.properties
+          return c
+        })
+
+        this._map.addLayer({
+          id: 'area_labels',
+          type: 'symbol',
+          source: {
+            type: 'geojson',
+            data: featureCollection(centroid_features)
+          },
+          layout: {
+            'text-field': `{${this.planning_level_display_name}}`,
+          }
+        })
 
       },
       add_response_points() {

@@ -30,7 +30,7 @@
   import logslider from 'lib/log_slider.js'
   import logscale from 'lib/log_scale.js'
   import {basic_map} from 'lib/basic_map'
-  import {get_planning_level_id_field, get_planning_level_name, get_next_level_down_from_planning_level} from 'lib/spatial_hierarchy_helper'
+  import {get_planning_level_id_field, get_planning_level_name, get_next_level_down_from_planning_level, get_planning_level_display_name} from 'lib/spatial_hierarchy_helper'
   import {target_areas_inside_focus_filter_area} from 'lib/irs_plan_helper'
 
   export default {
@@ -77,6 +77,9 @@
       },
       planning_level_id_field() {
         return get_planning_level_id_field()
+      },
+      planning_level_display_name() {
+        return get_planning_level_display_name()
       },
       converted_slider_value() {
         if (!this.logslider) return 0
@@ -253,6 +256,25 @@
           this.fit_bounds()
         }
 
+        // Add text labels
+
+        const centroid_features = geojson.features.map((feature) => {
+          const c = centroid(feature)
+          c.properties = feature.properties
+          return c
+        })
+
+        this._map.addLayer({
+          id: 'area_labels',
+          type: 'symbol',
+          source: {
+            type: 'geojson',
+            data: featureCollection(centroid_features)
+          },
+          layout: {
+            'text-field': `{${this.planning_level_display_name}}`,
+          }
+        })
 
       },
       remove_target_areas() {

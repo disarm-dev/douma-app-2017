@@ -29,6 +29,13 @@ const get_planning_level_name = () => {
   return planning_level.name
 }
 
+const get_planning_level_display_name = () => {
+  const planning_level_name = instance_config_cache.spatial_hierarchy.markers.planning_level_name // e.g. villages for NAM
+  const planning_level = instance_config_cache.spatial_hierarchy.levels.find(sp => sp.name === planning_level_name)
+  return planning_level.display_field_name
+}
+
+
 const get_denominator_fields = () => {
   return instance_config_cache.spatial_hierarchy.markers.denominator_fields
 }
@@ -74,6 +81,7 @@ export {
   get_planning_level_id_field,
   get_denominator_fields,
   get_planning_level_name,
+  get_planning_level_display_name,
   get_all_spatial_hierarchy_levels,
   get_next_level_up_from_planning_level,
   get_next_level_down_from_planning_level,
