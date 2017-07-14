@@ -90,8 +90,6 @@
         switch (this.$store.state.instance_config.instance.slug) {
           case 'zwe':
             return 'rooms'
-          case 'nam':
-            return 'households'
           default:
             return 'structures'
         }
