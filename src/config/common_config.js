@@ -26,4 +26,7 @@ export default {
       zoom: 4
     }
   },
+  remote: {
+    max_records_batch_size: 30
+  }
 }
