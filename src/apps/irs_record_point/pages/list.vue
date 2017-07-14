@@ -36,30 +36,40 @@
     </div>
 
     <!-- LIST ALL -->
-    <h3>{{unsynced_count}} unsynced responses</h3>
-    <md-list>
-      <md-list-item
-        v-for='response in unsynced_responses'
-        :index='response'
-        :class="{'md-primary': !response.synced}"
-        :key="response.id"
-      >
-        <md-icon>
-          {{response.synced ? 'check' : 'mode_edit'}}
-        </md-icon>
+    <md-card>
+      <md-card-header>
+        <div class="md-title">{{unsynced_count}} unsynced responses</div>
+      </md-card-header>
+      <md-card-content>
+        <md-list>
+          <virtual_list :size="40" :remain="10">
+            <md-list-item
+              v-for='response in unsynced_responses'
+              :index='response'
+              :class="{'md-primary': !response.synced}"
+              :key="response.id"
+            >
+              <md-icon>
+                {{response.synced ? 'check' : 'mode_edit'}}
+              </md-icon>
 
-        <div>
-          <router-link
-            :to="{name: response.synced ? 'irs_record_point:view' : 'irs_record_point:edit', params: {response_id: response.id}}">
-            {{format_response(response)}}
-          </router-link>
-        </div>
-      </md-list-item>
-    </md-list>
+              <div>
+                <router-link
+                  :to="{name: response.synced ? 'irs_record_point:view' : 'irs_record_point:edit', params: {response_id: response.id}}">
+                  {{format_response(response)}}
+                </router-link>
+              </div>
+            </md-list-item>
+          </virtual_list>
+        </md-list>
+      </md-card-content>
+    </md-card>
+
   </div>
 </template>
 
 <script>
+  import virtual_list from 'vue-virtual-scroll-list'
   import download from 'downloadjs'
   import moment from 'moment'
   import flatten from 'lodash.flatten'
@@ -69,7 +79,7 @@
 
   export default {
     name: 'List',
-    components: {local_record_summary},
+    components: {virtual_list, local_record_summary},
     data () {
       return {
         syncing: false,
