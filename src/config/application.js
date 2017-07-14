@@ -7,9 +7,6 @@ Vue.use(ClientTable)
 import VueTouch from 'vue-touch'
 Vue.use(VueTouch)
 
-import VueWorker from 'vue-worker'
-Vue.use(VueWorker)
-
 import TreeView from "vue-json-tree-view"
 Vue.use(TreeView)
 
