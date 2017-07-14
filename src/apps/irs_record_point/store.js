@@ -53,17 +53,14 @@ export default {
 
         await create_records(records_batch)
           .then((passed_records) => {
-
-          // Set synced status for successfully-synced records
+            // Set synced status for successfully-synced records
+            context.commit('mark_responses_as_synced', passed_records)
             results.pass.push(passed_records)
           })
           .catch((failed_records) => {
             results.fail.push(failed_records)
           })
       }
-
-      const passed = flatten(results.pass)
-      context.commit('mark_responses_as_synced', passed)
 
       // Return the results array
       return results

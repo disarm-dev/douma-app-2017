@@ -27,6 +27,6 @@ export default {
     }
   },
   remote: {
-    max_records_batch_size: 30
+    max_records_batch_size: 50
   }
 }
