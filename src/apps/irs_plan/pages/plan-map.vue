@@ -290,6 +290,11 @@
           this._map.removeLayer('selected_filter_area')
         if (this._map.getSource('selected_filter_area'))
           this._map.removeSource('selected_filter_area')
+        if (this._map.getSource('area_labels'))
+          this._map.removeSource('area_labels')
+        if (this._map.getLayer('area_labels'))
+          this._map.removeLayer('area_labels')
+
       },
       redraw_target_areas() {
         if (this.geodata_ready && this._map.loaded()) {
