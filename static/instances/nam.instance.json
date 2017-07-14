@@ -46,8 +46,8 @@
       },
       {
         "field_name": "id",
-        "display_field_name": "id",
-        "name": "clusters"
+        "display_field_name": "name",
+        "name": "villages"
       }
     ]
   }

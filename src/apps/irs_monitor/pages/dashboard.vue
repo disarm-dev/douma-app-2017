@@ -19,7 +19,7 @@
     <table_progress :aggregated_responses="aggregated_responses"></table_progress>
 
     <!-- CUSTOM STATIC-DATA CHARTS, etc -->
-    <charts :aggregated_responses="aggregated_responses"></charts>
+    <charts :aggregated_responses="responses"></charts>
 
   </div>
 </template>
@@ -52,6 +52,7 @@
       ...mapState({
         instance_config: state => state.instance_config,
         geodata_ready: state => state.geodata_ready,
+        responses: state => state.irs_monitor.responses
       }),
       ...mapGetters({
         filtered_responses: 'irs_monitor/filtered_responses',
