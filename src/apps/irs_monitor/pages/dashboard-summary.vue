@@ -1,6 +1,6 @@
 <template>
   <div class="controls">
-    <md-button class="md-icon-button md-raised md-primary" :disabled="loading" @click.native='refresh_data'>
+    <md-button class="md-icon-button md-raised md-primary" :disabled="isLoading('irs_monitor/refresh_data')" @click.native='refresh_data'>
       <md-icon>refresh</md-icon>
     </md-button>
 
@@ -11,7 +11,7 @@
       </md-button>
 
       <md-menu-content>
-        <md-menu-item :disabled="loading || !filtered_responses.length" @click="download_responses">
+        <md-menu-item :disabled="isLoading('irs_monitor/refresh_data') || !filtered_responses.length" @click="download_responses">
           <md-icon>file_download</md-icon>
           <span>Download responses</span>
         </md-menu-item>
@@ -46,7 +46,6 @@
     },
     computed: {
       ...mapState({
-        loading: state => state.loading,
         plan: state => state.irs_monitor.plan,
         instance_config: state => state.instance_config,
         responses_last_updated_at: state => {
@@ -59,6 +58,7 @@
       }),
       ...mapGetters({
         filtered_responses: 'irs_monitor/filtered_responses',
+        isLoading: 'loading/isLoading'
       })
     },
     mounted() {

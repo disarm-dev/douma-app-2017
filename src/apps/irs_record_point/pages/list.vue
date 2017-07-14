@@ -1,5 +1,5 @@
 <template>
-  <div class='container'>
+  <div class='applet_container'>
      <!--<local_record_summary></local_record_summary>-->
 
     <div class="controls">
@@ -36,39 +36,50 @@
     </div>
 
     <!-- LIST ALL -->
-    <h3>{{responses.length}} responses</h3>
-    <md-list>
-      <md-list-item
-        v-for='response in responses'
-        :index='response'
-        :class="{'md-primary': !response.synced}"
-        :key="response.id"
-      >
-        <md-icon>
-          {{response.synced ? 'check' : 'mode_edit'}}
-        </md-icon>
+    <md-card>
+      <md-card-header>
+        <div class="md-title">{{unsynced_count}} unsynced responses</div>
+      </md-card-header>
+      <md-card-content>
+        <md-list>
+          <virtual_list :size="40" :remain="10">
+            <md-list-item
+              v-for='response in unsynced_responses'
+              :index='response'
+              :class="{'md-primary': !response.synced}"
+              :key="response.id"
+            >
+              <md-icon>
+                {{response.synced ? 'check' : 'mode_edit'}}
+              </md-icon>
 
-        <div>
-          <router-link
-            :to="{name: response.synced ? 'irs_record_point:view' : 'irs_record_point:edit', params: {response_id: response.id}}">
-            {{format_response(response)}}
-          </router-link>
-        </div>
-      </md-list-item>
-    </md-list>
+              <div>
+                <router-link
+                  :to="{name: response.synced ? 'irs_record_point:view' : 'irs_record_point:edit', params: {response_id: response.id}}">
+                  {{format_response(response)}}
+                </router-link>
+              </div>
+            </md-list-item>
+          </virtual_list>
+        </md-list>
+      </md-card-content>
+    </md-card>
+
   </div>
 </template>
 
 <script>
+  import virtual_list from 'vue-virtual-scroll-list'
   import download from 'downloadjs'
   import moment from 'moment'
+  import flatten from 'lodash.flatten'
   import {mapState} from 'vuex'
 
   import local_record_summary from './local_record_summary'
 
   export default {
     name: 'List',
-    components: {local_record_summary},
+    components: {virtual_list, local_record_summary},
     data () {
       return {
         syncing: false,
@@ -101,22 +112,19 @@
         return moment(date).format('hh:mm a DD MMM YYYY')
       },
       sync() {
-        this.$store.commit('root:set_loading', true)
+        this.$startLoading('irs_record_point/sync')
         this.syncing = true
 
         this.$store.dispatch('irs_record_point/create_records', this.unsynced_responses)
-          .then(() => {
-            this.unsynced_responses.forEach((response) => {
-              response.synced = true
-              this.$store.commit('irs_record_point/update_response', response)
-            })
-
-            this.$store.commit('root:set_loading', false)
+          .then((results) => {
+            console.log('results', results)
+            const last_successful_sync_count = flatten(results.pass).length
+            this.$endLoading('irs_record_point/sync')
             this.syncing = false
-            this.$store.commit('root:set_snackbar', {message: 'Successfully synced responses'})
+            this.$store.commit('root:set_snackbar', {message: `Successfully synced ${last_successful_sync_count} responses`})
           })
           .catch(() => {
-            this.$store.commit('root:set_loading', false)
+            this.$endLoading('irs_record_point/sync')
             this.syncing = false
           })
       },

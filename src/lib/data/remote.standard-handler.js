@@ -1,7 +1,7 @@
 import axios from 'axios'
 import get from 'lodash.get'
 
-import common_config from 'config/common_config'
+import CONFIG from 'config/common_config'
 
 let store
 
@@ -50,11 +50,11 @@ const standard_handler = (url, options = {}) => {
 }
 
 // Get basic root URL from static configuration
-const douma_api_root = `${common_config.api.url}/${common_config.api.version}`
-// const douma_api_root = `http://localhost:3000/${common_config.api.version}`
+const douma_api_root = `${CONFIG.api.url}/${CONFIG.api.version}`
+// const douma_api_root = `http://localhost:3000/${CONFIG.api.version}`
 
 const try_reconnect = () => {
-  return standard_handler(common_config.api.url)
+  return standard_handler(CONFIG.api.url)
 }
 
 export {configure_standard_handler, standard_handler, douma_api_root, try_reconnect}

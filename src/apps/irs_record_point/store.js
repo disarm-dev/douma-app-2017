@@ -1,3 +1,7 @@
+import clonedeep from 'lodash.clonedeep'
+import flatten from 'lodash.flatten'
+
+import CONFIG from 'config/common_config'
 import {create_records} from 'lib/data/remote'
 
 export default {
@@ -16,6 +20,13 @@ export default {
       let index = state.responses.findIndex((r) => r.id === response.id)
       state.responses.splice(index, 1, response)
     },
+    mark_responses_as_synced: (state, responses) => {
+      responses.forEach(response => {
+        response.synced = true
+        let index = state.responses.findIndex((r) => r.id === response.id)
+        state.responses.splice(index, 1, response)
+      })
+    },
     add_responses: (state, responses) => {
       state.responses = state.responses.concat(responses)
     },
@@ -28,8 +39,31 @@ export default {
     }
   },
   actions: {
-    create_records: (context, records) => {
-      return create_records(records)
+    create_records: async (context, records) => {
+      const max_records_in_batch = CONFIG.remote.max_records_batch_size
+
+      // Clone so we can easily splice. response_id ensures updating works
+      const records_left = clonedeep(records)
+
+      // Batch creating of records
+      const results = {pass: [], fail: []}
+
+      while (records_left.length > 0) {
+        const records_batch = records_left.splice(0, max_records_in_batch)
+
+        await create_records(records_batch)
+          .then((passed_records) => {
+            // Set synced status for successfully-synced records
+            context.commit('mark_responses_as_synced', passed_records)
+            results.pass.push(passed_records)
+          })
+          .catch((failed_records) => {
+            results.fail.push(failed_records)
+          })
+      }
+
+      // Return the results array
+      return results
     },
     clear_synced_responses: (context) => {
       let synced_responses = context.state.responses.filter(r => r.synced)

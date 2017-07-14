@@ -33,7 +33,7 @@
   },
   "spatial_hierarchy": {
     "markers": {
-      "planning_level_name": "clusters",
+      "planning_level_name": "villages",
       "denominator_fields": {
         "number_of_households": "NumHouseholds"
       }
@@ -46,8 +46,8 @@
       },
       {
         "field_name": "id",
-        "display_field_name": "id",
-        "name": "clusters"
+        "display_field_name": "name",
+        "name": "villages"
       }
     ]
   }

@@ -1,102 +1,907 @@
 [
   {
-    "category": "Chobe",
-    "id": 563,
+    "id": 132,
+    "category": "BOTETI",
+    "name": "ZONE 2A"
+  },
+  {
+    "id": 133,
+    "category": "BOTETI",
+    "name": "KAKA RANCHES"
+  },
+  {
+    "id": 134,
+    "category": "BOTETI",
+    "name": "KHWEE"
+  },
+  {
+    "id": 135,
+    "category": "BOTETI",
+    "name": "ZONE 2B"
+  },
+  {
+    "id": 136,
+    "category": "BOTETI",
+    "name": "LETLHAKANE"
+  },
+  {
+    "id": 137,
+    "category": "BOTETI",
+    "name": "KEDIA"
+  },
+  {
+    "id": 138,
+    "category": "BOTETI",
+    "name": "ORAPA"
+  },
+  {
+    "id": 139,
+    "category": "TUTUME",
+    "name": "MOKUBILO"
+  },
+  {
+    "id": 140,
+    "category": "BOTETI",
+    "name": "XERE"
+  },
+  {
+    "id": 141,
+    "category": "BOTETI",
+    "name": "MMADIKOLA"
+  },
+  {
+    "id": 142,
+    "category": "BOTETI",
+    "name": "TOROMOJA"
+  },
+  {
+    "id": 143,
+    "category": "BOTETI",
+    "name": "XHUMO"
+  },
+  {
+    "id": 144,
+    "category": "BOTETI",
+    "name": "MOPIPI"
+  },
+  {
+    "id": 145,
+    "category": "TUTUME",
+    "name": "MMEYA"
+  },
+  {
+    "id": 147,
+    "category": "TUTUME",
+    "name": "MATSITAMA"
+  },
+  {
+    "id": 148,
+    "category": "BOTETI",
+    "name": "MOSU"
+  },
+  {
+    "id": 149,
+    "category": "TUTUME",
+    "name": "MARAPONG"
+  },
+  {
+    "id": 150,
+    "category": "TUTUME",
+    "name": "LEPASHE"
+  },
+  {
+    "id": 151,
+    "category": "TUTUME",
+    "name": "MAKGAOLAKGANG"
+  },
+  {
+    "id": 152,
+    "category": "BOTETI",
+    "name": "MMATSHUMO"
+  },
+  {
+    "id": 153,
+    "category": "TUTUME",
+    "name": "MAKUTA"
+  },
+  {
+    "id": 154,
+    "category": "BOTETI",
+    "name": "RAKOPS"
+  },
+  {
+    "id": 155,
+    "category": "TUTUME",
+    "name": "KUTAMOGOREE"
+  },
+  {
+    "id": 156,
+    "category": "TUTUME",
+    "name": "NSWAZWI"
+  },
+  {
+    "id": 157,
+    "category": "TUTUME",
+    "name": "GOSHWE"
+  },
+  {
+    "id": 158,
+    "category": "TUTUME",
+    "name": "TUTUME"
+  },
+  {
+    "id": 159,
+    "category": "BOTETI",
+    "name": "ZONE6 RANCHES"
+  },
+  {
+    "id": 160,
+    "category": "TUTUME",
+    "name": "SOWA TOWN"
+  },
+  {
+    "id": 161,
+    "category": "BOTETI",
+    "name": "MOREMAOTO"
+  },
+  {
+    "id": 162,
+    "category": "TUTUME",
+    "name": "CHANGATE"
+  },
+  {
+    "id": 163,
+    "category": "BOTETI",
+    "name": "MOTOPI"
+  },
+  {
+    "id": 164,
+    "category": "TUTUME",
+    "name": "ZONE 1"
+  },
+  {
+    "id": 165,
+    "category": "TUTUME",
+    "name": "DABGWI"
+  },
+  {
+    "id": 166,
+    "category": "TUTUME",
+    "name": "NKANGE"
+  },
+  {
+    "id": 167,
+    "category": "TUTUME",
+    "name": "NATA"
+  },
+  {
+    "id": 168,
+    "category": "TUTUME",
+    "name": "SENETE"
+  },
+  {
+    "id": 169,
+    "category": "TUTUME",
+    "name": "ZOROGA"
+  },
+  {
+    "id": 170,
+    "category": "TUTUME",
+    "name": "MANXOTAE"
+  },
+  {
+    "id": 171,
+    "category": "TUTUME",
+    "name": "MAITENGWE"
+  },
+  {
+    "id": 172,
+    "category": "TUTUME",
+    "name": "MAPOSA"
+  },
+  {
+    "id": 173,
+    "category": "TUTUME",
+    "name": "GWETA"
+  },
+  {
+    "id": 174,
+    "category": "TUTUME",
+    "name": "SEPAKO"
+  },
+  {
+    "id": 175,
+    "category": "TUTUME",
+    "name": "WILDLIFE MANAGEMENT AREA"
+  },
+  {
+    "id": 176,
+    "category": "BOTETI",
+    "name": "AREA 4B RANCHES"
+  },
+  {
+    "id": 177,
+    "category": "BOTETI",
+    "name": "MOKOBOXANE"
+  },
+  {
+    "id": 178,
+    "category": "BOTETI",
+    "name": "MAKGADIKGADI  NATIONAL PARK"
+  },
+  {
+    "id": 179,
+    "category": "BOTETI",
+    "name": "WILDLIFE MANAGEMENT AREA CT10"
+  },
+  {
+    "id": 180,
+    "category": "TUTUME",
+    "name": "TSOKATSHAA"
+  },
+  {
+    "id": 181,
+    "category": "TUTUME",
+    "name": "MOSETSE"
+  },
+  {
+    "id": 182,
+    "category": "TUTUME",
+    "name": "DUKWI"
+  },
+  {
+    "id": 183,
+    "category": "TUTUME",
+    "name": "NSHAKASHOGWE"
+  },
+  {
+    "id": 185,
+    "category": "TUTUME",
+    "name": "SEBINA"
+  },
+  {
+    "id": 186,
+    "category": "BOTETI",
+    "name": "MAKALAMABEDI"
+  },
+  {
+    "id": 187,
+    "category": "TUTUME",
+    "name": "SEMITWE"
+  },
+  {
+    "id": 188,
+    "category": "BOTETI",
+    "name": "KHUMAGA"
+  },
+  {
+    "id": 191,
+    "category": "TUTUME",
+    "name": "MAFUNGO"
+  },
+  {
+    "id": 192,
+    "category": "TUTUME",
+    "name": "MAROBELA"
+  },
+  {
+    "id": 193,
+    "category": "TUTUME",
+    "name": "WMA"
+  },
+  {
+    "id": 197,
+    "category": "BOBIRWA",
+    "name": "MATHATHANE"
+  },
+  {
+    "id": 198,
+    "category": "BOBIRWA",
+    "name": "TSETSEBJWE"
+  },
+  {
+    "id": 199,
+    "category": "BOBIRWA",
+    "name": "SEFHOPHE"
+  },
+  {
+    "id": 200,
+    "category": "BOBIRWA",
+    "name": "MOLALATAU"
+  },
+  {
+    "id": 201,
+    "category": "BOBIRWA",
+    "name": "MOTLHABANENG"
+  },
+  {
+    "id": 203,
+    "category": "BOBIRWA",
+    "name": "SEMOLALE"
+  },
+  {
+    "id": 204,
+    "category": "BOBIRWA",
+    "name": "TOBANE"
+  },
+  {
+    "id": 205,
+    "category": "BOBIRWA",
+    "name": "MABOLWE"
+  },
+  {
+    "id": 206,
+    "category": "BOBIRWA",
+    "name": "BOBONONG"
+  },
+  {
+    "id": 207,
+    "category": "BOBIRWA",
+    "name": "GOBOJANGO"
+  },
+  {
+    "id": 208,
+    "category": "BOBIRWA",
+    "name": "LEPOKOLE"
+  },
+  {
+    "id": 209,
+    "category": "BOBIRWA",
+    "name": "TSHOKWE"
+  },
+  {
+    "id": 210,
+    "category": "BOBIRWA",
+    "name": "ROBELELA"
+  },
+  {
+    "id": 214,
+    "category": "BOBIRWA",
+    "name": "MMADINARE"
+  },
+  {
+    "id": 226,
+    "category": "BOBIRWA",
+    "name": "MOLETEMANE"
+  },
+  {
+    "id": 230,
+    "category": "BOBIRWA",
+    "name": "TULI BLOCK FARMS BOBONONG"
+  },
+  {
+    "id": 452,
+    "category": "NGAMILAND",
+    "name": "WMA NG/14"
+  },
+  {
+    "id": 453,
+    "category": "NGAMILAND",
+    "name": "WMA NG/13"
+  },
+  {
+    "id": 454,
+    "category": "MAUN",
+    "name": "WMA NG/15"
+  },
+  {
+    "id": 455,
+    "category": "NGAMILAND",
+    "name": "WMA NG/16"
+  },
+  {
+    "id": 456,
+    "category": "MAUN",
+    "name": "WMA NG/20"
+  },
+  {
+    "id": 457,
+    "category": "MAUN",
+    "name": "Khwai"
+  },
+  {
+    "id": 458,
+    "category": "NGAMILAND",
+    "name": "Upper Selinda"
+  },
+  {
+    "id": 459,
+    "category": "NGAMILAND",
+    "name": "Jao"
+  },
+  {
+    "id": 460,
+    "category": "NGAMILAND",
+    "name": "Uppr Selinda"
+  },
+  {
+    "id": 461,
+    "category": "MAUN",
+    "name": "Moremi Game Reserve"
+  },
+  {
+    "id": 462,
+    "category": "MAUN",
+    "name": "Mababe"
+  },
+  {
+    "id": 463,
+    "category": "MAUN",
+    "name": "WMA NG/42"
+  },
+  {
+    "id": 464,
+    "category": "MAUN",
+    "name": "Khwai"
+  },
+  {
+    "id": 465,
+    "category": "NGAMILAND",
+    "name": "WMA NG/25"
+  },
+  {
+    "id": 466,
+    "category": "NGAMILAND",
+    "name": "WMA NG/26"
+  },
+  {
+    "id": 467,
+    "category": "MAUN",
+    "name": "WMA NG/43"
+  },
+  {
+    "id": 468,
+    "category": "MAUN",
+    "name": "Sankuyo WMA NG/34"
+  },
+  {
+    "id": 469,
+    "category": "MAUN",
+    "name": "Sankuyo"
+  },
+  {
+    "id": 470,
+    "category": "MAUN",
+    "name": "Mogogelo/Boro"
+  },
+  {
+    "id": 471,
+    "category": "NGAMILAND",
+    "name": "Nokaneng"
+  },
+  {
+    "id": 472,
+    "category": "NGAMILAND",
+    "name": "Qangwa"
+  },
+  {
+    "id": 474,
+    "category": "MAUN",
+    "name": ""
+  },
+  {
+    "id": 475,
+    "category": "NGAMILAND",
+    "name": "Kauxwi"
+  },
+  {
+    "id": 476,
+    "category": "MAUN",
+    "name": "WMA NG/30"
+  },
+  {
+    "id": 477,
+    "category": "MAUN",
+    "name": "WMA NG/47"
+  },
+  {
+    "id": 478,
+    "category": "MAUN",
+    "name": "NXAI NATIONAL PARK"
+  },
+  {
+    "id": 479,
+    "category": "MAUN",
+    "name": "WMA NG/29"
+  },
+  {
+    "id": 480,
+    "category": "MAUN",
+    "name": "WMA NG/45"
+  },
+  {
+    "id": 481,
+    "category": "MAUN",
+    "name": "Phuduhudu"
+  },
+  {
+    "id": 482,
+    "category": "MAUN",
+    "name": "WMA NG/21"
+  },
+  {
+    "id": 483,
+    "category": "MAUN",
+    "name": "WMA NG/31"
+  },
+  {
+    "id": 484,
+    "category": "MAUN",
+    "name": "WMA NG/27A"
+  },
+  {
+    "id": 485,
+    "category": "MAUN",
+    "name": "Mogogelo/Boro"
+  },
+  {
+    "id": 486,
+    "category": "MAUN",
+    "name": "WMA NG/27B"
+  },
+  {
+    "id": 487,
+    "category": "NGAMILAND",
+    "name": "Xaxa"
+  },
+  {
+    "id": 488,
+    "category": "MAUN",
+    "name": "Toteng Ranches"
+  },
+  {
+    "id": 489,
+    "category": "MAUN",
+    "name": "Tsau"
+  },
+  {
+    "id": 490,
+    "category": "MAUN",
+    "name": "Xaixai"
+  },
+  {
+    "id": 491,
+    "category": "MAUN",
+    "name": "Kareng"
+  },
+  {
+    "id": 492,
+    "category": "MAUN",
+    "name": "Semboyo"
+  },
+  {
+    "id": 493,
+    "category": "MAUN",
+    "name": "Makakung"
+  },
+  {
+    "id": 494,
+    "category": "MAUN",
+    "name": "Sehitwa"
+  },
+  {
+    "id": 495,
+    "category": "MAUN",
+    "name": "Matsaudi"
+  },
+  {
+    "id": 496,
+    "category": "MAUN",
+    "name": "Shorobe"
+  },
+  {
+    "id": 497,
+    "category": "MAUN",
+    "name": "Nxaraga"
+  },
+  {
+    "id": 498,
+    "category": "MAUN",
+    "name": "Chanoga"
+  },
+  {
+    "id": 499,
+    "category": "MAUN",
+    "name": "Makalamabedi"
+  },
+  {
+    "id": 500,
+    "category": "MAUN",
+    "name": "Toteng"
+  },
+  {
+    "id": 501,
+    "category": "MAUN",
+    "name": "Komana"
+  },
+  {
+    "id": 502,
+    "category": "MAUN",
+    "name": "Maun"
+  },
+  {
+    "id": 503,
+    "category": "MAUN",
+    "name": "Hainaveld Phase1 Ranches"
+  },
+  {
+    "id": 504,
+    "category": "MAUN",
+    "name": "Somelo"
+  },
+  {
+    "id": 505,
+    "category": "MAUN",
+    "name": "Bodibeng"
+  },
+  {
+    "id": 506,
+    "category": "MAUN",
+    "name": "Bothathogo"
+  },
+  {
+    "id": 507,
+    "category": "NGAMILAND",
+    "name": "Ikoga"
+  },
+  {
+    "id": 508,
+    "category": "NGAMILAND",
+    "name": "Sepopa"
+  },
+  {
+    "id": 509,
+    "category": "NGAMILAND",
+    "name": "Tsodilo"
+  },
+  {
+    "id": 510,
+    "category": "NGAMILAND",
+    "name": "Kajaja"
+  },
+  {
+    "id": 511,
+    "category": "NGAMILAND",
+    "name": "Nxamasere"
+  },
+  {
+    "id": 512,
+    "category": "NGAMILAND",
+    "name": "Chukumuchu"
+  },
+  {
+    "id": 513,
+    "category": "NGAMILAND",
+    "name": ""
+  },
+  {
+    "id": 514,
+    "category": "NGAMILAND",
+    "name": "Samochina"
+  },
+  {
+    "id": 515,
+    "category": "NGAMILAND",
+    "name": "Gani"
+  },
+  {
+    "id": 516,
+    "category": "NGAMILAND",
+    "name": "Shakawe"
+  },
+  {
+    "id": 517,
+    "category": "NGAMILAND",
+    "name": "Mohembo"
+  },
+  {
+    "id": 518,
+    "category": "NGAMILAND",
+    "name": "Tubu"
+  },
+  {
+    "id": 519,
+    "category": "NGAMILAND",
+    "name": "Etsha 1"
+  },
+  {
+    "id": 520,
+    "category": "NGAMILAND",
+    "name": "Etsha 6"
+  },
+  {
+    "id": 521,
+    "category": "NGAMILAND",
+    "name": "Etsha 13"
+  },
+  {
+    "id": 522,
+    "category": "NGAMILAND",
+    "name": "Nxauxau"
+  },
+  {
+    "id": 523,
+    "category": "NGAMILAND",
+    "name": "Gumare"
+  },
+  {
+    "id": 524,
+    "category": "NGAMILAND",
+    "name": "Mokgacha"
+  },
+  {
+    "id": 525,
+    "category": "NGAMILAND",
+    "name": "Mogotlho"
+  },
+  {
+    "id": 526,
+    "category": "NGAMILAND",
+    "name": "Gudigwa"
+  },
+  {
+    "id": 527,
+    "category": "NGAMILAND",
+    "name": "Xakao"
+  },
+  {
+    "id": 528,
+    "category": "NGAMILAND",
+    "name": "Ngarange"
+  },
+  {
+    "id": 529,
+    "category": "NGAMILAND",
+    "name": "Sekondomboro"
+  },
+  {
+    "id": 530,
+    "category": "NGAMILAND",
+    "name": "Tovera"
+  },
+  {
+    "id": 531,
+    "category": "NGAMILAND",
+    "name": "NG/11"
+  },
+  {
+    "id": 532,
+    "category": "NGAMILAND",
+    "name": "Eretsha"
+  },
+  {
+    "id": 533,
+    "category": "NGAMILAND",
+    "name": "Gunotsoga"
+  },
+  {
+    "id": 534,
+    "category": "NGAMILAND",
+    "name": "Beetsha"
+  },
+  {
+    "id": 535,
+    "category": "NGAMILAND",
+    "name": "Seronga"
+  },
+  {
+    "id": 536,
+    "category": "NGAMILAND",
+    "name": "NG/3"
+  },
+  {
+    "id": 537,
+    "category": "MAUN",
+    "name": ""
+  },
+  {
+    "id": 562,
+    "category": "MAUN",
+    "name": "MAKGADIKGADI  NATIONAL PARK"
+  },
+  {
+    "id": 613,
+    "category": "CHOBE",
     "name": "Sibuyu Forest Reserve"
   },
   {
-    "category": "Chobe",
-    "id": 564,
+    "id": 614,
+    "category": "CHOBE",
     "name": "Maikaelelo Forest Reserve"
   },
   {
-    "category": "Chobe",
-    "id": 565,
+    "id": 615,
+    "category": "CHOBE",
     "name": "Pandamatenga"
   },
   {
-    "category": "Chobe",
-    "id": 566,
+    "id": 616,
+    "category": "CHOBE",
     "name": "Kazuma Forest Reserve"
   },
   {
-    "category": "Chobe",
-    "id": 567,
-    "name": "CAD565"
+    "id": 617,
+    "category": "CHOBE",
+    "name": ""
   },
   {
-    "category": "Chobe",
-    "id": 568,
+    "id": 618,
+    "category": "CHOBE",
     "name": "Kachikau"
   },
   {
-    "category": "Chobe",
-    "id": 569,
+    "id": 619,
+    "category": "CHOBE",
     "name": "Parakarungu"
   },
   {
-    "category": "Chobe",
-    "id": 570,
+    "id": 620,
+    "category": "CHOBE",
     "name": "Satau"
   },
   {
-    "category": "Chobe",
-    "id": 571,
+    "id": 621,
+    "category": "CHOBE",
     "name": "Kasane Forest Reserve Extension"
   },
   {
-    "category": "Chobe",
-    "id": 572,
+    "id": 622,
+    "category": "CHOBE",
     "name": "Chobe Forest Reserve"
   },
   {
-    "category": "Chobe",
-    "id": 573,
+    "id": 623,
+    "category": "CHOBE",
     "name": "Lesoma"
   },
   {
-    "category": "Chobe",
-    "id": 574,
+    "id": 624,
+    "category": "CHOBE",
     "name": "Chobe National Park"
   },
   {
-    "category": "Chobe",
-    "id": 575,
+    "id": 625,
+    "category": "CHOBE",
     "name": "Kasane Forest Reserve"
   },
   {
-    "category": "Chobe",
-    "id": 576,
+    "id": 626,
+    "category": "CHOBE",
     "name": "Kasane"
   },
   {
-    "category": "Chobe",
-    "id": 577,
+    "id": 627,
+    "category": "CHOBE",
     "name": "Mabele"
   },
   {
-    "category": "Chobe",
-    "id": 578,
+    "id": 628,
+    "category": "CHOBE",
     "name": "Kavimba"
   },
   {
-    "category": "Chobe",
-    "id": 579,
+    "id": 629,
+    "category": "CHOBE",
     "name": "Kazungula"
   },
   {
-    "category": "Chobe",
-    "id": 580,
+    "id": 635,
+    "category": "CHOBE",
     "name": "CH5"
   },
   {
-    "category": "Chobe",
-    "id": 581,
-    "name": "NA"
+    "id": 638,
+    "category": "CHOBE",
+    "name": ""
   },
   {
-    "category": "Chobe",
-    "id": 582,
-    "name": "NA"
+    "id": 643,
+    "category": "CHOBE",
+    "name": ""
+  },
+  {
+    "id": 227,
+    "category": "BOBIRWA",
+    "name": "TULI BLOCK FARMS MAUNATLALA"
   }
 ]

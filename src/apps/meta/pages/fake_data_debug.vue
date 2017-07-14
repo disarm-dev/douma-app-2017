@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="applet_container">
     <md-input-container>
       <label>Number of areas (between 0 and 3 records generated for each area)</label>
       <md-input type="number" v-model="areas_count"></md-input>
@@ -81,7 +81,7 @@ export default {
           }
         },
         "location_selection": location_selection,
-        "recorded_on": faker.date.recent(),
+        "recorded_on": faker.date.recent(90),
         "user": this.user,
         "userAgent": navigator.userAgent,
         "synced": false
@@ -91,7 +91,7 @@ export default {
     generate_data() {
       let responses = []
 
-      this.location_selections.splice(0, this.areas_count).forEach(location_selection => {
+      this.location_selections.slice(0, this.areas_count).forEach(location_selection => {
         let count = 0
         const limit = this.random_number_between(1,3)
         while (count <= limit) {

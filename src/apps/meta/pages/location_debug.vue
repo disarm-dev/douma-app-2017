@@ -1,5 +1,5 @@
 <template>
-  <div class='container'>
+  <div class='applet_container'>
     <h3>Debug location for {{country}} instance</h3>
     <md-input-container>
       <label>Waypoint ID</label>

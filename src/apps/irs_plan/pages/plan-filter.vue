@@ -5,10 +5,12 @@
       <p>With an area selected, you won't be able to edit or save anywhere else.</p>
       <multiselect
         :disabled="unsaved_changes"
-        
+
         :value="selected_filter_area_option"
         @select="select_filter"
         :options="filter_options"
+        group-values="items"
+        group-label="category"
         placeholder="Select area to limit plan "
         track-by="id"
         label="name"
@@ -24,6 +26,8 @@
 <script>
   import {mapState} from 'vuex'
   import Multiselect from 'vue-multiselect'
+  import sort from 'alphanum-sort'
+  import unique from 'array-unique'
 
   import cache from 'config/cache'
   import {get_next_level_up_from_planning_level} from 'lib/spatial_hierarchy_helper'
@@ -43,11 +47,27 @@
       filter_options() {
         const next_level_up_from_planning_level = get_next_level_up_from_planning_level()
 
-        return cache.geodata[next_level_up_from_planning_level.name].features.map(feature => {
-          const id = feature.properties[next_level_up_from_planning_level.field_name]
-          const name = feature.properties[next_level_up_from_planning_level.display_field_name]
-          return {id, name}
+        const categories = unique(sort(cache.geodata[next_level_up_from_planning_level.name].features.map(feature => {
+          return feature.properties.category
+        })))
+
+        const result = categories.map(category => {
+          const items = cache.geodata[next_level_up_from_planning_level.name].features.filter(feature => {
+            return feature.properties.category === category
+          }).map(feature => {
+            const id = feature.properties[next_level_up_from_planning_level.field_name]
+            const name = feature.properties[next_level_up_from_planning_level.display_field_name]
+            return {id, name}
+          })
+
+          return {
+            category: category,
+            items: items
+          }
         })
+
+        return result
+
       },
     },
     methods: {

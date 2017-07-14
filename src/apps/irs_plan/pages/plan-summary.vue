@@ -7,7 +7,7 @@
 
     <h3>Selected regions:</h3>
     <md-button class='md-raised md-primary' @click.native="download_plan">Download plan</md-button>
-    <p>Working with {{selected_target_area_ids.length}} regions, containing in total {{number_of_structures}} {{enumerable_name}}</p>
+    <p>Working with {{selected_target_area_ids.length}} {{planning_level_name}}, containing in total {{number_of_structures}} {{enumerable_name}}</p>
     <v-client-table
       v-if="geodata_ready && selected_target_area_ids.length !== 0"
       :data="table.data"
@@ -25,6 +25,7 @@
 
   import cache from 'config/cache.js'
   import {get_planning_level_id_field, get_denominator_fields, get_planning_level_name} from 'lib/spatial_hierarchy_helper'
+  window.g = cache.geodata
 
   export default {
     name: 'plan_summary',
@@ -74,7 +75,7 @@
       },
       number_of_structures() {
         if (this.geodata_ready) {
-          this.selected_areas.reduce((sum, area) => {
+          return this.selected_areas.reduce((sum, area) => {
             const hope_is_number = area.properties[this.structure_field_name]
             if (isNumber(hope_is_number)) {
               return sum + hope_is_number
@@ -85,13 +86,16 @@
         }
         return 0
       },
+      summary_text() {
+        const count = 34
+        const enumerable_name = 'structures'
+        return `${count} ${enumerable_name}`
+      },
       enumerable_name() {
         console.warn("TODO: @fix Wow. This is horrible. 🙈")
         switch (this.$store.state.instance_config.instance.slug) {
           case 'zwe':
             return 'rooms'
-          case 'nam':
-            return 'households'
           default:
             return 'structures'
         }

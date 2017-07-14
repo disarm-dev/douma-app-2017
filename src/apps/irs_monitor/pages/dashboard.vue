@@ -1,5 +1,5 @@
 <template>
-  <div class='container'>
+  <div class='applet_container'>
 
     <!--  SUMMARY, LOAD, DOWNLOAD (DUMPING GROUND) -->
     <dashboard_summary @refresh_data="refresh_data"></dashboard_summary>
@@ -19,7 +19,7 @@
     <table_progress :aggregated_responses="aggregated_responses"></table_progress>
 
     <!-- CUSTOM STATIC-DATA CHARTS, etc -->
-    <charts :aggregated_responses="aggregated_responses"></charts>
+    <charts :aggregated_responses="responses"></charts>
 
   </div>
 </template>
@@ -52,6 +52,7 @@
       ...mapState({
         instance_config: state => state.instance_config,
         geodata_ready: state => state.geodata_ready,
+        responses: state => state.irs_monitor.responses
       }),
       ...mapGetters({
         filtered_responses: 'irs_monitor/filtered_responses',
@@ -67,7 +68,7 @@
     },
     methods: {
       refresh_data() {
-        this.$store.commit('root:set_loading', true)
+        this.$startLoading('irs_monitor/refresh_data')
 
         Promise.all([
           this.$store.dispatch('irs_monitor/get_all_records'),
@@ -75,12 +76,12 @@
 
         ])
           .then(() => {
-            this.$store.commit('root:set_loading', false)
+            this.$endLoading('irs_monitor/refresh_data')
             this.$store.commit('root:set_snackbar', {message: 'Successfully retrieved records'})
           })
           .catch(e => {
             console.log(e)
-            this.$store.commit('root:set_loading', false)
+            this.$endLoading('irs_monitor/refresh_data')
           })
       },
     }

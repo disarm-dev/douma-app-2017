@@ -1,12 +1,12 @@
 <template>
-  <div class='container'>
+  <div class='applet_container'>
 
     <div class="controls">
 
       <md-button
         class="md-icon-button md-raised"
         :class="{'md-warn': edit_mode}"
-        :disabled="loading || !geodata_ready || !can_and_have_focused_planned"
+        :disabled="isLoading('irs_plan/load_plan') || !geodata_ready || !can_and_have_focused_planned"
         @click.native='edit_mode = !edit_mode'
       >
         <md-icon>edit</md-icon>
@@ -20,7 +20,7 @@
         </md-button>
 
         <md-menu-content>
-          <md-menu-item @click="load_plan" :disabled="loading">
+          <md-menu-item @click="load_plan" :disabled="isLoading('irs_plan/load_plan')">
             <md-icon>assignment_turned_in</md-icon>
             <span>Load plan</span>
           </md-menu-item>
@@ -48,7 +48,7 @@
     <div v-if="online">
       <!-- FILTER TO LIMIT PLAN -->
       <plan_filter
-        v-if="can_focus_planning && geodata_ready"
+        v-if="must_focus_planning && geodata_ready"
         :unsaved_changes="unsaved_changes"
       ></plan_filter>
 
@@ -122,7 +122,6 @@
     computed: {
       ...mapState({
         instance_config: state => state.instance_config,
-        loading: state => state.loading,
         online: state => state.network_online,
         geodata_loading_progress: state => state.geodata_loading_progress,
         geodata_ready: state => state.geodata_ready,
@@ -136,12 +135,16 @@
           }
         },
       }),
-      can_focus_planning() {
+      ...mapGetters({
+        isLoading: 'loading/isLoading'
+      }),
+      must_focus_planning() {
         // TODO: @refac Improve checking if planning can be focused
         return get_next_level_up_from_planning_level()
       },
       can_and_have_focused_planned() {
-        return this.can_focus_planning && this.selected_filter_area_id
+        if (!this.must_focus_planning) return true
+        return !!(this.selected_filter_area_id)
       },
       next_level_up_from_planning_level() {
         return get_next_level_up_from_planning_level()
@@ -164,26 +167,26 @@
     },
     methods: {
       load_plan() {
-        this.$store.commit('root:set_loading', true)
+        this.$startLoading('irs_plan/load_plan')
 
         this.$store.dispatch('irs_plan/get_current_plan')
-          .then(() => { this.$store.commit('root:set_loading', false) })
-          .catch(() => { this.$store.commit('root:set_loading', false) })
+          .then(() => { this.$endLoading('irs_plan/load_plan') })
+          .catch(() => { this.$endLoading('irs_plan/load_plan') })
 
       },
       save_plan() {
         let focus_filter_area
         let selected_target_area_ids
 
-        
+
         if (!this.selected_filter_area) {
            // Default values if no selected filter area
           focus_filter_area = null
           selected_target_area_ids = this.selected_target_area_ids
-          
+
         } else {
           // Modify plan if there is a selected_filter_area
-          // TODO: @feature Make it obvious to the user that they need to select a filter_area before they can save. 
+          // TODO: @feature Make it obvious to the user that they need to select a filter_area before they can save.
           focus_filter_area = {
             id: this.selected_filter_area.properties[this.next_level_up_from_planning_level.field_name]
           }
@@ -193,22 +196,22 @@
             selected_filter_area: this.selected_filter_area
           })
         }
-        
+
         const plan = new Plan().create({
           instance_config: this.instance_config,
           focus_filter_area,
           selected_target_area_ids
         })
 
-        this.$store.commit('root:set_loading', true)
+        this.$startLoading('irs_plan/save_plan')
         this.$store.dispatch('irs_plan/save_plan', plan)
           .then(() => {
             this.$store.commit('root:set_snackbar', {message: 'Successful save'})
-            this.$store.commit('root:set_loading', false)
+            this.$endLoading('irs_plan/save_plan')
           })
           .catch(() => {
             this.$store.commit('root:set_snackbar', {message: 'Not saved. Something wrong.'})
-            this.$store.commit('root:set_loading', false)
+            this.$endLoading('irs_plan/save_plan')
           })
       },
       clear_plan() {
@@ -225,19 +228,6 @@
 
   .centred {
     margin: 0 auto;
-  }
-
-  .md-chip {
-    background: orange;
-    color: white;
-  }
-
-  .not-container {
-    display: flex;
-  }
-
-  .not-container-child {
-    flex: 1;
   }
 
 

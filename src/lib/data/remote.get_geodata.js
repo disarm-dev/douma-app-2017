@@ -6,11 +6,12 @@ import {get_all_spatial_hierarchy_levels} from 'lib/spatial_hierarchy_helper'
  * Sets `geodata` on the `cache` object, which can be imported anywhere.
  * If it doesn't already exist, will make remote request to load it.
  * ServiceWorker will then do its own caching.
+ * $store is passed in order to update loading progress bar
  * @param store
  * @returns {*}
  */
 export const get_geodata = (store) => {
-  // $store is passed in order to update loading progress bar
+  store.commit('loading/LOAD', 'get_geodata')
 
   // Get slug and level
   const slug = store.state.instance_config.instance.slug
@@ -18,7 +19,7 @@ export const get_geodata = (store) => {
 
   // Check if cache already populated
   if (Object.keys(cache.geodata).length !== 0) {
-    store.commit('root:set_loading', false)
+    store.commit('loading/END', 'get_geodata')
     store.commit('root:set_geodata_ready', true)
     return Promise.resolve()
   }
@@ -60,19 +61,17 @@ export const get_geodata = (store) => {
     }
   }
 
-  store.commit('root:set_loading', true)
-
   return Promise.all(urls.map(url => standard_handler(url, options)))
     .then(geodata_json => {
       levels.forEach((level, index) => {
         cache.geodata[level] = geodata_json[index]
       })
-      store.commit('root:set_loading', false)
+      store.commit('loading/END', 'get_geodata')
       store.commit('root:set_geodata_ready', true)
     })
     .catch(() => {
       store.commit('root:set_geodata_ready', 'error')
-      store.commit('root:set_loading', false)
+      store.commit('loading/END', 'get_geodata')
       store.commit('root:set_snackbar', {message: 'Network error. Please reload to try resuming.'})
     })
 }

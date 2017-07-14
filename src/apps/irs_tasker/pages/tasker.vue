@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="applet_container">
 
     <div class="controls">
 
@@ -10,15 +10,15 @@
         </md-button>
 
         <md-menu-content>
-          <md-menu-item :disabled='loading' @click="load_plan">
+          <md-menu-item :disabled="isLoading('irs_tasker/load_plan')" @click="load_plan">
             <md-icon>assignment_turned_in</md-icon>
             <span>Load plan</span>
           </md-menu-item>
-          <md-menu-item :disabled="loading || !plan_target_ids.length || !assignments.length || !unsynced_changes" @click="save_assignments">
+          <md-menu-item :disabled="isLoading('irs_tasker/save_assignments') || !plan_target_ids.length || !assignments.length || !unsynced_changes" @click="save_assignments">
             <md-icon>save</md-icon>
             <span>Save assignments</span>
           </md-menu-item>
-          <md-menu-item :disabled='loading || !plan_target_ids.length' @click="load_assignments">
+          <md-menu-item :disabled="isLoading('irs_tasker/load_assignments') || !plan_target_ids.length" @click="load_assignments">
             <md-icon>group</md-icon>
             <span>Load assignments</span>
           </md-menu-item>
@@ -63,7 +63,7 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex'
+  import {mapState, mapGetters} from 'vuex'
   import chroma from 'chroma-js'
 
   import {get_current_plan, create_plan} from 'lib/data/remote'
@@ -89,13 +89,15 @@
     computed: {
       ...mapState({
         instance_slug: state => state.instance_config.instance.slug,
-        loading: state => state.loading,
         geodata_ready: state => state.geodata_ready,
 
         unsynced_changes: state => state.irs_tasker.unsynced_changes,
         selected_team_name: state => state.irs_tasker.selected_team_name,
         plan_target_ids: state => state.irs_tasker.plan_target_ids,
         assignments: state => state.irs_tasker.assignments
+      }),
+      ...mapGetters({
+        isLoading: 'loading/isLoading'
       }),
       decorated_teams() {
         const team_names = this.$store.state.irs_tasker.teams
@@ -117,25 +119,25 @@
     methods: {
       // Load plan, and load-and-save assignments
       load_plan() {
-        this.$store.commit('root:set_loading', true)
+        this.$startLoading('irs_tasker/load_plan')
 
         this.$store.dispatch('irs_tasker/get_current_plan')
-          .then(() => { this.$store.commit('root:set_loading', false) })
-          .catch(() => { this.$store.commit('root:set_loading', false) })
+          .then(() => { this.$endLoading('irs_tasker/load_plan') })
+          .catch(() => { this.$endLoading('irs_tasker/load_plan') })
       },
       load_assignments() {
-        this.$store.commit('root:set_loading', true)
+        this.$startLoading('irs_tasker/load_assignments')
 
         this.$store.dispatch('irs_tasker/load_assignment_plan')
-          .then(() => { this.$store.commit('root:set_loading', false) })
-          .catch(() => { this.$store.commit('root:set_loading', false) })
+          .then(() => { this.$endLoading('irs_tasker/load_assignments') })
+          .catch(() => { this.$endLoading('irs_tasker/load_assignments') })
       },
       save_assignments() {
-        this.$store.commit('root:set_loading', true)
+        this.$startLoading('irs_tasker/save_assignments')
 
         this.$store.dispatch('irs_tasker/save_assignment_plan')
-          .then(() => { this.$store.commit('root:set_loading', false) })
-          .catch(() => { this.$store.commit('root:set_loading', false) })
+          .then(() => { this.$endLoading('irs_tasker/save_assignments') })
+          .catch(() => { this.$endLoading('irs_tasker/save_assignments') })
       },
       // Select team and assign
       assign_areas_to_selected_team(area_ids) {
