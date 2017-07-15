@@ -2,38 +2,34 @@
   <div class='applet_container'>
      <!--<local_record_summary></local_record_summary>-->
 
-    <div class="controls">
-      <md-button class="md-icon-button md-raised md-primary" @click.native='$router.push("/irs/record_point/new")'>
-          <md-icon>create</md-icon>
-        </md-button>
+    <controls>
+      <md-button slot="primary_action" class="md-icon-button md-raised md-primary" @click.native='$router.push("/irs/record_point/new")'>
+        <md-icon>create</md-icon>
+      </md-button>
 
-        <!-- MENU -->
-        <md-menu md-direction="bottom right" md-size="6">
-          <md-button class="md-icon-button md-raised" md-menu-trigger>
-            <md-icon>more_vert</md-icon>
-          </md-button>
+      <template slot="menu_items">
+        <md-menu-item :disabled="syncing || unsynced_count === 0 || !online" @click="sync">
+          <md-icon>sync</md-icon>
+          <span>Sync {{unsynced_count}} responses</span>
+        </md-menu-item>
 
-          <md-menu-content>
-            <md-menu-item :disabled="syncing || unsynced_count === 0 || !online" @click="sync">
-              <md-icon>sync</md-icon>
-              <span>Sync {{unsynced_count}} responses</span>
-            </md-menu-item>
+        <md-menu-item :disabled="syncing || synced_count === 0" @click="clear_synced_responses">
+          <md-icon>close</md-icon>
+          <span>Hide synced responses</span>
+        </md-menu-item>
 
-            <md-menu-item :disabled="syncing || synced_count === 0" @click="clear_synced_responses">
-              <md-icon>close</md-icon>
-              <span>Hide synced responses</span>
-            </md-menu-item>
+        <md-menu-item :disabled="syncing || unsynced_count === 0" @click="download_records">
+          <md-icon>file_download</md-icon>
+          <span>Export {{unsynced_count}} unsynced</span>
+        </md-menu-item>
 
-            <md-menu-item :disabled="syncing || unsynced_count === 0" @click="download_records">
-              <md-icon>file_download</md-icon>
-              <span>Export {{unsynced_count}} unsynced</span>
-            </md-menu-item>
+      </template>
 
-          </md-menu-content>
-        </md-menu>
+      <div v-if="!online" slot="text">
+        Offline - unable to sync
+      </div>
 
-        <div v-if="!online">Offline - unable to sync</div>
-    </div>
+    </controls>
 
     <!-- LIST ALL -->
     <md-card>
@@ -75,11 +71,12 @@
   import flatten from 'lodash.flatten'
   import {mapState} from 'vuex'
 
+  import controls from 'components/controls.vue'
   import local_record_summary from './local_record_summary'
 
   export default {
     name: 'List',
-    components: {virtual_list, local_record_summary},
+    components: {controls, virtual_list, local_record_summary},
     data () {
       return {
         syncing: false,

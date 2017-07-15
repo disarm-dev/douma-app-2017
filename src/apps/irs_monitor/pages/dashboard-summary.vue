@@ -1,33 +1,21 @@
 <template>
-  <div class="controls">
-    <md-button class="md-icon-button md-raised md-primary" :disabled="isLoading('irs_monitor/refresh_data')" @click.native='refresh_data'>
+  <controls>
+    <md-button slot="primary_action" class="md-icon-button md-raised md-primary" :disabled="isLoading('irs_monitor/refresh_data')" @click.native='refresh_data'>
       <md-icon>refresh</md-icon>
     </md-button>
 
-    <!-- MENU -->
-    <md-menu md-direction="bottom right" md-size="6">
-      <md-button class="md-icon-button md-raised" md-menu-trigger>
-        <md-icon>more_vert</md-icon>
-      </md-button>
+    <template slot="menu_items">
+      <md-menu-item :disabled="isLoading('irs_monitor/refresh_data') || !filtered_responses.length" @click="download_responses">
+        <md-icon>file_download</md-icon>
+        <span>Download responses</span>
+      </md-menu-item>
+    </template>
 
-      <md-menu-content>
-        <md-menu-item :disabled="isLoading('irs_monitor/refresh_data') || !filtered_responses.length" @click="download_responses">
-          <md-icon>file_download</md-icon>
-          <span>Download responses</span>
-        </md-menu-item>
-
-      </md-menu-content>
-    </md-menu>
-
-    <div>
+    <div slot="text">
       {{filtered_responses.length}} record{{filtered_responses.length === 1 ? '' : 's' }} lie within the planned areas.
       Last updated: {{responses_last_updated_at}}
     </div>
-
-    <div v-if='!plan' style="color: red">Plan missing - no calculations until one is loaded</div>
-
-  </div>
-
+  </controls>
 
 </template>
 
@@ -37,8 +25,11 @@
   import download from 'downloadjs'
   import json2csv from 'json2csv'
 
+  import controls from 'components/controls.vue'
+
   export default {
     name: 'summary',
+    components: {controls},
     mounted() {
     },
     data() {
