@@ -53,7 +53,9 @@ export default {
   },
   methods: {
     get_polygon(id) {
-      return cache.geodata[this.planning_level_name].features.find((feature) => feature.properties[this.planning_level_id_field] == id)
+      const found = cache.geodata[this.planning_level_name].features.find((feature) => feature.properties[this.planning_level_id_field] == id)
+      if (!found) throw new Error(`Cannot find polygon for ${this.planning_level_id_field} ${id}`)
+      return found
     },
     random_number_between(min, max) {
       return parseInt(Math.random() * (max - min) + min)
