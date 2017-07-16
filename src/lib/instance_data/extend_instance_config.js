@@ -4,7 +4,7 @@ import {IncomingInstanceConfigSchema} from 'lib/models/instance_config.schema'
 
 // Instance configuration and related files
 export const get_instance_files = (slug) => {
-  const types = ['instance', 'form', 'location_selector', 'aggregations', 'fake_form', 'validations', 'presenters']
+  const types = ['instance', 'form', 'location_selection', 'aggregations', 'fake_form', 'validations', 'presenters']
 
   return Promise.all(types.map(type => get_instance_file(slug, type)))
     .then(jsons => {
@@ -27,7 +27,7 @@ export const get_instance_files = (slug) => {
       }, {})
 
       // Other elements to attach
-      instance_config = {
+      return {
         ...instance_config,
         form: jsons_object.form,
         location_selection: jsons_object.location_selection,
@@ -36,10 +36,6 @@ export const get_instance_files = (slug) => {
         validations: jsons_object.validations,
         presenters: jsons_object.presenters,
       }
-
-      console.log(instance_config)
-
-      return instance_config
     })
 
 }

@@ -38,7 +38,7 @@ export default {
       slug: state => state.instance_config.instance.slug,
       geodata_ready: state => state.geodata_ready,
       instance_config: state => state.instance_config,
-      location_selections: state => state.instance_config.location_selection
+      location_selection: state => state.instance_config.location_selection
     }),
     planning_level_name() {
       return get_planning_level_name()
@@ -93,7 +93,7 @@ export default {
     generate_data() {
       let responses = []
 
-      this.location_selections.slice(0, this.areas_count).forEach(location_selection => {
+      this.location_selection.slice(0, this.areas_count).forEach(location_selection => {
         let count = 0
         const limit = this.random_number_between(1,3)
         while (count <= limit) {
