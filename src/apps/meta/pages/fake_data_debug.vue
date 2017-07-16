@@ -19,7 +19,7 @@ import faker from 'faker'
 import random_point_in_polygon from 'random-points-on-polygon'
 import {getCoord} from '@turf/invariant'
 
-import fake_form_data from 'lib/fake_form_data'
+import fake_form_data from 'lib_instances/fake_data'
 import {get_geodata} from 'lib/remote/remote'
 import cache from 'config/cache'
 import {get_planning_level_id_field, get_planning_level_name} from 'lib/spatial_hierarchy_helper'
