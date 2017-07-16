@@ -9,7 +9,7 @@ import 'vue-multiselect/dist/vue-multiselect.min.css'
 
 
 // Imports
-import {get_instance_config} from './config/instance_config'
+import {get_instance_config} from 'config/instance_config'
 import {configure_error_tracking, set_raven_user_context} from 'config/error-tracking.js'
 import {configure_service_worker} from 'config/service-worker-client'
 import {add_network_status_watcher} from 'lib/helpers/network_status.js'
