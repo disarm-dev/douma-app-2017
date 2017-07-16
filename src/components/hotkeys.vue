@@ -1,9 +1,9 @@
 <template>
-  <div v-show="false">
-    <button @shortkey="$router.push('/meta')" v-shortkey="['ctrl', 'u']"></button>
-    <button @shortkey="$router.push('/meta/debug')" v-shortkey="['ctrl', 'd']"></button>
-    <button @shortkey="show_help()" v-shortkey="['ctrl', 'h']"></button>
-    <button v-for="(applet, index) in decorated_applets" :key='index' @shortkey="navigate_applet(applet.name)" v-shortkey="['f' + (index + 1)]"></button>
+  <div v-show="true">
+    <button @shortkey="$router.push('/meta')" v-shortkey="['ctrl', 'u']">user page</button>
+    <button @shortkey="$router.push('/meta/debug')" v-shortkey="['ctrl', 'd']">debug page</button>
+    <button @shortkey="show_help()" v-shortkey="['ctrl', 'h']">Show help</button>
+    <button v-for="(applet, index) in decorated_applets" :key='index' @shortkey="navigate_applet(applet.name)" v-shortkey="['f' + (index + 1)]">nav applet {{applet.name}}</button>
   </div>
 </template>
 
