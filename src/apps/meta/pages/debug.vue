@@ -3,70 +3,71 @@
     <md-toolbar>
       <span class="md-title">Testing and debug tools</span>
     </md-toolbar>
-    <md-list>
-      <!--DATA-->
-      <md-list-item><router-link to="/meta/debug/fake_data"><md-icon>flight_takeoff</md-icon><span>Create fake data</span></router-link></md-list-item>
-      <md-list-item><router-link to="/meta/debug/validations"><md-icon>playlist_add_check</md-icon><span>Edit validations</span></router-link></md-list-item>
-      <md-divider class="md-inset"></md-divider>
 
-      <md-toolbar md-theme="white">
-        <span class="md-title">Grouped</span>
-      </md-toolbar>
+    <div class="container">
+     <md-list>
+
+        <!--DATA-->
+        <md-list-item><router-link to="/meta/debug/fake_data"><md-icon>flight_takeoff</md-icon><span>Create fake data</span></router-link></md-list-item>
+        <md-list-item><router-link to="/meta/debug/validations"><md-icon>playlist_add_check</md-icon><span>Edit validations</span></router-link></md-list-item>
+        <md-divider class="md-inset"></md-divider>
 
 
-      <!-- LOCATION -->
-      <md-list-item>
-        <md-icon>explore</md-icon>
-        <span>Geolocation</span>
-        <md-list-expand>
-          <md-list-item><router-link to="/meta/debug/building"><md-icon>location_city</md-icon><span>building hunter</span></router-link></md-list-item>
-          <md-list-item><router-link to="/meta/debug/location"><md-icon>my_location</md-icon><span>location test</span></router-link></md-list-item>
-          <md-list-item @click="check_geolocation()"><md-icon>location_searching</md-icon><span>check geolocation</span><md-icon v-if='geolocation_pass' class="md-primary">check</md-icon></md-list-item>
-        </md-list-expand>
-      </md-list-item>
 
-      <!--NETWORK-->
-      <md-list-item>
-        <md-icon>settings_ethernet</md-icon>
-        <span>Network</span>
-        <md-list-expand>
-          <md-list-item @click="check_network"><md-icon>settings_ethernet</md-icon><span>check network</span>
-            <md-icon v-if="network_checking" class="md-warn">network_check</md-icon>
-            <md-icon v-if='network_pass' class="md-primary">check</md-icon>
-          </md-list-item>
-          <md-list-item @click="check_if_update_available"> <md-icon>system_update</md-icon><span>check for update</span>
-            <md-icon v-if="update_status === 'PASS'" class="md-warn">update</md-icon>
-          </md-list-item>
-        </md-list-expand>
-      </md-list-item>
+        <!-- LOCATION -->
+        <md-list-item>
+          <md-icon>explore</md-icon>
+          <span>Geolocation</span>
+          <md-list-expand>
+            <md-list-item><router-link to="/meta/debug/building"><md-icon>location_city</md-icon><span>building hunter</span></router-link></md-list-item>
+            <md-list-item><router-link to="/meta/debug/location"><md-icon>my_location</md-icon><span>location test</span></router-link></md-list-item>
+            <md-list-item @click="check_geolocation()"><md-icon>location_searching</md-icon><span>check geolocation</span><md-icon v-if='geolocation_pass' class="md-primary">check</md-icon></md-list-item>
+          </md-list-expand>
+        </md-list-item>
 
-      <!-- DATA -->
-      <md-list-item>
-        <md-icon>folder</md-icon>
-        <span>Data</span>
+        <!--NETWORK-->
+        <md-list-item>
+          <md-icon>settings_ethernet</md-icon>
+          <span>Network</span>
+          <md-list-expand>
+            <md-list-item @click="check_network"><md-icon>settings_ethernet</md-icon><span>check network</span>
+              <md-icon v-if="network_checking" class="md-warn">network_check</md-icon>
+              <md-icon v-if='network_pass' class="md-primary">check</md-icon>
+            </md-list-item>
+            <md-list-item @click="check_if_update_available"> <md-icon>system_update</md-icon><span>check for update</span>
+              <md-icon v-if="update_status === 'PASS'" class="md-warn">update</md-icon>
+            </md-list-item>
+          </md-list-expand>
+        </md-list-item>
 
-        <md-list-expand>
-          <md-list-item><router-link :to="{name: 'meta:debug:check_data_status'}"><md-icon>checkbox</md-icon><span>Check data status</span></router-link></md-list-item>
-          <md-list-item><router-link :to="{name: 'meta:debug:validate_data'}"><md-icon>playlist_add_check</md-icon><span>Validate data</span></router-link></md-list-item>
+        <!-- DATA -->
+        <md-list-item>
+          <md-icon>folder</md-icon>
+          <span>Data</span>
 
-        </md-list-expand>
-      </md-list-item>
+          <md-list-expand>
+            <md-list-item><router-link :to="{name: 'meta:debug:check_data_status'}"><md-icon>checkbox</md-icon><span>Check data status</span></router-link></md-list-item>
+            <md-list-item><router-link :to="{name: 'meta:debug:validate_data'}"><md-icon>playlist_add_check</md-icon><span>Validate data</span></router-link></md-list-item>
 
-      <!-- CLEARING THINGS-->
-      <md-list-item>
-        <md-icon>delete</md-icon>
-        <span>Clear data</span>
+          </md-list-expand>
+        </md-list-item>
 
-        <md-list-expand>
-          <md-list-item @click="clear_geodata"><md-icon>language</md-icon><span>clear geodata</span><md-icon v-if='geodata_cleared' class="md-primary">check</md-icon></md-list-item>
-          <md-list-item v-for="applet in applets" :key="applet" @click="clear_applet_storage(applet)">
-            <md-icon>delete</md-icon><span>clear storage for {{applet}}</span>
-          </md-list-item>
-          <md-list-item @click="clear_local_storage"><md-icon class="md-warn">delete_forever</md-icon><span>clear local storage (wipes all records, data, etc)</span></md-list-item>
-        </md-list-expand>
-      </md-list-item>
+        <!-- CLEARING THINGS-->
+        <md-list-item>
+          <md-icon>delete</md-icon>
+          <span>Clear data</span>
 
-    </md-list>
+          <md-list-expand>
+            <md-list-item @click="clear_geodata"><md-icon>language</md-icon><span>clear geodata</span><md-icon v-if='geodata_cleared' class="md-primary">check</md-icon></md-list-item>
+            <md-list-item v-for="applet in applets" :key="applet" @click="clear_applet_storage(applet)">
+              <md-icon>delete</md-icon><span>clear storage for {{applet}}</span>
+            </md-list-item>
+            <md-list-item @click="clear_local_storage"><md-icon class="md-warn">delete_forever</md-icon><span>clear local storage (wipes all records, data, etc)</span></md-list-item>
+          </md-list-expand>
+        </md-list-item>
+
+      </md-list>
+    </div>
   </div>
 </template>
 
