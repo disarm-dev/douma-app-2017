@@ -98,7 +98,7 @@
   import cache from 'config/cache.js'
   import {Plan} from 'lib/models/plan.model.js'
   import {get_geodata} from 'lib/remote/remote.get_geodata'
-  import {get_planning_level_name, get_planning_level_id_field, get_next_level_up_from_planning_level} from 'lib/spatial_hierarchy_helper'
+  import {get_planning_level_name, get_planning_level_id_field, get_next_level_up_from_planning_level} from 'lib/helpers/spatial_hierarchy_helper'
   import {target_areas_inside_focus_filter_area} from 'lib/irs_plan_helper'
 
   export default {

@@ -29,7 +29,7 @@
   import which_polygon from 'which-polygon'
 
   import cache from 'config/cache.js'
-  import {get_planning_level_id_field, get_planning_level_name} from 'lib/spatial_hierarchy_helper'
+  import {get_planning_level_id_field, get_planning_level_name} from 'lib/helpers/spatial_hierarchy_helper'
   import {get_geodata} from 'lib/remote/remote.get_geodata'
 
   // Components

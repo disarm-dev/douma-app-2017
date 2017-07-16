@@ -1,6 +1,6 @@
 import {standard_handler} from './remote.standard-handler.js'
 import cache from 'config/cache'
-import {get_all_spatial_hierarchy_levels} from 'lib/spatial_hierarchy_helper'
+import {get_all_spatial_hierarchy_levels} from 'lib/helpers/spatial_hierarchy_helper'
 
 /**
  * Sets `geodata` on the `cache` object, which can be imported anywhere.

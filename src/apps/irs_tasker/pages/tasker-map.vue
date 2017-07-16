@@ -12,10 +12,10 @@
   import intersect from '@turf/intersect'
   import bboxPolygon from '@turf/bbox-polygon'
 
-  import {basic_map} from 'lib/basic_map.js'
+  import {basic_map} from 'lib/helpers/basic_map.js'
   import cache from 'config/cache'
   import {DECORATED_UNASSIGNED_TEAM} from '../unassigned_team'
-  import {get_planning_level_id_field, get_planning_level_name} from 'lib/spatial_hierarchy_helper'
+  import {get_planning_level_id_field, get_planning_level_name} from 'lib/helpers/spatial_hierarchy_helper'
   import {planning_level_ids_to_features} from 'lib/geodata/polygons_from_geodata'
 
   export default {

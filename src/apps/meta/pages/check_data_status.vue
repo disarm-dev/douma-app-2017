@@ -19,7 +19,7 @@
 
 <script>
   import { mapState, mapActions, mapMutations } from 'vuex'
-  import {elements_array} from 'lib/form_helpers'
+  import {elements_array} from 'lib/helpers/form_helpers'
 
   export default {
     name: 'check_data_status',

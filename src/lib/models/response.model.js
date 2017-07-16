@@ -4,7 +4,7 @@ import moment from 'moment'
 
 import {ResponseSchema} from './response.schema'
 import cache from 'config/cache'
-import {get_planning_level_id_field, get_planning_level_name} from '../spatial_hierarchy_helper'
+import {get_planning_level_id_field, get_planning_level_name} from '../helpers/spatial_hierarchy_helper'
 
 export class Response {
   model;

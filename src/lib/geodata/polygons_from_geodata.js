@@ -1,6 +1,4 @@
-import {featureCollection} from '@turf/helpers'
-
-import {get_planning_level_id_field, get_planning_level_name} from '../spatial_hierarchy_helper'
+import {get_planning_level_id_field, get_planning_level_name} from 'lib/helpers/spatial_hierarchy_helper'
 import cache from 'config/cache'
 
 /**

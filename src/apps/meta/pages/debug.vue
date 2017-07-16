@@ -76,7 +76,7 @@
 
   import {try_reconnect, get_version} from 'lib/remote/remote.standard-handler'
   import cache from 'config/cache.js'
-  import {need_to_update} from 'lib/update'
+  import {need_to_update} from 'lib/helpers/update'
 
 
   export default {

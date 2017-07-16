@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import {has_permission} from 'lib/permission_helper.js'
+import {has_permission} from 'lib/helpers/permission_helper.js'
 
 export function create_router(instance_routes, store) {
   Vue.use(VueRouter)

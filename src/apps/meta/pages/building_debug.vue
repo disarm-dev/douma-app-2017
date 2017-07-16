@@ -35,7 +35,7 @@
   import bbox from '@turf/bbox'
   import moment from 'moment'
 
-  import {get_current_position} from 'lib/location_helper.js'
+  import {get_current_position} from 'lib/helpers/location_helper.js'
 
   export default {
     name: 'building_debug',
