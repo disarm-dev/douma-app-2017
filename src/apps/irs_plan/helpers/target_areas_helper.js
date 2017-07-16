@@ -4,7 +4,6 @@ import centroid from '@turf/centroid'
 import cache from 'config/cache'
 import {get_planning_level_id_field, get_planning_level_name} from 'lib/helpers/spatial_hierarchy_helper'
 
-
 const target_areas_inside_focus_filter_area = ({area_ids, selected_filter_area}) => {
   if (!Array.isArray(area_ids)) area_ids = [area_ids]
   if (!selected_filter_area) return area_ids

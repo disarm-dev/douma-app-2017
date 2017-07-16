@@ -100,7 +100,7 @@
   import {get_geodata} from 'lib/remote/remote.geodata'
 
   import {get_planning_level_name, get_planning_level_id_field, get_next_level_up_from_planning_level} from 'lib/helpers/spatial_hierarchy_helper'
-  import {target_areas_inside_focus_filter_area} from 'lib/irs_plan_helper'
+  import {target_areas_inside_focus_filter_area} from '../helpers/target_areas_helper.js'
 
   export default {
     name: 'Plan',

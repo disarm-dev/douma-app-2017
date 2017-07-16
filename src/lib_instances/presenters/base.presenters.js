@@ -1,4 +1,4 @@
-import {Aggregator} from 'lib/aggregations'
+import {Aggregator} from 'lib/instance_data/aggregations'
 import {get_planning_level_id_field} from 'lib/helpers/spatial_hierarchy_helper'
 
 export default class Presenters {
