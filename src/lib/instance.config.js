@@ -1,5 +1,5 @@
 import {get_instance_file} from 'lib/remote/remote.instance'
-import {InstanceConfigSchema} from 'lib/models/instance_config.schema'
+import {IncomingInstanceConfigSchema} from 'lib/models/instance_config.schema'
 
 
 // Instance configuration and related files
@@ -10,7 +10,7 @@ export const get_instance_files = (slug) => {
     .then(jsons => {
       let instance_config = jsons[0]
 
-      const errors = InstanceConfigSchema.errors(instance_config)
+      const errors = IncomingInstanceConfigSchema.errors(instance_config)
 
       if (errors) {
         const message = "Invalid instance_config"

@@ -41,7 +41,7 @@ const SpatialHierarchySchema = schema({
   name: String
 })
 
-export const InstanceConfigSchema = schema({
+export const IncomingInstanceConfigSchema = schema({
   applets: AppletSchema,
   map_focus: {
     centre: {
