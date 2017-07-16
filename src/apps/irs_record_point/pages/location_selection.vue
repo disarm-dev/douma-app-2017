@@ -78,7 +78,7 @@
     },
     methods: {
       prepare_fuse() {
-        this._all_locations = this.$store.state.instance_config.location
+        this._all_locations = this.$store.state.instance_config.location_selection
 
         const fuse_options = {
           keys: ['name']
