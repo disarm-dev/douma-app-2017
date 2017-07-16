@@ -1,7 +1,7 @@
 import {Line} from 'vue-chartjs'
 import moment from 'moment'
 
-import Aggregations from 'lib_instances/aggregations/bwa.aggregations'
+// import Aggregations from '../../../../../static/instances/bwa.aggregations.json'
 
 export default Line.extend({
   // name: 'bwa_chart_prop_people_covered',

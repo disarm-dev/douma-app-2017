@@ -1,6 +1,6 @@
 // CommitChart.js
 import { Line } from 'vue-chartjs'
-import Aggregations from 'lib_instances/aggregations/swz.aggregations'
+// import Aggregations from '../../../../../static/instances/swz.aggregations.json'
 
 export default Line.extend({
   props: ['responses', 'denominator'],
