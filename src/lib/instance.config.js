@@ -1,23 +1,12 @@
-import {standard_handler} from './remote.standard-handler.js'
-import {InstanceConfigSchema} from '../models/instance_config.schema'
+import {get_instance_file} from 'lib/remote/remote.instance'
+import {InstanceConfigSchema} from 'lib/models/instance_config.schema'
 
 
 // Instance configuration and related files
 export const get_instance_files = (slug) => {
-  const urls = [
-    `/static/instances/${slug}.instance.json`, // 0
-    `/static/instances/${slug}.form.json`, // 1
-    `/static/instances/${slug}.location_selector.json`, // 2
-    `/static/instances/${slug}.aggregations.json`, // 3
-    `/static/instances/${slug}.fake_form.json`, // 4
-    `/static/instances/${slug}.validations.json`, // 4
-  ]
+  const types = ['instance', 'form', 'location_selector', 'aggregations', 'fake_form', 'validations']
 
-  let options = {
-    timeout: 20000
-  }
-
-  return Promise.all(urls.map(url => standard_handler(url, options)))
+  return Promise.all(types.map(type => get_instance_file(slug, type)))
     .then(jsons => {
       let instance_config = jsons[0]
 

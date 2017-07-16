@@ -24,7 +24,11 @@ HTTP.interceptors.response.use(function (response) {
   return Promise.reject(error)
 })
 
-
+/**
+ * Standard handler for all remote requests (currently both client server and API)
+ * @param url
+ * @param options
+ */
 const standard_handler = (url, options = {}) => {
   // TODO: @feature Need to check user has permission. Or do we do this on the API side?
   // Or are both equally easy to fool?...

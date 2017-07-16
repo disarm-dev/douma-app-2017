@@ -65,7 +65,7 @@
   import tasker_map from './tasker-map.vue'
   import {AssignmentPlan} from 'lib/models/assignment_plan.model'
   import {DECORATED_UNASSIGNED_TEAM} from '../unassigned_team'
-  import {get_geodata} from 'lib/remote/remote.get_geodata'
+  import {get_geodata} from 'lib/remote/remote.geodata.js'
 
   const PALETTE = chroma.brewer.Set2
 
