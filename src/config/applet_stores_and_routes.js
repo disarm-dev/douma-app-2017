@@ -1,14 +1,9 @@
+import CONFIG from 'config/common'
 
-// const applet_requires = require("dir-loader!../apps")
-const applet_requires = {
-  data_wizard: require('apps/data_wizard'),
-  meta: require('apps/meta'),
-  irs_monitor: require('apps/irs_monitor'),
-  irs_plan: require('apps/irs_plan'),
-  irs_record_point: require('apps/irs_record_point'),
-  irs_tasker: require('apps/irs_tasker')
-}
-
+// Build semi-dynamic list of applets
+const applet_names = Object.keys(CONFIG.applets)
+let applet_requires = {}
+applet_names.forEach(name => applet_requires[name] = require('apps/' + name))
 
 /**
  * Collect stores and routes for applets ONLY in this instance {stores: {}, routes: []}
