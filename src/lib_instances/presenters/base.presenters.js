@@ -5,6 +5,7 @@ export default class Presenters {
   constructor(instance_config) {
     this.instance_config = instance_config
     this.aggregations = new Aggregator(this.instance_config)
+    this.presenters = this.instance_config.presenters
   }
 
   get_aggregated_responses({responses, denominators, instance_config}) {
@@ -54,4 +55,19 @@ export default class Presenters {
 
     return truthy_responses_grouped_by_area
   }
+
+  get_map_style() {
+    return this.presenters.map_style
+  }
+
+  get_popup_description() {
+    return (feature) => {
+      const record = feature.properties
+
+      return this.presenters.popup_description.map(line => {
+        return `<p><b>${line.title}</b> ${record[line.field_name]}</p>`
+      }).join()
+    }
+  }
 }
+
