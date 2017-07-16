@@ -19,7 +19,6 @@ import faker from 'faker'
 import random_point_in_polygon from 'random-points-on-polygon'
 import {getCoord} from '@turf/invariant'
 
-import fake_form_data from 'lib_instances/fake_data'
 import {get_geodata} from 'lib/remote/remote.get_geodata'
 import cache from 'config/cache'
 import {get_planning_level_id_field, get_planning_level_name} from 'lib/spatial_hierarchy_helper'
@@ -39,7 +38,7 @@ export default {
       slug: state => state.instance_config.instance.slug,
       geodata_ready: state => state.geodata_ready,
       instance_config: state => state.instance_config,
-      location_selections: state => state.instance_config.location
+      location_selections: state => state.instance_config.location_selection
     }),
     planning_level_name() {
       return get_planning_level_name()
@@ -65,7 +64,8 @@ export default {
       return (Math.random() > desired_coverage ? 0 : 1)
     },
     get_form_data() {
-      return fake_form_data[this.slug][this.select_form_data_type()]
+      const fake_form_data = this.instance_config.fake_form
+      return fake_form_data[this.select_form_data_type()]
     },
     create_response(location_selection) {
       const polygon = this.get_polygon(location_selection.id)
