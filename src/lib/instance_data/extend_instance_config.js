@@ -4,7 +4,7 @@ import {IncomingInstanceConfigSchema} from 'lib/models/instance_config.schema'
 
 // Instance configuration and related files
 export const get_instance_files = (slug) => {
-  const types = ['instance', 'form', 'location_selector', 'aggregations', 'fake_form', 'validations']
+  const types = ['instance', 'form', 'location_selector', 'aggregations', 'fake_form', 'validations', 'presenters']
 
   return Promise.all(types.map(type => get_instance_file(slug, type)))
     .then(jsons => {
@@ -19,21 +19,25 @@ export const get_instance_files = (slug) => {
         throw new Error(message)
       }
 
-      // Other elements to attach
-      const form = jsons[1]
-      const location_selection = jsons[2]
-      const aggregations = jsons[3]
-      const fake_form = jsons[4]
-      const validations = jsons[5]
+      // Create object to match up the list of types with the retrieved data, to
+      // make very obvious where this instance stuff comes from.
+      const jsons_object = types.reduce((acc, type, index) => {
+        acc[type] = jsons[index]
+        return acc
+      }, {})
 
+      // Other elements to attach
       instance_config = {
         ...instance_config,
-        form,
-        location_selection,
-        aggregations,
-        fake_form,
-        validations,
+        form: jsons_object.form,
+        location_selection: jsons_object.location_selection,
+        aggregations: jsons_object.aggregations,
+        fake_form: jsons_object.fake_form,
+        validations: jsons_object.validations,
+        presenters: jsons_object.presenters,
       }
+
+      console.log(instance_config)
 
       return instance_config
     })
