@@ -1,12 +1,12 @@
 import mapboxgl from 'mapbox-gl'
-import config from 'config/common_config'
+import CONFIG from 'config/common_config'
 
 const basic_map = (store) => {
   const map = new mapboxgl.Map({
     container: 'map',
-    style: config.basemap.default.style,
-    center: config.basemap.default.coords,
-    zoom: config.basemap.default.zoom
+    style: CONFIG.basemap.default.style,
+    center: CONFIG.basemap.default.coords,
+    zoom: CONFIG.basemap.default.zoom
   });
 
   map.on('error', (e) => {

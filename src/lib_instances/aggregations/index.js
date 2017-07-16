@@ -1,12 +1,13 @@
 import {Parser} from 'expr-eval'
 import isNumber from 'is-number'
 
-import bwa from './bwa.aggregations.json'
-import nam from './nam.aggregations.json'
-import swz from './swz.aggregations.json'
-import zwe from './zwe.aggregations.json'
+import CONFIG from 'config/common'
 
-const aggregations = {bwa, nam, swz, zwe}
+const aggregations = CONFIG.instances.list.reduce((acc, slug) => {
+  acc[slug] = require(`./${slug}.aggregations.json`)
+  return acc
+}, {})
+
 
 export class Aggregator {
   constructor(slug) {
@@ -67,11 +68,11 @@ export class Aggregator {
       const questions_answered = Object.keys(form_data)
 
       if (expression.variables().every(i => questions_answered.includes(i))) {
-        
+
         const result = expression.evaluate(form_data)
 
         if (!isNumber(result)) return sum
-        
+
         return sum + result
       } else {
         return sum

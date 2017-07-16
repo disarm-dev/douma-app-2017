@@ -1,11 +1,10 @@
 import {Parser} from 'expr-eval'
+import CONFIG from 'config/common'
 
-import bwa from './bwa.validations.json'
-import nam from './nam.validations.json'
-import swz from './swz.validations.json'
-import zwe from './zwe.validations.json'
-
-const all_validations = {bwa, nam, swz, zwe}
+const all_validations = CONFIG.instances.list.reduce((acc, slug) => {
+  acc[slug] = require(`./${slug}.validations.json`)
+  return acc
+}, {})
 
 export class Validator {
   constructor(instance_config) {

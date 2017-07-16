@@ -1,4 +1,4 @@
-import common_config from 'config/common_config'
+import CONFIG from 'config/common_config'
 
 /**
  * Export a `decorated_applets` object on this file, containing title and icon for each
@@ -19,7 +19,7 @@ function title_and_icon_for (applet_name, instance_applets) {
   if (!applet_name) return {}
 
   // Find all possible configurations
-  const common_config_for_applet = common_config.applets[applet_name]
+  const common_config_for_applet = CONFIG.applets[applet_name]
   const instance_config_for_applet = instance_applets[applet_name]
 
   // Overwrite any common_config title and icon

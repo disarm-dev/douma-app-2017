@@ -26,6 +26,9 @@ export default {
       zoom: 4
     }
   },
+  instances: {
+    list: ['bwa', 'nam', 'swz', 'zwe']
+  },
   remote: {
     max_records_batch_size: 100
   }
