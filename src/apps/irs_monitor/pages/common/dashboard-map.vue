@@ -31,9 +31,6 @@
   import {get_planning_level_id_field, get_planning_level_name, get_planning_level_display_name} from 'lib/spatial_hierarchy_helper'
   import {layer_definitions} from 'lib/map_layers'
 
-  import Presenters from 'lib_instances/presenters'
-  import {Aggregator} from 'lib_instances/aggregations'
-
   export default {
     props: ['aggregated_responses', 'geodata_ready', 'filtered_responses'],
     data() {
