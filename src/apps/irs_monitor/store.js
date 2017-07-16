@@ -1,4 +1,5 @@
-import {get_all_records, get_current_plan} from 'lib/remote/remote'
+import {get_all_records} from 'lib/remote/remote.records'
+import {get_current_plan} from 'lib/remote/remote.plans'
 import {Plan} from 'lib/models/plan.model'
 import {decorate_responses_from_json} from 'lib/models/response.model'
 import Presenters from 'lib_instances/presenters'

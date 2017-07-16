@@ -59,8 +59,6 @@
   import {mapState, mapGetters} from 'vuex'
   import chroma from 'chroma-js'
 
-  import {get_current_plan, create_plan} from 'lib/remote/remote'
-
   import controls from 'components/controls.vue'
   import team_list from './team_list'
   import tasker_legend from './legend'
