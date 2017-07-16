@@ -20,6 +20,9 @@
 <script>
   import { mapState, mapActions, mapMutations } from 'vuex'
   import {form_elements} from 'lib/instance_data/form_helpers'
+  import {fields_for_aggregations_exist_in_form} from 'lib/instance_data/aggregations.instance_assertions.js'
+  import {fields_for_validations_exist_in_form} from 'lib/instance_data/validations.instance_assertions'
+
 
   export default {
     name: 'check_data_status',
@@ -32,6 +35,13 @@
       ...mapState({
         instance_config: state => state.instance_config
       })
+    },
+    mounted() {
+      const aggregation_result = fields_for_aggregations_exist_in_form({aggregations: this.instance_config.aggregations, form: this.instance_config.form})
+      console.log('fields_for_aggregations_exist_in_form', aggregation_result )
+
+      const validation_result = fields_for_validations_exist_in_form({validations: this.instance_config.validations, form: this.instance_config.form})
+      console.log('fields_for_validations_exist_in_form', validation_result)
     },
     methods: {
       log_form_elements() {
