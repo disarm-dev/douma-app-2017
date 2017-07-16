@@ -1,10 +1,8 @@
 import get from 'lodash.get'
-import flatten from 'lodash.flatten'
 import uniq from 'lodash.uniq'
-
 import {Parser} from 'expr-eval'
 
-import {form_elements} from 'lib/instance_data/form_helpers'
+import {get_form_fields} from 'lib/instance_data/form_helpers'
 
 function extract_aggregation_fields (aggregations) {
   const result_fields = []
@@ -18,11 +16,6 @@ function extract_aggregation_fields (aggregations) {
   return uniq(result_fields)
 }
 
-function extract_form_fields (form) {
-  const elements = form_elements(form)
-  return elements.map(e => e.name)
-}
-
 /**
  *
  * @param aggregations
@@ -31,9 +24,8 @@ function extract_form_fields (form) {
  */
 const fields_for_aggregations_exist_in_form = ({aggregations, form}) => {
   const aggregation_fields = extract_aggregation_fields(aggregations)
-  const form_fields = extract_form_fields(form)
-  const result = aggregation_fields.every(val => form_fields.indexOf(val) >= 0)
-  return result
+  const form_fields = get_form_fields(form)
+  return aggregation_fields.every(val => form_fields.indexOf(val) >= 0)
 }
 
 export {fields_for_aggregations_exist_in_form}

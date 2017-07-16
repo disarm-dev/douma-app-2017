@@ -1,12 +1,10 @@
 import get from 'lodash.get'
-import flatten from 'lodash.flatten'
 import uniq from 'lodash.uniq'
-
 import {Parser} from 'expr-eval'
 
-import {form_elements} from 'lib/instance_data/form_helpers'
+import {get_form_fields} from './form_helpers'
 
-function extract_validation_fields (validations) {
+function extract_validation_fields(validations) {
   const result_fields = []
 
   for(const validation in validations) {
@@ -21,10 +19,6 @@ function extract_validation_fields (validations) {
   return uniq(result_fields)
 }
 
-function extract_form_fields (form) {
-  const elements = form_elements(form)
-  return elements.map(e => e.name)
-}
 
 /**
  *
@@ -34,7 +28,7 @@ function extract_form_fields (form) {
  */
 const fields_for_validations_exist_in_form = ({validations, form}) => {
   const validation_fields = extract_validation_fields(validations)
-  const form_fields = extract_form_fields(form)
+  const form_fields = get_form_fields(form)
   return validation_fields.every(val => form_fields.indexOf(val) >= 0)
 }
 

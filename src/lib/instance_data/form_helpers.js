@@ -1,4 +1,4 @@
-export const form_elements = (form) => {
+const get_form_elements = (form) => {
   let arr = []
   form.pages.forEach((page, i) => {
     if (page.elements)
@@ -14,3 +14,9 @@ export const form_elements = (form) => {
   })
   return arr
 }
+
+const get_form_fields = (form) => {
+  return get_form_elements(form).map(e => e.name)
+}
+
+export {get_form_elements, get_form_fields}

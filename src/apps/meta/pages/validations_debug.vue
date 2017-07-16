@@ -86,7 +86,7 @@
           </md-card-header-text>
         </md-card-header>
         <md-card-content>
-          <md-chip v-for="element in form_elements" :key="element.name">{{element.name}}</md-chip>
+          <md-chip v-for="element in get_form_elements" :key="element.name">{{element.name}}</md-chip>
         </md-card-content>
       </md-card>
 
@@ -99,7 +99,7 @@
   import moment from 'moment'
   import deep_clone from 'deep-clone'
   import {Parser} from 'expr-eval'
-  import {form_elements} from 'lib/instance_data/form_helpers'
+  import {get_form_elements} from 'lib/instance_data/form_helpers'
 
   export default {
     data() {
@@ -123,7 +123,7 @@
         return this.$store.state.instance_config
       },
       form_elements() {
-        return form_elements(this.$store.state.instance_config.form)
+        return get_form_elements(this.$store.state.instance_config.form)
       },
       test_fields() {
         if (!this.test_expr) return []
