@@ -1,4 +1,4 @@
-import {get_instance_files} from 'lib/instance_data/instance.config'
+import {get_instance_files} from 'lib/instance_data/extend_instance_config'
 
 function get_hash_value(key) {
   const matches = location.hash.match(new RegExp(key+'=([^&]*)'));
