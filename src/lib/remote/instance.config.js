@@ -10,6 +10,7 @@ export const get_instance_files = (slug) => {
     `/static/instances/${slug}.location_selector.json`, // 2
     `/static/instances/${slug}.aggregations.json`, // 3
     `/static/instances/${slug}.fake_form.json`, // 4
+    `/static/instances/${slug}.validations.json`, // 4
   ]
 
   let options = {
@@ -34,13 +35,15 @@ export const get_instance_files = (slug) => {
       const location_selection = jsons[2]
       const aggregations = jsons[3]
       const fake_form = jsons[4]
+      const validations = jsons[5]
 
       instance_config = {
         ...instance_config,
         form,
         location_selection,
         aggregations,
-        fake_form
+        fake_form,
+        validations,
       }
 
       return instance_config

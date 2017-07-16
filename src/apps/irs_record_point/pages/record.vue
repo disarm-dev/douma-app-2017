@@ -195,7 +195,7 @@
       }
     },
     created() {
-      this._validator = new Validator(this.instance_config)
+      this._validator = new Validator(this.instance_config.validations)
     },
     mounted() {
     },

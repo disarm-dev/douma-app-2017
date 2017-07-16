@@ -1,16 +1,8 @@
 import {Parser} from 'expr-eval'
-import CONFIG from 'config/common'
-
-const all_validations = CONFIG.instances.list.reduce((acc, slug) => {
-  acc[slug] = require(`./${slug}.validations.json`)
-  return acc
-}, {})
 
 export class Validator {
-  constructor(instance_config) {
-    const slug = instance_config.instance.slug
-    if(!slug) throw new Error("Cannot find slug on", instance_config)
-    this.validations = all_validations[slug]
+  constructor(validations) {
+    this.validations = validations
     return this
   }
 
