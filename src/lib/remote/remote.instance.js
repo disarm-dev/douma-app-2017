@@ -8,7 +8,7 @@ import {standard_handler} from './remote.standard-handler.js'
 export const get_instance_file = (slug, type) => {
   if (!slug || !type) throw new Error(`Need both slug (${slug}) and type (${type}) to get an instance file`)
 
-  const url = `/static/instances/${slug}.${type}.json`
+  const url = `/static/instances/${slug}/${slug}.${type}.json`
   let options = {
     timeout: 20000
   }
