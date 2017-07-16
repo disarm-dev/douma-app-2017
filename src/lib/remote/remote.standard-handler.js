@@ -1,7 +1,7 @@
 import axios from 'axios'
 import get from 'lodash.get'
 
-import CONFIG from 'config/common_config'
+import CONFIG from 'config/common'
 
 let store
 

@@ -1,5 +1,5 @@
 import mapboxgl from 'mapbox-gl'
-import CONFIG from 'config/common_config'
+import CONFIG from 'config/common'
 
 const basic_map = (store) => {
   const map = new mapboxgl.Map({

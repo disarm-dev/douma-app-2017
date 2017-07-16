@@ -1,4 +1,4 @@
-import CONFIG from 'config/common_config'
+import CONFIG from 'config/common'
 
 /**
  * Export a `decorated_applets` object on this file, containing title and icon for each
