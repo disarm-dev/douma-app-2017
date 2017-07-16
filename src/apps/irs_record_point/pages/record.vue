@@ -118,7 +118,7 @@
   import location_selection from './location_selection'
   import review from './validation.vue'
   import form_renderer from './form.vue'
-  import {Validator} from 'lib_instances/validations'
+  import {Validator} from 'lib/validations'
   import {Response} from 'lib/models/response.model'
 
   export default {
