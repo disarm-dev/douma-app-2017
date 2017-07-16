@@ -26,7 +26,7 @@ export const get_geodata = (store) => {
 
   // Build URLs for each level
   const urls = levels.map(level => {
-      return `/static/geo/${slug}/spatial_hierarchy/${slug}.${level}.geojson`
+      return `/static/instances/${slug}/spatial_hierarchy/${slug}.${level}.geojson`
   })
 
   let progress_cache = {}
