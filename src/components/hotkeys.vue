@@ -1,5 +1,5 @@
 <template>
-  <div v-show="true">
+  <div v-show="false">
     <button @shortkey="$router.push('/meta')" v-shortkey="['ctrl', 'u']">user page</button>
     <button @shortkey="$router.push('/meta/debug')" v-shortkey="['ctrl', 'd']">debug page</button>
     <button @shortkey="show_help()" v-shortkey="['ctrl', 'h']">Show help</button>
