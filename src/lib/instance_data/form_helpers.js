@@ -1,4 +1,4 @@
-export const elements_array = (form) => {
+export const form_elements = (form) => {
   let arr = []
   form.pages.forEach((page, i) => {
     if (page.elements)

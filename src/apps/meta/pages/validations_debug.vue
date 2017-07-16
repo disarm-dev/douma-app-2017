@@ -99,7 +99,7 @@
   import moment from 'moment'
   import deep_clone from 'deep-clone'
   import {Parser} from 'expr-eval'
-  import {elements_array} from 'lib/helpers/form_helpers'
+  import {form_elements} from 'lib/instance_data/form_helpers'
 
   export default {
     data() {
@@ -123,7 +123,7 @@
         return this.$store.state.instance_config
       },
       form_elements() {
-        return elements_array(this.$store.state.instance_config.form)
+        return form_elements(this.$store.state.instance_config.form)
       },
       test_fields() {
         if (!this.test_expr) return []

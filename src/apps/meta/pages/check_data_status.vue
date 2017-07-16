@@ -19,7 +19,7 @@
 
 <script>
   import { mapState, mapActions, mapMutations } from 'vuex'
-  import {elements_array} from 'lib/helpers/form_helpers'
+  import {form_elements} from 'lib/instance_data/form_helpers'
 
   export default {
     name: 'check_data_status',
@@ -35,7 +35,7 @@
     },
     methods: {
       log_form_elements() {
-        console.table(elements_array(this.instance_config.form))
+        console.table(form_elements(this.instance_config.form))
       },
     }
   }
