@@ -14,7 +14,6 @@
   import json2csv from 'json2csv'
   import moment from 'moment'
   import numeral from 'numeral'
-  import Presenters from 'lib_instances/presenters'
 
   export default {
     props: ['aggregated_responses'],
