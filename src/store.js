@@ -38,7 +38,6 @@ export function create_store(instance_config, instance_stores) {
   Vue.use(VuexLoading)
 
 
-
   return new Vuex.Store({
     modules: instance_stores,
     plugins: [createPersistedState(persisted_state_options), VuexLoading.Store],

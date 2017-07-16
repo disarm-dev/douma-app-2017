@@ -1,18 +1,9 @@
 import {Parser} from 'expr-eval'
 import isNumber from 'is-number'
 
-import CONFIG from 'config/common'
-
-const aggregations = CONFIG.instances.list.reduce((acc, slug) => {
-  acc[slug] = require(`./${slug}.aggregations.json`)
-  return acc
-}, {})
-
-
 export class Aggregator {
-  constructor(slug) {
-    this.slug = slug
-    this.aggregations = aggregations[slug]
+  constructor(aggregations) {
+    this.aggregations = aggregations
   }
 
   calculate({responses, denominators, aggregation_name}) {

@@ -8,6 +8,7 @@ export const get_instance_files = (slug) => {
     `/static/instances/${slug}.instance.json`,
     `/static/instances/${slug}.form.json`,
     `/static/instances/${slug}.location_selector.json`,
+    `/static/instances/${slug}.aggregations.json`,
   ]
 
   let options = {
@@ -16,7 +17,8 @@ export const get_instance_files = (slug) => {
 
   return Promise.all(urls.map(url => standard_handler(url, options)))
     .then(jsons => {
-      const instance_config = jsons[0]
+      let instance_config = jsons[0]
+
       const errors = InstanceConfigSchema.errors(instance_config)
 
       if (errors) {
@@ -26,11 +28,17 @@ export const get_instance_files = (slug) => {
         throw new Error(message)
       }
 
+      // Other elements to attach
       const form = jsons[1]
       const location_selection = jsons[2]
+      const aggregations = jsons[3]
 
-      instance_config.form = form
-      instance_config.location = location_selection
+      instance_config = {
+        ...instance_config,
+        ...form,
+        ...location_selection,
+        ...aggregations
+      }
 
       return instance_config
     })

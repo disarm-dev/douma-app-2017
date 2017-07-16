@@ -4,11 +4,8 @@ import {get_planning_level_id_field} from 'lib/spatial_hierarchy_helper'
 export default class Presenters {
   constructor(instance_config) {
     this.instance_config = instance_config
-    this.slug = instance_config.instance.slug
-    this.aggregations = new Aggregator(this.slug)
+    this.aggregations = new Aggregator(this.instance_config)
   }
-
-  getMapData() {}
 
   get_aggregated_responses({responses, denominators, instance_config}) {
     // Get from instance_config

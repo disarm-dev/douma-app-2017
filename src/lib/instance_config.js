@@ -64,5 +64,4 @@ function get_instance_config () {
     })
 }
 
-
 export {get_instance_config}
