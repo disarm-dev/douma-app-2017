@@ -1,6 +1,6 @@
 import moment from 'moment'
 
-import {get_all_records, get_current_plan} from 'lib/data/remote'
+import {get_all_records, get_current_plan} from 'lib/remote/remote'
 import {Plan} from 'lib/models/plan.model'
 import {decorate_responses_from_json} from 'lib/models/response.model'
 import Presenters from 'lib_instances/presenters'

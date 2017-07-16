@@ -1,4 +1,4 @@
-import {get_instance_files} from './data/remote'
+import {get_instance_files} from './remote/remote'
 
 function get_hash_value(key) {
   const matches = location.hash.match(new RegExp(key+'=([^&]*)'));

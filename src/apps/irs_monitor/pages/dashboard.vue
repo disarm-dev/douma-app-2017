@@ -30,7 +30,7 @@
 
   import cache from 'config/cache.js'
   import {get_planning_level_id_field, get_planning_level_name} from 'lib/spatial_hierarchy_helper'
-  import {get_geodata} from 'lib/data/remote'
+  import {get_geodata} from 'lib/remote/remote'
 
   // Components
   import dashboard_summary from './dashboard-summary.vue'

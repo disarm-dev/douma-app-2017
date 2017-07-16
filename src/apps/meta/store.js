@@ -1,7 +1,7 @@
 import Raven from 'raven-js'
 import get from 'lodash.get'
 
-import {authenticate} from 'lib/data/remote'
+import {authenticate} from 'lib/remote/remote'
 import {decorate_applets} from 'lib/decorated_applets'
 import {User} from 'lib/models/user.model'
 import {set_raven_user_context} from 'config/error-tracking'

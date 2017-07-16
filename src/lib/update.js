@@ -1,4 +1,4 @@
-import {get_version} from 'lib/data/remote.standard-handler'
+import {get_version} from 'lib/remote/remote.standard-handler'
 
 const need_to_update = () => {
   return get_version().then((live_version) => {

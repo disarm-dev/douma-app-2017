@@ -45,7 +45,7 @@
   import {mapGetters} from 'vuex'
   import get from 'lodash.get'
   import {elements_array}from 'lib/form_helpers'
-  import {try_reconnect, get_version} from 'lib/data/remote.standard-handler'
+  import {try_reconnect, get_version} from 'lib/remote/remote.standard-handler'
   import cache from 'config/cache.js'
   import {need_to_update} from 'lib/update'
 

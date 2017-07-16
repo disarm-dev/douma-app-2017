@@ -59,7 +59,7 @@
   import {mapState, mapGetters} from 'vuex'
   import chroma from 'chroma-js'
 
-  import {get_current_plan, create_plan} from 'lib/data/remote'
+  import {get_current_plan, create_plan} from 'lib/remote/remote'
 
   import controls from 'components/controls.vue'
   import team_list from './team_list'
@@ -67,7 +67,7 @@
   import tasker_map from './tasker-map.vue'
   import {AssignmentPlan} from 'lib/models/assignment_plan.model'
   import {DECORATED_UNASSIGNED_TEAM} from '../unassigned_team'
-  import {get_geodata} from 'lib/data/remote.get_geodata'
+  import {get_geodata} from 'lib/remote/remote.get_geodata'
 
   const PALETTE = chroma.brewer.Set2
 

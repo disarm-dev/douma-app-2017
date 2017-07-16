@@ -2,7 +2,7 @@ import clonedeep from 'lodash.clonedeep'
 import flatten from 'lodash.flatten'
 
 import CONFIG from 'config/common_config'
-import {create_records} from 'lib/data/remote'
+import {create_records} from 'lib/remote/remote'
 
 export default {
   namespaced: true,
