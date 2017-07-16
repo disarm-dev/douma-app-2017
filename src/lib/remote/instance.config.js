@@ -5,10 +5,11 @@ import {InstanceConfigSchema} from '../models/instance_config.schema'
 // Instance configuration and related files
 export const get_instance_files = (slug) => {
   const urls = [
-    `/static/instances/${slug}.instance.json`,
-    `/static/instances/${slug}.form.json`,
-    `/static/instances/${slug}.location_selector.json`,
-    `/static/instances/${slug}.aggregations.json`,
+    `/static/instances/${slug}.instance.json`, // 0
+    `/static/instances/${slug}.form.json`, // 1
+    `/static/instances/${slug}.location_selector.json`, // 2
+    `/static/instances/${slug}.aggregations.json`, // 3
+    `/static/instances/${slug}.fake_form.json`, // 4
   ]
 
   let options = {
@@ -32,12 +33,14 @@ export const get_instance_files = (slug) => {
       const form = jsons[1]
       const location_selection = jsons[2]
       const aggregations = jsons[3]
+      const fake_form = jsons[4]
 
       instance_config = {
         ...instance_config,
-        ...form,
-        ...location_selection,
-        ...aggregations
+        form,
+        location_selection,
+        aggregations,
+        fake_form
       }
 
       return instance_config
