@@ -1,10 +1,11 @@
 import {get_instance_file} from 'lib/remote/remote.instance'
 import {IncomingInstanceConfigSchema} from 'lib/models/instance_config.schema'
+import CONFIG from 'config/common'
 
 
 // Instance configuration and related files
 export const get_instance_files = (slug) => {
-  const types = ['instance', 'form', 'location_selection', 'aggregations', 'fake_form', 'validations', 'presenters']
+  const types = CONFIG.instances.required_instance_files
 
   return Promise.all(types.map(type => get_instance_file(slug, type)))
     .then(jsons => {

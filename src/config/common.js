@@ -27,7 +27,8 @@ export default {
     }
   },
   instances: {
-    list: ['bwa', 'nam', 'swz', 'zwe']
+    list: ['bwa', 'nam', 'swz', 'zwe'],
+    required_instance_files: ['instance', 'form', 'location_selection', 'aggregations', 'fake_form', 'validations', 'presenters']
   },
   remote: {
     max_records_batch_size: 100
