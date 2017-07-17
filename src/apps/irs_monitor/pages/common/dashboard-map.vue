@@ -28,7 +28,7 @@
   import {basic_map} from 'lib/helpers/basic_map.js'
   import cache from 'config/cache'
   import logscale from 'lib/helpers/log_scale.js'
-  import {get_planning_level_id_field, get_planning_level_name, get_planning_level_display_name} from 'lib/helpers/spatial_hierarchy_helper'
+  import {get_planning_level_id_field, get_planning_level_name, get_planning_level_display_name} from 'lib/geodata/spatial_hierarchy_helper'
   import {layer_definitions} from 'config/map_layers'
 
   export default {

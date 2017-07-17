@@ -29,7 +29,7 @@ import {create_router} from '../apps/router'
 import {create_store} from '../apps/store'
 import {get_instance_stores_and_routes} from './applet_stores_and_routes'
 import {instantiate_analytics, set_common_analytics} from 'config/analytics'
-import {configure_spatial_helpers} from 'lib/helpers/spatial_hierarchy_helper'
+import {configure_spatial_helpers} from 'lib/geodata/spatial_hierarchy_helper'
 import {configure_standard_handler} from 'lib/remote/remote.standard-handler'
 import {try_reconnect} from 'lib/remote/remote.standard-handler'
 

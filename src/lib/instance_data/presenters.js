@@ -1,5 +1,5 @@
 import {Aggregator} from 'lib/instance_data/aggregations'
-import {get_planning_level_id_field} from 'lib/helpers/spatial_hierarchy_helper'
+import {get_planning_level_id_field} from 'lib/geodata/spatial_hierarchy_helper'
 
 export default class Presenter {
   constructor(instance_config) {

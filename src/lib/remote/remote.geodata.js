@@ -1,6 +1,6 @@
 import cache from 'config/cache'
 import {standard_handler} from './remote.standard-handler.js'
-import {get_all_spatial_hierarchy_level_names} from 'lib/helpers/spatial_hierarchy_helper'
+import {get_all_spatial_hierarchy_level_names} from 'lib/geodata/spatial_hierarchy_helper'
 import {geodata_valid} from 'lib/geodata/geodata.valid'
 
 /**

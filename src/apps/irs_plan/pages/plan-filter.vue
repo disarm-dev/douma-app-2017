@@ -30,7 +30,7 @@
   import unique from 'array-unique'
 
   import cache from 'config/cache'
-  import {get_next_level_up_from_planning_level} from 'lib/helpers/spatial_hierarchy_helper'
+  import {get_next_level_up_from_planning_level} from 'lib/geodata/spatial_hierarchy_helper'
 
   export default {
     name: 'plan-filter',

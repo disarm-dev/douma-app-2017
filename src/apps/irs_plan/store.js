@@ -2,7 +2,7 @@ import array_unique from 'array-unique'
 
 import {create_plan, get_current_plan} from 'lib/remote/remote.plans'
 import {Plan} from 'lib/models/plan.model'
-import {get_next_level_up_from_planning_level} from 'lib/helpers/spatial_hierarchy_helper'
+import {get_next_level_up_from_planning_level} from 'lib/geodata/spatial_hierarchy_helper'
 import cache from 'config/cache'
 
 export default {

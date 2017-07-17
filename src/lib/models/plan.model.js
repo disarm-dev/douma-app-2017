@@ -1,5 +1,5 @@
 import cache from 'config/cache'
-import {get_planning_level_id_field, get_planning_level_name, get_denominator_fields} from 'lib/helpers/spatial_hierarchy_helper'
+import {get_planning_level_id_field, get_planning_level_name, get_denominator_fields} from 'lib/geodata/spatial_hierarchy_helper'
 import {PlanSchema} from './plan.schema'
 
 export class Plan {
