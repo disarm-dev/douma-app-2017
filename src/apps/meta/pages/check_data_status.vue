@@ -47,7 +47,7 @@
   // Geodata
   import {get_geodata} from 'lib/remote/remote.geodata'
   import {geodata_valid} from 'lib/geodata/geodata.valid'
-  import {decorate_geodata} from 'lib/geodata/geodata.decorate'
+  import {decorate_geodata_on_cache} from 'lib/geodata/geodata.decorate'
   import {generate_location_selections} from 'lib/geodata/generate_location_selection'
 
   export default {
@@ -108,7 +108,7 @@
         this.success.geodata_valid = result
       },
       decorate_geodata() {
-        const result = decorate_geodata()
+        const result = decorate_geodata_on_cache(cache.geodata)
         this.success.decorated_geodata = result
       },
       create_location_selection() {

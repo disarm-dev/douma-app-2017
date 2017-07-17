@@ -2,7 +2,11 @@ import cache from 'config/cache'
 import {geodata_valid} from 'lib/geodata/geodata.valid'
 import {get_all_spatial_hierarchy_level_names, get_display_name_for_level, get_field_name_for_level} from 'lib/geodata/spatial_hierarchy_helper'
 
-const decorate_geodata = () => {
+/**
+ * Sets the __disarm_geo_id and __disarm_geo_name directly on the cache
+ * @returns {boolean}
+ */
+const decorate_geodata_on_cache = () => {
   if (!geodata_valid()) {
     throw new Error('Invalid geodata')
   }
@@ -29,4 +33,4 @@ function decorate_level(level_name) {
   cache.geodata[level_name].features = decorated_level_features
 }
 
-export {decorate_geodata}
+export {decorate_geodata_on_cache}
