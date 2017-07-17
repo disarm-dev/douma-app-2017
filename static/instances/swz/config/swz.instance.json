@@ -60,6 +60,7 @@
     },
     "levels": [
       {
+        "group_by_field": "Finl_rg",
         "field_name": "AggUniCode",
         "display_field_name": "Fnl_l_1",
         "name": "localities"
