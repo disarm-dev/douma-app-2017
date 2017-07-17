@@ -24,7 +24,6 @@ const set_raven_user_context = (state) => {
     user: state.meta.user
   }
 
-  console.log('user_context', user_context)
   Raven.setUserContext(user_context)
 }
 
