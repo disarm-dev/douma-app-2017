@@ -1,7 +1,6 @@
 import cache from 'config/cache'
 import {geodata_valid} from 'lib/geodata/geodata.valid'
 import {get_all_spatial_hierarchy_level_names, get_display_name_for_level, get_field_name_for_level} from 'lib/geodata/spatial_hierarchy_helper'
-window.g = cache.geodata
 
 const decorate_geodata = () => {
   if (!geodata_valid()) {
@@ -12,6 +11,7 @@ const decorate_geodata = () => {
 
   level_names.forEach(level_name => decorate_level(level_name))
 
+  return true
 }
 
 function decorate_level(level_name) {

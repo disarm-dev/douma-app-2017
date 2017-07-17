@@ -56,8 +56,16 @@ const get_denominator_fields = () => {
   return instance_config_cache.spatial_hierarchy.markers.denominator_fields
 }
 
+const get_all_spatial_hierarchy_levels = () => {
+  return instance_config_cache.spatial_hierarchy.levels
+}
+
 const get_all_spatial_hierarchy_level_names = () => {
   return instance_config_cache.spatial_hierarchy.levels.map(level => level.name)
+}
+
+const get_level_by_name = (name) => {
+  return instance_config_cache.spatial_hierarchy.levels.find(level => level.name === name)
 }
 
 const get_top_level_hierarchy = () => {
@@ -101,7 +109,10 @@ export {
   get_field_name_for_level,
   get_display_name_for_level,
 
+  get_all_spatial_hierarchy_levels,
   get_all_spatial_hierarchy_level_names,
+  get_level_by_name,
+
   get_next_level_up_from_planning_level,
   get_next_level_down_from_planning_level,
   get_top_level_hierarchy

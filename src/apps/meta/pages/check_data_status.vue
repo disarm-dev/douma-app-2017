@@ -26,6 +26,7 @@
           <md-list-item @click="get_geodata"><span>Get geodata</span><md-icon v-if="success.local_geodata_ready">check</md-icon></md-list-item>
           <md-list-item @click="check_geodata_valid"><span>Check data exists</span><md-icon v-if="success.geodata_valid">check</md-icon></md-list-item>
           <md-list-item @click="decorate_geodata"><span>Decorate geodata</span><md-icon v-if="success.decorated_geodata">check</md-icon></md-list-item>
+          <md-list-item @click="create_location_selection"><span>Create location selection</span><md-icon v-if="success.location_selection_created">check</md-icon></md-list-item>
         </md-list-expand>
       </md-list-item>
     </md-list>
@@ -46,6 +47,7 @@
   import {get_geodata} from 'lib/remote/remote.geodata'
   import {geodata_valid} from 'lib/geodata/geodata.valid'
   import {decorate_geodata} from 'lib/geodata/geodata.decorate'
+  import {generate_location_selection} from 'lib/geodata/generate_location_selection'
 
   export default {
     name: 'check_data_status',
@@ -62,7 +64,8 @@
           // Geodata
           local_geodata_ready: false,
           geodata_valid: false,
-          decorated_geodata: false
+          decorated_geodata: false,
+          location_selection_created: false,
         }
       }
     },
@@ -103,8 +106,12 @@
         this.success.geodata_valid = result
       },
       decorate_geodata() {
-        decorate_geodata()
-        this.success.decorated_geodata = true
+        const result = decorate_geodata()
+        this.success.decorated_geodata = result
+      },
+      create_location_selection() {
+        const result = generate_location_selection()
+        this.success.location_selection_created = result
       }
     }
   }
