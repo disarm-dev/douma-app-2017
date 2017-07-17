@@ -18,13 +18,6 @@
           </span>
       </h2>
 
-      <!-- LOADING SPINNER see also progress bar below -->
-      <div>
-        <md-spinner v-if="loading" class='spinner' :md-size="20" md-indeterminate>
-        </md-spinner>
-        <md-tooltip md-direction="left">DiSARM is syncing one of the modules</md-tooltip>
-      </div>
-
       <!-- OFFLINE , TRY RECONNECT-->
       <md-button v-if="!online" @click="try_reconnect" class="md-icon-button md-dense md-warn">
         <md-icon>signal_wifi_off</md-icon>
@@ -37,8 +30,6 @@
 
     </md-toolbar>
 
-    <!-- LOADING BAR  see also spinner above-->
-    <md-progress v-if='loading' class='md-accent' md-indeterminate></md-progress>
   </div>
 
 </template>
@@ -61,7 +52,6 @@
       }),
       ...mapGetters({
         decorated_applets: 'meta/decorated_applets',
-        loading: 'loading/anyLoading'
       }),
       current_applet_header() {
         let current_applet_name

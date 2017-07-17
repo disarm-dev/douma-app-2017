@@ -1,6 +1,5 @@
-import {need_to_update} from 'lib/remote/remote.update'
-
 console.timeStamp('pre_launch')
+import {need_to_update} from 'lib/remote/remote.update'
 
 need_to_update().then((can_update) => {
   let message
@@ -16,8 +15,7 @@ need_to_update().then((can_update) => {
       message = "🤷‍ DiSARM version check: No information on new version (network request failed)"
 
   }
-  console.log(message)
-
-  const {launch} = require('./launch')
-  launch()
+  import('./launch').then(({launch}) => {
+    launch()
+  })
 })
