@@ -2,7 +2,7 @@
   <div>
     <div id="map"></div>
     <md-checkbox :disabled='!geodata_ready || edit_mode' v-model="risk_visible">Show risk</md-checkbox>
-    <md-checkbox v-if="next_level_down" :disabled='!geodata_ready || clusters_disabled' v-model="clusters_visible">Show {{next_level_down.name}}</md-checkbox>
+    <md-checkbox v-if="next_level_down_fc" :disabled='!geodata_ready || clusters_disabled' v-model="clusters_visible">Show {{next_level_down.name}}</md-checkbox>
     <div v-if="edit_mode">
       <p>Showing areas where risk is above: {{converted_slider_value}}</p>
       <input  id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value">
@@ -30,7 +30,7 @@
   import logslider from 'lib/helpers/log_slider.js'
   import logscale from 'lib/helpers/log_scale.js'
   import {basic_map} from 'lib/helpers/basic_map'
-  import {get_planning_level_id_field, get_planning_level_name, get_next_level_down_from_planning_level, get_planning_level_display_name} from 'lib/geodata/spatial_hierarchy_helper'
+  import {get_planning_level_name, get_next_level_down_from_planning_level} from 'lib/geodata/spatial_hierarchy_helper'
   import {target_areas_inside_focus_filter_area} from '../helpers/target_areas_helper.js'
 
   export default {
@@ -72,14 +72,11 @@
         selected_target_area_ids: 'irs_plan/all_selected_area_ids',
         selected_filter_area: 'irs_plan/selected_filter_area'
       }),
-      planning_level_name() {
-        return get_planning_level_name()
+      planning_level_fc() {
+        return cache.geodata[get_planning_level_name()]
       },
-      planning_level_id_field() {
-        return get_planning_level_id_field()
-      },
-      planning_level_display_name() {
-        return get_planning_level_display_name()
+      next_level_down_fc() {
+        return cache.geodata[get_next_level_down_from_planning_level().name]
       },
       converted_slider_value() {
         if (!this.logslider) return 0
@@ -92,9 +89,6 @@
         }
         return converted_value
       },
-      next_level_down() {
-        return get_next_level_down_from_planning_level()
-      }
     },
     watch: {
       'clusters_visible': 'toggle_cluster_visiblity',
@@ -141,7 +135,7 @@
           const feature = this._map.queryRenderedFeatures(e.point, {layers: ['selected', 'unselected', 'bulk_selected', 'bulk_unselected']})[0]
 
           if (feature) {
-            const feature_id = feature.properties[this.planning_level_id_field]
+            const feature_id = feature.properties.__disarm_geo_id
 
             const feature_id_in_filter_area_array = target_areas_inside_focus_filter_area({area_ids: feature_id, selected_filter_area: this.selected_filter_area})
             if (feature_id_in_filter_area_array.length) {
@@ -178,7 +172,7 @@
 
       // Add and handle target_areas
       add_target_areas() {
-        const geojson = cache.geodata[this.planning_level_name]
+        const geojson = this.planning_level_fc
         this.bbox = bbox(geojson)
 
         if(!this._map.getSource('target_areas_source')) {
@@ -197,7 +191,7 @@
             'fill-opacity': 0.7,
             'fill-outline-color': 'black'
           },
-          filter: ['in', this.planning_level_id_field].concat(this.bulk_selected_ids)
+          filter: ['in', '__disarm_geo_id'].concat(this.bulk_selected_ids)
         }, 'clusters')
 
         this._map.addLayer({
@@ -209,7 +203,7 @@
             'fill-opacity': 0.5,
             'fill-outline-color': 'black'
           },
-          filter: ['!in', this.planning_level_id_field].concat(this.bulk_selected_ids)
+          filter: ['!in', '__disarm_geo_id'].concat(this.bulk_selected_ids)
         }, 'clusters')
 
         this._map.addLayer({
@@ -221,7 +215,7 @@
             'fill-opacity': 0.7,
             'fill-outline-color': 'black'
           },
-          filter: ['in', this.planning_level_id_field].concat(this.areas_included_by_click)
+          filter: ['in', '__disarm_geo_id'].concat(this.areas_included_by_click)
         }, 'clusters')
 
         this._map.addLayer({
@@ -233,7 +227,7 @@
             'fill-opacity': 0.7,
             'fill-outline-color': 'black'
           },
-          filter: ['in', this.planning_level_id_field].concat(this.areas_excluded_by_click)
+          filter: ['in', '__disarm_geo_id'].concat(this.areas_excluded_by_click)
         }, 'clusters')
 
         if (this.selected_filter_area) {
@@ -272,7 +266,7 @@
             data: featureCollection(centroid_features)
           },
           layout: {
-            'text-field': `{${this.planning_level_display_name}}`,
+            'text-field': `{__disarm_geo_name}`,
           }
         })
 
@@ -308,10 +302,10 @@
         }
       },
       refilter_target_areas() {
-        this._map.setFilter('bulk_selected', ['in', this.planning_level_id_field].concat(this.bulk_selected_ids))
-        this._map.setFilter('bulk_unselected', ['!in', this.planning_level_id_field].concat(this.bulk_selected_ids))
-        this._map.setFilter('selected', ['in', this.planning_level_id_field].concat(this.areas_included_by_click))
-        this._map.setFilter('unselected', ['in', this.planning_level_id_field].concat(this.areas_excluded_by_click))
+        this._map.setFilter('bulk_selected', ['in', '__disarm_geo_id'].concat(this.bulk_selected_ids))
+        this._map.setFilter('bulk_unselected', ['!in', '__disarm_geo_id'].concat(this.bulk_selected_ids))
+        this._map.setFilter('selected', ['in', '__disarm_geo_id'].concat(this.areas_included_by_click))
+        this._map.setFilter('unselected', ['in', '__disarm_geo_id'].concat(this.areas_excluded_by_click))
       },
 
       // Clusters
@@ -320,7 +314,7 @@
         if(!this._map.getSource('clusters_source')) {
           this._map.addSource('clusters_source', {
             type: 'geojson',
-            data: cache.geodata[this.next_level_down.name]
+            data: this.next_level_down_fc
           })
         }
 
@@ -381,7 +375,7 @@
       },
       find_polygons_within_drawn_polygon(polygon_drawn) {
 
-        const all_polygons = cache.geodata[this.planning_level_name]
+        const all_polygons = this.planning_level_fc
 
         // calculate centroids for all polygons
         const all_centroids = all_polygons.features.map((feature => {
@@ -406,7 +400,7 @@
         let polygon_drawn = features[0]
 
         const polygons_within_polygon_drawn = this.find_polygons_within_drawn_polygon(polygon_drawn)
-        const selected_areas = polygons_within_polygon_drawn.features.map(f => f.properties[this.planning_level_id_field])
+        const selected_areas = polygons_within_polygon_drawn.features.map(f => f.properties.___disarm_geo_id)
 
         const selected_areas_in_filter_area = target_areas_inside_focus_filter_area({area_ids: selected_areas, selected_filter_area: this.selected_filter_area})
         this.$store.commit('irs_plan/add_selected_target_areas', selected_areas_in_filter_area)
@@ -419,12 +413,12 @@
 
       // Risk slider
       set_risk_slider_value: debounce(function(){
-        let areas = cache.geodata[this.planning_level_name].features.filter((feature) => {
+        let areas = this.planning_level_fc.features.filter((feature) => {
           return feature.properties.risk >= this.converted_slider_value
         })
 
         let area_ids = areas.map((area) => {
-          return area.properties[this.planning_level_id_field]
+          return area.properties.__disarm_geo_id
         })
 
         const selected_areas_in_filter_area = target_areas_inside_focus_filter_area({area_ids, selected_filter_area: this.selected_filter_area})
@@ -435,7 +429,7 @@
         this.$ga.event('irs_plan','change_risk_slider')
       }, 750),
       set_slider_range() {
-        const values_array = cache.geodata[this.planning_level_name].features.map(area => area.properties.risk).sort()
+        const values_array = this.planning_level_fc.features.map(area => area.properties.risk).sort()
         const non_zeros = values_array.filter(v => v !== 0)
 
         const mino = Math.min(...non_zeros)
@@ -454,9 +448,9 @@
       },
       add_areas_coloured_by_risk() {
 
-        this.get_log_values(cache.geodata[this.planning_level_name])
+        this.get_log_values(this.planning_level_fc)
 
-        const features = cache.geodata[this.planning_level_name].features.map((feature) => {
+        const features = this.planning_level_fc.features.map((feature) => {
           if (feature.properties.risk === 0) {
             feature.properties.normalised_risk = 0
           } else {
