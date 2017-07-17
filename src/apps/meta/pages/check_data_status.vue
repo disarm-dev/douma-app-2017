@@ -48,7 +48,7 @@
   import {get_geodata} from 'lib/remote/remote.geodata'
   import {geodata_valid} from 'lib/geodata/geodata.valid'
   import {decorate_geodata} from 'lib/geodata/geodata.decorate'
-  import {generate_location_selection} from 'lib/geodata/generate_location_selection'
+  import {generate_location_selections} from 'lib/geodata/generate_location_selection'
 
   export default {
     name: 'check_data_status',
@@ -112,7 +112,7 @@
         this.success.decorated_geodata = result
       },
       create_location_selection() {
-        const result = generate_location_selection()
+        const result = generate_location_selections()
 
         const content = JSON.stringify(result)
         const date = moment().format('YYYY-MM-DD_HHmm')
