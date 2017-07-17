@@ -22,11 +22,10 @@
         <md-icon>explore</md-icon>
         <span>geodata (lots!)</span>
         <md-list-expand>
-          <md-list-item><span>location_selector</span></md-list-item>
           <md-list-item @click="get_geodata"><span>Get geodata</span><md-icon v-if="success.local_geodata_ready">check</md-icon></md-list-item>
           <md-list-item @click="check_geodata_valid"><span>Check data exists</span><md-icon v-if="success.geodata_valid">check</md-icon></md-list-item>
           <md-list-item @click="decorate_geodata"><span>Decorate geodata</span><md-icon v-if="success.decorated_geodata">check</md-icon></md-list-item>
-          <md-list-item @click="create_location_selection"><span>Create location selection</span><md-icon v-if="success.location_selection_created">check</md-icon></md-list-item>
+          <md-list-item @click="create_location_selection"><span>Create and download location selection</span><md-icon v-if="success.location_selection_created">check</md-icon></md-list-item>
         </md-list-expand>
       </md-list-item>
     </md-list>
@@ -35,6 +34,8 @@
 
 <script>
   import { mapState, mapActions, mapMutations } from 'vuex'
+  import moment from 'moment-mini'
+  import download from 'downloadjs'
 
   // Form
   import {get_form_elements} from 'lib/instance_data/form_helpers'
@@ -103,6 +104,7 @@
       },
       check_geodata_valid() {
         const result = geodata_valid()
+        if (!result) console.log('geodata_missing_fields', geodata_missing_fields())
         this.success.geodata_valid = result
       },
       decorate_geodata() {
@@ -111,7 +113,11 @@
       },
       create_location_selection() {
         const result = generate_location_selection()
-        console.log('generated location_selection', result)
+
+        const content = JSON.stringify(result)
+        const date = moment().format('YYYY-MM-DD_HHmm')
+        download(content, `${this.instance_config.instance.slug}_location_selection_${date}.json`)
+
         this.success.location_selection_created = !!(result)
       }
     }

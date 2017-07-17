@@ -1,7 +1,7 @@
 import cache from 'config/cache'
 import {standard_handler} from './remote.standard-handler.js'
 import {get_all_spatial_hierarchy_level_names} from 'lib/geodata/spatial_hierarchy_helper'
-import {geodata_valid} from 'lib/geodata/geodata.valid'
+import {geodata_valid, geodata_missing_fields} from 'lib/geodata/geodata.valid'
 
 /**
  * Sets `geodata` on the `cache` object, which can be imported anywhere.
@@ -19,7 +19,7 @@ export const get_geodata = (store, force_reload = false) => {
   const levels = get_all_spatial_hierarchy_level_names()
 
   // Check if cache already populated
-  if (force_reload === false && geodata_valid(levels)) {
+  if (force_reload === false && geodata_valid()) {
     store.commit('loading/END', 'get_geodata')
     store.commit('root:set_geodata_ready', true)
     return Promise.resolve()
@@ -67,6 +67,9 @@ export const get_geodata = (store, force_reload = false) => {
       levels.forEach((level, index) => {
         cache.geodata[level] = geodata_json[index]
       })
+
+      if (!geodata_valid()) console.error('Missing geodata fields:', geodata_missing_fields())
+
       store.commit('loading/END', 'get_geodata')
       store.commit('root:set_geodata_ready', true)
     })
