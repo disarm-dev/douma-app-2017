@@ -1,6 +1,6 @@
 import uuid from 'uuid/v4'
 import which_polygon from 'which-polygon'
-import moment from 'moment'
+import moment from 'moment-mini'
 
 import {ResponseSchema} from './response.schema'
 import cache from 'config/cache'

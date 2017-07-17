@@ -19,7 +19,7 @@
 <script>
   import download from 'downloadjs'
   import json2csv from 'json2csv'
-  import moment from 'moment'
+  import moment from 'moment-mini'
   import isNumber from 'is-number'
   import {mapState, mapGetters} from 'vuex'
 

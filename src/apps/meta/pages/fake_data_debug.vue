@@ -18,7 +18,7 @@ import {mapState} from 'vuex'
 import uuid from 'uuid/v4'
 import random_point_in_polygon from 'random-points-on-polygon'
 import {getCoord} from '@turf/invariant'
-import moment from 'moment'
+import moment from 'moment-mini'
 
 import {get_geodata} from 'lib/remote/remote.geodata.js'
 import cache from 'config/cache'

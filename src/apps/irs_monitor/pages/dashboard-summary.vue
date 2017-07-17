@@ -21,7 +21,7 @@
 
 <script>
   import {mapState, mapGetters} from 'vuex'
-  import moment from 'moment'
+  import moment from 'moment-mini'
   import download from 'downloadjs'
   import json2csv from 'json2csv'
 

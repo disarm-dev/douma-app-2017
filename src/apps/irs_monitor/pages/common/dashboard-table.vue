@@ -12,7 +12,7 @@
 <script>
   import download from 'downloadjs'
   import json2csv from 'json2csv'
-  import moment from 'moment'
+  import moment from 'moment-mini'
   import numeral from 'numeral'
 
   export default {

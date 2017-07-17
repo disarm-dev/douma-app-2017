@@ -33,7 +33,7 @@
 <script>
   import mapboxgl from 'mapbox-gl'
   import bbox from '@turf/bbox'
-  import moment from 'moment'
+  import moment from 'moment-mini'
 
   import {get_current_position} from 'lib/helpers/location_helper.js'
 

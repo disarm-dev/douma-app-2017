@@ -1,5 +1,5 @@
 import {Line, mixins} from 'vue-chartjs'
-import moment from 'moment'
+import moment from 'moment-mini'
 
 // import aggregations from '../../../../../static/instances/bwa.aggregations.json'
 

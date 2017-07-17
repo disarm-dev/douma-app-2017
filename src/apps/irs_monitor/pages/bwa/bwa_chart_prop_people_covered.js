@@ -1,5 +1,5 @@
 import {Line} from 'vue-chartjs'
-import moment from 'moment'
+import moment from 'moment-mini'
 
 // import Aggregations from '../../../../../static/instances/bwa.aggregations.json'
 import {get_temporally_binned_aggregations} from 'lib/binning/temporal_bins'

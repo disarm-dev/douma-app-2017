@@ -96,7 +96,7 @@
 </template>
 <script type="text/javascript">
   import download from 'downloadjs'
-  import moment from 'moment'
+  import moment from 'moment-mini'
   import deep_clone from 'deep-clone'
   import {Parser} from 'expr-eval'
   import {get_form_elements} from 'lib/instance_data/form_helpers'

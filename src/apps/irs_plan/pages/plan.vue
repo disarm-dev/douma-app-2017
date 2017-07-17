@@ -85,7 +85,7 @@
 
 <script>
   import {mapState, mapGetters} from 'vuex'
-  import moment from 'moment'
+  import moment from 'moment-mini'
   import whichPolygon from 'which-polygon';
   import {featureCollection} from '@turf/helpers'
   import centroid from '@turf/centroid'

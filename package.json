@@ -51,7 +51,7 @@
     "lodash.uniq": "^4.5.0",
     "lodash.without": "^4.4.0",
     "mapbox-gl": "^0.37.0",
-    "moment": "^2.18.1",
+    "moment-mini": "^2.18.1",
     "numeral": "^2.0.6",
     "object-path": "latest",
     "random-points-on-polygon": "0.0.4",
