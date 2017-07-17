@@ -25,7 +25,7 @@
           <md-list-item><span>location_selector</span></md-list-item>
           <md-list-item @click="get_geodata"><span>Get geodata</span><md-icon v-if="success.local_geodata_ready">check</md-icon></md-list-item>
           <md-list-item @click="check_geodata_valid"><span>Check data exists</span><md-icon v-if="success.geodata_valid">check</md-icon></md-list-item>
-          <md-list-item>Check data is valid</md-list-item>
+          <md-list-item @click="decorate_geodata"><span>Decorate geodata</span><md-icon v-if="success.decorated_geodata">check</md-icon></md-list-item>
         </md-list-expand>
       </md-list-item>
     </md-list>
@@ -45,6 +45,7 @@
   // Geodata
   import {get_geodata} from 'lib/remote/remote.geodata'
   import {geodata_valid} from 'lib/geodata/geodata.valid'
+  import {decorate_geodata} from 'lib/geodata/geodata.decorate'
 
   export default {
     name: 'check_data_status',
@@ -60,7 +61,8 @@
 
           // Geodata
           local_geodata_ready: false,
-          geodata_valid: false
+          geodata_valid: false,
+          decorated_geodata: false
         }
       }
     },
@@ -93,11 +95,16 @@
       },
       // Geodata
       get_geodata() {
+        this.success.local_geodata_ready = false
         get_geodata(this.$store, true).then(() => this.success.local_geodata_ready = true)
       },
       check_geodata_valid() {
         const result = geodata_valid()
         this.success.geodata_valid = result
+      },
+      decorate_geodata() {
+        decorate_geodata()
+        this.success.decorated_geodata = true
       }
     }
   }

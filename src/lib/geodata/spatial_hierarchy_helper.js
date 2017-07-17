@@ -9,8 +9,12 @@ const configure_spatial_helpers = (instance_config) => {
   instance_config_cache = instance_config
 }
 
+/**
+ * Something like 'AggUniCode' or 'OBJECTID'
+ * @returns {*|string}
+ */
 const get_planning_level_id_field = () => {
-  const planning_level_name = instance_config_cache.spatial_hierarchy.markers.planning_level_name // e.g. villages for NAM
+  const planning_level_name = instance_config_cache.spatial_hierarchy.markers.planning_level_name
   const planning_level = instance_config_cache.spatial_hierarchy.levels.find(sp => sp.name === planning_level_name)
 
   if (planning_level && planning_level.hasOwnProperty('field_name')) {
@@ -33,6 +37,18 @@ const get_planning_level_display_name = () => {
   const planning_level_name = instance_config_cache.spatial_hierarchy.markers.planning_level_name // e.g. villages for NAM
   const planning_level = instance_config_cache.spatial_hierarchy.levels.find(sp => sp.name === planning_level_name)
   return planning_level.display_field_name
+}
+
+const get_field_name_for_level = (level_name) => {
+  const level = instance_config_cache.spatial_hierarchy.levels.find(level => level.name === level_name)
+  if (!level) throw new Error(`Cannot find level ${level_name} in instance_config.spatial_hierarchy.levels`)
+  return level.field_name
+}
+
+const get_display_name_for_level = (level_name) => {
+  const level = instance_config_cache.spatial_hierarchy.levels.find(level => level.name === level_name)
+  if (!level) throw new Error(`Cannot find level ${level_name} in instance_config.spatial_hierarchy.levels`)
+  return level.display_field_name
 }
 
 
@@ -82,6 +98,9 @@ export {
   get_denominator_fields,
   get_planning_level_name,
   get_planning_level_display_name,
+  get_field_name_for_level,
+  get_display_name_for_level,
+
   get_all_spatial_hierarchy_level_names,
   get_next_level_up_from_planning_level,
   get_next_level_down_from_planning_level,

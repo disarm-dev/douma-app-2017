@@ -2,7 +2,6 @@ import has from 'lodash.has'
 
 import {get_all_spatial_hierarchy_level_names} from 'lib/geodata/spatial_hierarchy_helper'
 import cache from 'config/cache'
-window.g = cache.geodata
 
 /**
  *
