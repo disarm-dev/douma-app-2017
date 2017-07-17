@@ -25,6 +25,7 @@
   import Fuse from 'fuse.js'
   import array_unique from 'array-unique'
   import Multiselect from 'vue-multiselect'
+  import {get_record_location_selection} from 'lib/geodata/spatial_hierarchy_helper'
 
   export default {
     props: ['initial_location_selection'],
@@ -43,7 +44,6 @@
         this.location_selection = this.initial_location_selection
         this.$emit('change', this.location_selection)
       }
-
     },
     computed: {
       location_options() {
@@ -78,7 +78,7 @@
     },
     methods: {
       prepare_fuse() {
-        this._all_locations = this.$store.state.instance_config.location_selection
+        this._all_locations = get_record_location_selection()
 
         const fuse_options = {
           keys: ['name']
