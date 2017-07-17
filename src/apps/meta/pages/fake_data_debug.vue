@@ -24,6 +24,7 @@ import {get_geodata} from 'lib/remote/remote.geodata.js'
 import cache from 'config/cache'
 import {get_planning_level_id_field, get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
 import {ResponseSchema} from 'lib/models/response.schema'
+import {get_record_location_selection} from 'lib/geodata/spatial_hierarchy_helper'
 
 export default {
   name: 'fake_responses_debug',
@@ -39,8 +40,11 @@ export default {
       slug: state => state.instance_config.instance.slug,
       geodata_ready: state => state.geodata_ready,
       instance_config: state => state.instance_config,
-      location_selection: state => state.instance_config.location_selection
     }),
+    location_selection() {
+      return get_record_location_selection()
+    },
+
     planning_level_name() {
       return get_planning_level_name()
     },
