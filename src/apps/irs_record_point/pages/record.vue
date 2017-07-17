@@ -284,6 +284,7 @@
       },
 
       close_form() {
+        // TODO: @refac Check for closing a record without saving in the router instead (and block page changes)
         if (this.response_id) {
           this.$router.push('/irs/record_point')
         } else {
