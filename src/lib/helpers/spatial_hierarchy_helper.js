@@ -40,7 +40,7 @@ const get_denominator_fields = () => {
   return instance_config_cache.spatial_hierarchy.markers.denominator_fields
 }
 
-const get_all_spatial_hierarchy_levels = () => {
+const get_all_spatial_hierarchy_level_names = () => {
   return instance_config_cache.spatial_hierarchy.levels.map(level => level.name)
 }
 
@@ -82,7 +82,7 @@ export {
   get_denominator_fields,
   get_planning_level_name,
   get_planning_level_display_name,
-  get_all_spatial_hierarchy_levels,
+  get_all_spatial_hierarchy_level_names,
   get_next_level_up_from_planning_level,
   get_next_level_down_from_planning_level,
   get_top_level_hierarchy

@@ -23,7 +23,8 @@
         <span>geodata (lots!)</span>
         <md-list-expand>
           <md-list-item><span>location_selector</span></md-list-item>
-          <md-list-item>Check data exists</md-list-item>
+          <md-list-item @click="get_geodata"><span>Get geodata</span><md-icon v-if="success.local_geodata_ready">check</md-icon></md-list-item>
+          <md-list-item @click="check_geodata_valid"><span>Check data exists</span><md-icon v-if="success.geodata_valid">check</md-icon></md-list-item>
           <md-list-item>Check data is valid</md-list-item>
         </md-list-expand>
       </md-list-item>
@@ -34,11 +35,16 @@
 <script>
   import { mapState, mapActions, mapMutations } from 'vuex'
 
+  // Form
   import {get_form_elements} from 'lib/instance_data/form_helpers'
   import {fields_for_aggregations_exist_in_form} from 'lib/instance_data/aggregations.instance_assertions.js'
   import {fields_for_validations_exist_in_form} from 'lib/instance_data/validations.instance_assertions'
   import {fields_for_presenters_exist_in_form} from 'lib/instance_data/presenters.instance_assertions'
   import {fields_for_fake_form_exist_in_form} from 'lib/instance_data/fake_form.instance_assertions'
+
+  // Geodata
+  import {get_geodata} from 'lib/remote/remote.geodata'
+  import {geodata_valid} from 'lib/geodata/geodata.valid'
 
   export default {
     name: 'check_data_status',
@@ -50,13 +56,17 @@
           validations: false,
           aggregations: false,
           presenters: false,
-          fake_form: false
+          fake_form: false,
+
+          // Geodata
+          local_geodata_ready: false,
+          geodata_valid: false
         }
       }
     },
     computed: {
       ...mapState({
-        instance_config: state => state.instance_config
+        instance_config: state => state.instance_config,
       })
     },
     mounted() {
@@ -81,6 +91,14 @@
         const result = fields_for_fake_form_exist_in_form({fake_form: this.instance_config.fake_form, form: this.instance_config.form})
         this.success.fake_form = result
       },
+      // Geodata
+      get_geodata() {
+        get_geodata(this.$store, true).then(() => this.success.local_geodata_ready = true)
+      },
+      check_geodata_valid() {
+        const result = geodata_valid()
+        this.success.geodata_valid = result
+      }
     }
   }
 </script>

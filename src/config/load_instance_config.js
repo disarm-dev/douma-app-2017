@@ -53,7 +53,7 @@ function determine_instance() {
 function get_instance_config () {
   const instance_slug = determine_instance()
 
-  return get_instance_files(instance_slug) // TODO: @refac Move this instance configuration from `static` to somewhere better
+  return get_instance_files(instance_slug)
     .then(res => {
       if (res.status === 404) {
         const msg = `You might be looking for an application which does not exist. Cannot find application configuration file for subdomain "${instance_slug}". `

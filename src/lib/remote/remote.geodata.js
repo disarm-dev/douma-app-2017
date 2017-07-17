@@ -1,6 +1,7 @@
-import {standard_handler} from './remote.standard-handler.js'
 import cache from 'config/cache'
-import {get_all_spatial_hierarchy_levels} from 'lib/helpers/spatial_hierarchy_helper'
+import {standard_handler} from './remote.standard-handler.js'
+import {get_all_spatial_hierarchy_level_names} from 'lib/helpers/spatial_hierarchy_helper'
+import {geodata_valid} from 'lib/geodata/geodata.valid'
 
 /**
  * Sets `geodata` on the `cache` object, which can be imported anywhere.
@@ -10,15 +11,15 @@ import {get_all_spatial_hierarchy_levels} from 'lib/helpers/spatial_hierarchy_he
  * @param store
  * @returns {*}
  */
-export const get_geodata = (store) => {
+export const get_geodata = (store, force_reload = false) => {
   store.commit('loading/LOAD', 'get_geodata')
 
   // Get slug and level
   const slug = store.state.instance_config.instance.slug
-  const levels = get_all_spatial_hierarchy_levels()
+  const levels = get_all_spatial_hierarchy_level_names()
 
   // Check if cache already populated
-  if (Object.keys(cache.geodata).length !== 0) {
+  if (force_reload === false && geodata_valid(levels)) {
     store.commit('loading/END', 'get_geodata')
     store.commit('root:set_geodata_ready', true)
     return Promise.resolve()
