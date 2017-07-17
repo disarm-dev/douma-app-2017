@@ -74,12 +74,14 @@ export default {
 
           // Start by clearing instance-specific data if instance_id has changed
           context.dispatch('clear_data_storage', {instance_id_changed, authenticated_user: authenticated_user.model}).then(() => {
-            // Add extra info to error logging
-            set_raven_user_context(context.rootState)
 
             // Set some basic stuff
             context.commit('set_personalised_instance_id', login_details.personalised_instance_id)
             context.commit('set_user', authenticated_user.model)
+
+            // Add extra info to error logging
+            set_raven_user_context(context.rootState)
+
             return Promise.resolve(authenticated_user.model)
 
           }).catch(err => console.warn('Something unthought of', err))

@@ -1,5 +1,4 @@
 import {Aggregator} from 'lib/instance_data/aggregations'
-import {get_planning_level_id_field} from 'lib/geodata/spatial_hierarchy_helper'
 
 export default class Presenter {
   constructor(instance_config) {
@@ -12,15 +11,11 @@ export default class Presenter {
     // Get from instance_config
     const required_aggregations = instance_config.applets.irs_monitor.aggregations.table
 
-    // Get id_field from instance_config
-    const planning_level_id_field = get_planning_level_id_field()
-
-
     // Collect responses for each area, and calculate every aggregation for each
     const responses_grouped_by_area = denominators.map((area_denominator) => {
 
       let denominator_row = {}
-      denominator_row[planning_level_id_field] = area_denominator.id // Set header for first column i.e. 'locality' or 'region'
+      denominator_row.__disarm_geo_id = area_denominator.id // Set header for first column i.e. 'locality' or 'region'
 
       // Get the relevant responses for this area
       const area_responses = responses.filter((response) => response.location_selection.id === area_denominator.id)
@@ -40,7 +35,7 @@ export default class Presenter {
 
     // Add total row
     let total_row = {}
-    total_row[planning_level_id_field] = 'Total'
+    total_row.__disarm_geo_id = 'Total'
     required_aggregations.forEach(aggregation_name => {
       total_row[aggregation_name] = this.aggregations.calculate({responses, denominators, aggregation_name})
     })

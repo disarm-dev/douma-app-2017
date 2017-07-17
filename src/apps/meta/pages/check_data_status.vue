@@ -22,10 +22,10 @@
         <md-icon>explore</md-icon>
         <span>geodata (lots!)</span>
         <md-list-expand>
-          <md-list-item><span>location_selector</span></md-list-item>
           <md-list-item @click="get_geodata"><span>Get geodata</span><md-icon v-if="success.local_geodata_ready">check</md-icon></md-list-item>
           <md-list-item @click="check_geodata_valid"><span>Check data exists</span><md-icon v-if="success.geodata_valid">check</md-icon></md-list-item>
           <md-list-item @click="decorate_geodata"><span>Decorate geodata</span><md-icon v-if="success.decorated_geodata">check</md-icon></md-list-item>
+          <md-list-item @click="create_location_selection"><span>Create and download location selection</span><md-icon v-if="success.location_selection_created">check</md-icon></md-list-item>
         </md-list-expand>
       </md-list-item>
     </md-list>
@@ -34,6 +34,8 @@
 
 <script>
   import { mapState, mapActions, mapMutations } from 'vuex'
+  import moment from 'moment-mini'
+  import download from 'downloadjs'
 
   // Form
   import {get_form_elements} from 'lib/instance_data/form_helpers'
@@ -45,7 +47,8 @@
   // Geodata
   import {get_geodata} from 'lib/remote/remote.geodata'
   import {geodata_valid} from 'lib/geodata/geodata.valid'
-  import {decorate_geodata} from 'lib/geodata/geodata.decorate'
+  import {decorate_geodata_on_cache} from 'lib/geodata/geodata.decorate'
+  import {generate_location_selections} from 'lib/geodata/generate_location_selection'
 
   export default {
     name: 'check_data_status',
@@ -62,7 +65,8 @@
           // Geodata
           local_geodata_ready: false,
           geodata_valid: false,
-          decorated_geodata: false
+          decorated_geodata: false,
+          location_selection_created: false,
         }
       }
     },
@@ -100,11 +104,21 @@
       },
       check_geodata_valid() {
         const result = geodata_valid()
+        if (!result) console.log('geodata_missing_fields', geodata_missing_fields())
         this.success.geodata_valid = result
       },
       decorate_geodata() {
-        decorate_geodata()
-        this.success.decorated_geodata = true
+        const result = decorate_geodata_on_cache(cache.geodata)
+        this.success.decorated_geodata = result
+      },
+      create_location_selection() {
+        const result = generate_location_selections()
+
+        const content = JSON.stringify(result)
+        const date = moment().format('YYYY-MM-DD_HHmm')
+        download(content, `${this.instance_config.instance.slug}.location_selection.${date}.json`)
+
+        this.success.location_selection_created = !!(result)
       }
     }
   }

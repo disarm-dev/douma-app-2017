@@ -1,4 +1,5 @@
 import {get_instance_files} from 'lib/instance_data/extend_instance_config'
+import CONFIG from 'config/common'
 
 function get_hash_value(key) {
   const matches = location.hash.match(new RegExp(key+'=([^&]*)'));
@@ -31,15 +32,15 @@ function determine_instance() {
   const instance_hash = get_hash_value('instance')
   const instance_sessionStorage = sessionStorage.getItem("DOUMA_DEBUG_INSTANCE_SLUG")
 
-  if (instance_hash) {
-    console.warn('🐞 Received instance_slug in URL hash - temporarily persisting to sessionStorage')
+  if (instance_hash && is_valid_subdomain(instance_hash )) {
+    console.warn(`🐞 Received instance_slug ${instance_hash} in URL hash - temporarily persisting to sessionStorage`)
     sessionStorage.setItem('DOUMA_DEBUG_INSTANCE_SLUG', instance_hash)
     instance_slug = instance_hash
-  } else if (subdomain) {
+  } else if (subdomain && is_valid_subdomain(subdomain )) {
     sessionStorage.removeItem('DOUMA_DEBUG_INSTANCE_SLUG')
     instance_slug = subdomain
-  } else if (instance_sessionStorage) {
-    console.warn('🐞 Found instance_slug in sessionStorage')
+  } else if (instance_sessionStorage && is_valid_subdomain(instance_sessionStorage )) {
+    console.warn(`🐞 Found instance_slug ${instance_sessionStorage} in sessionStorage`)
     instance_slug = instance_sessionStorage
   } else {
     const msg = `You might be looking for an application which does not exist. Cannot find instance id in subdomain or hash ('#instance=xxx'). `
@@ -62,6 +63,15 @@ function get_instance_config () {
       }
       return res
     })
+}
+
+function is_valid_subdomain(subdomain) {
+  if(CONFIG.instances.list.includes(subdomain)) {
+    return true
+  } else {
+    console.error(`Invalid subdomain: ${subdomain}`)
+    return false
+  }
 }
 
 export {get_instance_config}

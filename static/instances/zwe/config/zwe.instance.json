@@ -44,18 +44,20 @@
   "spatial_hierarchy": {
     "markers": {
       "planning_level_name": "wards",
+      "record_location_selection_level_name": "wards",
       "denominator_fields": {
         "number_of_households": "NumHouseho"
       }
     },
     "levels": [
       {
+        "group_by_field": "DISTRICT",
         "field_name": "ZIMWARDSID",
         "display_field_name": "ZIMWARDSID",
         "name": "wards"
       },
       {
-        "field_name": "ClusterID",
+        "field_name": "ClstrID",
         "display_field_name": "ClstrID",
         "name": "clusters"
       }

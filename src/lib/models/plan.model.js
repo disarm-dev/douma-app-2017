@@ -1,5 +1,5 @@
 import cache from 'config/cache'
-import {get_planning_level_id_field, get_planning_level_name, get_denominator_fields} from 'lib/geodata/spatial_hierarchy_helper'
+import {get_planning_level_name, get_denominator_fields} from 'lib/geodata/spatial_hierarchy_helper'
 import {PlanSchema} from './plan.schema'
 
 export class Plan {
@@ -29,14 +29,12 @@ export class Plan {
   }
 
   _decorate_targets({selected_target_area_ids, instance_config}) {
-    const planning_level_id_field = get_planning_level_id_field()
-    const planning_level_name = get_planning_level_name()
     const denominator_fields = get_denominator_fields()
 
     if(!selected_target_area_ids) throw new Error('Missing selected_target_area_ids')
 
-    const selected_target_areas = cache.geodata[planning_level_name].features.filter(feature => {
-      return selected_target_area_ids.includes(feature.properties[planning_level_id_field])
+    const selected_target_areas = cache.geodata[get_planning_level_name()].features.filter(feature => {
+      return selected_target_area_ids.includes(feature.properties.__disarm_geo_id)
     })
 
     const standard_denominator = Object.keys(denominator_fields)[0] // e.g. number_of_structures
@@ -46,7 +44,7 @@ export class Plan {
       const obj = {}
       obj[standard_denominator] = area.properties[instance_specific_denominator_field]
       obj.assigned_to_team_name = null
-      obj.id = area.properties[planning_level_id_field]
+      obj.id = area.properties.__disarm_geo_id
       return obj
     })
   }

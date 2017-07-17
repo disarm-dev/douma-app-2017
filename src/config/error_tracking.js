@@ -17,12 +17,11 @@ const configure_error_tracking = ()=> {
 
 // Add extra info to error logging
 const set_raven_user_context = (state) => {
-  const user = get(state, 'meta.user', {})
 
   const user_context = {
     instance_slug: state.instance_config.instance.slug,
-    personalised_instance_id: state.personalised_instance_id,
-    user: user
+    personalised_instance_id: state.meta.personalised_instance_id,
+    user: state.meta.user
   }
 
   Raven.setUserContext(user_context)

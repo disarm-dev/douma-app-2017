@@ -5,13 +5,13 @@ module.exports = {
   navigateFallback: 'index.html',
   importScripts: ['offline-analytics.js'],
   staticFileGlobsIgnorePatterns: [
-    /\/static\/(geo|instances)\/?(?:[^\/]+\/?)*$/,
+    /\/static\/instances\/?(?:[^\/]+\/?)*$/,
     /VERSION/,
     /COMMITHASH/
   ],
   runtimeCaching: [
     {
-      urlPattern: /\/static\/(geo|instances)\/?(?:[^\/]+\/?)*$/,
+      urlPattern: /\/static\/instances\/?(?:[^\/]+\/?)*$/,
       handler: 'cacheFirst'
     },
     {

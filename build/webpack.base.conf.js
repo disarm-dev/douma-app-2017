@@ -13,7 +13,7 @@ function resolve (dir) {
 
 module.exports = {
   entry: {
-    app: './src/pre-launch.js'
+    app: ['babel-polyfill', './src/pre-launch.js'],
   },
   output: {
     path: config.build.assetsRoot,

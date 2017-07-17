@@ -22,8 +22,9 @@ import moment from 'moment-mini'
 
 import {get_geodata} from 'lib/remote/remote.geodata.js'
 import cache from 'config/cache'
-import {get_planning_level_id_field, get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
+import {get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
 import {ResponseSchema} from 'lib/models/response.schema'
+import {get_record_location_selection} from 'lib/geodata/spatial_hierarchy_helper'
 
 export default {
   name: 'fake_responses_debug',
@@ -39,22 +40,24 @@ export default {
       slug: state => state.instance_config.instance.slug,
       geodata_ready: state => state.geodata_ready,
       instance_config: state => state.instance_config,
-      location_selection: state => state.instance_config.location_selection
     }),
+    location_selection() {
+      return get_record_location_selection()
+    },
+
     planning_level_name() {
       return get_planning_level_name()
     },
-    planning_level_id_field() {
-      return get_planning_level_id_field()
-    }
   },
   mounted() {
     get_geodata(this.$store)
   },
   methods: {
     get_polygon(id) {
-      const found = cache.geodata[this.planning_level_name].features.find((feature) => feature.properties[this.planning_level_id_field] == id)
-      if (!found) throw new Error(`Cannot find polygon for ${this.planning_level_id_field} ${id}`)
+      // decorated geodata __disarm_geo_id and __disarm_geo_name
+      // get record_location_selection_level_name
+      const found = cache.geodata[this.planning_level_name].features.find((feature) => feature.properties.__disarm_geo_id == id)
+      if (!found) throw new Error(`Cannot find polygon with __disarm_geo_id of ${id}`)
       return found
     },
     random_number_between(min, max) {
@@ -75,8 +78,8 @@ export default {
       return fake_form_data[this.select_form_data_type()]
     },
     create_response(location_selection) {
-      const polygon = this.get_polygon(location_selection.id)
-      const point_in_polygon = getCoord(random_point_in_polygon(1, polygon)[0])
+      const location_selection_polygon = this.get_polygon(location_selection.id)
+      const point_in_location_selection_polygon = getCoord(random_point_in_polygon(1, location_selection_polygon)[0])
 
       let response = {
         "id": uuid(),
@@ -85,8 +88,8 @@ export default {
         "location": {
           "coords": {
             "accuracy": 100,
-            "longitude": point_in_polygon[0],
-            "latitude": point_in_polygon[1],
+            "longitude": point_in_location_selection_polygon[0],
+            "latitude": point_in_location_selection_polygon[1],
           }
         },
         "location_selection": location_selection,

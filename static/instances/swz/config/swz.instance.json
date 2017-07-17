@@ -54,18 +54,20 @@
   "spatial_hierarchy": {
     "markers": {
       "planning_level_name": "localities",
+      "record_location_selection_level_name": "localities",
       "denominator_fields": {
         "number_of_structures": "NmStrct"
       }
     },
     "levels": [
       {
+        "group_by_field": "Finl_rg",
         "field_name": "AggUniCode",
         "display_field_name": "Fnl_l_1",
         "name": "localities"
       },
       {
-        "field_name": "ClusterID",
+        "field_name": "ClstrID",
         "display_field_name": "ClstrID",
         "name": "clusters"
       }

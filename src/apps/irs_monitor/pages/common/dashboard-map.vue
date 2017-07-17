@@ -28,7 +28,7 @@
   import {basic_map} from 'lib/helpers/basic_map.js'
   import cache from 'config/cache'
   import logscale from 'lib/helpers/log_scale.js'
-  import {get_planning_level_id_field, get_planning_level_name, get_planning_level_display_name} from 'lib/geodata/spatial_hierarchy_helper'
+  import {get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
   import {layer_definitions} from 'config/map_layers'
 
   export default {
@@ -65,15 +65,9 @@
       ...mapGetters({
         plan_target_area_ids: 'irs_monitor/plan_target_area_ids'
       }),
-      planning_level_name() {
-        return get_planning_level_name() // Get field name e.g villages
+      planning_level_fc() {
+        return cache.geodata[get_planning_level_name()]
       },
-      planning_level_id_field() {
-        return get_planning_level_id_field() // Get field name e.g AggUniCod
-      },
-      planning_level_display_name() {
-        return get_planning_level_display_name()
-      }
     },
     mounted() {
       this.render_map()
@@ -131,7 +125,7 @@
         let filtered_responses_fc = this._aggregated_responses_fc
         if (this.limit_to_plan) {
           filtered_responses_fc = featureCollection(this._aggregated_responses_fc.features.filter(f => {
-            return this.plan_target_area_ids.includes(f.properties[this.planning_level_id_field])
+            return this.plan_target_area_ids.includes(f.properties.__disarm_geo_id)
           }))
         }
 
@@ -168,7 +162,7 @@
             data: featureCollection(centroid_features)
           },
           layout: {
-            'text-field': `{${this.planning_level_display_name}}`,
+            'text-field': `{__disarm_geo_name}`,
           }
         })
 
@@ -237,7 +231,7 @@
 
       // Data calculations TODO: @refac Remove calculations to lib
       calculate_attributes() {
-        let features = cache.geodata[this.planning_level_name].features
+        let features = this.planning_level_fc.features
 
         features = this.calculate_coverage(features)
         features = this.calculate_risk(features)
@@ -252,7 +246,7 @@
 
         return features.map((feature) => {
           const found = this.aggregated_responses.find(aggregated_response => {
-            return aggregated_response[this.planning_level_id_field] === feature.properties[this.planning_level_id_field]
+            return aggregated_response.__disarm_geo_id === feature.properties.__disarm_geo_id
           })
 
           if (found) {

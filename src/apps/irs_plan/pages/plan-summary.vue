@@ -24,7 +24,7 @@
   import {mapState, mapGetters} from 'vuex'
 
   import cache from 'config/cache.js'
-  import {get_planning_level_id_field, get_denominator_fields, get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
+  import {get_denominator_fields, get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
 
   export default {
     name: 'plan_summary',
@@ -53,12 +53,9 @@
       planning_level_name() {
         return get_planning_level_name()
       },
-      planning_level_id_field() {
-        return get_planning_level_id_field()
-      },
       selected_areas() {
         return cache.geodata[this.planning_level_name].features.filter(feature => {
-          return this.selected_target_area_ids.includes(feature.properties[this.planning_level_id_field])
+          return this.selected_target_area_ids.includes(feature.properties.__disarm_geo_id)
         })
       },
       table() {
