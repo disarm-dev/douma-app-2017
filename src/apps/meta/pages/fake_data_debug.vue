@@ -22,7 +22,7 @@ import moment from 'moment-mini'
 
 import {get_geodata} from 'lib/remote/remote.geodata.js'
 import cache from 'config/cache'
-import {get_planning_level_id_field, get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
+import {get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
 import {ResponseSchema} from 'lib/models/response.schema'
 import {get_record_location_selection} from 'lib/geodata/spatial_hierarchy_helper'
 
@@ -48,9 +48,6 @@ export default {
     planning_level_name() {
       return get_planning_level_name()
     },
-    planning_level_id_field() {
-      return get_planning_level_id_field()
-    }
   },
   mounted() {
     get_geodata(this.$store)
@@ -59,8 +56,8 @@ export default {
     get_polygon(id) {
       // decorated geodata __disarm_geo_id and __disarm_geo_name
       // get record_location_selection_level_name
-      const found = cache.geodata[this.planning_level_name].features.find((feature) => feature.properties[this.planning_level_id_field] == id)
-      if (!found) throw new Error(`Cannot find polygon for ${this.planning_level_id_field} ${id}`)
+      const found = cache.geodata[this.planning_level_name].features.find((feature) => feature.properties.__disarm_geo_id == id)
+      if (!found) throw new Error(`Cannot find polygon with __disarm_geo_id of ${id}`)
       return found
     },
     random_number_between(min, max) {
