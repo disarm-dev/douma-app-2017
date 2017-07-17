@@ -57,7 +57,7 @@
         "name": "wards"
       },
       {
-        "field_name": "ClusterID",
+        "field_name": "ClstrID",
         "display_field_name": "ClstrID",
         "name": "clusters"
       }
