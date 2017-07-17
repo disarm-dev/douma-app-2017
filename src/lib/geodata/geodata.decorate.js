@@ -20,13 +20,13 @@ function decorate_level(level_name) {
 
   const level = cache.geodata[level_name]
 
-  const decorated_level = level.features.map(feature => {
+  const decorated_level_features = level.features.map(feature => {
     feature.properties.__disarm_geo_id = feature.properties[field_name]
     feature.properties.__disarm_geo_name = feature.properties[display_name]
     return feature
   })
 
-  cache.geodata[level_name] = decorated_level
+  cache.geodata[level_name].features = decorated_level_features
 }
 
 export {decorate_geodata}
