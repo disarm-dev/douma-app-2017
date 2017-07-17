@@ -57,6 +57,8 @@ export default {
   },
   methods: {
     get_polygon(id) {
+      // decorated geodata __disarm_geo_id and __disarm_geo_name
+      // get record_location_selection_level_name
       const found = cache.geodata[this.planning_level_name].features.find((feature) => feature.properties[this.planning_level_id_field] == id)
       if (!found) throw new Error(`Cannot find polygon for ${this.planning_level_id_field} ${id}`)
       return found
@@ -79,8 +81,8 @@ export default {
       return fake_form_data[this.select_form_data_type()]
     },
     create_response(location_selection) {
-      const polygon = this.get_polygon(location_selection.id)
-      const point_in_polygon = getCoord(random_point_in_polygon(1, polygon)[0])
+      const location_selection_polygon = this.get_polygon(location_selection.id)
+      const point_in_location_selection_polygon = getCoord(random_point_in_polygon(1, location_selection_polygon)[0])
 
       let response = {
         "id": uuid(),
@@ -89,8 +91,8 @@ export default {
         "location": {
           "coords": {
             "accuracy": 100,
-            "longitude": point_in_polygon[0],
-            "latitude": point_in_polygon[1],
+            "longitude": point_in_location_selection_polygon[0],
+            "latitude": point_in_location_selection_polygon[1],
           }
         },
         "location_selection": location_selection,
