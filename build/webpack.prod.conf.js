@@ -94,7 +94,6 @@ var webpackConfig = merge(baseWebpackConfig, {
       },
       { from: './src/offline-analytics.js' },
       { from: './src/manifest.json' },
-      { from: './static/favicon.ico' },
       { from: './node_modules/sw-offline-google-analytics/build/offline-google-analytics-import.min.js' },
     ]),
     new LicenseWebpackPlugin({
