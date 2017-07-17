@@ -15,9 +15,10 @@
 
 <script>
 import {mapState} from 'vuex'
-import faker from 'faker'
+import uuid from 'uuid/v4'
 import random_point_in_polygon from 'random-points-on-polygon'
 import {getCoord} from '@turf/invariant'
+import moment from 'moment'
 
 import {get_geodata} from 'lib/remote/remote.geodata.js'
 import cache from 'config/cache'
@@ -59,6 +60,12 @@ export default {
     random_number_between(min, max) {
       return parseInt(Math.random() * (max - min) + min)
     },
+    random_recorded_on() {
+      const period_days = 90
+      const max_seconds_ago = period_days * 24 * 60 * 60
+      const seconds_ago = this.random_number_between(1, max_seconds_ago)
+      return moment().subtract(seconds_ago, 'seconds').toDate()
+    },
     select_form_data_type() {
       const desired_coverage = .75
       return (Math.random() > desired_coverage ? 0 : 1)
@@ -72,7 +79,7 @@ export default {
       const point_in_polygon = getCoord(random_point_in_polygon(1, polygon)[0])
 
       let response = {
-        "id": faker.random.uuid(),
+        "id": uuid(),
         "country": this.slug,
         "form_data": this.get_form_data(),
         "location": {
@@ -83,7 +90,7 @@ export default {
           }
         },
         "location_selection": location_selection,
-        "recorded_on": faker.date.recent(90),
+        "recorded_on": this.random_recorded_on(),
         "user": this.user,
         "userAgent": navigator.userAgent,
         "synced": false

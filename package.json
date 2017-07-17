@@ -36,7 +36,6 @@
     "dexie": "^1.5.1",
     "downloadjs": "^1.4.7",
     "expr-eval": "^1.0.1",
-    "faker": "^4.1.0",
     "fuse.js": "^3.0.5",
     "geoposition-to-object": "^1.0.2",
     "is-number": "^3.0.0",
