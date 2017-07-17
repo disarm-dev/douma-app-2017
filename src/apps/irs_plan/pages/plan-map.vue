@@ -2,7 +2,7 @@
   <div>
     <div id="map"></div>
     <md-checkbox :disabled='!geodata_ready || edit_mode' v-model="risk_visible">Show risk</md-checkbox>
-    <md-checkbox v-if="next_level_down_fc" :disabled='!geodata_ready || clusters_disabled' v-model="clusters_visible">Show {{next_level_down.name}}</md-checkbox>
+    <md-checkbox v-if="next_level_down" :disabled='!geodata_ready || clusters_disabled' v-model="clusters_visible">Show {{next_level_down.name}}</md-checkbox>
     <div v-if="edit_mode">
       <p>Showing areas where risk is above: {{converted_slider_value}}</p>
       <input  id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value">
@@ -75,8 +75,11 @@
       planning_level_fc() {
         return cache.geodata[get_planning_level_name()]
       },
+      next_level_down() {
+        return get_next_level_down_from_planning_level()
+      },
       next_level_down_fc() {
-        return cache.geodata[get_next_level_down_from_planning_level().name]
+        return cache.geodata[this.next_level_down.name]
       },
       converted_slider_value() {
         if (!this.logslider) return 0
