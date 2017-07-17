@@ -15,7 +15,6 @@
   import {basic_map} from 'lib/helpers/basic_map.js'
   import cache from 'config/cache'
   import {DECORATED_UNASSIGNED_TEAM} from '../unassigned_team'
-  import {get_planning_level_id_field, get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
   import {planning_level_ids_to_features} from 'lib/geodata/polygons_from_geodata'
 
   export default {
@@ -38,12 +37,6 @@
         instance_config: state => state.instance_config,
         map_focus: state => state.instance_config.map_focus
       }),
-      planning_level_id_field() {
-        return get_planning_level_id_field() // e.g. AggUniCode for SWZ
-      },
-      planning_level_name() {
-        return get_planning_level_name() // e.g. AggUniCode for SWZ
-      }
     },
     watch: {
       'plan_target_ids': 'redraw_assignments',
@@ -81,7 +74,7 @@
           const clicked_feature = this._map.queryRenderedFeatures(e.point)[0]
 
           // Update store
-          const area_id = clicked_feature.properties[this.planning_level_id_field]
+          const area_id = clicked_feature.properties.__disarm_geo_id
           this.$emit('assign_areas_to_selected_team', area_id)
 
           // Update the map
@@ -130,7 +123,7 @@
         // Find polygons within drawn polygon and assign to selected team
         const drawn_polygon = e.features[0]
         const polygons_within_polygon_drawn = this.find_polygons_within_drawn_polygon(drawn_polygon)
-        const area_ids = polygons_within_polygon_drawn.features.map(f => f.properties[this.planning_level_id_field])
+        const area_ids = polygons_within_polygon_drawn.features.map(f => f.properties.__disarm_geo_id)
         this.$emit('assign_areas_to_selected_team', area_ids)
 
         // Clear your lovely polygon
@@ -174,7 +167,7 @@
         // get the assignments array this.assignments
         // map over target_area_polygons to add assignments to each
         const features = planning_level_ids_to_features(this.plan_target_ids, (feature) => {
-          const assignment = this.assignments.find(i => i.area_id === feature.properties[this.planning_level_id_field])
+          const assignment = this.assignments.find(i => i.area_id === feature.properties.__disarm_geo_id)
           if (assignment) {
             feature.properties.team_name = assignment.team_name
           } else {
@@ -230,7 +223,7 @@
             data: this._target_areas_with_assignments_fc
           },
           layout: {
-            'text-field': `{${this.planning_level_id_field}}`,
+            'text-field': `{__disarm_geo_name}`,
           }
         })
       },
