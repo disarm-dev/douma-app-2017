@@ -1,32 +1,25 @@
 <template>
   <div class="applet_container">
 
-    <div class="controls">
+    <controls>
+      <template slot="menu_items">
+        <md-menu-item :disabled="isLoading('irs_tasker/load_plan')" @click="load_plan">
+          <md-icon>assignment_turned_in</md-icon>
+          <span>Load plan</span>
+        </md-menu-item>
+        <md-menu-item :disabled="isLoading('irs_tasker/save_assignments') || !plan_target_ids.length || !assignments.length || !unsynced_changes" @click="save_assignments">
+          <md-icon>save</md-icon>
+          <span>Save assignments</span>
+        </md-menu-item>
+        <md-menu-item :disabled="isLoading('irs_tasker/load_assignments') || !plan_target_ids.length" @click="load_assignments">
+          <md-icon>group</md-icon>
+          <span>Load assignments</span>
+        </md-menu-item>
+      </template>
 
-      <!-- MENU -->
-      <md-menu md-direction="bottom right" md-size="6">
-        <md-button class="md-icon-button md-raised" md-menu-trigger>
-          <md-icon>more_vert</md-icon>
-        </md-button>
+      <div slot="text">Assign teams to areas of the plan.</div>
 
-        <md-menu-content>
-          <md-menu-item :disabled="isLoading('irs_tasker/load_plan')" @click="load_plan">
-            <md-icon>assignment_turned_in</md-icon>
-            <span>Load plan</span>
-          </md-menu-item>
-          <md-menu-item :disabled="isLoading('irs_tasker/save_assignments') || !plan_target_ids.length || !assignments.length || !unsynced_changes" @click="save_assignments">
-            <md-icon>save</md-icon>
-            <span>Save assignments</span>
-          </md-menu-item>
-          <md-menu-item :disabled="isLoading('irs_tasker/load_assignments') || !plan_target_ids.length" @click="load_assignments">
-            <md-icon>group</md-icon>
-            <span>Load assignments</span>
-          </md-menu-item>
-
-        </md-menu-content>
-      </md-menu>
-
-    </div>
+    </controls>
 
 
     <md-card>
@@ -66,19 +59,18 @@
   import {mapState, mapGetters} from 'vuex'
   import chroma from 'chroma-js'
 
-  import {get_current_plan, create_plan} from 'lib/data/remote'
-
+  import controls from 'components/controls.vue'
   import team_list from './team_list'
   import tasker_legend from './legend'
   import tasker_map from './tasker-map.vue'
   import {AssignmentPlan} from 'lib/models/assignment_plan.model'
   import {DECORATED_UNASSIGNED_TEAM} from '../unassigned_team'
-  import {get_geodata} from 'lib/data/remote.get_geodata'
+  import {get_geodata} from 'lib/remote/remote.geodata.js'
 
   const PALETTE = chroma.brewer.Set2
 
   export default {
-    components: {team_list, tasker_map, tasker_legend},
+    components: {controls, team_list, tasker_map, tasker_legend},
     data() {
       return {
         _geodata_areas: null,

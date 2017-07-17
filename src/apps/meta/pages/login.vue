@@ -53,7 +53,7 @@
 <script>
   import {mapState} from 'vuex'
 
-  import {generate_personalised_instance_id} from 'lib/personalised_instance_id_generator'
+  import {generate_personalised_instance_id} from 'lib/helpers/personalised_instance_id_generator'
 
   export default {
     data() {

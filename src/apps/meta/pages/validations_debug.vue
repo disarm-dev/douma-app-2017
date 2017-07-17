@@ -86,7 +86,7 @@
           </md-card-header-text>
         </md-card-header>
         <md-card-content>
-          <md-chip v-for="element in form_elements" :key="element.name">{{element.name}}</md-chip>
+          <md-chip v-for="element in get_form_elements" :key="element.name">{{element.name}}</md-chip>
         </md-card-content>
       </md-card>
 
@@ -96,10 +96,10 @@
 </template>
 <script type="text/javascript">
   import download from 'downloadjs'
-  import moment from 'moment'
+  import moment from 'moment-mini'
   import deep_clone from 'deep-clone'
   import {Parser} from 'expr-eval'
-  import {elements_array} from 'lib/form_helpers'
+  import {get_form_elements} from 'lib/instance_data/form_helpers'
 
   export default {
     data() {
@@ -123,7 +123,7 @@
         return this.$store.state.instance_config
       },
       form_elements() {
-        return elements_array(this.$store.state.instance_config.form)
+        return get_form_elements(this.$store.state.instance_config.form)
       },
       test_fields() {
         if (!this.test_expr) return []
@@ -131,7 +131,7 @@
       },
     },
     created() {
-      this.validations = require("json-loader!lib_instances/validations/" + this.instance_config.instance.slug  + ".validations.json")
+      this.validations = this.instance_config.validations
       this._original_validations = deep_clone(this.validations)
     },
     methods: {

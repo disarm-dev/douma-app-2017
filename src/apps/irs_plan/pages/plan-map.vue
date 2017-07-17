@@ -27,11 +27,11 @@
   import chroma from 'chroma-js'
 
   import cache from 'config/cache.js'
-  import logslider from 'lib/log_slider.js'
-  import logscale from 'lib/log_scale.js'
-  import {basic_map} from 'lib/basic_map'
-  import {get_planning_level_id_field, get_planning_level_name, get_next_level_down_from_planning_level, get_planning_level_display_name} from 'lib/spatial_hierarchy_helper'
-  import {target_areas_inside_focus_filter_area} from 'lib/irs_plan_helper'
+  import logslider from 'lib/helpers/log_slider.js'
+  import logscale from 'lib/helpers/log_scale.js'
+  import {basic_map} from 'lib/helpers/basic_map'
+  import {get_planning_level_id_field, get_planning_level_name, get_next_level_down_from_planning_level, get_planning_level_display_name} from 'lib/geodata/spatial_hierarchy_helper'
+  import {target_areas_inside_focus_filter_area} from '../helpers/target_areas_helper.js'
 
   export default {
     name: 'plan_map',
@@ -165,7 +165,7 @@
       manage_map_mode() {
         // Either show or hide risk when changing map modes
         this.toggle_show_risk()
-        
+
         // Check if you're in editing mode
         if(this.edit_mode) {
           this.add_map_listeners()

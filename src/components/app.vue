@@ -40,7 +40,7 @@
   }
 
   .applet_container {
-    margin: 1em auto;
+    margin: 0.6em auto;
     width: 100%;
   }
 
@@ -50,10 +50,6 @@
     }
   }
 
-  /* TODO: @refac Controls should be in a component.*/
-  .controls {
-    min-height: 70px;
-  }
 
 
 </style>

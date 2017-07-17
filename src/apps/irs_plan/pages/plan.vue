@@ -1,9 +1,9 @@
 <template>
   <div class='applet_container'>
 
-    <div class="controls">
-
+    <controls>
       <md-button
+        slot="primary_action"
         class="md-icon-button md-raised"
         :class="{'md-warn': edit_mode}"
         :disabled="isLoading('irs_plan/load_plan') || !geodata_ready || !can_and_have_focused_planned"
@@ -12,38 +12,28 @@
         <md-icon>edit</md-icon>
       </md-button>
 
+      <template slot="menu_items">
+        <md-menu-item @click="load_plan" :disabled="isLoading('irs_plan/load_plan')">
+          <md-icon>assignment_turned_in</md-icon>
+          <span>Load plan</span>
+        </md-menu-item>
 
-      <!-- MENU -->
-      <md-menu md-direction="bottom right" md-size="6">
-        <md-button class="md-icon-button md-raised" md-menu-trigger>
-          <md-icon>more_vert</md-icon>
-        </md-button>
+        <!--EDIT MODE-->
+        <md-menu-item :disabled="!unsaved_changes" @click="save_plan">
+          <md-icon>save</md-icon>
+          <span>Save plan</span>
+        </md-menu-item>
 
-        <md-menu-content>
-          <md-menu-item @click="load_plan" :disabled="isLoading('irs_plan/load_plan')">
-            <md-icon>assignment_turned_in</md-icon>
-            <span>Load plan</span>
-          </md-menu-item>
+        <md-menu-item :disabled='!can_clear' @click.native="clear_plan">
+          <md-icon>delete</md-icon>
+          <span>Clear plan</span>
+        </md-menu-item>
+      </template>
 
-          <!--EDIT MODE-->
-          <md-menu-item :disabled="!unsaved_changes" @click="save_plan">
-            <md-icon>save</md-icon>
-            <span>Save plan</span>
-          </md-menu-item>
-
-          <md-menu-item :disabled='!can_clear' @click.native="clear_plan">
-            <md-icon>delete</md-icon>
-            <span>Clear plan</span>
-          </md-menu-item>
-
-        </md-menu-content>
-      </md-menu>
-
-      <div>
+      <div slot="text">
         {{title}} plan {{current_plan_date ? `from ${current_plan_date}` : ''}}
       </div>
-    </div>
-
+    </controls>
 
     <div v-if="online">
       <!-- FILTER TO LIMIT PLAN -->
@@ -95,24 +85,26 @@
 
 <script>
   import {mapState, mapGetters} from 'vuex'
-  import moment from 'moment'
+  import moment from 'moment-mini'
   import whichPolygon from 'which-polygon';
   import {featureCollection} from '@turf/helpers'
   import centroid from '@turf/centroid'
   import get from 'lodash.get'
 
+  import controls from 'components/controls.vue'
   import plan_filter from './plan-filter.vue'
   import plan_summary from './plan-summary.vue'
   import plan_map from './plan-map.vue'
   import cache from 'config/cache.js'
   import {Plan} from 'lib/models/plan.model.js'
-  import {get_geodata} from 'lib/data/remote'
-  import {get_planning_level_name, get_planning_level_id_field, get_next_level_up_from_planning_level} from 'lib/spatial_hierarchy_helper'
-  import {target_areas_inside_focus_filter_area} from 'lib/irs_plan_helper'
+  import {get_geodata} from 'lib/remote/remote.geodata'
+
+  import {get_planning_level_name, get_planning_level_id_field, get_next_level_up_from_planning_level} from 'lib/geodata/spatial_hierarchy_helper'
+  import {target_areas_inside_focus_filter_area} from '../helpers/target_areas_helper.js'
 
   export default {
     name: 'Plan',
-    components: {plan_filter, plan_summary, plan_map},
+    components: {controls, plan_filter, plan_summary, plan_map},
     data() {
       return {
         edit_mode: false,

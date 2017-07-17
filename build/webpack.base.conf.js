@@ -13,7 +13,7 @@ function resolve (dir) {
 
 module.exports = {
   entry: {
-    app: './src/index.js'
+    app: './src/pre-launch.js'
   },
   output: {
     path: config.build.assetsRoot,
@@ -66,10 +66,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.ProvidePlugin({
-      $: "jquery",
-      jQuery: "jquery"
-    }),
     new webpack.DefinePlugin({
       "VERSION_COMMIT_HASH_SHORT": JSON.stringify(gitRevisionPlugin.version()),
       'BRANCH': JSON.stringify(gitRevisionPlugin.branch()),

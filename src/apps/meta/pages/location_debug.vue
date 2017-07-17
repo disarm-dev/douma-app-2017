@@ -33,10 +33,10 @@
 </template>
 
 <script>
-  import {get_current_position} from 'lib/location_helper.js'
+  import {get_current_position} from 'lib/helpers/location_helper.js'
   import objectify from 'geoposition-to-object'
 
-  import moment from 'moment'
+  import moment from 'moment-mini'
   import uuid from 'uuid/v4'
 
   export default {

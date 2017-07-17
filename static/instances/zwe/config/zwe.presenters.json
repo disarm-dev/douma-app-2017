@@ -1,0 +1,32 @@
+{
+  "map_style": {
+    "circle-color": {
+      "property": "sprayable",
+      "type": "categorical",
+      "stops": [
+        [
+          "yes",
+          "#22ff31"
+        ],
+        [
+          "no",
+          "#f51506"
+        ]
+      ]
+    }
+  },
+  "popup_description": [
+    {
+      "title": "Date",
+      "field": "recorded_on"
+    },
+    {
+      "title": "Recorded by",
+      "field": "user"
+    },
+    {
+      "title": "Sprayable type",
+      "field": "sprayable"
+    }
+  ]
+}

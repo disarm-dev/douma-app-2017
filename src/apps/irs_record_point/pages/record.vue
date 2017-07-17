@@ -118,7 +118,7 @@
   import location_selection from './location_selection'
   import review from './validation.vue'
   import form_renderer from './form.vue'
-  import {Validator} from 'lib_instances/validations'
+  import {Validator} from 'lib/instance_data/validations'
   import {Response} from 'lib/models/response.model'
 
   export default {
@@ -195,7 +195,7 @@
       }
     },
     created() {
-      this._validator = new Validator(this.instance_config)
+      this._validator = new Validator(this.instance_config.validations)
     },
     mounted() {
     },

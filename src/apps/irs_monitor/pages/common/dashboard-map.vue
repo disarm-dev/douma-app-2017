@@ -25,14 +25,11 @@
   import mapboxgl from 'mapbox-gl'
   import chroma from 'chroma-js'
 
-  import {basic_map} from 'lib/basic_map.js'
+  import {basic_map} from 'lib/helpers/basic_map.js'
   import cache from 'config/cache'
-  import logscale from 'lib/log_scale.js'
-  import {get_planning_level_id_field, get_planning_level_name, get_planning_level_display_name} from 'lib/spatial_hierarchy_helper'
-  import {layer_definitions} from 'lib/map_layers'
-
-  import Presenters from 'lib_instances/presenters'
-  import {Aggregator} from 'lib_instances/aggregations'
+  import logscale from 'lib/helpers/log_scale.js'
+  import {get_planning_level_id_field, get_planning_level_name, get_planning_level_display_name} from 'lib/geodata/spatial_hierarchy_helper'
+  import {layer_definitions} from 'config/map_layers'
 
   export default {
     props: ['aggregated_responses', 'geodata_ready', 'filtered_responses'],

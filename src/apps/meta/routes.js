@@ -8,6 +8,8 @@ import location from './pages/location_debug.vue'
 import building from './pages/building_debug.vue'
 import validations from './pages/validations_debug.vue'
 import fake_data from './pages/fake_data_debug.vue'
+import check_data_status from './pages/check_data_status.vue'
+import validate_data from './pages/validate_data.vue'
 
 export default [
   {
@@ -51,5 +53,13 @@ export default [
     path: '/meta/debug/fake_data',
     component: fake_data,
     name: 'meta:debug:fake_data'
+  }, {
+    path: '/meta/debug/check_data_status',
+    component: check_data_status,
+    name: 'meta:debug:check_data_status'
+  }, {
+    path: '/meta/debug/validate_data',
+    component: validate_data,
+    name: 'meta:debug:validate_data'
   }
 ]

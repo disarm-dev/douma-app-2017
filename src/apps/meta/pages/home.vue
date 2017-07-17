@@ -14,6 +14,7 @@
     </md-card>
 
     <router-link to="/meta/debug">Version: {{commit_hash}}</router-link>
+    <a class='licenses_link' href="/static/3rdpartylicenses.txt"><span>Licenses</span></a>
   </div>
 </template>
 
@@ -63,6 +64,10 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+  }
+
+  .licenses_link {
+    float: right;
   }
 
 </style>

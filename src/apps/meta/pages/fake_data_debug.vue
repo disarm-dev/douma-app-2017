@@ -15,14 +15,14 @@
 
 <script>
 import {mapState} from 'vuex'
-import faker from 'faker'
+import uuid from 'uuid/v4'
 import random_point_in_polygon from 'random-points-on-polygon'
 import {getCoord} from '@turf/invariant'
+import moment from 'moment-mini'
 
-import fake_form_data from 'lib/fake_form_data'
-import {get_geodata} from 'lib/data/remote'
+import {get_geodata} from 'lib/remote/remote.geodata.js'
 import cache from 'config/cache'
-import {get_planning_level_id_field, get_planning_level_name} from 'lib/spatial_hierarchy_helper'
+import {get_planning_level_id_field, get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
 import {ResponseSchema} from 'lib/models/response.schema'
 
 export default {
@@ -39,7 +39,7 @@ export default {
       slug: state => state.instance_config.instance.slug,
       geodata_ready: state => state.geodata_ready,
       instance_config: state => state.instance_config,
-      location_selections: state => state.instance_config.location
+      location_selection: state => state.instance_config.location_selection
     }),
     planning_level_name() {
       return get_planning_level_name()
@@ -60,19 +60,26 @@ export default {
     random_number_between(min, max) {
       return parseInt(Math.random() * (max - min) + min)
     },
+    random_recorded_on() {
+      const period_days = 90
+      const max_seconds_ago = period_days * 24 * 60 * 60
+      const seconds_ago = this.random_number_between(1, max_seconds_ago)
+      return moment().subtract(seconds_ago, 'seconds').toDate()
+    },
     select_form_data_type() {
       const desired_coverage = .75
       return (Math.random() > desired_coverage ? 0 : 1)
     },
     get_form_data() {
-      return fake_form_data[this.slug][this.select_form_data_type()]
+      const fake_form_data = this.instance_config.fake_form
+      return fake_form_data[this.select_form_data_type()]
     },
     create_response(location_selection) {
       const polygon = this.get_polygon(location_selection.id)
       const point_in_polygon = getCoord(random_point_in_polygon(1, polygon)[0])
 
       let response = {
-        "id": faker.random.uuid(),
+        "id": uuid(),
         "country": this.slug,
         "form_data": this.get_form_data(),
         "location": {
@@ -83,7 +90,7 @@ export default {
           }
         },
         "location_selection": location_selection,
-        "recorded_on": faker.date.recent(90),
+        "recorded_on": this.random_recorded_on(),
         "user": this.user,
         "userAgent": navigator.userAgent,
         "synced": false
@@ -93,7 +100,7 @@ export default {
     generate_data() {
       let responses = []
 
-      this.location_selections.slice(0, this.areas_count).forEach(location_selection => {
+      this.location_selection.slice(0, this.areas_count).forEach(location_selection => {
         let count = 0
         const limit = this.random_number_between(1,3)
         while (count <= limit) {
