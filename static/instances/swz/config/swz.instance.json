@@ -54,6 +54,7 @@
   "spatial_hierarchy": {
     "markers": {
       "planning_level_name": "localities",
+      "record_location_selection_level_name": "localities",
       "denominator_fields": {
         "number_of_structures": "NmStrct"
       }

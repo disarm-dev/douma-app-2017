@@ -51,6 +51,7 @@
   "spatial_hierarchy": {
     "markers": {
       "planning_level_name": "villages",
+      "record_location_selection_level_name": "villages",
       "denominator_fields": {
         "number_of_structures": "NmStrct"
       }

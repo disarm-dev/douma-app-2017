@@ -44,6 +44,7 @@
   "spatial_hierarchy": {
     "markers": {
       "planning_level_name": "wards",
+      "record_location_selection_level_name": "wards",
       "denominator_fields": {
         "number_of_households": "NumHouseho"
       }
