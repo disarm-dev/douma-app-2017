@@ -111,7 +111,8 @@
       },
       create_location_selection() {
         const result = generate_location_selection()
-        this.success.location_selection_created = result
+        console.log('generated location_selection', result)
+        this.success.location_selection_created = !!(result)
       }
     }
   }

@@ -57,6 +57,7 @@
     },
     "levels": [
       {
+        "group_by_field": "Name",
         "field_name": "OBJECTID",
         "display_field_name": "VILLAGE",
         "name": "villages"

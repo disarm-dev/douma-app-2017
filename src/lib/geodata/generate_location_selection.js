@@ -35,8 +35,6 @@ function categorise_by_field(location_selection_level) {
     }
   })
 
-  console.log('categorised', categorised)
-
   return categorised
 }
 
