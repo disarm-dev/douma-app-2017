@@ -59,6 +59,8 @@
         </md-card-header>
         <md-list>
           <md-list-item>username: {{username}}</md-list-item>
+          <p>User-editable date</p>
+          <p>User-editable team id field</p>
           <!--TODO: @refac Need access to the whole response out here in Record, not just in Form-->
           <!--<md-list-item>recorded_on: {{recorded_on}}</md-list-item>-->
           <!--<md-input-container>-->
