@@ -37,7 +37,7 @@
   import logslider from 'lib/log_slider.js'
   import logscale from 'lib/log_scale.js'
   import {basic_map} from 'lib/basic_map'
-  import {get_planning_level_id_field, get_planning_level_name, get_next_level_down_from_planning_level, get_planning_level_display_name} from 'lib/spatial_hierarchy_helper'
+  import {get_planning_level_id_field, get_planning_level_name, get_next_level_up_from_planning_level, get_next_level_down_from_planning_level, get_planning_level_display_name} from 'lib/spatial_hierarchy_helper'
   import {target_areas_inside_focus_filter_area} from 'lib/irs_plan_helper'
 
   export default {
@@ -101,6 +101,9 @@
       },
       next_level_down() {
         return get_next_level_down_from_planning_level()
+      },
+      next_level_up() {
+        return get_next_level_up_from_planning_level()
       }
     },
     watch: {
@@ -172,7 +175,7 @@
       manage_map_mode() {
         // Either show or hide risk when changing map modes
         this.toggle_show_risk()
-        
+
         // Check if you're in editing mode
         if(this.edit_mode) {
           this.add_map_listeners()
@@ -506,7 +509,7 @@
       },
       download_plan_geojson() {
         const area_ids_within_focus_area = target_areas_inside_focus_filter_area({
-          area_ids: this.selected_target_area_ids, 
+          area_ids: this.selected_target_area_ids,
           selected_filter_area: this.selected_filter_area
         })
 
@@ -519,7 +522,7 @@
 
         let title
         if (this.selected_filter_area) {
-          const selected_filter_area_name = this.selected_filter_area.properties[this.planning_level_display_name]
+          const selected_filter_area_name = this.selected_filter_area.properties[this.next_level_up.display_field_name]
           title = `${this.instance_config.instance.slug}_${selected_filter_area_name}_irs_plan_${date}.geojson`
         } else {
           title = `${this.instance_config.instance.slug}_irs_plan_${date}.geojson`
