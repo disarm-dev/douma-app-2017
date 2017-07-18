@@ -7,7 +7,7 @@
         <div v-else>
           <p>Currently has geodata for following spatial hierarchies: </p>
           <md-list>
-            <md-list-item v-for="level_name in spatial_hierarchy_levels_with_data" :key="level_name">
+            <md-list-item v-for="level_name in spatial_hierarchy_levels_with_data" :key="level_name" @click="download_spatial_hierarchy(level_name)">
               <md-icon>checkbox</md-icon>
               <span>{{level_name}}</span>
             </md-list-item>
@@ -35,6 +35,7 @@
 </template>
 
 <script>
+  import download from 'downloadjs'
   import cache from 'config/cache'
   import {get_all_spatial_hierarchy_levels} from 'lib/geodata/spatial_hierarchy_helper'
 
@@ -72,6 +73,10 @@
       },
       update_spatial_hierarchy_levels_with_data() {
         this.spatial_hierarchy_levels_with_data = Object.keys(cache.geodata)
+      },
+      download_spatial_hierarchy(spatial_hierarchy_level_name) {
+        const data_to_download = cache.geodata[spatial_hierarchy_level_name]
+        download(JSON.stringify(data_to_download), `${spatial_hierarchy_level_name}.geojson`)
       }
     }
   }
