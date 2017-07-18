@@ -10,6 +10,7 @@ import validations from './pages/validations_debug.vue'
 import fake_data from './pages/fake_data_debug.vue'
 import check_data_status from './pages/check_data_status.vue'
 import validate_data from './pages/validate_data.vue'
+import upload_geodata from './pages/upload_geodata.vue'
 
 export default [
   {
@@ -61,5 +62,9 @@ export default [
     path: '/meta/debug/validate_data',
     component: validate_data,
     name: 'meta:debug:validate_data'
+  }, {
+    path: '/meta/debug/upload_geodata',
+    component: upload_geodata,
+    name: 'meta:debug:upload_geodata'
   }
 ]
