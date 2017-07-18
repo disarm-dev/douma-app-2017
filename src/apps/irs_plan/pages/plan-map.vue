@@ -7,6 +7,9 @@
       <p>Showing areas where risk is above: {{converted_slider_value}}</p>
       <input  id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value">
     </div>
+    <div v-if="selected_target_area_ids.length">
+      <md-button class="md-raised md-primary" @click="download_plan_geojson">Download plan geojson</md-button>
+    </div>
   </div>
 </template>
 
@@ -25,12 +28,16 @@
   import which_polygon from 'which-polygon'
   import debounce from 'lodash.debounce'
   import chroma from 'chroma-js'
+  import download from 'downloadjs'
+  import moment from 'moment'
+
+
 
   import cache from 'config/cache.js'
   import logslider from 'lib/helpers/log_slider.js'
   import logscale from 'lib/helpers/log_scale.js'
   import {basic_map} from 'lib/helpers/basic_map'
-  import {get_planning_level_name, get_next_level_down_from_planning_level} from 'lib/geodata/spatial_hierarchy_helper'
+  import {get_planning_level_name, get_next_level_down_from_planning_level, get_next_level_up_from_planning_level} from 'lib/geodata/spatial_hierarchy_helper'
   import {target_areas_inside_focus_filter_area} from '../helpers/target_areas_helper.js'
 
   export default {
@@ -92,6 +99,12 @@
         }
         return converted_value
       },
+      next_level_down() {
+        return get_next_level_down_from_planning_level()
+      },
+      next_level_up() {
+        return get_next_level_up_from_planning_level()
+      }
     },
     watch: {
       'clusters_visible': 'toggle_cluster_visiblity',
@@ -494,6 +507,29 @@
 
         this.log_scale = logscale({features, property})
       },
+      download_plan_geojson() {
+        const area_ids_within_focus_area = target_areas_inside_focus_filter_area({
+          area_ids: this.selected_target_area_ids,
+          selected_filter_area: this.selected_filter_area
+        })
+
+        const features = cache.geodata[this.planning_level_name].features.filter(feature => {
+          return area_ids_within_focus_area.includes(feature.properties[this.planning_level_id_field])
+        })
+
+        const fc = featureCollection(features)
+        const date = moment().format('YYYY-MM-DD_HHmm')
+
+        let title
+        if (this.selected_filter_area) {
+          const selected_filter_area_name = this.selected_filter_area.properties[this.next_level_up.display_field_name]
+          title = `${this.instance_config.instance.slug}_${selected_filter_area_name}_irs_plan_${date}.geojson`
+        } else {
+          title = `${this.instance_config.instance.slug}_irs_plan_${date}.geojson`
+        }
+
+        download(JSON.stringify(fc), title)
+      }
     }
   }
 </script>
