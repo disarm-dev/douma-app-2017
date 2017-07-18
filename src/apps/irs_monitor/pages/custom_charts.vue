@@ -9,6 +9,10 @@
       :ref="component.name"
       :class="{'card-half-width': component.width_constraint == 'half'}">
 
+      <md-card-header>
+        <div class="md">Chart title</div>
+      </md-card-header>
+
       <md-card-content>
         <component
           :is="component.name"
@@ -18,6 +22,7 @@
           :component_config='component'>
         </component>
 
+        <p>This some chart explainer text. This some chart explainer text. This some chart explainer text. This some chart explainer text. This some chart explainer text. This some chart explainer text. This some chart explainer text. This some chart explainer text. This some chart explainer text. This some chart explainer text. </p>
       </md-card-content>
     </md-card>
   </div>
