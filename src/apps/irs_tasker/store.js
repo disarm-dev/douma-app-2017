@@ -49,13 +49,7 @@ export default {
   },
   actions: {
     'update_teams': (context, teams) => {
-      const sorted_teams = teams.sort((a, b) =>{
-        if(a < b) return -1;
-        if(a > b) return 1;
-        return 0;
-      })
-
-      context.commit('set_teams', sorted_teams)
+      context.commit('set_teams', teams)
       context.commit('set_unsynced_changes',true)
 
     },
