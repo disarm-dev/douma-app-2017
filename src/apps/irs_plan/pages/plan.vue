@@ -35,7 +35,7 @@
       </div>
     </controls>
 
-    <div v-if="online">
+    <div>
       <!-- FILTER TO LIMIT PLAN -->
       <plan_filter
         v-if="must_focus_planning && geodata_ready"
@@ -56,16 +56,11 @@
       </md-card>
 
 
-
       <!--PLAN SUMMARY-->
       <md-card class="card"><md-card-content>
         <plan_summary :geodata_ready="geodata_ready"></plan_summary>
       </md-card-content></md-card>
-    </div>
 
-    <!-- Offline -->
-    <div v-else>
-      <h3>Plan only available with a network connection.</h3>
     </div>
 
     <!-- Progress-->
@@ -114,7 +109,6 @@
     computed: {
       ...mapState({
         instance_config: state => state.instance_config,
-        online: state => state.network_online,
         geodata_loading_progress: state => state.geodata_loading_progress,
         geodata_ready: state => state.geodata_ready,
 
