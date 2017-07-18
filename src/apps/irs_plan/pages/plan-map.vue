@@ -226,7 +226,7 @@
           type: 'fill',
           source: 'target_areas_source',
           paint: {
-            'fill-color': '#a6a6a6',
+            'fill-color': '#fff',
             'fill-opacity': 0.7,
             'fill-outline-color': 'black'
           },
