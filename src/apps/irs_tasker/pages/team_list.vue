@@ -74,8 +74,9 @@
       },
       add_team() {
         // Maximum 8 teams (number of colours in palette)
-        if (this.team_names.length == 8) {
-          return this.$store.commit('root:set_snackbar', {message: 'Maximum 12 teams.'})
+        const max_teams = 8
+        if (this.team_names.length == max_teams) {
+          return this.$store.commit('root:set_snackbar', {message: `Maximum ${max_teams} teams.`})
         }
         // Names must be unique
         if (this.team_names.includes(this.new_name)) {
