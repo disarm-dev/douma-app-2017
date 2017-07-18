@@ -18,7 +18,7 @@ export function configure_service_worker (DOUMA) {
                 // It's the perfect time to display a "New content is available; please refresh."
                 // message in the page's interface.
                 DOUMA.$store.commit("root:set_sw_message", {
-                  title: 'DiSARM updated',
+                  title: `DiSARM updated to ${VERSION_COMMIT_HASH_SHORT}`,
                   message: "Please click 'Refresh' to reload page and start using the newer version. " +
                     "You may lose unsaved work. Click 'Cancel' and save if you prefer "
                 })
