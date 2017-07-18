@@ -49,6 +49,7 @@
     "lodash.get": "^4.4.2",
     "lodash.has": "^4.5.2",
     "lodash.isempty": "^4.4.0",
+    "lodash.padend": "^4.6.1",
     "lodash.uniq": "^4.5.0",
     "lodash.without": "^4.4.0",
     "mapbox-gl": "^0.38.0",
