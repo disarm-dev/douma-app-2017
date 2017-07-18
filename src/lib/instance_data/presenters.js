@@ -3,7 +3,7 @@ import {Aggregator} from 'lib/instance_data/aggregations'
 export default class Presenter {
   constructor(instance_config) {
     this.instance_config = instance_config
-    this.aggregations = new Aggregator(this.instance_config)
+    this.aggregations = new Aggregator(this.instance_config.aggregations)
     this.presenters = this.instance_config.presenters
   }
 
@@ -13,7 +13,7 @@ export default class Presenter {
 
     // Collect responses for each area, and calculate every aggregation for each
     const responses_grouped_by_area = denominators.map((area_denominator) => {
-
+      console.log(area_denominator)
       let denominator_row = {}
       denominator_row.__disarm_geo_id = area_denominator.id // Set header for first column i.e. 'locality' or 'region'
 
