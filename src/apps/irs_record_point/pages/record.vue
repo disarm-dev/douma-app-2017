@@ -1,7 +1,7 @@
 <template>
   <div class='record-container'>
 
-    <div class="chip-holder">
+    <div class="record-controls">
 
       <!--BACK TO LIST-->
       <md-button class="md-icon-button" @click="close_form">
@@ -51,7 +51,7 @@
     </transition>
 
 
-    <!-- METADATA EDITOR-->
+    <!-- METADATA EDITOR (PAGE 1)-->
     <md-card v-show="current_view === 'metadata'">
       <md-card-content>
         <md-card-header>
@@ -75,7 +75,7 @@
       </md-card-actions>
     </md-card>
 
-    <!--LOCATION CARD-->
+    <!--LOCATION CARD (PAGE 2)-->
     <md-card v-show="current_view === 'location'" class='location'>
       <md-card-content>
         <md-card-header>
@@ -314,7 +314,7 @@
     z-index: 2;
   }
 
-  .chip-holder {
+  .record-controls { /* Not related to controls component */
     margin: 10px;
   }
 
