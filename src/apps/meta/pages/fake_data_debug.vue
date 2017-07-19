@@ -25,6 +25,7 @@ import cache from 'config/cache'
 import {get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
 import {ResponseSchema} from 'lib/models/response.schema'
 import {get_record_location_selection} from 'lib/geodata/spatial_hierarchy_helper'
+import {Response} from 'lib/models/response.model'
 
 export default {
   name: 'fake_responses_debug',
@@ -96,7 +97,8 @@ export default {
         recorded_on: this.random_recorded_on(),
         username: this.user,
         userAgent: navigator.userAgent,
-        synced: false
+        synced: false,
+        team_name: 'Team' + this.random_number_between(1, 5)
       }
       return response
     },
@@ -109,7 +111,9 @@ export default {
         while (count <= limit) {
           const response = this.create_response(location_selection)
           if (ResponseSchema(response)) {
-            responses.push(response)
+            const decorated_response = new Response(response).decorate_for_sending()
+            debugger
+            responses.push(decorated_response)
           } else {
             console.log('Fake response failed validation', ResponseSchema.errors(response))
           }

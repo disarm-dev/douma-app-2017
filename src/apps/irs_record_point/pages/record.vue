@@ -251,25 +251,12 @@
         }
       },
       save_response() {
-        let response
-
-        try {
-          // TODO: @refac Move to a proper response model, with tests. And cake.
-          response = new Response().create({
-            ...this.response,
-            id: this.response_id,
-            recorded_on: this.response.recorded_on,
-            country: this.instance_config.instance.slug,
-            user: this.username
-          })
-        } catch (e) {
-          return console.log(e)
-        }
+        const decorated_response = this._response.decorate_for_sending()
 
         if (this.response_id) {
-          this.update_response(response)
+          this.update_response(decorated_response)
         } else {
-          this.create_response(response)
+          this.create_response(decorated_response)
         }
       },
       create_response(response) {

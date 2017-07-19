@@ -52,8 +52,9 @@ export class Response {
     if (!this.is_ready_to_send()) return false
 
     const decorated = omit(this.model, 'synced')
-    console.log('🚨 TODO: Change to "instance_config" on server and everywhere else')
+    console.log('🚨 TODO: Update record model use on server and everywhere else (e.g. aggregations and monitor)')
     decorated.country = decorated.instance_slug
+    decorated.location_selection = decorated.location.selection
 
     return decorated
   }
