@@ -1,26 +1,28 @@
 #!/usr/bin/env bash
+echo " >>>>>>>>>"
+echo " >>>>>>>>>"
+echo "Starting DiSARM build process (PID: $$)"
+echo " >>>>>>>>>"
+echo " >>>>>>>>>"
 
+# Find any running deploy.sh scripts and kill all children processes
 for pid in $(pgrep -f deploy.sh); do
     if [ $pid != $$ ]; then
-        PGID=$(ps opgid= "$pid")
-        echo "Killed process group $PGID"
-        kill -KILL -$PGID
+        PGID=$(ps opgid= "$pid" | xargs)
+        echo "Killing process group >$PGID<"
+        kill -9 -"$PGID"
     fi
 done
 
-for pid in $(pgrep -f npm); do
-    if [ $pid != $$ ]; then
-        echo "Killed npm process $pid"
-        kill -KILL -$pid
-    fi
-done
-
+# Do the actual building and zero-downtime deployment
 git fetch --tags
 npm install
 npm run build
 rm -rf serve/
 mv dist/ serve/
 
+
+# Send a useful message back via a Slack webhook
 message=$(git rev-parse --abbrev-ref HEAD)": "
 message=$message" "$(git describe)
 message=$message"    [commit: "$(git log --oneline -n 1)"]"
