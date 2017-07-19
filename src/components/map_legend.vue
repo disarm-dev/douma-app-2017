@@ -1,14 +1,20 @@
 <template>
   <div>
-    <strong class="title">{{title}}</strong>
-      <div
-        v-for="{text, colour} in entries"
-        class="legend"
-        :class="{'selected': selected_entry === text}"
-        @click="select(text)"
-      >
-        <div class="legend-box" :style="{'background-color': colour}"></div>
-        <div class="legend-name">{{text}}</div>
+      <div>
+        <p><strong class="title">{{title}}</strong></p>
+      </div>
+
+      <div class="legend">
+        <div
+          v-for="{text, colour} in entries"
+          class="legend-entry"
+          :class="{'selected': selected_entry === text}"
+          @click="select(text)"
+        >
+
+          <div class="legend-colour" :style="{'background-color': colour}"></div>
+          <div class="legend-name">{{text}}</div>
+        </div>
       </div>
   </div>
 </template>
@@ -35,21 +41,29 @@ export default {
   }
 
   .legend {
+    display: flex;
+    width: 100%;
+  }
+
+  .legend-entry {
+    flex-grow: 1;
+    flex: 1;
+    flex-direction: column;
+    flex-basis: 33%;
     cursor: pointer;
-    padding:1px 6px;
     display: inline-block;
-    margin-right: 10px;
     border-radius: 2px;
   }
 
-  .legend-box {
-    width: 10px;
-    height: 10px;
-    display: inline-block;
+  .legend-colour {
+    flex: 1;
+    width: 100%;
+    height: 15px;
 
   }
 
   .legend-name {
-    display: inline-block;
+    flex: 1;
+    text-align: center;
   }
 </style>

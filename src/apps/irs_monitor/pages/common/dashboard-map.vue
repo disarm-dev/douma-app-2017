@@ -4,9 +4,8 @@
 
       <div id="map"></div>
       <map_legend
-          class="legend"
           :entries="entries_for_legend"
-          :title="selected_layer"
+          :title="layer_definitions[selected_layer].legend_title"
         ></map_legend>
 
       <div>
@@ -43,7 +42,7 @@
     components: {map_legend},
     data() {
       return {
-
+        layer_definitions,
 
         // User values
         limit_to_plan: true,

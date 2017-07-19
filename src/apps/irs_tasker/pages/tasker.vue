@@ -26,7 +26,6 @@
       <md-card-content>
         <!--LEGEND-->
         <map_legend
-          class="legend"
           :entries="entries_for_legend"
           :selected_entry="selected_team_name"
           @select="select_team"
@@ -158,10 +157,6 @@
 
 <style scoped>
   .buttons {
-    margin-bottom: 1em;
-  }
-
-  .legend {
     margin-bottom: 1em;
   }
 </style>
