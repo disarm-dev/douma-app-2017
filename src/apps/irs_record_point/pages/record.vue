@@ -58,14 +58,12 @@
           <div class="md-title">Metadata</div>
         </md-card-header>
         <md-list>
-          <md-list-item>username: {{username}}</md-list-item>
-          <p>User-editable date</p>
-          <p>User-editable team id field</p>
-          <!--TODO: @refac Need access to the whole response out here in Record, not just in Form-->
-          <!--<md-list-item>recorded_on: {{recorded_on}}</md-list-item>-->
+          <md-list-item>username: {{response.username}}</md-list-item>
+          <md-list-item>Team name: [need to implement]</md-list-item>
+          <md-list-item>User-editable date: {{response.recorded_on}}</md-list-item>
           <!--<md-input-container>-->
             <!--<label>Team</label>-->
-            <!--<md-input v-model="team"></md-input>-->
+            <!--<md-input v-model="response.team_name"></md-input>-->
           <!--</md-input-container>-->
         </md-list>
 

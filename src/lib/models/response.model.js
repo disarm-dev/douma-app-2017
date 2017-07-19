@@ -20,6 +20,7 @@ export class Response {
     },
     form_data: null,
     synced: false,
+    team_name: null
   }
 
   constructor(options) {

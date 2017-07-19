@@ -3,16 +3,21 @@ import schema from 'js-schema'
 import {LocationSchema} from './location.schema'
 
 export const ResponseSchema = schema({
-  // Pass in
-  username: String,
+  // passed-in, non-editable
   instance_slug: String,
 
-  // Set in constructor
+  // generated, non-editable
   userAgent: String,
   id: String,
+
+  // passed-in, editable
+  username: String,
+
+  // generated, editable
   recorded_on: [String, Date],
 
-  // Pieces you can edit
+  // user-generated, editable
+  team_name: [String, null],
   form_data: [Object, null],
   location:  {
     coords: [{
@@ -23,6 +28,6 @@ export const ResponseSchema = schema({
     selection: [{
       id: [Number, String],
       name: String
-    }, null]
-  }
+    }, null],
+  },
 })
