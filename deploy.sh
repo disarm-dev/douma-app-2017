@@ -8,8 +8,14 @@ for pid in $(pgrep -f deploy.sh); do
     fi
 done
 
+for pid in $(pgrep -f npm); do
+    if [ $pid != $$ ]; then
+        echo "Killed npm process $pid"
+        kill -KILL -$pid
+    fi
+done
+
 git fetch --tags
-#rm -rf node_modules/
 npm install
 npm run build
 rm -rf serve/
