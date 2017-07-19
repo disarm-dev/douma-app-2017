@@ -3,16 +3,26 @@ import schema from 'js-schema'
 import {LocationSchema} from './location.schema'
 
 export const ResponseSchema = schema({
-  user: String, // Likely to be a `User.username` not `User.id` or `User.name`
+  // Pass in
+  username: String,
+  instance_slug: String,
+
+  // Set in constructor
   userAgent: String,
-  country: String,
   id: String,
   recorded_on: [String, Date],
-  form_data: Object,
-  location: LocationSchema,
-  location_selection: {
-    name: String,
-    id: [String, Number]
+
+  // Pieces you can edit
+  form_data: [Object, null],
+  location:  {
+    coords: [{
+      latitude: Number,
+      longitude: Number,
+      accuracy: Number
+    }, null],
+    selection: [{
+      id: [Number, String],
+      name: String
+    }, null]
   }
 })
-
