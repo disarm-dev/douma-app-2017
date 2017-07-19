@@ -1,6 +1,11 @@
 <template>
   <div>
     <div id="map"></div>
+    <map_legend
+      :entries="entries_for_legend"
+      :title="layer_definitions.risk.legend_title"
+    ></map_legend>
+
     <md-checkbox :disabled='!geodata_ready || edit_mode' v-model="risk_visible">Show risk</md-checkbox>
     <md-checkbox v-if="next_level_down" :disabled='!geodata_ready || clusters_disabled' v-model="show_lowest_spatial_level">Show {{next_level_down.name}}</md-checkbox>
     <div v-if="edit_mode">
@@ -27,7 +32,7 @@
   import {featureCollection} from '@turf/helpers'
   import which_polygon from 'which-polygon'
   import debounce from 'lodash.debounce'
-  import chroma from 'chroma-js'
+  
   import download from 'downloadjs'
   import moment from 'moment'
 
@@ -37,14 +42,20 @@
   import logslider from 'lib/helpers/log_slider.js'
   import logscale from 'lib/helpers/log_scale.js'
   import {basic_map} from 'lib/helpers/basic_map'
+  import map_legend from 'components/map_legend.vue'
   import {get_planning_level_name, get_next_level_down_from_planning_level, get_next_level_up_from_planning_level} from 'lib/geodata/spatial_hierarchy_helper'
   import {target_areas_inside_focus_filter_area} from '../helpers/target_areas_helper.js'
+  import {prepare_palette} from 'lib/helpers/palette_helper.js'
+  import {layer_definitions} from 'config/map_layers'
+  import plan_layer_definitions from '../helpers/plan_map_layers.js'
 
   export default {
     name: 'plan_map',
     props: ['edit_mode', 'geodata_ready', 'selected_filter_area_id'],
+    components: {map_legend},
     data() {
       return {
+        layer_definitions,
         slider: {
           min: 0,
           max: 100,
@@ -107,6 +118,26 @@
       show_lowest_spatial_level: {
         get() {return this.$store.state.irs_plan.show_lowest_spatial_level},
         set(value) {this.$store.commit('irs_plan/set_show_lowest_spatial_level', value)}
+      },
+      entries_for_legend() {
+        if (this.risk_visible) {
+          const layer_definition = layer_definitions.risk
+          const palette = prepare_palette(layer_definition)
+
+          return palette.map((array) => {
+            return {
+              text: array[0],
+              colour: array[1]
+            }
+          })
+        } else {
+          let entries = []
+          for (var definition in plan_layer_definitions.selected_areas) {
+            entries.push(plan_layer_definitions.selected_areas[definition])
+          }
+          return entries
+        }
+        
       }
     },
     watch: {
@@ -484,12 +515,8 @@
         const areas_with_normalised_risk = featureCollection(features)
 
         // create stops
-        const scale = chroma.scale("RdYlBu").colors(11).reverse()
-        const steps = [...Array(11).keys()].map(i => i * 10)
-        const stops = steps.map((step, index) => {
-          return [step, scale[index]]
-        })
-
+        const stops = prepare_palette(layer_definitions.risk)
+        
         this._map.addLayer({
           id: 'areas_by_risk',
           type: 'fill',

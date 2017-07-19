@@ -28,7 +28,6 @@
   import bbox from '@turf/bbox'
   import centroid from '@turf/centroid'
   import mapboxgl from 'mapbox-gl'
-  import chroma from 'chroma-js'
 
   import {basic_map} from 'lib/helpers/basic_map.js'
   import map_legend from 'components/map_legend.vue'
@@ -36,6 +35,7 @@
   import logscale from 'lib/helpers/log_scale.js'
   import {get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
   import {layer_definitions} from 'config/map_layers'
+  import {prepare_palette} from 'lib/helpers/palette_helper'
 
   export default {
     props: ['aggregated_responses', 'geodata_ready', 'filtered_responses'],
@@ -77,7 +77,7 @@
       },
       entries_for_legend() {
         const layer_definition = layer_definitions[this.selected_layer]
-        const palette = this.prepare_palette(layer_definition)
+        const palette = prepare_palette(layer_definition)
 
         return palette.map((array) => {
           return {
@@ -137,7 +137,7 @@
         const layer_type = layer_definitions[layer_string]
 
         // create stops
-        const palette = this.prepare_palette(layer_type)
+        const palette = prepare_palette(layer_type)
 
         // Filter to plan if required
         let filtered_responses_fc = this._aggregated_responses_fc
@@ -290,16 +290,6 @@
       },
 
       // Utility
-      prepare_palette(layer_definition) {
-        let scale = chroma.scale(layer_definition.palette).colors(11)
-        if (layer_definition.reverse_palette) scale = scale.reverse()
-
-        const steps = [...Array(11).keys()].map(i => i * 10)
-        const stops = steps.map((step, index) => {
-          return [step, scale[index]]
-        })
-        return stops
-      },
       get_log_values(features) {
         const property = 'risk'
         return logscale({features, property})

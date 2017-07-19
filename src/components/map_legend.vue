@@ -12,7 +12,7 @@
           @click="select(text)"
         >
 
-          <div class="legend-colour" :style="{'background-color': colour}"></div>
+          <div class="legend-colour" :style="{'background-color': colour, 'border': colour === '#fff' ? '1px solid #e8e8e8': 'none'}"></div>
           <div class="legend-name">{{text}}</div>
         </div>
       </div>
