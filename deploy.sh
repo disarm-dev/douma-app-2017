@@ -1,18 +1,4 @@
 #!/usr/bin/env bash
-echo " >>>>>>>>>"
-echo " >>>>>>>>>"
-echo "Starting DiSARM build process (PID: $$)"
-echo " >>>>>>>>>"
-echo " >>>>>>>>>"
-
-# Find any running deploy.sh scripts and kill all children processes
-for pid in $(pgrep -f deploy.sh); do
-    if [ $pid != $$ ]; then
-        PGID=$(ps opgid= "$pid" | xargs)
-        echo "Killing process group >$PGID<"
-        kill -TERM -"$PGID"
-    fi
-done
 
 # Do the actual building and zero-downtime deployment
 git fetch --tags
