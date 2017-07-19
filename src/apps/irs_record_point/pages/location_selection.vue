@@ -40,7 +40,7 @@
     },
     created() {
       this.prepare_fuse()
-      if (Object.keys(this.initial_location_selection).length) {
+      if (this.initial_location_selection !== null) {
         this.location_selection = this.initial_location_selection
         this.$emit('change', this.location_selection)
       }

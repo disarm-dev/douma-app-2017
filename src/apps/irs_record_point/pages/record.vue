@@ -80,14 +80,14 @@
           <div class="md-title">Location</div>
         </md-card-header>
 
-        <location_record
-          @change='on_location_change'
-          :initial_location='initial_response.location'
-        ></location_record>
+        <!--<location_record-->
+          <!--@change='on_location_change'-->
+          <!--:initial_location='response.location'-->
+        <!--&gt;</location_record>-->
 
       <location_selection
         @change="on_location_selection_selected"
-        :initial_location_selection="initial_response.location_selection"
+        :initial_location_selection="response.location.selection"
       >
       </location_selection>
 
@@ -129,7 +129,7 @@
     data () {
       return {
         // User data
-        response: null, // This is the only response which exists
+        _response: null, // This is the only response which exists
 
         // Support
         _validator: null,
@@ -158,19 +158,11 @@
         instance_slug : state => state.instance_config.instance.slug,
         instance_config: state => state.instance_config
       }),
+      response() {
+        return this._response.model
+      },
       page_title() {
         return this.response_id ? 'Update' : 'Create'
-      },
-      initial_response() {
-        if (this.response_id) {
-          return this.$store.state.irs_record_point.responses.find(r => r.id === this.response_id)
-        } else {
-          return {
-            location_selection: {},
-            location: {},
-            form_data: {}
-          }
-        }
       },
       response_is_valid() {
         return (this.validation_result.errors.length === 0)
@@ -196,9 +188,9 @@
 
       if (this.response_id) {
         const found = this.$store.state.irs_record_point.responses.find(r => r.id === this.response_id)
-        this.response = new Response(found)
+        this._response = new Response(found)
       } else {
-        this.response = new Response({username: this.username, instance_slug: this.instance_slug})
+        this._response = new Response({username: this.username, instance_slug: this.instance_slug})
       }
     },
     mounted() {

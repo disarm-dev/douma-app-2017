@@ -1,6 +1,15 @@
 import schema from 'js-schema'
 
-import {LocationSchema} from './location.schema'
+export const CoordsSchema = schema({
+  latitude: Number,
+  longitude: Number,
+  accuracy: Number
+})
+
+export const SelectionSchema = schema({
+  id: [Number, String],
+  name: String
+})
 
 export const ResponseSchema = schema({
   // passed-in, non-editable
@@ -20,14 +29,9 @@ export const ResponseSchema = schema({
   team_name: [String, null],
   form_data: [Object, null],
   location:  {
-    coords: [{
-      latitude: Number,
-      longitude: Number,
-      accuracy: Number
-    }, null],
-    selection: [{
-      id: [Number, String],
-      name: String
-    }, null],
-  },
+    coords: [CoordsSchema, null],
+    selection: [SelectionSchema, null]
+  }
 })
+
+
