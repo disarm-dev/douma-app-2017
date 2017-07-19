@@ -454,7 +454,7 @@
         let polygon_drawn = features[0]
 
         const polygons_within_polygon_drawn = this.find_polygons_within_drawn_polygon(polygon_drawn)
-        const selected_areas = polygons_within_polygon_drawn.features.map(f => f.properties.___disarm_geo_id)
+        const selected_areas = polygons_within_polygon_drawn.features.map(f => f.properties.__disarm_geo_id)
 
         const selected_areas_in_filter_area = target_areas_inside_focus_filter_area({area_ids: selected_areas, selected_filter_area: this.selected_filter_area})
         this.$store.commit('irs_plan/add_selected_target_areas', selected_areas_in_filter_area)
