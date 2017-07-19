@@ -250,7 +250,7 @@
           type: 'fill',
           source: 'target_areas_source',
           paint: {
-            'fill-color': plan_layer_definitions.selected_areas.unselected.colour,
+            'fill-color': plan_layer_definitions.selected_areas.bulk_unselected.colour,
             'fill-opacity': 0.5,
             'fill-outline-color': 'black'
           },

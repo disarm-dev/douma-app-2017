@@ -1,17 +1,21 @@
 export default {
   selected_areas: {
-    selected: {
-      text: 'Selected (by click)',
-      colour: '#de27da'
-    },
     bulk_selected: {
       text: 'Selected (by risk)',
       colour: '#df8ad9'
     },
+    bulk_unselected: {
+      text: 'Excluded (by risk)',
+      colour: '#fff'
+    },
+    selected: {
+      text: 'Selected (by click)',
+      colour: '#de27da'
+    },
     unselected: {
       text: 'Not selected',
       colour: '#fff'
-    }
+    },
   },
 
   selected_filter_area: {
