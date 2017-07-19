@@ -33,3 +33,4 @@ echo $message | tr -d \'\" | xargs -I % curl -X "POST" "https://hooks.slack.com/
      -d $'{
   "text": "'%I'"
 }'
+
