@@ -6,10 +6,12 @@ import {create_records} from 'lib/remote/remote.records'
 export default {
   namespaced: true,
   state: {
-    responses: []
+    responses: [],
+    team_name: null
   },
   mutations: {
     clear_data_storage: (state) => {
+      state.team_name = null
       console.warn('Not clearing irs_record_point.responses - use localStorage.clear() if you really want')
     },
     create_response: (state, response) => {
@@ -35,6 +37,9 @@ export default {
     },
     delete_all_responses: (state) => {
       state.responses = []
+    },
+    set_team_name: (state, team_name) => {
+      state.team_name = team_name
     }
   },
   actions: {

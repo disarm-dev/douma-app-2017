@@ -21,6 +21,7 @@ export const ResponseSchema = schema({
 
   // passed-in, editable
   username: String,
+  team_name: [String, null],
 
   // generated, editable
   recorded_on: [String, Date],

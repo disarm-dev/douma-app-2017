@@ -12,7 +12,7 @@ export default {
     user: null,
     previous_route: '',
     locations: [],
-    personalised_instance_id: 'default'
+    personalised_instance_id: 'default',
   },
   mutations: {
     set_previous_route: (state, previous_route) => {

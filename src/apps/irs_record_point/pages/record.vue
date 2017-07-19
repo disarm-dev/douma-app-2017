@@ -58,9 +58,24 @@
           <div class="md-title">Metadata</div>
         </md-card-header>
         <md-list>
-          <md-list-item>username: {{response.username}}</md-list-item>
-          <md-list-item>Team name: [need to implement]</md-list-item>
-          <md-list-item>User-editable date: {{response.recorded_on}}</md-list-item>
+          <md-list-item>
+            <md-input-container>
+              <label>username</label>
+              <md-input disabled v-model="response.username"></md-input>
+            </md-input-container>
+          </md-list-item>
+          <md-list-item>
+            <md-input-container>
+              <label>team name (optional)</label>
+              <md-input v-model="response.team_name" @input="team_name_changed"></md-input>
+            </md-input-container>
+          </md-list-item>
+          <md-list-item>
+            <md-input-container>
+              <label>Date recorded on</label>
+              <md-input disabled type='text' v-model="formatted_recorded_on"></md-input>
+            </md-input-container>
+          </md-list-item>
           <!--<md-input-container>-->
             <!--<label>Team</label>-->
             <!--<md-input v-model="response.team_name"></md-input>-->
@@ -158,8 +173,12 @@
       ...mapState({
         username: state => state.meta.user.username,
         instance_slug : state => state.instance_config.instance.slug,
-        instance_config: state => state.instance_config
+        instance_config: state => state.instance_config,
+        team_name: state => state.irs_record_point.team_name
       }),
+      formatted_recorded_on() {
+        return this.response.recorded_on + ""
+      },
       response() {
         return this._response.model
       },
@@ -192,7 +211,12 @@
         const found = this.$store.state.irs_record_point.responses.find(r => r.id === this.response_id)
         this._response = new Response(found)
       } else {
-        this._response = new Response({username: this.username, instance_slug: this.instance_slug})
+        const empty_response = {
+          username: this.username,
+          instance_slug: this.instance_slug,
+          team_name: this.team_name
+        }
+        this._response = new Response(empty_response)
       }
     },
     mounted() {
@@ -281,6 +305,9 @@
         } else {
           this.$router.push('/irs/record_point')
         }
+      },
+      team_name_changed(team_name) {
+        this.$store.commit('irs_record_point/set_team_name', team_name)
       }
     }
   }
