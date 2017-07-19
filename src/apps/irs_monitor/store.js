@@ -94,7 +94,7 @@ export default {
       if(!getters.filtered_responses.length || !getters.aggregated_denominators.length) return []
 
       const instance_presenters = new Presenters(rootState.instance_config) // TODO: @refac Improve Presenters signature, remove duplication
-      console.log('instance_presenters', instance_presenters)
+
       const data = instance_presenters.get_aggregated_responses({
         responses: getters.filtered_responses,
         denominators: getters.aggregated_denominators,

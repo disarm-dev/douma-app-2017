@@ -112,7 +112,6 @@ export default {
           const response = this.create_response(location_selection)
           if (ResponseSchema(response)) {
             const decorated_response = new Response(response).decorate_for_sending()
-            debugger
             responses.push(decorated_response)
           } else {
             console.log('Fake response failed validation', ResponseSchema.errors(response))
