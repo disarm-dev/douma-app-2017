@@ -62,7 +62,7 @@
         this._survey.onValueChanged.add(this.on_form_change)
         this._survey.onCurrentPageChanged.add(this.on_page_changed)
 
-        if (this.initial_form_data) {
+        if (this.initial_form_data !== null) {
           this._survey.data = this.initial_form_data
         }
       },

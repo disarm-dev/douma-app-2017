@@ -80,10 +80,10 @@
           <div class="md-title">Location</div>
         </md-card-header>
 
-        <location_record
+        <location_coords
           @change='on_location_change'
           :initial_location='response.location.coords'
-        ></location_record>
+        ></location_coords>
 
       <location_selection
         @change="on_location_selection_selected"
@@ -99,16 +99,16 @@
     </md-card>
 
 
-    <!--&lt;!&ndash;FORM&ndash;&gt;-->
-    <!--<form_renderer-->
-      <!--v-show="current_view === 'form'"-->
-      <!--ref="form"-->
-      <!--@complete='on_form_complete'-->
-      <!--@change="on_form_change"-->
-      <!--@previous_view="set_current_view('location')"-->
-      <!--:initial_form_data='initial_response.form_data'-->
-      <!--:response_is_valid="response_is_valid"-->
-    <!--&gt;</form_renderer>-->
+    <!--FORM-->
+    <form_renderer
+      v-show="current_view === 'form'"
+      ref="form"
+      @complete='on_form_complete'
+      @change="on_form_change"
+      @previous_view="set_current_view('location')"
+      :initial_form_data='response.form_data'
+      :response_is_valid="response_is_valid"
+    ></form_renderer>
 
   </div>
 </template>
