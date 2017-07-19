@@ -7,7 +7,7 @@
       Get/Update point location
     </md-button>
     <md-button v-if='show_demo_location_button' class='md-warn' @click.native="add_demo_location">Use demo location</md-button>
-    <p class='message'>{{location_message}}</p>
+    <p class='message'>{{coords_message}}</p>
   </div>
 </template>
 
@@ -20,30 +20,28 @@
     data() {
       return {
         hunting_location: false,
-        location: null,
-        location_message: '',
+        coords: null,
+        coords_message: '',
         show_demo_location_button: !DOUMA_PRODUCTION_MODE
       }
     },
     created() {
-      if (this.initial_location && this.initial_location.hasOwnProperty('coords') && this.initial_location.coords.hasOwnProperty('accuracy')) {
-        this.location = this.initial_location
-        this.location_message = `${this.location.coords.latitude}, ${this.location.coords.longitude} (accuracy: ${this.location.coords.accuracy} m)`
-        this.$emit('change', this.location)
+      if (this.initial_location  && this.initial_location.hasOwnProperty('accuracy')) {
+        this.coords = this.initial_location
+        this.coords_message = `${this.coords.latitude}, ${this.coords.longitude} (accuracy: ${this.coords.accuracy} m)`
+        this.$emit('change', this.coords)
       }
     },
     methods: {
       add_demo_location() {
         const map_focus = this.$store.state.instance_config.map_focus
-        this.location = {
-          coords: {
-            latitude: map_focus.centre.lat + (Math.random()/100),
-            longitude: map_focus.centre.lng + (Math.random()/100),
-            accuracy: 150
-          }
+        this.coords = {
+          latitude: map_focus.centre.lat + (Math.random()/100),
+          longitude: map_focus.centre.lng + (Math.random()/100),
+          accuracy: 150
         }
-        this.location_message = `${this.location.coords.latitude}, ${this.location.coords.longitude} (accuracy: ${this.location.coords.accuracy} m)`
-        this.$emit('change', this.location)
+        this.coords_message = `${this.coords.latitude}, ${this.coords.longitude} (accuracy: ${this.coords.accuracy} m)`
+        this.$emit('change', this.coords)
       },
       check_for_location() {
         if ('geolocation' in navigator) {
@@ -53,14 +51,14 @@
           }
 
           const success = (position) => {
-            this.location = convert(position)
-            this.location_message = `${this.location.coords.latitude}, ${this.location.coords.longitude} (accuracy: ${this.location.coords.accuracy} m)`
+            this.coords = convert(position)
+            this.coords_message = `${this.coords.latitude}, ${this.coords.longitude} (accuracy: ${this.coords.accuracy} m)`
             this.hunting_location = false
-            this.$emit('change', this.location)
+            this.$emit('change', this.coords)
           }
 
           const fail = (error) => {
-            this.location_message = `Cannot get location, if it helps: code ${error.code} ${error.message}`
+            this.coords_message = `Cannot get location, if it helps: code ${error.code} ${error.message}`
             this.hunting_location = false
             this.$emit('change', error)
           }
