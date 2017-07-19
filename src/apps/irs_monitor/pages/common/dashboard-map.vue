@@ -3,6 +3,11 @@
     <md-card-content>
 
       <div id="map"></div>
+      <map_legend
+          :entries="entries_for_legend"
+          :title="layer_definitions[selected_layer].legend_title"
+        ></map_legend>
+
       <div>
         <span>Show areas by:</span>
         <md-radio v-model="selected_layer" :disabled='!geodata_ready' name="map-type" md-value="coverage">Coverage</md-radio>
@@ -23,19 +28,21 @@
   import bbox from '@turf/bbox'
   import centroid from '@turf/centroid'
   import mapboxgl from 'mapbox-gl'
-  import chroma from 'chroma-js'
 
   import {basic_map} from 'lib/helpers/basic_map.js'
+  import map_legend from 'components/map_legend.vue'
   import cache from 'config/cache'
   import logscale from 'lib/helpers/log_scale.js'
   import {get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
   import {layer_definitions} from 'config/map_layers'
+  import {prepare_palette} from 'lib/helpers/palette_helper'
 
   export default {
     props: ['aggregated_responses', 'geodata_ready', 'filtered_responses'],
+    components: {map_legend},
     data() {
       return {
-
+        layer_definitions,
 
         // User values
         limit_to_plan: true,
@@ -68,6 +75,17 @@
       planning_level_fc() {
         return cache.geodata[get_planning_level_name()]
       },
+      entries_for_legend() {
+        const layer_definition = layer_definitions[this.selected_layer]
+        const palette = prepare_palette(layer_definition)
+
+        return palette.map((array) => {
+          return {
+            text: array[0],
+            colour: array[1]
+          }
+        })
+      }
     },
     mounted() {
       this.render_map()
@@ -119,7 +137,7 @@
         const layer_type = layer_definitions[layer_string]
 
         // create stops
-        const palette = this.prepare_palette(layer_type)
+        const palette = prepare_palette(layer_type)
 
         // Filter to plan if required
         let filtered_responses_fc = this._aggregated_responses_fc
@@ -272,16 +290,6 @@
       },
 
       // Utility
-      prepare_palette(layer_type) {
-        let scale = chroma.scale(layer_type.palette).colors(11)
-        if (layer_type.reverse_palette) scale = scale.reverse()
-
-        const steps = [...Array(11).keys()].map(i => i * 10)
-        const stops = steps.map((step, index) => {
-          return [step, scale[index]]
-        })
-        return stops
-      },
       get_log_values(features) {
         const property = 'risk'
         return logscale({features, property})

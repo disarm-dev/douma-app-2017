@@ -71,8 +71,8 @@ export default {
 
       return state.responses.filter(response => {
         // TODO: @debug This first filter is more of a DEBUG filter, making sure we have valid responses
-        return Object.keys(response.location_selection).length !== 0 // TODO: @feature Add actual filtering
-          && state.plan.targets.find(t => t.id === response.location_selection.id)
+        return (response.location.selection !== null) // TODO: @feature Add actual filtering
+          && state.plan.targets.find(t => t.id === response.location.selection.id)
       })
     },
 
@@ -94,7 +94,7 @@ export default {
       if(!getters.filtered_responses.length || !getters.aggregated_denominators.length) return []
 
       const instance_presenters = new Presenters(rootState.instance_config) // TODO: @refac Improve Presenters signature, remove duplication
-      console.log('instance_presenters', instance_presenters)
+
       const data = instance_presenters.get_aggregated_responses({
         responses: getters.filtered_responses,
         denominators: getters.aggregated_denominators,

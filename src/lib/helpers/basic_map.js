@@ -11,6 +11,7 @@ const basic_map = (store) => {
 
   map.on('error', (e) => {
     console.warn('🗺 Basic map error:', e)
+    if (e.error) console.log(e.error)
     store.commit('root:set_snackbar', {message: 'Problem with map data'})
   })
 

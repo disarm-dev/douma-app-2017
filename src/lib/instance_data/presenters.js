@@ -3,7 +3,7 @@ import {Aggregator} from 'lib/instance_data/aggregations'
 export default class Presenter {
   constructor(instance_config) {
     this.instance_config = instance_config
-    this.aggregations = new Aggregator(this.instance_config)
+    this.aggregations = new Aggregator(this.instance_config.aggregations)
     this.presenters = this.instance_config.presenters
   }
 
@@ -18,7 +18,7 @@ export default class Presenter {
       denominator_row.__disarm_geo_id = area_denominator.id // Set header for first column i.e. 'locality' or 'region'
 
       // Get the relevant responses for this area
-      const area_responses = responses.filter((response) => response.location_selection.id === area_denominator.id)
+      const area_responses = responses.filter((response) => response.location.selection.id === area_denominator.id)
 
       if (area_responses.length === 0)  return null
 

@@ -10,7 +10,7 @@ export class Aggregator {
     const aggregation = this.aggregations[aggregation_name]
 
     if (!aggregation) {
-      throw new Error(`Missing aggregation ${aggregation_name} for ${this.slug}`)
+      throw new Error(`Missing aggregation ${aggregation_name}`)
     }
 
     if (aggregation.hasOwnProperty('numerator_expr') && aggregation.hasOwnProperty('denominator_field')) {

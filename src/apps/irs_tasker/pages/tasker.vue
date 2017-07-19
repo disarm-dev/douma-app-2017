@@ -25,12 +25,12 @@
     <md-card>
       <md-card-content>
         <!--LEGEND-->
-        <tasker_legend
-          class="legend"
-          :decorated_teams="decorated_teams"
-          :selected_team_name="selected_team_name"
-          @selected_team="select_team"
-        ></tasker_legend>
+        <map_legend
+          :entries="entries_for_legend"
+          :selected_entry="selected_team_name"
+          @select="select_team"
+          title="Teams"
+        ></map_legend>
 
         <!--MAP-->
         <tasker_map
@@ -61,7 +61,7 @@
 
   import controls from 'components/controls.vue'
   import team_list from './team_list'
-  import tasker_legend from './legend'
+  import map_legend from 'components/map_legend.vue'
   import tasker_map from './tasker-map.vue'
   import {AssignmentPlan} from 'lib/models/assignment_plan.model'
   import {DECORATED_UNASSIGNED_TEAM} from '../unassigned_team'
@@ -70,7 +70,7 @@
   const PALETTE = chroma.brewer.Set2
 
   export default {
-    components: {controls, team_list, tasker_map, tasker_legend},
+    components: {controls, team_list, tasker_map, map_legend},
     data() {
       return {
         _geodata_areas: null,
@@ -91,6 +91,14 @@
       ...mapGetters({
         isLoading: 'loading/isLoading'
       }),
+      entries_for_legend() {
+        return this.decorated_teams.map(({team_name, colour, count}) => {
+          return {
+            colour: colour,
+            text: team_name
+          }
+        })
+      },
       decorated_teams() {
         const team_names = this.$store.state.irs_tasker.teams
         const unassigned_count = this.assignments.filter(a => a.team_name === DECORATED_UNASSIGNED_TEAM.team_name).length
@@ -149,10 +157,6 @@
 
 <style scoped>
   .buttons {
-    margin-bottom: 1em;
-  }
-
-  .legend {
     margin-bottom: 1em;
   }
 </style>

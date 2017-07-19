@@ -5,7 +5,7 @@
     </md-card-header>
 
     <multiselect
-      v-model="location_selection"
+      v-model="selection"
       @select="select_location"
       :options="location_options"
       group-values="locations"
@@ -33,7 +33,7 @@
     components: {Multiselect},
     data() {
       return {
-        location_selection: null,
+        selection: null,
         _fuse: null,
         search_query: '',
         _all_locations: []
@@ -42,8 +42,8 @@
     created() {
       this.prepare_fuse()
       if (this.initial_location_selection !== null) {
-        this.location_selection = this.initial_location_selection
-        this.$emit('change', this.location_selection)
+        this.selection = this.initial_location_selection
+        this.$emit('change', this.selection)
       }
     },
     computed: {
@@ -87,9 +87,9 @@
 
         this._fuse =  new Fuse(this._all_locations, fuse_options)
       },
-      select_location(location_selection) {
-        this.location_selection = location_selection
-        this.$emit('change', this.location_selection)
+      select_location(selection) {
+        this.selection = selection
+        this.$emit('change', this.selection)
       },
       search(query) {
         this.search_query = query
