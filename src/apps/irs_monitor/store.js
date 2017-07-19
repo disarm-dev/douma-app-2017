@@ -114,8 +114,8 @@ export default {
       })
     },
     get_current_plan: (context) => {
-      const country = context.rootState.instance_config.instance.slug
-      return get_current_plan(country)
+      const instance_slug = context.rootState.instance_config.instance.slug
+      return get_current_plan(instance_slug)
         .then(plan_json => {
           try {
             new Plan().validate(plan_json)

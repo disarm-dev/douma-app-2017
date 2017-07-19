@@ -45,6 +45,7 @@ const standard_handler = (url, options = {}) => {
     personalised_instance_id,
     version_commit_hash_short,
     country,
+    instance_slug: country, // TODO: @refac remove 'country' property
     user,
     user_token
   }
