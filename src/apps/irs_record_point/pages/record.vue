@@ -116,6 +116,7 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
   import location_record from 'components/location.vue'
   import location_selection from './location_selection'
   import review from './validation.vue'
@@ -129,15 +130,12 @@
     props: ['response_id'],
     data () {
       return {
+        // User data
+        response: null, // This is the only response which exists
+
+        // Support
         _validator: null,
-
-        response: {
-          location_selection: {},
-          location: {},
-          form_data: {}
-        },
-
-        survey: null,
+        survey: null, // TODO: @refac Should only be in one place, currently created on form_renderer
 
         // Validation result will return object looking like this:
         validation_result: {
@@ -147,8 +145,8 @@
         show_validation_result: false,
         show_location: false,
 
+        // UI
         shake_button: false,
-
         pages: ['metadata', 'location', 'form'],
         current_view: 'metadata'
       }
@@ -157,12 +155,11 @@
       'validation_length': 'shake_validations'
     },
     computed: {
-      username() {
-        return this.$store.state.meta.user.name
-      },
-      instance_config() {
-        return this.$store.state.instance_config
-      },
+      ...mapState({
+        username: state => state.meta.user.username,
+        instance_slug : state => state.instance_config.instance.slug,
+        instance_config: state => state.instance_config
+      }),
       page_title() {
         return this.response_id ? 'Update' : 'Create'
       },
@@ -198,6 +195,13 @@
     },
     created() {
       this._validator = new Validator(this.instance_config.validations)
+
+      if (this.response_id) {
+        const found = this.$store.state.irs_record_point.responses.find(r => r.id === this.response_id)
+        this.response = new Response(found)
+      } else {
+        this.response = new Response({username: this.username, instance_slug: this.instance_slug})
+      }
     },
     mounted() {
     },
