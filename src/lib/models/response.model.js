@@ -1,6 +1,7 @@
 import uuid from 'uuid/v4'
 import which_polygon from 'which-polygon'
 import moment from 'moment-mini'
+import omit from 'lodash.omit'
 
 import {ResponseSchema} from './response.schema'
 import cache from 'config/cache'
@@ -9,43 +10,55 @@ import {get_planning_level_id_field, get_planning_level_name} from 'lib/geodata/
 export class Response {
   model;
 
-  create({recorded_on, id, country, user, location_selection, location, form_data}) {
-
-    if (recorded_on && !id) {
-      throw new Error('Response is not valid. Recorded_on was passed but no id. Ensure both are either passed or not.')
-    }
-
-    if (!recorded_on && id) {
-      throw new Error('Response is not valid. Id was passed but no recorded_on. Ensure both are either passed or not.')
-    }
-
-    this.model = {
-      location_selection,
-      location,
-      form_data,
-      country,
-      user,
-
-      userAgent: navigator.userAgent,
-      recorded_on: recorded_on || new Date(),
-      id: id || uuid(),
-      synced: false,
-    }
-
-    this.validate(this.model)
-    return this.model
+  defaults = {
+    userAgent: navigator.userAgent,
+    id: uuid(),
+    recorded_on: new Date(),
+    location: {
+      coords: null,
+      selection: null
+    },
+    form_data: null,
+    synced: false,
+    team_name: null
   }
 
+  constructor(options) {
+    this.model = Object.assign(this.defaults, options)
+    this.validate()
+  }
 
-  validate(model) {
-    const errors = ResponseSchema.errors(model)
+  validate() {
+    const errors = ResponseSchema.errors(this.model)
 
     if (errors) {
-      console.log(errors)
+      console.log('Validation errors', errors)
       throw new Error('ResponseSchema validation failed')
-
+    } else {
+      return true
     }
   }
+
+  update(options) {
+    this.model = Object.assign(this.model, options)
+    this.validate()
+  }
+
+  is_ready_to_send() {
+    return (this.model.form_data !== null) && (this.model.location.coords !== null) && (this.model.location.selection !== null)
+  }
+
+  decorate_for_sending() {
+    if (!this.is_ready_to_send()) return false
+
+    const decorated = omit(this.model, 'synced')
+    console.log('🚨 TODO: Update record model use on server and everywhere else (e.g. aggregations and monitor)')
+    decorated.country = decorated.instance_slug
+    decorated.location_selection = decorated.location.selection
+
+    return decorated
+  }
+
 }
 
 

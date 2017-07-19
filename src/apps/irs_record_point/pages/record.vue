@@ -1,7 +1,7 @@
 <template>
   <div class='record-container'>
 
-    <div class="chip-holder">
+    <div class="record-controls">
 
       <!--BACK TO LIST-->
       <md-button class="md-icon-button" @click="close_form">
@@ -51,21 +51,19 @@
     </transition>
 
 
-    <!-- METADATA EDITOR-->
+    <!-- METADATA EDITOR (PAGE 1)-->
     <md-card v-show="current_view === 'metadata'">
       <md-card-content>
         <md-card-header>
           <div class="md-title">Metadata</div>
         </md-card-header>
         <md-list>
-          <md-list-item>username: {{username}}</md-list-item>
-          <p>User-editable date</p>
-          <p>User-editable team id field</p>
-          <!--TODO: @refac Need access to the whole response out here in Record, not just in Form-->
-          <!--<md-list-item>recorded_on: {{recorded_on}}</md-list-item>-->
+          <md-list-item>username: {{response.username}}</md-list-item>
+          <md-list-item>Team name: [need to implement]</md-list-item>
+          <md-list-item>User-editable date: {{response.recorded_on}}</md-list-item>
           <!--<md-input-container>-->
             <!--<label>Team</label>-->
-            <!--<md-input v-model="team"></md-input>-->
+            <!--<md-input v-model="response.team_name"></md-input>-->
           <!--</md-input-container>-->
         </md-list>
 
@@ -75,21 +73,21 @@
       </md-card-actions>
     </md-card>
 
-    <!--LOCATION CARD-->
+    <!--LOCATION CARD (PAGE 2)-->
     <md-card v-show="current_view === 'location'" class='location'>
       <md-card-content>
         <md-card-header>
           <div class="md-title">Location</div>
         </md-card-header>
 
-        <location_record
+        <location_coords
           @change='on_location_change'
-          :initial_location='initial_response.location'
-        ></location_record>
+          :initial_location='response.location.coords'
+        ></location_coords>
 
       <location_selection
         @change="on_location_selection_selected"
-        :initial_location_selection="initial_response.location_selection"
+        :initial_location_selection="response.location.selection"
       >
       </location_selection>
 
@@ -108,7 +106,7 @@
       @complete='on_form_complete'
       @change="on_form_change"
       @previous_view="set_current_view('location')"
-      :initial_form_data='initial_response.form_data'
+      :initial_form_data='response.form_data'
       :response_is_valid="response_is_valid"
     ></form_renderer>
 
@@ -116,28 +114,28 @@
 </template>
 
 <script>
-  import location_record from 'components/location.vue'
+  import {mapState} from 'vuex'
+
+  import {Response} from 'lib/models/response.model'
+  import {Validator} from 'lib/instance_data/validations'
+
+  import location_coords from './location_coords.vue'
   import location_selection from './location_selection'
   import review from './validation.vue'
   import form_renderer from './form.vue'
-  import {Validator} from 'lib/instance_data/validations'
-  import {Response} from 'lib/models/response.model'
 
   export default {
     name: 'Record',
-    components: {location_record, form_renderer, review, location_selection},
+    components: {location_coords, location_selection, form_renderer, review},
     props: ['response_id'],
     data () {
       return {
+        // User data
+        _response: null, // This is the only response which exists
+
+        // Support
         _validator: null,
-
-        response: {
-          location_selection: {},
-          location: {},
-          form_data: {}
-        },
-
-        survey: null,
+        survey: null, // TODO: @refac Should only be in one place, currently created on form_renderer
 
         // Validation result will return object looking like this:
         validation_result: {
@@ -147,8 +145,8 @@
         show_validation_result: false,
         show_location: false,
 
+        // UI
         shake_button: false,
-
         pages: ['metadata', 'location', 'form'],
         current_view: 'metadata'
       }
@@ -157,25 +155,16 @@
       'validation_length': 'shake_validations'
     },
     computed: {
-      username() {
-        return this.$store.state.meta.user.name
-      },
-      instance_config() {
-        return this.$store.state.instance_config
+      ...mapState({
+        username: state => state.meta.user.username,
+        instance_slug : state => state.instance_config.instance.slug,
+        instance_config: state => state.instance_config
+      }),
+      response() {
+        return this._response.model
       },
       page_title() {
         return this.response_id ? 'Update' : 'Create'
-      },
-      initial_response() {
-        if (this.response_id) {
-          return this.$store.state.irs_record_point.responses.find(r => r.id === this.response_id)
-        } else {
-          return {
-            location_selection: {},
-            location: {},
-            form_data: {}
-          }
-        }
       },
       response_is_valid() {
         return (this.validation_result.errors.length === 0)
@@ -198,6 +187,13 @@
     },
     created() {
       this._validator = new Validator(this.instance_config.validations)
+
+      if (this.response_id) {
+        const found = this.$store.state.irs_record_point.responses.find(r => r.id === this.response_id)
+        this._response = new Response(found)
+      } else {
+        this._response = new Response({username: this.username, instance_slug: this.instance_slug})
+      }
     },
     mounted() {
     },
@@ -219,12 +215,12 @@
       toggle_show_location() {
         this.show_location = !this.show_location
       },
-      on_location_change(location) {
-        this.response.location = location
+      on_location_change(coords) {
+        this.response.location.coords = coords
         this.validate(this.response)
       },
       on_location_selection_selected(location_selection){
-        this.response.location_selection = location_selection
+        this.response.location.selection = location_selection
         this.validate(this.response)
       },
       on_form_change(survey) {
@@ -255,25 +251,12 @@
         }
       },
       save_response() {
-        let response
-
-        try {
-          // TODO: @refac Move to a proper response model, with tests. And cake.
-          response = new Response().create({
-            ...this.response,
-            id: this.response_id,
-            recorded_on: this.response.recorded_on,
-            country: this.instance_config.instance.slug,
-            user: this.username
-          })
-        } catch (e) {
-          return console.log(e)
-        }
+        const decorated_response = this._response.decorate_for_sending()
 
         if (this.response_id) {
-          this.update_response(response)
+          this.update_response(decorated_response)
         } else {
-          this.create_response(response)
+          this.create_response(decorated_response)
         }
       },
       create_response(response) {
@@ -314,7 +297,7 @@
     z-index: 2;
   }
 
-  .chip-holder {
+  .record-controls { /* Not related to controls component */
     margin: 10px;
   }
 

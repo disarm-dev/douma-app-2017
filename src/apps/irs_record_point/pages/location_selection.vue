@@ -28,6 +28,7 @@
   import {get_record_location_selection} from 'lib/geodata/spatial_hierarchy_helper'
 
   export default {
+    name: 'location_selection',
     props: ['initial_location_selection'],
     components: {Multiselect},
     data() {
@@ -40,7 +41,7 @@
     },
     created() {
       this.prepare_fuse()
-      if (Object.keys(this.initial_location_selection).length) {
+      if (this.initial_location_selection !== null) {
         this.location_selection = this.initial_location_selection
         this.$emit('change', this.location_selection)
       }

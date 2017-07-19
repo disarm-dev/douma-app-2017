@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import location from 'components/location.vue'
+import location from 'location_coords.vue'
 Vue.config.devtools = false
 
 import geolocate from 'mock-geolocation'

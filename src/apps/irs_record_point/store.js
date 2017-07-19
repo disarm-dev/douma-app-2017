@@ -10,7 +10,7 @@ export default {
   },
   mutations: {
     clear_data_storage: (state) => {
-      state.responses = []
+      console.warn('Not clearing irs_record_point.responses - use localStorage.clear() if you really want')
     },
     create_response: (state, response) => {
       state.responses.push(response)

@@ -1,18 +1,37 @@
 import schema from 'js-schema'
 
-import {LocationSchema} from './location.schema'
+export const CoordsSchema = schema({
+  latitude: Number,
+  longitude: Number,
+  accuracy: Number
+})
+
+export const SelectionSchema = schema({
+  id: [Number, String],
+  name: String
+})
 
 export const ResponseSchema = schema({
-  user: String, // Likely to be a `User.username` not `User.id` or `User.name`
+  // passed-in, non-editable
+  instance_slug: String,
+
+  // generated, non-editable
   userAgent: String,
-  country: String,
   id: String,
+
+  // passed-in, editable
+  username: String,
+
+  // generated, editable
   recorded_on: [String, Date],
-  form_data: Object,
-  location: LocationSchema,
-  location_selection: {
-    name: String,
-    id: [String, Number]
+
+  // user-generated, editable
+  team_name: [String, null],
+  form_data: [Object, null],
+  location:  {
+    coords: [CoordsSchema, null],
+    selection: [SelectionSchema, null]
   }
 })
+
 

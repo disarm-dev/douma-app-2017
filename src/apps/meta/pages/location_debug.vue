@@ -1,6 +1,6 @@
 <template>
   <div class='applet_container'>
-    <h3>Debug location for {{country}} instance</h3>
+    <h3>Debug location for {{instance_slug}} instance</h3>
     <md-input-container>
       <label>Waypoint ID</label>
       <md-input v-model="waypoint_id"></md-input>
@@ -62,7 +62,7 @@
       location() {
         return this.locations[this.locations.length-1] || 'No location set'
       },
-      country() {
+      instance_slug() {
         return this.$store.state.instance_config.instance.slug
       },
       location_activity() {
