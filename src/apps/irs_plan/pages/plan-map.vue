@@ -238,7 +238,7 @@
           type: 'fill',
           source: 'target_areas_source',
           paint: {
-            'fill-color': '#df8ad9',
+            'fill-color': plan_layer_definitions.selected_areas.bulk_selected.colour,
             'fill-opacity': 0.7,
             'fill-outline-color': 'black'
           },
@@ -250,7 +250,7 @@
           type: 'fill',
           source: 'target_areas_source',
           paint: {
-            'fill-color': '#fff',
+            'fill-color': plan_layer_definitions.selected_areas.unselected.colour,
             'fill-opacity': 0.5,
             'fill-outline-color': 'black'
           },
@@ -262,7 +262,7 @@
           type: 'fill',
           source: 'target_areas_source',
           paint: {
-            'fill-color': '#de27da',
+            'fill-color': plan_layer_definitions.selected_areas.selected.colour,
             'fill-opacity': 0.7,
             'fill-outline-color': 'black'
           },
@@ -274,7 +274,7 @@
           type: 'fill',
           source: 'target_areas_source',
           paint: {
-            'fill-color': '#fff',
+            'fill-color': plan_layer_definitions.selected_areas.unselected.colour,
             'fill-opacity': 0.7,
             'fill-outline-color': 'black'
           },
@@ -293,7 +293,7 @@
             paint: {
               'line-width': 2,
               'line-opacity': 0.7,
-              'line-color': '#f400d7',
+              'line-color': plan_layer_definitions.selected_filter_area.colour,
             },
           })
 
@@ -370,8 +370,9 @@
         }
 
         if (this.show_lowest_spatial_level) {
-          const colour = '#ff8a21'
+          const colour = plan_layer_definitions.lowest_spatial_level.colour
 
+      
           this._map.addLayer({
             id: 'clusters',
             type: 'fill',
