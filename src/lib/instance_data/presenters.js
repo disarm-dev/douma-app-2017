@@ -3,7 +3,7 @@ import {Aggregator} from 'lib/instance_data/aggregations'
 export default class Presenter {
   constructor(instance_config) {
     this.instance_config = instance_config
-    this.aggregations = new Aggregator(this.instance_config)
+    this.aggregations = new Aggregator(this.instance_config.aggregations)
     this.presenters = this.instance_config.presenters
   }
 
