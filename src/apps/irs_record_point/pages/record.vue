@@ -80,10 +80,10 @@
           <div class="md-title">Location</div>
         </md-card-header>
 
-        <!--<location_record-->
-          <!--@change='on_location_change'-->
-          <!--:initial_location='response.location'-->
-        <!--&gt;</location_record>-->
+        <location_record
+          @change='on_location_change'
+          :initial_location='response.location.coords'
+        ></location_record>
 
       <location_selection
         @change="on_location_selection_selected"
@@ -99,32 +99,34 @@
     </md-card>
 
 
-    <!--FORM-->
-    <form_renderer
-      v-show="current_view === 'form'"
-      ref="form"
-      @complete='on_form_complete'
-      @change="on_form_change"
-      @previous_view="set_current_view('location')"
-      :initial_form_data='initial_response.form_data'
-      :response_is_valid="response_is_valid"
-    ></form_renderer>
+    <!--&lt;!&ndash;FORM&ndash;&gt;-->
+    <!--<form_renderer-->
+      <!--v-show="current_view === 'form'"-->
+      <!--ref="form"-->
+      <!--@complete='on_form_complete'-->
+      <!--@change="on_form_change"-->
+      <!--@previous_view="set_current_view('location')"-->
+      <!--:initial_form_data='initial_response.form_data'-->
+      <!--:response_is_valid="response_is_valid"-->
+    <!--&gt;</form_renderer>-->
 
   </div>
 </template>
 
 <script>
   import {mapState} from 'vuex'
-  import location_record from 'components/location.vue'
+
+  import {Response} from 'lib/models/response.model'
+  import {Validator} from 'lib/instance_data/validations'
+
+  import location_coords from './location_coords.vue'
   import location_selection from './location_selection'
   import review from './validation.vue'
   import form_renderer from './form.vue'
-  import {Validator} from 'lib/instance_data/validations'
-  import {Response} from 'lib/models/response.model'
 
   export default {
     name: 'Record',
-    components: {location_record, form_renderer, review, location_selection},
+    components: {location_coords, location_selection, form_renderer, review},
     props: ['response_id'],
     data () {
       return {
@@ -213,12 +215,12 @@
       toggle_show_location() {
         this.show_location = !this.show_location
       },
-      on_location_change(location) {
-        this.response.location = location
+      on_location_change(coords) {
+        this.response.location.coords = coords
         this.validate(this.response)
       },
       on_location_selection_selected(location_selection){
-        this.response.location_selection = location_selection
+        this.response.location.selection = location_selection
         this.validate(this.response)
       },
       on_form_change(survey) {

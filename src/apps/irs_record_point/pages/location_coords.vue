@@ -15,7 +15,7 @@
   import convert from 'geoposition-to-object'
 
   export default {
-    name: 'location',
+    name: 'location_coords',
     props: ['initial_location'],
     data() {
       return {

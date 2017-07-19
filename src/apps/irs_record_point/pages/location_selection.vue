@@ -28,6 +28,7 @@
   import {get_record_location_selection} from 'lib/geodata/spatial_hierarchy_helper'
 
   export default {
+    name: 'location_selection',
     props: ['initial_location_selection'],
     components: {Multiselect},
     data() {
