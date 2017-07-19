@@ -17,6 +17,7 @@ export default {
     selected_filter_area_option: null,
 
     unsaved_changes: false,
+    show_lowest_spatial_level: true // i.e. clusters but not clusters
   },
   getters: {
     'all_selected_area_ids': (state) => {
@@ -47,6 +48,9 @@ export default {
     }
   },
   mutations: {
+    set_show_lowest_spatial_level: (state, show_lowest_spatial_level) => {
+      state.show_lowest_spatial_level = show_lowest_spatial_level
+    },
     clear_data_storage:(state) => {
         state.current_plan = null
         state.areas_included_by_click = []

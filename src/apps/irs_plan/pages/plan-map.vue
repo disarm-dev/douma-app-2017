@@ -2,7 +2,7 @@
   <div>
     <div id="map"></div>
     <md-checkbox :disabled='!geodata_ready || edit_mode' v-model="risk_visible">Show risk</md-checkbox>
-    <md-checkbox v-if="next_level_down" :disabled='!geodata_ready || clusters_disabled' v-model="clusters_visible">Show {{next_level_down.name}}</md-checkbox>
+    <md-checkbox v-if="next_level_down" :disabled='!geodata_ready || clusters_disabled' v-model="show_lowest_spatial_level">Show {{next_level_down.name}}</md-checkbox>
     <div v-if="edit_mode">
       <p>Showing areas where risk is above: {{converted_slider_value}}</p>
       <input  id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value">
@@ -55,7 +55,6 @@
         risk_visible: false,
 
         clusters_disabled: true, // Before map_loaded
-        clusters_visible: false,
         user_map_focus: false,
         draw: null,
         _map: null,
@@ -104,10 +103,14 @@
       },
       next_level_up() {
         return get_next_level_up_from_planning_level()
+      },
+      show_lowest_spatial_level: {
+        get() {return this.$store.state.irs_plan.show_lowest_spatial_level},
+        set(value) {this.$store.commit('irs_plan/set_show_lowest_spatial_level', value)}
       }
     },
     watch: {
-      'clusters_visible': 'toggle_cluster_visiblity',
+      'show_lowest_spatial_level': 'toggle_cluster_visiblity',
       'edit_mode': 'manage_map_mode',
       'geodata_ready': 'render_map',
       'risk_slider_value': 'set_risk_slider_value',
@@ -132,6 +135,7 @@
             this.fit_bounds()
             this.$emit('map_loaded')
             this.set_slider_range()
+            this.toggle_cluster_visiblity()
           })
         }
       },
@@ -334,7 +338,7 @@
           })
         }
 
-        if (this.clusters_visible) {
+        if (this.show_lowest_spatial_level) {
           const colour = '#ff8a21'
 
           this._map.addLayer({
@@ -350,8 +354,10 @@
           this.$ga.event('irs_plan','change_clusters_visibility','visible', true)
 
         } else {
-          this._map.removeLayer('clusters')
-          this.$ga.event('irs_plan','change_clusters_visibility','visible', false)
+          if (this._map.getLayer('clusters')) {
+            this._map.removeLayer('clusters')
+            this.$ga.event('irs_plan','change_clusters_visibility','visible', false)
+          }
         }
       },
 
