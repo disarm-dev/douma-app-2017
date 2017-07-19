@@ -81,22 +81,22 @@ export default {
       const location_selection_polygon = this.get_polygon(location_selection.id)
       const point_in_location_selection_polygon = getCoord(random_point_in_polygon(1, location_selection_polygon)[0])
 
-      let response = {
-        "id": uuid(),
-        "country": this.slug,
-        "form_data": this.get_form_data(),
-        "location": {
-          "coords": {
-            "accuracy": 100,
-            "longitude": point_in_location_selection_polygon[0],
-            "latitude": point_in_location_selection_polygon[1],
-          }
+      const response = {
+        id: uuid(),
+        instance_slug: this.slug,
+        form_data: this.get_form_data(),
+        location: {
+          coords: {
+            accuracy: 100,
+            longitude: point_in_location_selection_polygon[0],
+            latitude: point_in_location_selection_polygon[1],
+          },
+          selection: location_selection
         },
-        "location_selection": location_selection,
-        "recorded_on": this.random_recorded_on(),
-        "user": this.user,
-        "userAgent": navigator.userAgent,
-        "synced": false
+        recorded_on: this.random_recorded_on(),
+        username: this.user,
+        userAgent: navigator.userAgent,
+        synced: false
       }
       return response
     },
