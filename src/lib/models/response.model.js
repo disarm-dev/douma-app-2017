@@ -51,7 +51,7 @@ export class Response {
     if (!this.is_ready_to_send()) return false
 
     const decorated = omit(this.model, 'synced')
-    console.log('🚨 TODO: Change to "instance_config" on server and everywhere else")
+    console.log('🚨 TODO: Change to "instance_config" on server and everywhere else')
     decorated.country = decorated.instance_slug
 
     return decorated
