@@ -513,8 +513,8 @@
           selected_filter_area: this.selected_filter_area
         })
 
-        const features = cache.geodata[this.planning_level_name].features.filter(feature => {
-          return area_ids_within_focus_area.includes(feature.properties[this.planning_level_id_field])
+        const features = this.planning_level_fc.features.filter(feature => {
+          return area_ids_within_focus_area.includes(feature.properties.__disarm_geo_id)
         })
 
         const fc = featureCollection(features)
