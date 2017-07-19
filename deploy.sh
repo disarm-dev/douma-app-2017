@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
+
+for pid in $(pgrep -f deploy.sh); do
+    if [ $pid != $$ ]; then
+        PGID=$(ps opgid= "$pid")
+        echo "Killed process group $PGID"
+        kill -KILL -$PGID
+    fi
+done
+
 git fetch --tags
 #rm -rf node_modules/
 npm install
