@@ -13,10 +13,6 @@
       <md-dialog-content class="centred">
         <md-spinner class="center-spinner" :md-progress="geodata_loading_progress"></md-spinner>
       </md-dialog-content>
-
-      <md-dialog-actions>
-        <md-button :disabled='!geodata_ready' class="md-primary" @click.native="$refs.geodata_loading_modal.close()">OK</md-button>
-      </md-dialog-actions>
     </md-dialog>
 
 
@@ -48,7 +44,7 @@
     watch: {
       'snackbar': 'snackbar_open',
       'sw_message': 'open_sw_dialog',
-      'geodata_loading_progress': 'toggle_geodata_loading_dialog'
+      'geodata_loading_progress': 'toggle_geodata_loading_dialog',
     },
     methods: {
       // Dialog
@@ -71,16 +67,21 @@
       },
       toggle_geodata_loading_dialog() {
         if (this.geodata_ready === 'error') {
+          // TODO: @refac Better way to handle geodata loading errors
           this.$store.commit('root:set_geodata_ready', false)
-          this.$refs.geodata_loading_modal.close()
+          return this.$refs.geodata_loading_modal.close()
         }
 
-        // Wait 1 second to see if geodata can be loaded from cache
-        setTimeout(() => {
-          if (!this.geodata_ready) {
-            this.$refs.geodata_loading_modal.open()
-          }
-        }, 1000)
+        if (this.$refs.geodata_loading_modal.active && this.geodata_loading_progress === 100) {
+          this.$refs.geodata_loading_modal.close()
+        } else {
+          // Wait to see if geodata can be loaded from cache (will prob be fast)
+          setTimeout(() => {
+            if (!this.geodata_ready) {
+              this.$refs.geodata_loading_modal.open()
+            }
+          }, 500)
+        }
       }
     }
   }
