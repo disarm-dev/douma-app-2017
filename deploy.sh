@@ -7,6 +7,7 @@ echo " >>>>>>>>>"
 
 # Find any running deploy.sh scripts and kill all children processes
 for pid in $(pgrep -f deploy.sh); do
+echo "$pid $$"
     if [ $pid != $$ ]; then
         PGID=$(ps opgid= "$pid" | xargs)
         echo "Killing process group >$PGID<"
