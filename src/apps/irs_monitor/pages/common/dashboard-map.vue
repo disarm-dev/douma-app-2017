@@ -3,6 +3,12 @@
     <md-card-content>
 
       <div id="map"></div>
+      <map_legend
+          class="legend"
+          :entries="entries_for_legend"
+          :title="selected_layer"
+        ></map_legend>
+
       <div>
         <span>Show areas by:</span>
         <md-radio v-model="selected_layer" :disabled='!geodata_ready' name="map-type" md-value="coverage">Coverage</md-radio>
@@ -26,6 +32,7 @@
   import chroma from 'chroma-js'
 
   import {basic_map} from 'lib/helpers/basic_map.js'
+  import map_legend from 'components/map_legend.vue'
   import cache from 'config/cache'
   import logscale from 'lib/helpers/log_scale.js'
   import {get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
@@ -33,6 +40,7 @@
 
   export default {
     props: ['aggregated_responses', 'geodata_ready', 'filtered_responses'],
+    components: {map_legend},
     data() {
       return {
 
@@ -68,6 +76,17 @@
       planning_level_fc() {
         return cache.geodata[get_planning_level_name()]
       },
+      entries_for_legend() {
+        const layer_definition = layer_definitions[this.selected_layer]
+        const palette = this.prepare_palette(layer_definition)
+
+        return palette.map((array) => {
+          return {
+            text: array[0],
+            colour: array[1]
+          }
+        })
+      }
     },
     mounted() {
       this.render_map()
@@ -272,9 +291,9 @@
       },
 
       // Utility
-      prepare_palette(layer_type) {
-        let scale = chroma.scale(layer_type.palette).colors(11)
-        if (layer_type.reverse_palette) scale = scale.reverse()
+      prepare_palette(layer_definition) {
+        let scale = chroma.scale(layer_definition.palette).colors(11)
+        if (layer_definition.reverse_palette) scale = scale.reverse()
 
         const steps = [...Array(11).keys()].map(i => i * 10)
         const stops = steps.map((step, index) => {
