@@ -6,7 +6,7 @@
     <md-button :disabled='hunting_location' class='md-raised md-primary' ref="update_location_button" @click.native="check_for_location">
       Get/Update point location
     </md-button>
-    <md-button class='md-warn' @click.native="add_demo_location">Use demo location</md-button>
+    <md-button v-if='show_demo_location_button' class='md-warn' @click.native="add_demo_location">Use demo location</md-button>
     <p class='message'>{{location_message}}</p>
   </div>
 </template>
@@ -21,7 +21,8 @@
       return {
         hunting_location: false,
         location: null,
-        location_message: ''
+        location_message: '',
+        show_demo_location_button: !DOUMA_PRODUCTION_MODE
       }
     },
     created() {
@@ -36,8 +37,8 @@
         const map_focus = this.$store.state.instance_config.map_focus
         this.location = {
           coords: {
-            latitude: map_focus.centre.lat + Math.random(),
-            longitude: map_focus.centre.lng + Math.random(),
+            latitude: map_focus.centre.lat + (Math.random()/100),
+            longitude: map_focus.centre.lng + (Math.random()/100),
             accuracy: 150
           }
         }

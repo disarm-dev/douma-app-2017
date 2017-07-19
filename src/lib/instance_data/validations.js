@@ -1,4 +1,5 @@
 import {Parser} from 'expr-eval'
+import is_empty from 'lodash.isempty'
 
 export class Validator {
   constructor(validations) {
@@ -9,8 +10,11 @@ export class Validator {
   validate(response) {
 
     // Validate location
-    const location_result = this._validate_location(response.location)
-    const location_selection_result = this._validate_location_selection(response.location_selection)
+    let location_result = [], location_selection_result = []
+    if (!is_empty(response.location_selection)) {
+      location_result = this._validate_location(response.location)
+      location_selection_result = this._validate_location_selection(response.location_selection)
+    }
 
     // Validate main form_data / response object
     const survey_results = this._validate_form_data(response.form_data)
