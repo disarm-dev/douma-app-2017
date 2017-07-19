@@ -112,7 +112,7 @@
         location.reload()
       },
       clear_applet_storage(applet) {
-        return console.log('applet', applet)
+        console.log('applet', applet)
         const mutation  = `${applet}/clear_data_storage`
         this.$store.commit(mutation, {}, {root: true})
       },
