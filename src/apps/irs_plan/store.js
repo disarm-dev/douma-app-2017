@@ -122,9 +122,9 @@ export default {
         })
     },
     'get_current_plan': (context) => {
-      const country = context.rootState.instance_config.instance.slug
+      const instance_slug = context.rootState.instance_config.instance.slug
 
-      return get_current_plan(country).then(plan_json => {
+      return get_current_plan(instance_slug).then(plan_json => {
         if (Object.keys(plan_json).length === 0) {
           return context.commit('root:set_snackbar', {message: 'There is no plan. Please create one.'}, {root: true})
         }

@@ -106,8 +106,8 @@ export default {
   },
   actions: {
     get_all_records: (context) => {
-      const country = context.rootState.instance_config.instance.slug
-      return get_all_records(country).then(res=> {
+      const instance_slug = context.rootState.instance_config.instance.slug
+      return get_all_records(instance_slug).then(res=> {
         const responses = decorate_responses_from_json(res, context.rootState.instance_config)
         context.commit('update_responses_last_updated_at')
         context.commit('set_responses', responses)
