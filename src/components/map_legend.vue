@@ -1,25 +1,25 @@
 <template>
   <div>
-    <span>Teams:</span>
+    <strong class="title">{{title}}</strong>
       <div
-        v-for="{team_name, colour} in decorated_teams"
+        v-for="{text, colour} in entries"
         class="legend"
-        :class="{'selected': selected_team_name === team_name}"
-        @click="select_team(team_name)"
+        :class="{'selected': selected_entry === text}"
+        @click="select(text)"
       >
         <div class="legend-box" :style="{'background-color': colour}"></div>
-        <div class="legend-name">{{team_name}}</div>
+        <div class="legend-name">{{text}}</div>
       </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['decorated_teams', 'selected_team_name'],
+  props: ['entries', 'selected_entry', 'title'],
   name: 'legend',
   methods: {
-    select_team(team_name) {
-      this.$emit('selected_team', team_name)
+    select(text) {
+      this.$emit('select', text)
     }
   }
 };
@@ -28,6 +28,10 @@ export default {
 <style scoped>
   .selected {
     background-color: rgba(165, 165, 165, 0.3);
+  }
+
+  .title {
+    padding-right: 10px;
   }
 
   .legend {
