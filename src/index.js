@@ -50,7 +50,7 @@ get_instance_config()
         console.log('sw subscriber args', args)
         const new_service_worker_activated = (args === 'activated')
         if (update_available && new_service_worker_activated) {
-          douma_app.$store.commit('root:sw_update_available', true)
+          douma_app.$store.commit('root:set_sw_update_available', true)
         }
        console.log('post create_and_launch_application', args)
       })
