@@ -95,7 +95,7 @@
       close_update_chip() {
         this.update_chip_visible = false
         this.$store.commit("root:set_sw_message", {
-          title: `DiSARM ready to ${VERSION_COMMIT_HASH_SHORT}`,
+          title: `Updated version of DiSARM is available`,
           message: "Please click 'Reload' (or reload browser) to refresh and start using the newer version. " +
           "You may lose unsaved work. Click 'Cancel' and then save if you prefer."
         })
