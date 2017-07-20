@@ -99,8 +99,7 @@
       check_for_update() {
         need_to_update().then(need_update => {
           if (need_update.status === 'CAN_UPDATE') {
-            console.log('need to commit set_sw_update_available')
-//            this.$store.commit('root:set_sw_update_available', true)
+            this.$store.commit('root:set_sw_update_available', true)
           }
         })
       }

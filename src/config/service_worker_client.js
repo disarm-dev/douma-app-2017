@@ -18,16 +18,16 @@ export function configure_service_worker () {
   return new Promise((resolve, reject) => {
     navigator.serviceWorker.register('/service-worker.js')
       .then((registration) => {
-        pubsubcache.publish('service_worker/onstatechange', '...waiting...')
+
         // parsed, installing, installed, activating, activated, and redundant
         registration.onupdatefound = () => {
           var installingWorker = registration.installing
 
           installingWorker.onstatechange = () => {
-            console.log('service_worker/onstatechange', installingWorker.state)
             pubsubcache.publish('service_worker/onstatechange', installingWorker.state)
           }
         }
+        resolve()
       }).catch(e => {
         console.error(e)
         reject(e)
