@@ -56,4 +56,3 @@ get_instance_config()
     if (DOUMA_PRODUCTION_MODE) console.info('🚀 Launched DiSARM version ' + VERSION_COMMIT_HASH_SHORT)
   })
   .catch(err => console.error(err))
-
