@@ -89,7 +89,6 @@
         try_reconnect()
       },
       show_update_chip() {
-        console.log(this.sw_update_available)
         this.update_chip_visible = true
       },
       close_update_chip() {
