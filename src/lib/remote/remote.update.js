@@ -15,7 +15,7 @@ const need_to_update = () => {
     }
   }).catch(err => {
     console.log("🤷‍ DiSARM version check: No information on new version (network request failed)")
-    return {status: "NO_RESPONSE", local_version: VERSION_COMMIT_HASH_SHORT, remote_version: remote_version}
+    return {status: "NO_RESPONSE", local_version: VERSION_COMMIT_HASH_SHORT}
   })
 }
 
