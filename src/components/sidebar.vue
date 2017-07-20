@@ -45,7 +45,7 @@
       </md-list-item>
 
       <md-list-item @click="check_for_update">
-        <md-icon>refresh</md-icon><span>Check for update</span>
+        <md-icon :class="{'md-warn': can_update}">refresh</md-icon><span>Check for update</span>
       </md-list-item>
     </md-list>
 
@@ -69,6 +69,11 @@
 
   export default {
     name: 'sidebar',
+    data() {
+      return {
+        can_update: false
+      }
+    },
     computed: {
       ...mapState({
         instance_title: state => state.instance_config.instance.title,
@@ -99,8 +104,12 @@
       check_for_update() {
         need_to_update().then(need_update => {
           if (need_update.status === 'CAN_UPDATE') {
-            this.$store.commit('root:set_sw_update_available', true)
-          }
+            this.can_update = true
+            this.$store.commit("root:set_sw_message", {
+              title: `Updated version of DiSARM is available`,
+              message: "You may need to reload TWICE to refresh and start using the newer version. " +
+              "You may lose unsaved work. Click 'Cancel' and then save if you prefer."
+            })          }
         })
       }
     },

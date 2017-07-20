@@ -34,13 +34,13 @@
     <!-- LIST ALL -->
     <md-card>
       <md-card-header>
-        <div class="md-title">{{unsynced_count}} unsynced responses</div>
+        <div class="md-title">{{unsynced_count}} responses</div>
       </md-card-header>
       <md-card-content>
         <md-list>
           <virtual_list :size="40" :remain="10">
             <md-list-item
-              v-for='response in unsynced_responses'
+              v-for='response in responses'
               :index='response'
               :class="{'md-primary': !response.synced}"
               :key="response.id"
