@@ -35,7 +35,7 @@
               <md-icon v-if='network_pass' class="md-primary">check</md-icon>
             </md-list-item>
             <md-list-item @click="check_if_update_available"> <md-icon>system_update</md-icon><span>check for update</span>
-              <md-icon v-if="update_status === 'PASS'" class="md-warn">update</md-icon>
+              <md-icon v-if="update_status === 'CAN_UPDATE'" class="md-warn">update</md-icon>
             </md-list-item>
           </md-list-expand>
         </md-list-item>
@@ -50,6 +50,7 @@
             <md-list-item @click="goto_survey_editor"><md-icon>library_books</md-icon><span>Survey Editor (dxsurvey.com)</span></md-list-item>
             <md-list-item><router-link :to="{name: 'meta:debug:check_data_status'}"><md-icon>checkbox</md-icon><span>Check data status</span></router-link></md-list-item>
             <md-list-item><router-link :to="{name: 'meta:debug:validate_data'}"><md-icon>playlist_add_check</md-icon><span>Validate data</span></router-link></md-list-item>
+            <md-list-item><router-link :to="{name: 'meta:debug:instance_config_view'}"><md-icon>settings_applications</md-icon><span>View instance_config</span></router-link></md-list-item>
 
           </md-list-expand>
         </md-list-item>
@@ -79,7 +80,7 @@
 
   import {try_reconnect, get_version} from 'lib/remote/remote.standard-handler'
   import cache from 'config/cache.js'
-  import {need_to_update} from 'lib/helpers/update'
+  import {need_to_update} from 'lib/remote/remote.update'
 
 
   export default {
@@ -133,11 +134,7 @@
       check_if_update_available() {
         this.update_status = 'CHECKING'
         need_to_update().then(need_update => {
-          if (need_update) {
-            this.update_status = 'PASS'
-          } else {
-            this.update_status = 'NONE'
-          }
+          this.update_status = need_update.status
         })
       },
       goto_survey_editor() {

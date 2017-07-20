@@ -11,6 +11,7 @@ import fake_data from './pages/fake_data_debug.vue'
 import check_data_status from './pages/check_data_status.vue'
 import validate_data from './pages/validate_data.vue'
 import upload_geodata from './pages/upload_geodata.vue'
+import instance_config_view from './pages/instance_config_view.vue'
 
 export default [
   {
@@ -66,5 +67,9 @@ export default [
     path: '/meta/debug/upload_geodata',
     component: upload_geodata,
     name: 'meta:debug:upload_geodata'
+  }, {
+    path: '/meta/debug/instance_config_view',
+    component: instance_config_view,
+    name: 'meta:debug:instance_config_view'
   }
 ]
