@@ -20,6 +20,11 @@
 
 <script>
   import {mapState, mapGetters} from 'vuex'
+  import debounce from 'lodash.debounce'
+  import download from 'downloadjs'
+  import moment from 'moment'
+
+  // Map and geospatial
   import mapboxgl from 'mapbox-gl'
   import MapboxDraw from '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw'
   mapboxgl.accessToken = 'pk.eyJ1Ijoibmljb2xhaWRhdmllcyIsImEiOiJjaXlhNWw1NnkwMDJoMndwMXlsaGo5NGJoIn0.T1wTBzV42MZ1O-2dy8SpOw'
@@ -31,16 +36,10 @@
   import bboxPolygon from '@turf/bbox-polygon'
   import {featureCollection} from '@turf/helpers'
   import which_polygon from 'which-polygon'
-  import debounce from 'lodash.debounce'
-  
-  import download from 'downloadjs'
-  import moment from 'moment'
-
-
 
   import cache from 'config/cache.js'
   import logslider from 'lib/helpers/log_slider.js'
-  import logscale from 'lib/helpers/log_scale.js'
+  import {value_log} from 'lib/helpers/log_helper.js'
   import {basic_map} from 'lib/helpers/basic_map'
   import map_legend from 'components/map_legend.vue'
   import {get_planning_level_name, get_next_level_down_from_planning_level, get_next_level_up_from_planning_level} from 'lib/geodata/spatial_hierarchy_helper'
@@ -137,7 +136,7 @@
           }
           return entries
         }
-        
+
       }
     },
     watch: {
@@ -372,7 +371,7 @@
         if (this.show_lowest_spatial_level) {
           const colour = plan_layer_definitions.lowest_spatial_level.colour
 
-      
+
           this._map.addLayer({
             id: 'clusters',
             type: 'fill',
@@ -517,7 +516,7 @@
 
         // create stops
         const stops = prepare_palette(layer_definitions.risk)
-        
+
         this._map.addLayer({
           id: 'areas_by_risk',
           type: 'fill',
@@ -538,8 +537,9 @@
       get_log_values(areas) {
         const features = areas.features
         const property = 'risk'
+        const values_array = features.map(feature => feature.properties[property]).sort()
 
-        this.log_scale = logscale({features, property})
+        this.log_scale = value_log(values_array)
       },
       download_plan_geojson() {
         const area_ids_within_focus_area = target_areas_inside_focus_filter_area({
