@@ -36,10 +36,8 @@ get_instance_config()
 
         const new_service_worker_activated = (args === 'activated')
         if (update_available && new_service_worker_activated) {
-          console.log("commit('root:set_sw_update_available', true)")
           douma_app.$store.commit('root:set_sw_update_available', true)
         } else {
-          console.log("commit('root:set_sw_update_available', false)")
           douma_app.$store.commit('root:set_sw_update_available', false)
         }
 
