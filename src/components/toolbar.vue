@@ -53,7 +53,7 @@
       ...mapState({
         instance_title: state => state.instance_config.instance.title,
         online: state => state.network_online,
-        sw_message: state => state.sw_message,
+        sw_update_available: state => state.sw_update_available,
       }),
       ...mapGetters({
         decorated_applets: 'meta/decorated_applets',
@@ -89,6 +89,7 @@
         try_reconnect()
       },
       show_update_chip() {
+        console.log(this.sw_update_available)
         this.update_chip_visible = true
       },
       close_update_chip() {

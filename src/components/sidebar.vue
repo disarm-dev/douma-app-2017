@@ -43,6 +43,10 @@
       <md-list-item class='md-accent' @click="navigate('meta:logout')">
         <md-icon>exit_to_app</md-icon><span>Logout</span>
       </md-list-item>
+
+      <md-list-item @click="check_for_update">
+        <md-icon>refresh</md-icon><span>Check for update</span>
+      </md-list-item>
     </md-list>
 
     <!--Sidebar: LOGGED OUT-->
@@ -61,6 +65,7 @@
 
 <script>
   import {mapState, mapGetters} from 'vuex'
+  import {need_to_update} from 'lib/remote/remote.update'
 
   export default {
     name: 'sidebar',
@@ -91,6 +96,14 @@
       toggle_help() {
         this.$store.commit('root:trigger_help_visible')
       },
+      check_for_update() {
+        need_to_update().then(need_update => {
+          if (need_update.status === 'CAN_UPDATE') {
+            console.log('need to commit set_sw_update_available')
+//            this.$store.commit('root:set_sw_update_available', true)
+          }
+        })
+      }
     },
   }
 </script>

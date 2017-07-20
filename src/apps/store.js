@@ -9,7 +9,7 @@ export function create_store(instance_config, instance_stores) {
 
   // vuex-persistedstate
   // Exclude these paths from state persistence
-  const excluded_paths = ['geodata_ready', 'geodata_loading_progress']
+  const excluded_paths = ['geodata_ready', 'geodata_loading_progress', 'sw_update_available', 'sw_message']
 
   const persisted_state_options = {
     reducer: (state) => {

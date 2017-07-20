@@ -32,8 +32,7 @@
       },
       user() {
         return this.$store.state.meta.user
-      }
-    },
+      },    },
   }
 </script>
 

@@ -30,29 +30,20 @@ get_instance_config()
 
     // Configure application update
     need_to_update().then((can_update) => {
-      switch (can_update.status) {
-        case 'CAN_UPDATE':
-          console.log(`🔺 DiSARM version check: New version available ${can_update.remote_version}, can/should update.`)
-          // TODO: @important Need very good checks before FORCING a version update outside of ServiceWorker control
-          break
-
-        case 'ON_LATEST':
-          console.log("✅ DiSARM version check: Already running most recent version")
-          break
-
-        case 'NO_RESPONSE':
-          console.log("🤷‍ DiSARM version check: No information on new version (network request failed)")
-          break
-      }
       const update_available = (can_update.status === 'CAN_UPDATE')
 
       pubsubcache.subscribe('service_worker/onstatechange', (topic, args) => {
-        console.log('sw subscriber args', args)
+
         const new_service_worker_activated = (args === 'activated')
         if (update_available && new_service_worker_activated) {
+          console.log("commit('root:set_sw_update_available', true)")
           douma_app.$store.commit('root:set_sw_update_available', true)
+        } else {
+          console.log("commit('root:set_sw_update_available', false)")
+          douma_app.$store.commit('root:set_sw_update_available', false)
         }
-       console.log('post create_and_launch_application', args)
+
+        console.log('service_worker/onstatechange message:', args)
       })
     })
 
