@@ -48,6 +48,7 @@ export function create_store(instance_config, instance_stores) {
       // Global UI
       snackbar: {message: null},
       sw_message: {message: 'null', title: 'null'},
+      sw_update_available: false,
       network_online: false,
 
       // Irrelevant values: only watched for changes
@@ -64,7 +65,10 @@ export function create_store(instance_config, instance_stores) {
         state.snackbar = snackbar // Need to have a {message: "Like this"}
       },
       'root:set_sw_message': (state, sw_message) => {
-        state.sw_message = sw_message
+        state.sw_message = sw_message // Need to have {title: 'title', and message: 'message'}
+      },
+      'root:set_sw_update_available': (state, sw_update_available) => {
+        state.sw_update_available = sw_update_available
       },
       'root:set_instance_config': (state, instance_config) => {
         state.instance_config = instance_config

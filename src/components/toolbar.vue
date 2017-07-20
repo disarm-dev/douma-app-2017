@@ -18,6 +18,8 @@
           </span>
       </h2>
 
+      <md-button v-if="update_chip_visible" @click="close_update_chip" class="md-raised md-accent">Update available</md-button>
+
       <!-- OFFLINE , TRY RECONNECT-->
       <md-button v-if="!online" @click="try_reconnect" class="md-icon-button md-dense md-warn">
         <md-icon>signal_wifi_off</md-icon>
@@ -43,12 +45,15 @@
     mounted() {
     },
     data() {
-      return {}
+      return {
+        update_chip_visible: false
+      }
     },
     computed: {
       ...mapState({
         instance_title: state => state.instance_config.instance.title,
-        online: state => state.network_online
+        online: state => state.network_online,
+        sw_message: state => state.sw_message,
       }),
       ...mapGetters({
         decorated_applets: 'meta/decorated_applets',
@@ -69,6 +74,9 @@
         }
       }
     },
+    watch: {
+      'sw_update_available': 'show_update_chip'
+    },
     methods: {
       toggle_sidebar() {
         this.$store.commit('root:toggle_sidebar')
@@ -79,6 +87,17 @@
       },
       try_reconnect() {
         try_reconnect()
+      },
+      show_update_chip() {
+        this.update_chip_visible = true
+      },
+      close_update_chip() {
+        this.update_chip_visible = false
+        this.$store.commit("root:set_sw_message", {
+          title: `DiSARM ready to ${VERSION_COMMIT_HASH_SHORT}`,
+          message: "Please click 'Reload' (or reload browser) to refresh and start using the newer version. " +
+          "You may lose unsaved work. Click 'Cancel' and then save if you prefer."
+        })
       }
     }
   }

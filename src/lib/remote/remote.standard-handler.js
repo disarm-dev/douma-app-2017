@@ -63,7 +63,10 @@ const try_reconnect = () => {
 }
 
 const get_version = () => {
-  return standard_handler('/VERSION')
+  const options = {
+    timeout: 1000
+  }
+  return standard_handler('/VERSION', options)
 }
 
 export {configure_standard_handler, standard_handler, douma_api_root, try_reconnect, get_version}
