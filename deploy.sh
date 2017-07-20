@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+for pid in $(pgrep -f node); do
+  echo "Killed node process $pid"
+  kill -KILL -$pid
+done
+
 # Do the actual building and zero-downtime deployment
 git fetch --tags
 npm install --no-shrinkwrap --no-package-lock
