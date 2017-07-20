@@ -109,7 +109,8 @@
               title: `Updated version of DiSARM is available`,
               message: "You may need to reload TWICE to refresh and start using the newer version. " +
               "You may lose unsaved work. Click 'Cancel' and then save if you prefer."
-            })          }
+            })
+          }
         })
       }
     },
