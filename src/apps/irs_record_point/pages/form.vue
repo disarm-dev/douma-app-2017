@@ -110,6 +110,7 @@
         })
       },
       next_page() {
+        if (!this.response_is_valid) return this.$emit('shake_validations')
         this._survey.nextPage()
       },
       previous_page() {

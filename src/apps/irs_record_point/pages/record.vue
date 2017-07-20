@@ -121,6 +121,7 @@
       @complete='on_form_complete'
       @change="on_form_change"
       @previous_view="set_current_view('location')"
+      @shake_validations="shake_validations"
       :initial_form_data='response.form_data'
       :response_is_valid="response_is_valid"
     ></form_renderer>
