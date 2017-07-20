@@ -2,7 +2,7 @@
 
 # Do the actual building and zero-downtime deployment
 git fetch --tags
-npm install
+npm install --no-shrinkwrap --no-package-lock
 npm run build
 rm -rf serve/
 mv dist/ serve/
