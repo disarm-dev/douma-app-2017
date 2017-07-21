@@ -1,5 +1,6 @@
 import axios from 'axios'
 import get from 'lodash.get'
+import assign from 'lodash.assign'
 
 import CONFIG from 'config/common'
 
@@ -26,6 +27,7 @@ HTTP.interceptors.response.use(function (response) {
 
 /**
  * Standard handler for all remote requests (currently both client server and API)
+ * Passed ptions overwrite any default options.
  * @param url
  * @param options
  */
@@ -39,9 +41,9 @@ const standard_handler = (url, options = {}) => {
   const user = get(store, 'state.meta.user.username')
   const user_token = 'WE DONT HAVE TOKENS YET'
 
-  options.url = url
-  options.params = {
-    ...options.params,
+  const default_options = {}
+  default_options.url = url
+  default_options.params = {
     personalised_instance_id,
     version_commit_hash_short,
     country,
@@ -50,7 +52,9 @@ const standard_handler = (url, options = {}) => {
     user_token
   }
 
-  return HTTP(options)
+  const assigned_options = assign(default_options, options)
+
+  return HTTP(assigned_options)
     .then(json => json.data)
 }
 

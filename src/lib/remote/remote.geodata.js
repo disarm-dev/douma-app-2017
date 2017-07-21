@@ -8,7 +8,7 @@
  */
 import cache from 'config/cache'
 import {standard_handler} from 'lib/remote/remote.standard-handler.js'
-import {get_all_spatial_hierarchy_level_names} from 'lib/geodata/spatial_hierarchy_helper'
+import {get_all_spatial_hierarchy_level_names, get_data_version} from 'lib/geodata/spatial_hierarchy_helper'
 import {geodata_valid, geodata_missing_fields} from 'lib/geodata/geodata.valid'
 import {decorate_geodata_on_cache} from 'lib/geodata/geodata.decorate'
 
@@ -33,8 +33,15 @@ export const get_geodata = (store, force_reload = false) => {
 
   let progress_cache = {}
 
+  const data_version = get_data_version()
+  const instance_slug =  store.state.instance_config.instance.slug
+
   let options = {
     timeout: 300000,
+    params:{
+      data_version,
+      instance_slug
+    },
 
     // Calculate progress
     onDownloadProgress: (progress) => {
