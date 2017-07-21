@@ -1,3 +1,5 @@
+import get from 'lodash.get'
+
 /**
  * Something like 'AggUniCode' for SWZ or 'OBJECTID' for BWA
  * @param instance_config
@@ -109,6 +111,10 @@ const get_next_level_down_from_planning_level = () => {
   return (levels[index + 1] || false)
 }
 
+const get_data_version = () => {
+  return get(spatial_hierarchy_cache, 'data_version', 'Unknown version')
+}
+
 export {
   configure_spatial_helpers,
   get_planning_level_id_field,
@@ -125,6 +131,7 @@ export {
 
   get_next_level_up_from_planning_level,
   get_next_level_down_from_planning_level,
-  get_top_level_hierarchy
+  get_top_level_hierarchy,
+  get_data_version
 }
 
