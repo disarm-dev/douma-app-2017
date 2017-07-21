@@ -64,7 +64,7 @@ const try_reconnect = () => {
 
 const get_version = () => {
   const options = {
-    timeout: 1000
+    timeout: 2000
   }
   return standard_handler('/VERSION', options)
 }
