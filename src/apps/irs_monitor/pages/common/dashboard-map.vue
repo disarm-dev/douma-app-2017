@@ -32,7 +32,7 @@
   import {basic_map} from 'lib/helpers/basic_map.js'
   import map_legend from 'components/map_legend.vue'
   import cache from 'config/cache'
-  import {value_log} from 'lib/helpers/log_helper.js'
+  import {value_log, log_value} from 'lib/helpers/log_helper.js'
   import {get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
   import {layer_definitions} from 'config/map_layers'
   import {prepare_palette} from 'lib/helpers/palette_helper'
@@ -281,10 +281,12 @@
       calculate_risk(features) {
         const attribute = layer_definitions.risk.attribute
 
-        const log_scale = this.get_log_values(features)
-
+        const v2l = this.get_log_values(features)
+        const values_array= features.map(feature => feature.properties.risk).sort().filter(i => i)
+        const l2v = log_value(values_array)
+        debugger
         return features.map((feature) => {
-          feature.properties[attribute] = log_scale(feature.properties.risk)
+          feature.properties[attribute] = v2l(feature.properties.risk)
           return feature
         })
       },
