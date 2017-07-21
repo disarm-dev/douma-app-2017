@@ -286,11 +286,16 @@
           return feature
         })
       },
+      /**
+       * Add scaled/normalised risk to each feature
+       * Also
+       * @param features
+       */
       calculate_risk(features) {
-        const attribute = layer_definitions.risk.attribute
         const values_array= features.map(feature => feature.properties.risk).sort().filter(i => i)
         this._risk_scaler = new LogValueConvertor(values_array)
 
+        const attribute = layer_definitions.risk.attribute
         return features.map((feature) => {
           feature.properties[attribute] = this._risk_scaler.lval(feature.properties.risk)
           return feature

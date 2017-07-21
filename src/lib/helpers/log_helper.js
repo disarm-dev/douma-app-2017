@@ -48,7 +48,9 @@ export const log_value = (values_array) => {
 
 
 export class LogValueConvertor {
-
+  /**
+   * @param values_array
+   */
   constructor(values_array) {
     const non_zeros = values_array.filter(v => v !== 0)
 
@@ -64,10 +66,20 @@ export class LogValueConvertor {
     this.scale = (maxv - this.minv) / (maxp - this.minp)
   }
 
+  /**
+   * Take a value and return a log/scaled value
+   * @param value
+   * @returns {log_value}
+   */
   lval(value) {
     return ((Math.log(value) - this.minv) / this.scale + this.minp)
   }
 
+  /**
+   * Take a log/scaled value and return the original
+   * @param lval
+   * @returns {value}
+   */
   value(lval) {
     return (Math.exp((lval - this.minp) * this.scale + this.minv))
 
