@@ -3,7 +3,7 @@
     <div id="map"></div>
     <map_legend
       :entries="entries_for_legend"
-      :title="layer_definitions.risk.legend_title"
+      :title="risk_visible ? layer_definitions.risk.legend_title : plan_layer_definitions.selected_areas.legend_title"
     ></map_legend>
 
     <md-checkbox :disabled='!geodata_ready || edit_mode' v-model="risk_visible">Show risk</md-checkbox>
@@ -55,6 +55,8 @@
     data() {
       return {
         layer_definitions,
+        plan_layer_definitions,
+
         slider: {
           min: 0,
           max: 100,
@@ -131,8 +133,8 @@
           })
         } else {
           let entries = []
-          for (var definition in plan_layer_definitions.selected_areas) {
-            entries.push(plan_layer_definitions.selected_areas[definition])
+          for (var definition in plan_layer_definitions.selected_areas.items) {
+            entries.push(plan_layer_definitions.selected_areas.items[definition])
           }
           return entries
         }
@@ -237,7 +239,7 @@
           type: 'fill',
           source: 'target_areas_source',
           paint: {
-            'fill-color': plan_layer_definitions.selected_areas.bulk_selected.colour,
+            'fill-color': plan_layer_definitions.selected_areas.items.bulk_selected.colour,
             'fill-opacity': 0.7,
             'fill-outline-color': 'black'
           },
@@ -249,7 +251,7 @@
           type: 'fill',
           source: 'target_areas_source',
           paint: {
-            'fill-color': plan_layer_definitions.selected_areas.bulk_unselected.colour,
+            'fill-color': plan_layer_definitions.selected_areas.items.bulk_unselected.colour,
             'fill-opacity': 0.5,
             'fill-outline-color': 'black'
           },
@@ -261,7 +263,7 @@
           type: 'fill',
           source: 'target_areas_source',
           paint: {
-            'fill-color': plan_layer_definitions.selected_areas.selected.colour,
+            'fill-color': plan_layer_definitions.selected_areas.items.selected.colour,
             'fill-opacity': 0.7,
             'fill-outline-color': 'black'
           },
@@ -273,7 +275,7 @@
           type: 'fill',
           source: 'target_areas_source',
           paint: {
-            'fill-color': plan_layer_definitions.selected_areas.unselected.colour,
+            'fill-color': plan_layer_definitions.selected_areas.items.unselected.colour,
             'fill-opacity': 0.7,
             'fill-outline-color': 'black'
           },
