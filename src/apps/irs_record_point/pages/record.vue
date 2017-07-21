@@ -67,7 +67,7 @@
           <md-list-item>
             <md-input-container>
               <label>team name (optional)</label>
-              <md-input v-model="response.team_name" @input="team_name_changed"></md-input>
+              <md-input v-model.lazy="response.team_name" @input="team_name_changed"></md-input>
             </md-input-container>
           </md-list-item>
           <md-list-item>

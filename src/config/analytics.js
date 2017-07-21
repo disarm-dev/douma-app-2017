@@ -5,7 +5,7 @@ import VueAnalytics from 'vue-analytics'
 const instantiate_analytics = (router) => {
   if (DOUMA_PRODUCTION_MODE) {
     Vue.use(VueAnalytics, {
-      id: 'UA-88844641-2',
+      id: GA_ANALYTICS_UA,
       router
     })
   } else {
@@ -13,7 +13,8 @@ const instantiate_analytics = (router) => {
       install(Vue, options) {
         Vue.prototype.$ga = {
           event() {},
-          set() { }
+          set() {},
+          fake_plugin: true
         }
       }
     }
@@ -27,7 +28,7 @@ const set_common_analytics = (app) => {
 
   // Set username/name if exists
   if (app.$store.state.meta.user) {
-    app.$ga.set("user", `${app.$store.state.meta.user.username}/${app.$store.state.meta.user.name}`)
+    app.$ga.set("dimension3", `${app.$store.state.meta.user.username}/${app.$store.state.meta.user.name}`)
   }
 }
 

@@ -12,10 +12,18 @@ npm run build
 rm -rf serve/
 mv dist/ serve/
 
+# Get some variales
+VERSION=$(git describe)
+
+# Upload sourceMaps to sentry.io
+SOURCEMAP_FILES=(./dist/static/js/*.map)
+./node_modules/.bin/sentry-cli releases -o disarm -p douma files $VERSION upload-sourcemaps ${SOURCEMAP_FILES[@]}
+echo "Uploaded sourcemaps"
+
 
 # Send a useful message back via a Slack webhook
 message=$(git rev-parse --abbrev-ref HEAD)": "
-message=$message" "$(git describe)
+message=$message" "$VERSION
 message=$message"    [commit: "$(git log --oneline -n 1)"]"
 echo "Built $message"
 
