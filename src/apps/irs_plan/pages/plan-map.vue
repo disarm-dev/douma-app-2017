@@ -341,6 +341,7 @@
 
       },
       redraw_target_areas() {
+
         if (this.geodata_ready && this._map) {
           // redraw target areas
           this.remove_target_areas()
@@ -360,6 +361,7 @@
 
       // Clusters
       toggle_cluster_visiblity() {
+        if (!this.next_level_down) return
 
         if(!this._map.getSource('clusters_source')) {
           this._map.addSource('clusters_source', {
