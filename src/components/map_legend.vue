@@ -64,6 +64,8 @@ export default {
 
   .legend-name {
     flex: 1;
-    text-align: center;
+    text-align: right;
+    border-right: 1px solid #dedcdc;
+    padding-right: 2px;
   }
 </style>

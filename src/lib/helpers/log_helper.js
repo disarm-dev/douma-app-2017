@@ -47,25 +47,29 @@ export const log_value = (values_array) => {
 
 
 
-export class LogSlider {
-  constructor(options) {
-    options = options || {};
-    this.minpos = options.minpos || 0;
-    this.maxpos = options.maxpos || 100;
-    this.minlval = Math.log(options.minval || 1);
-    this.maxlval = Math.log(options.maxval || 100000);
+export class LogValueConvertor {
 
-    this.scale = (this.maxlval - this.minlval) / (this.maxpos - this.minpos);
+  constructor(values_array) {
+    const non_zeros = values_array.filter(v => v !== 0)
+
+    const mino = Math.min(...non_zeros)
+    const maxo = Math.max(...values_array) * 1.001
+
+    this.minp = 0
+    const maxp = 100
+
+    this.minv = Math.log(mino)
+    const maxv = Math.log(maxo)
+
+    this.scale = (maxv - this.minv) / (maxp - this.minp)
   }
 
-  // Calculate value from a slider position
-  value(position) {
-    return Math.exp((position - this.minpos) * this.scale + this.minlval);
+  lval(value) {
+    return ((Math.log(value) - this.minv) / this.scale + this.minp)
   }
 
-  // Calculate slider position from a value
-  position(value) {
-    return this.minpos + (Math.log(value) - this.minlval) / this.scale;
+  value(lval) {
+    return (Math.exp((lval - this.minp) * this.scale + this.minv))
+
   }
 }
-
