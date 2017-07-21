@@ -10,13 +10,12 @@
 
       <div>
         <span>Show areas by:</span>
-        <md-radio v-model="selected_layer" :disabled='!geodata_ready' name="map-type" md-value="coverage">Coverage</md-radio>
-        <md-radio v-model="selected_layer" :disabled='!geodata_ready' name="map-type" md-value="risk">Risk</md-radio>
+        <md-radio v-model="selected_layer" name="map-type" md-value="coverage">Coverage</md-radio>
+        <md-radio v-model="selected_layer" name="map-type" md-value="risk">Risk</md-radio>
       </div>
 
       <md-checkbox v-model="limit_to_plan">Limit to plan areas</md-checkbox>
       <md-checkbox v-model="show_response_points">Show response points</md-checkbox>
-
 
     </md-card-content>
   </md-card>
@@ -28,21 +27,25 @@
   import bbox from '@turf/bbox'
   import centroid from '@turf/centroid'
   import mapboxgl from 'mapbox-gl'
+  import numeral from 'numeral'
+
 
   import {basic_map} from 'lib/helpers/basic_map.js'
   import map_legend from 'components/map_legend.vue'
   import cache from 'config/cache'
-  import {value_log} from 'lib/helpers/log_helper.js'
+  import {value_log, log_value} from 'lib/helpers/log_helper.js'
   import {get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
   import {layer_definitions} from 'config/map_layers'
   import {prepare_palette} from 'lib/helpers/palette_helper'
+  import {LogValueConvertor} from '../../../../lib/helpers/log_helper'
 
   export default {
-    props: ['aggregated_responses', 'geodata_ready', 'filtered_responses'],
+    props: ['aggregated_responses', 'filtered_responses'],
     components: {map_legend},
     data() {
       return {
         layer_definitions,
+        _risk_scaler: null,
 
         // User values
         limit_to_plan: true,
@@ -61,7 +64,6 @@
     watch: {
       'aggregated_responses': 'redraw_layers',
       'selected_layer': 'switch_layer',
-      'geodata_ready': 'render_map',
       'limit_to_plan': 'redraw_layers',
       'show_response_points': 'redraw_layers'
     },
@@ -79,7 +81,13 @@
         const layer_definition = layer_definitions[this.selected_layer]
         const palette = prepare_palette(layer_definition)
 
+
         return palette.map((array) => {
+          if (this.selected_layer === 'risk' && this._risk_scaler) {
+            const value = this._risk_scaler.value(array[0])
+            array[0] = numeral(value).format('0.[00]')
+          }
+
           return {
             text: array[0],
             colour: array[1]
@@ -278,23 +286,20 @@
           return feature
         })
       },
+      /**
+       * Add scaled/normalised risk to each feature
+       * Also
+       * @param features
+       */
       calculate_risk(features) {
+        const values_array= features.map(feature => feature.properties.risk).sort().filter(i => i)
+        this._risk_scaler = new LogValueConvertor(values_array)
+
         const attribute = layer_definitions.risk.attribute
-
-        const log_scale = this.get_log_values(features)
-
         return features.map((feature) => {
-          feature.properties[attribute] = log_scale(feature.properties.risk)
+          feature.properties[attribute] = this._risk_scaler.lval(feature.properties.risk)
           return feature
         })
-      },
-
-      // Utility
-      get_log_values(features) {
-        const property = 'risk'
-        const values_array = features.map(feature => feature.properties[property]).sort()
-
-        return value_log(values_array)
       },
     }
   }

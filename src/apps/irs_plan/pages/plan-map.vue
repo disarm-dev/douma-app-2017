@@ -36,6 +36,7 @@
   import bboxPolygon from '@turf/bbox-polygon'
   import {featureCollection} from '@turf/helpers'
   import which_polygon from 'which-polygon'
+  import numeral from 'numeral'
 
   import cache from 'config/cache.js'
   import logslider from 'lib/helpers/log_slider.js'
@@ -47,6 +48,7 @@
   import {prepare_palette} from 'lib/helpers/palette_helper.js'
   import {layer_definitions} from 'config/map_layers'
   import plan_layer_definitions from '../helpers/plan_map_layers.js'
+  import {LogValueConvertor} from 'lib/helpers/log_helper'
 
   export default {
     name: 'plan_map',
@@ -56,6 +58,7 @@
       return {
         layer_definitions,
         plan_layer_definitions,
+        _risk_scaler: null,
 
         slider: {
           min: 0,
@@ -126,6 +129,9 @@
           const palette = prepare_palette(layer_definition)
 
           return palette.map((array) => {
+            const value = this._risk_scaler.value(array[0])
+            array[0] = numeral(value).format('0.[00]')
+
             return {
               text: array[0],
               colour: array[1]
@@ -504,14 +510,14 @@
         }
       },
       add_areas_coloured_by_risk() {
-
-        this.get_log_values(this.planning_level_fc)
+        const values_array = this.planning_level_fc.features.map(feature => feature.properties.risk).sort().filter(i => i)
+        this._risk_scaler = new LogValueConvertor(values_array)
 
         const features = this.planning_level_fc.features.map((feature) => {
           if (feature.properties.risk === 0) {
             feature.properties.normalised_risk = 0
           } else {
-            feature.properties.normalised_risk = this.log_scale(feature.properties.risk)
+            feature.properties.normalised_risk = this._risk_scaler.lval(feature.properties.risk)
           }
           return feature
         })
@@ -538,13 +544,7 @@
           }
         }, 'records')
       },
-      get_log_values(areas) {
-        const features = areas.features
-        const property = 'risk'
-        const values_array = features.map(feature => feature.properties[property]).sort()
 
-        this.log_scale = value_log(values_array)
-      },
       download_plan_geojson() {
         const area_ids_within_focus_area = target_areas_inside_focus_filter_area({
           area_ids: this.selected_target_area_ids,
