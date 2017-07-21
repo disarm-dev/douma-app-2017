@@ -43,6 +43,11 @@ const SpatialHierarchySchema = schema({
   '?group_by_field': String, // Used for creating location_selection
 })
 
+
+
+
+
+
 export const IncomingInstanceConfigSchema = schema({
   applets: AppletSchema,
   map_focus: {
@@ -58,6 +63,7 @@ export const IncomingInstanceConfigSchema = schema({
     slug: String,
   },
   spatial_hierarchy: {
+    '?data_version': Number, // TODO: @refac Make 'data_version' a required property on instance_config
     markers: {
       planning_level_name: String,
       record_location_selection_level_name: String,
