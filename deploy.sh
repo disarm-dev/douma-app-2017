@@ -16,7 +16,7 @@ mv dist/ serve/
 VERSION=$(git describe)
 
 # Upload sourceMaps to sentry.io
-SOURCEMAP_FILES=(./dist/static/js/*.map)
+SOURCEMAP_FILES=(./serve/static/js/*.map)
 ./node_modules/.bin/sentry-cli releases -o disarm -p douma files $VERSION upload-sourcemaps ${SOURCEMAP_FILES[@]}
 echo "Uploaded sourcemaps"
 
