@@ -3,7 +3,7 @@
 
     <md-card>
       <md-card-content>
-        <form novalidate @submit.stop.prevent="login()">
+        <form novalidate @submit.stop.prevent="login">
           <div>
             <md-icon class="login-icon">person</md-icon>
           </div>
@@ -43,7 +43,7 @@
       md-ok-text="OK"
       md-cancel-text="Use default"
       @close="close_personalised_instance_id"
-      v-model="local_personalised_instance_id"
+      v-model.trim="local_personalised_instance_id"
       ref="local_personalised_instance_id">
     </md-dialog-prompt>
 
@@ -64,7 +64,7 @@
           username: '',
           password: ''
         },
-        local_personalised_instance_id: '',
+        raw_local_personalised_instance_id: '',
       }
     },
     computed: {
@@ -77,9 +77,13 @@
       commit_hash() {
         return VERSION_COMMIT_HASH_SHORT
       },
+      local_personalised_instance_id: {
+        get() { return this.raw_local_personalised_instance_id },
+        set(value) { this.raw_local_personalised_instance_id = value.replace(/\s/g,'-') },
+      }
     },
     mounted() {
-      this.local_personalised_instance_id = this.$store.state.meta.personalised_instance_id
+      this.raw_local_personalised_instance_id = this.$store.state.meta.personalised_instance_id
       if (this.$store.state.meta.user) {
         this.$router.push('/')
       }
