@@ -19,13 +19,17 @@ const configure_error_tracking = ()=> {
 const set_raven_user_context = (state) => {
 
   const user_context = {
-    instance_slug: state.instance_config.instance.slug,
     personalised_instance_id: state.meta.personalised_instance_id,
     user: state.meta.user,
+  }
+
+  const tags = {
+    instance_slug: state.instance_config.instance.slug,
     branch: BRANCH
   }
 
   Raven.setUserContext(user_context)
+  Raven.setTagsContext(tags)
 }
 
 export {configure_error_tracking, set_raven_user_context}
