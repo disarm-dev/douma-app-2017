@@ -66,6 +66,8 @@
         location.reload()
       },
       toggle_geodata_loading_dialog() {
+        if (this.geodata_loading_progress === Infinity) return 
+
         if (this.geodata_ready === 'error') {
           // TODO: @refac Better way to handle geodata loading errors
           this.$store.commit('root:set_geodata_ready', false)
