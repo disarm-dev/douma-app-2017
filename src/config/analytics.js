@@ -5,7 +5,7 @@ import VueAnalytics from 'vue-analytics'
 const instantiate_analytics = (router) => {
   if (DOUMA_PRODUCTION_MODE) {
     Vue.use(VueAnalytics, {
-      id: 'UA-88844641-2',
+      id: GA_ANALYTICS_UA,
       router
     })
   } else {
@@ -13,7 +13,8 @@ const instantiate_analytics = (router) => {
       install(Vue, options) {
         Vue.prototype.$ga = {
           event() {},
-          set() { }
+          set() {},
+          fake_plugin: true
         }
       }
     }

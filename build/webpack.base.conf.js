@@ -4,6 +4,7 @@ var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
 var GitRevisionPlugin = require('git-revision-webpack-plugin')
+var get_analytics_ua_for_branch = require('./analytics_ua_for_branch')
 
 var gitRevisionPlugin = new GitRevisionPlugin()
 
@@ -69,7 +70,8 @@ module.exports = {
     new webpack.DefinePlugin({
       "VERSION_COMMIT_HASH_SHORT": JSON.stringify(gitRevisionPlugin.version()),
       'BRANCH': JSON.stringify(gitRevisionPlugin.branch()),
-      "DOUMA_PRODUCTION_MODE": process.env.NODE_ENV === 'production'
+      "DOUMA_PRODUCTION_MODE": process.env.NODE_ENV === 'production',
+      "GA_ANALYTICS_UA": JSON.stringify(get_analytics_ua_for_branch(gitRevisionPlugin))
     }),
     new GitRevisionPlugin() // Write VERSION and COMMITHASH files
   ]
