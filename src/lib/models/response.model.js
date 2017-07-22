@@ -36,8 +36,7 @@ export class Response {
     const errors = ResponseSchema.errors(this.model)
 
     if (errors) {
-      if (!DOUMA_PRODUCTION_MODE) console.log('Validation errors', errors)
-      throw new Error('ResponseSchema validation failed')
+      throw new Error(`ResponseSchema validation failed: ${JSON.stringify(errors)}`)
     } else {
       return true
     }
