@@ -33,8 +33,8 @@ xdescribe('plan.vue', () => {
 
   // MAP
   it('should show areas by risk when selected', () => {
-    taregt_ares = [1,2,3,4]
-    store = { state: {taregt_ares:}}
+    // taregt_ares = [1,2,3,4]
+    // store = { state: {taregt_ares:}}
   })
 
   // TABLE
