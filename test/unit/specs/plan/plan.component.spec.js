@@ -12,7 +12,6 @@ xdescribe('plan.vue', () => {
   describe("clear existing plan", () => {})
 
 
-
   it('should get latest plan from remote', () => {})
 
   it('should get village-structure-clusters from remote', () => {})
@@ -32,10 +31,7 @@ xdescribe('plan.vue', () => {
   it('should show controls when in edit mode', () => {})
 
   // MAP
-  it('should show areas by risk when selected', () => {
-    // taregt_ares = [1,2,3,4]
-    // store = { state: {taregt_ares:}}
-  })
+  it('should show areas by risk when selected', () => {})
 
   // TABLE
   it('should display all selected areas in the table', () => {})
