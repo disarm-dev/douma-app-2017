@@ -23,12 +23,11 @@ export class Plan {
     const errors = PlanSchema.errors(plan_json)
 
     if (errors) {
-      console.error('Validation errors:', errors)
-      throw new Error('PlanSchema validation failed')
+      throw new Error(`PlanSchema validation failed: ${JSON.stringify(errors)}`)
     }
   }
 
-  _decorate_targets({selected_target_area_ids, instance_config}) {
+  _decorate_targets({selected_target_area_ids}) {
     const denominator_fields = get_denominator_fields()
 
     if(!selected_target_area_ids) throw new Error('Missing selected_target_area_ids')
