@@ -30,5 +30,5 @@ echo "Built $message"
 echo $message | tr -d \'\" | xargs -I % curl -X "POST" "https://hooks.slack.com/services/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" \
      -H "Content-Type: application/json; charset=utf-8" \
      -d $'{
-  "text": "'%I'"
+  "text": "'%'"
 }'
