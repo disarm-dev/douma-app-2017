@@ -9,7 +9,8 @@ export default {
     R_SERVER_URL: "https://cluster.api.disarm.io"
   },
   applets: {
-    // The order here is irrelevant to sidebar - that is currently fixed, but should set by instance_config.json
+    // The order here is irrelevant to sidebar - that is currently fixed by the user auth/permissions sheet,
+    // but should set by instance_config.json
     'data_wizard': {title: 'Data wizard', icon: 'event_seat'},
     'irs_record_point': {title: 'IRS Record', icon: 'assignment'},
     'irs_plan': {title: 'IRS Plan', icon: 'assignment_turned_in'},
