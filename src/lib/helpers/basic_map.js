@@ -1,6 +1,13 @@
 import mapboxgl from 'mapbox-gl'
 import CONFIG from 'config/common'
 
+mapboxgl.accessToken = CONFIG.basemap.map_token
+
+/**
+ * Create a basic mapbox-gl map
+ * @param {$store} [store] - Used to set error/loading messages
+ * @returns {mapboxgl.Map}
+ */
 const basic_map = (store) => {
   const map = new mapboxgl.Map({
     container: 'map',
@@ -12,7 +19,7 @@ const basic_map = (store) => {
   map.on('error', (e) => {
     console.warn('🗺 Basic map error:', e)
     if (e.error) console.log(e.error)
-    store.commit('root:set_snackbar', {message: 'Problem with map data'})
+    if (store) store.commit('root:set_snackbar', {message: 'Problem with map data'})
   })
 
   map.addControl(new mapboxgl.NavigationControl())

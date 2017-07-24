@@ -25,9 +25,8 @@
   import moment from 'moment'
 
   // Map and geospatial
-  import mapboxgl from 'mapbox-gl'
   import MapboxDraw from '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw'
-  mapboxgl.accessToken = 'pk.eyJ1Ijoibmljb2xhaWRhdmllcyIsImEiOiJjaXlhNWw1NnkwMDJoMndwMXlsaGo5NGJoIn0.T1wTBzV42MZ1O-2dy8SpOw'
+
   import bbox from '@turf/bbox'
   import centroid from '@turf/centroid'
   import within from '@turf/within'

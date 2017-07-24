@@ -23,9 +23,12 @@ export default {
     // Middle of southern Africa, start point for zooming in
     default: {
       style: 'mapbox://styles/mapbox/streets-v9',
+      // style: 'mapbox://styles/onlyjsmith/cj5hrrba54fr22robk699tmt7',
       coords: [22.63977015806131, -25.276453102086563],
       zoom: 4
-    }
+    },
+    map_token: 'pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA',
+    // map_token: 'pk.eyJ1Ijoibmljb2xhaWRhdmllcyIsImEiOiJjaXlhNWw1NnkwMDJoMndwMXlsaGo5NGJoIn0.T1wTBzV42MZ1O-2dy8SpOw'
   },
   instances: {
     list: ['bwa', 'nam', 'swz', 'zwe'],

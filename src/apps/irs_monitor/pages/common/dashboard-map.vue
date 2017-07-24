@@ -26,9 +26,7 @@
   import {featureCollection, point} from '@turf/helpers'
   import bbox from '@turf/bbox'
   import centroid from '@turf/centroid'
-  import mapboxgl from 'mapbox-gl'
   import numeral from 'numeral'
-
 
   import {basic_map} from 'lib/helpers/basic_map.js'
   import map_legend from 'components/map_legend.vue'
