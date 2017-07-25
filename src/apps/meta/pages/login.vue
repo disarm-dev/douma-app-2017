@@ -88,6 +88,7 @@
         this.$router.push('/')
       }
       this.$nextTick(() => {
+        if (!this.$refs) return
         this.$refs.username.$el.focus()
       })
     },
