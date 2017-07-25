@@ -1,6 +1,8 @@
-# DOUMA
+# DiSARM Offline Universal Multi-device Application (DOUMA)
 
-DiSARM Offline Universal Multi-device Application
+## Docs
+
+Check the `docs` folder!
 
 ## Development
 
