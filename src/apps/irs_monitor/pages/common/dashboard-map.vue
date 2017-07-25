@@ -27,6 +27,7 @@
   import bbox from '@turf/bbox'
   import centroid from '@turf/centroid'
   import numeral from 'numeral'
+  import {Popup} from 'mapbox-gl'
 
   import {basic_map} from 'lib/helpers/basic_map.js'
   import map_legend from 'components/map_legend.vue'
@@ -241,7 +242,7 @@
           const feature = this._map.queryRenderedFeatures(e.point)[0]
 
           if (feature) {
-            new mapboxgl.Popup({closeOnClick: true})
+            new Popup({closeOnClick: true})
               .setLngLat(e.lngLat)
               .setHTML(`<p>${layer_type.attribute}: ${feature.properties[layer_type.attribute]}</p>`)
               .addTo(this._map);
