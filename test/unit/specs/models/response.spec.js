@@ -1,131 +1,64 @@
+import omit from 'lodash.omit'
+
 import {Response} from 'lib/models/response.model.js'
 
 describe('Response model', () => {
 
-  it('exising data can be edited as response model', () => {
-    const fn = () => {
-      new Response().create({
-        id: 'id',
-        country: 'bobland',
-        userAgent: 'chrome',
-        user: 'bob',
-        recorded_on: "today",
+  const sample_valid_response = {
+    instance_slug: 'test_instance',
+    username: 'test_user',
 
-        form_data: {},
-        location: {
-          coords: {
-            latitude: 24,
-            longitude: 31,
-            accuracy: 10
-          },
-        },
-        location_selection: {
-          name: "location",
-          id: "1"
-        }
-      })
-    }
+    id: 'id',
+    userAgent: 'chrome',
+    recorded_on: "today",
 
-    assert.doesNotThrow(fn, 'Should throw no errors for correct schema')
+    form_data: {},
+    location: {
+      coords: {
+        latitude: 24,
+        longitude: 31,
+        accuracy: 10
+      },
+      selection: {
+        name: "location",
+        id: "1"
+      }
+    },
+  }
+
+  it('can create empty model with only the required parameters', () => {
+    const fn = () => new Response({username: 'test_user', instance_slug: 'test_instance'})
+    assert.doesNotThrow(fn)
   })
 
-  it('should throw an error if location is missing', () => {
-
-    const fn = () => {
-      new Response().create({
-        id: 'id',
-        country: 'bobland',
-        userAgent: 'chrome',
-        user: 'bob',
-        recorded_on: "today",
-
-        form_data: {},
-        location_selection: {
-          name: "location",
-          id: "1"
-        }
-      })
-    }
-
+  it('cannot create a response without required parameters', () => {
+    const fn = () => new Response({})
     assert.throws(fn, /ResponseSchema validation failed/)
   })
 
-  it('should create a recorded_on and/or id property if none is passed', (done) => {
+  it('create model from existing data', () => {
     const fn = () => {
-      let response = new Response().create({
-        country: 'bobland',
-        userAgent: 'chrome',
-        user: 'bob',
-        form_data: {},
-        location: {
-          coords: {
-            latitude: 24,
-            longitude: 31,
-            accuracy: 10
-          },
-        },
-        location_selection: {
-          name: "location",
-          id: "1"
-        }
-      })
-
-      assert.property(response, 'recorded_on', "Should have a `recorded_on` property if none is passed")
-      assert.property(response, 'id', "Should have a `id` property if none is passed")
+      new Response(sample_valid_response)
     }
 
-    assert.doesNotThrow(fn, 'Should throw no errors if recorded_on or id is missing')
-    done()
+    assert.doesNotThrow(fn)
   })
 
-  it('should throw an error if recorded_on is passed, but id is not', () => {
+  it('creates a valid response by adding missing properties from defaults', () => {
+    const missing_location = omit(sample_valid_response, 'location')
+
     const fn = () => {
-      let response = new Response().create({
-        country: 'bobland',
-        userAgent: 'chrome',
-        user: 'bob',
-        recorded_on: "today",
-        form_data: {},
-        location: {
-          coords: {
-            latitude: 24,
-            longitude: 31,
-            accuracy: 10
-          },
-        },
-        location_selection: {
-          name: "location",
-          id: "1"
-        }
-      })
+      new Response(missing_location)
     }
 
-    assert.throws(fn, /Response is not valid/)
+    assert.doesNotThrow(fn, /ResponseSchema validation failed/)
   })
 
-  it('should throw an error if id is passed, but recorded_on is not', () => {
-    const fn = () => {
-      let response = new Response().create({
-        id: '123',
-        country: 'bobland',
-        userAgent: 'chrome',
-        user: 'bob',
-        form_data: {},
-        location: {
-          coords: {
-            latitude: 24,
-            longitude: 31,
-            accuracy: 10
-          },
-        },
-        location_selection: {
-          name: "location",
-          id: "1"
-        }
-      })
-    }
-
-    assert.throws(fn, /Response is not valid/)
+  it('should create a recorded_on and/or id property if none is passed', () => {
+    const response_missing_fields  = omit(sample_valid_response, 'id', 'recorded_on')
+    const response = new Response(response_missing_fields)
+    assert.property(response.model, 'id')
+    assert.property(response.model, 'recorded_on')
   })
 
 })

@@ -3,32 +3,7 @@ const get = require('lodash.get')
 
 const MOMENT_INTERVALS = ['months', 'weeks']
 
-const test_responses = [
-  {
-    recorded_on: '2017-01-01',
-    value: 1
-  },
-  {
-    recorded_on: '2017-01-21',
-    value: 1
-  },
-  {
-    recorded_on: '2017-04-02',
-    value: 1
-  },
-  {
-    recorded_on: '2017-02-15',
-    value: 1
-  },
-  {
-    recorded_on: '2017-03-15',
-    value: 1
-  },
-  // {
-  //   recorded_on: '2017-11-11',
-  //   value: 1
-  // }
-]
+
 
 
 const get_dates_ms_from_responses = (responses) => {
@@ -98,8 +73,9 @@ function responses_within_temporal_filter({responses, temporal_filter_definition
 
 /**
  * Get temporal bins with aggregations
+ * Defaults to monthly bins
  * @param responses
- * @param temporal_filter_definition
+ * @param temporal_filter_definition { interval: ['months', 'weeks']}
  * @returns {*}
  */
 const get_temporally_binned_aggregations = ({responses, temporal_filter_definition = {}}) => {
@@ -111,7 +87,7 @@ const get_temporally_binned_aggregations = ({responses, temporal_filter_definiti
   const bins = get_temporally_binned_responses({responses: responses_within_date_filters, interval})
 
   if (temporal_filter_definition.raw_responses) return console.log(bins)
-  // return console.log(bins)
+
   // Work through responses in each bin, doing the aggregation
   bins.forEach(bin => {
     bin.sum_of_values = bin.responses.reduce((acc, response) => {
@@ -128,7 +104,7 @@ const get_temporally_binned_aggregations = ({responses, temporal_filter_definiti
     // return binned_aggregations
   })
 
-  console.log(bins)
+  return bins
 }
 
 // Helpers, utilities
@@ -152,20 +128,4 @@ const find_bin_for = ({response, bins, interval}) => {
 }
 
 export {get_temporally_binned_aggregations}
-
-//
-//
-// // DEBUG
-// get_temporally_binned_aggregations({
-//   responses: test_responses,
-//   temporal_filter_definition: {
-//     interval: 'months',
-//     // raw_responses: true,
-//     // start_date: '2017-01-01',
-//     // start_date: '2017-03-01',
-//     // end_date: '2017-04-02'
-//     // end_date: '2017-02-02'
-//     // end_date: '2017-02-15'
-//   }
-// })
 

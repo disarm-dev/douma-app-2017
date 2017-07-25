@@ -9,8 +9,8 @@ export class AssignmentPlan {
 
   create({assignments, country}) {
     if (!AssignmentPlanSchema({assignments, country})) {
-      console.error("AssignmentPlan failed validation")
-      console.error(AssignmentPlanSchema.errors({assignments, country}))
+      const errors = AssignmentPlanSchema.errors({assignments, country})
+      throw new Error(`AssignmentPlan failed validation: ${JSON.stringify(errors)}`)
     }
 
     return {assignments, country}
