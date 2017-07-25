@@ -16,19 +16,17 @@ export default {
     'irs_plan': {title: 'IRS Plan', icon: 'assignment_turned_in'},
     'irs_monitor': {title: 'IRS Monitor', icon: 'dashboard'},
     'irs_tasker': {title: 'IRS Tasker', icon: 'group'},
-    // Meta below is currently ignored, because it's statically included in sidebar
+    // Meta below is currently ignored in sidebar (statically included), but here for the breadcrumbs
     'meta': {title: 'User', icon: 'person'},
   },
   basemap: {
     // Middle of southern Africa, start point for zooming in
     default: {
       style: 'mapbox://styles/mapbox/streets-v9',
-      // style: 'mapbox://styles/onlyjsmith/cj5hrrba54fr22robk699tmt7',
       coords: [22.63977015806131, -25.276453102086563],
       zoom: 4
     },
-    map_token: 'pk.eyJ1Ijoib25seWpzbWl0aCIsImEiOiI3R0ZLVGtvIn0.jBTrIysdeJpFhe8s1M_JgA',
-    // map_token: 'pk.eyJ1Ijoibmljb2xhaWRhdmllcyIsImEiOiJjaXlhNWw1NnkwMDJoMndwMXlsaGo5NGJoIn0.T1wTBzV42MZ1O-2dy8SpOw'
+    map_token: 'pk.eyJ1Ijoibmljb2xhaWRhdmllcyIsImEiOiJjaXlhNWw1NnkwMDJoMndwMXlsaGo5NGJoIn0.T1wTBzV42MZ1O-2dy8SpOw'
   },
   instances: {
     list: ['bwa', 'nam', 'swz', 'zwe'],
