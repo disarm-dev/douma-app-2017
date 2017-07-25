@@ -31,11 +31,10 @@
   import {basic_map} from 'lib/helpers/basic_map.js'
   import map_legend from 'components/map_legend.vue'
   import cache from 'config/cache'
-  import {value_log, log_value} from 'lib/helpers/log_helper.js'
   import {get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
   import {layer_definitions} from 'config/map_layers'
   import {prepare_palette} from 'lib/helpers/palette_helper'
-  import {LogValueConvertor} from '../../../../lib/helpers/log_helper'
+  import {LogValueConvertor} from 'lib/helpers/log_helper'
 
   export default {
     props: ['aggregated_responses', 'filtered_responses'],

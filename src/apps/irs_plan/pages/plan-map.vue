@@ -38,8 +38,6 @@
   import numeral from 'numeral'
 
   import cache from 'config/cache.js'
-  import logslider from 'lib/helpers/log_slider.js'
-  import {value_log} from 'lib/helpers/log_helper.js'
   import {basic_map} from 'lib/helpers/basic_map'
   import map_legend from 'components/map_legend.vue'
   import {get_planning_level_name, get_next_level_down_from_planning_level, get_next_level_up_from_planning_level} from 'lib/geodata/spatial_hierarchy_helper'
@@ -492,11 +490,8 @@
       }, 750),
       set_slider_range() {
         const values_array = this.planning_level_fc.features.map(area => area.properties.risk).sort()
-        const non_zeros = values_array.filter(v => v !== 0)
-
-        const mino = Math.min(...non_zeros)
-        const maxo = Math.max(...values_array) * 1.001
-        this.logslider = logslider(this.slider.min, this.slider.max, mino, maxo)
+        const fn = new LogValueConvertor(values_array)
+        this.logslider = fn.value
       },
 
       // RISK
