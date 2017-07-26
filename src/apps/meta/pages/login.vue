@@ -88,6 +88,8 @@
         this.$router.push('/')
       }
       this.$nextTick(() => {
+        // sometimes this.$refs is not available
+        if (!this.$refs.username) return
         this.$refs.username.$el.focus()
       })
     },
