@@ -98,7 +98,7 @@
     },
     methods: {
       format_response(response) {
-        const location_name = get(response, 'location.selection.name', response.location_selection.name)
+        const location_name = get(response, 'location.selection.name', '')
         const ago = this.format_datetime_from_now(response.recorded_on)
 
         return `${location_name} - ${ago}`
