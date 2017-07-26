@@ -14,6 +14,7 @@ import {decorate_geodata_on_cache} from 'lib/geodata/geodata.decorate'
 
 export const get_geodata = (store, force_reload = false) => {
   store.commit('loading/LOAD', 'get_geodata')
+  console.log('GEODATA: Start loading geodata')
 
   // Get slug and level
   const slug = store.state.instance_config.instance.slug
@@ -23,6 +24,7 @@ export const get_geodata = (store, force_reload = false) => {
   if (force_reload === false && geodata_valid()) {
     store.commit('loading/END', 'get_geodata')
     store.commit('root:set_geodata_ready', true)
+    console.log('GEODATA: Geodata has already been loaded, returning the cache')
     return Promise.resolve()
   }
 
@@ -77,7 +79,11 @@ export const get_geodata = (store, force_reload = false) => {
         cache.geodata[level] = geodata_json[index]
       })
 
+      console.log('GEODATA: Just got geodata with keys:', Object.keys(cache.geodata))
+
       decorate_geodata_on_cache()
+
+      console.log('GEODATA: After decoration with keys:', Object.keys(cache.geodata))
 
       if (!geodata_valid()) console.error('Missing geodata fields:', geodata_missing_fields())
 
@@ -85,6 +91,7 @@ export const get_geodata = (store, force_reload = false) => {
       store.commit('root:set_geodata_ready', true)
     })
     .catch(() => {
+      console.log('GEODATA: Failed to get geodata. Keys:', Object.keys(cache.geodata))
       store.commit('root:set_geodata_ready', 'error')
       store.commit('loading/END', 'get_geodata')
       store.commit('root:set_snackbar', {message: 'Network error. Please reload to try resuming.'})

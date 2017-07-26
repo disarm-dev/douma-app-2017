@@ -54,6 +54,8 @@
         return get_planning_level_name()
       },
       selected_areas() {
+        if (!this.geodata_ready) return []
+
         return cache.geodata[this.planning_level_name].features.filter(feature => {
           return this.selected_target_area_ids.includes(feature.properties.__disarm_geo_id)
         })

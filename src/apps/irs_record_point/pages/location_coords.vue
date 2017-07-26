@@ -51,7 +51,8 @@
           }
 
           const success = (position) => {
-            this.coords = convert(position)
+            let {coords} = convert(position) // returns {coords, timestamp}
+            this.coords = coords
             this.coords_message = `${this.coords.latitude}, ${this.coords.longitude} (accuracy: ${this.coords.accuracy} m)`
             this.hunting_location = false
             this.$emit('change', this.coords)
