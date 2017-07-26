@@ -70,6 +70,7 @@
   import moment from 'moment-mini'
   import flatten from 'lodash.flatten'
   import {mapState} from 'vuex'
+  import get from 'lodash.get'
 
   import controls from 'components/controls.vue'
   import local_record_summary from './local_record_summary'
@@ -97,7 +98,7 @@
     },
     methods: {
       format_response(response) {
-        const location_name = response.location.selection.name
+        const location_name = get(response, 'location.selection.name', response.location_selection.name)
         const ago = this.format_datetime_from_now(response.recorded_on)
 
         return `${location_name} - ${ago}`
