@@ -10,8 +10,8 @@ import cache from 'config/cache'
  */
 const geodata_valid = () => {
 
-  if (!has(cache, 'geodata')) {
-    console.error('No geodata on cache - need to (re-)load geodata')
+  if (!Object.keys(cache).length) {
+    console.error('No spatial hierarchies on cache - need to (re-)load geodata')
     return false
   }
 
