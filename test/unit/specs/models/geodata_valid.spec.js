@@ -3,26 +3,26 @@ import {geodata_valid} from 'lib/geodata/geodata.valid'
 import {configure_spatial_helpers} from 'lib/geodata/spatial_hierarchy_helper'
 
 const instance_config = {
-  spatial_hieararchy: {
-    "data_version": 1,
-    "markers": {
-      "planning_level_name": "villages",
-      "record_location_selection_level_name": "constituencies",
-      "denominator_fields": {
-        "number_of_households": "NumHouseholds"
+  spatial_hierarchy: {
+    'data_version': 1,
+    'markers': {
+      'planning_level_name': 'villages',
+      'record_location_selection_level_name': 'constituencies',
+      'denominator_fields': {
+        'number_of_households': 'NumHouseholds'
       }
     },
-    "levels": [
+    'levels': [
       {
-        "group_by_field": "REGION",
-        "field_name": "OBJECTID",
-        "display_field_name": "CONST",
-        "name": "constituencies"
+        'group_by_field': 'REGION',
+        'field_name': 'OBJECTID',
+        'display_field_name': 'CONST',
+        'name': 'constituencies'
       },
       {
-        "field_name": "id",
-        "display_field_name": "name",
-        "name": "villages"
+        'field_name': 'id',
+        'display_field_name': 'name',
+        'name': 'villages'
       }
     ]
   }
@@ -51,7 +51,7 @@ describe('geodata.valid.js', () => {
     assert.isFalse(is_valid)
   })
 
-  it('can validate keys but wrong geojson', () => {
+  it('can validate keys but invalid geojson', () => {
     const geodata = {
       villages: {fake_data: 'I am not geojson'},
       constituencies: {fake_data: 'I am not geojson'}
@@ -62,15 +62,13 @@ describe('geodata.valid.js', () => {
     assert.isFalse(is_valid)
   })
 
-  it('can validate keys and geojson but wrong geojson', () => {
+  it('can validate keys with invalid geojson', () => {
     const geodata = {
       villages: {
         type: 'FeatureCollection',
-        features: []
       },
       constituencies: {
         type: 'FeatureCollection',
-        features: []
       }
     }
 
@@ -84,17 +82,61 @@ describe('geodata.valid.js', () => {
       villages: {
         type: 'FeatureCollection',
         features: [{
-          type: 'Feature',
-          properties: {},
-          geometry: []
+          'type': 'Feature',
+          'properties': {},
+          'geometry': {
+            'type': 'Polygon',
+            'coordinates': [
+              [
+                [
+                  -19.6875,
+                  70.25945200030638
+                ],
+                [
+                  -151.875,
+                  -10.487811882056683
+                ],
+                [
+                  54.140625,
+                  17.97873309555617
+                ],
+                [
+                  -19.6875,
+                  70.25945200030638
+                ]
+              ]
+            ]
+          }
         }]
       },
       constituencies: {
         type: 'FeatureCollection',
         features: [{
-          type: 'Feature',
-          properties: {},
-          geometry: []
+          'type': 'Feature',
+          'properties': {},
+          'geometry': {
+            'type': 'Polygon',
+            'coordinates': [
+              [
+                [
+                  -19.6875,
+                  70.25945200030638
+                ],
+                [
+                  -151.875,
+                  -10.487811882056683
+                ],
+                [
+                  54.140625,
+                  17.97873309555617
+                ],
+                [
+                  -19.6875,
+                  70.25945200030638
+                ]
+              ]
+            ]
+          }
         }]
       }
     }
