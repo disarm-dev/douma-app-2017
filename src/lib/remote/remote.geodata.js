@@ -9,10 +9,11 @@
 import cache from 'config/cache'
 import {standard_handler} from 'lib/remote/remote.standard-handler.js'
 import {get_all_spatial_hierarchy_level_names, get_data_version} from 'lib/geodata/spatial_hierarchy_helper'
-import {geodata_valid, geodata_missing_fields} from 'lib/geodata/geodata.valid'
+import {geodata_valid, geodata_has_all_levels} from 'lib/geodata/geodata.valid'
 import {decorate_geodata_on_cache} from 'lib/geodata/geodata.decorate'
 
 export const get_geodata = (store, force_reload = false) => {
+  // TODO: @feature Remove geodata console.logs
   store.commit('loading/LOAD', 'get_geodata')
   console.log('GEODATA: Start loading geodata')
 
@@ -73,10 +74,10 @@ export const get_geodata = (store, force_reload = false) => {
   }
 
   return Promise.all(urls.map(url => standard_handler(url, options)))
-    .then(geodata_json => {
+    .then((geodata_jsons_array) => {
 
       levels.forEach((level, index) => {
-        cache.geodata[level] = geodata_json[index]
+        cache.geodata[level] = geodata_jsons_array[index]
       })
 
       console.log('GEODATA: Just got geodata with keys:', Object.keys(cache.geodata))
@@ -85,12 +86,13 @@ export const get_geodata = (store, force_reload = false) => {
 
       console.log('GEODATA: After decoration with keys:', Object.keys(cache.geodata))
 
-      if (!geodata_valid()) console.error('Missing geodata fields:', geodata_missing_fields())
+      if (!geodata_valid()) console.error('Missing geodata fields:', geodata_has_all_levels())
 
       store.commit('loading/END', 'get_geodata')
       store.commit('root:set_geodata_ready', true)
     })
-    .catch(() => {
+    .catch((e) => {
+    console.log(e)
       console.log('GEODATA: Failed to get geodata. Keys:', Object.keys(cache.geodata))
       store.commit('root:set_geodata_ready', 'error')
       store.commit('loading/END', 'get_geodata')
