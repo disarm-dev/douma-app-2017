@@ -1,1 +1,203 @@
-{"pages":[{"elements":[{"type":"text","isRequired":true,"name":"household_code","title":"Household code"},{"type":"radiogroup","choices":[{"value":"yes","text":"Yes"},{"value":"partial","text":"Partially Sprayed"},{"value":"no","text":"No"}],"isRequired":true,"name":"sprayed","title":"Household sprayed"},{"type":"radiogroup","choices":[{"value":"locked","text":"Locked"},{"value":"refused","text":"Refused"}],"isRequired":true,"name":"failure_reason","title":"Reason for failure to fully spray household","visible":false,"visibleIf":"{sprayed} = &#39;partial&#39; or {sprayed} = &#39;no&#39;"},{"type":"checkbox","choices":[{"value":"food_storage","text":"Food Storage"},{"value":"infant","text":"Infant"},{"value":"kitchen","text":"Kitchen"}],"hasOther":true,"isRequired":true,"name":"reasons_notspraying","title":"Reason for refusal","visible":false,"visibleIf":"{failure_reason} =&#39;refused&#39;"},{"type":"text","inputType":"number","isRequired":true,"name":"number_total","title":"Total number of rooms","validators":[{"type":"numeric","minValue":"0","text":"Minimum value is 0"}],"visible":false,"visibleIf":"{sprayed} = &#39;yes&#39; or {sprayed} = &#39;partial&#39;"},{"type":"text","inputType":"number","isRequired":true,"name":"number_sprayed","title":"Rooms fully sprayed","validators":[{"type":"numeric","minValue":"0","text":"Minimum value is 0"}],"visible":false,"visibleIf":"{sprayed} = &#39;yes&#39; or {sprayed} = &#39;partial&#39;"},{"type":"text","inputType":"number","isRequired":true,"name":"number_unsprayed","title":"Rooms not sprayed","validators":[{"type":"numeric","minValue":"0","text":"Minimum value is 0"}],"visible":false,"visibleIf":"{sprayed} = &#39;yes&#39; or {sprayed} = &#39;partial&#39;"},{"type":"radiogroup","choices":[{"value":"ddt","text":"DDT"},{"value":"insect_o_kill","text":"Insect O Kill"},{"value":"by","text":"By"},{"value":"op","text":"Op"},{"value":"bs","text":"Bs"}],"isRequired":true,"name":"chemical_used","title":"Chemical used","visible":false,"visibleIf":"{sprayed} = &#39;yes&#39; or {sprayed} = &#39;partial&#39;"},{"type":"text","inputType":"number","isRequired":true,"name":"total_population","title":"Total population protected","validators":[{"type":"numeric","minValue":"0","text":"Minimum value is 0"}],"visible":false,"visibleIf":"{sprayed} = &#39;yes&#39; or {sprayed} = &#39;partial&#39;"},{"type":"text","inputType":"number","isRequired":true,"name":"under_five","title":"Population &lt;5 YRS","validators":[{"type":"numeric","minValue":"0","text":"Minimum value is 0"}],"visible":false,"visibleIf":"{sprayed} = &#39;yes&#39; or {sprayed} = &#39;partial&#39;"},{"type":"text","inputType":"number","isRequired":true,"name":"over_five","title":"Population &gt;/= 5 YRS","validators":[{"type":"numeric","minValue":"0","text":"Minimum value is 0"}],"visible":false,"visibleIf":"{sprayed} = &#39;yes&#39; or {sprayed} = &#39;partial&#39;"},{"type":"text","isRequired":true,"name":"name_household","placeHolder":"Name","title":"Head of household name"}],"name":"page1","navigationButtonsVisibility":"show"}]}
+{
+ "pages": [
+  {
+   "name": "page1",
+   "elements": [
+    {
+     "type": "text",
+     "isRequired": true,
+     "name": "household_code",
+     "title": "Household code"
+    },
+    {
+     "type": "radiogroup",
+     "name": "sprayed",
+     "title": "Household sprayed",
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "yes",
+       "text": "Yes"
+      },
+      {
+       "value": "partial",
+       "text": "Partially Sprayed"
+      },
+      {
+       "value": "no",
+       "text": "No"
+      }
+     ]
+    },
+    {
+     "type": "radiogroup",
+     "name": "failure_reason",
+     "visible": false,
+     "visibleIf": "{sprayed} = 'no' or {sprayed} = 'partial'",
+     "title": "Reason for failure to fully spray household",
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "locked",
+       "text": "Locked"
+      },
+      {
+       "value": "refused",
+       "text": "Refused"
+      }
+     ]
+    },
+    {
+     "type": "checkbox",
+     "name": "reasons_notspraying",
+     "visible": false,
+     "visibleIf": "{failure_reason} = 'refused'",
+     "title": "Reason for refusal",
+     "isRequired": true,
+     "hasOther": true,
+     "choices": [
+      {
+       "value": "food_storage",
+       "text": "Food Storage"
+      },
+      {
+       "value": "infant",
+       "text": "Infant"
+      },
+      {
+       "value": "kitchen",
+       "text": "Kitchen"
+      }
+     ]
+    },
+    {
+     "type": "text",
+     "inputType": "number",
+     "isRequired": true,
+     "name": "number_total",
+     "title": "Total number of rooms",
+     "validators": [
+      {
+       "type": "numeric",
+       "text": "Minimum value is 0"
+      }
+     ],
+     "visible": false,
+     "visibleIf": "{sprayed} = 'partial' or {sprayed} = 'yes'"
+    },
+    {
+     "type": "text",
+     "inputType": "number",
+     "isRequired": true,
+     "name": "number_sprayed",
+     "title": "Rooms fully sprayed",
+     "validators": [
+      {
+       "type": "numeric",
+       "text": "Minimum value is 0"
+      }
+     ],
+     "visible": false,
+     "visibleIf": "{sprayed} = 'partial' or {sprayed} = 'yes'"
+    },
+    {
+     "type": "text",
+     "inputType": "number",
+     "isRequired": true,
+     "name": "number_unsprayed",
+     "title": "Rooms not sprayed",
+     "validators": [
+      {
+       "type": "numeric",
+       "text": "Minimum value is 0"
+      }
+     ],
+     "visible": false,
+     "visibleIf": "{sprayed} = 'partial' or {sprayed} = 'yes'"
+    },
+    {
+     "type": "radiogroup",
+     "name": "chemical_used",
+     "visible": false,
+     "visibleIf": "{sprayed} = 'partial' or {sprayed} = 'yes'",
+     "title": "Chemical used",
+     "isRequired": true,
+     "choices": [
+      {
+       "value": "ddt",
+       "text": "DDT"
+      },
+      {
+       "value": "insect_o_kill",
+       "text": "Insect O Kill"
+      },
+      {
+       "value": "by",
+       "text": "By"
+      },
+      {
+       "value": "op",
+       "text": "Op"
+      },
+      {
+       "value": "bs",
+       "text": "Bs"
+      }
+     ]
+    },
+    {
+     "type": "text",
+     "inputType": "number",
+     "isRequired": true,
+     "name": "total_population",
+     "title": "Total population protected",
+     "validators": [
+      {
+       "type": "numeric",
+       "text": "Minimum value is 0"
+      }
+     ],
+     "visible": false,
+     "visibleIf": "{sprayed} = 'partial' or {sprayed} = 'yes'"
+    },
+    {
+     "type": "text",
+     "inputType": "number",
+     "isRequired": true,
+     "name": "under_five",
+     "title": "Population < 5 YRS",
+     "validators": [
+      {
+       "type": "numeric",
+       "text": "Minimum value is 0"
+      }
+     ],
+     "visible": false,
+     "visibleIf": "{sprayed} = 'partial' or {sprayed} = 'yes'"
+    },
+    {
+     "type": "text",
+     "inputType": "number",
+     "isRequired": true,
+     "name": "over_five",
+     "title": "Population >= 5 YRS",
+     "validators": [
+      {
+       "type": "numeric",
+       "text": "Minimum value is 0"
+      }
+     ],
+     "visible": false,
+     "visibleIf": "{sprayed} = 'partial' or {sprayed} = 'yes'"
+    },
+    {
+     "type": "text",
+     "isRequired": true,
+     "name": "name_household",
+     "placeHolder": "Name",
+     "title": "Head of household name"
+    }
+   ]
+  }
+ ]
+}
