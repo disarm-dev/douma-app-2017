@@ -71,8 +71,13 @@
       // Click listeners
       bind_click_handler() {
         this._click_handler = (e) => {
-          const clicked_feature = this._map.queryRenderedFeatures(e.point)[0]
+          if (!this._map.getLayer('areas')) return
 
+          const clicked_features = this._map.queryRenderedFeatures(e.point, {layers: ['areas']})
+          if (!clicked_features) return
+
+          const clicked_feature = clicked_features[0]
+          if (!clicked_feature) return
           // Update store
           const area_id = clicked_feature.properties.__disarm_geo_id
           this.$emit('assign_areas_to_selected_team', area_id)
@@ -80,10 +85,10 @@
           // Update the map
           this.redraw_assignments()
         }
-        this._map.on('click', 'areas', this._click_handler)
+        this._map.on('click', this._click_handler)
       },
       remove_click_handler() {
-        this._map.off('click', 'areas', this._click_handler)
+        this._map.off('click', this._click_handler)
         this._click_handler = null
       },
 
