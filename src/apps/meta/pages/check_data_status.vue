@@ -104,7 +104,7 @@
       },
       check_geodata_valid() {
         const result = geodata_valid()
-        if (!result) console.log('geodata_missing_fields', geodata_missing_fields())
+        if (!result) console.log('geodata_has_all_levels', geodata_has_all_levels())
         this.success.geodata_valid = result
       },
       decorate_geodata() {
