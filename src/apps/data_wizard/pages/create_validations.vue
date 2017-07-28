@@ -123,7 +123,7 @@
         return this.$store.state.instance_config
       },
       form_elements() {
-        return get_form_elements(this.$store.state.instance_config.form)
+        return get_form_elements(this.$store.state.data_wizard.form)
       },
       test_fields() {
         if (!this.test_expr) return []
@@ -132,7 +132,7 @@
     },
     methods: {
       save_and_finish() {
-        console.log(this.validations)
+        this.$store.commit('data_wizard/set_validations', this.validations)
         this.$router.push({name: 'data_wizard:aggregations'})
       },
       set_active_validation(validation) {

@@ -29,6 +29,7 @@ export default {
   },
   methods: {
     get_form() {
+      if (!this.dx_url.length) return
       // fetch
       const url = `https://wt-jonathan-peoplesized_com-0.run.webtask.io/disarm-surveyjs-extract-form?form_url=${this.dx_url}`
 
@@ -36,6 +37,7 @@ export default {
         .then(res => res.json())
         .then((form) => {
           console.log(form)
+          this.$store.commit('data_wizard/set_form', form)
           this.$router.push({name: 'data_wizard:validations'})
         })
     }

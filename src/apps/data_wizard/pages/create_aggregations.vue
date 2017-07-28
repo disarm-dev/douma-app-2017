@@ -30,6 +30,7 @@ export default {
   methods: {
     save_aggregations() {
       console.log(this.aggregations)
+      this.$store.commit('data_wizard/set_aggregations', this.aggregations)
       this.$router.push({name: 'data_wizard:applets'})
     }
   }
