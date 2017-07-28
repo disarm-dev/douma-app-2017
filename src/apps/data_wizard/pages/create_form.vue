@@ -13,7 +13,7 @@
         </md-input-container>
       </md-card-content>
       <md-card-actions>
-        <md-button @click.native="$router.push({name: 'data_wizard:validations'})">Continue</md-button>
+        <md-button @click.native="get_form">Continue</md-button>
       </md-card-actions>
     </md-card>
   </div>
@@ -30,7 +30,14 @@ export default {
   methods: {
     get_form() {
       // fetch
-      // https://wt-jonathan-peoplesized_com-0.run.webtask.io/disarm-surveyjs-extract-form?form_url=""
+      const url = `https://wt-jonathan-peoplesized_com-0.run.webtask.io/disarm-surveyjs-extract-form?form_url=${this.dx_url}`
+
+      fetch(url)
+        .then(res => res.json())
+        .then((form) => {
+          console.log(form)
+          this.$router.push({name: 'data_wizard:validations'})
+        })
     }
   }
 };

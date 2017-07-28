@@ -10,22 +10,19 @@
         <md-input-container>
           <label for="country">Country</label>
           <md-select name="country" id="country" v-model="country">
-            <md-option value="namibia">Namibia</md-option>
-            <md-option value="botswana">Botswana</md-option>
-            <md-option value="swaziland">Swaziland</md-option>
-            <md-option value="zimbabwe">Zimbabwe</md-option>
+            <md-option v-for="country in countries" :key="country.slug" :value="country.slug">{{country.name}}</md-option>
           </md-select>
         </md-input-container>
 
       </md-card-content>
       <md-card-actions>
-        <md-button>
-          Continue
+        <md-button @click.native="select_country">
+          Select country
         </md-button>
       </md-card-actions>
     </md-card>
 
-    <md-card class="card">
+    <md-card class="card" v-if="show_admin_levels">
       <md-card-header>
         <div class="md-title">Select admin levels to include</div>
       </md-card-header>
@@ -59,7 +56,7 @@
         </md-list>
       </md-card-content>
       <md-card-actions>
-        <md-button @click.native="$router.push({name: 'data_wizard:create_form'})">Continue</md-button>
+        <md-button @click.native="select_spatial_hierarchy">Continue</md-button>
       </md-card-actions>
     </md-card>
 
@@ -72,6 +69,10 @@ export default {
   name: 'configure_geodata',
   data () {
     return {
+      countries: [],
+      show_admin_levels: false,
+      
+
       country: '',
       planning_level: '',
       include_areas: {
@@ -79,6 +80,31 @@ export default {
         two: '',
         three: '',
       }
+    }
+  },
+  mounted() {
+    fetch('https://restcountries.eu/rest/v2/all')
+      .then(res => res.json())
+      .then((countries) => {
+        this.countries = countries.map((c) => {
+          return {
+            name: c.name,
+            slug: c.alpha3Code
+          }
+        }).sort((a, b) => {
+          return a.name < b.name
+        })
+      })
+  },
+  methods: {
+    select_country() {
+      console.log('selected country: ', this.country)
+      this.show_admin_levels = true
+    },
+    select_spatial_hierarchy() {
+      console.log('this.include_areas', this.include_areas)
+      console.log('this.planning_level', this.planning_level)
+      this.$router.push({name: 'data_wizard:create_form'})
     }
   }
 };

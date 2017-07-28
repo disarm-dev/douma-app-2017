@@ -7,8 +7,8 @@
     </md-input-container>
 
     <md-button class="md-raised" @click.native="download">Export validations</md-button>
-    <md-button class="md-raised" @click.native="reset">Reset changes</md-button>
     <md-button class="md-raised" @click.native="show_upload = !show_upload">Upload</md-button>
+    <md-button class="md-raised md-primary" @click.native="save_and_finish">Save and continue</md-button>
 
     <h3>Current validations</h3>
     <div v-if="validations">
@@ -86,14 +86,12 @@
           </md-card-header-text>
         </md-card-header>
         <md-card-content>
-          <md-chip v-for="element in get_form_elements" :key="element.name">{{element.name}}</md-chip>
+          <md-chip v-for="element in form_elements" :key="element.name">{{element.name}}</md-chip>
         </md-card-content>
       </md-card>
 
 
     </template>
-
-    <md-button @click.native="$router.push({name: 'data_wizard:aggregations'})">Continue</md-button>
   </div>
 </template>
 <script type="text/javascript">
@@ -107,7 +105,6 @@
     name: 'create_aggregations',
     data() {
       return {
-        _original_validations: [],
         validations: [],
         active_validation: null,
 
@@ -131,17 +128,12 @@
       test_fields() {
         if (!this.test_expr) return []
         return this.test_expr.variables()
-      },
-    },
-    created() {
-      this.validations = this.instance_config.validations
-      this._original_validations = deep_clone(this.validations)
+      }
     },
     methods: {
-      reset() {
-        this.active_validation = null
-        this.show_test = false
-        this.validations = deep_clone(this._original_validations)
+      save_and_finish() {
+        console.log(this.validations)
+        this.$router.push({name: 'data_wizard:aggregations'})
       },
       set_active_validation(validation) {
         this.active_validation = validation

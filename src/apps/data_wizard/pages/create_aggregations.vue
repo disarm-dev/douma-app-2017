@@ -5,10 +5,15 @@
         <div class="md-title">Create aggregations</div>
       </md-card-header>
       <md-card-content>
-        Create aggregations
+        
+        <md-input-container >
+          <label>Please enter the aggregations</label>
+          <md-textarea v-model="aggregations"></md-textarea>
+        </md-input-container>
+
       </md-card-content>
       <md-card-actions>
-        <md-button @click.native="$router.push({name: 'data_wizard:applets'})">Continue</md-button>
+        <md-button @click.native="save_aggregations">Continue</md-button>
       </md-card-actions>
     </md-card>
   </div>
@@ -19,7 +24,13 @@ export default {
   name: 'create_aggregations',
   data () {
     return {
-
+      aggregations: ''
+    }
+  },
+  methods: {
+    save_aggregations() {
+      console.log(this.aggregations)
+      this.$router.push({name: 'data_wizard:applets'})
     }
   }
 };
