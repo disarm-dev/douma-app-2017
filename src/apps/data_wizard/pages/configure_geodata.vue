@@ -99,11 +99,22 @@ export default {
   methods: {
     select_country() {
       console.log('selected country: ', this.country)
+      this.$store.commit('data_wizard/set_country', this.country)
       this.show_admin_levels = true
     },
     select_spatial_hierarchy() {
       console.log('this.include_areas', this.include_areas)
       console.log('this.planning_level', this.planning_level)
+
+      let final_areas = []
+      for (let level_name in this.include_areas) {
+        if (this.include_areas[level_name]) {
+          final_areas.push(level_name)
+        }
+      }
+
+      this.$store.commit('data_wizard/set_spatial_hierarchies', final_areas)
+      this.$store.commit('data_wizard/set_planning_level', this.planning_level)
       this.$router.push({name: 'data_wizard:create_form'})
     }
   }
