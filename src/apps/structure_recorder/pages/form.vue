@@ -1,6 +1,9 @@
 <template>
-  <div>
-    Structure-based data collector
+  <div class="container">
+    <h1>Structure-based data collector</h1>
+
+    <h2>Add most of structures page in here</h2>
+    <h2>With a form that opens</h2>
   </div>
 </template>
 
