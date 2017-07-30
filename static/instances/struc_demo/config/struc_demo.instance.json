@@ -1,0 +1,76 @@
+{
+  "applets": {
+    "structure_recorder": {},
+    "irs_monitor": {
+      "aggregations": {
+        "map": "number of rooms sprayed (total)",
+        "table": [
+          "number of rooms sprayed (total)"
+        ]
+      },
+      "components": [
+        {
+          "height_constraint": "none",
+          "name": "bwa_chart_prop_room_sprayed",
+          "width_constraint": "half"
+        },
+        {
+          "height_constraint": "none",
+          "name": "bwa_chart_prop_people_covered",
+          "width_constraint": "half"
+        },
+        {
+          "height_constraint": "none",
+          "name": "bwa_chart_refusal_pie",
+          "width_constraint": "half"
+        }
+      ],
+      "title": "Dashboard"
+    },
+    "irs_plan": {
+      "title": "IRS Planning and Management"
+    },
+    "irs_record_point": {
+      "title": "IRS Data collection and Reporting Tool"
+    },
+    "irs_tasker": {},
+    "meta": {},
+    "data_wizard": {}
+  },
+  "map_focus": {
+    "centre": {
+      "lat": -20.37552680342694,
+      "lng": 24.158935546875004
+    },
+    "zoom": 7
+  },
+  "instance": {
+    "title": "DiSARM Structures Recorder Demo ",
+    "location_name": "Structures",
+    "slug": "struc_demo"
+  },
+  "spatial_hierarchy": {
+    "data_version": 1,
+    "markers": {
+      "planning_level_name": "villages",
+      "record_location_selection_level_name": "villages",
+      "denominator_fields": {
+        "number_of_structures": "NmStrct"
+      }
+    },
+    "levels": [
+      {
+        "group_by_field": "Name",
+        "field_name": "OBJECTID",
+        "display_field_name": "VILLAGE",
+        "name": "villages"
+      },
+      {
+        "field_name": "ClusterID",
+        "display_field_name": "SP_ID_1",
+        "name": "clusters"
+      }
+    ]
+  }
+}
+
