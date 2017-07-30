@@ -6,7 +6,7 @@
         <div class="md-title">Select a country below</div>
       </md-card-header>
       <md-card-content>
-        
+
         <md-input-container>
           <label for="country">Country</label>
           <md-select name="country" id="country" v-model="country">
@@ -53,11 +53,44 @@
 
             <md-radio v-model="planning_level" md-value="three"></md-radio>
           </md-list-item>
+
+          <md-list-item>
+            <md-button class="md-raised md-primary">Add OSM data</md-button>
+          </md-list-item>
+          <md-list-item>
+            <md-button class="md-raised md-primary">Add your own geo-spatial data</md-button>
+          </md-list-item>
         </md-list>
       </md-card-content>
       <md-card-actions>
-        <md-button @click.native="select_spatial_hierarchy">Continue</md-button>
+        <span>Hit 'start' to start geoprocessing</span>
+        <md-button @click.native="select_spatial_hierarchy">Start processing</md-button>
       </md-card-actions>
+    </md-card>
+
+    <md-card class="card" v-if="show_admin_levels">
+      <md-card-header>
+        <div class="md-title">Select risk and population layers</div>
+      </md-card-header>
+      <md-card-content>
+        <md-list>
+          <md-list-item>
+            <span>Risk</span>
+            <md-checkbox v-model="use_default_layers">import from Malaria Atlas Project</md-checkbox>
+            <md-button class="md-raised md-primary">custom</md-button>
+          </md-list-item>
+          <md-list-item>
+            <span>Population</span>
+            <md-checkbox v-model="use_default_layers">import from Worldpop</md-checkbox>
+            <md-button class="md-raised md-primary">custom</md-button>
+          </md-list-item>
+        </md-list>
+      </md-card-content>
+
+      <md-card-actions>
+
+      </md-card-actions>
+
     </md-card>
 
 
@@ -71,9 +104,10 @@ export default {
     return {
       countries: [],
       show_admin_levels: false,
-      
+      show_raster_inputs: false,
 
       country: '',
+      use_default_layers: true,
       planning_level: '',
       include_areas: {
         one: '',
@@ -83,13 +117,16 @@ export default {
     }
   },
   mounted() {
-    fetch('https://restcountries.eu/rest/v2/all')
+    fetch('/static/countries.geojson')
       .then(res => res.json())
       .then((countries) => {
-        this.countries = countries.map((c) => {
+
+        this.countries = countries.features.filter(c => {
+          return c.properties.region_un === 'Africa'
+        }).map((c) => {
           return {
-            name: c.name,
-            slug: c.alpha3Code
+            name: c.properties.name,
+            slug: c.properties.sov_a3
           }
         }).sort((a, b) => {
           return a.name < b.name

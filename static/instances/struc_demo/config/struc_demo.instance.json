@@ -1,6 +1,7 @@
 {
   "applets": {
     "structure_recorder": {},
+    "data_wizard": {},
     "irs_monitor": {
       "aggregations": {
         "map": "number of rooms sprayed (total)",
