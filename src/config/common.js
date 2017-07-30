@@ -30,7 +30,7 @@ export default {
     map_token: 'pk.eyJ1Ijoibmljb2xhaWRhdmllcyIsImEiOiJjaXlhNWw1NnkwMDJoMndwMXlsaGo5NGJoIn0.T1wTBzV42MZ1O-2dy8SpOw'
   },
   instances: {
-    list: ['struc_demo', 'bwa', 'nam', 'swz', 'zwe'],
+    list: ['struc_demo', 'make', 'bwa', 'nam', 'swz', 'zwe'],
     required_instance_files: ['instance', 'form', 'location_selection', 'aggregations', 'fake_form', 'validations', 'presenters']
   },
   remote: {

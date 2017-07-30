@@ -1,0 +1,42 @@
+{
+  "applets": {
+    "data_wizard": {},
+    "meta": {},
+  },
+  "map_focus": {
+    "centre": {
+      "lat": -20.37552680342694,
+      "lng": 24.158935546875004
+    },
+    "zoom": 7
+  },
+  "instance": {
+    "title": "DiSARM New instance configurer",
+    "location_name": "New instance",
+    "slug": "make"
+  },
+  "spatial_hierarchy": {
+    "data_version": 1,
+    "markers": {
+      "planning_level_name": "villages",
+      "record_location_selection_level_name": "villages",
+      "denominator_fields": {
+        "number_of_structures": "NmStrct"
+      }
+    },
+    "levels": [
+      {
+        "group_by_field": "Name",
+        "field_name": "OBJECTID",
+        "display_field_name": "VILLAGE",
+        "name": "villages"
+      },
+      {
+        "field_name": "ClusterID",
+        "display_field_name": "SP_ID_1",
+        "name": "clusters"
+      }
+    ]
+  }
+}
+
