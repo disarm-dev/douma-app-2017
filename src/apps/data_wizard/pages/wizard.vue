@@ -1,11 +1,25 @@
 <template>
-  <md-stepper md-vertical class="container" @change='change' @completed="completed">
-    <md-step v-for='{title, description, remote_source} in steps' :key='{title}' :md-label="title" :md-message="description">
+  <div class="applet_container">
+    <md-card class="card">
+      <md-card-header>
+        <div class="md-title">DiSARM Data Wizard</div>
+      </md-card-header>
+      <md-card-content>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo, sunt, nihil? Id at fugit, sit ex impedit, libero minus ratione, quis temporibus sed molestiae hic animi iusto reprehenderit non tempore.
+      </md-card-content>
+      <md-card-actions>
+        <md-button @click.native="$router.push({name: 'data_wizard:configure_geodata'})">Start</md-button>
+      </md-card-actions>
+    </md-card>
+
+  <!-- <md-stepper md-vertical class="container" @change='change' @completed="completed">
+    <md-step v-for='{title, description, remote_source} in steps' :key='title' :md-label="title" :md-message="description">
       <p><md-icon class='step-icon'>extension</md-icon> {{remote_source}}</p>
 
       <p><md-icon class='step-icon'>file_upload</md-icon>Upload your own data which matches this <router-link to=''>schema</router-link></p>
     </md-step>
-  </md-stepper>
+  </md-stepper> -->
+  </div>
 </template>
 
 <script>
@@ -89,5 +103,8 @@
 <style scoped>
   .step-icon {
     color: #bbc7d0
+  }
+  .card {
+    margin: 1em auto;
   }
 </style>
