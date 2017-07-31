@@ -116,9 +116,9 @@
         use_default_layers: true,
         planning_level: '',
         include_areas: {
-          one: '',
-          two: '',
-          three: '',
+          adm0: '',
+          adm1: '',
+          adm2: '',
         }
       }
     },
@@ -156,8 +156,16 @@
           this.create_map()
       },
       select_country() {
-        console.log('selected country: ', this.country)
-        this.$store.commit('data_wizard/set_country', this.country)
+        const country = this.countries.find((c) => c.slug === this.country)
+
+        this.$store.commit('data_wizard/set_instance', {
+          title: country.name,
+          location_name: country.name,
+          slug: country.slug
+        })
+
+        this.$store.commit('data_wizard/set_map_focus', country.map_focus)
+        
         this.show_admin_levels = true
       },
       select_spatial_hierarchy() {
