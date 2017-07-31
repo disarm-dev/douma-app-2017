@@ -10,7 +10,15 @@
           <div><b>Include</b></div>
           <div><b>Planning level</b></div>
         </md-list-item>
-        <md-list-item>
+        
+        <md-list-item v-for="level in levels">
+          <span>{{level}}</span>
+          <md-checkbox v-model="include_areas[level]"></md-checkbox>
+
+          <md-radio v-model="planning_level" :md-value="level"></md-radio>
+        </md-list-item>
+
+        <!-- <md-list-item>
           <span>Admin 1</span>
           <md-checkbox v-model="include_areas.adm0"></md-checkbox>
 
@@ -29,7 +37,7 @@
           <md-checkbox v-model="include_areas.adm2"></md-checkbox>
 
           <md-radio v-model="planning_level" md-value="three"></md-radio>
-        </md-list-item>
+        </md-list-item> -->
 
         <md-list-item>
           <md-button class="md-raised md-primary">Add OSM data</md-button>
@@ -56,7 +64,9 @@ export default {
         adm0: '',
         adm1: '',
         adm2: '',
-      }
+      },
+      // TODO: @feature Replace with response from remote
+      levels: ['1', '2', '3']
     };
   },
   methods: {
@@ -74,7 +84,7 @@ export default {
       this.$store.commit('data_wizard/set_spatial_hierarchies', final_areas)
       this.$store.commit('data_wizard/set_planning_level', this.planning_level)
 
-      // TODO: @feature Send of planning level
+      // TODO: @feature Send planning level
     }
   }
 };

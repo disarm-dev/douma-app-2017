@@ -39,10 +39,9 @@ export default {
   methods: {
     set_table_aggregations() {
       console.log('table_aggregations', this.table_aggregations)
-
     }
   }
-};
+}
 </script>
 
 <style lang="css" scoped>

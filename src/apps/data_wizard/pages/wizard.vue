@@ -34,11 +34,12 @@
     create_validations,
     create_aggregations,
     configure_applets,
-    configure_map_aggregation
+    configure_map_aggregation,
+    configure_table_aggregation
   ]
 
   export default {
-    components: {select_country, create_form, create_validations, create_aggregations, configure_applets, configure_map_aggregation, select_spatial_hierarchy, select_data_source_layers},
+    components: {select_country, create_form, create_validations, create_aggregations, configure_applets, configure_map_aggregation, configure_table_aggregation, select_spatial_hierarchy, select_data_source_layers},
     name: 'wizard',
     data() {
       return {
