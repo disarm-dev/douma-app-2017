@@ -1,7 +1,7 @@
 <template>
   <div class="applet_container">
     <div class="md-title">DiSARM Data Wizard</div>
-    
+
     <div>
       {{step + 1 }} of {{steps.length}}
     </div>
@@ -16,24 +16,29 @@
 </template>
 
 <script>
-  import configure_geodata from './configure_geodata.vue'
+  import select_country from './select_country.vue'
+  import select_spatial_hierarchy from './select_spatial_hierarchy.vue'
+  import select_data_source_layers from './select_data_source_layers.vue'
   import create_form from './create_form.vue'
   import create_validations from './create_validations.vue'
   import create_aggregations from './create_aggregations.vue'
   import configure_applets from './configure_applets.vue'
-  import configure_presenters from './configure_presenters.vue'
+  import configure_map_aggregation from './configure_map_aggregation.vue'
+  import configure_table_aggregation from './configure_table_aggregation.vue'
 
   const steps = [
-    configure_geodata,
+    select_country,
+    select_spatial_hierarchy,
+    select_data_source_layers,
     create_form,
     create_validations,
     create_aggregations,
     configure_applets,
-    configure_presenters
+    configure_map_aggregation
   ]
 
   export default {
-    components: {configure_geodata, create_form, create_validations, create_aggregations, configure_applets, configure_presenters},
+    components: {select_country, create_form, create_validations, create_aggregations, configure_applets, configure_map_aggregation, select_spatial_hierarchy, select_data_source_layers},
     name: 'wizard',
     data() {
       return {

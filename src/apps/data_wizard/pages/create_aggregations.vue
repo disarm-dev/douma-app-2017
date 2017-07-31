@@ -21,10 +21,20 @@
         <md-button @click.native="save_aggregations">Save</md-button>
       </md-card-actions>
     </md-card>
+
+    <md-card>
+      <md-card-content>
+        <md-chip v-for="field in form_fields" :key="field">
+          {{field}}
+        </md-chip>
+      </md-card-content>
+    </md-card>
   </div>
 </template>
 
 <script>
+
+import {get_form_fields} from 'lib/instance_data/form_helpers'
 export default {
   name: 'create_aggregations',
   data () {
@@ -33,10 +43,18 @@ export default {
       aggregation_expr: ''
     }
   },
+  computed: {
+    form_fields() {
+      return get_form_fields(this.$store.state.data_wizard.form)
+    }
+  },
   methods: {
     save_aggregations() {
       let aggregations = {}
-      aggregations[this.aggregation_name] = this.aggregation_expr
+      aggregations[this.aggregation_name] =  {
+        numerator_expr: this.aggregation_expr
+      }
+
       
       this.$store.commit('data_wizard/set_aggregations', aggregations)
     }

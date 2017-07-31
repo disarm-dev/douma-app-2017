@@ -102,7 +102,7 @@
   import {get_form_elements} from 'lib/instance_data/form_helpers'
 
   export default {
-    name: 'create_aggregations',
+    name: 'create_validations',
     data() {
       return {
         validations: [],
@@ -119,9 +119,6 @@
       }
     },
     computed: {
-      instance_config() {
-        return this.$store.state.instance_config
-      },
       form_elements() {
         return get_form_elements(this.$store.state.data_wizard.form)
       },
@@ -207,7 +204,7 @@
       download() {
         const content = JSON.stringify(this.validations)
         const date = moment().format('YYYY-MM-DD_HHmm')
-        download(content, `${this.instance_config.instance.slug}_validations_${date}.json`)
+        download(content, `wizard_validations_${date}.json`)
       }
     }
   }
