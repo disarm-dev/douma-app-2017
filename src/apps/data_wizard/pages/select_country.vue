@@ -9,7 +9,7 @@
 
         <md-input-container>
           <label for="country">Country</label>
-          <md-select name="country" id="country" v-model="country">
+          <md-select name="country" id="country" v-model="country" @change="select_country">
             <md-option v-for="country in countries" :key="country.slug" :value="country.slug">{{country.name}}</md-option>
           </md-select>
         </md-input-container>
@@ -17,11 +17,6 @@
         <div id="map"></div>
 
       </md-card-content>
-      <md-card-actions>
-        <md-button @click.native="select_country">
-          Select country
-        </md-button>
-      </md-card-actions>
     </md-card>
   </div>
 </template>
@@ -71,6 +66,7 @@
               }
 
               return {
+                feature: c,
                 name: c.properties.name,
                 slug: c.properties.sov_a3,
                 map_focus
@@ -89,9 +85,31 @@
         })
 
         this.$store.commit('data_wizard/set_map_focus', country.map_focus)
-        
-        this.show_admin_levels = true
-      },
+
+        if (this._map.getLayer('country')) {
+          this._map.removeLayer('country')
+          this._map.removeSource('country')
+        }
+
+        this._map.addLayer({
+          id: 'country',
+          type: 'fill',
+          source: {
+            type: 'geojson',
+            data: {
+              type: 'FeatureCollection',
+              features: [country.feature]
+            }
+          },
+          paint: {
+            'fill-color': 'green',
+            'fill-opacity': 0.9,
+            'fill-outline-color': 'black'
+          }
+        })
+
+        // TODO: @feature ZOOM to feature here
+      }
       
     }
   };
