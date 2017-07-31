@@ -52,8 +52,14 @@ export default {
   },
   methods: {
     save_and_continue() {
-      console.log(this.enabled_applets)
-      this.$router.push({name: 'data_wizard:presenters'})
+      const applets = {}
+
+      for (let i in this.enabled_applets) {
+        if (this.enabled_applets[i]) applets[i] = {}        
+      }
+
+      this.$store.commit('data_wizard/set_applets', applets)
+      
     }
   }
 };

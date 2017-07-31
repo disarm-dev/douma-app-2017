@@ -2,6 +2,7 @@ export default {
   namespaced: true,
   state: {
     instance_config: {
+      applets: {},
       map_focus: null,
       instance: {
         title: '',
@@ -41,18 +42,22 @@ export default {
       state.instance_config.spatial_hierarchy.markers.record_location_selection_level_name = planning_level
     },
 
-
-
-
+    // FORM
     'set_form': (state, form) => {
       state.form = form
     },
+
+
     'set_validations': (state, validations) => {
       state.validations = validations
     },
     'set_aggregations': (state, aggregations) => {
       state.aggregations = aggregations
     },
+
+    'set_applets': (state, applets) => {
+      state.instance_config.applets = applets
+    }
     
   }
 }
