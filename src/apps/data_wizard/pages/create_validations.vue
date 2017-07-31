@@ -8,7 +8,7 @@
 
     <md-button class="md-raised" @click.native="download">Export validations</md-button>
     <md-button class="md-raised" @click.native="show_upload = !show_upload">Upload</md-button>
-    <md-button class="md-raised md-primary" @click.native="save_and_finish">Save and continue</md-button>
+    <md-button class="md-raised md-primary" @click.native="save_and_finish">Save</md-button>
 
     <h3>Current validations</h3>
     <div v-if="validations">
@@ -133,7 +133,6 @@
     methods: {
       save_and_finish() {
         this.$store.commit('data_wizard/set_validations', this.validations)
-        this.$router.push({name: 'data_wizard:aggregations'})
       },
       set_active_validation(validation) {
         this.active_validation = validation

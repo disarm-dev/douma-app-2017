@@ -64,10 +64,6 @@
           </md-list-item>
         </md-list>
       </md-card-content>
-      <md-card-actions>
-        <span>Hit 'start' to start geoprocessing</span>
-        <md-button @click.native="select_spatial_hierarchy">Start processing</md-button>
-      </md-card-actions>
     </md-card>
 
     <md-card class="card" v-if="show_admin_levels">
@@ -90,7 +86,8 @@
       </md-card-content>
 
       <md-card-actions>
-
+        <span>Hit 'start' to start geoprocessing</span>
+        <md-button @click.native="select_spatial_hierarchy">Start processing</md-button>
       </md-card-actions>
 
     </md-card>
@@ -176,7 +173,8 @@
 
         this.$store.commit('data_wizard/set_spatial_hierarchies', final_areas)
         this.$store.commit('data_wizard/set_planning_level', this.planning_level)
-        this.$router.push({name: 'data_wizard:create_form'})
+
+        // TODO: @feature Send of planning level
       }
     }
   };

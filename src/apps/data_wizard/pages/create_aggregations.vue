@@ -13,7 +13,7 @@
 
       </md-card-content>
       <md-card-actions>
-        <md-button @click.native="save_aggregations">Continue</md-button>
+        <md-button @click.native="save_aggregations">Save</md-button>
       </md-card-actions>
     </md-card>
   </div>
@@ -31,7 +31,6 @@ export default {
     save_aggregations() {
       console.log(this.aggregations)
       this.$store.commit('data_wizard/set_aggregations', this.aggregations)
-      this.$router.push({name: 'data_wizard:applets'})
     }
   }
 };

@@ -34,7 +34,7 @@
         
       </md-card-content>
       <md-card-actions>
-        <md-button @click.native="save_and_continue">Finish</md-button>
+        <md-button @click.native="save_and_continue">Save</md-button>
       </md-card-actions>
     </md-card>
   </div>
