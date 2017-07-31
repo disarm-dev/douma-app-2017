@@ -13,6 +13,7 @@
     "test": "npm run unit && npm run e2e"
   },
   "dependencies": {
+    "@mapbox/geo-viewport": "^0.2.2",
     "@mapbox/mapbox-gl-draw": "^0.19.1",
     "@turf/bbox": "^4.4.0",
     "@turf/bbox-polygon": "^4.4.0",
