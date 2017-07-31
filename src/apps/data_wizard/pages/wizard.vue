@@ -1,23 +1,58 @@
 <template>
   <div class="applet_container">
-    <md-card class="card">
-      <md-card-header>
-        <div class="md-title">DiSARM Data Wizard</div>
-      </md-card-header>
-      <md-card-content>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo, sunt, nihil? Id at fugit, sit ex impedit, libero minus ratione, quis temporibus sed molestiae hic animi iusto reprehenderit non tempore.
-      </md-card-content>
-      <md-card-actions>
-        <md-button @click.native="$router.push({name: 'data_wizard:configure_geodata'})">Start</md-button>
-      </md-card-actions>
-    </md-card>
+    <div class="md-title">DiSARM Data Wizard</div>
+    
+    <div>
+      {{step + 1 }} of {{steps.length}}
+    </div>
+
+    <component :is="steps[step].name"></component>
+
+    <div>
+      <md-button @click.native="back">back</md-button>
+      <md-button @click.native="next">next</md-button>
+    </div>
   </div>
 </template>
 
 <script>
+  import configure_geodata from './configure_geodata.vue'
+  import create_form from './create_form.vue'
+  import create_validations from './create_validations.vue'
+  import create_aggregations from './create_aggregations.vue'
+  import configure_applets from './configure_applets.vue'
+  import configure_presenters from './configure_presenters.vue'
+
+  const steps = [
+    configure_geodata,
+    create_form,
+    create_validations,
+    create_aggregations,
+    configure_applets,
+    configure_presenters
+  ]
 
   export default {
-    name: 'wizard'
+    components: {configure_geodata, create_form, create_validations, create_aggregations, configure_applets, configure_presenters},
+    name: 'wizard',
+    data() {
+      return {
+        step: 0,
+        steps
+      }
+    },
+    methods: {
+      next() {
+        if (this.step === (this.steps.length -1)) return
+
+        this.step += 1
+      },
+      back() {
+        if (this.step == 0 ) return
+
+        this.step -= 1
+      }
+    }
   }
 </script>
 
