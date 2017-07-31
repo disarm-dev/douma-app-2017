@@ -1,25 +1,23 @@
 <template>
-  <div class="applet_container">
-    <md-card class="card">
-      <md-card-header>
-        <div class="md-title">Configure applets</div>
-      </md-card-header>
-      <md-card-content>
-        <md-list>
+  <md-card class="card">
+    <md-card-header>
+      <div class="md-title">Configure applets</div>
+    </md-card-header>
+    <md-card-content>
+      <md-list>
 
-          <md-list-item v-for="applet in applets" :key="applets.name">
-            <md-icon>{{applet.icon}}</md-icon>
-            <span>{{applet.title}}</span>
-            <md-checkbox v-model="enabled_applets[applet.name]"></md-checkbox>
-          </md-list-item>
+        <md-list-item v-for="applet in applets" :key="applets.name">
+          <md-icon>{{applet.icon}}</md-icon>
+          <span>{{applet.title}}</span>
+          <md-checkbox v-model="enabled_applets[applet.name]"></md-checkbox>
+        </md-list-item>
 
-        </md-list>
-      </md-card-content>
-      <md-card-actions>
-        <md-button @click.native="save_and_continue">Continue</md-button>
-      </md-card-actions>
-    </md-card>
-  </div>
+      </md-list>
+    </md-card-content>
+    <md-card-actions>
+      <md-button @click.native="save_and_continue">Continue</md-button>
+    </md-card-actions>
+  </md-card>
 </template>
 
 <script>
@@ -38,7 +36,7 @@ export default {
   mounted() {
     let formatted_applets = []
     let applets_copy = Object.assign({}, common_config.applets)
-    
+
     delete applets_copy.meta
     delete applets_copy.data_wizard
 
@@ -47,7 +45,7 @@ export default {
       result.name = applet_name
       formatted_applets.push(result)
     }
-    
+
     this.applets = formatted_applets
   },
   methods: {
@@ -55,11 +53,11 @@ export default {
       const applets = {}
 
       for (let i in this.enabled_applets) {
-        if (this.enabled_applets[i]) applets[i] = {}        
+        if (this.enabled_applets[i]) applets[i] = {}
       }
 
       this.$store.commit('data_wizard/set_applets', applets)
-      
+
     }
   }
 };

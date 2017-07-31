@@ -1,7 +1,7 @@
 <template>
   <div class="applet_container">
     <div class="md-title">DiSARM Data Wizard</div>
-    
+
     <div>
       {{step + 1 }} of {{steps.length}}
     </div>
@@ -22,6 +22,7 @@
   import create_aggregations from './create_aggregations.vue'
   import configure_applets from './configure_applets.vue'
   import configure_presenters from './configure_presenters.vue'
+  import complete from './complete.vue'
 
   const steps = [
     configure_geodata,
@@ -29,7 +30,8 @@
     create_validations,
     create_aggregations,
     configure_applets,
-    configure_presenters
+    configure_presenters,
+    complete
   ]
 
   export default {

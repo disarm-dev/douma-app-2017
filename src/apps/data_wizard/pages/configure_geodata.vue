@@ -14,7 +14,7 @@
           </md-select>
         </md-input-container>
 
-        <div id="map"></div>
+        <!--<div id="map"></div>-->
 
       </md-card-content>
       <md-card-actions>
@@ -127,7 +127,7 @@
     },
     methods: {
       create_map() {
-        this._map = basic_map(this.$store)
+//        this._map = basic_map(this.$store)
       },
       prepare_countries_list() {
         fetch('/static/countries.geojson')
@@ -165,7 +165,7 @@
         })
 
         this.$store.commit('data_wizard/set_map_focus', country.map_focus)
-        
+
         this.show_admin_levels = true
       },
       select_spatial_hierarchy() {
