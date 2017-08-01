@@ -80,9 +80,6 @@
       "elements": [
         {
           "type": "radiogroup",
-          "name": "LLIN_used_sleeping",
-          "title": "Does this homestead have any LLINs used while sleeping?",
-          "isRequired": true,
           "choices": [
             {
               "value": "yes",
@@ -92,7 +89,10 @@
               "value": "no",
               "text": "No"
             }
-          ]
+          ],
+          "isRequired": true,
+          "name": "LLIN_used_sleeping",
+          "title": "Does this homestead have any LLINs used while sleeping?"
         },
         {
           "type": "text",
@@ -177,9 +177,6 @@
       "elements": [
         {
           "type": "radiogroup",
-          "name": "any_sprayed",
-          "title": "Were there any rooms SPRAYED in this homestead?",
-          "isRequired": true,
           "choices": [
             {
               "value": "yes",
@@ -189,7 +186,10 @@
               "value": "no",
               "text": "No"
             }
-          ]
+          ],
+          "isRequired": true,
+          "name": "any_sprayed",
+          "title": "Were there any rooms SPRAYED in this homestead?"
         }
       ],
       "name": "any SPRAYED"
@@ -325,12 +325,13 @@
       ],
       "name": "UNSPRAYED details 1",
       "visible": false,
-      "visibleIf": "{any_unsprayed} = &#39;yes&#39;"
+      "visibleIf": "{any_sprayed} = &#39;yes&#39;"
     },
     {
       "elements": [
         {
           "type": "panel",
+          "name": "n_unsprayed_reason_partialspray",
           "elements": [
             {
               "type": "text",
@@ -403,7 +404,6 @@
               "title": "Other reason"
             }
           ],
-          "name": "n_unsprayed_reason_partialspray",
           "title": "Of the number of unsprayed rooms, please list the number of rooms unsprayed for each reason:"
         }
       ],
@@ -413,9 +413,6 @@
       "elements": [
         {
           "type": "radiogroup",
-          "name": "LLINS_provided",
-          "title": "Where LLINs provided to this homestead?” ",
-          "isRequired": true,
           "choices": [
             {
               "value": "yes",
@@ -425,7 +422,10 @@
               "value": "no",
               "text": "No"
             }
-          ]
+          ],
+          "isRequired": true,
+          "name": "LLINS_provided",
+          "title": "Where LLINs provided to this homestead?” "
         },
         {
           "type": "text",
