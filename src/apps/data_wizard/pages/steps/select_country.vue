@@ -2,12 +2,12 @@
   <md-card class="card">
 
     <md-card-header>
-      <div class="md-title">Select a country below</div>
+      <div class="md-title">Select a country</div>
     </md-card-header>
     <md-card-content>
 
       <md-input-container>
-        <label for="country">Country</label>
+        <label for="country">Country (sort order is reverse latitude)</label>
         <md-select name="country" id="country" v-model="country" @change="select_country">
           <md-option v-for="country in countries" :key="country.slug" :value="country.slug">{{country.name}}</md-option>
         </md-select>
@@ -16,11 +16,6 @@
       <!--<div id="map"></div>-->
 
     </md-card-content>
-    <md-card-actions>
-      <md-button @click.native="select_country">
-        Select country
-      </md-button>
-    </md-card-actions>
   </md-card>
 
 </template>
@@ -72,7 +67,8 @@
                 slug: c.properties.sov_a3,
                 map_focus
               }
-            }).sort((a, b) => (a.name > b.name) - (a.name < b.name))
+//            }).sort((a, b) => (a.name > b.name) - (a.name < b.name))
+            }).sort((a,b) => {return a.map_focus.centre.lat - b.map_focus.centre.lat})
           })
         this.create_map()
       },
@@ -86,7 +82,6 @@
         })
 
         this.$store.commit('data_wizard/set_map_focus', country.map_focus)
-        this.$emit('next')
       },
     }
   }

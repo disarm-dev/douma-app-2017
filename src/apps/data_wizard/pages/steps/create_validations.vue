@@ -102,7 +102,7 @@
   import {get_form_elements} from 'lib/instance_data/form_helpers'
 
   export default {
-    name: 'create_aggregations',
+    name: 'create_validations',
     data() {
       return {
         validations: [],

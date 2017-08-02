@@ -1,27 +1,28 @@
 <template>
   <md-card>
-    <div>Well done!</div>
-    <md-button>Create instance</md-button>
+    <md-card-header>
+      <div class="md-title">Review configuration</div>
+    </md-card-header>
 
-    Visit the new instance here: (login with guest and m)
-    <a :href="new_instance_url">{{new_instance_url}}</a>
-
+    <md-card-content>
+      <tree-view :data="instance_config" :options="{maxDepth: 4, rootObjectKey: 'instance_config'}"></tree-view>
+      <tree-view :data="form" :options="{maxDepth: 4, rootObjectKey:'form'}"></tree-view>
+    </md-card-content>
   </md-card>
 </template>
 
 <script>
-  //import { mapState, mapActions, mapMutations } from 'vuex'
-
+  import {mapState} from 'vuex'
   export default {
     name: 'complete',
     mounted() {
     },
-    data() {
-      return {
-        new_instance_url: ''
-      }
-    },
-    methods: {}
+    computed: {
+      ...mapState({
+        form: state => state.data_wizard.form,
+        instance_config: state => state.data_wizard.instance_config,
+      })
+    }
   }
 </script>
 
