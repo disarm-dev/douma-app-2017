@@ -11,12 +11,13 @@
       <md-button class='md-primary md-raised' @click.native="next">next</md-button>
     </div>
 
-    <component :is="steps[step].name"></component>
+    <component :is="steps[step].name" @next="next" @back="back"></component>
 
   </div>
 </template>
 
 <script>
+  import select_country from './steps/select_country.vue'
   import configure_geodata from './steps/configure_geodata.vue'
   import create_form from './steps/create_form.vue'
   import create_validations from './steps/create_validations.vue'
@@ -26,6 +27,7 @@
   import complete from './steps/complete.vue'
 
   const steps = [
+    select_country,
     configure_geodata,
     create_form,
     create_validations,
@@ -35,8 +37,11 @@
     complete
   ]
 
+  const components = {}
+  steps.forEach(step => components[step.name] = step)
+
   export default {
-    components: {configure_geodata, create_form, create_validations, create_aggregations, configure_applets, configure_presenters},
+    components,
     name: 'wizard',
     data() {
       return {
