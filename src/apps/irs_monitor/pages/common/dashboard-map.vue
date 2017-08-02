@@ -203,16 +203,22 @@
         if (!this.show_response_points) return
 
         const points = this.filtered_responses.map(response => {
-          const coords = response.location.coords
-          if (coords) {
-            const {latitude, longitude} = coords
-            const coords_point = point([longitude, latitude])
-            coords_point.properties.sprayed_count = response.form_data
-            return coords_point
-          }
-          return null
-        })
+          // TODO: @feature Find out if {latitude, longitude} exist on coords or coords.coords
+          let coords = response.location.coords
 
+          if (!coords.hasOwnProperty('latitude'))  {
+            coords = coords.coords
+          }
+
+          const {latitude, longitude} = coords
+
+          if (!latitude || !longitude) return null
+
+          const coords_point = point([longitude, latitude])
+
+          return coords_point
+        }).filter(a => a)
+        
         const points_fc = featureCollection(points)
 
         this._map.addLayer({
