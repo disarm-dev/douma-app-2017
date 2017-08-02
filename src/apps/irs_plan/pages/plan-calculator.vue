@@ -11,6 +11,7 @@
 <script>
 import {mapState, mapGetters} from 'vuex'
 import isNumber from 'is-number'
+import numeral from 'numeral'
 
 import cache from 'config/cache.js'
 import {get_planning_level_name, get_denominator_fields} from 'lib/geodata/spatial_hierarchy_helper'
@@ -55,7 +56,8 @@ export default {
     },
     days_to_spray() {
       const structures_per_day = this.calculator.enumerables * this.calculator.teams
-      return this.number_of_structures / structures_per_day
+      const days_to_spray = this.number_of_structures / structures_per_day
+      return numeral(days_to_spray).format('0.0')
     },
     planning_level_name() {
       return get_planning_level_name()
