@@ -15,7 +15,7 @@
       </md-list>
     </md-card-content>
     <md-card-actions>
-      <md-button @click.native="save_and_continue">Continue</md-button>
+      <md-button @click.native="save_and_continue">save</md-button>
     </md-card-actions>
   </md-card>
 </template>
