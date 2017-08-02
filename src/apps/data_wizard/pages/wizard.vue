@@ -6,12 +6,13 @@
       {{step + 1 }} of {{steps.length}}
     </div>
 
+    <div>
+      <md-button class='md-primary md-raised' @click.native="back">back</md-button>
+      <md-button class='md-primary md-raised' @click.native="next">next</md-button>
+    </div>
+
     <component :is="steps[step].name"></component>
 
-    <div>
-      <md-button @click.native="back">back</md-button>
-      <md-button @click.native="next">next</md-button>
-    </div>
   </div>
 </template>
 
