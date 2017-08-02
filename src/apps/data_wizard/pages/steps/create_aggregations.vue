@@ -4,14 +4,11 @@
       <md-card-header>
         <div class="md-title">Create aggregations</div>
       </md-card-header>
-      <md-card-content>
-        
-        <md-input-container >
-          <label>Please enter the aggregations</label>
-          <md-textarea v-model="aggregations"></md-textarea>
-        </md-input-container>
 
+      <md-card-content>
+        <div>{{JSON.stringify(aggregations)}}</div>
       </md-card-content>
+
       <md-card-actions>
         <md-button @click.native="save_aggregations">Save</md-button>
       </md-card-actions>
@@ -24,7 +21,7 @@ export default {
   name: 'create_aggregations',
   data () {
     return {
-      aggregations: ''
+      aggregations: {'sprayed': {numerator_expr: 'population'}}
     }
   },
   methods: {
