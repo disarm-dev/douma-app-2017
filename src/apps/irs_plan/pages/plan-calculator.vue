@@ -34,12 +34,17 @@ export default {
     ...mapGetters({
       selected_target_area_ids: 'irs_plan/all_selected_area_ids'
     }),
-    structure_field_name() {
+    enumerable_field_name() {
       const denominator = get_denominator_fields()
       const field = Object.keys(denominator)[0] // number_of_structures or number_of_households
       return denominator[field] // gets 'NumHouseho' or 'NmStrct'
     },
     enumerable_name() {
+      const denominator = get_denominator_fields()
+      const field = Object.keys(denominator)[0]
+      return field
+
+      // TODO: @refac Get rid of this
       console.warn("TODO: @fix Wow. This is horrible. 🙈")
       switch (this.$store.state.instance_config.instance.slug) {
         case 'zwe':
@@ -65,7 +70,7 @@ export default {
     number_of_structures() {
       if (this.geodata_ready) {
         return this.selected_areas.reduce((sum, area) => {
-          const hope_is_number = area.properties[this.structure_field_name]
+          const hope_is_number = area.properties[this.enumerable_field_name]
           if (isNumber(hope_is_number)) {
             return sum + hope_is_number
           } else {
