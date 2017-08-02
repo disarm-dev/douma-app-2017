@@ -105,8 +105,7 @@
     data() {
       return {
         edit_mode: false,
-        edit_disabled: true,
-        number_of_structures: 0
+        edit_disabled: true
       }
     },
     computed: {
@@ -205,9 +204,6 @@
       },
       clear_plan() {
         this.$store.commit('irs_plan/clear_plan')
-      },
-      set_number_of_structures(structures) {
-        this.number_of_structures = structures
       }
     }
   }
