@@ -27,7 +27,7 @@
           "type": "radiogroup",
           "name": "failure_reason",
           "visible": false,
-          "visibleIf": "{sprayed} = &#39;partial&#39; or {sprayed} = &#39;no&#39;",
+          "visibleIf": "{sprayed} = 'partial' or {sprayed} = 'no'",
           "title": "Reason for failure to fully spray household",
           "isRequired": true,
           "choices": [
@@ -45,7 +45,7 @@
           "type": "checkbox",
           "name": "reasons_notspraying",
           "visible": false,
-          "visibleIf": "{failure_reason} =&#39;refused&#39;",
+          "visibleIf": "{failure_reason} ='refused'",
           "title": "Reason for refusal",
           "isRequired": true,
           "hasOther": true,
@@ -78,7 +78,7 @@
             }
           ],
           "visible": false,
-          "visibleIf": "{sprayed} = &#39;yes&#39; or {sprayed} = &#39;partial&#39;"
+          "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'"
         },
         {
           "type": "text",
@@ -94,7 +94,7 @@
             }
           ],
           "visible": false,
-          "visibleIf": "{sprayed} = &#39;yes&#39; or {sprayed} = &#39;partial&#39;"
+          "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'"
         },
         {
           "type": "text",
@@ -110,13 +110,13 @@
             }
           ],
           "visible": false,
-          "visibleIf": "{sprayed} = &#39;yes&#39; or {sprayed} = &#39;partial&#39;"
+          "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'"
         },
         {
           "type": "radiogroup",
           "name": "chemical_used",
           "visible": false,
-          "visibleIf": "{sprayed} = &#39;yes&#39; or {sprayed} = &#39;partial&#39;",
+          "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'",
           "title": "Chemical used",
           "isRequired": true,
           "choices": [
@@ -156,7 +156,7 @@
             }
           ],
           "visible": false,
-          "visibleIf": "{sprayed} = &#39;yes&#39; or {sprayed} = &#39;partial&#39;"
+          "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'"
         },
         {
           "type": "text",
@@ -172,7 +172,7 @@
             }
           ],
           "visible": false,
-          "visibleIf": "{sprayed} = &#39;yes&#39; or {sprayed} = &#39;partial&#39;"
+          "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'"
         },
         {
           "type": "text",
@@ -188,7 +188,7 @@
             }
           ],
           "visible": false,
-          "visibleIf": "{sprayed} = &#39;yes&#39; or {sprayed} = &#39;partial&#39;"
+          "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'"
         },
         {
           "type": "text",
