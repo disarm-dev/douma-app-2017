@@ -16,13 +16,13 @@
 </template>
 
 <script>
-  import configure_geodata from './configure_geodata.vue'
-  import create_form from './create_form.vue'
-  import create_validations from './create_validations.vue'
-  import create_aggregations from './create_aggregations.vue'
-  import configure_applets from './configure_applets.vue'
-  import configure_presenters from './configure_presenters.vue'
-  import complete from './complete.vue'
+  import complete from './steps/complete.vue'
+  import configure_applets from './steps/configure_applets.vue'
+  import configure_geodata from './steps/configure_geodata.vue'
+  import configure_presenters from './steps/configure_presenters.vue'
+  import create_aggregations from './steps/create_aggregations.vue'
+  import create_form from './steps/create_form.vue'
+  import create_validations from './steps/create_validations.vue'
 
   const steps = [
     configure_geodata,
