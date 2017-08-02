@@ -46,6 +46,7 @@
       <!--PLAN MAP-->
       <md-card>
         <md-card-content>
+          <plan_calculator :geodata_ready="geodata_ready"></plan_calculator>
           <plan_map
             :geodata_ready="geodata_ready"
             :edit_mode="edit_mode"
@@ -58,7 +59,7 @@
 
       <!--PLAN SUMMARY-->
       <md-card class="card"><md-card-content>
-        <plan_summary :geodata_ready="geodata_ready"></plan_summary>
+        <plan_summary :geodata_ready="geodata_ready" @number_of_structures="set_number_of_structures"></plan_summary>
       </md-card-content></md-card>
 
     </div>
@@ -90,6 +91,7 @@
   import plan_filter from './plan-filter.vue'
   import plan_summary from './plan-summary.vue'
   import plan_map from './plan-map.vue'
+  import plan_calculator from './plan-calculator.vue'
   import cache from 'config/cache.js'
   import {Plan} from 'lib/models/plan.model.js'
   import {get_geodata} from 'lib/remote/remote.geodata'
@@ -99,11 +101,12 @@
 
   export default {
     name: 'Plan',
-    components: {controls, plan_filter, plan_summary, plan_map},
+    components: {controls, plan_filter, plan_summary, plan_map, plan_calculator},
     data() {
       return {
         edit_mode: false,
         edit_disabled: true,
+        number_of_structures: 0
       }
     },
     computed: {
@@ -203,6 +206,9 @@
       clear_plan() {
         this.$store.commit('irs_plan/clear_plan')
       },
+      set_number_of_structures(structures) {
+        this.number_of_structures = structures
+      }
     }
   }
 </script>
