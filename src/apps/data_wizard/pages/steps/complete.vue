@@ -5,24 +5,21 @@
     </md-card-header>
 
     <md-card-content>
-      <tree-view :data="instance_config" :options="{maxDepth: 4, rootObjectKey: 'instance_config'}"></tree-view>
-      <tree-view :data="form" :options="{maxDepth: 4, rootObjectKey:'form'}"></tree-view>
+      <tree-view v-for='piece in instance_pieces' :key='piece' :data="$store.state.data_wizard[piece]" :options="{maxDepth: 0, rootObjectKey: piece}"></tree-view>
     </md-card-content>
   </md-card>
 </template>
 
 <script>
-  import {mapState} from 'vuex'
   export default {
     name: 'complete',
+    data() {
+      return {
+        instance_pieces: ['instance_config', 'form', 'validations', 'aggregations', 'presenters']
+      }
+    },
     mounted() {
     },
-    computed: {
-      ...mapState({
-        form: state => state.data_wizard.form,
-        instance_config: state => state.data_wizard.instance_config,
-      })
-    }
   }
 </script>
 
