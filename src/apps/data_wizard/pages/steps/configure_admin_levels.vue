@@ -47,8 +47,6 @@
 
   export default {
     name: 'configure_admin_levels',
-    mounted() {
-    },
     data() {
       return {
         planning_level: '',
