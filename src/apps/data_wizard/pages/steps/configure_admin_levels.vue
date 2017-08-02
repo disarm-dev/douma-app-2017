@@ -10,6 +10,7 @@
           <div><b>Include</b></div>
           <div><b>Planning level</b></div>
         </md-list-item>
+
         <md-list-item>
           <span>Admin 1</span>
           <md-checkbox v-model="include_areas.one"></md-checkbox>
