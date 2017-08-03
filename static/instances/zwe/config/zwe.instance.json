@@ -42,7 +42,7 @@
     "slug": "zwe"
   },
   "spatial_hierarchy": {
-    "data_version": 2,
+    "data_version": 3,
     "markers": {
       "planning_level_name": "wards",
       "record_location_selection_level_name": "wards",
