@@ -14,6 +14,8 @@
           </md-select>
         </md-input-container>
 
+        <!--<div id="map"></div>-->
+
       </md-card-content>
       <md-card-actions>
         <md-button @click.native="select_country">
@@ -62,10 +64,6 @@
           </md-list-item>
         </md-list>
       </md-card-content>
-      <md-card-actions>
-        <span>Hit 'start' to start geoprocessing</span>
-        <md-button @click.native="select_spatial_hierarchy">Start processing</md-button>
-      </md-card-actions>
     </md-card>
 
     <md-card class="card" v-if="show_admin_levels">
@@ -88,7 +86,8 @@
       </md-card-content>
 
       <md-card-actions>
-
+        <span>Hit 'start' to start geoprocessing</span>
+        <md-button @click.native="select_spatial_hierarchy">Start processing</md-button>
       </md-card-actions>
 
     </md-card>
@@ -98,67 +97,102 @@
 </template>
 
 <script>
-export default {
-  name: 'configure_geodata',
-  data () {
-    return {
-      countries: [],
-      show_admin_levels: false,
-      show_raster_inputs: false,
+  import centroid from '@turf/centroid'
+  import bbox from '@turf/bbox'
+  import geoViewport from '@mapbox/geo-viewport'
+  import {getCoord} from '@turf/invariant'
 
-      country: '',
-      use_default_layers: true,
-      planning_level: '',
-      include_areas: {
-        one: '',
-        two: '',
-        three: '',
-      }
-    }
-  },
-  mounted() {
-    fetch('/static/countries.geojson')
-      .then(res => res.json())
-      .then((countries) => {
+  import {basic_map} from 'lib/helpers/basic_map'
 
-        this.countries = countries.features.filter(c => {
-          return c.properties.region_un === 'Africa'
-        }).map((c) => {
-          return {
-            name: c.properties.name,
-            slug: c.properties.sov_a3
-          }
-        }).sort((a, b) => {
-          return a.name < b.name
-        })
-      })
-  },
-  methods: {
-    select_country() {
-      console.log('selected country: ', this.country)
-      this.$store.commit('data_wizard/set_country', this.country)
-      this.show_admin_levels = true
-    },
-    select_spatial_hierarchy() {
-      console.log('this.include_areas', this.include_areas)
-      console.log('this.planning_level', this.planning_level)
+  export default {
+    name: 'configure_geodata',
+    data () {
+      return {
+        countries: [],
+        show_admin_levels: false,
+        show_raster_inputs: false,
 
-      let final_areas = []
-      for (let level_name in this.include_areas) {
-        if (this.include_areas[level_name]) {
-          final_areas.push(level_name)
+        country: '',
+        use_default_layers: true,
+        planning_level: '',
+        include_areas: {
+          adm0: '',
+          adm1: '',
+          adm2: '',
         }
       }
+    },
+    mounted() {
+      this.prepare_countries_list()
+    },
+    methods: {
+      create_map() {
+//        this._map = basic_map(this.$store)
+      },
+      prepare_countries_list() {
+        fetch('/static/countries.geojson')
+          .then(res => res.json())
+          .then((countries) => {
 
-      this.$store.commit('data_wizard/set_spatial_hierarchies', final_areas)
-      this.$store.commit('data_wizard/set_planning_level', this.planning_level)
-      this.$router.push({name: 'data_wizard:create_form'})
+            this.countries = countries.features.filter(c => {
+              return c.properties.region_un === 'Africa'
+            }).map((c) => {
+              const c_viewport = geoViewport.viewport(bbox(c), [640, 480])
+              const map_focus = {
+                centre: {
+                  lat: c_viewport.center[1],
+                    lng: c_viewport.center[0]
+                },
+                zoom: c_viewport.zoom
+              }
+
+              return {
+                name: c.properties.name,
+                slug: c.properties.sov_a3,
+                map_focus
+              }
+            }).sort((a, b) => (a.name > b.name) - (a.name < b.name))
+          })
+          this.create_map()
+      },
+      select_country() {
+        const country = this.countries.find((c) => c.slug === this.country)
+
+        this.$store.commit('data_wizard/set_instance', {
+          title: country.name,
+          location_name: country.name,
+          slug: country.slug
+        })
+
+        this.$store.commit('data_wizard/set_map_focus', country.map_focus)
+
+        this.show_admin_levels = true
+      },
+      select_spatial_hierarchy() {
+        console.log('this.include_areas', this.include_areas)
+        console.log('this.planning_level', this.planning_level)
+
+        let final_areas = []
+        for (let level_name in this.include_areas) {
+          if (this.include_areas[level_name]) {
+            final_areas.push(level_name)
+          }
+        }
+
+        this.$store.commit('data_wizard/set_spatial_hierarchies', final_areas)
+        this.$store.commit('data_wizard/set_planning_level', this.planning_level)
+
+        // TODO: @feature Send of planning level
+      }
     }
-  }
-};
+  };
 </script>
 
-<style lang="css" scoped>
+<style scoped>
+  #map {
+    height: calc(80vh - 200px);
+  }
+
   .card {
     margin: 1em auto;
   }

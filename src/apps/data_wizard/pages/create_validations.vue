@@ -8,7 +8,7 @@
 
     <md-button class="md-raised" @click.native="download">Export validations</md-button>
     <md-button class="md-raised" @click.native="show_upload = !show_upload">Upload</md-button>
-    <md-button class="md-raised md-primary" @click.native="save_and_finish">Save and continue</md-button>
+    <md-button class="md-raised md-primary" @click.native="save_and_finish">Save</md-button>
 
     <h3>Current validations</h3>
     <div v-if="validations">
@@ -102,7 +102,7 @@
   import {get_form_elements} from 'lib/instance_data/form_helpers'
 
   export default {
-    name: 'create_aggregations',
+    name: 'create_validations',
     data() {
       return {
         validations: [],
@@ -119,9 +119,6 @@
       }
     },
     computed: {
-      instance_config() {
-        return this.$store.state.instance_config
-      },
       form_elements() {
         return get_form_elements(this.$store.state.data_wizard.form)
       },
@@ -133,7 +130,6 @@
     methods: {
       save_and_finish() {
         this.$store.commit('data_wizard/set_validations', this.validations)
-        this.$router.push({name: 'data_wizard:aggregations'})
       },
       set_active_validation(validation) {
         this.active_validation = validation
@@ -208,7 +204,7 @@
       download() {
         const content = JSON.stringify(this.validations)
         const date = moment().format('YYYY-MM-DD_HHmm')
-        download(content, `${this.instance_config.instance.slug}_validations_${date}.json`)
+        download(content, `wizard_validations_${date}.json`)
       }
     }
   }

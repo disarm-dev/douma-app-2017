@@ -2,36 +2,61 @@
   <div class="applet_container">
     <md-card class="card">
       <md-card-header>
-        <div class="md-title">Create aggregations</div>
+        <div class="md-title">Create aggregation</div>
       </md-card-header>
       <md-card-content>
         
         <md-input-container >
-          <label>Please enter the aggregations</label>
-          <md-textarea v-model="aggregations"></md-textarea>
+          <label>Name</label>
+          <md-textarea :disabled="true" v-model="aggregation_name"></md-textarea>
+        </md-input-container>
+
+        <md-input-container >
+          <label>Aggregations expression</label>
+          <md-textarea v-model="aggregation_expr"></md-textarea>
         </md-input-container>
 
       </md-card-content>
       <md-card-actions>
-        <md-button @click.native="save_aggregations">Continue</md-button>
+        <md-button @click.native="save_aggregations">Save</md-button>
       </md-card-actions>
+    </md-card>
+
+    <md-card>
+      <md-card-content>
+        <md-chip v-for="field in form_fields" :key="field">
+          {{field}}
+        </md-chip>
+      </md-card-content>
     </md-card>
   </div>
 </template>
 
 <script>
+
+import {get_form_fields} from 'lib/instance_data/form_helpers'
 export default {
   name: 'create_aggregations',
   data () {
     return {
-      aggregations: ''
+      aggregation_name: 'Structures sprayed',
+      aggregation_expr: ''
+    }
+  },
+  computed: {
+    form_fields() {
+      return get_form_fields(this.$store.state.data_wizard.form)
     }
   },
   methods: {
     save_aggregations() {
-      console.log(this.aggregations)
-      this.$store.commit('data_wizard/set_aggregations', this.aggregations)
-      this.$router.push({name: 'data_wizard:applets'})
+      let aggregations = {}
+      aggregations[this.aggregation_name] =  {
+        numerator_expr: this.aggregation_expr
+      }
+
+      
+      this.$store.commit('data_wizard/set_aggregations', aggregations)
     }
   }
 };
