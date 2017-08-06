@@ -3,7 +3,7 @@
     <div id="map"></div>
     <map_legend
       :entries="entries_for_legend"
-      :title="layer_definitions.risk.legend_title"
+      :title="risk_visible ? layer_definitions.risk.legend_title : plan_layer_definitions.selected_areas.legend_title"
     ></map_legend>
 
     <md-checkbox :disabled='!geodata_ready || edit_mode' v-model="risk_visible">Show risk</md-checkbox>
@@ -25,9 +25,8 @@
   import moment from 'moment'
 
   // Map and geospatial
-  import mapboxgl from 'mapbox-gl'
   import MapboxDraw from '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw'
-  mapboxgl.accessToken = 'pk.eyJ1Ijoibmljb2xhaWRhdmllcyIsImEiOiJjaXlhNWw1NnkwMDJoMndwMXlsaGo5NGJoIn0.T1wTBzV42MZ1O-2dy8SpOw'
+
   import bbox from '@turf/bbox'
   import centroid from '@turf/centroid'
   import within from '@turf/within'
@@ -36,10 +35,9 @@
   import bboxPolygon from '@turf/bbox-polygon'
   import {featureCollection} from '@turf/helpers'
   import which_polygon from 'which-polygon'
+  import numeral from 'numeral'
 
   import cache from 'config/cache.js'
-  import logslider from 'lib/helpers/log_slider.js'
-  import {value_log} from 'lib/helpers/log_helper.js'
   import {basic_map} from 'lib/helpers/basic_map'
   import map_legend from 'components/map_legend.vue'
   import {get_planning_level_name, get_next_level_down_from_planning_level, get_next_level_up_from_planning_level} from 'lib/geodata/spatial_hierarchy_helper'
@@ -47,6 +45,7 @@
   import {prepare_palette} from 'lib/helpers/palette_helper.js'
   import {layer_definitions} from 'config/map_layers'
   import plan_layer_definitions from '../helpers/plan_map_layers.js'
+  import {LogValueConvertor} from 'lib/helpers/log_helper'
 
   export default {
     name: 'plan_map',
@@ -55,6 +54,9 @@
     data() {
       return {
         layer_definitions,
+        plan_layer_definitions,
+        _risk_scaler: null,
+
         slider: {
           min: 0,
           max: 100,
@@ -124,6 +126,9 @@
           const palette = prepare_palette(layer_definition)
 
           return palette.map((array) => {
+            const value = this._risk_scaler.value(array[0])
+            array[0] = numeral(value).format('0.[00]')
+
             return {
               text: array[0],
               colour: array[1]
@@ -131,8 +136,8 @@
           })
         } else {
           let entries = []
-          for (var definition in plan_layer_definitions.selected_areas) {
-            entries.push(plan_layer_definitions.selected_areas[definition])
+          for (var definition in plan_layer_definitions.selected_areas.items) {
+            entries.push(plan_layer_definitions.selected_areas.items[definition])
           }
           return entries
         }
@@ -237,7 +242,7 @@
           type: 'fill',
           source: 'target_areas_source',
           paint: {
-            'fill-color': plan_layer_definitions.selected_areas.bulk_selected.colour,
+            'fill-color': plan_layer_definitions.selected_areas.items.bulk_selected.colour,
             'fill-opacity': 0.7,
             'fill-outline-color': 'black'
           },
@@ -249,7 +254,7 @@
           type: 'fill',
           source: 'target_areas_source',
           paint: {
-            'fill-color': plan_layer_definitions.selected_areas.bulk_unselected.colour,
+            'fill-color': plan_layer_definitions.selected_areas.items.bulk_unselected.colour,
             'fill-opacity': 0.5,
             'fill-outline-color': 'black'
           },
@@ -261,7 +266,7 @@
           type: 'fill',
           source: 'target_areas_source',
           paint: {
-            'fill-color': plan_layer_definitions.selected_areas.selected.colour,
+            'fill-color': plan_layer_definitions.selected_areas.items.selected.colour,
             'fill-opacity': 0.7,
             'fill-outline-color': 'black'
           },
@@ -273,7 +278,7 @@
           type: 'fill',
           source: 'target_areas_source',
           paint: {
-            'fill-color': plan_layer_definitions.selected_areas.unselected.colour,
+            'fill-color': plan_layer_definitions.selected_areas.items.unselected.colour,
             'fill-opacity': 0.7,
             'fill-outline-color': 'black'
           },
@@ -485,11 +490,8 @@
       }, 750),
       set_slider_range() {
         const values_array = this.planning_level_fc.features.map(area => area.properties.risk).sort()
-        const non_zeros = values_array.filter(v => v !== 0)
-
-        const mino = Math.min(...non_zeros)
-        const maxo = Math.max(...values_array) * 1.001
-        this.logslider = logslider(this.slider.min, this.slider.max, mino, maxo)
+        const fn = new LogValueConvertor(values_array)
+        this.logslider = fn.value
       },
 
       // RISK
@@ -502,14 +504,14 @@
         }
       },
       add_areas_coloured_by_risk() {
-
-        this.get_log_values(this.planning_level_fc)
+        const values_array = this.planning_level_fc.features.map(feature => feature.properties.risk).sort().filter(i => i)
+        this._risk_scaler = new LogValueConvertor(values_array)
 
         const features = this.planning_level_fc.features.map((feature) => {
           if (feature.properties.risk === 0) {
             feature.properties.normalised_risk = 0
           } else {
-            feature.properties.normalised_risk = this.log_scale(feature.properties.risk)
+            feature.properties.normalised_risk = this._risk_scaler.lval(feature.properties.risk)
           }
           return feature
         })
@@ -536,13 +538,7 @@
           }
         }, 'records')
       },
-      get_log_values(areas) {
-        const features = areas.features
-        const property = 'risk'
-        const values_array = features.map(feature => feature.properties[property]).sort()
 
-        this.log_scale = value_log(values_array)
-      },
       download_plan_geojson() {
         const area_ids_within_focus_area = target_areas_inside_focus_filter_area({
           area_ids: this.selected_target_area_ids,

@@ -11,7 +11,6 @@
     <map_progress
       v-if='geodata_ready'
       :aggregated_responses="aggregated_responses"
-      :geodata_ready="geodata_ready"
       :filtered_responses="filtered_responses"
     ></map_progress>
 

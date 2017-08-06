@@ -23,6 +23,10 @@ export class Response {
     team_name: null
   }
 
+  /**
+   * Required options: username, instance_slug
+   * @param options
+   */
   constructor(options) {
     this.model = Object.assign(this.defaults, options)
     this.validate()
@@ -32,8 +36,7 @@ export class Response {
     const errors = ResponseSchema.errors(this.model)
 
     if (errors) {
-      console.log('Validation errors', errors)
-      throw new Error('ResponseSchema validation failed')
+      throw new Error(`ResponseSchema validation failed: ${JSON.stringify(errors)}`)
     } else {
       return true
     }

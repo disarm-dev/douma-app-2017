@@ -1,51 +1,39 @@
-/**
- * Return a function that converts values to log-values
- * @param values_array
- * @returns {function}
- */
-export const value_log = (values_array) => {
-  // Source: internet, undated
+// Source: internet, undated
 
-  const non_zeros = values_array.filter(v => v !== 0)
+export class LogValueConvertor {
+  /**
+   * @param {array} sorted_values_array
+   */
+  constructor(sorted_values_array) {
+    const non_zeros = sorted_values_array.filter(v => v !== 0)
 
-  const mino = Math.min(...non_zeros)
-  const maxo = Math.max(...values_array) * 1.001
+    const mino = Math.min(...non_zeros)
+    const maxo = Math.max(...non_zeros) * 1.001
 
-  return (value) => {
-
-    const minp = 0
+    this.minp = 0
     const maxp = 100
 
-    const minv = Math.log(mino)
+    this.minv = Math.log(mino)
     const maxv = Math.log(maxo)
 
-    const scale = (maxv-minv) / (maxp-minp)
-
-    return (Math.log(value)-minv) / scale + minp
+    this.scale = (maxv - this.minv) / (maxp - this.minp)
   }
-}
 
-/**
- * Return a function that converts log-values to values
- * @param values_array
- * @returns {function}
- */
-export const log_value = (values_array) => {
+  /**
+   * Take a value and return a position (log/scaled value)
+   * @param value
+   * @returns {log_value}
+   */
+  lval = (value) => {
+    return ((Math.log(value) - this.minv) / this.scale + this.minp)
+  }
 
-  const non_zeros = values_array.filter(v => v !== 0)
-
-  const mino = Math.min(...non_zeros)
-  const maxo = Math.max(...values_array) * 1.001
-
-  return (value) => {
-
-    const minp = 0
-    const maxp = 100
-
-    const minv = Math.log(mino)
-    const maxv = Math.log(maxo)
-
-    const scale = (maxv - minv) / (maxp - minp)
-    return (Math.log(value) - minv) / scale + minp;
+  /**
+   * Take a position (a log/scaled value) and return the original value
+   * @param lval
+   * @returns {value}
+   */
+  value = (lval) => {
+    return (Math.exp((lval - this.minp) * this.scale + this.minv))
   }
 }

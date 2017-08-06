@@ -1,3 +1,6 @@
+import intersection from 'lodash.intersection'
+import without from 'lodash.without'
+
 import CONFIG from 'config/common'
 
 /**
@@ -6,9 +9,11 @@ import CONFIG from 'config/common'
  */
 export const decorate_applets = ({user_allowed_applets, instance_applets}) => {
   let decorations = []
-  user_allowed_applets.forEach(name => {
-    // Ignore 'meta' in here - this is only for decoration, and it's already included in the sidebar
-    if (name === 'meta') return
+
+  // Get the applets from instance_config, find any authorised ones, and remove 'meta'
+  const sorted_allowed_applets = without(intersection(Object.keys(instance_applets), user_allowed_applets), 'meta')
+
+  sorted_allowed_applets.forEach(name => {
     decorations.push({name, ...title_and_icon_for(name, instance_applets)})
   })
 

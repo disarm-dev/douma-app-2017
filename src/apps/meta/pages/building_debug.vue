@@ -31,11 +31,12 @@
 </template>
 
 <script>
-  import mapboxgl from 'mapbox-gl'
   import bbox from '@turf/bbox'
   import moment from 'moment-mini'
+  import mapboxgl from 'mapbox-gl'
 
   import {get_current_position} from 'lib/helpers/location_helper.js'
+  import {basic_map} from 'lib/helpers/basic_map'
 
   export default {
     name: 'building_debug',
@@ -67,12 +68,7 @@
     methods: {
       // Map
       create_map() {
-        this._map = new mapboxgl.Map({
-          container: 'map',
-          style: 'mapbox://styles/mapbox/streets-v9',
-          center: [22.63977015806131, -25.276453102086563],
-          zoom: 4
-        });
+        this._map = basic_map(this.$store)
 
         // User geolocation
         const geolocate_control = new mapboxgl.GeolocateControl({

@@ -45,6 +45,7 @@
   import {fields_for_fake_form_exist_in_form} from 'lib/instance_data/fake_form.instance_assertions'
 
   // Geodata
+  import cache from 'config/cache'
   import {get_geodata} from 'lib/remote/remote.geodata'
   import {geodata_valid} from 'lib/geodata/geodata.valid'
   import {decorate_geodata_on_cache} from 'lib/geodata/geodata.decorate'
@@ -104,7 +105,7 @@
       },
       check_geodata_valid() {
         const result = geodata_valid()
-        if (!result) console.log('geodata_missing_fields', geodata_missing_fields())
+        if (!result) console.log('geodata_has_all_levels', geodata_has_all_levels())
         this.success.geodata_valid = result
       },
       decorate_geodata() {

@@ -72,6 +72,7 @@
       },
       on_form_change() {
         this.$emit('change', this._survey)
+        this.control_navigation_visibility()
         this.control_complete_button_visibility()
       },
       control_navigation_visibility() {

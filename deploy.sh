@@ -8,7 +8,7 @@ done
 # Do the actual building and zero-downtime deployment
 git fetch --tags
 npm install --no-shrinkwrap --no-package-lock
-npm run build #> build.log 2>&1
+time npm run build #> build.log 2>&1
 rm -rf serve/
 mv dist/ serve/
 
@@ -30,5 +30,5 @@ echo "Built $message"
 echo $message | tr -d \'\" | xargs -I % curl -X "POST" "https://hooks.slack.com/services/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" \
      -H "Content-Type: application/json; charset=utf-8" \
      -d $'{
-  "text": "'%I'"
+  "text": "'%'"
 }'

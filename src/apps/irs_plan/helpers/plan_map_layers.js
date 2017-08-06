@@ -1,20 +1,23 @@
 export default {
   selected_areas: {
-    bulk_selected: {
-      text: 'Selected (by risk)',
-      colour: '#df8ad9'
-    },
-    bulk_unselected: {
-      text: 'Excluded (by risk)',
-      colour: '#fff'
-    },
-    selected: {
-      text: 'Selected (by click)',
-      colour: '#de27da'
-    },
-    unselected: {
-      text: 'Not selected',
-      colour: '#fff'
+    legend_title: "Area selections",
+    items: {
+      bulk_selected: {
+        text: 'Selected (by risk)',
+        colour: '#df8ad9'
+      },
+      bulk_unselected: {
+        text: 'Excluded (by risk)',
+        colour: '#fff'
+      },
+      selected: {
+        text: 'Selected (by click)',
+        colour: '#de27da'
+      },
+      unselected: {
+        text: 'Not selected',
+        colour: '#fff'
+      },
     },
   },
 
