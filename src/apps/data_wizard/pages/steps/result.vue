@@ -1,5 +1,7 @@
 <template>
-  <div>Thanks for coming - the result is XX</div>
+  <div>Thanks for coming
+    <a href="https://swz.app-stage.disarm.io">your instance is live</a>
+  </div>
 </template>
 
 <script>
