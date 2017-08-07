@@ -32,7 +32,6 @@
     "irs_record_point": {
       "title": "IRS Data collection and Reporting Tool"
     },
-    "irs_tasker": {},
     "meta": {},
     "data_wizard": {}
   },
@@ -49,7 +48,7 @@
     "slug": "bwa"
   },
   "spatial_hierarchy": {
-    "data_version": 1,
+    "data_version": 3,
     "markers": {
       "planning_level_name": "villages",
       "record_location_selection_level_name": "villages",

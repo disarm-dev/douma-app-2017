@@ -19,6 +19,7 @@
 
     <component :is="steps[step_page - 1].name" @next="next" @back="back"></component>
 
+
   </div>
 </template>
 
@@ -47,6 +48,7 @@
     configure_presenters,
     review_configuration,
     result
+
   ]
 
   const components = steps.reduce((acc, step) => {acc[step.name] = step; return acc}, {})

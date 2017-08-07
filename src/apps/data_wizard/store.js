@@ -19,8 +19,8 @@ export default {
         levels: []
       }
     },
-    form: null,
-    aggregations: null,
+    form: {},
+    aggregations: {},
     validations: []
   },
   mutations: {

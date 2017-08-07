@@ -4,16 +4,7 @@
    "name": "page1",
    "elements": [
     {
-     "type": "text",
-     "isRequired": true,
-     "name": "household_code",
-     "title": "Household code"
-    },
-    {
      "type": "radiogroup",
-     "name": "sprayed",
-     "title": "Household sprayed",
-     "isRequired": true,
      "choices": [
       {
        "value": "yes",
@@ -27,15 +18,13 @@
        "value": "no",
        "text": "No"
       }
-     ]
+     ],
+     "isRequired": true,
+     "name": "sprayed",
+     "title": "Household sprayed"
     },
     {
      "type": "radiogroup",
-     "name": "failure_reason",
-     "visible": false,
-     "visibleIf": "{sprayed} = 'no' or {sprayed} = 'partial'",
-     "title": "Reason for failure to fully spray household",
-     "isRequired": true,
      "choices": [
       {
        "value": "locked",
@@ -45,13 +34,18 @@
        "value": "refused",
        "text": "Refused"
       }
-     ]
+     ],
+     "isRequired": true,
+     "name": "failure_reason",
+     "title": "Reason for failure to fully spray household",
+     "visible": false,
+     "visibleIf": "{sprayed} = 'partial' or {sprayed} = 'no'"
     },
     {
      "type": "checkbox",
      "name": "reasons_notspraying",
      "visible": false,
-     "visibleIf": "{failure_reason} = 'refused'",
+     "visibleIf": "{failure_reason} ='refused'",
      "title": "Reason for refusal",
      "isRequired": true,
      "hasOther": true,
@@ -72,56 +66,54 @@
     },
     {
      "type": "text",
-     "inputType": "number",
-     "isRequired": true,
      "name": "number_total",
+     "visible": false,
+     "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'",
      "title": "Total number of rooms",
+     "isRequired": true,
      "validators": [
       {
        "type": "numeric",
-       "text": "Minimum value is 0"
+       "text": "Minimum value is 0",
+       "minValue": "0"
       }
      ],
-     "visible": false,
-     "visibleIf": "{sprayed} = 'partial' or {sprayed} = 'yes'"
+     "inputType": "number"
     },
     {
      "type": "text",
-     "inputType": "number",
-     "isRequired": true,
      "name": "number_sprayed",
+     "visible": false,
+     "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'",
      "title": "Rooms fully sprayed",
+     "isRequired": true,
      "validators": [
       {
        "type": "numeric",
-       "text": "Minimum value is 0"
+       "text": "Minimum value is 0",
+       "minValue": "0"
       }
      ],
-     "visible": false,
-     "visibleIf": "{sprayed} = 'partial' or {sprayed} = 'yes'"
+     "inputType": "number"
     },
     {
      "type": "text",
-     "inputType": "number",
-     "isRequired": true,
      "name": "number_unsprayed",
+     "visible": false,
+     "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'",
      "title": "Rooms not sprayed",
+     "isRequired": true,
      "validators": [
       {
        "type": "numeric",
-       "text": "Minimum value is 0"
+       "text": "Minimum value is 0",
+       "minValue": "0"
       }
      ],
-     "visible": false,
-     "visibleIf": "{sprayed} = 'partial' or {sprayed} = 'yes'"
+     "inputType": "number"
     },
     {
      "type": "radiogroup",
-     "name": "chemical_used",
-     "visible": false,
-     "visibleIf": "{sprayed} = 'partial' or {sprayed} = 'yes'",
-     "title": "Chemical used",
-     "isRequired": true,
      "choices": [
       {
        "value": "ddt",
@@ -143,59 +135,66 @@
        "value": "bs",
        "text": "Bs"
       }
-     ]
+     ],
+     "isRequired": true,
+     "name": "chemical_used",
+     "title": "Chemical used",
+     "visible": false,
+     "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'"
     },
     {
      "type": "text",
-     "inputType": "number",
-     "isRequired": true,
      "name": "total_population",
+     "visible": false,
+     "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'",
      "title": "Total population protected",
+     "isRequired": true,
      "validators": [
       {
        "type": "numeric",
-       "text": "Minimum value is 0"
+       "text": "Minimum value is 0",
+       "minValue": "0"
       }
      ],
-     "visible": false,
-     "visibleIf": "{sprayed} = 'partial' or {sprayed} = 'yes'"
+     "inputType": "number"
     },
     {
      "type": "text",
-     "inputType": "number",
-     "isRequired": true,
      "name": "under_five",
-     "title": "Population < 5 YRS",
+     "visible": false,
+     "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'",
+     "title": "Population under 5 YRS",
+     "isRequired": true,
      "validators": [
       {
        "type": "numeric",
-       "text": "Minimum value is 0"
+       "text": "Minimum value is 0",
+       "minValue": "0"
       }
      ],
-     "visible": false,
-     "visibleIf": "{sprayed} = 'partial' or {sprayed} = 'yes'"
+     "inputType": "number"
     },
     {
      "type": "text",
-     "inputType": "number",
-     "isRequired": true,
      "name": "over_five",
-     "title": "Population >= 5 YRS",
+     "visible": false,
+     "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'",
+     "title": "Population over or equal to 5 YRS",
+     "isRequired": true,
      "validators": [
       {
        "type": "numeric",
-       "text": "Minimum value is 0"
+       "text": "Minimum value is 0",
+       "minValue": "0"
       }
      ],
-     "visible": false,
-     "visibleIf": "{sprayed} = 'partial' or {sprayed} = 'yes'"
+     "inputType": "number"
     },
     {
      "type": "text",
-     "isRequired": true,
      "name": "name_household",
-     "placeHolder": "Name",
-     "title": "Head of household name"
+     "title": "Head of household name",
+     "placeHolder": "Name"
     }
    ]
   }

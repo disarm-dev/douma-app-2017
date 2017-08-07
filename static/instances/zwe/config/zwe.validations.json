@@ -1,9 +1,16 @@
 [
   {
-    "name": "total_sprayed",
-    "precondition": null,
-    "expression": "number_sprayable  == numbersprayed_ddt + numbersprayed_PY + numbersprayed_OP",
-    "message": "Total sprayed does not equal `ddt`+ `deltamethrin`.",
-    "type": "warning"
+    "expression": "number_total == number_sprayed + number_unsprayed",
+    "message": "Total number of rooms does not equal sprayed and unsprayed",
+    "name": "total_room_count",
+    "precondition": "",
+    "type": "error"
+  },
+  {
+    "expression": "total_population == under_five + over_five",
+    "message": "Total population protected does not equal <5 yrs and >/= 5 yrs",
+    "name": "total_population_protected",
+    "precondition": "",
+    "type": "error"
   }
 ]

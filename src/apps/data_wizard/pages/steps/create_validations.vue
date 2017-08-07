@@ -117,9 +117,6 @@
       }
     },
     computed: {
-      instance_config() {
-        return this.$store.state.instance_config
-      },
       form_elements() {
         return get_form_elements(this.$store.state.data_wizard.form)
       },
@@ -205,7 +202,7 @@
       download() {
         const content = JSON.stringify(this.validations)
         const date = moment().format('YYYY-MM-DD_HHmm')
-        download(content, `${this.instance_config.instance.slug}_validations_${date}.json`)
+        download(content, `wizard_validations_${date}.json`)
       }
     }
   }
