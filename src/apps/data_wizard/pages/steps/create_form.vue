@@ -16,6 +16,7 @@
         Downloaded form
       </md-card-content>
       <md-card-actions>
+        <md-button @click.native="use_default">Use default form</md-button>
         <md-button @click.native="get_form">Get form</md-button>
       </md-card-actions>
     </md-card>
@@ -44,6 +45,9 @@ export default {
           this.$store.commit('data_wizard/set_form', form)
           this.got_form = true
         })
+    },
+    use_default() {
+      this.dx_url = 'https://dxsurvey.com/published?id=df1d04a8-6950-490d-bc4c-32e9a98f2ee1'
     }
   }
 };

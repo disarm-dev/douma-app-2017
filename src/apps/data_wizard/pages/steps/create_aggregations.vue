@@ -4,8 +4,9 @@
       <md-card-header>
         <div class="md-title">Create aggregation</div>
       </md-card-header>
+
       <md-card-content>
-        
+
         <md-input-container >
           <label>Name</label>
           <md-textarea :disabled="true" v-model="aggregation_name"></md-textarea>
@@ -16,19 +17,13 @@
           <md-textarea v-model="aggregation_expr"></md-textarea>
         </md-input-container>
 
+        <md-card-actions>
+          <md-button @click.native="save_aggregations">Save</md-button>
+        </md-card-actions>
+
       </md-card-content>
-      <md-card-actions>
-        <md-button @click.native="save_aggregations">Save</md-button>
-      </md-card-actions>
     </md-card>
 
-    <md-card>
-      <md-card-content>
-        <md-chip v-for="field in form_fields" :key="field">
-          {{field}}
-        </md-chip>
-      </md-card-content>
-    </md-card>
   </div>
 </template>
 
@@ -55,7 +50,7 @@ export default {
         numerator_expr: this.aggregation_expr
       }
 
-      
+
       this.$store.commit('data_wizard/set_aggregations', aggregations)
     }
   }

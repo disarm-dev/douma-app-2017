@@ -5,20 +5,17 @@
     </md-card-header>
     <md-card-content>
       <md-list>
-
         <md-list-item v-for="applet in applets" :key="applets.name">
           <md-icon>{{applet.icon}}</md-icon>
           <span>{{applet.title}}</span>
           <md-checkbox v-model="enabled_applets[applet.name]"></md-checkbox>
         </md-list-item>
-
-        </md-list>
-      </md-card-content>
-      <md-card-actions>
-        <md-button @click.native="save_and_continue">Save</md-button>
-      </md-card-actions>
-    </md-card>
-  </div>
+      </md-list>
+    </md-card-content>
+    <md-card-actions>
+      <md-button @click.native="save_and_continue">Save</md-button>
+    </md-card-actions>
+  </md-card>
 </template>
 
 <script>

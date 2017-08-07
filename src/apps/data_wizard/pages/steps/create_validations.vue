@@ -6,9 +6,7 @@
       <md-file @selected="upload_validations"></md-file>
     </md-input-container>
 
-    <md-button class="md-raised" @click.native="download">Export validations</md-button>
-    <md-button class="md-raised" @click.native="show_upload = !show_upload">Upload</md-button>
-    <md-button class="md-raised md-primary" @click.native="save_and_finish">Save</md-button>
+    <md-button class="" @click.native="save_and_finish">Save</md-button>
 
     <h3>Current validations</h3>
     <div v-if="validations">
