@@ -17,22 +17,13 @@
           <md-textarea v-model="aggregation_expr"></md-textarea>
         </md-input-container>
 
-      <md-card-content>
-        <div>{{JSON.stringify(aggregations)}}</div>
-      </md-card-content>
+        <md-card-actions>
+          <md-button @click.native="save_aggregations">Save</md-button>
+        </md-card-actions>
 
-      <md-card-actions>
-        <md-button @click.native="save_aggregations">Save</md-button>
-      </md-card-actions>
-    </md-card>
-
-    <md-card>
-      <md-card-content>
-        <md-chip v-for="field in form_fields" :key="field">
-          {{field}}
-        </md-chip>
       </md-card-content>
     </md-card>
+
   </div>
 </template>
 
