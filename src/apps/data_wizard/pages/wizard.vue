@@ -8,9 +8,13 @@
     </div>
 
     <div>
+      <!--BACK (it's just back, except for first page -->
       <md-button :disabled='!has_prev' class='md-primary md-raised' @click.native="back">back</md-button>
-      <md-button :disabled='!has_next' class='md-primary md-raised' @click.native="next">next</md-button>
-      <md-button v-if='!has_next' class='md-warn md-raised' @click.native="create">create</md-button>
+
+      <!-- FORWARD (now this is more complicated - needs to be NEXT, CREATE or SAVE, depending on step) -->
+      <md-button v-if="!is_create_step && !is_finish_step" :disabled='!has_next' class='md-primary md-raised' @click.native="next">next</md-button>
+      <md-button v-if='is_create_step' class='md-accent md-raised' @click.native="create">create</md-button>
+      <md-button v-if='is_finish_step' class='md-accent md-raised' @click.native="finish">finish</md-button>
     </div>
 
     <component :is="steps[step_page - 1].name" @next="next" @back="back"></component>
@@ -29,7 +33,8 @@
   import create_aggregations from './steps/create_aggregations.vue'
   import configure_applets from './steps/configure_applets.vue'
   import configure_presenters from './steps/configure_presenters.vue'
-  import complete from './steps/complete.vue'
+  import review_configuration from './steps/review_configuration.vue'
+  import result from './steps/result.vue'
 
   const steps = [
     select_country,
@@ -40,7 +45,8 @@
     create_aggregations,
     configure_applets,
     configure_presenters,
-    complete
+    review_configuration,
+    result
   ]
 
   const components = steps.reduce((acc, step) => {acc[step.name] = step; return acc}, {})
@@ -63,6 +69,12 @@
       },
       has_prev() {
         return this.step_page > 1
+      },
+      is_create_step() {
+        return this.step_page === (this.steps.length - 1)
+      },
+      is_finish_step() {
+        return this.step_page === this.steps.length
       }
     },
     mounted() {
@@ -70,16 +82,18 @@
       if (this.step_page < 1) this.$router.push('/data/wizard/1')
     },
     methods: {
-      next() {
-        if (this.step_page === this.steps.length) return
-        this.$router.push(`/data/wizard/${+this.step_page + 1}`)
-      },
       back() {
         if (this.step_page === 1) return
         this.$router.push(`/data/wizard/${+this.step_page - 1}`)
       },
+      next() {
+        this.$router.push(`/data/wizard/${+this.step_page + 1}`)
+        },
       create() {
-        console.log('create instance files')
+        this.$router.push(`/data/wizard/${+this.step_page + 1}`)
+      },
+      finish() {
+        console.log('confirm finish of instance files')
       }
     }
   }

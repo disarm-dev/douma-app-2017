@@ -2,7 +2,7 @@
   <div class="applet_container">
     <md-card v-if="!applets.irs_monitor">
       <md-card-header>
-        <div class="md-title">Monitor component is not selected</div>
+        <div class="md-title">Cannot select aggregations for Monitor component: Monitor component is not selected</div>
       </md-card-header>
     </md-card>
 
