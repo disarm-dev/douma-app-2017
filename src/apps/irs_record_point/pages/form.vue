@@ -45,7 +45,8 @@
       }
     },
     watch: {
-      'response_is_valid': 'control_complete_button_visibility'
+      'response_is_valid': 'control_complete_button_visibility',
+      'response_is_valid': 'control_next_button_disabled'
     },
     mounted(){
       this.create_form()
@@ -123,11 +124,11 @@
           const question = this._survey.getQuestionByName(question_name)
           const page = this._survey.getPageByQuestion(question)
 
-          const current_page_index = this._survey.pages.findIndex((survey_page) => {
+          const question_name_index = this._survey.pages.findIndex((survey_page) => {
             return survey_page.id === page.id
           })
 
-          return current_page_index
+          return question_name_index
         })
 
         const last_page_with_error = Math.max(...question_indices)
