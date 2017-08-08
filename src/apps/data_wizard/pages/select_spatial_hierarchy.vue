@@ -10,34 +10,13 @@
           <div><b>Include</b></div>
           <div><b>Planning level</b></div>
         </md-list-item>
-        
-        <md-list-item v-for="level in levels">
+
+        <md-list-item v-for="level in levels" :key="level">
           <span>{{level}}</span>
           <md-checkbox v-model="include_areas[level]"></md-checkbox>
 
           <md-radio v-model="planning_level" :md-value="level"></md-radio>
         </md-list-item>
-
-        <!-- <md-list-item>
-          <span>Admin 1</span>
-          <md-checkbox v-model="include_areas.adm0"></md-checkbox>
-
-          <md-radio v-model="planning_level" md-value="one"></md-radio>
-        </md-list-item>
-
-        <md-list-item>
-          <span>Admin 2</span>
-          <md-checkbox v-model="include_areas.adm1"></md-checkbox>
-
-          <md-radio v-model="planning_level" md-value="two"></md-radio>
-        </md-list-item>
-
-        <md-list-item>
-          <span>Admin 3</span>
-          <md-checkbox v-model="include_areas.adm2"></md-checkbox>
-
-          <md-radio v-model="planning_level" md-value="three"></md-radio>
-        </md-list-item> -->
 
         <md-list-item>
           <md-button class="md-raised md-primary">Add OSM data</md-button>
