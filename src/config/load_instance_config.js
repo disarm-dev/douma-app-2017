@@ -32,6 +32,9 @@ function determine_instance() {
   const instance_hash = get_hash_value('instance')
   const instance_sessionStorage = sessionStorage.getItem("DOUMA_DEBUG_INSTANCE_SLUG")
 
+  const instance_id = get_hash_value('id')
+  console.log('instance_id', instance_id)
+
   if (instance_hash && is_valid_subdomain(instance_hash )) {
     console.warn(`🐞 Received instance_slug ${instance_hash} in URL hash - temporarily persisting to sessionStorage`)
     sessionStorage.setItem('DOUMA_DEBUG_INSTANCE_SLUG', instance_hash)
