@@ -19,7 +19,8 @@
 
 <script>
   import cache from 'config/cache.js'
-  
+  import get from 'lodash.get'
+
   export default {
     name: 'clear_data',
     data () {

@@ -75,7 +75,6 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
   import get from 'lodash.get'
 
   import {try_reconnect, get_version} from 'lib/remote/remote.standard-handler'
