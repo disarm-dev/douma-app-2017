@@ -36,7 +36,7 @@
           <md-button class="md-raised md-primary">Add OSM data</md-button>
         </md-list-item>
         <md-list-item>
-          <md-button class="md-raised md-primary">Add your own geo-spatial data</md-button>
+          <md-button class="md-raised md-primary">Add your own geo-spatial data (custom areas, incl. drawing them in this tool)</md-button>
         </md-list-item>
       </md-list>
     </md-card-content>
