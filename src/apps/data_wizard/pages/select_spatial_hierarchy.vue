@@ -11,7 +11,7 @@
           <div><b>Planning level</b></div>
         </md-list-item>
         
-        <md-list-item v-for="level in levels">
+        <md-list-item v-for="level in levels" :key="level">
           <span>{{level}}</span>
           <md-checkbox v-model="include_areas[level]"></md-checkbox>
 
