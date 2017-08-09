@@ -13,7 +13,7 @@
       </md-card-content>
     </md-card>
 
-    <router-link to="/meta/debug">Version: {{commit_hash}}</router-link>
+    <router-link to="/debug">Version: {{commit_hash}}</router-link>
     <a class='licenses_link' href="/static/3rdpartylicenses.txt"><span>Licenses</span></a>
   </div>
 </template>
@@ -32,7 +32,8 @@
       },
       user() {
         return this.$store.state.meta.user
-      },    },
+      }   
+    }
   }
 </script>
 

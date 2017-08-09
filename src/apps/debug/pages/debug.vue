@@ -8,8 +8,8 @@
      <md-list>
 
         <!--DATA-->
-        <md-list-item><router-link to="/meta/debug/fake_data"><md-icon>flight_takeoff</md-icon><span>Create fake data</span></router-link></md-list-item>
-        <md-list-item><router-link to="/meta/debug/validations"><md-icon>playlist_add_check</md-icon><span>Edit validations</span></router-link></md-list-item>
+        <md-list-item><router-link to="/debug/fake_data"><md-icon>flight_takeoff</md-icon><span>Create fake data</span></router-link></md-list-item>
+        <md-list-item><router-link to="/debug/validations"><md-icon>playlist_add_check</md-icon><span>Edit validations</span></router-link></md-list-item>
         <md-divider class="md-inset"></md-divider>
 
 
@@ -19,8 +19,8 @@
           <md-icon>explore</md-icon>
           <span>Geolocation</span>
           <md-list-expand>
-            <md-list-item><router-link to="/meta/debug/building"><md-icon>location_city</md-icon><span>building hunter</span></router-link></md-list-item>
-            <md-list-item><router-link to="/meta/debug/location"><md-icon>my_location</md-icon><span>location test</span></router-link></md-list-item>
+            <md-list-item><router-link to="/debug/building"><md-icon>location_city</md-icon><span>building hunter</span></router-link></md-list-item>
+            <md-list-item><router-link to="/debug/location"><md-icon>my_location</md-icon><span>location test</span></router-link></md-list-item>
             <md-list-item @click="check_geolocation()"><md-icon>location_searching</md-icon><span>check geolocation</span><md-icon v-if='geolocation_pass' class="md-primary">check</md-icon></md-list-item>
           </md-list-expand>
         </md-list-item>
@@ -46,11 +46,11 @@
           <span>Data</span>
 
           <md-list-expand>
-            <md-list-item><router-link :to="{name: 'meta:debug:upload_geodata'}"><md-icon>file_upload</md-icon><span>Upload geodata</span></router-link></md-list-item>
+            <md-list-item><router-link :to="{name: 'debug:upload_geodata'}"><md-icon>file_upload</md-icon><span>Upload geodata</span></router-link></md-list-item>
             <md-list-item @click="goto_survey_editor"><md-icon>library_books</md-icon><span>Survey Editor (dxsurvey.com)</span></md-list-item>
-            <md-list-item><router-link :to="{name: 'meta:debug:check_data_status'}"><md-icon>checkbox</md-icon><span>Check data status</span></router-link></md-list-item>
-            <md-list-item><router-link :to="{name: 'meta:debug:validate_data'}"><md-icon>playlist_add_check</md-icon><span>Validate data</span></router-link></md-list-item>
-            <md-list-item><router-link :to="{name: 'meta:debug:instance_config_view'}"><md-icon>settings_applications</md-icon><span>View instance_config</span></router-link></md-list-item>
+            <md-list-item><router-link :to="{name: 'debug:check_data_status'}"><md-icon>checkbox</md-icon><span>Check data status</span></router-link></md-list-item>
+            <md-list-item><router-link :to="{name: 'debug:validate_data'}"><md-icon>playlist_add_check</md-icon><span>Validate data</span></router-link></md-list-item>
+            <md-list-item><router-link :to="{name: 'debug:instance_config_view'}"><md-icon>settings_applications</md-icon><span>View instance_config</span></router-link></md-list-item>
 
           </md-list-expand>
         </md-list-item>
