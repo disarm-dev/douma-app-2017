@@ -17,17 +17,12 @@ Vue.use(VueShortkey)
 import VueMaterial from 'vue-material'
 Vue.use(VueMaterial)
 
-Vue.material.registerTheme({
-  default: {
-    primary: 'blue',
-    accent: 'pink'
-  }
-})
 
 import DoumaComponent from 'components/app.vue'
 import {create_router} from '../apps/router'
 import {create_store} from '../apps/store'
 import {get_instance_stores_and_routes} from './applet_stores_and_routes'
+import {configure_theme} from './theme'
 import {instantiate_analytics, set_common_analytics} from 'config/analytics'
 import {configure_spatial_helpers} from 'lib/geodata/spatial_hierarchy_helper'
 import {configure_standard_handler} from 'lib/remote/remote.standard-handler'
@@ -50,6 +45,8 @@ export function create_and_launch_application (instance_config) {
   // (Required for the app)
   const router = create_router(instance_applets_stores_and_routes.routes, store)
 
+  // Configure theme, either from default or instance_config
+  configure_theme(instance_config)
 
   // BEFORE VUE APP IS CREATED (USING store OR router)
 

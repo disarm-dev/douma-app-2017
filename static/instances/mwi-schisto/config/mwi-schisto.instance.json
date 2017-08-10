@@ -31,7 +31,11 @@
   "instance": {
     "title": "Malawi Schistosomiasis Tool",
     "location_name": "Malawi",
-    "slug": "mwi-schisto"
+    "slug": "mwi-schisto",
+    "theme": {
+      "primary": "amber",
+      "accent": "pink"
+    }
   },
   "spatial_hierarchy": {
     "data_version": 1,
