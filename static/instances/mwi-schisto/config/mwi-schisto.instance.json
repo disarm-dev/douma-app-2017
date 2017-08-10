@@ -1,0 +1,59 @@
+{
+  "applets": {
+    "irs_monitor": {
+      "title": "Monitor",
+      "aggregations": {
+        "map": "structures sprayed %",
+        "table": ["structures sprayed", "structures sprayed %"]
+      },
+      "components": [
+        {
+          "height_constraint": "viewport",
+          "name": "nam_chart_structures_sprayed_doughnut",
+          "width_constraint": "half"
+        }
+      ]
+    },
+    "irs_plan": {
+      "title": "Plan"
+    },
+    "irs_record_point": {},
+    "meta": {},
+    "data_wizard": {}
+  },
+  "map_focus": {
+    "centre": {
+      "lat": -13.07786,
+      "lng": 34.05230
+    },
+    "zoom": 6
+  },
+  "instance": {
+    "title": "Malawi Schistosomiasis Tool",
+    "location_name": "Malawi",
+    "slug": "mwi-schisto"
+  },
+  "spatial_hierarchy": {
+    "data_version": 1,
+    "markers": {
+      "planning_level_name": "admin2",
+      "record_location_selection_level_name": "admin2",
+      "denominator_fields": {
+        "number_of_households": "risk"
+      }
+    },
+    "levels": [
+      {
+        "group_by_field": "ID_2",
+        "field_name": "ID_2",
+        "display_field_name": "NAME_2",
+        "name": "admin2"
+      },
+      {
+        "field_name": "ID_3",
+        "display_field_name": "NAME_3",
+        "name": "admin3"
+      }
+    ]
+  }
+}

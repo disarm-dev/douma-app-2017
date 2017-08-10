@@ -1,0 +1,203 @@
+{
+  "pages": [
+    {
+      "elements": [
+        {
+          "type": "text",
+          "inputType": "number",
+          "isRequired": true,
+          "name": "number_sprayable",
+          "title": "How many sprayable structures in the household/homestead?",
+          "validators": [
+            {
+              "type": "numeric",
+              "minValue": "-0",
+              "text": "Minimum Value is Zero"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "inputType": "number",
+          "isRequired": true,
+          "name": "number_unsprayable",
+          "title": "How many unsprayable sleeping structures are in the household/homestead?",
+          "validators": [
+            {
+              "type": "numeric",
+              "minValue": "0",
+              "text": "Minimum Value is Zero"
+            }
+          ]
+        }
+      ],
+      "name": "page1"
+    },
+    {
+      "elements": [
+        {
+          "type": "text",
+          "inputType": "number",
+          "isRequired": true,
+          "name": "numbersprayed_ddt",
+          "title": "How many structures were sprayed with DDT? ( if 0, enter 0)",
+          "validators": [
+            {
+              "type": "numeric",
+              "minValue": "0",
+              "text": "Minimum Value is Zero"
+            }
+          ],
+          "visible": false,
+          "visibleIf": "{number_sprayable} > 0"
+        },
+        {
+          "type": "text",
+          "inputType": "number",
+          "isRequired": true,
+          "name": "numbersprayed_delta",
+          "title": "How many structures were sprayed with Deltamethrin/K-Othrin? ( If 0, enter 0)",
+          "validators": [
+            {
+              "type": "numeric",
+              "minValue": "0",
+              "text": "Minimum Value is Zero"
+            }
+          ],
+          "visible": false,
+          "visibleIf": "{number_sprayable} > 0"
+        }
+      ],
+      "name": "page2"
+    },
+    {
+      "elements": [
+        {
+          "type": "text",
+          "inputType": "number",
+          "isRequired": true,
+          "name": "number_unsprayed",
+          "title": "How many sprayable structures were not sprayed?",
+          "validators": [
+            {
+              "type": "numeric",
+              "minValue": "0",
+              "text": "Minimum Value is Zero"
+            }
+          ],
+          "visible": false,
+          "visibleIf": "{number_sprayable} > 0"
+        },
+        {
+          "type": "radiogroup",
+          "choices": [
+            {
+              "value": "locked",
+              "text": "Locked"
+            },
+            {
+              "value": "refused",
+              "text": "Refused"
+            },
+            {
+              "value": "sick_infant",
+              "text": "Sick person/young infant"
+            }
+          ],
+          "hasOther": true,
+          "isRequired": true,
+          "name": "Reasons for not spraying",
+          "title": "Reasons for not ",
+          "visible": false,
+          "visibleIf": "{number_unsprayed} > 0"
+        }
+      ],
+      "name": "page3"
+    },
+    {
+      "elements": [
+        {
+          "type": "text",
+          "inputType": "number",
+          "isRequired": true,
+          "name": "house_population",
+          "title": "Total people living in the homestead/house",
+          "validators": [
+            {
+              "type": "numeric",
+              "minValue": "0",
+              "text": "Minimum Value is Zero"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "inputType": "number",
+          "isRequired": true,
+          "name": "total_population_sprayedrooms",
+          "title": "People sleeping in sprayed rooms",
+          "validators": [
+            {
+              "type": "numeric",
+              "minValue": "0",
+              "text": "Minimum Value is Zero"
+            }
+          ]
+        }
+      ],
+      "name": "page4"
+    },
+    {
+      "elements": [
+        {
+          "type": "text",
+          "isRequired": true,
+          "name": "name_household",
+          "title": "Head of Household Name",
+          "visible": false,
+          "visibleIf": "{number_sprayable} > 0"
+        },
+        {
+          "type": "text",
+          "isRequired": true,
+          "name": "health_number",
+          "title": "Household Health Number (Enter the number on the sticker given to the head of household)",
+          "visible": false,
+          "visibleIf": "{number_sprayable} > 0"
+        },
+        {
+          "type": "text",
+          "name": "confirm",
+          "title": "Confirm Household Health Number: ",
+          "visible": false,
+          "visibleIf": "{number_sprayable} > 0"
+        },
+        {
+          "type": "text",
+          "isRequired": true,
+          "name": "number_bednets",
+          "title": "Total Number of Bednets Owned",
+          "visible": false,
+          "visibleIf": "{number_sprayable} > 0"
+        },
+        {
+          "type": "text",
+          "inputType": "number",
+          "isRequired": true,
+          "name": "Bednets_used",
+          "title": "Number of Bednets in Use",
+          "validators": [
+            {
+              "type": "numeric",
+              "minValue": "-0",
+              "text": "Minimum Value is Zero"
+            }
+          ],
+          "visible": false,
+          "visibleIf": "{number_bednets} > 0"
+        }
+      ],
+      "name": "page5"
+    }
+  ]
+}
