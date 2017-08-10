@@ -22,7 +22,7 @@
           :component_config='component'>
         </component>
 
-        <p>This some chart explainer text. This some chart explainer text. This some chart explainer text. This some chart explainer text. This some chart explainer text. This some chart explainer text. This some chart explainer text. This some chart explainer text. This some chart explainer text. This some chart explainer text. </p>
+        <p>This is chart explainer text. This is chart explainer text. This is chart explainer text. This is chart explainer text. This is chart explainer text.</p>
       </md-card-content>
     </md-card>
   </div>
