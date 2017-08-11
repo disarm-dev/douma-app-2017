@@ -21,6 +21,7 @@
 <script>
   import {mapState, mapGetters} from 'vuex'
   import debounce from 'lodash.debounce'
+  import is_null from 'lodash.isnull'
   import download from 'downloadjs'
   import moment from 'moment'
 
@@ -508,7 +509,13 @@
         this._risk_scaler = new LogValueConvertor(values_array)
 
         const features = this.planning_level_fc.features.map((feature) => {
+          const risk = feature.properties.risk
+          console.log('risk', risk)
+
           if (feature.properties.risk === 0) {
+            feature.properties.normalised_risk = 0
+          } else if (is_null(feature.properties.risk)) {
+            console.log('null value converted to 0')
             feature.properties.normalised_risk = 0
           } else {
             feature.properties.normalised_risk = this._risk_scaler.lval(feature.properties.risk)
