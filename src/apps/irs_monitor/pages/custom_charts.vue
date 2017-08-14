@@ -48,6 +48,7 @@
   import bwa_chart_prop_room_sprayed from './bwa/bwa_chart_prop_room_sprayed'
   import bwa_chart_prop_people_covered from './bwa/bwa_chart_prop_people_covered'
   import bwa_chart_refusal_pie from './bwa/bwa_chart_refusal_pie'
+  import bwa_table from './bwa/bwa_table'
 
   // ZWE
   import zwe_chart_prop_room_sprayed from './zwe/zwe_chart_prop_room_sprayed'
@@ -76,6 +77,7 @@
       bwa_chart_prop_room_sprayed,
       bwa_chart_prop_people_covered,
       bwa_chart_refusal_pie,
+      bwa_table,
 
       // ZWE
       zwe_chart_prop_room_sprayed,

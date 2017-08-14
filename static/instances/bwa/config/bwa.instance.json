@@ -22,6 +22,11 @@
           "height_constraint": "none",
           "name": "bwa_chart_refusal_pie",
           "width_constraint": "half"
+        },
+        {
+          "height_constraint": "viewport",
+          "name": "bwa_table",
+          "width_constraint": "full"
         }
       ],
       "title": "Dashboard"
