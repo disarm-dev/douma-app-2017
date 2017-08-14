@@ -33,7 +33,8 @@
       "title": "IRS Data collection and Reporting Tool"
     },
     "meta": {},
-    "data_wizard": {}
+    "data_wizard": {},
+    "debug": {}
   },
   "map_focus": {
     "centre": {
