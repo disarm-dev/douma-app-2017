@@ -21,12 +21,14 @@ export default {
         'Rooms sprayed with Lambda-cyhalothrin (N)',
         'Number of other structures visited',
         'Total other structures sprayed',
-        'Total other structures sprayed with DDT',
-        'Total other structures sprayed with Lambda-cyhalothrin',
+        'Total other structures sprayed with DDT',  // need form question for this
+        'Total other structures sprayed with Lambda-cyhalothrin',// need form question for this
         'Number of rooms not sprayed',
+
         'Number of rooms not sprayed - Unsprayable (N)',
         'Number of rooms not sprayed - Unsprayable (%)',
         'Number of sprayable rooms not sprayed',
+
         'Number of rooms not sprayed -Locked (N)',
         'Number of rooms not sprayed -Locked (%)',
         'Number of rooms not sprayed -Nobody(N)',
@@ -40,8 +42,7 @@ export default {
         'Number of rooms not sprayed -Funeral (N)',
         'Number of rooms not sprayed -Funeral (%)',
         'Number of rooms not sprayed -Kitchen (N)',
-        'Number of rooms not sprayed -Kitchen (%)',
-
+        'Number of rooms not sprayed -Kitchen (%)'
       ]
     };
   },
