@@ -18,43 +18,49 @@ export default Line.extend({
   methods: {
     create_chart(data, labels) {
       this.renderChart({
-        labels: ['Week 1', "Week 2", "Week 3", "Week 4", "Week 5"],
+        labels: ['Week 32', "Week 33", "Week 34", "Week 35", "Week 36"],
         datasets: [
           {
-            label: 'Team 1',
+            label: 'Coverage',
             fill: false,
             borderColor: '#EF5350',
             lineTension: 0,
-            data: [1340, 1721, 1643, 1945, 1600]
-          },
-          {
-            label: 'Team 2',
-            fill: false,
-            borderColor: '#8BC34A',
-            lineTension: 0,
-            data: [1440, 1811, 1453, 1750, 1900]
-          },
-          {
-            label: 'Team 3',
-            fill: false,
-            borderColor: '#7E57C2',
-            lineTension: 0,
-            data: [1240, 1521, 1143, 1645, 1800]
+            data: [60, 72, 83, 65, 79]
           }
         ]
       }, {
         title: {
           display: true,
-          text: 'NUMBER of Rooms Sprayed/ Total number of rooms visited'
+          text: 'Proportion of Rooms Sprayed/Total Number of Rooms Visited'
         },
         scales: {
           yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: '% coverage'
+            },
             ticks: {
+              callback: function(value, index, values) {
+                return value + '%'
+              },
               beginAtZero: true,
-              max: 2000,
+              max: 100,
               min: 0
             }
+          }],
+          xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Week numbers'
+            }
           }]
+        },
+        tooltips: {
+          callbacks: {
+            afterLabel(tooltipItem, data) {
+              return '%'
+            }
+          }
         }
       })
 
