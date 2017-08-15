@@ -85,6 +85,7 @@
       },
       set_filter(filter) {
         console.log("Let's do something with this filter", filter)
+        this.$store.commit('irs_monitor/set_filter', filter)
       }
     }
   }
