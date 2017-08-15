@@ -123,6 +123,7 @@
       @previous_view="set_current_view('location')"
       :initial_form_data='response.form_data'
       :response_is_valid="response_is_valid"
+      :validations='validation_result'
     ></form_renderer>
 
   </div>

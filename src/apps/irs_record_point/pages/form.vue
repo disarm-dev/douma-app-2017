@@ -16,7 +16,7 @@
       <md-card-actions>
         <md-button v-if="show_back_to_location" @click.native="$emit('previous_view')" class="md-raised">Previous</md-button>
         <md-button v-if="show_previous" @click.native="previous_page" class="md-raised">Previous</md-button>
-        <md-button v-if="show_next" @click.native="next_page" class="md-raised">Next</md-button>
+        <md-button v-if="show_next" :disabled="next_disabled" @click.native="next_page" class="md-raised">Next</md-button>
         <md-button v-if="show_complete" :disabled="complete_disabled" @click.native="complete" class="md-raised md-primary">Complete</md-button>
       </md-card-actions>
     </md-card>
@@ -28,24 +28,25 @@
   import * as Survey from 'survey-knockout'
   import 'survey-knockout/survey.css'
 
+  import flatten from 'lodash.flatten'
+
   export default {
     name: 'form',
-    props: ['initial_form_data', 'response_is_valid'],
+    props: ['initial_form_data', 'response_is_valid', 'validations'],
     data () {
       return {
         _survey: {},
         show_back_to_location: true,
         show_previous: false,
         show_next: true,
+        next_disabled: false,
         show_complete: false,
-        complete_disabled: false
+        complete_disabled: false,
       }
     },
     watch: {
-      'response_is_valid': 'control_complete_button_visibility'
-    },
-    created() {
-      // Configure form
+      'response_is_valid': 'control_complete_button_visibility',
+      'response_is_valid': 'control_next_button_disabled'
     },
     mounted(){
       this.create_form()
@@ -69,11 +70,13 @@
       on_page_changed() {
         this.control_navigation_visibility()
         this.control_complete_button_visibility()
+        this.control_next_button_disabled()
       },
       on_form_change() {
         this.$emit('change', this._survey)
         this.control_navigation_visibility()
         this.control_complete_button_visibility()
+        this.control_next_button_disabled()
       },
       control_navigation_visibility() {
         console.log('check whats going on')
@@ -109,6 +112,34 @@
             return
           }
         })
+      },
+      control_next_button_disabled() {
+        this.next_disabled = false
+
+        const question_names = this.validations.errors.reduce((questions_array, err) => {
+          return questions_array.concat(err.questions)
+        }, [])
+
+        const question_indices = question_names.map((question_name) => {
+          const question = this._survey.getQuestionByName(question_name)
+          const page = this._survey.getPageByQuestion(question)
+
+          const question_name_index = this._survey.pages.findIndex((survey_page) => {
+            return survey_page.id === page.id
+          })
+
+          return question_name_index
+        })
+
+        const last_page_with_error = Math.max(...question_indices)
+
+        const current_page_index = this._survey.pages.findIndex((survey_page) => {
+          return this._survey.currentPage.id === survey_page.id
+        })
+
+        if (last_page_with_error === current_page_index) {
+          this.next_disabled = true
+        }
       },
       next_page() {
         this._survey.nextPage()
