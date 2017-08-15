@@ -44,6 +44,7 @@
   import bwa_chart_refusal_pie from './bwa/bwa_chart_refusal_pie'
   import bwa_rooms_sprayed_per_week from './bwa/bwa_rooms_sprayed_per_week'
   import bwa_table from './bwa/bwa_table'
+  import bwa_variable_definitions from './bwa/bwa_variable_definitions'
 
   // ZWE
   import zwe_chart_prop_room_sprayed from './zwe/zwe_chart_prop_room_sprayed'
@@ -69,6 +70,7 @@
       nam_chart_structures_sprayed_doughnut,
 
       // BWA
+      bwa_variable_definitions,
       bwa_chart_prop_room_sprayed,
       bwa_chart_refusal_pie,
       bwa_rooms_sprayed_per_week,

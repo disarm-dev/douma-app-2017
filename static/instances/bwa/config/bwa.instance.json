@@ -10,6 +10,11 @@
       "components": [
         {
           "height_constraint": "none",
+          "name": "bwa_variable_definitions",
+          "width_constraint": "half"
+        },
+        {
+          "height_constraint": "none",
           "name": "bwa_chart_prop_room_sprayed",
           "width_constraint": "half"
         },
