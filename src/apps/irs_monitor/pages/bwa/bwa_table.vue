@@ -1,5 +1,8 @@
 <template>
-  <v-client-table :data="table_data" :columns="table_columns"></v-client-table>
+  <div>
+    <h2>Progress table</h2>
+    <v-client-table :data="table_data" :columns="table_columns"></v-client-table>
+  </div>
 </template>
 
 <script>

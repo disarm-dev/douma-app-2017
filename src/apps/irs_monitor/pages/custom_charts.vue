@@ -9,10 +9,6 @@
       :ref="component.name"
       :class="{'card-half-width': component.width_constraint == 'half'}">
 
-      <md-card-header>
-        <div class="md">Chart title</div>
-      </md-card-header>
-
       <md-card-content>
         <component
           :is="component.name"
