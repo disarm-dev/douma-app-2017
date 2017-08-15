@@ -23,7 +23,14 @@ export default Pie.extend({
     }, {
       title: {
         display: true,
-        text: "Refusal reason"
+        text: "Refusal Reasons for not spraying rooms (as a proportion of total number of rooms not sprayed)"
+      },
+      tooltips: {
+        callbacks: {
+          afterLabel(tooltipItem, data) {
+            return '%'
+          }
+        }
       }
     })
   }

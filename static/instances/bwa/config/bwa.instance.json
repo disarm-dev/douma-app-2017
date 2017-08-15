@@ -15,13 +15,18 @@
         },
         {
           "height_constraint": "none",
-          "name": "bwa_chart_prop_people_covered",
+          "name": "bwa_chart_refusal_pie",
           "width_constraint": "half"
         },
         {
           "height_constraint": "none",
-          "name": "bwa_chart_refusal_pie",
+          "name": "bwa_rooms_sprayed_per_week",
           "width_constraint": "half"
+        },
+        {
+          "height_constraint": "viewport",
+          "name": "bwa_table",
+          "width_constraint": "full"
         }
       ],
       "title": "Dashboard"

@@ -9,10 +9,6 @@
       :ref="component.name"
       :class="{'card-half-width': component.width_constraint == 'half'}">
 
-      <md-card-header>
-        <div class="md">Chart title</div>
-      </md-card-header>
-
       <md-card-content>
         <component
           :is="component.name"
@@ -22,7 +18,6 @@
           :component_config='component'>
         </component>
 
-        <p>This is chart explainer text. This is chart explainer text. This is chart explainer text. This is chart explainer text. This is chart explainer text.</p>
       </md-card-content>
     </md-card>
   </div>
@@ -46,8 +41,9 @@
 
   // BWA
   import bwa_chart_prop_room_sprayed from './bwa/bwa_chart_prop_room_sprayed'
-  import bwa_chart_prop_people_covered from './bwa/bwa_chart_prop_people_covered'
   import bwa_chart_refusal_pie from './bwa/bwa_chart_refusal_pie'
+  import bwa_rooms_sprayed_per_week from './bwa/bwa_rooms_sprayed_per_week'
+  import bwa_table from './bwa/bwa_table'
 
   // ZWE
   import zwe_chart_prop_room_sprayed from './zwe/zwe_chart_prop_room_sprayed'
@@ -74,8 +70,9 @@
 
       // BWA
       bwa_chart_prop_room_sprayed,
-      bwa_chart_prop_people_covered,
       bwa_chart_refusal_pie,
+      bwa_rooms_sprayed_per_week,
+      bwa_table,
 
       // ZWE
       zwe_chart_prop_room_sprayed,
