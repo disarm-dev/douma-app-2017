@@ -102,17 +102,21 @@
     },
     methods: {
       emit_filter() {
-        const filter = {
+        let filter = {
           temporal: {
             start: this.start_date,
             end: this.end_date
-          },
-          spatial: {
+          }
+        }
+
+        if (this.selected_filter_area_option && this.selected_filter_area_option.hasOwnProperty('id')) {
+          filter.spatial = {
             level: this.planning_level_name, // TODO: @feature Actually allow users to select this value,
             id: this.selected_filter_area_option.id,
             name: this.selected_filter_area_option.name
           }
         }
+
         this.$emit('filter', filter)
       },
       select_area(area) {
@@ -126,7 +130,7 @@
       set_end_date(end_date) {
         this.end_date = end_date
         this.emit_filter()
-      },
+      }
     }
   }
 </script>
