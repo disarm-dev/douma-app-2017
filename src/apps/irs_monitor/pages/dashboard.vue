@@ -5,7 +5,7 @@
     <dashboard_summary @refresh_data="refresh_data"></dashboard_summary>
 
     <!--FILTERS-->
-    <filters v-if='geodata_ready'></filters>
+    <filters v-if="geodata_ready" @filter="set_filter"></filters>
 
     <!--MAP-->
     <map_progress
@@ -83,6 +83,9 @@
             this.$endLoading('irs_monitor/refresh_data')
           })
       },
+      set_filter(filter) {
+        console.log("Let's do something with this filter", filter)
+      }
     }
   }
 </script>
