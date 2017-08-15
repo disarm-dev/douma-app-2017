@@ -15,11 +15,6 @@
         },
         {
           "height_constraint": "none",
-          "name": "bwa_chart_prop_people_covered",
-          "width_constraint": "half"
-        },
-        {
-          "height_constraint": "none",
           "name": "bwa_chart_refusal_pie",
           "width_constraint": "half"
         },
