@@ -42,6 +42,7 @@
   // BWA
   import bwa_chart_prop_room_sprayed from './bwa/bwa_chart_prop_room_sprayed'
   import bwa_chart_refusal_pie from './bwa/bwa_chart_refusal_pie'
+  import bwa_rooms_sprayed_per_week from './bwa/bwa_rooms_sprayed_per_week'
   import bwa_table from './bwa/bwa_table'
 
   // ZWE
@@ -70,6 +71,7 @@
       // BWA
       bwa_chart_prop_room_sprayed,
       bwa_chart_refusal_pie,
+      bwa_rooms_sprayed_per_week,
       bwa_table,
 
       // ZWE

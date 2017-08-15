@@ -19,6 +19,11 @@
           "width_constraint": "half"
         },
         {
+          "height_constraint": "none",
+          "name": "bwa_rooms_sprayed_per_week",
+          "width_constraint": "half"
+        },
+        {
           "height_constraint": "viewport",
           "name": "bwa_table",
           "width_constraint": "full"
