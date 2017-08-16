@@ -1,0 +1,7 @@
+{
+  "status": [
+    {"red": "any_sprayed === true"},
+    {"yellow": "total_sprayed != total_rooms"},
+    {"green": "total_sprayed == total_rooms"}
+  ]
+}
