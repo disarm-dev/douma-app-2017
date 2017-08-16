@@ -1,14 +1,4 @@
 {
-  "map_style": {
-    "circle-color": {
-      "property": "any_sprayed",
-      "type": "categorical",
-      "stops": [
-        ["yes", "green"],
-        ["no", "orange"]
-      ]
-    }
-  },
   "popup_description": [
     {
       "title": "Date",

@@ -51,7 +51,7 @@ export class Response {
     return (this.model.form_data !== null) && (this.model.location.coords !== null) && (this.model.location.selection !== null)
   }
 
-  decorate_for_sending() {
+  decorate_for_sending() { // TODO: @refac Rename to not conflict with 'decorators'
     if (!this.is_ready_to_send()) return false
 
     const decorated = omit(this.model, 'synced')
@@ -71,7 +71,10 @@ export const decorate_responses_from_json = (json, instance_config) => {
     return response
   })
 
-  const responses_with_planning_target_area = get_polygon_for_responses(responses, instance_config)
+  // Run instance decorator on all responses
+  const decorated_responses = instance_decorator(responses, instance_config)
+
+  const responses_with_planning_target_area = get_polygon_for_responses(decorated_responses, instance_config)
   return responses_with_planning_target_area
 }
 
