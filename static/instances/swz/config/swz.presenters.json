@@ -1,20 +1,4 @@
 {
-  "map_style": {
-    "circle-color": {
-      "property": "visit_type",
-      "type": "categorical",
-      "stops": [
-        [
-          "first_visit",
-          "#22ff31"
-        ],
-        [
-          "mopup",
-          "#f51506"
-        ]
-      ]
-    }
-  },
   "popup_description": [
     {
       "title": "Date",
