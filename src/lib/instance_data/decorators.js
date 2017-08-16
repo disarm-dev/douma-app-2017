@@ -1,6 +1,6 @@
 import {Parser} from 'expr-eval'
 
-const instance_decorator = (responses, instance_config) => {
+export default function instance_decorator(responses, instance_config) {
   const decorators = instance_config.decorators
 
   const decorated_responses = responses.map((response) => {
@@ -66,6 +66,3 @@ const form_data_has_required_variables = (response, required_variables) => {
   
   return true
 }
-
-
-export default instance_decorator
