@@ -29,7 +29,13 @@ export const get_instance_files = (slug) => {
       // Other elements to attach
       return {
         ...instance_config,
-        ...jsons_object
+        form: jsons_object.form,
+        location_selection: jsons_object.location_selection,
+        aggregations: jsons_object.aggregations,
+        fake_form: jsons_object.fake_form,
+        validations: jsons_object.validations,
+        presenters: jsons_object.presenters,
+        decorators: jsons_object.decorators
       }
     })
 
