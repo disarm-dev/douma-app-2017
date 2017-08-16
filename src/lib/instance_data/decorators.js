@@ -42,15 +42,29 @@ const evaluate_decorator = (response, decorator_expressions_array) => {
     
     const parsed_expresssion = parser.parse(expression)
 
-    // evaluation_result is a boolean
-    const evaluation_result = parsed_expresssion.evaluate(response.form_data)
+    if (form_data_has_required_variables(response, parsed_expresssion.variables())) {
+      const evaluation_result = parsed_expresssion.evaluate(response.form_data)
     
-    if (evaluation_result) {
-      return possible_value_name
+      // evaluation_result is a boolean
+      if (evaluation_result) {
+        return possible_value_name
+      }
     }
   }
   // return undefined as a default
   return undefined
+}
+
+const form_data_has_required_variables = (response, required_variables) => {
+  const response_variables = Object.keys(response.form_data)
+
+  for (const required of required_variables) {
+    if (!response_variables.includes(required)) {
+      return false
+    }
+  }
+  
+  return true
 }
 
 
