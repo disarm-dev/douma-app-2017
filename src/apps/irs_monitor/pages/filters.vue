@@ -37,11 +37,12 @@
           <multiselect
             placeholder="Select a spatial hierarchy to limit by"
             :options="spatial_hierarchy_options"
-            :value="planning_level_name"
+            :value="spatial.spatial_hierarchy"
             @select="select_spatial_level"
           ></multiselect>
           <br>
           <multiselect 
+            v-if="NO_SPATIAL_FILTER_OPTION !== spatial.spatial_hierarchy"
             :value="spatial.selected_filter_area_option"
             @select="select_area"
             :options="area_options"
@@ -70,12 +71,16 @@
   import cache from 'config/cache'
   import {get_next_level_up_from_planning_level, get_all_spatial_hierarchy_level_names, get_planning_level_name, get_planning_level} from 'lib/geodata/spatial_hierarchy_helper'
 
+  const NO_SPATIAL_FILTER_OPTION = 'No spatial filter'
+  const NO_TEAM_FILTER_OPTION = 'No team filter'
+
   export default {
     name: 'Filters',
     components: {Multiselect, DatePicker},
     data () {
       return {
         // Meta
+        NO_SPATIAL_FILTER_OPTION,
         show_filters: true,
         
         // Filter results
@@ -85,22 +90,20 @@
           end: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
         },
         spatial: {
-          selected_filter_area_option: ''
+          selected_filter_area_option: '',
+          spatial_hierarchy: ''
         },
         
         // Config
-        team_options: ['none', 'Team A', 'Team B', 'Team C', 'Team D', 'Team E']
+        team_options: [NO_TEAM_FILTER_OPTION, 'Team A', 'Team B', 'Team C', 'Team D', 'Team E']
       }
     },
     computed: {
       ...mapState({
         filter: state => state.irs_monitor.filter
       }),
-      planning_level_name() {
-        return get_planning_level_name()
-      },
       spatial_hierarchy_options() {
-        return ['country'].concat(get_all_spatial_hierarchy_level_names())
+        return [NO_SPATIAL_FILTER_OPTION].concat(get_all_spatial_hierarchy_level_names())
       },
       area_options() {
         let planning_level
@@ -136,6 +139,7 @@
       if (this.filter) {
         this.temporal = this.filter.temporal
         this.spatial.selected_filter_area_option = this.filter.spatial
+        this.spatial.spatial_hierarchy = this.filter.spatial.level || ''
         this.team = this.filter.team
       }
     },
@@ -149,7 +153,7 @@
         }
         const include_spatial_filter = this.spatial.selected_filter_area_option && this.spatial.selected_filter_area_option.hasOwnProperty('id')
         
-        if (this.planning_level_name !== 'country' && include_spatial_filter) {
+        if (this.planning_level_name !== NO_SPATIAL_FILTER_OPTION && include_spatial_filter) {
           filter.spatial = {
             level: this.planning_level_name, // TODO: @feature Actually allow users to select this value,
             id: this.spatial.selected_filter_area_option.id,
@@ -157,7 +161,7 @@
           }
         }
 
-        if (this.team !== 'none') {
+        if (this.team !== NO_TEAM_FILTER_OPTION) {
           filter.team = this.team
         }
 
@@ -167,7 +171,8 @@
         this.team = team
         this.emit_filter()
       },
-      select_spatial_level() {
+      select_spatial_level(spatial_hierarchy) {
+        this.spatial.spatial_hierarchy = spatial_hierarchy
         this.emit_filter()
       },
       select_area(area) {
