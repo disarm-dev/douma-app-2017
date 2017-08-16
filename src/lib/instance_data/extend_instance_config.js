@@ -10,6 +10,9 @@ export const get_instance_files = (slug) => {
   return Promise.all(types.map(type => get_instance_file(slug, type)))
     .then(jsons => {
       let instance_config = jsons[0]
+      // Remove `instance` from the incoming files, it is the root to which the others are added.
+      jsons.splice(0, 1)
+      types.splice(0, 1)
 
       const errors = IncomingInstanceConfigSchema.errors(instance_config)
 
@@ -29,13 +32,7 @@ export const get_instance_files = (slug) => {
       // Other elements to attach
       return {
         ...instance_config,
-        form: jsons_object.form,
-        location_selection: jsons_object.location_selection,
-        aggregations: jsons_object.aggregations,
-        fake_form: jsons_object.fake_form,
-        validations: jsons_object.validations,
-        presenters: jsons_object.presenters,
-        decorators: jsons_object.decorators
+        ...jsons_object
       }
     })
 
