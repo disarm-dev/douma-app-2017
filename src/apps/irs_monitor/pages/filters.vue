@@ -69,7 +69,6 @@
           end: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
         },
         spatial: {
-          selected_spatial_hierarchy: '',
           selected_filter_area_option: ''
         }
       }
@@ -116,6 +115,10 @@
     },
     mounted() {
       console.log('filter', this.filter)
+      if (this.filter) {
+        this.temporal = this.filter.temporal
+        this.spatial.selected_filter_area_option = this.filter.spatial
+      }
     },
     methods: {
       emit_filter() {
