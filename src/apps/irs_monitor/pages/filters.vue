@@ -147,8 +147,9 @@
             end: this.temporal.end
           }
         }
-
-        if (this.planning_level_name !== 'country' && this.spatial.selected_filter_area_option && this.spatial.selected_filter_area_option.hasOwnProperty('id')) {
+        const include_spatial_filter = this.spatial.selected_filter_area_option && this.spatial.selected_filter_area_option.hasOwnProperty('id')
+        
+        if (this.planning_level_name !== 'country' && include_spatial_filter) {
           filter.spatial = {
             level: this.planning_level_name, // TODO: @feature Actually allow users to select this value,
             id: this.spatial.selected_filter_area_option.id,
