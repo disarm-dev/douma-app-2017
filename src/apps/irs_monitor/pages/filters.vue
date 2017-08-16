@@ -7,6 +7,18 @@
 
     <md-card-content v-show="show_filters">
       <div>
+        <h2>Team filter</h2>
+        <div style="padding-left:1em">
+          <multiselect
+            placeholder="Select a team to limit by"
+            :options="team_options"
+            :value="team"
+            @select="select_team"
+          ></multiselect>
+        </div>
+      </div>
+
+      <div>
         <h2>Temporal filter</h2>
         <div class="date-input">
           <p><b>From</b></p>
@@ -63,14 +75,21 @@
     components: {Multiselect, DatePicker},
     data () {
       return {
+        // Meta
         show_filters: true,
+        
+        // Filter results
+        team: '',
         temporal: {
           start: new Date(),
           end: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
         },
         spatial: {
           selected_filter_area_option: ''
-        }
+        },
+        
+        // Config
+        team_options: ['none', 'Team A', 'Team B', 'Team C', 'Team D', 'Team E']
       }
     },
     computed: {
@@ -114,10 +133,10 @@
       },
     },
     mounted() {
-      console.log('filter', this.filter)
       if (this.filter) {
         this.temporal = this.filter.temporal
         this.spatial.selected_filter_area_option = this.filter.spatial
+        this.team = this.filter.team
       }
     },
     methods: {
@@ -137,7 +156,15 @@
           }
         }
 
+        if (this.team !== 'none') {
+          filter.team = this.team
+        }
+
         this.$store.commit('irs_monitor/set_filter', filter)
+      },
+      select_team(team) {
+        this.team = team
+        this.emit_filter()
       },
       select_spatial_level() {
         this.emit_filter()
