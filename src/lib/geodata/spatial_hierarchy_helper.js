@@ -45,6 +45,13 @@ const get_planning_level_display_name = () => {
   return planning_level.display_field_name
 }
 
+
+const get_planning_level = () => {
+  const planning_level_name = spatial_hierarchy_cache.markers.planning_level_name // e.g. villages for NAM
+  const planning_level = spatial_hierarchy_cache.levels.find(sp => sp.name === planning_level_name)
+  return planning_level 
+}
+
 const get_field_name_for_level = (level_name) => {
   const level = spatial_hierarchy_cache.levels.find(level => level.name === level_name)
   if (!level) throw new Error(`Cannot find level ${level_name} in instance_config.spatial_hierarchy.levels`)
@@ -119,6 +126,7 @@ export {
   configure_spatial_helpers,
   get_planning_level_id_field,
   get_denominator_fields,
+  get_planning_level,
   get_planning_level_name,
   get_planning_level_display_name,
   get_field_name_for_level,
