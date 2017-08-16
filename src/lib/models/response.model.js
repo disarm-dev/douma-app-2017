@@ -6,6 +6,7 @@ import omit from 'lodash.omit'
 import {ResponseSchema} from './response.schema'
 import cache from 'config/cache'
 import {get_planning_level_id_field, get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
+import instance_decorator from 'lib/instance_data/decorators'
 
 export class Response {
   model;
