@@ -22,12 +22,16 @@
         <h2>Temporal filter</h2>
         <div class="date-input">
           <b>From</b>
-          <date-picker :value="temporal.start" @selected="set_start_date"></date-picker>
+          <date-picker :disabled-picker="!enable_temporal_filter" :value="temporal.start" @selected="set_start_date"></date-picker>
         </div>
 
         <div class="date-input">
           <b>To</b>
-          <date-picker :value="temporal.end" @selected="set_end_date"></date-picker>
+          <date-picker :disabled-picker="!enable_temporal_filter" :value="temporal.end" @selected="set_end_date"></date-picker>
+        </div>
+
+        <div class="date-input">
+          <md-checkbox @change="emit_filter" name="temporal" v-model="enable_temporal_filter">Use temporal filter</md-checkbox>
         </div>
       </div>
 
@@ -82,6 +86,7 @@
         // Meta
         NO_SPATIAL_FILTER_OPTION,
         show_filters: true,
+        enable_temporal_filter: true,
         
         // Filter results
         team: '',
@@ -137,20 +142,23 @@
     },
     mounted() {
       if (this.filter) {
-        this.temporal = this.filter.temporal
+        this.temporal = this.filter.temporal || {start: new Date(), end: new Date(new Date().getTime() + 24 * 60 * 60 * 1000)}
         this.spatial.selected_filter_area_option = this.filter.spatial
-        this.spatial.spatial_hierarchy = this.filter.spatial.level || ''
+        this.spatial.spatial_hierarchy = this.filter.spatial.level || NO_SPATIAL_FILTER_OPTION
         this.team = this.filter.team
       }
     },
     methods: {
       emit_filter() {
-        let filter = {
-          temporal: {
+        let filter = {}
+
+        if (this.enable_temporal_filter) {
+          filter.temporal = {
             start: this.temporal.start,
             end: this.temporal.end
           }
         }
+
         const include_spatial_filter = this.spatial.selected_filter_area_option && this.spatial.selected_filter_area_option.hasOwnProperty('id')
         
         if (this.planning_level_name !== NO_SPATIAL_FILTER_OPTION && include_spatial_filter) {
