@@ -1,1 +1,7 @@
-{}
+{
+  "status": [
+    {"red": "sprayed == 'no'"},
+    {"yellow": "sprayed == 'partial'"},
+    {"green": "sprayed == 'yes'"}
+  ]
+}
