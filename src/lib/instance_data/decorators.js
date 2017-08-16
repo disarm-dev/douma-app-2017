@@ -30,8 +30,6 @@ const evaluate_decorators = (response, decorators) => {
 
 const evaluate_decorator = (response, decorator_expressions_array) => {
 
-  let result
-
   // expression is something like {"red": "any_sprayed === true"},
   for (const expression_definition of decorator_expressions_array) {
     // possible_value_name is 'red'
@@ -44,13 +42,14 @@ const evaluate_decorator = (response, decorator_expressions_array) => {
     
     const parsed_expresssion = parser.parse(expression)
 
+    // evaluation_result is a boolean
     const evaluation_result = parsed_expresssion.evaluate(response.form_data)
     
     if (evaluation_result) {
       return possible_value_name
     }
   }
-
+  // return undefined as a default
   return undefined
 }
 
