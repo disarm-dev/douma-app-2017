@@ -21,12 +21,12 @@
       <div>
         <h2>Temporal filter</h2>
         <div class="date-input">
-          <p><b>From</b></p>
+          <b>From</b>
           <date-picker :value="temporal.start" @selected="set_start_date"></date-picker>
         </div>
 
         <div class="date-input">
-          <p><b>To</b></p>
+          <b>To</b>
           <date-picker :value="temporal.end" @selected="set_end_date"></date-picker>
         </div>
       </div>
