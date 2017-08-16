@@ -247,11 +247,12 @@
                   "red",
                   "#f51506"
                 ]
-              ]
+              ],
+              "default": 'blue'
             },
             'circle-radius': {
               base: 1.75,
-              stops: [[12,2],[22,180]]
+              stops: [[12,10],[22,80]]
             },
             'circle-opacity': 0.9,
           }
