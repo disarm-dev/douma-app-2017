@@ -5,7 +5,7 @@
     <dashboard_summary @refresh_data="refresh_data"></dashboard_summary>
 
     <!--FILTERS-->
-    <filters></filters>
+    <filters v-if="geodata_ready"></filters>
 
     <!--MAP-->
     <map_progress
@@ -82,7 +82,7 @@
             console.log(e)
             this.$endLoading('irs_monitor/refresh_data')
           })
-      },
+      }
     }
   }
 </script>

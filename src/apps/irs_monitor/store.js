@@ -9,7 +9,7 @@ export default {
   state: {
     responses: [],
     responses_last_updated_at: null,
-    filters: [],
+    filter: null,
     plan: null,
   },
   mutations: {
@@ -25,18 +25,8 @@ export default {
     set_plan: (state, plan) => {
       state.plan = plan
     },
-    toggle_filter: (state, filter) => {
-      let index = state.filters.findIndex(f => f.type === filter.type && f.value === filter.value)
-      if (index === -1) {
-        state.filters.push(filter)
-      } else {
-        state.filters.splice(index, 1)
-      }
-    },
-    remove_filter: (state, type) => {
-      state.filters = state.filters.filter((f) => {
-        return f.type !== type
-      })
+    set_filter: (state, filter) => {
+      state.filter = filter
     },
     update_responses_last_updated_at:(state) => {
       state.responses_last_updated_at = new Date
