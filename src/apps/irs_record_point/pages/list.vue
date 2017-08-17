@@ -4,7 +4,7 @@
 
     <controls>
       <md-button slot="primary_action" class="md-icon-button md-raised md-primary" @click.native='$router.push("/irs/record_point/new")'>
-        <md-icon>create</md-icon>
+        <md-icon>add</md-icon>
       </md-button>
 
       <template slot="menu_items">
