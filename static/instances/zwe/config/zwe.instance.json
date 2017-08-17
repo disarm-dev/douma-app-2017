@@ -43,7 +43,7 @@
     "slug": "zwe"
   },
   "spatial_hierarchy": {
-    "data_version": 5,
+    "data_version": 6,
     "markers": {
       "planning_level_name": "wards",
       "record_location_selection_level_name": "wards",
@@ -54,8 +54,8 @@
     "levels": [
       {
         "group_by_field": "DISTRICT",
-        "field_name": "ZIMWARDSID",
-        "display_field_name": "ZIMWARDSID",
+        "field_name": "WARD_ID",
+        "display_field_name": "WARD_ID",
         "name": "wards"
       },
       {
