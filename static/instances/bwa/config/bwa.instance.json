@@ -2,9 +2,9 @@
   "applets": {
     "irs_monitor": {
       "aggregations": {
-        "map": "number of rooms sprayed (total)",
+        "map": "number of rooms sprayed",
         "table": [
-          "number of rooms sprayed (total)"
+          "number of rooms sprayed"
         ]
       },
       "components": [

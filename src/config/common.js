@@ -33,7 +33,7 @@ export default {
   instances: {
     list: ['struc_demo', 'make', 'bwa', 'nam', 'swz', 'zwe', 'mwi-schisto'],
     // TODO: @refac This required_instance_files list is only relevant for the IRS modules.
-    required_instance_files: ['instance', 'form', 'location_selection', 'aggregations', 'fake_form', 'validations', 'presenters']
+    required_instance_files: ['instance', 'form', 'location_selection', 'aggregations', 'fake_form', 'validations', 'presenters', 'decorators']
   },
   remote: {
     max_records_batch_size: 100

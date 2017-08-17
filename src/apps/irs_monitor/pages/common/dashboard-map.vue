@@ -214,7 +214,9 @@
 
           if (!latitude || !longitude) return null
 
-          const coords_point = point([longitude, latitude])
+          let coords_point = point([longitude, latitude])
+
+          coords_point.properties = response.computed
 
           return coords_point
         }).filter(a => a)
@@ -229,10 +231,28 @@
             data: points_fc
           },
           paint: {
-            'circle-color': 'orange',
+            "circle-color": {
+              "property": "status",
+              "type": "categorical",
+              "stops": [
+                [
+                  "green",
+                  "#22ff31"
+                ],
+                [
+                  'yellow',
+                  '#FB8C00'
+                ],
+                [
+                  "red",
+                  "#f51506"
+                ]
+              ],
+              "default": 'blue'
+            },
             'circle-radius': {
               base: 1.75,
-              stops: [[12,2],[22,180]]
+              stops: [[12,10],[22,80]]
             },
             'circle-opacity': 0.9,
           }
