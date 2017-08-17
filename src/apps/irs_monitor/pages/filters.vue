@@ -1,6 +1,6 @@
 <template>
   <md-card class="card filter_select">
-    
+
     <md-card-header>
       <div class="md-title" @click="show_filters = !show_filters">Filters</div>
     </md-card-header>
@@ -45,7 +45,7 @@
             @select="select_spatial_level"
           ></multiselect>
           <br>
-          <multiselect 
+          <multiselect
             v-if="NO_SPATIAL_FILTER_OPTION !== spatial.spatial_hierarchy"
             :value="spatial.selected_filter_area_option"
             @select="select_area"
@@ -59,7 +59,7 @@
           ></multiselect>
         </div>
       </div>
-      
+
     </md-card-content>
 
   </md-card>
@@ -87,7 +87,7 @@
         NO_SPATIAL_FILTER_OPTION,
         show_filters: false,
         enable_temporal_filter: true,
-        
+
         // Filter results
         team: '',
         temporal: {
@@ -98,9 +98,9 @@
           selected_filter_area_option: '',
           spatial_hierarchy: ''
         },
-        
+
         // Config
-        team_options: [NO_TEAM_FILTER_OPTION, 'Team A', 'Team B', 'Team C', 'Team D', 'Team E']
+        team_options: [NO_TEAM_FILTER_OPTION, 'Team A', 'Team B', 'Team C', 'Team D', 'Team E'] // TODO: Get teams from plan (means we need plan here)
       }
     },
     computed: {
@@ -160,7 +160,7 @@
         }
 
         const include_spatial_filter = this.spatial.selected_filter_area_option && this.spatial.selected_filter_area_option.hasOwnProperty('id')
-        
+
         if (this.planning_level_name !== NO_SPATIAL_FILTER_OPTION && include_spatial_filter) {
           filter.spatial = {
             level: this.planning_level_name, // TODO: @feature Actually allow users to select this value,
