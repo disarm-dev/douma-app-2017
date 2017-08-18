@@ -11,7 +11,7 @@ export default Line.extend({
   watch: {},
   mounted () {
     this.renderChart({
-        labels: ['Week 1', "Week 2", "Week 3", "Week 4", "Week 5"],
+        labels: ['21 Aug', "28 Aug", "4 Sep", "11 Sep", "18 Sep"],
         datasets: [
           {
             label: 'Team 1',

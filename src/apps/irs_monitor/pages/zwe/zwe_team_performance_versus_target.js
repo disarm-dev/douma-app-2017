@@ -20,6 +20,9 @@ export default Bar.extend({
           }
         ]
       }, {
+        legend: {
+          display: false
+        },
         title: {
           display: true,
           text: 'Performance versus target'
