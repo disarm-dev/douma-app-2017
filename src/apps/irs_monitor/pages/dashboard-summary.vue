@@ -12,8 +12,7 @@
     </template>
 
     <div slot="text">
-      {{filtered_responses.length}} records lie within the 
-      <a href="#filters">FILTERED AREAS</a>.
+      {{filtered_responses.length}} records lie within the FILTERED AREAS.
       Last updated: {{responses_last_updated_at}}
     </div>
   </controls>
