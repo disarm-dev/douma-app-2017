@@ -10,12 +10,12 @@ export default Bar.extend({
       datasets: [
         {
           label: 'Sprayed',
-          backgroundColor: "#33691E",
+          backgroundColor: "#4CAF50",
           data: [43,95,83]
         },
          {
           label: 'Not sprayed',
-          backgroundColor: '#f87979',
+          backgroundColor: '#F44336',
           data: [57,5,17]
           
         }

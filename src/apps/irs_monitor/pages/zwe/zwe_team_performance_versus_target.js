@@ -15,9 +15,8 @@ export default Bar.extend({
         datasets: [
           {
             label: '# of rooms sprayed',
-            backgroundColor: '#4CAF50',
-            lineTension: 0,
-            data: [1340, 1721]
+            backgroundColor: ['#174ef5', '#f20006'],
+            data: [1340, 750]
           }
         ]
       }, {
@@ -28,9 +27,7 @@ export default Bar.extend({
         scales: {
           yAxes: [{
             ticks: {
-              beginAtZero: true,
-              max: 2000,
-              min: 0
+              beginAtZero: true
             }
           }]
         }

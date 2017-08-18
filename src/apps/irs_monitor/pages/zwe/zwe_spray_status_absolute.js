@@ -14,6 +14,7 @@ export default Bar.extend({
       labels: ['Sprayed', "Partially sprayed", "Not sprayed"],
       datasets: [
         {
+          label: 'Spray status',
           backgroundColor: ['#4CAF50', '#FF9800', '#F44336'],
           data: [1340, 1721, 1450]
         }
