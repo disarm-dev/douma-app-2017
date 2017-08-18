@@ -1,25 +1,27 @@
 <template>
-  <div class='applet_container'>
-
+  <div>
     <!--  SUMMARY, LOAD, DOWNLOAD (DUMPING GROUND) -->
     <dashboard_summary @refresh_data="refresh_data"></dashboard_summary>
+    
+    <div class='applet_container'>
 
-    <!--FILTERS-->
-    <filters v-if="geodata_ready"></filters>
+      <!--FILTERS-->
+      <filters v-if="geodata_ready"></filters>
 
-    <!--MAP-->
-    <map_progress
-      v-if='geodata_ready'
-      :aggregated_responses="aggregated_responses"
-      :filtered_responses="filtered_responses"
-    ></map_progress>
+      <!--MAP-->
+      <map_progress
+        v-if='geodata_ready'
+        :aggregated_responses="aggregated_responses"
+        :filtered_responses="filtered_responses"
+      ></map_progress>
 
-    <!--TABLE-->
-    <table_progress :aggregated_responses="aggregated_responses"></table_progress>
+      <!--TABLE-->
+      <table_progress :aggregated_responses="aggregated_responses"></table_progress>
 
-    <!-- CUSTOM STATIC-DATA CHARTS, etc -->
-    <charts :aggregated_responses="responses"></charts>
+      <!-- CUSTOM STATIC-DATA CHARTS, etc -->
+      <charts :aggregated_responses="responses"></charts>
 
+    </div>
   </div>
 </template>
 

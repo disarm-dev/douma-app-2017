@@ -1,7 +1,7 @@
 {
   "status": [
-    {"red": "sprayed == 'no'"},
-    {"yellow": "sprayed == 'partial'"},
-    {"green": "sprayed == 'yes'"}
+    {"#d7191c": "sprayed == 'no'"},
+    {"#fdae61": "sprayed == 'partial'"},
+    {"#a6d96a": "sprayed == 'yes'"}
   ]
 }

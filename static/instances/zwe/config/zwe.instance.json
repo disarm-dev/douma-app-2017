@@ -1,6 +1,12 @@
 {
   "applets": {
+    "irs_plan": {},
+    "irs_tasker": {},
+    "irs_record_point": {
+      "title": "IRS Data Collector"
+    },
     "irs_monitor": {
+      "title": "IRS Dashboard",
       "aggregations": {
         "map": "structures sprayed %",
         "table": ["structures sprayed", "structures sprayed %"]
@@ -8,24 +14,47 @@
       "components": [
         {
           "height_constraint": "none",
-          "name": "zwe_chart_prop_room_sprayed",
+          "name": "zwe_team_performance_versus_target",
+          "width_constraint": "full"
+        },
+
+
+        {
+          "height_constraint": "none",
+          "name": "zwe_spray_room_coverage_absolute",
           "width_constraint": "half"
         },
         {
           "height_constraint": "none",
-          "name": "zwe_chart_prop_people_covered",
+          "name": "zwe_spray_room_coverage_proportion",
+          "width_constraint": "half"
+        },
+
+
+        {
+          "height_constraint": "none",
+          "name": "zwe_spray_status_absolute",
           "width_constraint": "half"
         },
         {
           "height_constraint": "none",
-          "name": "zwe_chart_refusal_pie",
+          "name": "zwe_spray_status_proportion",
+          "width_constraint": "half"
+        },
+
+
+        {
+          "height_constraint": "none",
+          "name": "zwe_refusal_absolute",
+          "width_constraint": "half"
+        },
+        {
+          "height_constraint": "none",
+          "name": "zwe_refusal_proportion",
           "width_constraint": "half"
         }
       ]
     },
-    "irs_plan": {},
-    "irs_tasker": {},
-    "irs_record_point": {},
     "meta": {},
     "data_wizard": {},
     "debug": {}
