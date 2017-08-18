@@ -8,17 +8,27 @@
       "components": [
         {
           "height_constraint": "none",
-          "name": "zwe_chart_prop_room_sprayed",
+          "name": "zwe_team_performance_versus_target",
           "width_constraint": "half"
         },
         {
           "height_constraint": "none",
-          "name": "zwe_chart_prop_people_covered",
+          "name": "zwe_spray_room_coverage_absolute",
           "width_constraint": "half"
         },
         {
           "height_constraint": "none",
-          "name": "zwe_chart_refusal_pie",
+          "name": "zwe_spray_room_coverage_proportion",
+          "width_constraint": "half"
+        },
+        {
+          "height_constraint": "none",
+          "name": "zwe_spray_status",
+          "width_constraint": "half"
+        },
+        {
+          "height_constraint": "none",
+          "name": "zwe_refusal_pie_chart",
           "width_constraint": "half"
         }
       ]
