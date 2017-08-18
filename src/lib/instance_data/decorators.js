@@ -1,5 +1,11 @@
 import {Parser} from 'expr-eval'
-
+/**
+ * Takes responses and decorates them with new properties under the 'computed' key. 
+ * It uses the 'decorators' from the instance_config to figure out which properties to calculate.
+ * @param  {Array} responses       
+ * @param  {Object} instance_config 
+ * @return {Array} responses
+ */
 export default function instance_decorator(responses, instance_config) {
   const decorators = instance_config.decorators
 
@@ -10,6 +16,12 @@ export default function instance_decorator(responses, instance_config) {
   return decorated_responses
 }
 
+/**
+ * Add decorators to a single response
+ * @param  {Object} response
+ * @param  {Object} decorators
+ * @return {response}
+ */
 const evaluate_decorators = (response, decorators) => {
   const computed_value_names = Object.keys(decorators)
 
