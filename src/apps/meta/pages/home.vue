@@ -14,7 +14,6 @@
     </md-card>
 
     <span>Version: {{commit_hash}}</span>
-    <router-link to="/meta/clear_data">Clear data</router-link>
     <a class='licenses_link' href="/static/3rdpartylicenses.txt"><span>Licenses</span></a>
   </div>
 </template>
