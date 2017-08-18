@@ -7,7 +7,7 @@
       },
       "components": [
         {
-          "height_constraint": "none",
+          "height_constraint": "viewport",
           "name": "zwe_team_performance_versus_target",
           "width_constraint": "full"
         },

@@ -47,7 +47,7 @@
 
         // User values
         limit_to_plan: true,
-        show_response_points: false,
+        show_response_points: true,
         selected_layer: 'coverage',
 
         // map cache
@@ -233,26 +233,12 @@
           paint: {
             "circle-color": {
               "property": "status",
-              "type": "categorical",
-              "stops": [
-                [
-                  "green",
-                  "#22ff31"
-                ],
-                [
-                  'yellow',
-                  '#FB8C00'
-                ],
-                [
-                  "red",
-                  "#f51506"
-                ]
-              ],
-              "default": 'blue'
+              "type": "identity",
+              "default": 'grey'
             },
             'circle-radius': {
               base: 1.75,
-              stops: [[12,10],[22,80]]
+              stops: [[12,5],[22,20]]
             },
             'circle-opacity': 0.9,
           }

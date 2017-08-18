@@ -6,7 +6,7 @@ export default Bar.extend({
   watch: {},
   mounted () {
     this.renderChart({
-      labels: ["Phase 1","Phase 2","Phase 3",],
+      labels: ["21 Aug","28 Aug","4 Sep"],
       datasets: [
         {
           label: 'Sprayed',
@@ -27,11 +27,10 @@ export default Bar.extend({
       },
       scales: {
         xAxes: [{
-          stacked: true,
-          // barThickness: 15
+          stacked: true
         }],
         yAxes: [{
-          stacked: true,
+          stacked: true
         }]
       },
     })

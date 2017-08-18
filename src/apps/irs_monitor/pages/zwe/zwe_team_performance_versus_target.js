@@ -2,7 +2,7 @@ import {Bar, mixins} from 'vue-chartjs'
 import moment from 'moment-mini'
 
 export default Bar.extend({
-  props: ['responses', 'denominator'],
+  props: ['responses', 'denominator', 'height'],
   data() {
     return {
       labels: []
