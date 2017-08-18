@@ -51,18 +51,5 @@ export default class Presenter {
     return truthy_responses_grouped_by_area
   }
 
-  get_map_style() {
-    return this.presenters.map_style
-  }
-
-  get_popup_description() {
-    return (feature) => {
-      const record = feature.properties
-
-      return this.presenters.popup_description.map(line => {
-        return `<p><b>${line.title}</b> ${record[line.field_name]}</p>`
-      }).join()
-    }
-  }
 }
 
