@@ -31,7 +31,7 @@ export const get_geodata = (store, force_reload = false) => {
 
   // Build URLs for each level
   const urls = levels.map(level => {
-      return `/static/instances/${slug}/spatial_hierarchy/${slug}.${level}.geojson`
+    return geodata_url_for(slug, level)
   })
 
   let progress_cache = {}
@@ -98,5 +98,9 @@ export const get_geodata = (store, force_reload = false) => {
       store.commit('loading/END', 'get_geodata')
       store.commit('root:set_snackbar', {message: 'Network error. Please reload to try resuming.'})
     })
+}
+
+export function geodata_url_for(slug, level) {
+  return `/static/instances/${slug}/spatial_hierarchy/${slug}.${level}.geojson`
 }
 
