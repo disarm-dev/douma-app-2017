@@ -18,34 +18,23 @@ export default Line.extend({
             fill: false,
             borderColor: '#EF5350',
             lineTension: 0,
-            data: [1340, 1721, 1643, 1945, 1600]
-          },
-          {
-            label: 'Team 2',
-            fill: false,
-            borderColor: '#8BC34A',
-            lineTension: 0,
-            data: [1440, 1811, 1453, 1750, 1900]
-          },
-          {
-            label: 'Team 3',
-            fill: false,
-            borderColor: '#7E57C2',
-            lineTension: 0,
-            data: [1240, 1521, 1143, 1645, 1800]
+            data: [10, 35, 45, 65, 78]
           }
         ]
       }, {
         title: {
           display: true,
-          text: 'Spray room coverage proportion'
+          text: 'Proportion of Rooms Sprayed/Total Number of Rooms Targeted'
         },
         scales: {
           yAxes: [{
             ticks: {
               beginAtZero: true,
-              max: 2000,
-              min: 0
+              max: 100,
+              min: 0,
+              callback: (value, index, values) => {
+                return value + '%'
+              }
             }
           }]
         }

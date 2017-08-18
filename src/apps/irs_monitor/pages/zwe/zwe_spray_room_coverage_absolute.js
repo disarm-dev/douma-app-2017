@@ -1,49 +1,39 @@
-import {Line, mixins} from 'vue-chartjs'
+import {Bar, mixins} from 'vue-chartjs'
 import moment from 'moment-mini'
 
-export default Line.extend({
+export default Bar.extend({
   props: ['responses', 'denominator'],
   watch: {},
   mounted () {
     this.renderChart({
-        labels: ['Week 1', "Week 2", "Week 3", "Week 4", "Week 5"],
-        datasets: [
-          {
-            label: 'Team 1',
-            fill: false,
-            borderColor: '#EF5350',
-            lineTension: 0,
-            data: [1340, 1721, 1643, 1945, 1600]
-          },
-          {
-            label: 'Team 2',
-            fill: false,
-            borderColor: '#8BC34A',
-            lineTension: 0,
-            data: [1440, 1811, 1453, 1750, 1900]
-          },
-          {
-            label: 'Team 3',
-            fill: false,
-            borderColor: '#7E57C2',
-            lineTension: 0,
-            data: [1240, 1521, 1143, 1645, 1800]
-          }
-        ]
-      }, {
-        title: {
-          display: true,
-          text: 'Spray room coverage absolute'
+      labels: ["Phase 1","Phase 2","Phase 3",],
+      datasets: [
+        {
+          label: 'Sprayed',
+          backgroundColor: "#33691E",
+          data: [43,95,83]
         },
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true,
-              max: 2000,
-              min: 0
-            }
-          }]
+         {
+          label: 'Not sprayed',
+          backgroundColor: '#f87979',
+          data: [57,5,17]
+          
         }
-      })
+      ]
+    }, {
+      title: {
+        display: true,
+        text: 'Spray room coverage absolute'
+      },
+      scales: {
+        xAxes: [{
+          stacked: true,
+          // barThickness: 15
+        }],
+        yAxes: [{
+          stacked: true,
+        }]
+      },
+    })
   }
 })

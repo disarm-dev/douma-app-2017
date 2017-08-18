@@ -1,36 +1,39 @@
-import {Line} from 'vue-chartjs'
+import {Bar, mixins} from 'vue-chartjs'
 import moment from 'moment-mini'
 
-export default Line.extend({
+export default Bar.extend({
   props: ['responses', 'denominator'],
+  data() {
+    return {
+      labels: []
+    }
+  },
+  watch: {},
   mounted () {
     this.renderChart({
-        labels: ['Week 1', "Week 2", "Week 3", "Week 4", "Week 5"],
+        labels: ['Team A', "Team B"],
         datasets: [
           {
-            label: 'Team 1',
-            fill: false,
-            borderColor: '#EF5350',
+            label: '# of rooms sprayed',
+            backgroundColor: '#4CAF50',
             lineTension: 0,
-            data: [1200, 1580, 1300, 1750, 1900]
+            data: [1340, 1721]
           }
         ]
       }, {
         title: {
           display: true,
-          text: 'Team performance versus target'
+          text: 'Performance versus target'
         },
         scales: {
           yAxes: [{
             ticks: {
               beginAtZero: true,
-              // max: 100,
-              // min: 0
+              max: 2000,
+              min: 0
             }
           }]
         }
       })
   }
 })
-
-

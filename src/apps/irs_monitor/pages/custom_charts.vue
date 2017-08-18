@@ -50,8 +50,10 @@
   import zwe_team_performance_versus_target from './zwe/zwe_team_performance_versus_target'
   import zwe_spray_room_coverage_absolute from './zwe/zwe_spray_room_coverage_absolute'
   import zwe_spray_room_coverage_proportion from './zwe/zwe_spray_room_coverage_proportion'
-  import zwe_spray_status from './zwe/zwe_spray_status'
-  import zwe_refusal_pie_chart from './zwe/zwe_refusal_pie_chart'
+  import zwe_spray_status_absolute from './zwe/zwe_spray_status_absolute'
+  import zwe_spray_status_proportion from './zwe/zwe_spray_status_proportion'
+  import zwe_refusal_absolute from './zwe/zwe_refusal_absolute'
+  import zwe_refusal_proportion from './zwe/zwe_refusal_proportion'
 
 
   export default {
@@ -82,8 +84,10 @@
       zwe_team_performance_versus_target, 
       zwe_spray_room_coverage_absolute,
       zwe_spray_room_coverage_proportion,
-      zwe_spray_status,
-      zwe_refusal_pie_chart
+      zwe_spray_status_absolute,
+      zwe_spray_status_proportion,
+      zwe_refusal_absolute,
+      zwe_refusal_proportion
     },
     props: ['aggregated_responses', 'filtered_responses'],
     mounted() {
