@@ -22,15 +22,15 @@ export default {
     set_responses: (state, responses) => {
       state.responses = responses
     },
+    update_responses_last_updated_at:(state) => {
+      state.responses_last_updated_at = new Date
+    },
     set_plan: (state, plan) => {
       state.plan = plan
     },
     set_filter: (state, filter) => {
       state.filter = filter
     },
-    update_responses_last_updated_at:(state) => {
-      state.responses_last_updated_at = new Date
-    }
   },
   getters: {
     plan_target_area_ids(state) {
