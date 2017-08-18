@@ -22,6 +22,9 @@ export default Line.extend({
           }
         ]
       }, {
+        legend: {
+          display: false
+        },
         title: {
           display: true,
           text: 'Proportion of Rooms Sprayed/Total Number of Rooms Targeted'
