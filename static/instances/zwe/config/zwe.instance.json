@@ -1,6 +1,12 @@
 {
   "applets": {
+    "irs_plan": {},
+    "irs_tasker": {},
+    "irs_record_point": {
+      "title": "IRS Data Collector"
+    },
     "irs_monitor": {
+      "title": "IRS Dashboard",
       "aggregations": {
         "map": "structures sprayed %",
         "table": ["structures sprayed", "structures sprayed %"]
@@ -49,9 +55,6 @@
         }
       ]
     },
-    "irs_plan": {},
-    "irs_tasker": {},
-    "irs_record_point": {},
     "meta": {},
     "data_wizard": {},
     "debug": {}
