@@ -18,22 +18,7 @@
         </div>
       </div>
 
-      <div>
-        <h2>Temporal filter</h2>
-        <div class="date-input">
-          <b>From</b>
-          <date-picker :disabled-picker="!enable_temporal_filter" :value="temporal.start" @selected="set_start_date"></date-picker>
-        </div>
-
-        <div class="date-input">
-          <b>To</b>
-          <date-picker :disabled-picker="!enable_temporal_filter" :value="temporal.end" @selected="set_end_date"></date-picker>
-        </div>
-
-        <div class="date-input">
-          <md-checkbox @change="emit_filter" name="temporal" v-model="enable_temporal_filter">Use temporal filter</md-checkbox>
-        </div>
-      </div>
+      <temporal_filter></temporal_filter>
 
       <div>
         <h2>Spatial filter</h2>
@@ -75,25 +60,25 @@
   import cache from 'config/cache'
   import {get_next_level_up_from_planning_level, get_all_spatial_hierarchy_level_names, get_planning_level_name, get_planning_level} from 'lib/geodata/spatial_hierarchy_helper'
 
+
+  import temporal_filter form './filters/temporal'
+
   const NO_SPATIAL_FILTER_OPTION = 'No spatial filter'
   const NO_TEAM_FILTER_OPTION = 'No team filter'
 
   export default {
     name: 'Filters',
-    components: {Multiselect, DatePicker},
+    components: {Multiselect, DatePicker, temporal_filter},
     data () {
       return {
         // Meta
         NO_SPATIAL_FILTER_OPTION,
         show_filters: false,
-        enable_temporal_filter: true,
+        
 
         // Filter results
         team: '',
-        temporal: {
-          start: new Date(),
-          end: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
-        },
+        
         spatial: {
           selected_filter_area_option: '',
           spatial_hierarchy: ''
@@ -185,14 +170,6 @@
       },
       select_area(area) {
         this.spatial.selected_filter_area_option = area
-        this.emit_filter()
-      },
-      set_start_date(start_date) {
-        this.temporal.start = start_date
-        this.emit_filter()
-      },
-      set_end_date(end_date) {
-        this.temporal.end = end_date
         this.emit_filter()
       }
     }

@@ -4,12 +4,14 @@ import {Plan} from 'lib/models/plan.model'
 import {decorate_responses_from_json} from 'lib/models/response.model'
 import Presenters from 'lib/instance_data/presenters'
 
+import {set_filter, unset_filter} from './pages/filters/controller'
+
 export default {
   namespaced: true,
   state: {
     responses: [],
     responses_last_updated_at: null,
-    filter: null,
+    filters: null,
     plan: null,
   },
   mutations: {
@@ -28,9 +30,14 @@ export default {
     set_plan: (state, plan) => {
       state.plan = plan
     },
-    set_filter: (state, filter) => {
-      state.filter = filter
+    set_filter: (state, {filter_name, filter_object}) => {
+      const new_filters = set_filter(state.filters, filter_name, filter_object)
+      state.filters = new_filters
     },
+    unset_filter: (state, filter_to_remove /** string: 'spatial' **/) => {
+      const new_filters = unset_filter(state.filters, filter_to_remove, state.responses)
+      state.filters = new_filters
+    }
   },
   getters: {
     plan_target_area_ids(state) {
