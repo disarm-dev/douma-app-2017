@@ -9,11 +9,11 @@
       <filters v-if="geodata_ready"></filters>
 
       <!--MAP-->
-      <map_progress
+      <!-- <map_progress
         v-if='geodata_ready'
         :aggregated_responses="aggregated_responses"
         :filtered_responses="filtered_responses"
-      ></map_progress>
+      ></map_progress> -->
 
       <!--TABLE-->
       <table_progress :aggregated_responses="aggregated_responses"></table_progress>
