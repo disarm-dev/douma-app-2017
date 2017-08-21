@@ -1,7 +1,7 @@
 export default {
   get_data(input_data) {
-    // make a request to aggregator
-    // 
+    // What is input_data?
+
     const data = [
       {
         x: ['Team 2'],
@@ -16,20 +16,6 @@ export default {
       }
     ]
     return data
-  },
-
-  get_layout() {
-    const layout =  {
-      "showlegend": true,
-      "title": "Performance versus target",
-      "yaxis": {
-        "title": "# of rooms"
-      },
-      "xaxis": {
-        "title": "Teams"
-      }
-    }
-    return layout
   }
 }
 

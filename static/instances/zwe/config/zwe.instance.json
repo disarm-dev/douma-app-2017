@@ -15,7 +15,17 @@
         {
           "height_constraint": "none",
           "name": "team_performance_versus_target",
-          "width_constraint": "full"
+          "width_constraint": "full",
+          "layout": {
+            "showlegend": true,
+            "title": "Performance versus target",
+            "yaxis": {
+              "title": "# of rooms"
+            },
+            "xaxis": {
+              "title": "Teams"
+            }
+          }
         }
       ]
     },

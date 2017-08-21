@@ -11,9 +11,10 @@
       <md-card-content>
 
         <custom_chart 
+
           :div_id="component.name" 
           :get_data="charts[component.name].get_data" 
-          :get_layout="charts[component.name].get_layout"
+          :layout="component.layout"
         >
           
         </custom_chart>
