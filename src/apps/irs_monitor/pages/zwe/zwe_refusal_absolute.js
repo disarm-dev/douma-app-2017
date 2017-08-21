@@ -19,6 +19,14 @@ export default Bar.extend({
       title: {
         display: true,
         text: "Refusal reason absolute"
+      },
+      scales: {
+        yAxes: [{
+          scaleLabel: {
+            display: true, 
+            labelString: '# of households'
+          }
+        }]
       }
     })
   }
