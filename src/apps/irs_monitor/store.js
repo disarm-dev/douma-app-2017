@@ -13,20 +13,24 @@ export default {
     responses_last_updated_at: null,
     filters: null,
     plan: null,
+    filter: null,
   },
   mutations: {
+    // clear storage (called by meta store)
     clear_data_storage:(state) => {
       state.responses = []
       state.responses_last_updated_at = null
       state.filters = []
       state.plan = null
     },
+    // set responses
     set_responses: (state, responses) => {
       state.responses = responses
     },
     update_responses_last_updated_at:(state) => {
       state.responses_last_updated_at = new Date
     },
+    // set plan
     set_plan: (state, plan) => {
       state.plan = plan
     },
@@ -48,16 +52,20 @@ export default {
       }
     },
 
-    /**
-     * Takes all the responses.
-     * Aggregates them by time and space.
-     * @param state
-     * @returns {{time_slices: Array, spatial_aggregations: Array}}
-     */
-    binned_responses(state) {
-      const filter_definitions = {}
-      return {time_slices: [], spatial_aggregations: []}
-    },
+    // /**
+    //  * Takes all the responses.
+    //  * Aggregates them by time and space.
+    //  * @param state
+    //  * @returns {{time_slices: Array, spatial_aggregations: Array}}
+    //  */
+    // binned_responses({filtered_responses, request}) {
+    //   // request could have 'aggregation'
+    //   return {
+    //     xaxis: ['w/c 21 Aug'],
+    //     yaxis: ['0', '5', '10'],
+    //     series: []
+    //   }
+    // },
 
     // Responses which are contained by current plan
     // ideally, filtered_responses should change in response to the

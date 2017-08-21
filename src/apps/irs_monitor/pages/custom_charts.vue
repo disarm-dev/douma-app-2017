@@ -47,9 +47,13 @@
   import bwa_variable_definitions from './bwa/bwa_variable_definitions'
 
   // ZWE
-  import zwe_chart_prop_room_sprayed from './zwe/zwe_chart_prop_room_sprayed'
-  import zwe_chart_prop_people_covered from './zwe/zwe_chart_prop_people_covered'
-  import zwe_chart_refusal_pie from './zwe/zwe_chart_refusal_pie'
+  import zwe_team_performance_versus_target from './zwe/zwe_team_performance_versus_target'
+  import zwe_spray_room_coverage_absolute from './zwe/zwe_spray_room_coverage_absolute'
+  import zwe_spray_room_coverage_proportion from './zwe/zwe_spray_room_coverage_proportion'
+  import zwe_spray_status_absolute from './zwe/zwe_spray_status_absolute'
+  import zwe_spray_status_proportion from './zwe/zwe_spray_status_proportion'
+  import zwe_refusal_absolute from './zwe/zwe_refusal_absolute'
+  import zwe_refusal_proportion from './zwe/zwe_refusal_proportion'
 
 
   export default {
@@ -77,9 +81,13 @@
       bwa_table,
 
       // ZWE
-      zwe_chart_prop_room_sprayed,
-      zwe_chart_prop_people_covered,
-      zwe_chart_refusal_pie
+      zwe_team_performance_versus_target, 
+      zwe_spray_room_coverage_absolute,
+      zwe_spray_room_coverage_proportion,
+      zwe_spray_status_absolute,
+      zwe_spray_status_proportion,
+      zwe_refusal_absolute,
+      zwe_refusal_proportion
     },
     props: ['aggregated_responses', 'filtered_responses'],
     mounted() {

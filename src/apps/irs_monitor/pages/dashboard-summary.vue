@@ -12,7 +12,7 @@
     </template>
 
     <div slot="text">
-      {{filtered_responses.length}} record{{filtered_responses.length === 1 ? '' : 's' }} lie within the planned areas.
+      {{filtered_responses.length}} records lie within the FILTERED AREAS.
       Last updated: {{responses_last_updated_at}}
     </div>
   </controls>
