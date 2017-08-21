@@ -47,7 +47,7 @@
   import bwa_variable_definitions from './bwa/bwa_variable_definitions'
 
   // ZWE
-  import zwe_team_performance_versus_target from './zwe/zwe_team_performance_versus_target'
+  import zwe_team_performance_versus_target from './zwe/zwe_team_performance_versus_target.vue'
   import zwe_spray_room_coverage_absolute from './zwe/zwe_spray_room_coverage_absolute'
   import zwe_spray_room_coverage_proportion from './zwe/zwe_spray_room_coverage_proportion'
   import zwe_spray_status_absolute from './zwe/zwe_spray_status_absolute'
