@@ -1,10 +1,15 @@
 import {nest} from 'd3-collection'
+import {ascending} from 'd3-array'
+
 import {aggregate_on} from 'lib/instance_data/aggregator'
 
 export default {
   get_data({responses, denominators, aggregations}) {
     // split/bin into series
-    const binned_responses = nest().key(f => f.team_name).entries(responses)
+    const binned_responses = nest()
+      .key(f => f.team_name)
+      .sortKeys(ascending)
+      .entries(responses)
 
     // find the right aggregation for the chart
     const aggregation = aggregations.find(i => i.name === 'structures sprayed')
