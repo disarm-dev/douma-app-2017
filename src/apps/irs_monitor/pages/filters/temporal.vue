@@ -3,19 +3,22 @@
     <h2>Temporal filter</h2>
     <div class="date-input">
       <b>From</b>
-      <date-picker :value="temporal.start" @selected="set_start_date"></date-picker>
+      <date-picker :value="start" @selected="set_start_date"></date-picker>
     </div>
 
     <div class="date-input">
       <b>To</b>
-      <date-picker :value="temporal.end" @selected="set_end_date"></date-picker>
+      <date-picker :value="end" @selected="set_end_date"></date-picker>
     </div>
   </div>
 </template>
 
 <script>
+import DatePicker from 'vuejs-datepicker';
+
 export default {
   name: 'temporal',
+  components: {DatePicker},
   data () {
     return {
       start: new Date(),

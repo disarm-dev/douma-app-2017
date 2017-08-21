@@ -52,7 +52,6 @@
 
 <script>
   import Multiselect from 'vue-multiselect'
-  import DatePicker from 'vuejs-datepicker';
   import sort from 'alphanum-sort'
   import unique from 'array-unique'
   import {mapState} from 'vuex'
@@ -61,14 +60,14 @@
   import {get_next_level_up_from_planning_level, get_all_spatial_hierarchy_level_names, get_planning_level_name, get_planning_level} from 'lib/geodata/spatial_hierarchy_helper'
 
 
-  import temporal_filter form './filters/temporal'
+  import temporal_filter from './filters/temporal'
 
   const NO_SPATIAL_FILTER_OPTION = 'No spatial filter'
   const NO_TEAM_FILTER_OPTION = 'No team filter'
 
   export default {
     name: 'Filters',
-    components: {Multiselect, DatePicker, temporal_filter},
+    components: {Multiselect, temporal_filter},
     data () {
       return {
         // Meta
