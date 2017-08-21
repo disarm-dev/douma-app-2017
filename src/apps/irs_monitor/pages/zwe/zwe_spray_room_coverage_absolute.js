@@ -30,6 +30,10 @@ export default Bar.extend({
           stacked: true
         }],
         yAxes: [{
+          scaleLabel: {
+            display: true, 
+            labelString: '# of rooms'
+          },
           stacked: true
         }]
       },

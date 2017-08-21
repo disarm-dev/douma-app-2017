@@ -29,6 +29,10 @@ export default Bar.extend({
         },
         scales: {
           yAxes: [{
+            scaleLabel: {
+              display: true, 
+              labelString: '# of rooms'
+            },
             ticks: {
               beginAtZero: true
             }

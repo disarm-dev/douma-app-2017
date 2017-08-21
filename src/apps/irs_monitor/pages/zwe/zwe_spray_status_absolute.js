@@ -26,6 +26,10 @@ export default Bar.extend({
       },
       scales: {
         yAxes: [{
+          scaleLabel: {
+            display: true, 
+            labelString: '# of households'
+          },
           ticks: {
             beginAtZero: true
           }
