@@ -6,12 +6,23 @@
 export default {
   name: 'zwe_team_performance_versus_target',
   mounted() {
-    const set1 = {
-      x: ['Team 1', 'Team 2'],
-      y: [1340, 750],
+    const team1 = {
+      x: ['Team 1'],
+      y: [1340],
       type: 'bar',
+      name: 'Team 1',
       marker: {
-        color: ['rgba(204,204,204,1)', 'rgba(222,45,38,0.8)']
+        color: 'rgba(204,204,204,1)'
+      }
+    }
+
+    const team2 = {
+      x: ['Team 2'],
+      y: [750],
+      type: 'bar',
+      name: 'Team 2',
+      marker: {
+        color: 'rgba(222,45,38,0.8)'
       }
     }
 
@@ -21,12 +32,12 @@ export default {
       yaxis: {
         title: "# of rooms"
       },
-      axis: {
-        title: 'teams'
+      xaxis: {
+        title: 'Teams'
       }
     };
 
-    Plotly.newPlot('chart', [set1], layout, {displayModeBar: false});
+    Plotly.newPlot('chart', [team1, team2], layout, {displayModeBar: false});
   }
 };
 
