@@ -11,7 +11,7 @@
       <md-card-content>
 
         <custom_chart 
-
+          :responses="responses"
           :div_id="component.name" 
           :get_data="charts[component.name].get_data" 
           :layout="component.layout"
@@ -25,6 +25,7 @@
 
 <script>
   import {mapState} from 'vuex'
+
   import custom_chart from './common/custom_chart.vue'
 
   // ZWE
@@ -50,6 +51,7 @@
     },
     computed: {
       ...mapState({
+        responses: state => state.irs_monitor.responses,
         slug: state => state.instance_config.instance.slug,
         instance_components: state => state.instance_config.applets.irs_monitor.components,
       })
