@@ -13,8 +13,8 @@
       },
       "components": [
         {
-          "height_constraint": "none",
           "name": "team_performance_versus_target",
+          "height_constraint": "none",
           "width_constraint": "full",
           "layout": {
             "showlegend": true,
@@ -25,6 +25,21 @@
             "xaxis": {
               "title": "Teams"
             }
+          }
+        },{
+          "name": "spray_room_coverage_absolute",
+          "height_constraint": "none",
+          "width_constraint": "full",
+          "layout": {
+            "showlegend": true,
+            "title": "spray_room_coverage_absolute",
+            "yaxis": {
+              "title": "# of rooms"
+            },
+            "xaxis": {
+              "title": "Week"
+            },
+            "barmode": "stack"
           }
         }
       ]
