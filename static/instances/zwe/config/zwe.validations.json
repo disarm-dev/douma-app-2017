@@ -1,15 +1,15 @@
 [
   {
-    "expression": "number_total == number_sprayed + number_unsprayed",
-    "message": "Total number of rooms does not equal sprayed and unsprayed",
-    "name": "total_room_count",
+    "expression": "number_sprayable_rooms == number_sprayed + number_unsprayed",
+    "message": "Total # of sprayable rooms must = sprayed + unsprayed",
+    "name": "room_count",
     "precondition": "",
     "type": "error"
   },
   {
     "expression": "total_population == under_five + over_five",
-    "message": "Total population protected does not equal <5 yrs and >/= 5 yrs",
-    "name": "total_population_protected",
+    "message": "Total population must equal < 5 YRS + >/= 5 YRS",
+    "name": "people_count",
     "precondition": "",
     "type": "error"
   }
