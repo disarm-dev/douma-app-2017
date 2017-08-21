@@ -1,8 +1,8 @@
 <template>
   <div>
     <!--  SUMMARY, LOAD, DOWNLOAD (DUMPING GROUND) -->
-    <dashboard_summary @refresh_data="refresh_data"></dashboard_summary>
-    
+    <dashboard_summary :responses='responses' @refresh_data="refresh_data"></dashboard_summary>
+
     <div class='applet_container'>
 
       <!--FILTERS-->
@@ -64,7 +64,7 @@
         return get_planning_level_name()
       },
     },
-    mounted() {
+    created() {
       get_geodata(this.$store)//.then(this.refresh_data())
     },
     methods: {

@@ -1,8 +1,9 @@
 import {nest} from 'd3-collection'
+import {aggregate_on} from '../../../../lib/instance_data/aggregator'
 window.n = nest
 
 export default {
-  get_data({responses, denominator, aggregations}) {
+  get_data({responses, denominators, aggregations}) {
 
     // const target_data = [
     //   {
@@ -23,20 +24,12 @@ export default {
     let data = []
 
     // split into series
-    const binned_responses = nest().key('team_name').entries(responses) // e.g. [{key: 'Team a', values: [Responses]}, {key: 'team b', values: [Responses]}]
+    const binned_responses = nest().key(f => f.team_name).entries(responses) // e.g. [{key: 'Team a', values: [Responses]}, {key: 'team b', values: [Responses]}]
 
-    for(bin of binned_responses) {
+    for(const bin of binned_responses) {
       // get result of 'structures sprayed' aggregation
-
-
-
-      // const aggregation = (array_of_responses) => {
-      //   return array_of_responses.reduce((acc, val) => {
-      //     return val.form_data.number_sprayed + acc
-      //   }, 0)
-      // }
-
-      const value = aggregation(bin.values)
+      const aggregation = aggregations.find(i => i.name === 'structures sprayed')
+      const value = aggregate_on({aggregation, responses: bin.values, denominators})
 
       data.push({
         x: [bin.key],
@@ -45,7 +38,6 @@ export default {
         type: 'bar'
       })
     }
-
     return data
   }
 }
