@@ -39,7 +39,7 @@
 
   // Form
   import {get_form_elements} from 'lib/instance_data/form_helpers'
-  import {fields_for_aggregations_exist_in_form} from 'lib/instance_data/aggregations.instance_assertions.js'
+  import {fields_for_aggregations_exist_in_form} from 'lib/instance_data/aggregator.instance_assertions.js'
   import {fields_for_validations_exist_in_form} from 'lib/instance_data/validations.instance_assertions'
   import {fields_for_presenters_exist_in_form} from 'lib/instance_data/presenters.instance_assertions'
   import {fields_for_fake_form_exist_in_form} from 'lib/instance_data/fake_form.instance_assertions'
