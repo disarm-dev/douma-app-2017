@@ -28,7 +28,7 @@
 <script>
   import {mapState} from 'vuex'
 
-  import custom_chart from './common/custom_chart.vue'
+  import custom_chart from './custom_chart.vue'
 
   export default {
     name: 'custom-charts',

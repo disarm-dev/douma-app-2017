@@ -36,8 +36,8 @@
   // Components
   import dashboard_summary from './dashboard-summary.vue'
   import filters from './filters.vue'
-  import table_progress from './common/dashboard-table.vue'
-  import map_progress from './common/dashboard-map.vue'
+  import table_progress from './dashboard-table.vue'
+  import map_progress from './dashboard-map.vue'
   import charts from './custom_charts.vue'
 
   export default {
