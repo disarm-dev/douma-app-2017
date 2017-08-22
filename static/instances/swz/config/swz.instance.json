@@ -5,31 +5,131 @@
         "map": "structures sprayed %",
         "table": ["structures sprayed", "structures sprayed %"]
       },
-      "components": [
+      "charts": [
         {
-          "height_constraint": "none",
-          "name": "swz_chart_pop_covered",
-          "width_constraint": "half"
+          "id": "swz_chart_pop_covered",
+          "type": "",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "layout": {
+              "showlegend": true,
+              "title": "",
+              "yaxis": {
+                "title": ""
+              },
+              "xaxis": {
+                "title": ""
+              }
+            },
+            "chart_type": "",
+            "bin_by": "",
+            "series": [
+
+            ]
+          }
         },
         {
-          "height_constraint": "none",
-          "name": "swz_chart_structures_sprayed",
-          "width_constraint": "half"
+          "id": "swz_chart_structures_sprayed",
+          "type": "",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "layout": {
+              "showlegend": true,
+              "title": "",
+              "yaxis": {
+                "title": ""
+              },
+              "xaxis": {
+                "title": ""
+              }
+            },
+            "chart_type": "",
+            "bin_by": "",
+            "series": [
+
+            ]
+          }
         },
         {
-          "height_constraint": "none",
-          "name": "swz_chart_locked_vs_sprayed",
-          "width_constraint": "half"
+          "id": "swz_chart_locked_vs_sprayed",
+          "type": "",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "layout": {
+              "showlegend": true,
+              "title": "",
+              "yaxis": {
+                "title": ""
+              },
+              "xaxis": {
+                "title": ""
+              }
+            },
+            "chart_type": "",
+            "bin_by": "",
+            "series": [
+
+            ]
+          }
         },
         {
-          "height_constraint": "none",
-          "name": "swz_chart_pop_covered_vs_structures",
-          "width_constraint": "half"
+          "id": "swz_chart_pop_covered_vs_structures",
+          "type": "",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "layout": {
+              "showlegend": true,
+              "title": "",
+              "yaxis": {
+                "title": ""
+              },
+              "xaxis": {
+                "title": ""
+              }
+            },
+            "chart_type": "",
+            "bin_by": "",
+            "series": [
+
+            ]
+          }
         },
         {
-          "height_constraint": "viewport",
-          "name": "swz_chart_structures_pr_supervisor",
-          "width_constraint": "full"
+          "id": "swz_chart_structures_pr_supervisor",
+          "type": "",
+          "style": {
+            "height_constraint": "viewport",
+            "width_constraint": "full"
+          },
+          "options": {
+            "layout": {
+              "showlegend": true,
+              "title": "",
+              "yaxis": {
+                "title": ""
+              },
+              "xaxis": {
+                "title": ""
+              }
+            },
+            "chart_type": "",
+            "bin_by": "",
+            "series": [
+
+            ]
+          }
         }
       ]
     },
