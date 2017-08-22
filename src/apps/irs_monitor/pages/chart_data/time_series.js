@@ -5,7 +5,7 @@ const moment = extendMoment(moment_original)
 import {nest} from 'd3-collection'
 import {ascending} from 'd3-array'
 
-import {aggregate_series_for_chart} from '../../lib/chart_bin_aggregations'
+import {aggregate_series_for_chart} from '../../lib/aggregate_series_for_chart'
 
 
 /**

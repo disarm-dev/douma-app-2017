@@ -1,7 +1,7 @@
 import {nest} from 'd3-collection'
 import {ascending} from 'd3-array'
 import get from 'lodash.get'
-import {aggregate_series_for_chart} from '../../lib/chart_bin_aggregations'
+import {aggregate_series_for_chart} from '../../lib/aggregate_series_for_chart'
 
 export default function get_data({responses, denominators, aggregations, options}) {
     // from configuration/options

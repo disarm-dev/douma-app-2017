@@ -25,8 +25,8 @@
 <script>
   import {mapState} from 'vuex'
 
-  import custom_chart from './custom_chart.vue'
-  import get_data_functions from './chart_types'
+  import custom_chart from './chart.vue'
+  import get_data_functions from './chart_data'
 
   export default {
     name: 'custom-charts',

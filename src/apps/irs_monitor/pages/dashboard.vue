@@ -38,7 +38,7 @@
   import filters from './filters.vue'
   import table_progress from './dashboard-table.vue'
   import map_progress from './dashboard-map.vue'
-  import charts from './custom_charts.vue'
+  import charts from './charts.vue'
 
   export default {
     name: 'Dashboard',
