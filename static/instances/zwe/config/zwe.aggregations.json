@@ -1,9 +1,5 @@
 [ 
   {
-    "name": "count",
-    "numerator_expr": "1"
-  },
-  {
     "name": "homesteads found",
     "numerator_expr": "1"
   },
