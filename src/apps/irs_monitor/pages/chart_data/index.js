@@ -1,7 +1,7 @@
-import basic from './basic'
+import basic_series from './basic_series'
 import time_series from './time_series'
 
 export default {
-  basic,
+  basic_series,
   time_series
 }
