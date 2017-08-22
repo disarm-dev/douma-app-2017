@@ -5,7 +5,7 @@ import isNumber from 'is-number'
  * For the given array of responses, will reduce to a single value
  * @param {array} responses
  * @param denominators
- * @param aggregation
+ * @param aggregation {Aggregation Object}
  * @returns {number}
  */
 export function aggregate_on ({responses, denominators, aggregation}) {

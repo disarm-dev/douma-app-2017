@@ -17,7 +17,7 @@
       "charts": [
         {
           "id": "team_performance_versus_target",
-          "type": "basic",
+          "type": "basic_series",
           "style": {
             "height_constraint": "none",
             "width_constraint": "half"
@@ -76,7 +76,7 @@
         },
         {
           "id": "spray_status_absolute",
-          "type": "basic",
+          "type": "basic_series",
           "style": {
             "height_constraint": "none",
             "width_constraint": "half"
@@ -93,7 +93,27 @@
               }
             },
             "chart_type": "bar",
-            "bin_by": "computed.sprayed_status",
+            "bin_by": "_decorated.sprayed_status",
+            "series": [
+              {
+                "aggregation_name": "count"
+              }
+            ]
+          }
+        },
+        {
+          "id": "spray_status_proportion",
+          "type": "basic_pie",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "layout": {
+              "title": "Sprayed status proportion"
+            },
+            "chart_type": "pie",
+            "bin_by": "_decorated.sprayed",
             "series": [
               {
                 "aggregation_name": "count"

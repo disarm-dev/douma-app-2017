@@ -57,3 +57,25 @@ export function aggregate_series_for_chart({binned_responses, options, aggregati
     })
   }
 }
+
+export function aggregate_for_pie_chart({binned_responses, options, aggregations, denominators}) { 
+  const series_for_chart = options.series.map(serie => {
+    return {
+      aggregation: aggregations.find(a => a.name === serie.aggregation_name),
+      colour: serie.colour
+    }
+  })
+
+  const series = series_for_chart[0]
+
+  return binned_responses.map(bin => {
+    const value = aggregate_on({aggregation: series.aggregation, responses: bin.values, denominators})
+
+    // shape the data to return
+    return {
+      labels: [bin.key],
+      values: [value],
+      type: options.chart_type
+    }
+  }) 
+}

@@ -30,10 +30,15 @@ export const get_instance_files = (slug) => {
       }, {})
 
       // Other elements to attach
-      return {
+      const instance = {
         ...instance_config,
         ...jsons_object
       }
+      // TODO: @refac This should probably live somewhere else
+      // A standard 'count' aggregation is needed for everything
+      instance.aggregations.push({name: 'count', numerator_expr: '1'})
+
+      return instance
     })
 
 }
