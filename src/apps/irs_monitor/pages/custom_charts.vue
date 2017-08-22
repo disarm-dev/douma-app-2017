@@ -3,22 +3,19 @@
     <h2>Charts below use static data only</h2>
 
     <md-card
-      v-for="component in chart_configs"
-      :key="component.name"
+      v-for="chart in chart_configs"
+      :key="chart.id"
       class="card"
-      :class="{'card-half-width': component.width_constraint == 'half'}">
+      :class="{'card-half-width': chart.style.width_constraint == 'half'}">
 
       <md-card-content>
 
         <custom_chart
+          :chart_id="chart.id"
+          :get_data="get_data_functions[chart.type]"
+          :options="chart.options"
           :responses="responses"
-          :div_id="component.name"
-          :options="component.options"
-          :layout="component.layout"
-          :get_data="charts[component.name].get_data"
-          :series="charts[component.series]"
         >
-
         </custom_chart>
       </md-card-content>
     </md-card>
@@ -29,25 +26,20 @@
   import {mapState} from 'vuex'
 
   import custom_chart from './custom_chart.vue'
+  import get_data_functions from './chart_types'
 
   export default {
     name: 'custom-charts',
-    components: {
-      custom_chart,
-    },
+    props: ['responses'],
+    components: {custom_chart},
     data() {
       return {
-        charts: {}
+        get_data_functions
       }
-    },
-    created() {
-      this.charts = instance_charts[this.slug]
     },
     computed: {
       ...mapState({
-        responses: state => state.irs_monitor.responses,
-        slug: state => state.instance_config.instance.slug,
-        chart_configs: state => state.instance_config.applets.irs_monitor.components,
+        chart_configs: state => state.instance_config.applets.irs_monitor.charts,
       })
     }
   }

@@ -67,7 +67,7 @@ export default function get_data({responses, denominators, aggregations, options
     })
   }
 
-  return aggregate_series_for_chart({binned_responses: filled_responses, options})
+  return aggregate_series_for_chart({binned_responses: filled_responses, options, aggregations, denominators})
 
 }
 

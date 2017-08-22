@@ -1,12 +1,13 @@
 <template>
-  <div :id="div_id"></div>
+  <div :id="chart_id"></div>
 </template>
 
 <script>
   import {mapState} from 'vuex'
+
   export default {
     name: 'custom_chart',
-    props: ['div_id', 'get_data', 'layout', 'responses'],
+    props: ['chart_id', 'get_data', 'options', 'responses'],
     computed: {
       ...mapState({
         aggregations: state => state.instance_config.aggregations
@@ -20,10 +21,16 @@
     },
     methods: {
       render_chart() {
-        const data = this.get_data({responses: this.responses, denominators: [], aggregations: this.aggregations})
+        const data = this.get_data({
+          responses: this.responses,
+          denominators: [],
+          aggregations: this.aggregations,
+          options: this.options
+        })
 
         // Plotly#newPlot can be called multiple times, will update data, but not layout
-        Plotly.newPlot(this.div_id, data, this.layout, {displayModeBar: false})
+        Plotly.newPlot(this.chart_id, data, this.options.layout, {displayModeBar: false})
+
       }
     }
   }

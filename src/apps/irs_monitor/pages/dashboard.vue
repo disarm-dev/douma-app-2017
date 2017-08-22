@@ -19,7 +19,7 @@
       <!--<table_progress :aggregated_responses="aggregated_responses"></table_progress>-->
 
       <!-- CUSTOM STATIC-DATA CHARTS, etc -->
-      <charts></charts>
+      <charts :responses="responses"></charts>
 
     </div>
   </div>

@@ -20,12 +20,12 @@
           "type": "basic",
           "style": {
             "height_constraint": "none",
-            "width_constraint": "full"
+            "width_constraint": "half"
           },
           "options": {
             "layout": {
               "showlegend": true,
-              "title": "Performance versus target",
+              "title": "Team performance",
               "yaxis": {
                 "title": "# of rooms"
               },
@@ -37,8 +37,7 @@
             "bin_by": "team_name",
             "series": [
               {
-                "aggregation_name": "structures sprayed",
-                "colour": "blue"
+                "aggregation_name": "structures sprayed"
               }
             ]
           }
@@ -48,7 +47,7 @@
           "type": "time_series",
           "style": {
             "height_constraint": "none",
-            "width_constraint": "full"
+            "width_constraint": "half"
           },
           "options": {
             "chart_type": "bar",

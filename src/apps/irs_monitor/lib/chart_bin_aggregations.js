@@ -6,8 +6,10 @@ import {aggregate_on} from 'lib/instance_data/aggregator'
  * @param options.series - Defined in instance_config
  * @param options.chart_type - 'bar', 'line', etc - see Plotly docs
  * @param binned_responses - As created by `d3.nest()`
+ * @param aggregations - from config
+ * @param denominators
  */
-export function aggregate_series_for_chart({binned_responses, options}) {
+export function aggregate_series_for_chart({binned_responses, options, aggregations, denominators}) {
   const series_for_chart = options.series.map(serie => {
     return {
       aggregation: aggregations.find(a => a.name === serie.aggregation_name),
@@ -15,24 +17,43 @@ export function aggregate_series_for_chart({binned_responses, options}) {
     }
   })
 
-// calculate rolled-up value for each bin
-  return series_for_chart.map(series => {
-    const x = []
-    const y = []
 
-    binned_responses.forEach(bin => {
+  if (series_for_chart.length === 1) {
+    const series = series_for_chart[0]
+
+    return binned_responses.map(bin => {
       const value = aggregate_on({aggregation: series.aggregation, responses: bin.values, denominators})
-      x.push(bin.key)
-      y.push(value)
+
+      // shape the data to return
+      return {
+        x: [bin.key],
+        name: bin.key,
+        y: [value],
+        type: options.chart_type
+      }
     })
 
-    // shape the data to return
-    return {
-      x: x,
-      name: series.aggregation.name,
-      y: y,
-      type: options.chart_type,
-      marker: {color: series.colour}
-    }
-  })
+
+  } else {
+    // calculate rolled-up value for each bin
+    return series_for_chart.map(series => {
+      const x = []
+      const y = []
+
+      binned_responses.forEach(bin => {
+        const value = aggregate_on({aggregation: series.aggregation, responses: bin.values, denominators})
+        x.push(bin.key)
+        y.push(value)
+      })
+
+      // shape the data to return
+      return {
+        x: x,
+        name: series.aggregation.name,
+        y: y,
+        type: options.chart_type,
+        marker: {color: series.colour}
+      }
+    })
+  }
 }
