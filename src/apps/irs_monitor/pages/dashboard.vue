@@ -19,7 +19,7 @@
       <!--<table_progress :aggregated_responses="aggregated_responses"></table_progress>-->
 
       <!-- CUSTOM STATIC-DATA CHARTS, etc -->
-      <charts :responses="responses"></charts>
+      <charts :responses="responses" :targets="targets"></charts>
 
     </div>
   </div>
@@ -53,11 +53,10 @@
       ...mapState({
         instance_config: state => state.instance_config,
         geodata_ready: state => state.geodata_ready,
-        responses: state => state.irs_monitor.responses
       }),
       ...mapGetters({
-        filtered_responses: 'irs_monitor/filtered_responses',
-        aggregated_denominators: 'irs_monitor/aggregated_denominators'
+        responses: 'irs_monitor/filtered_responses',
+        targets: 'irs_monitor/targets'
       }),
       planning_level_name() {
         return get_planning_level_name()

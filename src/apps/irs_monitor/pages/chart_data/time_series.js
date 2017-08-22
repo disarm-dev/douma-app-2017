@@ -11,7 +11,7 @@ import {aggregate_series_for_chart} from '../../lib/aggregate_series_for_chart'
 /**
  * Prepare data for time-series chart
  * @param responses {array}
- * @param denominators {array}
+ * @param targets {array}
  * @param aggregations {array}
  * @param options.series
  * @param options.key_format moment format string
@@ -20,7 +20,7 @@ import {aggregate_series_for_chart} from '../../lib/aggregate_series_for_chart'
  * @param options.date_field
  * @returns {Array}
  */
-export default function get_data({responses, denominators, aggregations, options}) {
+export default function get_data({responses, targets, aggregations, options}) {
   // from configuration/options
   const defaults = {
     // in addition need a series property passed in on options
@@ -67,7 +67,7 @@ export default function get_data({responses, denominators, aggregations, options
     })
   }
 
-  return aggregate_series_for_chart({binned_responses: filled_responses, options, aggregations, denominators})
+  return aggregate_series_for_chart({binned_responses: filled_responses, options, aggregations, targets})
 
 }
 

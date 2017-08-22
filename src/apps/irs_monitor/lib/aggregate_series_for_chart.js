@@ -7,9 +7,10 @@ import {aggregate_on} from 'lib/instance_data/aggregator'
  * @param options.chart_type - 'bar', 'line', etc - see Plotly docs
  * @param binned_responses - As created by `d3.nest()`
  * @param aggregations - from config
- * @param denominators
+ * @param targets - from a Plan
+ * @return {array} - Array of things for a chart
  */
-export function aggregate_series_for_chart({binned_responses, options, aggregations, denominators}) {
+export function aggregate_series_for_chart({binned_responses, options, aggregations, targets}) {
   const series_for_chart = options.series.map(serie => {
     return {
       aggregation: aggregations.find(a => a.name === serie.aggregation_name),
@@ -22,7 +23,7 @@ export function aggregate_series_for_chart({binned_responses, options, aggregati
     const series = series_for_chart[0]
 
     return binned_responses.map(bin => {
-      const value = aggregate_on({aggregation: series.aggregation, responses: bin.values, denominators})
+      const value = aggregate_on({aggregation: series.aggregation, responses: bin.values, targets})
 
       // shape the data to return
       return {
@@ -41,7 +42,7 @@ export function aggregate_series_for_chart({binned_responses, options, aggregati
       const y = []
 
       binned_responses.forEach(bin => {
-        const value = aggregate_on({aggregation: series.aggregation, responses: bin.values, denominators})
+        const value = aggregate_on({aggregation: series.aggregation, responses: bin.values, targets})
         x.push(bin.key)
         y.push(value)
       })
@@ -58,7 +59,15 @@ export function aggregate_series_for_chart({binned_responses, options, aggregati
   }
 }
 
-export function aggregate_for_pie_chart({binned_responses, options, aggregations, denominators}) { 
+/**
+ * For a pie chart, apply correct aggregation to each bin of responses
+ * @param binned_responses
+ * @param options
+ * @param aggregations
+ * @param targets
+ * @return {array} - Array of things for a chart
+ */
+export function aggregate_for_pie_chart({binned_responses, options, aggregations, targets}) {
   const series_for_chart = options.series.map(serie => {
     return {
       aggregation: aggregations.find(a => a.name === serie.aggregation_name),
@@ -75,10 +84,10 @@ export function aggregate_for_pie_chart({binned_responses, options, aggregations
   }
 
   binned_responses.forEach(bin => {
-    const value = aggregate_on({aggregation: series.aggregation, responses: bin.values, denominators})
+    const value = aggregate_on({aggregation: series.aggregation, responses: bin.values, targets})
     output.labels.push(bin.key)
     output.values.push(value)
-  }) 
+  })
 
   return [output]
 }

@@ -15,6 +15,7 @@
           :get_data="get_data_functions[chart.type]"
           :options="chart.options"
           :responses="responses"
+          :targets="targets"
         >
         </custom_chart>
       </md-card-content>
@@ -30,7 +31,7 @@
 
   export default {
     name: 'custom-charts',
-    props: ['responses'],
+    props: ['responses', 'targets'],
     components: {custom_chart},
     data() {
       return {

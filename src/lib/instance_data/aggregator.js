@@ -1,16 +1,16 @@
 import {Parser} from 'expr-eval'
 import isNumber from 'is-number'
-import pick from 'lodash.pick'
-import uniq from 'lodash.uniq'
+import _, {pick, uniq} from 'lodash'
+import {get_denominator_enumerable_name} from 'lib/geodata/spatial_hierarchy_helper'
 
 /**
  * For the given array of responses, will reduce to a single value
  * @param {array} responses
- * @param denominators
+ * @param targets
  * @param aggregation {Aggregation Object}
  * @returns {number}
  */
-export function aggregate_on ({responses, denominators, aggregation}) {
+export function aggregate_on({responses, targets, aggregation}) {
   // TODO: @refac Taking an array of aggregations might require fewer iterations of each response --> faster?
   if (!aggregation) throw new Error(`Missing aggregation`)
 
@@ -18,7 +18,7 @@ export function aggregate_on ({responses, denominators, aggregation}) {
     // Calculate proportion
     try {
       const numerator = _calculate_numerator(responses, aggregation.numerator_expr, aggregation.precondition)
-      const denominator = _calculate_denominator(response, denominators)
+      const denominator = _calculate_denominator({response, targets})
       const result = numerator / denominator
 
       if (!isNumber(result)) return 0
@@ -43,6 +43,7 @@ export function aggregate_on ({responses, denominators, aggregation}) {
 
 
 function _calculate_numerator(responses, numerator_expr, precondition) {
+  // TODO: DO we use the precondition? If not, let's not pass it in. But probably let's use it.
   const expression = new Parser.parse(numerator_expr)
   return responses.reduce((sum, {form_data}) => {
 
@@ -62,7 +63,9 @@ function _calculate_numerator(responses, numerator_expr, precondition) {
   }, 0)
 }
 
-function _calculate_denominator(responses, targets, enumerable_field) {
+function _calculate_denominator({responses, targets}) {
+
+  const enumerable_field = get_denominator_enumerable_name()
 
   // get all area ids
   const area_ids_from_responses = responses.map((response) => {
@@ -72,7 +75,7 @@ function _calculate_denominator(responses, targets, enumerable_field) {
   // get unique area ids
   const unique_area_ids_from_responses = uniq(area_ids_from_responses)
 
-  // get target for each unique_area_id 
+  // get target for each unique_area_id
   const unique_targets = unique_area_ids_from_responses.map((area_id) => {
     const target = targets.find(d => d.id === area_id)
     return target

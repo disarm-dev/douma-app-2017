@@ -7,7 +7,7 @@
 
   export default {
     name: 'custom_chart',
-    props: ['chart_id', 'get_data', 'options', 'responses'],
+    props: ['chart_id', 'get_data', 'options', 'responses', 'targets'],
     computed: {
       ...mapState({
         aggregations: state => state.instance_config.aggregations
@@ -21,9 +21,10 @@
     },
     methods: {
       render_chart() {
+        // get_data depends on chart_type
         const data = this.get_data({
           responses: this.responses,
-          denominators: [],
+          targets: this.targets,
           aggregations: this.aggregations,
           options: this.options
         })

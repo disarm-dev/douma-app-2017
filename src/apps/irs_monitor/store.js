@@ -44,6 +44,12 @@ export default {
     }
   },
   getters: {
+    // Return all the targets from the plan
+    targets(state, getters) {
+      if(!state.plan) return []
+      return state.plan.targets
+    },
+
     plan_target_area_ids(state) {
       if (state.plan && state.plan.targets) {
         return state.plan.targets.map(target => target.id)
@@ -52,20 +58,6 @@ export default {
       }
     },
 
-    // /**
-    //  * Takes all the responses.
-    //  * Aggregates them by time and space.
-    //  * @param state
-    //  * @returns {{time_slices: Array, spatial_aggregations: Array}}
-    //  */
-    // binned_responses({filtered_responses, request}) {
-    //   // request could have 'aggregation'
-    //   return {
-    //     xaxis: ['w/c 21 Aug'],
-    //     yaxis: ['0', '5', '10'],
-    //     series: []
-    //   }
-    // },
 
     // Responses which are contained by current plan
     // ideally, filtered_responses should change in response to the
@@ -75,37 +67,11 @@ export default {
       if (!state.responses.length) return []
 
       return state.responses.filter(response => {
-        // TODO: @debug This first filter is more of a DEBUG filter, making sure we have valid responses
-        return (response.location.selection) // TODO: @feature Add actual filtering
-          && state.plan.targets.find(t => t.id === response.location.selection.id)
+        return true
+        // // TODO: @debug This first filter is more of a DEBUG filter, making sure we have valid responses
+        // return (response.location.selection) // TODO: @feature Add actual filtering
+        //   && state.plan.targets.find(t => t.id === response.location.selection.id)
       })
-    },
-
-    // Currently this is just all the targets from the plan
-    // We need this to be aggregated to the same level as the current
-    // filter - e.g. if filtering at "region #2", but the target_areas in
-    // the plan are "locality" then aggregate up from locality -> region level
-    aggregated_denominators(state, getters) {
-      if(!state.plan) return []
-      // TODO: @feature Aggregate from plan target_areas up to current filter level
-      // e.g. from locality to region level
-      return state.plan.targets
-    },
-
-    // We need to get agregations at the level below the filtered level.
-    // e.g. filter "locality #1", so calculate the coverage for each of the next level down
-    // which is "structure-clusters".
-    aggregated_responses(state, getters, rootState) {
-      if(!getters.filtered_responses.length || !getters.aggregated_denominators.length) return []
-
-      const instance_presenters = new Presenters(rootState.instance_config) // TODO: @refac Improve Presenters signature, remove duplication
-
-      const data = instance_presenters.get_aggregated_responses({
-        responses: getters.filtered_responses,
-        denominators: getters.aggregated_denominators,
-        instance_config: rootState.instance_config
-      })
-      return data
     },
 
   },
