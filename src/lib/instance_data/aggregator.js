@@ -1,8 +1,15 @@
 import {Parser} from 'expr-eval'
 import isNumber from 'is-number'
 
+/**
+ * For the given array of responses, will reduce to a single value
+ * @param {array} responses
+ * @param denominators
+ * @param aggregation
+ * @returns {number}
+ */
 export function aggregate_on ({responses, denominators, aggregation}) {
-
+  // TODO: @refac Taking an array of aggregations might require fewer iterations of each response --> faster?
   if (!aggregation) throw new Error(`Missing aggregation`)
 
   if (aggregation.hasOwnProperty('numerator_expr') && aggregation.hasOwnProperty('denominator_field')) {

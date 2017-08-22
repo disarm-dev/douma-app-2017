@@ -16,10 +16,10 @@
       ></map_progress> -->
 
       <!--TABLE-->
-      <table_progress :aggregated_responses="aggregated_responses"></table_progress>
+      <!--<table_progress :aggregated_responses="aggregated_responses"></table_progress>-->
 
       <!-- CUSTOM STATIC-DATA CHARTS, etc -->
-      <charts :aggregated_responses="responses"></charts>
+      <charts></charts>
 
     </div>
   </div>
@@ -57,8 +57,7 @@
       }),
       ...mapGetters({
         filtered_responses: 'irs_monitor/filtered_responses',
-        aggregated_denominators: 'irs_monitor/aggregated_denominators',
-        aggregated_responses: "irs_monitor/aggregated_responses",
+        aggregated_denominators: 'irs_monitor/aggregated_denominators'
       }),
       planning_level_name() {
         return get_planning_level_name()

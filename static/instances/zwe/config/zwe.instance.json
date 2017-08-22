@@ -32,12 +32,12 @@
           "width_constraint": "full",
           "layout": {
             "showlegend": true,
-            "title": "spray_room_coverage_absolute",
+            "title": "Spray room coverage",
             "yaxis": {
               "title": "# of rooms"
             },
             "xaxis": {
-              "title": "Week"
+              "title": "Week commencing"
             },
             "barmode": "stack"
           }

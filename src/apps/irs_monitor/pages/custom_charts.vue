@@ -10,13 +10,13 @@
 
       <md-card-content>
 
-        <custom_chart 
+        <custom_chart
           :responses="responses"
-          :div_id="component.name" 
-          :get_data="charts[component.name].get_data" 
+          :div_id="component.name"
+          :get_data="charts[component.name].get_data"
           :layout="component.layout"
         >
-          
+
         </custom_chart>
       </md-card-content>
     </md-card>
@@ -40,7 +40,6 @@
     components: {
       custom_chart,
     },
-    props: ['aggregated_responses', 'filtered_responses'],
     data() {
       return {
         charts: {}

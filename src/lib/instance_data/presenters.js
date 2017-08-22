@@ -1,9 +1,8 @@
-import {Aggregator} from 'lib/instance_data/aggregator'
 
 export default class Presenter {
   constructor(instance_config) {
     this.instance_config = instance_config
-    this.aggregations = new Aggregator(this.instance_config.aggregations)
+    this.aggregations = {}
     this.presenters = this.instance_config.presenters
   }
 
