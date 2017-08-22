@@ -7,31 +7,126 @@
           "number of rooms sprayed"
         ]
       },
-      "components": [
+      "charts": [
         {
-          "height_constraint": "none",
-          "name": "bwa_variable_definitions",
-          "width_constraint": "half"
+          "id": "bwa_variable_definitions",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "layout": {
+              "showlegend": true,
+              "title": "",
+              "yaxis": {
+                "title": ""
+              },
+              "xaxis": {
+                "title": ""
+              }
+            },
+            "chart_type": "",
+            "bin_by": "",
+            "series": [
+
+            ]
+          }
         },
         {
-          "height_constraint": "none",
-          "name": "bwa_chart_prop_room_sprayed",
-          "width_constraint": "half"
+          "id": "bwa_chart_prop_room_sprayed",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "layout": {
+              "showlegend": true,
+              "title": "",
+              "yaxis": {
+                "title": ""
+              },
+              "xaxis": {
+                "title": ""
+              }
+            },
+            "chart_type": "",
+            "bin_by": "",
+            "series": [
+
+            ]
+          }
         },
         {
-          "height_constraint": "none",
-          "name": "bwa_chart_refusal_pie",
-          "width_constraint": "half"
+          "id": "bwa_chart_refusal_pie",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "layout": {
+              "showlegend": true,
+              "title": "",
+              "yaxis": {
+                "title": ""
+              },
+              "xaxis": {
+                "title": ""
+              }
+            },
+            "chart_type": "",
+            "bin_by": "",
+            "series": [
+
+            ]
+          }
         },
         {
-          "height_constraint": "none",
-          "name": "bwa_rooms_sprayed_per_week",
-          "width_constraint": "half"
+          "id": "bwa_rooms_sprayed_per_week",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "layout": {
+              "showlegend": true,
+              "title": "",
+              "yaxis": {
+                "title": ""
+              },
+              "xaxis": {
+                "title": ""
+              }
+            },
+            "chart_type": "",
+            "bin_by": "",
+            "series": [
+
+            ]
+          }
         },
         {
-          "height_constraint": "viewport",
-          "name": "bwa_table",
-          "width_constraint": "full"
+          "id": "bwa_table",
+          "style": {
+            "height_constraint": "viewport",
+            "width_constraint": "full"
+          },
+          "options": {
+            "layout": {
+              "showlegend": true,
+              "title": "",
+              "yaxis": {
+                "title": ""
+              },
+              "xaxis": {
+                "title": ""
+              }
+            },
+            "chart_type": "",
+            "bin_by": "",
+            "series": [
+
+            ]
+          }
         }
       ],
       "title": "Dashboard"

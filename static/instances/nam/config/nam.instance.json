@@ -5,11 +5,33 @@
         "map": "structures sprayed %",
         "table": ["structures sprayed", "structures sprayed %"]
       },
-      "components": [
+      "charts": [
         {
-          "height_constraint": "viewport",
-          "name": "nam_chart_structures_sprayed_doughnut",
-          "width_constraint": "half"
+          "id": "nam_chart_structures_sprayed_doughnut",
+          "type": "",
+          "style": {
+            "height_constraint": "viewport",
+            "width_constraint": "half"
+          },
+          "options": {
+            "layout": {
+              "showlegend": true,
+              "title": "Team performance",
+              "yaxis": {
+                "title": "# of rooms"
+              },
+              "xaxis": {
+                "title": "Teams"
+              }
+            },
+            "chart_type": "bar",
+            "bin_by": "team_name",
+            "series": [
+              {
+                "aggregation_name": "structures sprayed"
+              }
+            ]
+          }
         }
       ]
     },
