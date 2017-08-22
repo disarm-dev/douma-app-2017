@@ -73,6 +73,33 @@
               }
             ]
           }
+        },
+        {
+          "id": "spray_status_absolute",
+          "type": "basic",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "layout": {
+              "showlegend": true,
+              "title": "Spray status",
+              "yaxis": {
+                "title": "# of households"
+              },
+              "xaxis": {
+                "title": "Spray status"
+              }
+            },
+            "chart_type": "bar",
+            "bin_by": "computed.sprayed_status",
+            "series": [
+              {
+                "aggregation_name": "count"
+              }
+            ]
+          }
         }
       ]
     },
