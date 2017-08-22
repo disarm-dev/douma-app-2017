@@ -100,6 +100,26 @@
               }
             ]
           }
+        },
+        {
+          "id": "spray_status_proportion",
+          "type": "basic",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "layout": {
+              "title": "Sprayed status proportion"
+            },
+            "chart_type": "pie",
+            "bin_by": "computed.sprayed",
+            "series": [
+              {
+                "aggregation_name": "count"
+              }
+            ]
+          }
         }
       ]
     },
