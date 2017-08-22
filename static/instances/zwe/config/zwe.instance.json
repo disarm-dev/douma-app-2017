@@ -17,7 +17,7 @@
       "charts": [
         {
           "id": "team_performance_versus_target",
-          "type": "basic",
+          "type": "basic_series",
           "style": {
             "height_constraint": "none",
             "width_constraint": "half"
@@ -76,7 +76,7 @@
         },
         {
           "id": "spray_status_absolute",
-          "type": "basic",
+          "type": "basic_series",
           "style": {
             "height_constraint": "none",
             "width_constraint": "half"
@@ -103,7 +103,7 @@
         },
         {
           "id": "spray_status_proportion",
-          "type": "basic",
+          "type": "basic_pie",
           "style": {
             "height_constraint": "none",
             "width_constraint": "half"
