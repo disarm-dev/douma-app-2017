@@ -2,7 +2,7 @@
 export default class Presenter {
   constructor(instance_config) {
     this.instance_config = instance_config
-    this.aggregations = {}
+    this.aggregations = {calculate: () => {}}
     this.presenters = this.instance_config.presenters
   }
 
