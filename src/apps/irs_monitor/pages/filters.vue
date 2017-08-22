@@ -6,17 +6,7 @@
     </md-card-header>
 
     <md-card-content v-show="show_filters">
-      <div>
-        <h2>Team filter</h2>
-        <div style="padding-left:1em">
-          <multiselect
-            placeholder="Select a team to limit by"
-            :options="team_options"
-            :value="team"
-            @select="select_team"
-          ></multiselect>
-        </div>
-      </div>
+      <field_filters :responses="responses"></field_filters>
 
       <temporal_filter></temporal_filter>
 
@@ -61,23 +51,25 @@
 
 
   import temporal_filter from './filters/temporal'
+  import field_filters from './field-filters.vue'
 
   const NO_SPATIAL_FILTER_OPTION = 'No spatial filter'
   const NO_TEAM_FILTER_OPTION = 'No team filter'
 
   export default {
     name: 'Filters',
-    components: {Multiselect, temporal_filter},
+    props: ['responses'],
+    components: {Multiselect, temporal_filter, field_filters},
     data () {
       return {
         // Meta
         NO_SPATIAL_FILTER_OPTION,
-        show_filters: false,
-        
+        show_filters: true,
+
 
         // Filter results
         team: '',
-        
+
         spatial: {
           selected_filter_area_option: '',
           spatial_hierarchy: ''

@@ -6,7 +6,7 @@
     <div class='applet_container'>
 
       <!--FILTERS-->
-      <filters v-if="geodata_ready"></filters>
+      <filters v-if="geodata_ready" :responses="responses"></filters>
 
       <!--MAP-->
       <!-- <map_progress
