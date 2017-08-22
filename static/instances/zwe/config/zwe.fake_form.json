@@ -9,6 +9,7 @@
     "numbersprayed_PY": 1,
     "numbersprayed_ddt": 0,
     "sprayable": "yes",
+    "sprayed": "partial",
     "sprayable_unsprayed": "no",
     "total_population_sprayedrooms": 8
   },
@@ -22,6 +23,7 @@
     "numbersprayed_PY": 1,
     "numbersprayed_ddt": 3,
     "sprayable": "yes",
+    "sprayed": "yes",
     "sprayable_unsprayed": "no",
     "total_population_sprayedrooms": 8
   },
@@ -29,6 +31,14 @@
     "Unsprayable_reason": [
       "locked_homesteadhouse"
     ],
-    "sprayable": "no"
+    "sprayable": "no",
+    "sprayed": "no"
+  },
+  {
+    "Unsprayable_reason": [
+      "locked_homesteadhouse"
+    ],
+    "sprayable": "no",
+    "sprayed": "no"
   }
 ]

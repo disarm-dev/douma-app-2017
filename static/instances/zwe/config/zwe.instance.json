@@ -113,7 +113,7 @@
               "title": "Sprayed status proportion"
             },
             "chart_type": "pie",
-            "bin_by": "_decorated.sprayed",
+            "bin_by": "_decorated.sprayed_status",
             "series": [
               {
                 "aggregation_name": "count"

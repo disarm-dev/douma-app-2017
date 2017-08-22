@@ -68,14 +68,17 @@ export function aggregate_for_pie_chart({binned_responses, options, aggregations
 
   const series = series_for_chart[0]
 
-  return binned_responses.map(bin => {
-    const value = aggregate_on({aggregation: series.aggregation, responses: bin.values, denominators})
+  let output = {
+    labels: [],
+    values: [],
+    type: options.chart_type
+  }
 
-    // shape the data to return
-    return {
-      labels: [bin.key],
-      values: [value],
-      type: options.chart_type
-    }
+  binned_responses.forEach(bin => {
+    const value = aggregate_on({aggregation: series.aggregation, responses: bin.values, denominators})
+    output.labels.push(bin.key)
+    output.values.push(value)
   }) 
+
+  return [output]
 }
