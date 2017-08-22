@@ -19,12 +19,8 @@
           "layout": {
             "showlegend": true,
             "title": "Performance versus target",
-            "yaxis": {
-              "title": "# of rooms"
-            },
-            "xaxis": {
-              "title": "Teams"
-            }
+            "yaxis": {"title": "# of rooms"},
+            "xaxis": {"title": "Teams"}
           }
         },{
           "name": "spray_room_coverage_absolute",
@@ -33,12 +29,8 @@
           "layout": {
             "showlegend": true,
             "title": "Spray room coverage",
-            "yaxis": {
-              "title": "# of rooms"
-            },
-            "xaxis": {
-              "title": "Week commencing"
-            },
+            "yaxis": {"title": "# of rooms"},
+            "xaxis": {"title": "Period commencing"},
             "barmode": "stack"
           }
         }
