@@ -3,7 +3,7 @@
     <h2>Charts below use static data only</h2>
 
     <md-card
-      v-for="component in instance_components"
+      v-for="component in chart_configs"
       :key="component.name"
       class="card"
       :class="{'card-half-width': component.width_constraint == 'half'}">
@@ -13,8 +13,10 @@
         <custom_chart
           :responses="responses"
           :div_id="component.name"
-          :get_data="charts[component.name].get_data"
+          :options="component.options"
           :layout="component.layout"
+          :get_data="charts[component.name].get_data"
+          :series="charts[component.series]"
         >
 
         </custom_chart>
@@ -27,13 +29,6 @@
   import {mapState} from 'vuex'
 
   import custom_chart from './common/custom_chart.vue'
-
-  // ZWE
-  import zwe from './zwe'
-
-  const instance_charts = {
-    zwe
-  }
 
   export default {
     name: 'custom-charts',
@@ -52,7 +47,7 @@
       ...mapState({
         responses: state => state.irs_monitor.responses,
         slug: state => state.instance_config.instance.slug,
-        instance_components: state => state.instance_config.applets.irs_monitor.components,
+        chart_configs: state => state.instance_config.applets.irs_monitor.components,
       })
     }
   }

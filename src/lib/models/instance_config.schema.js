@@ -13,10 +13,12 @@ const IrsMonitorSchema = schema({
     map: String,
     table: Array.of_x(1, Infinity, String)
   },
-  components: Array.of_x(1, Infinity, {
-    height_constraint: ['none', 'viewport'],
-    name: String,
-    width_constraint: ['half', 'full']
+  charts: Array.of_x(1, Infinity, {
+    id: String,
+    style: {
+      height_constraint: ['none', 'viewport'],
+      width_constraint: ['half', 'full']
+    }
   })
 })
 

@@ -9,29 +9,70 @@
       "title": "IRS Dashboard",
       "aggregations": {
         "map": "structures sprayed %",
-        "table": ["structures sprayed", "structures sprayed %"]
+        "table": [
+          "structures sprayed",
+          "structures sprayed %"
+        ]
       },
-      "components": [
+      "charts": [
         {
-          "name": "team_performance_versus_target",
-          "height_constraint": "none",
-          "width_constraint": "full",
-          "layout": {
-            "showlegend": true,
-            "title": "Performance versus target",
-            "yaxis": {"title": "# of rooms"},
-            "xaxis": {"title": "Teams"}
+          "id": "team_performance_versus_target",
+          "type": "basic",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "full"
+          },
+          "options": {
+            "layout": {
+              "showlegend": true,
+              "title": "Performance versus target",
+              "yaxis": {
+                "title": "# of rooms"
+              },
+              "xaxis": {
+                "title": "Teams"
+              }
+            },
+            "chart_type": "bar",
+            "bin_by": "team_name",
+            "series": [
+              {
+                "aggregation_name": "structures sprayed",
+                "colour": "blue"
+              }
+            ]
           }
-        },{
-          "name": "spray_room_coverage_absolute",
-          "height_constraint": "none",
-          "width_constraint": "full",
-          "layout": {
-            "showlegend": true,
-            "title": "Spray room coverage",
-            "yaxis": {"title": "# of rooms"},
-            "xaxis": {"title": "Period commencing"},
-            "barmode": "stack"
+        },
+        {
+          "id": "spray_room_coverage_absolute",
+          "type": "time_series",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "full"
+          },
+          "options": {
+            "chart_type": "bar",
+            "layout": {
+              "showlegend": true,
+              "title": "Spray room coverage",
+              "yaxis": {
+                "title": "# of rooms"
+              },
+              "xaxis": {
+                "title": "Period commencing"
+              },
+              "barmode": "stack"
+            },
+            "series": [
+              {
+                "aggregation_name": "structures sprayed",
+                "colour": "green"
+              },
+              {
+                "aggregation_name": "sprayable structures not sprayed",
+                "colour": "red"
+              }
+            ]
           }
         }
       ]
