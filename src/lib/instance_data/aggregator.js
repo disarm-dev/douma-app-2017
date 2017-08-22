@@ -1,5 +1,7 @@
 import {Parser} from 'expr-eval'
 import isNumber from 'is-number'
+import pick from 'lodash.pick'
+import uniq from 'lodash.uniq'
 
 /**
  * For the given array of responses, will reduce to a single value
@@ -16,7 +18,7 @@ export function aggregate_on ({responses, denominators, aggregation}) {
     // Calculate proportion
     try {
       const numerator = _calculate_numerator(responses, aggregation.numerator_expr, aggregation.precondition)
-      const denominator = _calculate_denominator(denominators, aggregation.denominator_field)
+      const denominator = _calculate_denominator(response, denominators)
       const result = numerator / denominator
 
       if (!isNumber(result)) return 0
@@ -36,21 +38,9 @@ export function aggregate_on ({responses, denominators, aggregation}) {
       console.log(e)
       return 0
     }
-
-  } else if (aggregation.hasOwnProperty('denominator_field')) {
-    // Calculate denominator only
-    try {
-      const denominator = _calculate_denominator(denominators, aggregation.denominator_field)
-      return denominator
-    } catch (e) {
-      console.log(e)
-      return 0
-    }
-
-  } else {
-    return 0
   }
 }
+
 
 function _calculate_numerator(responses, numerator_expr, precondition) {
   const expression = new Parser.parse(numerator_expr)
@@ -72,13 +62,27 @@ function _calculate_numerator(responses, numerator_expr, precondition) {
   }, 0)
 }
 
-function _calculate_denominator(denominators, field) {
-  if (!Array.isArray(denominators)) denominators = [denominators]
+function _calculate_denominator(responses, targets, enumerable_field) {
 
-  return denominators.reduce((sum, denominator) => {
-    const result = denominator[field]
-    if (!isNumber(result)) return sum
-    return sum + result
+  // get all area ids
+  const area_ids_from_responses = responses.map((response) => {
+    return pick(response, 'location.selection.id')
+  })
+
+  // get unique area ids
+  const unique_area_ids_from_responses = uniq(area_ids_from_responses)
+
+  // get target for each unique_area_id 
+  const unique_targets = unique_area_ids_from_responses.map((area_id) => {
+    const target = targets.find(d => d.id === area_id)
+    return target
+  })
+
+  // add the enumeral from the targets together to get denominator
+  const denominator = unique_targets.reduce((acc, target) => {
+    return acc + target[enumerable_field]
   }, 0)
+
+  return denominator
 }
 
