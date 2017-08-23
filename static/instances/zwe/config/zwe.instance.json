@@ -64,7 +64,7 @@
               },
               "barmode": "stack"
             },
-            "series": [
+            "multi_series": [
               {
                 "aggregation_name": "structures sprayed",
                 "colour": "green"

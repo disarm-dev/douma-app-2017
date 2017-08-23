@@ -7,6 +7,8 @@ export function aggregate_for_chart({binned_responses, options, aggregations, ta
 
   if (has(options, 'single_series')) {
     return aggregate_single_series({binned_responses, options, aggregations, targets})
+  } else if (has(options, 'multi_series')) {
+    return aggregate_multi_series({binned_responses, options, aggregations, targets})
   }
 }
 
@@ -47,7 +49,7 @@ function aggregate_single_series({binned_responses, options, aggregations, targe
  * @return {array} - Array of things for a chart
  */
 function aggregate_multi_series({binned_responses, options, aggregations, targets}) {
-  const series_for_chart = options.series.map(serie => {
+  const series_for_chart = options.multi_series.map(serie => {
     return {
       aggregation: aggregations.find(a => a.name === serie.aggregation_name),
       colour: serie.colour
