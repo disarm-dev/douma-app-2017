@@ -1,7 +1,7 @@
 import {nest} from 'd3-collection'
 import {ascending} from 'd3-array'
 import get from 'lodash.get'
-import {aggregate_series_for_chart} from '../../lib/aggregate_series_for_chart'
+import {aggregate_series_for_chart} from '../../lib/aggregate_data_for_chart'
 
 /**
  * Prepare and aggregate data for a basic series chart
