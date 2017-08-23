@@ -133,7 +133,7 @@ export function decorate_for_pie({binned_responses, options, aggregations, targe
 
 export function decorate_for_table({binned_responses, options, aggregations, targets}){
   console.warn("TODO: 'aggregate_for_table' not implemented")
-  return []
+  return binned_responses
 }
 
 export function decorate_for_map({binned_responses, options, aggregations, targets}) {

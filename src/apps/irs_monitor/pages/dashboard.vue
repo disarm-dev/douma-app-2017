@@ -16,7 +16,7 @@
       ></map_progress> -->
 
       <!--TABLE-->
-      <!--<table_progress :aggregated_responses="aggregated_responses"></table_progress>-->
+      <table_progress :responses="responses" :targets="targets"></table_progress>
 
       <!-- CUSTOM STATIC-DATA CHARTS, etc -->
       <charts :responses="responses" :targets="targets"></charts>

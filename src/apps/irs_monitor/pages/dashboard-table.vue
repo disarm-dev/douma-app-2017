@@ -13,34 +13,33 @@
   import download from 'downloadjs'
   import json2csv from 'json2csv'
   import moment from 'moment-mini'
-  import numeral from 'numeral'
+  import {mapState} from 'vuex'
+
+  import get_data from '../lib/get_data_for_viz'
 
   export default {
-    props: ['aggregated_responses'],
+    props: ['responses', 'targets'],
     computed: {
-      slug() {
-        return this.$store.state.instance_config.instance.slug
-      },
+      ...mapState({
+        slug: state => state.instance_config.instance.slug,
+        aggregations: state => state.instance_config.aggregations
+      }),
       table_columns() {
-        if (this.aggregated_responses.length === 0) return []
-        return Object.keys(this.aggregated_responses[0])
+        return ['1', '2']
       },
       table_data() {
-        if (this.aggregated_responses.length === 0) return []
-        // Filter/pluck to get just the columns needed for the table
-        const columns_to_format = this.table_columns.filter(column => /\%$/.test(column))
-
-        const presented_rows = this.aggregated_responses.map(row => {
-          // If we don't copy the row, we are editing aggregated responses.
-          // This stops the map from showing the correct coverage
-          let new_row = {...row}
-          columns_to_format.forEach(column => {
-            new_row[column] = numeral(row[column]).format('0.[0]%')
-          })
-          return new_row
+        const data = get_data({
+          responses: this.responses, 
+          targets: this.targets, 
+          aggregations: this.aggregations,
+          options: {
+            chart_type: 'table',
+            bin_by: 'location.selection.name'
+          }
         })
+        console.log('table_data', data)
 
-        return presented_rows
+        return [{ 1: 1, 2: 2 }, {1: 1, 2: 2}] 
       }
     },
     methods: {
