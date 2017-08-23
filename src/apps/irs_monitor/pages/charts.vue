@@ -1,7 +1,7 @@
 <template>
   <div>
     <md-card
-      v-for="chart in chart_configs"
+      v-for="chart in options"
       :key="chart.id"
       class="card"
       :class="{'card-half-width': chart.style.width_constraint == 'half'}">
@@ -26,13 +26,8 @@
 
   export default {
     name: 'custom-charts',
-    props: ['responses', 'targets'],
-    components: {custom_chart},
-    computed: {
-      ...mapState({
-        chart_configs: state => state.instance_config.applets.irs_monitor.charts,
-      })
-    }
+    props: ['responses', 'targets', 'options'],
+    components: {custom_chart}
   }
 </script>
 

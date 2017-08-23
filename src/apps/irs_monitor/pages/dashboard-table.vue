@@ -25,7 +25,7 @@
         aggregations: state => state.instance_config.aggregations
       }),
       table_columns() {
-        return ['1', '2']
+        return Object.keys(this.table_data[0])
       },
       table_data() {
         const data = get_data({
@@ -34,9 +34,8 @@
           aggregations: this.aggregations,
           options: this.options
         })
-        console.log('table_data', data)
 
-        return [{ 1: 1, 2: 2 }, {1: 1, 2: 2}] 
+        return data
       }
     },
     methods: {

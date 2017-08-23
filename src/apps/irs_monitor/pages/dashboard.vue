@@ -9,17 +9,17 @@
       <filters v-if="geodata_ready" :responses="responses"></filters>
 
       <!--MAP-->
-      <!-- <map_progress
+      <!-- <map
         v-if='geodata_ready'
         :aggregated_responses="aggregated_responses"
         :filtered_responses="filtered_responses"
-      ></map_progress> -->
+      ></map> -->
 
       <!--TABLE-->
-      <table_progress :options="table_options" :responses="responses" :targets="targets"></table_progress>
+      <table :responses="responses" :targets="targets" :options="table_options"></table>
 
       <!-- CUSTOM STATIC-DATA CHARTS, etc -->
-      <charts :responses="responses" :targets="targets"></charts>
+      <charts :responses="responses" :targets="targets" :options="chart_configs"></charts>
 
     </div>
   </div>
@@ -36,8 +36,8 @@
   // Components
   import dashboard_summary from './dashboard-summary.vue'
   import filters from './filters.vue'
-  import table_progress from './dashboard-table.vue'
-  import map_progress from './dashboard-map.vue'
+  import table from './dashboard-table.vue'
+  import map from './dashboard-map.vue'
   import charts from './charts.vue'
 
   export default {
@@ -45,14 +45,16 @@
     components: {
       dashboard_summary,
       filters,
-      table_progress,
-      map_progress,
+      table,
+      map,
       charts,
     },
     computed: {
       ...mapState({
         instance_config: state => state.instance_config,
+        chart_configs: state => state.instance_config.applets.irs_monitor.charts,
         table_options: state => state.instance_config.applets.irs_monitor.table,
+        map_options: state => state.instance_config.applets.irs_monitor.map,
         geodata_ready: state => state.geodata_ready,
       }),
       ...mapGetters({
