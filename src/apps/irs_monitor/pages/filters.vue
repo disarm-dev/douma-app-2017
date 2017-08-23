@@ -64,7 +64,7 @@
       return {
         // Meta
         NO_SPATIAL_FILTER_OPTION,
-        show_filters: true,
+        show_filters: false,
 
 
         // Filter results

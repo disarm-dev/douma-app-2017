@@ -5,9 +5,11 @@
 <script>
   import {mapState} from 'vuex'
 
+  import get_data from '../lib/get_data_for_viz'
+
   export default {
     name: 'custom_chart',
-    props: ['chart_id', 'get_data', 'options', 'responses', 'targets'],
+    props: ['chart_id', 'options', 'responses', 'targets'],
     computed: {
       ...mapState({
         aggregations: state => state.instance_config.aggregations
@@ -21,8 +23,7 @@
     },
     methods: {
       render_chart() {
-        // get_data depends on chart_type
-        const data = this.get_data({
+        const data = get_data({
           responses: this.responses,
           targets: this.targets,
           aggregations: this.aggregations,
