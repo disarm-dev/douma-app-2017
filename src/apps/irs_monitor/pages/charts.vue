@@ -1,7 +1,5 @@
 <template>
   <div>
-    <h2>Charts below use static data only</h2>
-
     <md-card
       v-for="chart in chart_configs"
       :key="chart.id"
