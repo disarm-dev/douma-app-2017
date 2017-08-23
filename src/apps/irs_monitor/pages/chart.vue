@@ -31,7 +31,7 @@
         })
 
         // Plotly#newPlot can be called multiple times, will update data, but not layout
-        Plotly.newPlot(this.chart_id, data, this.options.layout, {displayModeBar: false})
+        Plotly.newPlot(this.chart_id, data, this.options.layout, {displayModeBar: this.options.layout.displayModeBar || false})
 
       }
     }

@@ -67,7 +67,7 @@ export function aggregate_series_for_chart({binned_responses, options, aggregati
  * @param targets
  * @return {array} - Array of things for a chart
  */
-export function aggregate_for_pie_chart({binned_responses, options, aggregations, targets}) {
+export function aggregate_for_pie({binned_responses, options, aggregations, targets}) {
   const series_for_chart = options.series.map(serie => {
     return {
       aggregation: aggregations.find(a => a.name === serie.aggregation_name),

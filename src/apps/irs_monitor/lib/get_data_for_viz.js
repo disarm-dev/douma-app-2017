@@ -1,4 +1,4 @@
-import {aggregate_series_for_chart} from './aggregate_data_for_chart'
+import {aggregate_for_pie} from './aggregate_data_for_viz'
 import {categorical_bins, time_series_bins} from './bin_responses'
 
 /**
@@ -15,9 +15,10 @@ import {categorical_bins, time_series_bins} from './bin_responses'
  */
 export default function get_data({responses, targets, aggregations, options}) {
 
-  // check got options
+  // check got enough options to start
   if (!options.chart_type) throw new Error("Missing `options.chart_type`")
 
+  // Create categorical or time_series bins of responses
   let binned_responses
   if (options.time_series) {
     binned_responses = time_series_bins({responses, options})
@@ -25,16 +26,15 @@ export default function get_data({responses, targets, aggregations, options}) {
     binned_responses = categorical_bins({responses, options})
   }
 
-
   switch (options.chart_type) {
     case 'pie':
-      return aggregate_series_for_chart({binned_responses, options, aggregations, targets})
+      return aggregate_for_pie({binned_responses, options, aggregations, targets})
     case 'bar':
-      return
+      return []
     case 'table':
-      return
+      return []
     case 'map':
-      return
+      return []
     default:
       console.error(`Didn't find an aggregation method for ${options.chart_type}.`)
   }
