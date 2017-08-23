@@ -17,8 +17,8 @@ export function aggregate_on({responses, targets, aggregation}) {
   if (aggregation.hasOwnProperty('numerator_expr') && aggregation.hasOwnProperty('denominator_field')) {
     // Calculate proportion
     try {
-      const numerator = _calculate_numerator(responses, aggregation.numerator_expr, aggregation.precondition)
-      const denominator = _calculate_denominator({response, targets})
+      const numerator = _calculate_numerator({responses, numerator_expr: aggregation.numerator_expr, precondition: aggregation.precondition})
+      const denominator = _calculate_denominator({responses, targets})
       const result = numerator / denominator
 
       if (!isNumber(result)) return 0
@@ -32,7 +32,7 @@ export function aggregate_on({responses, targets, aggregation}) {
   } else if (aggregation.hasOwnProperty('numerator_expr')) {
     // Calculate numerator only
     try {
-      const numerator = _calculate_numerator(responses, aggregation.numerator_expr, aggregation.precondition)
+      const numerator = _calculate_numerator({responses, numerator_expr: aggregation.numerator_expr, precondition: aggregation.precondition})
       return numerator
     } catch (e) {
       console.log(e)
@@ -42,7 +42,7 @@ export function aggregate_on({responses, targets, aggregation}) {
 }
 
 
-function _calculate_numerator(responses, numerator_expr, precondition) {
+function _calculate_numerator({responses, numerator_expr, precondition}) {
   // TODO: DO we use the precondition? If not, let's not pass it in. But probably let's use it.
   const expression = new Parser.parse(numerator_expr)
   return responses.reduce((sum, {form_data}) => {
