@@ -26,6 +26,7 @@ export default function get_data({responses, targets, aggregations, options}) {
     binned_responses = categorical_bins({responses, options})
   }
 
+  // Create data in right structure depending on chart_type and options (esp. in 'aggregate_for_chart')
   let data
   switch (options.chart_type) {
     case 'pie':
