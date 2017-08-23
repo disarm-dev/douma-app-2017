@@ -1,34 +1,39 @@
 {
   "applets": {
     "irs_monitor": {
-      "aggregations": {
-        "map": "structures sprayed %",
-        "table": ["structures sprayed", "structures sprayed %"]
+      "map": {
+        "aggregation_names": [
+          "structures sprayed %"
+        ]
+      },
+      "table": {
+        "aggregation_names": [
+          "structures sprayed", 
+          "structures sprayed %"
+        ]
       },
       "charts": [
         {
-          "id": "nam_chart_structures_sprayed_doughnut",
-          "type": "",
+          
+          "id": "spray_status_pie",
           "style": {
-            "height_constraint": "viewport",
+            "height_constraint": "none",
             "width_constraint": "half"
           },
           "options": {
+            "data": [{
+              "values": [1,2,3],
+              "labels": ["one", "two", "three"],
+              "type": "pie"
+            }],
             "layout": {
-              "showlegend": true,
-              "title": "Team performance",
-              "yaxis": {
-                "title": "# of rooms"
-              },
-              "xaxis": {
-                "title": "Teams"
-              }
+              "title": "Refusal reason"
             },
-            "chart_type": "bar",
-            "bin_by": "team_name",
+            "chart_type": "pie",
+            "bin_by": "_decorated.sprayed_status",
             "series": [
               {
-                "aggregation_name": "structures sprayed"
+                "aggregation_name": "count"
               }
             ]
           }
