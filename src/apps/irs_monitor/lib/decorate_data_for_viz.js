@@ -133,6 +133,15 @@ export function decorate_for_pie({binned_responses, options, aggregations, targe
 
 export function decorate_for_table({binned_responses, options, aggregations, targets}){
   console.warn("TODO: 'aggregate_for_table' not implemented")
+
+  // const found_aggregations = options.aggregation_names.map(aggregation_name => {
+  //   return aggregations.find(a => a.name === aggregation_name)
+  // })
+
+  // return binned_responses.map((bin) => {
+  //   return 
+  // })
+
   return binned_responses
 }
 

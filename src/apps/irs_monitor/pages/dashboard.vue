@@ -16,7 +16,7 @@
       ></map_progress> -->
 
       <!--TABLE-->
-      <table_progress :responses="responses" :targets="targets"></table_progress>
+      <table_progress :options="table_options" :responses="responses" :targets="targets"></table_progress>
 
       <!-- CUSTOM STATIC-DATA CHARTS, etc -->
       <charts :responses="responses" :targets="targets"></charts>
@@ -52,6 +52,7 @@
     computed: {
       ...mapState({
         instance_config: state => state.instance_config,
+        table_options: state => state.instance_config.applets.irs_monitor.table,
         geodata_ready: state => state.geodata_ready,
       }),
       ...mapGetters({

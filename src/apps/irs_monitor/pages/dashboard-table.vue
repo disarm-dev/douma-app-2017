@@ -18,7 +18,7 @@
   import get_data from '../lib/get_data_for_viz'
 
   export default {
-    props: ['responses', 'targets'],
+    props: ['responses', 'targets', 'options'],
     computed: {
       ...mapState({
         slug: state => state.instance_config.instance.slug,
@@ -32,10 +32,7 @@
           responses: this.responses, 
           targets: this.targets, 
           aggregations: this.aggregations,
-          options: {
-            chart_type: 'table',
-            bin_by: 'location.selection.name'
-          }
+          options: this.options
         })
         console.log('table_data', data)
 
