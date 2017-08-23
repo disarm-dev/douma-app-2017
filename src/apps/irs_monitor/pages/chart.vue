@@ -31,7 +31,7 @@
     },
     methods: {
       render_chart() {
-        const data = get_data({
+        const data = this.options.data || get_data({
           responses: this.responses,
           targets: this.targets,
           aggregations: this.aggregations,
