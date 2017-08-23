@@ -44,15 +44,6 @@ export default {
       const denominator = get_denominator_fields()
       const field = Object.keys(denominator)[0]
       return field
-
-      // TODO: @refac Get rid of this
-      console.warn("TODO: @fix Wow. This is horrible. 🙈")
-      switch (this.$store.state.instance_config.instance.slug) {
-        case 'zwe':
-          return 'rooms'
-        default:
-          return 'structures'
-      }
     },
     days_to_spray() {
       const structures_per_day = this.calculator.enumerables * this.calculator.teams
