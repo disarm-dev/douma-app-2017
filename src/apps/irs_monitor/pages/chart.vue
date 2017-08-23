@@ -27,7 +27,6 @@
       for(let fn of plotly_event_listeners) {
         window.removeEventListener('resize', fn)
         plotly_event_listeners.splice(0, 1)
-        console.log('removed', fn)
       }
     },
     methods: {
@@ -50,7 +49,6 @@
           const fn = Plotly.Plots.resize.bind(this, plot)
           window.addEventListener('resize', fn, {passive: true})
           plotly_event_listeners.push(fn)
-          console.log('added', fn)
         })
 
       }

@@ -23,7 +23,7 @@ export function aggregate_on({responses, targets, aggregation}) {
 
       if (!isNumber(result)) return 0
 
-      return result
+      return result * 100
     } catch (e) {
       console.log(e)
       return 0

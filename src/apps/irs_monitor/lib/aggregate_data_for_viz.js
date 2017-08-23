@@ -26,8 +26,15 @@ function aggregate_single_series({binned_responses, options, aggregations, targe
     aggregation: aggregations.find(a => a.name === options.single_series.aggregation_name)
   }
 
+  let cumulative_value = 0 // Only used for cumulative counts
+
   return binned_responses.map(bin => {
-    const value = aggregate_on({aggregation: series.aggregation, responses: bin.values, targets})
+    let value = aggregate_on({aggregation: series.aggregation, responses: bin.values, targets})
+
+    if (options.cumulative) {
+      value += cumulative_value
+      cumulative_value = value
+    }
 
     // shape the data to return
     return {
@@ -61,8 +68,17 @@ function aggregate_multi_series({binned_responses, options, aggregations, target
     const x = []
     const y = []
 
+
+    let cumulative_value = 0// Only used for cumulative counts
+
     binned_responses.forEach(bin => {
-      const value = aggregate_on({aggregation: series.aggregation, responses: bin.values, targets})
+      let value = aggregate_on({aggregation: series.aggregation, responses: bin.values, targets})
+
+      if (options.cumulative) {
+        value += cumulative_value
+        cumulative_value = value
+      }
+
       x.push(bin.key)
       y.push(value)
     })
@@ -80,6 +96,7 @@ function aggregate_multi_series({binned_responses, options, aggregations, target
   return data
 
 }
+
 
 /**
  * For a pie chart, apply correct aggregation to each bin of responses
