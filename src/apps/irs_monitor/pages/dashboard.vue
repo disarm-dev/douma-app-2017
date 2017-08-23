@@ -9,10 +9,10 @@
       <filters v-if="geodata_ready" :responses="responses"></filters>
 
       <!--MAP-->
-      <map v-if='geodata_ready' :responses="responses" :targets="targets" :options="map_options"></map>
+      <dashboard_map v-if='geodata_ready' :responses="responses" :targets="targets" :options="map_options"></dashboard_map>
 
       <!--TABLE-->
-      <table :responses="responses" :targets="targets" :options="table_options"></table>
+      <dashboard_table :responses="responses" :targets="targets" :options="table_options"></dashboard_table>
 
       <!-- CUSTOM STATIC-DATA CHARTS, etc -->
       <charts :responses="responses" :targets="targets" :options="chart_configs"></charts>
@@ -32,8 +32,8 @@
   // Components
   import dashboard_summary from './dashboard-summary.vue'
   import filters from './filters.vue'
-  import table from './dashboard-table.vue'
-  import map from './dashboard-map.vue'
+  import dashboard_table from './dashboard-table.vue'
+  import dashboard_map from './dashboard-map.vue'
   import charts from './charts.vue'
 
   export default {
@@ -41,8 +41,8 @@
     components: {
       dashboard_summary,
       filters,
-      table,
-      map,
+      dashboard_table,
+      dashboard_map,
       charts,
     },
     computed: {
