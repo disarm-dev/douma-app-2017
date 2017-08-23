@@ -22,8 +22,8 @@
           },
           "options": {
             "data": [{
-              "values": [1,2,3],
-              "labels": ["one", "two", "three"],
+              "values": [34,12,4],
+              "labels": ["Sprayed", "Refused", "Other"],
               "type": "pie"
             }],
             "layout": {
