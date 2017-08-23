@@ -7,7 +7,6 @@
       :class="{'card-half-width': chart.style.width_constraint == 'half'}">
 
       <md-card-content>
-
         <custom_chart
           :chart_id="chart.id"
           :get_data="get_data_functions[chart.type]"
