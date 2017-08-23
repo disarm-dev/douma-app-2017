@@ -2,13 +2,13 @@
 import {aggregate_on} from 'lib/instance_data/aggregator'
 import {has} from 'lodash'
 
-export function aggregate_for_chart({binned_responses, options, aggregations, targets}) {
+export function decorate_for_chart({binned_responses, options, aggregations, targets}) {
   // Figure what to do
 
   if (has(options, 'single_series')) {
-    return aggregate_single_series({binned_responses, options, aggregations, targets})
+    return decorate_single_series({binned_responses, options, aggregations, targets})
   } else if (has(options, 'multi_series')) {
-    return aggregate_multi_series({binned_responses, options, aggregations, targets})
+    return decorate_multi_series({binned_responses, options, aggregations, targets})
   }
 }
 
@@ -21,7 +21,7 @@ export function aggregate_for_chart({binned_responses, options, aggregations, ta
  * @param targets - from a Plan
  * @return {array} - Array of things for a chart
  */
-function aggregate_single_series({binned_responses, options, aggregations, targets}) {
+function decorate_single_series({binned_responses, options, aggregations, targets}) {
   const series = {
     aggregation: aggregations.find(a => a.name === options.single_series.aggregation_name)
   }
@@ -55,7 +55,7 @@ function aggregate_single_series({binned_responses, options, aggregations, targe
  * @param targets - from a Plan
  * @return {array} - Array of things for a chart
  */
-function aggregate_multi_series({binned_responses, options, aggregations, targets}) {
+function decorate_multi_series({binned_responses, options, aggregations, targets}) {
   const series_for_chart = options.multi_series.map(serie => {
     return {
       aggregation: aggregations.find(a => a.name === serie.aggregation_name),
@@ -106,7 +106,7 @@ function aggregate_multi_series({binned_responses, options, aggregations, target
  * @param targets
  * @return {array} - Array of things for a chart
  */
-export function aggregate_for_pie({binned_responses, options, aggregations, targets}) {
+export function decorate_for_pie({binned_responses, options, aggregations, targets}) {
   const series_for_chart = options.series.map(serie => {
     return {
       aggregation: aggregations.find(a => a.name === serie.aggregation_name),
@@ -131,12 +131,12 @@ export function aggregate_for_pie({binned_responses, options, aggregations, targ
   return [output]
 }
 
-export function aggregate_for_table({binned_responses, options, aggregations, targets}){
+export function decorate_for_table({binned_responses, options, aggregations, targets}){
   console.warn("TODO: 'aggregate_for_table' not implemented")
   return []
 }
 
-export function aggregate_for_map({binned_responses, options, aggregations, targets}) {
+export function decorate_for_map({binned_responses, options, aggregations, targets}) {
   console.warn("TODO: 'aggregate_for_map' not implemented")
   return []
 }

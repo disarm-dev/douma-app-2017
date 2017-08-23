@@ -1,5 +1,5 @@
-import {aggregate_for_chart, aggregate_for_map, aggregate_for_pie, aggregate_for_table} from './aggregate_data_for_viz'
-import {categorical_bins, time_series_bins} from './bin_responses'
+import {decorate_for_chart, decorate_for_map, decorate_for_pie, decorate_for_table} from './decorate_data_for_viz'
+import {categorical_bins, spatial_bins, time_series_bins} from './bin_responses'
 
 /**
  * Prepare and aggregate data for a basic series chart
@@ -22,27 +22,32 @@ export default function get_data({responses, targets, aggregations, options}) {
   let binned_responses
   if (options.time_series) {
     binned_responses = time_series_bins({responses, options})
+  } else if (options.spatial_bins) {
+    binned_responses = spatial_bins({responses, options})
   } else {
     binned_responses = categorical_bins({responses, options})
   }
+
+
+  // The 'decorate' functions below also include the aggregation process
 
   // Create data in right structure depending on chart_type and options (esp. in 'aggregate_for_chart')
   let data
   switch (options.chart_type) {
     case 'pie':
-      data = aggregate_for_pie({binned_responses, options, aggregations, targets})
+      data = decorate_for_pie({binned_responses, options, aggregations, targets})
       break
     case 'bar':
-      data = aggregate_for_chart({binned_responses, options, aggregations, targets})
+      data = decorate_for_chart({binned_responses, options, aggregations, targets})
       break
     case 'line':
-      data = aggregate_for_chart({binned_responses, options, aggregations, targets})
+      data = decorate_for_chart({binned_responses, options, aggregations, targets})
       break
     case 'table':
-      data = aggregate_for_table({binned_responses, options, aggregations, targets})
+      data = decorate_for_table({binned_responses, options, aggregations, targets})
       break
     case 'map':
-      data = aggregate_for_map({binned_responses, options, aggregations, targets})
+      data = decorate_for_map({binned_responses, options, aggregations, targets})
       break
     default:
       console.error(`Didn't find an aggregation method for ${options.chart_type}.`)

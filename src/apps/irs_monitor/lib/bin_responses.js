@@ -75,3 +75,11 @@ export function time_series_bins({responses, options}) {
 
   return binned_responses
 }
+
+
+
+export function spatial_bins({responses, options}) {
+  // figure out, maybe through options, if the current 'filter/focus level' is the same as 'planning level'.
+  // if not, need to match each response.location.id to something at the 'filter level'
+  // then return, same as the other bins
+}
