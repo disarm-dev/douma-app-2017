@@ -57,7 +57,7 @@ function aggregate_multi_series({binned_responses, options, aggregations, target
   })
 
   // calculate rolled-up value for each bin
-  return series_for_chart.map(series => {
+  const data = series_for_chart.map(series => {
     const x = []
     const y = []
 
@@ -76,6 +76,9 @@ function aggregate_multi_series({binned_responses, options, aggregations, target
       marker: {color: series.colour}
     }
   })
+
+  return data
+
 }
 
 /**

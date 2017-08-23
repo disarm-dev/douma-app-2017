@@ -142,7 +142,7 @@
             },
             "multi_series": [
               {
-                "aggregation_name": "structures sprayed %",
+                "aggregation_name": "structures sprayed",
                 "colour": "green"
               }
             ]

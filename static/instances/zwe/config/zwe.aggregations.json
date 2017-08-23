@@ -1,4 +1,4 @@
-[ 
+[
   {
     "name": "homesteads found",
     "numerator_expr": "1"
@@ -26,11 +26,7 @@
     "numerator_expr": "number_sprayable - (numbersprayed_PY + numbersprayed_ddt + numbersprayed_OP)"
   },
   {
-    "name": "sprayable structures not sprayed (refused)",
-    "numerator_expr": "number_sprayable - (numbersprayed_PY + numbersprayed_ddt + numbersprayed_OP)"
-  },
-  {
-    "name": "sprayable structures not sprayed (refused) %",
+    "name": "sprayable structures not sprayed %",
     "numerator_expr": "number_sprayable - (numbersprayed_PY + numbersprayed_ddt + numbersprayed_OP)",
     "denominator_field": "number_of_households"
   }

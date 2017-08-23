@@ -73,7 +73,7 @@ function _calculate_denominator({responses, targets}) {
   // get target for each unique_area_id
   const unique_targets = _(unique_area_ids_from_responses).map((area_id) => {
     const target = targets.find(d => d.id === area_id)
-    target.number_of_households = 30
+    if (target) target.number_of_households = 30 // TODO: @debug Remove
     return target
   }).compact()
 
