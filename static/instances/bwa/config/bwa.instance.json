@@ -1,15 +1,71 @@
 {
   "applets": {
     "irs_monitor": {
-      "aggregations": {
-        "map": "number of rooms sprayed",
-        "table": [
-          "number of rooms sprayed"
-        ]
+      "map": {
+        "aggregation_names": ["number of rooms sprayed"]
+      },
+      "table": {
+        "aggregation_names": ["number of rooms sprayed"]
       },
       "charts": [
         {
-          "id": "bwa_variable_definitions",
+          "id": "team_performance",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "data": [
+              {
+                "x": ["24 jul", "31 jul", "7 aug", "14 aug", "21 aug"],
+                "y": [10, 25, 45, 65, 72],
+                "name": "coverage",
+                "type": "line"
+              }
+            ],
+            "layout": {
+              "showlegend": true,
+              "title": "Proportion of rooms sprayed / total number of rooms visited",
+              "yaxis": {
+                "title": "% coverage"
+              },
+              "xaxis": {
+                "title": "Period commencing"
+              }
+            },
+            "chart_type": "line",
+            "time_series": true,
+            "bin_by": "team_name",
+            "single_series": {
+              "aggregation_name": "structures sprayed"
+            }
+          }
+        },
+        {
+          
+          "id": "spray_status_pie",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "data": [{
+              "values": [34, 12, 4, 12, 26, 18, 17, 21],
+              "labels": ["Locked","Nobody","Refused","Baby","Patient","Kitchen ","Food ","Material"],
+              "type": "pie"
+            }],
+            "layout": {
+              "title": "Refusal reasons for not spraying room"
+            },
+            "chart_type": "pie",
+            "bin_by": "_decorated.sprayed_status",
+            "series": [{
+              "aggregation_name": "count"
+            }]
+          }
+        },
+        {
+          "id": "total_rooms_sprayed_per_week",
           "style": {
             "height_constraint": "none",
             "width_constraint": "half"
@@ -17,115 +73,20 @@
           "options": {
             "layout": {
               "showlegend": true,
-              "title": "",
+              "title": "Total number of rooms sprayed per week",
               "yaxis": {
-                "title": ""
+                "title": "# of rooms"
               },
               "xaxis": {
-                "title": ""
+                "title": "Period commencing"
               }
             },
-            "chart_type": "",
-            "bin_by": "",
-            "series": [
-
-            ]
-          }
-        },
-        {
-          "id": "bwa_chart_prop_room_sprayed",
-          "style": {
-            "height_constraint": "none",
-            "width_constraint": "half"
-          },
-          "options": {
-            "layout": {
-              "showlegend": true,
-              "title": "",
-              "yaxis": {
-                "title": ""
-              },
-              "xaxis": {
-                "title": ""
-              }
-            },
-            "chart_type": "",
-            "bin_by": "",
-            "series": [
-
-            ]
-          }
-        },
-        {
-          "id": "bwa_chart_refusal_pie",
-          "style": {
-            "height_constraint": "none",
-            "width_constraint": "half"
-          },
-          "options": {
-            "layout": {
-              "showlegend": true,
-              "title": "",
-              "yaxis": {
-                "title": ""
-              },
-              "xaxis": {
-                "title": ""
-              }
-            },
-            "chart_type": "",
-            "bin_by": "",
-            "series": [
-
-            ]
-          }
-        },
-        {
-          "id": "bwa_rooms_sprayed_per_week",
-          "style": {
-            "height_constraint": "none",
-            "width_constraint": "half"
-          },
-          "options": {
-            "layout": {
-              "showlegend": true,
-              "title": "",
-              "yaxis": {
-                "title": ""
-              },
-              "xaxis": {
-                "title": ""
-              }
-            },
-            "chart_type": "",
-            "bin_by": "",
-            "series": [
-
-            ]
-          }
-        },
-        {
-          "id": "bwa_table",
-          "style": {
-            "height_constraint": "viewport",
-            "width_constraint": "full"
-          },
-          "options": {
-            "layout": {
-              "showlegend": true,
-              "title": "",
-              "yaxis": {
-                "title": ""
-              },
-              "xaxis": {
-                "title": ""
-              }
-            },
-            "chart_type": "",
-            "bin_by": "",
-            "series": [
-
-            ]
+            "chart_type": "bar",
+            "time_series": true,
+            "bin_by": "recorded_on",
+            "multi_series": [{
+              "aggregation_name": "number of rooms sprayed"
+            }]
           }
         }
       ],
