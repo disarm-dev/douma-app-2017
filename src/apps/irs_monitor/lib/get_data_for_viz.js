@@ -1,4 +1,4 @@
-import {aggregate_for_pie} from './aggregate_data_for_viz'
+import {aggregate_for_chart, aggregate_for_map, aggregate_for_pie, aggregate_for_table} from './aggregate_data_for_viz'
 import {categorical_bins, time_series_bins} from './bin_responses'
 
 /**
@@ -26,18 +26,27 @@ export default function get_data({responses, targets, aggregations, options}) {
     binned_responses = categorical_bins({responses, options})
   }
 
+  let data
   switch (options.chart_type) {
     case 'pie':
-      return aggregate_for_pie({binned_responses, options, aggregations, targets})
+      data = aggregate_for_pie({binned_responses, options, aggregations, targets})
+      break
     case 'bar':
-      return []
+      data = aggregate_for_chart({binned_responses, options, aggregations, targets})
+      break
+    case 'line':
+      data = aggregate_for_chart({binned_responses, options, aggregations, targets})
+      break
     case 'table':
-      return []
+      data = aggregate_for_table({binned_responses, options, aggregations, targets})
+      break
     case 'map':
-      return []
+      data = aggregate_for_map({binned_responses, options, aggregations, targets})
+      break
     default:
       console.error(`Didn't find an aggregation method for ${options.chart_type}.`)
   }
 
+  return data
 }
 

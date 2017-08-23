@@ -37,12 +37,10 @@
               }
             },
             "chart_type": "bar",
-            "bin_by": "team_name",
-            "series": [
-              {
-                "aggregation_name": "structures sprayed"
-              }
-            ]
+            "single_series": {
+              "bin_by": "team_name",
+              "aggregation_name": "structures sprayed"
+            }
           }
         },
         {
