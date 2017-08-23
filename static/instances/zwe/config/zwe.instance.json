@@ -129,6 +129,7 @@
           },
           "options": {
             "chart_type": "line",
+            "cumulative": true,
             "layout": {
               "showlegend": true,
               "title": "Room coverage % of target",
