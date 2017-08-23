@@ -95,11 +95,9 @@
             },
             "chart_type": "bar",
             "bin_by": "_decorated.sprayed_status",
-            "series": [
-              {
-                "aggregation_name": "count"
-              }
-            ]
+            "single_series": {
+              "aggregation_name": "count"
+            }
           }
         },
         {
@@ -130,6 +128,7 @@
           "options": {
             "chart_type": "line",
             "time_series": true,
+            "bin_by": "recorded_on",
             "cumulative": true,
             "layout": {
               "showlegend": true,
@@ -141,7 +140,7 @@
                 "title": "Period commencing"
               }
             },
-            "series": [
+            "multi_series": [
               {
                 "aggregation_name": "structures sprayed %",
                 "colour": "green"
