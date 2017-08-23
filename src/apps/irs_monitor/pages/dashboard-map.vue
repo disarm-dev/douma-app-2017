@@ -38,7 +38,7 @@
   import {LogValueConvertor} from 'lib/helpers/log_helper'
 
   export default {
-    props: ['aggregated_responses', 'filtered_responses'],
+    props: ['responses'],
     components: {map_legend},
     data() {
       return {
@@ -202,7 +202,7 @@
 
         if (!this.show_response_points) return
 
-        const points = this.filtered_responses.map(response => {
+        const points = this.responses.map(response => {
           // TODO: @feature Find out if {latitude, longitude} exist on coords or coords.coords
           let coords = response.location.coords
 
@@ -281,7 +281,7 @@
         const aggregation_name = this.instance_config.applets.irs_monitor.aggregations.map
 
         return features.map((feature) => {
-          const found = this.aggregated_responses.find(aggregated_response => {
+          const found = this.responses.find(aggregated_response => {
             return aggregated_response.__disarm_geo_id === feature.properties.__disarm_geo_id
           })
 

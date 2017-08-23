@@ -9,11 +9,7 @@
       <filters v-if="geodata_ready" :responses="responses"></filters>
 
       <!--MAP-->
-      <!-- <map
-        v-if='geodata_ready'
-        :aggregated_responses="aggregated_responses"
-        :filtered_responses="filtered_responses"
-      ></map> -->
+      <map v-if='geodata_ready' :responses="responses" :targets="targets" :options="map_options"></map>
 
       <!--TABLE-->
       <table :responses="responses" :targets="targets" :options="table_options"></table>
