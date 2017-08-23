@@ -9,7 +9,6 @@
       <md-card-content>
         <custom_chart
           :chart_id="chart.id"
-          :get_data="get_data_functions[chart.type]"
           :options="chart.options"
           :responses="responses"
           :targets="targets"
@@ -24,17 +23,11 @@
   import {mapState} from 'vuex'
 
   import custom_chart from './chart.vue'
-  import get_data_functions from './viz_data'
 
   export default {
     name: 'custom-charts',
     props: ['responses', 'targets'],
     components: {custom_chart},
-    data() {
-      return {
-        get_data_functions
-      }
-    },
     computed: {
       ...mapState({
         chart_configs: state => state.instance_config.applets.irs_monitor.charts,

@@ -17,7 +17,6 @@
       "charts": [
         {
           "id": "team_performance",
-          "type": "basic_series",
           "style": {
             "height_constraint": "none",
             "width_constraint": "half"
@@ -44,13 +43,13 @@
         },
         {
           "id": "room_coverage_by_week",
-          "type": "time_series",
           "style": {
             "height_constraint": "none",
             "width_constraint": "half"
           },
           "options": {
             "chart_type": "bar",
+            "time_series": true,
             "layout": {
               "showlegend": true,
               "title": "Spray room coverage",
@@ -76,7 +75,6 @@
         },
         {
           "id": "spray_status_absolute",
-          "type": "basic_series",
           "style": {
             "height_constraint": "none",
             "width_constraint": "half"
@@ -103,7 +101,6 @@
         },
         {
           "id": "spray_status_pie",
-          "type": "basic_pie",
           "style": {
             "height_constraint": "none",
             "width_constraint": "half"
@@ -122,13 +119,13 @@
           }
         },{
           "id": "proportion_sprayed_by_week",
-          "type": "time_series",
           "style": {
             "height_constraint": "none",
             "width_constraint": "half"
           },
           "options": {
             "chart_type": "line",
+            "time_series": true,
             "cumulative": true,
             "layout": {
               "showlegend": true,

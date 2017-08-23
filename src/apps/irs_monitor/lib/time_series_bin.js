@@ -1,26 +1,10 @@
-import moment_original from 'moment'
-import {extendMoment} from 'moment-range'
-const moment = extendMoment(moment_original)
-
-import {nest} from 'd3-collection'
-import {ascending} from 'd3-array'
-
-import {aggregate_series_for_chart} from '../../lib/aggregate_data_for_chart'
-
-
 /**
- * Prepare data for time-series chart
- * @param responses {array}
- * @param targets {array}
- * @param aggregations {array}
- * @param options.series
- * @param options.key_format moment format string
- * @param options.interval
- * @param options.chart_type
- * @param options.date_field
- * @returns {Array}
+ * Create bins for a time series
+ * @param responses
+ * @param options
+ * @returns {Array} - responses binned by time series (with gaps filled!)
  */
-export default function get_data({responses, targets, aggregations, options}) {
+export function create_time_series_bins({responses, options}) {
   // from configuration/options
   const defaults = {
     // in addition need a series property passed in on options
@@ -67,7 +51,5 @@ export default function get_data({responses, targets, aggregations, options}) {
     })
   }
 
-  return aggregate_series_for_chart({binned_responses: filled_responses, options, aggregations, targets})
-
+  return filled_responses
 }
-
