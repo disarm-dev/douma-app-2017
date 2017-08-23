@@ -1,8 +1,13 @@
 // find the correct aggregations for the chart
 import {aggregate_on} from 'lib/instance_data/aggregator'
+import {has} from 'lodash'
 
 export function aggregate_for_chart({binned_responses, options, aggregations, targets}) {
+  // Figure what to do
 
+  if (has(options, 'single_series')) {
+    return aggregate_single_series({binned_responses, options, aggregations, targets})
+  }
 }
 
 /**
@@ -16,8 +21,7 @@ export function aggregate_for_chart({binned_responses, options, aggregations, ta
  */
 function aggregate_single_series({binned_responses, options, aggregations, targets}) {
   const series = {
-    aggregation: aggregations.find(a => a.name === options.series.aggregation_name),
-    colour: options.series.colour
+    aggregation: aggregations.find(a => a.name === options.single_series.aggregation_name)
   }
 
   return binned_responses.map(bin => {

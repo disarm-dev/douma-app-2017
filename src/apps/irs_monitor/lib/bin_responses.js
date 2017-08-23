@@ -34,8 +34,6 @@ export function time_series_bins({responses, options}) {
     // in addition need a series property passed in on options
     key_format: 'D MMM',
     interval: 'week',
-    chart_type: 'bar',
-    date_field: 'recorded_on',
   }
 
   options = {...defaults, ...options}
@@ -46,7 +44,7 @@ export function time_series_bins({responses, options}) {
   // split/bin into series
   const simple_binned_responses = nest()
     .key(f => {
-      const raw_date = f[options.date_field]
+      const raw_date = f[options.bin_by]
       return moment(raw_date).startOf(moment_interval).format()
     })
     .sortKeys(ascending)

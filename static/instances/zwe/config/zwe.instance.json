@@ -37,8 +37,8 @@
               }
             },
             "chart_type": "bar",
+            "bin_by": "team_name",
             "single_series": {
-              "bin_by": "team_name",
               "aggregation_name": "structures sprayed"
             }
           }
@@ -52,6 +52,7 @@
           "options": {
             "chart_type": "bar",
             "time_series": true,
+            "bin_by": "recorded_on",
             "layout": {
               "showlegend": true,
               "title": "Spray room coverage",
