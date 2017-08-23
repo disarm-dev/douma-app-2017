@@ -16,7 +16,7 @@
       },
       "charts": [
         {
-          "id": "team_performance_versus_target",
+          "id": "team_performance",
           "type": "basic_series",
           "style": {
             "height_constraint": "none",
@@ -43,7 +43,7 @@
           }
         },
         {
-          "id": "spray_room_coverage_absolute",
+          "id": "room_coverage_by_week",
           "type": "time_series",
           "style": {
             "height_constraint": "none",
@@ -102,7 +102,7 @@
           }
         },
         {
-          "id": "spray_status_proportion",
+          "id": "spray_status_pie",
           "type": "basic_pie",
           "style": {
             "height_constraint": "none",
@@ -117,6 +117,32 @@
             "series": [
               {
                 "aggregation_name": "count"
+              }
+            ]
+          }
+        },{
+          "id": "proportion_sprayed_by_week",
+          "type": "time_series",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "chart_type": "line",
+            "layout": {
+              "showlegend": true,
+              "title": "Room coverage % of target",
+              "yaxis": {
+                "title": "% coverage"
+              },
+              "xaxis": {
+                "title": "Period commencing"
+              }
+            },
+            "series": [
+              {
+                "aggregation_name": "structures sprayed %",
+                "colour": "green"
               }
             ]
           }
