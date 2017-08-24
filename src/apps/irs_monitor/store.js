@@ -2,7 +2,7 @@ import {get_all_records} from 'lib/remote/remote.records'
 import {get_current_plan} from 'lib/remote/remote.plans'
 import {Plan} from 'lib/models/plan.model'
 import {decorate_responses_from_json} from 'lib/models/response.model'
-import Presenters from 'lib/instance_data/presenters'
+import instance_decorator from 'lib/instance_data/decorators'
 
 import {set_filter, unset_filter} from './pages/filters/controller'
 
@@ -62,16 +62,21 @@ export default {
     // Responses which are contained by current plan
     // ideally, filtered_responses should change in response to the
     // settings of the filter e.g. "locality #2"
-    filtered_responses(state) {
+    filtered_responses(state, getters, rootState) {
       if (!state.plan) return []
       if (!state.responses.length) return []
 
-      return state.responses.filter(response => {
+      const filtered = state.responses.filter(response => {
         return true
         // // TODO: @debug This first filter is more of a DEBUG filter, making sure we have valid responses
         // return (response.location.selection) // TODO: @feature Add actual filtering
         //   && state.plan.targets.find(t => t.id === response.location.selection.id)
       })
+
+      // Run instance decorator on all responses
+      const decorated_responses = instance_decorator(filtered, rootState.instance_config)
+
+      return decorated_responses
     },
 
   },

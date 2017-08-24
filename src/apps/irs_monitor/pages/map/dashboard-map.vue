@@ -58,7 +58,6 @@
         _click_handler: null,
         _aggregated_responses_fc: null,
         _filtered_responses_fc: null,
-
       }
     },
     watch: {

@@ -45,10 +45,10 @@ const evaluate_decorator = (response, decorator_expressions_array) => {
   // expression is something like {"red": "any_sprayed === true"},
   for (const expression_definition of decorator_expressions_array) {
     // possible_value_name is 'red'
-    const possible_value_name = Object.keys(expression_definition)[0]
+    const value = Object.keys(expression_definition)[0]
 
     // expression is "any_sprayed === true"
-    const expression = expression_definition[possible_value_name]
+    const expression = expression_definition[value]
 
     const parser = new Parser(expression)
 
@@ -59,12 +59,12 @@ const evaluate_decorator = (response, decorator_expressions_array) => {
 
       // evaluation_result is a boolean
       if (evaluation_result) {
-        return possible_value_name
+        return value
       }
     }
   }
-  // return undefined as a default
-  return undefined
+  // return null as a default
+  return null
 }
 
 const form_data_has_required_variables = (response, required_variables) => {
