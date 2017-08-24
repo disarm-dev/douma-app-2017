@@ -13,24 +13,19 @@
   import download from 'downloadjs'
   import json2csv from 'json2csv'
   import moment from 'moment-mini'
-  import {mapState} from 'vuex'
 
   import get_data from '../lib/get_data_for_viz'
 
   export default {
-    props: ['responses', 'targets', 'options'],
+    props: ['responses', 'targets', 'aggregations', 'options'],
     computed: {
-      ...mapState({
-        slug: state => state.instance_config.instance.slug,
-        aggregations: state => state.instance_config.aggregations
-      }),
       table_columns() {
         return Object.keys(this.table_data[0])
       },
       table_data() {
         const data = get_data({
-          responses: this.responses, 
-          targets: this.targets, 
+          responses: this.responses,
+          targets: this.targets,
           aggregations: this.aggregations,
           options: this.options
         })
@@ -40,11 +35,14 @@
     },
     methods: {
       download_aggregations(){
+        // TODO: @refac can abstract the download functionality - similar used in multiple places
         const fields = this.table_columns
         const data = this.table_data
         const content = json2csv({data, fields})
         const date = moment().format('YYYY-MM-DD_HHmm')
-        download(content, `${this.slug}_irs_progress_${date}.csv`)
+        const slug = this.$store.state.instance_config.instance.slug
+
+        download(content, `${slug}_irs_progress_${date}.csv`)
         this.$ga.event('irs_monitor','click_download_progress_table')
       }
     }

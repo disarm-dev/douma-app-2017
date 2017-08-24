@@ -8,15 +8,21 @@
     "irs_monitor": {
       "title": "IRS Dashboard",
       "map": {
+        "chart_type": "map",
+        "spatial_bins": true,
+        "bin_by": "location.selection.name",
         "aggregation_names": [
           "structures sprayed %"
-        ]
+        ],
+        "property_layers": ["risk"]
       },
       "table": {
         "aggregation_names": [
           "structures sprayed",
           "structures sprayed %"
-        ]
+        ],
+        "bin_by": "location.selection.name",
+        "chart_type": "table"
       },
       "charts": [
         {

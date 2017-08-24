@@ -3,20 +3,13 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex'
-
   import get_data from '../lib/get_data_for_viz'
 
   const plotly_event_listeners = []
 
   export default {
     name: 'custom_chart',
-    props: ['chart_id', 'options', 'responses', 'targets'],
-    computed: {
-      ...mapState({
-        aggregations: state => state.instance_config.aggregations
-      })
-    },
+    props: ['chart_id', 'responses', 'targets', 'aggregations', 'options'],
     watch: {
       'responses': 'render_chart'
     },

@@ -9,9 +9,10 @@
       <md-card-content>
         <custom_chart
           :chart_id="chart.id"
-          :options="chart.options"
           :responses="responses"
           :targets="targets"
+          :aggregations="aggregations"
+          :options="chart.options"
         >
         </custom_chart>
       </md-card-content>
@@ -26,7 +27,7 @@
 
   export default {
     name: 'custom-charts',
-    props: ['responses', 'targets', 'options'],
+    props: ['responses', 'targets', 'aggregations', 'options'],
     components: {custom_chart}
   }
 </script>

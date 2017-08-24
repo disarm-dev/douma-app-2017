@@ -9,14 +9,26 @@
       <filters v-if="geodata_ready" :responses="responses"></filters>
 
       <!--MAP-->
-      <dashboard_map v-if='geodata_ready' :responses="responses" :targets="targets" :options="map_options"></dashboard_map>
+      <dashboard_map
+        v-if='geodata_ready'
+        :responses="responses"
+        :targets="targets"
+        :aggregations="aggregations"
+        :options="map_options"></dashboard_map>
 
       <!--TABLE-->
-      <dashboard_table :responses="responses" :targets="targets" :options="table_options"></dashboard_table>
+      <dashboard_table
+        :responses="responses"
+        :targets="targets"
+        :aggregations="aggregations"
+        :options="table_options"></dashboard_table>
 
       <!-- CUSTOM STATIC-DATA CHARTS, etc -->
-      <charts :responses="responses" :targets="targets" :options="chart_configs"></charts>
-
+      <charts
+        :responses="responses"
+        :targets="targets"
+        :aggregations="aggregations"
+        :options="chart_configs"></charts>
     </div>
   </div>
 </template>
@@ -48,10 +60,15 @@
     computed: {
       ...mapState({
         instance_config: state => state.instance_config,
+        geodata_ready: state => state.geodata_ready,
+
+        aggregations: state => state.instance_config.aggregations
+
+        // Options
         chart_configs: state => state.instance_config.applets.irs_monitor.charts,
         table_options: state => state.instance_config.applets.irs_monitor.table,
         map_options: state => state.instance_config.applets.irs_monitor.map,
-        geodata_ready: state => state.geodata_ready,
+
       }),
       ...mapGetters({
         responses: 'irs_monitor/filtered_responses',

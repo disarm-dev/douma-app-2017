@@ -37,8 +37,10 @@
   import {prepare_palette} from 'lib/helpers/palette_helper'
   import {LogValueConvertor} from 'lib/helpers/log_helper'
 
+  import get_data from '../../lib/get_data_for_viz'
+
   export default {
-    props: ['responses'],
+    props: ['responses', 'targets', 'aggregations', 'options'],
     components: {map_legend},
     data() {
       return {
@@ -194,6 +196,27 @@
         })
 
       },
+      bind_popup(layer_type) {
+        // Remove previous click handler before anything
+        this._map.off('click', 'areas', this._click_handler)
+
+        // Define new click handler
+        this._click_handler = (e) => {
+          const feature = this._map.queryRenderedFeatures(e.point)[0]
+
+          if (feature) {
+            new Popup({closeOnClick: true})
+              .setLngLat(e.lngLat)
+              .setHTML(`<p>${layer_type.attribute}: ${feature.properties[layer_type.attribute]}</p>`)
+              .addTo(this._map);
+          }
+        }
+
+        // Add click handler to map
+        this._map.on('click', 'areas', this._click_handler)
+      },
+
+      // Data layers
       add_response_points() {
         if (this._map.getLayer('responses')) {
           this._map.removeLayer('responses')
@@ -248,28 +271,12 @@
         })
 
       },
-      bind_popup(layer_type) {
-        // Remove previous click handler before anything
-        this._map.off('click', 'areas', this._click_handler)
-
-        // Define new click handler
-        this._click_handler = (e) => {
-          const feature = this._map.queryRenderedFeatures(e.point)[0]
-
-          if (feature) {
-            new Popup({closeOnClick: true})
-              .setLngLat(e.lngLat)
-              .setHTML(`<p>${layer_type.attribute}: ${feature.properties[layer_type.attribute]}</p>`)
-              .addTo(this._map);
-          }
-        }
-
-        // Add click handler to map
-        this._map.on('click', 'areas', this._click_handler)
-      },
 
       // Data calculations TODO: @refac Remove calculations to lib
       calculate_layer_attributes() {
+
+        return get_data({responses: this.responses, targets, aggregations, options})
+
         let features = this.planning_level_fc.features
 
         // {layers: {aggregations: ['structures sprayed'], properties: ['risk', 'number_of_households']}}
@@ -314,7 +321,6 @@
           feature.properties[attribute] = this._risk_scaler.lval(feature.properties.risk)
           return feature
         })
-      },
     }
   }
 </script>
