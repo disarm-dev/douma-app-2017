@@ -1,12 +1,11 @@
 <template>
-  <div>
+  <div class="charts">
     <md-card
       v-for="chart in options"
       :key="chart.id"
       class="card"
       :class="{'card-half-width': chart.style.width_constraint == 'half'}">
 
-      <md-card-content>
         <custom_chart
           :chart_id="chart.id"
           :responses="responses"
@@ -15,7 +14,6 @@
           :options="chart.options"
         >
         </custom_chart>
-      </md-card-content>
     </md-card>
   </div>
 </template>
@@ -33,15 +31,18 @@
 </script>
 
 <style scoped>
-  .card {
-    display: inline-block;
-    margin: 2.5%;
-    padding: 1em;
-    flex: 1;
-    width: 95%;
+  .charts {
+    display: flex;
+    flex-flow: row wrap;
   }
 
+  .card {
+    margin: 0.5em;
+    flex: 1 1 calc( 33% - 1em );
+  }
+  /*TODO: @feature reimplement this*/
+
   .card-half-width {
-    width: 45%;
+    /* width: 45%; */
   }
 </style>
