@@ -6,7 +6,7 @@
 
     <md-card-content v-show="show_filters">
       <aggregation_settings></aggregation_settings>
-      <filters></filters>
+      <filters :responses="responses"></filters>
     </md-card-content>
 
   </md-card>
@@ -20,6 +20,7 @@
   export default {
     name: 'controls',
     components: {filters, aggregation_settings},
+    props: ['responses'],
     mounted() {
     },
     data() {
