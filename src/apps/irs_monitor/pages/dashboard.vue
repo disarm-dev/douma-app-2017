@@ -5,8 +5,8 @@
 
     <div class='applet_container'>
 
-      <!--FILTERS-->
-      <filters v-if="geodata_ready" :responses="responses"></filters>
+      <!--DASHBOARD CONTROLS-->
+      <controls v-if="geodata_ready" :responses="responses"></controls>
 
       <!--MAP-->
       <dashboard_map
@@ -43,16 +43,16 @@
 
   // Components
   import dashboard_summary from './dashboard-summary.vue'
-  import filters from './filters.vue'
-  import dashboard_table from './dashboard-table.vue'
+  import controls from './controls/controls.vue'
+  import dashboard_table from './table/dashboard-table.vue'
   import dashboard_map from './map/dashboard-map.vue'
-  import charts from './dashboard-charts.vue'
+  import charts from './charts/dashboard-charts.vue'
 
   export default {
     name: 'Dashboard',
     components: {
       dashboard_summary,
-      filters,
+      controls,
       dashboard_table,
       dashboard_map,
       charts,

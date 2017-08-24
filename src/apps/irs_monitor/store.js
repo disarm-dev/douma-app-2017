@@ -4,7 +4,7 @@ import {Plan} from 'lib/models/plan.model'
 import {decorate_responses_from_json} from 'lib/models/response.model'
 import instance_decorator from 'lib/instance_data/decorators'
 
-import {set_filter, unset_filter} from './pages/filters/controller'
+import {set_filter, unset_filter} from './pages/controls/filters/controller'
 
 export default {
   namespaced: true,

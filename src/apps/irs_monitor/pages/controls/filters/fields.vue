@@ -1,5 +1,8 @@
 <template>
-  <div>Filters for all fields</div>
+  <div>
+    <h2>Filters for all fields</h2>
+    <p>Select field and value</p>
+  </div>
 </template>
 
 <script>

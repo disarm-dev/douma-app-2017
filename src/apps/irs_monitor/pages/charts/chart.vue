@@ -4,7 +4,7 @@
 
 <script>
   import Plotly from 'plotly.js/dist/plotly.js'
-  import get_data from '../lib/get_data_for_viz'
+  import get_data from '../../lib/get_data_for_viz'
 
   const plotly_event_listeners = []
 

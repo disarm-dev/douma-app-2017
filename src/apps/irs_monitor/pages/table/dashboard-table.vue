@@ -14,7 +14,7 @@
   import json2csv from 'json2csv'
   import moment from 'moment-mini'
 
-  import get_data from '../lib/get_data_for_viz'
+  import get_data from '../../lib/get_data_for_viz'
 
   export default {
     props: ['responses', 'targets', 'aggregations', 'options'],
