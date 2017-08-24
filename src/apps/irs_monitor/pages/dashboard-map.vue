@@ -110,17 +110,20 @@
         this._map.fitBounds(this.bbox, {padding: 20})
       },
       redraw_layers() {
-        this.calculate_attributes()
+        this.calculate_layer_attributes()
         this.switch_layer()
       },
       switch_layer() {
-        const layer_string = this.selected_layer
 
         this.$ga.event('irs_monitor',`view_${layer_string}`)
 
         this.add_response_points()
         this.add_layer(layer_string)
-
+        this.zoom_to_features()
+      },
+      zoom_to_features () {
+        // Zoom to features
+        const layer_string = this.selected_layer
         this.bbox = bbox(this._aggregated_responses_fc)
         this.bind_popup(layer_definitions[layer_string])
       },
@@ -220,7 +223,7 @@
 
           return coords_point
         }).filter(a => a)
-        
+
         const points_fc = featureCollection(points)
 
         this._map.addLayer({
@@ -266,9 +269,10 @@
       },
 
       // Data calculations TODO: @refac Remove calculations to lib
-      calculate_attributes() {
+      calculate_layer_attributes() {
         let features = this.planning_level_fc.features
 
+        // {layers: {aggregations: ['structures sprayed'], properties: ['risk', 'number_of_households']}}
         features = this.calculate_coverage(features)
         features = this.calculate_risk(features)
 
