@@ -116,6 +116,7 @@
         this.switch_layer()
       },
       switch_layer() {
+        const layer_string = this.selected_layer
 
         this.$ga.event('irs_monitor',`view_${layer_string}`)
 
