@@ -3,6 +3,7 @@
 </template>
 
 <script>
+  import Plotly from 'plotly.js/dist/plotly.js'
   import get_data from '../lib/get_data_for_viz'
 
   const plotly_event_listeners = []
@@ -24,7 +25,7 @@
     },
     methods: {
       render_chart() {
-        if (this.options.fake_data) console.warn("🚨 Using fake data")
+        if (this.options.fake_data) console.warn("Using fake data")
         const data = this.options.fake_data || get_data({
           responses: this.responses,
           targets: this.targets,

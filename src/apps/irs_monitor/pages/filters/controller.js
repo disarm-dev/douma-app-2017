@@ -1,5 +1,4 @@
-import clone_deep from 'lodash.clonedeep'
-import is_equal from 'lodash.isequal' // TODO: @install Install
+import {cloneDeep as clone_deep, isEqual as is_equal} from 'lodash'
 
 
 /**
@@ -18,11 +17,11 @@ export const set_filter = (filters_collection, filter_name, filter_object) => {
     case 'spatial':
       collection_clone.spatial = filter_object
       break;
-    default: 
+    default:
       // Fields
       const index = collection_clone.fields.findIndex(a => is_equal(a, filter_name_or_object))
 
-      if (index !== 0) return 
+      if (index !== 0) return
 
       collection_clone.fields.push(filter_object)
   }
@@ -39,7 +38,7 @@ export const set_filter = (filters_collection, filter_name, filter_object) => {
 export const unset_filter = (filters_collection, filter_name_or_object, responses) => {
   const collection_clone = clone_deep(filters_collection)
 
-  
+
   if (filter_name_or_object === 'spatial') {
     collection_clone.spatial = null
     return collection_clone
@@ -50,7 +49,7 @@ export const unset_filter = (filters_collection, filter_name_or_object, response
     return collection_clone
   }
 
-   
+
   // filter_name_or_object = {
   //   team_name: 'Team 1'
   // }
@@ -62,7 +61,7 @@ export const unset_filter = (filters_collection, filter_name_or_object, response
   // }, {
   //   colour: 'red'
   // }]
-  
+
   // If it is none of the above it must be a field
   const index = collection_clone.fields.findIndex(a => is_equal(a, filter_name_or_object))
   collection_clone.splice(index, 1)
