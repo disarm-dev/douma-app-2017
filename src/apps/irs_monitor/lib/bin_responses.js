@@ -82,4 +82,15 @@ export function spatial_bins({responses, options}) {
   // figure out, maybe through options, if the current 'filter/focus level' is the same as 'planning level'.
   // if not, need to match each response.location.id to something at the 'filter level'
   // then return, same as the other bins
+
+  // split/bin into series
+  console.log("🚨 JUST USING SIMPLE SPATIAL BINS")
+
+  const binned_responses = nest()
+    .key(f => get(f, options.bin_by))
+    .sortKeys(ascending)
+    .entries(responses)
+
+  return binned_responses
+
 }

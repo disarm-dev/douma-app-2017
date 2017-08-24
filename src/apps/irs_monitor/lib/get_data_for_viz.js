@@ -35,19 +35,19 @@ export default function get_data({responses, targets, aggregations, options}) {
   let data
   switch (options.chart_type) {
     case 'pie':
-      data = decorate_for_pie({binned_responses, options, aggregations, targets})
+      data = decorate_for_pie({binned_responses, targets, aggregations, options})
       break
     case 'bar':
-      data = decorate_for_chart({binned_responses, options, aggregations, targets})
+      data = decorate_for_chart({binned_responses, targets, aggregations, options})
       break
     case 'line':
-      data = decorate_for_chart({binned_responses, options, aggregations, targets})
+      data = decorate_for_chart({binned_responses, targets, aggregations, options})
       break
     case 'table':
-      data = decorate_for_table({binned_responses, options, aggregations, targets})
+      data = decorate_for_table({binned_responses, targets, aggregations, options})
       break
     case 'map':
-      data = decorate_for_map({binned_responses, options, aggregations, targets})
+      data = decorate_for_map({binned_responses, targets, aggregations, options})
       break
     default:
       console.error(`Didn't find an aggregation method for ${options.chart_type}.`)

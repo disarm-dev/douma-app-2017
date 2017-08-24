@@ -10,7 +10,7 @@
       "map": {
         "chart_type": "map",
         "spatial_bins": true,
-        "bin_by": "location.selection.name",
+        "bin_by": "location.selection.id",
         "aggregation_names": [
           "structures sprayed %"
         ],

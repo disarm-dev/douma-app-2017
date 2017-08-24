@@ -1,14 +1,18 @@
 // find the correct aggregations for the chart
-import {aggregate_on} from 'lib/instance_data/aggregator'
-import {has} from 'lodash'
+import _, {has} from 'lodash'
+import {featureCollection} from '@turf/helpers'
 
-export function decorate_for_chart({binned_responses, options, aggregations, targets}) {
+import cache from 'config/cache'
+import {aggregate_on} from 'lib/instance_data/aggregator'
+import {get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
+
+export function decorate_for_chart({binned_responses, targets, aggregations, options}) {
   // Figure what to do
 
   if (has(options, 'single_series')) {
-    return decorate_single_series({binned_responses, options, aggregations, targets})
+    return decorate_single_series({binned_responses, targets, aggregations, options})
   } else if (has(options, 'multi_series')) {
-    return decorate_multi_series({binned_responses, options, aggregations, targets})
+    return decorate_multi_series({binned_responses, targets, aggregations, options})
   }
 }
 
@@ -21,7 +25,7 @@ export function decorate_for_chart({binned_responses, options, aggregations, tar
  * @param targets - from a Plan
  * @return {array} - Array of things for a chart
  */
-function decorate_single_series({binned_responses, options, aggregations, targets}) {
+function decorate_single_series({binned_responses, targets, aggregations, options}) {
   const series = {
     aggregation: aggregations.find(a => a.name === options.single_series.aggregation_name)
   }
@@ -55,7 +59,7 @@ function decorate_single_series({binned_responses, options, aggregations, target
  * @param targets - from a Plan
  * @return {array} - Array of things for a chart
  */
-function decorate_multi_series({binned_responses, options, aggregations, targets}) {
+function decorate_multi_series({binned_responses, targets, aggregations, options}) {
   const series_for_chart = options.multi_series.map(serie => {
     return {
       aggregation: aggregations.find(a => a.name === serie.aggregation_name),
@@ -106,7 +110,7 @@ function decorate_multi_series({binned_responses, options, aggregations, targets
  * @param targets
  * @return {array} - Array of things for a chart
  */
-export function decorate_for_pie({binned_responses, options, aggregations, targets}) {
+export function decorate_for_pie({binned_responses, targets, aggregations, options}) {
   const series_for_chart = options.series.map(serie => {
     return {
       aggregation: aggregations.find(a => a.name === serie.aggregation_name),
@@ -131,7 +135,7 @@ export function decorate_for_pie({binned_responses, options, aggregations, targe
   return [output]
 }
 
-export function decorate_for_table({binned_responses, options, aggregations, targets}){
+export function decorate_for_table({binned_responses, targets, aggregations, options}){
 
   const found_aggregations = options.aggregation_names.map(aggregation_name => {
     return aggregations.find(a => a.name === aggregation_name)
@@ -146,7 +150,56 @@ export function decorate_for_table({binned_responses, options, aggregations, tar
   })
 }
 
-export function decorate_for_map({binned_responses, options, aggregations, targets}) {
-  console.warn("TODO: 'aggregate_for_map' not implemented")
-  return []
+/**
+ *
+ * @param binned_responses
+ * @param targets
+ * @param {string[]} options.aggregations - list of aggregation_names to use to calculate aggregations
+ * @param {object[]} aggregations - array of Aggregations
+ * @returns {{}}
+ */
+export function decorate_for_map({binned_responses, targets, aggregations, options}) {
+  const selected_geodata_level_fc = cache.geodata[options.spatial_aggregation_level]
+
+  // collect the aggregations from options.aggregation_names
+  const aggregations_for_map = options.aggregation_names.map(string => {
+    const found = aggregations.find(aggregation => aggregation.name === string)
+
+    if (!found) console.warn(`Missing aggregation for ${string}`)
+    return found
+  })
+
+  // calculate all aggregations for responses in each bin
+  const binned_aggregations = binned_responses.map(bin => {
+    let result = {key: bin.key, values: {}}
+    aggregations_for_map.forEach(aggregation => {
+      const value = aggregate_on({aggregation: aggregation, responses: bin.values, targets})
+      result.values[aggregation.name] = value
+    })
+    return result
+  })
+
+  // create featureCollection, matching geodata with response bins
+  const geodata_features = selected_geodata_level_fc.features
+
+  const decorated_features = _(binned_aggregations).map(bin => {
+    const found = geodata_features.find(feature => {
+      return feature.__disarm_geo_id === bin.key
+    })
+
+    if (found) {
+      found.properties = {
+        ...found.properties,
+        ...bin.values
+      }
+    } else {
+      console.warn(`Cannot find geodata for ${bin.key}`)
+      return {}
+    }
+
+    return found
+  }).compact()
+
+  // return a featureCollection
+  return featureCollection(decorated_features)
 }

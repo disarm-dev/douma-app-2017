@@ -274,37 +274,11 @@
 
       // Data calculations TODO: @refac Remove calculations to lib
       calculate_layer_attributes() {
-        return get_data({responses: this.responses, targets: this.targets, aggregations: this.aggregations, options: this.options})
+        const data = get_data({responses: this.responses, targets: this.targets, aggregations: this.aggregations, options: this.options})
+        this._aggregated_responses_fc = data
+        return
 
-        let features = this.planning_level_fc.features
-
-        // {layers: {aggregations: ['structures sprayed'], properties: ['risk', 'number_of_households']}}
-        features = this.calculate_coverage(features)
         features = this.calculate_risk(features)
-
-        this._aggregated_responses_fc = featureCollection(features)
-      },
-      calculate_coverage(features) {
-        const attribute = layer_definitions.coverage.attribute
-
-        // Coverage for every planning_level area
-        const aggregation_name = this.instance_config.applets.irs_monitor.aggregations.map
-
-        return features.map((feature) => {
-          const found = this.responses.find(aggregated_response => {
-            return aggregated_response.__disarm_geo_id === feature.properties.__disarm_geo_id
-          })
-
-          if (found) {
-            // Aggregation value is either a number or a proportion, not a percentage
-            // For 'coverage' it will always be a proportion
-            feature.properties[attribute] = (found[aggregation_name] * 100)
-          } else {
-            feature.properties[attribute] = 0
-          }
-
-          return feature
-        })
       },
       /**
        * Add scaled/normalised risk to each feature
