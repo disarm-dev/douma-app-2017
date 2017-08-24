@@ -12,6 +12,17 @@ export function create_store(instance_config, instance_stores) {
   const excluded_paths = ['geodata_ready', 'geodata_loading_progress', 'sw_update_available', 'sw_message']
 
   const persisted_state_options = {
+    getState:(key, storage) => {
+      const value = storage.getItem(key);
+
+      try {
+        return value && value !== 'undefined' ? JSON.parse(value) : undefined;
+      } catch (err) {
+        return undefined;
+      }
+    },
+    setState: (key, state, storage) =>
+      storage.setItem(key, JSON.stringify(state)),
     reducer: (state) => {
       if (excluded_paths.length === 0) {
         return state

@@ -1,68 +1,85 @@
 <template>
-  <div class='applet_container'>
-
+  <div>
     <!--  SUMMARY, LOAD, DOWNLOAD (DUMPING GROUND) -->
-    <dashboard_summary @refresh_data="refresh_data"></dashboard_summary>
+    <dashboard_summary :responses='responses' @refresh_data="refresh_data"></dashboard_summary>
 
-    <!--FILTERS-->
-    <filters v-if="geodata_ready"></filters>
+    <div class='applet_container'>
 
-    <!--MAP-->
-    <map_progress
-      v-if='geodata_ready'
-      :aggregated_responses="aggregated_responses"
-      :filtered_responses="filtered_responses"
-    ></map_progress>
+      <!--DASHBOARD CONTROLS-->
+      <controls v-if="geodata_ready" :responses="responses"></controls>
 
-    <!--TABLE-->
-    <table_progress :aggregated_responses="aggregated_responses"></table_progress>
+      <!--MAP-->
+      <dashboard_map
+        v-if='geodata_ready'
+        :responses="responses"
+        :targets="targets"
+        :aggregations="aggregations"
+        :options="with_dashboard_options(map_options)">
+      </dashboard_map>
 
-    <!-- CUSTOM STATIC-DATA CHARTS, etc -->
-    <charts :aggregated_responses="responses"></charts>
+      <!--TABLE-->
+      <dashboard_table
+        :responses="responses"
+        :targets="targets"
+        :aggregations="aggregations"
+        :options="with_dashboard_options(table_options)">
+      </dashboard_table>
 
+      <!-- CUSTOM STATIC-DATA CHARTS, etc -->
+      <charts
+        :responses="responses"
+        :targets="targets"
+        :aggregations="aggregations"
+        :options="with_dashboard_options(chart_configs)"></charts>
+    </div>
   </div>
 </template>
 
 <script>
   import {mapState, mapGetters} from 'vuex'
-  import which_polygon from 'which-polygon'
+  import {cloneDeep as clone_deep} from 'lodash'
 
-  import cache from 'config/cache.js'
-  import {get_planning_level_id_field, get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
   import {get_geodata} from 'lib/remote/remote.geodata.js'
 
   // Components
   import dashboard_summary from './dashboard-summary.vue'
-  import filters from './filters.vue'
-  import table_progress from './common/dashboard-table.vue'
-  import map_progress from './common/dashboard-map.vue'
-  import charts from './custom_charts.vue'
+  import controls from './controls/controls.vue'
+  import dashboard_map from './map/dashboard-map.vue'
+  import dashboard_table from './table/dashboard-table.vue'
+  import charts from './charts/dashboard-charts.vue'
 
   export default {
     name: 'Dashboard',
     components: {
       dashboard_summary,
-      filters,
-      table_progress,
-      map_progress,
+      controls,
+      dashboard_map,
+      dashboard_table,
       charts,
     },
     computed: {
       ...mapState({
         instance_config: state => state.instance_config,
         geodata_ready: state => state.geodata_ready,
-        responses: state => state.irs_monitor.responses
+
+        // Aggregations from instance_config
+        aggregations: state => state.instance_config.aggregations,
+
+        // Options
+        dashboard_options: state => state.irs_monitor.dashboard_options,
+
+        // Options (passed to components)
+        table_options: state => state.instance_config.applets.irs_monitor.table,
+        map_options: state => state.instance_config.applets.irs_monitor.map,
+        chart_configs: state => state.instance_config.applets.irs_monitor.charts,
+
       }),
       ...mapGetters({
-        filtered_responses: 'irs_monitor/filtered_responses',
-        aggregated_denominators: 'irs_monitor/aggregated_denominators',
-        aggregated_responses: "irs_monitor/aggregated_responses",
+        responses: 'irs_monitor/filtered_responses',
+        targets: 'irs_monitor/targets',
       }),
-      planning_level_name() {
-        return get_planning_level_name()
-      },
     },
-    mounted() {
+    created() {
       get_geodata(this.$store)//.then(this.refresh_data())
     },
     methods: {
@@ -82,6 +99,28 @@
             console.log(e)
             this.$endLoading('irs_monitor/refresh_data')
           })
+      },
+      with_dashboard_options(options) {
+        if (Array.isArray(options)) {
+          // We have an array of chart configurations
+          const chart_configs = options
+
+          return chart_configs.map(config => {
+            let clone = clone_deep(config)
+            clone.options = {
+              ...clone.options,
+              ...this.dashboard_options
+            }
+            return clone
+          })
+
+        } else {
+          // Just have a simple `options` object (for either map or table)
+          return {
+            ...options,
+            ...this.dashboard_options
+          }
+        }
       }
     }
   }

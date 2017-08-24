@@ -1,9 +1,8 @@
-import {Aggregator} from 'lib/instance_data/aggregations'
 
 export default class Presenter {
   constructor(instance_config) {
     this.instance_config = instance_config
-    this.aggregations = new Aggregator(this.instance_config.aggregations)
+    this.aggregations = {calculate: () => {}}
     this.presenters = this.instance_config.presenters
   }
 
@@ -51,18 +50,5 @@ export default class Presenter {
     return truthy_responses_grouped_by_area
   }
 
-  get_map_style() {
-    return this.presenters.map_style
-  }
-
-  get_popup_description() {
-    return (feature) => {
-      const record = feature.properties
-
-      return this.presenters.popup_description.map(line => {
-        return `<p><b>${line.title}</b> ${record[line.field_name]}</p>`
-      }).join()
-    }
-  }
 }
 

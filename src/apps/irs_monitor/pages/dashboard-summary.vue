@@ -5,14 +5,14 @@
     </md-button>
 
     <template slot="menu_items">
-      <md-menu-item :disabled="isLoading('irs_monitor/refresh_data') || !filtered_responses.length" @click="download_responses">
+      <md-menu-item :disabled="isLoading('irs_monitor/refresh_data') || !responses.length" @click="download_responses">
         <md-icon>file_download</md-icon>
         <span>Download responses</span>
       </md-menu-item>
     </template>
 
     <div slot="text">
-      {{filtered_responses.length}} record{{filtered_responses.length === 1 ? '' : 's' }} lie within the planned areas.
+      {{responses.length}} records
       Last updated: {{responses_last_updated_at}}
     </div>
   </controls>
@@ -30,6 +30,7 @@
   export default {
     name: 'summary',
     components: {controls},
+    props: ['responses'],
     mounted() {
     },
     data() {
@@ -48,7 +49,6 @@
         }
       }),
       ...mapGetters({
-        filtered_responses: 'irs_monitor/filtered_responses',
         isLoading: 'loading/isLoading'
       })
     },
@@ -62,10 +62,10 @@
         this.$emit('refresh_data')
       },
       download_responses() {
-        if(!this.filtered_responses.length) return
+        if(!this.responses.length) return
 
-        const fields = Object.keys(this.filtered_responses[0])
-        const data = this.filtered_responses
+        const fields = Object.keys(this.responses[0])
+        const data = this.responses
         const content = json2csv({data, fields})
 
         const date = moment().format('YYYY-MM-DD_HHmm')

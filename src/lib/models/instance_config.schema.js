@@ -9,14 +9,14 @@ const base_schema = {
 
 const IrsMonitorSchema = schema({
   ...base_schema,
-  aggregations: {
-    map: String,
-    table: Array.of_x(1, Infinity, String)
-  },
-  components: Array.of_x(1, Infinity, {
-    height_constraint: ['none', 'viewport'],
-    name: String,
-    width_constraint: ['half', 'full']
+  map: Object,
+  table: Object,
+  charts: Array.of_x(1, Infinity, {
+    id: String,
+    style: {
+      height_constraint: ['none', 'viewport'],
+      width_constraint: ['half', 'full']
+    }
   })
 })
 

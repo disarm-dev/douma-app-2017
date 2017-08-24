@@ -1,15 +1,46 @@
 {
   "applets": {
     "irs_monitor": {
-      "aggregations": {
-        "map": "structures sprayed %",
-        "table": ["structures sprayed", "structures sprayed %"]
+      "map": {
+        "chart_type": "map",
+        "bin_by": "location.selection.id",
+        "aggregation_names": [
+          "structures sprayed %"
+        ]
       },
-      "components": [
+      "table": {
+        "chart_type": "table",
+        "bin_by": "location.selection.name",
+        "aggregation_names": [
+          "structures sprayed",
+          "structures sprayed %"
+        ]
+      },
+      "charts": [
         {
-          "height_constraint": "viewport",
-          "name": "nam_chart_structures_sprayed_doughnut",
-          "width_constraint": "half"
+
+          "id": "spray_status_pie",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "fake_data": [{
+              "values": [34,12,4],
+              "labels": ["Sprayed", "Refused", "Other"],
+              "type": "pie"
+            }],
+            "layout": {
+              "title": "Refusal reason"
+            },
+            "chart_type": "pie",
+            "bin_by": "_decorated.sprayed_status",
+            "series": [
+              {
+                "aggregation_name": "count"
+              }
+            ]
+          }
         }
       ]
     },
@@ -35,7 +66,7 @@
     "data_version": 1,
     "markers": {
       "planning_level_name": "villages",
-      "record_location_selection_level_name": "constituencies",
+      "record_location_selection_level_name": "villages",
       "denominator_fields": {
         "number_of_households": "NumHouseholds"
       }
@@ -48,6 +79,7 @@
         "name": "constituencies"
       },
       {
+        "group_by_field": "name",
         "field_name": "id",
         "display_field_name": "name",
         "name": "villages"

@@ -2,37 +2,67 @@ import {get_all_records} from 'lib/remote/remote.records'
 import {get_current_plan} from 'lib/remote/remote.plans'
 import {Plan} from 'lib/models/plan.model'
 import {decorate_responses_from_json} from 'lib/models/response.model'
-import Presenters from 'lib/instance_data/presenters'
+import instance_decorator from 'lib/instance_data/decorators'
+
+import {set_filter, unset_filter} from './pages/controls/filters/controller'
 
 export default {
   namespaced: true,
   state: {
+    ui: {
+
+    },
     responses: [],
     responses_last_updated_at: null,
-    filter: null,
+    filters: null,
     plan: null,
+    filter: null,
+
+    dashboard_options: {
+      temporal_aggregation_level: 'week',
+      spatial_aggregation_level: null
+    }
   },
   mutations: {
+    // clear storage (called by meta store)
     clear_data_storage:(state) => {
       state.responses = []
       state.responses_last_updated_at = null
       state.filters = []
       state.plan = null
     },
+    // set responses
     set_responses: (state, responses) => {
       state.responses = responses
     },
+    update_responses_last_updated_at:(state) => {
+      state.responses_last_updated_at = new Date
+    },
+    // set plan
     set_plan: (state, plan) => {
       state.plan = plan
     },
-    set_filter: (state, filter) => {
-      state.filter = filter
+    set_filter: (state, {filter_name, filter_object}) => {
+      const new_filters = set_filter(state.filters, filter_name, filter_object)
+      state.filters = new_filters
     },
-    update_responses_last_updated_at:(state) => {
-      state.responses_last_updated_at = new Date
+    unset_filter: (state, filter_to_remove /** string: 'spatial' **/) => {
+      const new_filters = unset_filter(state.filters, filter_to_remove, state.responses)
+      state.filters = new_filters
+    },
+
+    set_ui: (state, ui) => {state.ui = ui},
+    set_dashboard_options: (state, options) => {
+      state.dashboard_options = options
     }
   },
   getters: {
+    // Return all the targets from the plan
+    targets(state, getters) {
+      if(!state.plan) return []
+      return state.plan.targets
+    },
+
     plan_target_area_ids(state) {
       if (state.plan && state.plan.targets) {
         return state.plan.targets.map(target => target.id)
@@ -41,56 +71,25 @@ export default {
       }
     },
 
-    /**
-     * Takes all the responses.
-     * Aggregates them by time and space.
-     * @param state
-     * @returns {{time_slices: Array, spatial_aggregations: Array}}
-     */
-    binned_responses(state) {
-      const filter_definitions = {}
-      return {time_slices: [], spatial_aggregations: []}
-    },
 
     // Responses which are contained by current plan
     // ideally, filtered_responses should change in response to the
     // settings of the filter e.g. "locality #2"
-    filtered_responses(state) {
+    filtered_responses(state, getters, rootState) {
       if (!state.plan) return []
       if (!state.responses.length) return []
 
-      return state.responses.filter(response => {
-        // TODO: @debug This first filter is more of a DEBUG filter, making sure we have valid responses
-        return (response.location.selection) // TODO: @feature Add actual filtering
-          && state.plan.targets.find(t => t.id === response.location.selection.id)
+      const filtered = state.responses.filter(response => {
+        return true
+        // // TODO: @debug This first filter is more of a DEBUG filter, making sure we have valid responses
+        // return (response.location.selection) // TODO: @feature Add actual filtering
+        //   && state.plan.targets.find(t => t.id === response.location.selection.id)
       })
-    },
 
-    // Currently this is just all the targets from the plan
-    // We need this to be aggregated to the same level as the current
-    // filter - e.g. if filtering at "region #2", but the target_areas in
-    // the plan are "locality" then aggregate up from locality -> region level
-    aggregated_denominators(state, getters) {
-      if(!state.plan) return []
-      // TODO: @feature Aggregate from plan target_areas up to current filter level
-      // e.g. from locality to region level
-      return state.plan.targets
-    },
+      // Run instance decorator on all responses
+      const decorated_responses = instance_decorator(filtered, rootState.instance_config)
 
-    // We need to get agregations at the level below the filtered level.
-    // e.g. filter "locality #1", so calculate the coverage for each of the next level down
-    // which is "structure-clusters".
-    aggregated_responses(state, getters, rootState) {
-      if(!getters.filtered_responses.length || !getters.aggregated_denominators.length) return []
-
-      const instance_presenters = new Presenters(rootState.instance_config) // TODO: @refac Improve Presenters signature, remove duplication
-
-      const data = instance_presenters.get_aggregated_responses({
-        responses: getters.filtered_responses,
-        denominators: getters.aggregated_denominators,
-        instance_config: rootState.instance_config
-      })
-      return data
+      return decorated_responses
     },
 
   },

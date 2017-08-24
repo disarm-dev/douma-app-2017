@@ -1,47 +1,61 @@
-{
-  "number of people in homestead (total)": {
+[
+  {
+    "name": "number of people in homestead (total)",
     "numerator_expr": "n_people_homestead_underage5 + n_people_homestead_overage5"
   },
-  "number of people in the homestead (<5 yrs)": {
+  {
+    "name": "number of people in the homestead (<5 yrs)",
     "numerator_expr": "n_people_homestead_underage5"
   },
-  "number of people in the homestead (>5 yrs)": {
+  {
+    "name": "number of people in the homestead (>5 yrs)",
     "numerator_expr": "n_people_homestead_overage5"
   },
-  "number of buildings visited": {
+  {
+    "name": "number of buildings visited",
     "numerator_expr": "n_buildings"
   },
-  "number of rooms visited": {
+  {
+    "name": "number of rooms visited",
     "numerator_expr": "room_count"
   },
-  "number of rooms sprayed": {
+  {
+    "name": "number of rooms sprayed",
     "numerator_expr": "number_sprayed"
   },
-  "number of rooms sprayed with DDT": {
+  {
+    "name": "number of rooms sprayed with DDT",
     "numerator_expr": "number_sprayed_ddt"
   },
-  "number of rooms sprayed with lambda-cyhalothrin": {
+  {
+    "name": "number of rooms sprayed with lambda-cyhalothrin",
     "numerator_expr": "number_sprayed_lambdacyhalothrin"
   },
-  "number of other structures visited": {
+  {
+    "name": "number of other structures visited",
     "numerator_expr": "number_other_structures"
   },
-  "Total other structures sprayed": {
+  {
+    "name": "Total other structures sprayed",
     "numerator_expr": "number_sprayed_other_partial_spray"
   },
-  "number of rooms not sprayed": {
+  {
+    "name": "number of rooms not sprayed",
     "numerator_expr": "n_unsprayed"
   },
-  "number of rooms not sprayed - locked": {
+  {
+    "name": "number of rooms not sprayed - locked",
     "numerator_expr": "rooms_locked"
   },
-  "number of rooms not sprayed - locked (%)": {
+  {
+    "name": "number of rooms not sprayed - locked (%)",
     "numerator_expr": "rooms_locked",
     "denominator_field": "n_unsprayed"
   },
   
-  "number of buildings targeted": {
+  {
+    "name": "number of buildings targeted",
     "denominator_field": "structures_targeted"
   }
-}
+]
 

@@ -1,5 +1,11 @@
 import {Parser} from 'expr-eval'
-
+/**
+ * Takes responses and decorates them with new properties under the '_decorated' key.
+ * It uses the 'decorators' from the instance_config to figure out which properties to calculate.
+ * @param  {Array} responses
+ * @param  {Object} instance_config
+ * @return {Array} responses
+ */
 export default function instance_decorator(responses, instance_config) {
   const decorators = instance_config.decorators
 
@@ -10,21 +16,27 @@ export default function instance_decorator(responses, instance_config) {
   return decorated_responses
 }
 
+/**
+ * Add decorators to a single response
+ * @param  {Object} response
+ * @param  {Object} decorators
+ * @return {response}
+ */
 const evaluate_decorators = (response, decorators) => {
-  const computed_value_names = Object.keys(decorators)
+  const decorated_value_names = Object.keys(decorators)
 
   // Loop over the decorators
-  const computed_values = computed_value_names.reduce((result, computed_value_name) => {
-    const decorator_expressions_array = decorators[computed_value_name]
+  const decorated_values = decorated_value_names.reduce((result, decorated_value_name) => {
+    const decorator_expressions_array = decorators[decorated_value_name]
 
-    result[computed_value_name] = evaluate_decorator(response, decorator_expressions_array)
+    result[decorated_value_name] = evaluate_decorator(response, decorator_expressions_array)
 
     return result
   }, {})
 
 
-  // Attach the computed values to the response and return it
-  response.computed = computed_values
+  // Attach the decorated values to the response and return it
+  response._decorated = decorated_values
   return response
 }
 
@@ -33,26 +45,26 @@ const evaluate_decorator = (response, decorator_expressions_array) => {
   // expression is something like {"red": "any_sprayed === true"},
   for (const expression_definition of decorator_expressions_array) {
     // possible_value_name is 'red'
-    const possible_value_name = Object.keys(expression_definition)[0]
+    const value = Object.keys(expression_definition)[0]
 
     // expression is "any_sprayed === true"
-    const expression = expression_definition[possible_value_name]
+    const expression = expression_definition[value]
 
     const parser = new Parser(expression)
-    
+
     const parsed_expresssion = parser.parse(expression)
 
     if (form_data_has_required_variables(response, parsed_expresssion.variables())) {
       const evaluation_result = parsed_expresssion.evaluate(response.form_data)
-    
+
       // evaluation_result is a boolean
       if (evaluation_result) {
-        return possible_value_name
+        return value
       }
     }
   }
-  // return undefined as a default
-  return undefined
+  // return null as a default
+  return null
 }
 
 const form_data_has_required_variables = (response, required_variables) => {
@@ -63,6 +75,6 @@ const form_data_has_required_variables = (response, required_variables) => {
       return false
     }
   }
-  
+
   return true
 }

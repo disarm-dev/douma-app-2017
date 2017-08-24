@@ -1,35 +1,158 @@
 {
   "applets": {
     "irs_monitor": {
-      "aggregations": {
-        "map": "structures sprayed %",
-        "table": ["structures sprayed", "structures sprayed %"]
+      "map": {
+        "chart_type": "map",
+        "bin_by": "location.selection.id",
+        "aggregation_names": [
+          "structures sprayed %"
+        ]
       },
-      "components": [
+      "table": {
+        "chart_type": "table",
+        "bin_by": "location.selection.name",
+        "aggregation_names": [
+          "structures sprayed",
+          "structures sprayed %"
+        ]
+      },
+      "charts": [
         {
-          "height_constraint": "none",
-          "name": "swz_chart_pop_covered",
-          "width_constraint": "half"
+          "id": "structures_found",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "layout": {
+              "showlegend": true,
+              "title": "Structures found %",
+              "yaxis": {
+                "title": "% structures found"
+              },
+              "xaxis": {
+                "title": "Period commencing"
+              }
+            },
+            "chart_type": "line",
+            "time_series": true,
+            "bin_by": "recorded_on",
+            "multi_series": [{
+              "aggregation_name": "structures found %"
+            }]
+          }
         },
         {
-          "height_constraint": "none",
-          "name": "swz_chart_structures_sprayed",
-          "width_constraint": "half"
+          "id": "structures_sprayed",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "layout": {
+              "showlegend": true,
+              "title": "Structures sprayed %",
+              "yaxis": {
+                "title": "% structures sprayed"
+              },
+              "xaxis": {
+                "title": "Period commencing"
+              }
+            },
+            "chart_type": "line",
+            "time_series": true,
+            "bin_by": "recorded_on",
+            "multi_series": [{
+              "aggregation_name": "structures sprayed %"
+            }]
+          }
         },
         {
-          "height_constraint": "none",
-          "name": "swz_chart_locked_vs_sprayed",
-          "width_constraint": "half"
+          "id": "distribution_sprayed_versus_visited",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "layout": {
+              "showlegend": true,
+              "title": "Distribution of locked vs sprayed of structures visited",
+              "yaxis": {
+                "title": "%"
+              },
+              "xaxis": {
+                "title": "Period commencing"
+              }
+            },
+            "chart_type": "line",
+            "time_series": true,
+            "bin_by": "recorded_on",
+            "multi_series": [
+              {
+                "aggregation_name": "structures sprayed %"
+              },
+              {
+                "aggregation_name": "structures found %"
+              }
+            ]
+          }
         },
         {
-          "height_constraint": "none",
-          "name": "swz_chart_pop_covered_vs_structures",
-          "width_constraint": "half"
+          "id": "proportion_of_population_covered_of_structures_visited",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "layout": {
+              "showlegend": true,
+              "title": "Proportion of population covered of structures visited",
+              "yaxis": {
+                "title": "%"
+              },
+              "xaxis": {
+                "title": "Period commencing"
+              }
+            },
+            "chart_type": "line",
+            "time_series": true,
+            "bin_by": "recorded_on",
+            "multi_series": [{
+              "aggregation_name": "structures found %"
+            }]
+          }
         },
         {
-          "height_constraint": "viewport",
-          "name": "swz_chart_structures_pr_supervisor",
-          "width_constraint": "full"
+          "id": "distribution_of_locked_versus_sprayed_per_con",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "full"
+          },
+          "options": {
+            "layout": {
+              "showlegend": true,
+              "title": "Locked % vs. sprayed % per consituency",
+              "yaxis": {
+                "title": "%"
+              },
+              "xaxis": {
+                "title": "Constituencies"
+              },
+              "barmode": "stack"
+            },
+            "chart_type": "bar",
+            "bin_by": "location.selection.name",
+            "multi_series": [
+              {
+                "aggregation_name": "structures sprayed %",
+                "colour": "green"
+              },
+              {
+                "aggregation_name": "sprayable structures not sprayed %",
+                "colour": "red"
+              }
+            ]
+          }
         }
       ]
     },
