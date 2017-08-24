@@ -2,7 +2,7 @@ import {nest} from 'd3-collection'
 import {ascending} from 'd3-array'
 import {get} from 'lodash'
 
-import moment_original from 'moment'
+import moment_original from 'moment-mini'
 import {extendMoment} from 'moment-range'
 const moment = extendMoment(moment_original)
 
