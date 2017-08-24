@@ -132,8 +132,18 @@ export function decorate_for_pie({binned_responses, options, aggregations, targe
 }
 
 export function decorate_for_table({binned_responses, options, aggregations, targets}){
-  console.warn("TODO: 'aggregate_for_table' not implemented")
-  return []
+
+  const found_aggregations = options.aggregation_names.map(aggregation_name => {
+    return aggregations.find(a => a.name === aggregation_name)
+  })
+
+  return binned_responses.map((bin) => {
+    let row = {row_name: bin.key}
+    for (let aggregation of found_aggregations) {
+      row[aggregation.name] = aggregate_on({aggregation: aggregation, responses: bin.values, targets})
+    }
+    return row
+  })
 }
 
 export function decorate_for_map({binned_responses, options, aggregations, targets}) {

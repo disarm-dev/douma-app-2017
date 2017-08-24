@@ -1,22 +1,33 @@
-{
-  "homesteads found": {
+[
+  {
+    "name": "homesteads found",
     "numerator_expr": "1"
   },
-  "structures found": {
+  {
+    "name": "structures found",
     "numerator_expr": "number_structures_total"
   },
-  "structures found %": {
+  {
+    "name": "structures found %",
     "numerator_expr": "number_structures_total",
-    "denominator_field": "structures_targeted"
+    "denominator_field": "number_of_structures"
   },
-  "structures sprayed": {
+  {
+    "name": "structures sprayed",
     "numerator_expr": "number_of_structures_sprayed"
   },
-  "structures sprayed %": {
+  {
+    "name": "structures sprayed %",
     "numerator_expr": "number_of_structures_sprayed",
     "denominator_field": "number_of_structures"
   },
-  "sprayable structures not sprayed": {
+  {
+    "name": "sprayable structures not sprayed",
     "numerator_expr": "number_structures_total - number_of_structures_sprayed"
+  },
+  {
+    "name": "sprayable structures not sprayed %",
+    "numerator_expr": "number_structures_total - number_of_structures_sprayed",
+    "denominator_field": "number_of_structures"
   }
-}
+]
