@@ -5,7 +5,7 @@
       <div id="map"></div>
       <map_legend
           :entries="entries_for_legend"
-          :title="layer_definitions[selected_layer].legend_title"
+          :title="selected_layer"
         ></map_legend>
 
       <div>
@@ -50,7 +50,7 @@
         // User values
         limit_to_plan: true,
         show_response_points: true,
-        selected_layer: 'coverage',
+        selected_layer: 'structures sprayed %',
 
         // map cache
         _map: null,
@@ -78,7 +78,7 @@
         return cache.geodata[get_planning_level_name()]
       },
       entries_for_legend() {
-        const layer_definition = layer_definitions[this.selected_layer]
+        const layer_definition = layer_definitions['default_palette']
         const palette = prepare_palette(layer_definition)
 
 
@@ -146,7 +146,8 @@
       },
       add_layer(layer_string) {
         this.clear_map()
-        const layer_type = layer_definitions[layer_string]
+
+        const layer_type = layer_definitions['default_palette']
 
         // create stops
         const palette = prepare_palette(layer_type)
@@ -170,7 +171,7 @@
           },
           paint: {
             'fill-color': {
-              property: layer_type.attribute,
+              property: layer_string,
               stops: palette
             },
             'fill-opacity': 0.9,
