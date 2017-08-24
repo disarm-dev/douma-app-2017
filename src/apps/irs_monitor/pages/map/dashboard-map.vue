@@ -14,7 +14,6 @@
         <md-radio v-model="selected_layer" name="map-type" md-value="risk">Risk</md-radio>
       </div>
 
-      <md-checkbox v-model="limit_to_plan">Limit to plan areas</md-checkbox>
       <md-checkbox v-model="show_response_points">Show response points</md-checkbox>
 
     </md-card-content>
@@ -48,7 +47,6 @@
         _risk_scaler: null,
 
         // User values
-        limit_to_plan: true,
         show_response_points: true,
         selected_layer: 'structures sprayed %',
 
@@ -61,9 +59,10 @@
       }
     },
     watch: {
-      'aggregated_responses': 'redraw_layers',
+      'responses': 'redraw_layers',
+      'options': 'redraw_layers',
+
       'selected_layer': 'switch_layer',
-      'limit_to_plan': 'redraw_layers',
       'show_response_points': 'redraw_layers'
     },
     computed: {
@@ -103,6 +102,10 @@
         this._map = basic_map(this.$store)
 
         this._map.on('load', () => {
+          // Go no further if there are no responses
+          // TODO: @refac Check for this another way
+          if (!this.responses.length) return
+
           this.redraw_layers()
           this.fit_bounds()
         })
@@ -152,12 +155,7 @@
         const palette = prepare_palette(layer_type)
 
         // Filter to plan if required
-        let filtered_responses_fc = this._aggregated_responses_fc
-        if (this.limit_to_plan) {
-          filtered_responses_fc = featureCollection(this._aggregated_responses_fc.features.filter(f => {
-            return this.plan_target_area_ids.includes(f.properties.__disarm_geo_id)
-          }))
-        }
+        const filtered_responses_fc = this._aggregated_responses_fc
 
 
         // Create layer and add to map
@@ -243,7 +241,7 @@
 
           let coords_point = point([longitude, latitude])
 
-          coords_point.properties = response.computed
+          coords_point.properties = response._decorated
 
           return coords_point
         }).filter(a => a)
@@ -265,7 +263,7 @@
             },
             'circle-radius': {
               base: 1.75,
-              stops: [[12,5],[22,20]]
+              stops: [[12,3],[22,20]]
             },
             'circle-opacity': 0.9,
           }

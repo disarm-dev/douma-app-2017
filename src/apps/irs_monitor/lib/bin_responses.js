@@ -36,7 +36,6 @@ export function time_series_bins({responses, options}) {
     temporal_aggregation_level: 'week',
   }
 
-  console.log('incoming chart options', options)
   options = {...defaults, ...options}
 
   // account for weeks starting on sunday

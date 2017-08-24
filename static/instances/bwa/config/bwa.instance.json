@@ -2,9 +2,13 @@
   "applets": {
     "irs_monitor": {
       "map": {
+        "chart_type": "map",
+        "bin_by": "location.selection.id",
         "aggregation_names": ["number of rooms sprayed"]
       },
       "table": {
+        "chart_type": "table",
+        "bin_by": "location.selection.name",
         "aggregation_names": ["number of rooms sprayed"]
       },
       "charts": [

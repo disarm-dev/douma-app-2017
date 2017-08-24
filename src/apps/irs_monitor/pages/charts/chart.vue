@@ -26,6 +26,7 @@
     },
     methods: {
       render_chart() {
+        if (!this.responses.length) return
         if (this.options.fake_data) console.warn("Using fake data")
         const data = this.options.fake_data || get_data({
           responses: this.responses,

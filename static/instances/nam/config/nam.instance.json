@@ -2,11 +2,15 @@
   "applets": {
     "irs_monitor": {
       "map": {
+        "chart_type": "map",
+        "bin_by": "location.selection.id",
         "aggregation_names": [
           "structures sprayed %"
         ]
       },
       "table": {
+        "chart_type": "table",
+        "bin_by": "location.selection.name",
         "aggregation_names": [
           "structures sprayed",
           "structures sprayed %"

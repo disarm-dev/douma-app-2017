@@ -2,7 +2,7 @@
   <md-card class="card">
     <md-card-content>
 
-      <v-client-table :data="table_data" :columns="table_columns"></v-client-table>
+      <v-client-table v-if="responses.length" :data="table_data" :columns="table_columns"></v-client-table>
       <md-button @click.native="download_aggregations">Download</md-button>
 
     </md-card-content>
