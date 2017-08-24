@@ -71,8 +71,7 @@ export default {
       return moment().subtract(seconds_ago, 'seconds').toDate()
     },
     select_form_data_type() {
-      const desired_coverage = .75
-      return (Math.random() > desired_coverage ? 0 : 1)
+      return this.random_number_between(0, this.instance_config.fake_form.length - 1)
     },
     get_form_data() {
       const fake_form_data = this.instance_config.fake_form

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import get from 'lodash.get'
-import assign from 'lodash.assign'
+import {assign} from 'lodash'
 
 import CONFIG from 'config/common'
 

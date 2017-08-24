@@ -5,7 +5,7 @@
       <div id="map"></div>
       <map_legend
           :entries="entries_for_legend"
-          :title="layer_definitions[selected_layer].legend_title"
+          :title="selected_layer"
         ></map_legend>
 
       <div>
@@ -14,7 +14,6 @@
         <md-radio v-model="selected_layer" name="map-type" md-value="risk">Risk</md-radio>
       </div>
 
-      <md-checkbox v-model="limit_to_plan">Limit to plan areas</md-checkbox>
       <md-checkbox v-model="show_response_points">Show response points</md-checkbox>
 
     </md-card-content>
@@ -37,8 +36,10 @@
   import {prepare_palette} from 'lib/helpers/palette_helper'
   import {LogValueConvertor} from 'lib/helpers/log_helper'
 
+  import get_data from '../../lib/get_data_for_viz'
+
   export default {
-    props: ['aggregated_responses', 'filtered_responses'],
+    props: ['responses', 'targets', 'aggregations', 'options'],
     components: {map_legend},
     data() {
       return {
@@ -46,9 +47,8 @@
         _risk_scaler: null,
 
         // User values
-        limit_to_plan: true,
         show_response_points: true,
-        selected_layer: 'coverage',
+        selected_layer: 'structures sprayed %',
 
         // map cache
         _map: null,
@@ -56,13 +56,13 @@
         _click_handler: null,
         _aggregated_responses_fc: null,
         _filtered_responses_fc: null,
-
       }
     },
     watch: {
-      'aggregated_responses': 'redraw_layers',
+      'responses': 'redraw_layers',
+      'options': 'redraw_layers',
+
       'selected_layer': 'switch_layer',
-      'limit_to_plan': 'redraw_layers',
       'show_response_points': 'redraw_layers'
     },
     computed: {
@@ -76,7 +76,7 @@
         return cache.geodata[get_planning_level_name()]
       },
       entries_for_legend() {
-        const layer_definition = layer_definitions[this.selected_layer]
+        const layer_definition = layer_definitions['default_palette']
         const palette = prepare_palette(layer_definition)
 
 
@@ -102,6 +102,10 @@
         this._map = basic_map(this.$store)
 
         this._map.on('load', () => {
+          // Go no further if there are no responses
+          // TODO: @refac Check for this another way
+          if (!this.responses.length) return
+
           this.redraw_layers()
           this.fit_bounds()
         })
@@ -110,7 +114,7 @@
         this._map.fitBounds(this.bbox, {padding: 20})
       },
       redraw_layers() {
-        this.calculate_attributes()
+        this.calculate_layer_attributes()
         this.switch_layer()
       },
       switch_layer() {
@@ -120,7 +124,11 @@
 
         this.add_response_points()
         this.add_layer(layer_string)
-
+        this.zoom_to_features()
+      },
+      zoom_to_features () {
+        // Zoom to features
+        const layer_string = this.selected_layer
         this.bbox = bbox(this._aggregated_responses_fc)
         this.bind_popup(layer_definitions[layer_string])
       },
@@ -140,18 +148,14 @@
       },
       add_layer(layer_string) {
         this.clear_map()
-        const layer_type = layer_definitions[layer_string]
+
+        const layer_type = layer_definitions['default_palette']
 
         // create stops
         const palette = prepare_palette(layer_type)
 
         // Filter to plan if required
-        let filtered_responses_fc = this._aggregated_responses_fc
-        if (this.limit_to_plan) {
-          filtered_responses_fc = featureCollection(this._aggregated_responses_fc.features.filter(f => {
-            return this.plan_target_area_ids.includes(f.properties.__disarm_geo_id)
-          }))
-        }
+        const filtered_responses_fc = this._aggregated_responses_fc
 
 
         // Create layer and add to map
@@ -164,7 +168,7 @@
           },
           paint: {
             'fill-color': {
-              property: layer_type.attribute,
+              property: layer_string,
               stops: palette
             },
             'fill-opacity': 0.9,
@@ -191,60 +195,6 @@
         })
 
       },
-      add_response_points() {
-        if (this._map.getLayer('responses')) {
-          this._map.removeLayer('responses')
-        }
-
-        if (this._map.getSource('responses')) {
-          this._map.removeSource('responses')
-        }
-
-        if (!this.show_response_points) return
-
-        const points = this.filtered_responses.map(response => {
-          // TODO: @feature Find out if {latitude, longitude} exist on coords or coords.coords
-          let coords = response.location.coords
-
-          if (!coords.hasOwnProperty('latitude'))  {
-            coords = coords.coords
-          }
-
-          const {latitude, longitude} = coords
-
-          if (!latitude || !longitude) return null
-
-          let coords_point = point([longitude, latitude])
-
-          coords_point.properties = response.computed
-
-          return coords_point
-        }).filter(a => a)
-        
-        const points_fc = featureCollection(points)
-
-        this._map.addLayer({
-          id: 'responses',
-          type: 'circle',
-          source: {
-            type: 'geojson',
-            data: points_fc
-          },
-          paint: {
-            "circle-color": {
-              "property": "status",
-              "type": "identity",
-              "default": 'grey'
-            },
-            'circle-radius': {
-              base: 1.75,
-              stops: [[12,5],[22,20]]
-            },
-            'circle-opacity': 0.9,
-          }
-        })
-
-      },
       bind_popup(layer_type) {
         // Remove previous click handler before anything
         this._map.off('click', 'areas', this._click_handler)
@@ -265,36 +215,71 @@
         this._map.on('click', 'areas', this._click_handler)
       },
 
-      // Data calculations TODO: @refac Remove calculations to lib
-      calculate_attributes() {
-        let features = this.planning_level_fc.features
+      // Data layers
+      add_response_points() {
+        if (this._map.getLayer('responses')) {
+          this._map.removeLayer('responses')
+        }
 
-        features = this.calculate_coverage(features)
-        features = this.calculate_risk(features)
+        if (this._map.getSource('responses')) {
+          this._map.removeSource('responses')
+        }
 
-        this._aggregated_responses_fc = featureCollection(features)
-      },
-      calculate_coverage(features) {
-        const attribute = layer_definitions.coverage.attribute
+        if (!this.show_response_points) return
 
-        // Coverage for every planning_level area
-        const aggregation_name = this.instance_config.applets.irs_monitor.aggregations.map
+        const points = this.responses.map(response => {
+          // TODO: @feature Find out if {latitude, longitude} exist on coords or coords.coords
+          let coords = response.location.coords
 
-        return features.map((feature) => {
-          const found = this.aggregated_responses.find(aggregated_response => {
-            return aggregated_response.__disarm_geo_id === feature.properties.__disarm_geo_id
-          })
-
-          if (found) {
-            // Aggregation value is either a number or a proportion, not a percentage
-            // For 'coverage' it will always be a proportion
-            feature.properties[attribute] = (found[aggregation_name] * 100)
-          } else {
-            feature.properties[attribute] = 0
+          if (!coords.hasOwnProperty('latitude'))  {
+            coords = coords.coords
           }
 
-          return feature
+          const {latitude, longitude} = coords
+
+          if (!latitude || !longitude) return null
+
+          let coords_point = point([longitude, latitude])
+
+          coords_point.properties = response._decorated
+
+          return coords_point
+        }).filter(a => a)
+
+        const points_fc = featureCollection(points)
+
+        this._map.addLayer({
+          id: 'responses',
+          type: 'circle',
+          source: {
+            type: 'geojson',
+            data: points_fc
+          },
+          paint: {
+            "circle-color": {
+              "property": "status",
+              "type": "identity",
+              "default": 'grey'
+            },
+            'circle-radius': {
+              base: 1.75,
+              stops: [[12,3],[22,20]]
+            },
+            'circle-opacity': 0.9,
+          }
         })
+
+      },
+
+      // Data calculations TODO: @refac Remove calculations to lib
+      calculate_layer_attributes() {
+        this.options.spatial_aggregation_level = get_planning_level_name()
+
+        const data = get_data({responses: this.responses, targets: this.targets, aggregations: this.aggregations, options: this.options})
+        this._aggregated_responses_fc = data
+        return
+
+        features = this.calculate_risk(features)
       },
       /**
        * Add scaled/normalised risk to each feature
@@ -302,7 +287,7 @@
        * @param features
        */
       calculate_risk(features) {
-        const values_array= features.map(feature => feature.properties.risk).sort().filter(i => i)
+        const values_array = features.map(feature => feature.properties.risk).sort().filter(i => i)
         this._risk_scaler = new LogValueConvertor(values_array)
 
         const attribute = layer_definitions.risk.attribute
@@ -310,7 +295,7 @@
           feature.properties[attribute] = this._risk_scaler.lval(feature.properties.risk)
           return feature
         })
-      },
+      }
     }
   }
 </script>

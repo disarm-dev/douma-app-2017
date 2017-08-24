@@ -82,7 +82,8 @@
         this._all_locations = get_record_location_selection()
 
         const fuse_options = {
-          keys: ['name']
+          keys: ['name'],
+
         }
 
         this._fuse =  new Fuse(this._all_locations, fuse_options)

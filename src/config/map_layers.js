@@ -5,10 +5,8 @@ export const layer_definitions = {
     attribute: 'normalised_risk',
     legend_title: "Risk (cases per 1000)"
   },
-  coverage: {
+  default_palette: {
     palette: 'RdYlGn',
     reverse_palette: false,
-    attribute: 'coverage',
-    legend_title: "Coverage (%)"
   }
 }

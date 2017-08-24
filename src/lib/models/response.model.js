@@ -1,12 +1,10 @@
 import uuid from 'uuid/v4'
 import which_polygon from 'which-polygon'
-import moment from 'moment-mini'
 import omit from 'lodash.omit'
 
 import {ResponseSchema} from './response.schema'
 import cache from 'config/cache'
 import {get_planning_level_id_field, get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
-import instance_decorator from 'lib/instance_data/decorators'
 
 export class Response {
   model;
@@ -58,6 +56,7 @@ export class Response {
     const decorated = omit(this.model, 'synced')
     console.log('🚨 TODO: Update record model use on server and everywhere else (e.g. aggregations and monitor)')
     decorated.country = decorated.instance_slug
+    // TODO: @refac Stop adding location_selection to root of response before sending. Don't need it anymore. (https://gitlab.com/disarm/disarm-feedback/issues/47)
     decorated.location_selection = decorated.location.selection
 
     return decorated
@@ -66,16 +65,14 @@ export class Response {
 }
 
 
+/**
+ * Add additional, calculated values to the response - `_decorated` property.
+ * The instance_decorator also adds to this property.
+ * @param json
+ * @param instance_config
+ */
 export const decorate_responses_from_json = (json, instance_config) => {
-  const responses = json.map(response => {
-    response.week = moment(response.recorded_on).week()
-    return response
-  })
-
-  // Run instance decorator on all responses
-  const decorated_responses = instance_decorator(responses, instance_config)
-
-  const responses_with_planning_target_area = get_polygon_for_responses(decorated_responses, instance_config)
+  const responses_with_planning_target_area = get_polygon_for_responses(json, instance_config)
   return responses_with_planning_target_area
 }
 

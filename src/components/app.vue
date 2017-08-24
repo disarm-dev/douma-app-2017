@@ -1,8 +1,5 @@
 <template>
   <div>
-    <!--Global hotkey-->
-    <hotkeys></hotkeys>
-
     <!-- Toolbar -->
     <toolbar></toolbar>
 
@@ -21,7 +18,6 @@
 </template>
 
 <script>
-  import hotkeys from 'components/hotkeys.vue'
   import toolbar from 'components/toolbar.vue'
   import notifications from 'components/notifications.vue'
   import sidebar from 'components/sidebar.vue'
@@ -29,7 +25,7 @@
 
   export default {
     name: 'DOUMA',
-    components: {hotkeys, toolbar, sidebar, notifications, help},
+    components: {toolbar, sidebar, notifications, help},
   }
 </script>
 

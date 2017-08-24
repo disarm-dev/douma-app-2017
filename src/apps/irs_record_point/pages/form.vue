@@ -79,7 +79,6 @@
         this.control_next_button_disabled()
       },
       control_navigation_visibility() {
-        console.log('check whats going on')
         this.show_back_to_location = false
         this.show_next = false
         this.show_previous = false

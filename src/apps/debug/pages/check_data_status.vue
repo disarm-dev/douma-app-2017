@@ -39,7 +39,7 @@
 
   // Form
   import {get_form_elements} from 'lib/instance_data/form_helpers'
-  import {fields_for_aggregations_exist_in_form} from 'lib/instance_data/aggregations.instance_assertions.js'
+  import {fields_for_aggregations_exist_in_form} from 'lib/instance_data/aggregator.instance_assertions.js'
   import {fields_for_validations_exist_in_form} from 'lib/instance_data/validations.instance_assertions'
   import {fields_for_presenters_exist_in_form} from 'lib/instance_data/presenters.instance_assertions'
   import {fields_for_fake_form_exist_in_form} from 'lib/instance_data/fake_form.instance_assertions'
@@ -83,11 +83,11 @@
         console.table(get_form_elements(this.instance_config.form))
       },
       check_validations_fields() {
-        const result = fields_for_aggregations_exist_in_form({aggregations: this.instance_config.aggregations, form: this.instance_config.form})
+        const result = fields_for_validations_exist_in_form({validations: this.instance_config.validations, form: this.instance_config.form})
         this.success.validations = result
       },
       check_aggregations_fields() {
-        const result = fields_for_validations_exist_in_form({validations: this.instance_config.validations, form: this.instance_config.form})
+        const result = fields_for_aggregations_exist_in_form({aggregations: this.instance_config.aggregations, form: this.instance_config.form})
         this.success.aggregations = result
       },
       check_presenters_fields() {
