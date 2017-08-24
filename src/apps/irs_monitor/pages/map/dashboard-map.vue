@@ -274,8 +274,7 @@
 
       // Data calculations TODO: @refac Remove calculations to lib
       calculate_layer_attributes() {
-
-        return get_data({responses: this.responses, targets, aggregations, options})
+        return get_data({responses: this.responses, targets: this.targets, aggregations: this.aggregations, options: this.options})
 
         let features = this.planning_level_fc.features
 

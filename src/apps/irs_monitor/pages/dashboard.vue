@@ -46,7 +46,7 @@
   import filters from './filters.vue'
   import dashboard_table from './dashboard-table.vue'
   import dashboard_map from './map/dashboard-map.vue'
-  import charts from './charts.vue'
+  import charts from './dashboard-charts.vue'
 
   export default {
     name: 'Dashboard',

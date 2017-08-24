@@ -8,20 +8,20 @@
       },
       "table": {
         "aggregation_names": [
-          "structures sprayed", 
+          "structures sprayed",
           "structures sprayed %"
         ]
       },
       "charts": [
         {
-          
+
           "id": "spray_status_pie",
           "style": {
             "height_constraint": "none",
             "width_constraint": "half"
           },
           "options": {
-            "data": [{
+            "fake_data": [{
               "values": [34,12,4],
               "labels": ["Sprayed", "Refused", "Other"],
               "type": "pie"

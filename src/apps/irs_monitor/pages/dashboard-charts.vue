@@ -27,7 +27,7 @@
 
   export default {
     name: 'custom-charts',
-    props: ['responses', 'targets', 'aggregations', 'options'],
+    props: ['responses', 'targets', 'aggregations', 'options'], // `options` is an array of chart configurations
     components: {custom_chart}
   }
 </script>

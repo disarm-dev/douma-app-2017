@@ -15,7 +15,7 @@
             "width_constraint": "half"
           },
           "options": {
-            "data": [
+            "fake_data": [
               {
                 "x": ["24 jul", "31 jul", "7 aug", "14 aug", "21 aug"],
                 "y": [10, 25, 45, 65, 72],
@@ -42,14 +42,14 @@
           }
         },
         {
-          
+
           "id": "spray_status_pie",
           "style": {
             "height_constraint": "none",
             "width_constraint": "half"
           },
           "options": {
-            "data": [{
+            "fake_data": [{
               "values": [34, 12, 4, 12, 26, 18, 17, 21],
               "labels": ["Locked","Nobody","Refused","Baby","Patient","Kitchen ","Food ","Material"],
               "type": "pie"
