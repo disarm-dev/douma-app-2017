@@ -32,7 +32,7 @@ describe('temporal_bin', () => {
   })
 
   it('can calculate weekly bins', () => {
-    const temporal_filter_definition = {interval: 'weeks'}
+    const temporal_filter_definition = {temporal_aggregation_level: 'weeks'}
     const bins = get_temporally_binned_aggregations({responses: test_responses, temporal_filter_definition})
 
     assert.deepEqual(bins[0], {time_slice: '2016-12-26', sum_of_values: 1})

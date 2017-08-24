@@ -33,13 +33,14 @@ export function time_series_bins({responses, options}) {
   const defaults = {
     // in addition need a series property passed in on options
     key_format: 'D MMM',
-    interval: 'week',
+    temporal_aggregation_level: 'week',
   }
 
+  console.log('incoming chart options', options)
   options = {...defaults, ...options}
 
   // account for weeks starting on sunday
-  const moment_interval = options.interval === 'week' ? 'isoWeek' : options.interval
+  const moment_interval = options.temporal_aggregation_level === 'week' ? 'isoWeek' : options.temporal_aggregation_level
 
   // split/bin into series
   const simple_binned_responses = nest()
@@ -58,7 +59,7 @@ export function time_series_bins({responses, options}) {
 
   let binned_responses = []
 
-  for (let step_date of date_range.by(options.interval)) {
+  for (let step_date of date_range.by(options.temporal_aggregation_level)) {
     const week_commencing = moment(step_date).format()
     const step_date_formatted = moment(step_date).format(options.key_format)
     const bin_response = simple_binned_responses.find(r => r.key === week_commencing)

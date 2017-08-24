@@ -8,34 +8,36 @@
       <!--DASHBOARD CONTROLS-->
       <controls v-if="geodata_ready" :responses="responses"></controls>
 
-      <!--&lt;!&ndash;MAP&ndash;&gt;-->
-      <!--<dashboard_map-->
-        <!--v-if='geodata_ready'-->
-        <!--:responses="responses"-->
-        <!--:targets="targets"-->
-        <!--:aggregations="aggregations"-->
-        <!--:options="with_dashboard_options(map_options)"></dashboard_map>-->
+      <!--MAP-->
+      <dashboard_map
+        v-if='geodata_ready'
+        :responses="responses"
+        :targets="targets"
+        :aggregations="aggregations"
+        :options="with_dashboard_options(map_options)">
+      </dashboard_map>
 
-      <!--&lt;!&ndash;TABLE&ndash;&gt;-->
-      <!--<dashboard_table-->
-        <!--:responses="responses"-->
-        <!--:targets="targets"-->
-        <!--:aggregations="aggregations"-->
-        <!--:options="with_dashboard_options(table_options)">-->
-      <!--</dashboard_table>-->
+      <!--TABLE-->
+      <dashboard_table
+        :responses="responses"
+        :targets="targets"
+        :aggregations="aggregations"
+        :options="with_dashboard_options(table_options)">
+      </dashboard_table>
 
-      <!--&lt;!&ndash; CUSTOM STATIC-DATA CHARTS, etc &ndash;&gt;-->
-      <!--<charts-->
-        <!--:responses="responses"-->
-        <!--:targets="targets"-->
-        <!--:aggregations="aggregations"-->
-        <!--:options="with_dashboard_options(chart_configs)"></charts>-->
+      <!-- CUSTOM STATIC-DATA CHARTS, etc -->
+      <charts
+        :responses="responses"
+        :targets="targets"
+        :aggregations="aggregations"
+        :options="with_dashboard_options(chart_configs)"></charts>
     </div>
   </div>
 </template>
 
 <script>
   import {mapState, mapGetters} from 'vuex'
+  import {cloneDeep as clone_deep} from 'lodash'
 
   import {get_geodata} from 'lib/remote/remote.geodata.js'
 
@@ -99,7 +101,26 @@
           })
       },
       with_dashboard_options(options) {
-        return options
+        if (Array.isArray(options)) {
+          // We have an array of chart configurations
+          const chart_configs = options
+
+          return chart_configs.map(config => {
+            let clone = clone_deep(config)
+            clone.options = {
+              ...clone.options,
+              ...this.dashboard_options
+            }
+            return clone
+          })
+
+        } else {
+          // Just have a simple `options` object (for either map or table)
+          return {
+            ...options,
+            ...this.dashboard_options
+          }
+        }
       }
     }
   }

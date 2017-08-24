@@ -12,7 +12,8 @@
     name: 'custom_chart',
     props: ['chart_id', 'responses', 'targets', 'aggregations', 'options'],
     watch: {
-      'responses': 'render_chart'
+      'responses': 'render_chart',
+      'options': 'render_chart'
     },
     mounted() {
       this.render_chart()
