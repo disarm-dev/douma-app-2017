@@ -33,7 +33,7 @@
   import dashboard_summary from './dashboard-summary.vue'
   import filters from './filters.vue'
   import dashboard_table from './dashboard-table.vue'
-  import dashboard_map from './dashboard-map.vue'
+  import dashboard_map from './map/dashboard-map.vue'
   import charts from './charts.vue'
 
   export default {
