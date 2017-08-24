@@ -62,7 +62,7 @@
         instance_config: state => state.instance_config,
         geodata_ready: state => state.geodata_ready,
 
-        aggregations: state => state.instance_config.aggregations
+        aggregations: state => state.instance_config.aggregations,
 
         // Options
         chart_configs: state => state.instance_config.applets.irs_monitor.charts,

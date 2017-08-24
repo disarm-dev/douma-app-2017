@@ -168,7 +168,6 @@ export function decorate_for_map({binned_responses, targets, aggregations, optio
     if (!found) console.warn(`Missing aggregation for ${string}`)
     return found
   })
-
   // calculate all aggregations for responses in each bin
   const binned_aggregations = binned_responses.map(bin => {
     let result = {key: bin.key, values: {}}
@@ -182,9 +181,9 @@ export function decorate_for_map({binned_responses, targets, aggregations, optio
   // create featureCollection, matching geodata with response bins
   const geodata_features = selected_geodata_level_fc.features
 
-  const decorated_features = _(binned_aggregations).map(bin => {
+  const decorated_features = _(binned_aggregations).map((bin) => {
     const found = geodata_features.find(feature => {
-      return feature.__disarm_geo_id === bin.key
+      return feature.properties.__disarm_geo_id === bin.key
     })
 
     if (found) {
@@ -198,7 +197,7 @@ export function decorate_for_map({binned_responses, targets, aggregations, optio
     }
 
     return found
-  }).compact()
+  }).compact().value() // TODO: Should not need `#value()` call here...
 
   // return a featureCollection
   return featureCollection(decorated_features)

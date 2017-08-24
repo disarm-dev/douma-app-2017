@@ -274,6 +274,8 @@
 
       // Data calculations TODO: @refac Remove calculations to lib
       calculate_layer_attributes() {
+        this.options.spatial_aggregation_level = get_planning_level_name()
+
         const data = get_data({responses: this.responses, targets: this.targets, aggregations: this.aggregations, options: this.options})
         this._aggregated_responses_fc = data
         return
@@ -286,7 +288,7 @@
        * @param features
        */
       calculate_risk(features) {
-        const values_array= features.map(feature => feature.properties.risk).sort().filter(i => i)
+        const values_array = features.map(feature => feature.properties.risk).sort().filter(i => i)
         this._risk_scaler = new LogValueConvertor(values_array)
 
         const attribute = layer_definitions.risk.attribute
@@ -294,6 +296,7 @@
           feature.properties[attribute] = this._risk_scaler.lval(feature.properties.risk)
           return feature
         })
+      }
     }
   }
 </script>
