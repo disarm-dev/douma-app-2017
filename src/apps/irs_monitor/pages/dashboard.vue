@@ -8,28 +8,28 @@
       <!--DASHBOARD CONTROLS-->
       <controls v-if="geodata_ready" :responses="responses"></controls>
 
-      <!--MAP-->
-      <dashboard_map
-        v-if='geodata_ready'
-        :responses="responses"
-        :targets="targets"
-        :aggregations="aggregations"
-        :options="with_dashboard_options(map_options)"></dashboard_map>
+      <!--&lt;!&ndash;MAP&ndash;&gt;-->
+      <!--<dashboard_map-->
+        <!--v-if='geodata_ready'-->
+        <!--:responses="responses"-->
+        <!--:targets="targets"-->
+        <!--:aggregations="aggregations"-->
+        <!--:options="with_dashboard_options(map_options)"></dashboard_map>-->
 
-      <!--TABLE-->
-      <dashboard_table
-        :responses="responses"
-        :targets="targets"
-        :aggregations="aggregations"
-        :options="with_dashboard_options(table_options)">
-      </dashboard_table>
+      <!--&lt;!&ndash;TABLE&ndash;&gt;-->
+      <!--<dashboard_table-->
+        <!--:responses="responses"-->
+        <!--:targets="targets"-->
+        <!--:aggregations="aggregations"-->
+        <!--:options="with_dashboard_options(table_options)">-->
+      <!--</dashboard_table>-->
 
-      <!-- CUSTOM STATIC-DATA CHARTS, etc -->
-      <charts
-        :responses="responses"
-        :targets="targets"
-        :aggregations="aggregations"
-        :options="with_dashboard_options(chart_configs)"></charts>
+      <!--&lt;!&ndash; CUSTOM STATIC-DATA CHARTS, etc &ndash;&gt;-->
+      <!--<charts-->
+        <!--:responses="responses"-->
+        <!--:targets="targets"-->
+        <!--:aggregations="aggregations"-->
+        <!--:options="with_dashboard_options(chart_configs)"></charts>-->
     </div>
   </div>
 </template>

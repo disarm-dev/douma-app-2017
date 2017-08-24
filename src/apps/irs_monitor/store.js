@@ -9,6 +9,9 @@ import {set_filter, unset_filter} from './pages/controls/filters/controller'
 export default {
   namespaced: true,
   state: {
+    ui: {
+
+    },
     responses: [],
     responses_last_updated_at: null,
     filters: null,
@@ -48,6 +51,7 @@ export default {
       state.filters = new_filters
     },
 
+    set_ui: (state, ui) => {state.ui = ui},
     set_dashboard_options: (state, options) => {
       state.dashboard_options = options
     }

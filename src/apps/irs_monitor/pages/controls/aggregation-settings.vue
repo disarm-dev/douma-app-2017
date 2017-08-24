@@ -1,11 +1,29 @@
 <template>
   <div>
     <h2>Aggregation settings</h2>
-    <p @click="debug_change_option">
-      Spatial aggregation level: '{{spatial_aggregation_level}}' (planning level)
-      {{spatial_level_names.join(",")}}
+    <p>
+      Spatial aggregation level
+      <md-button-toggle md-single>
+        <md-button v-for="level in spatial_level_names" :key="level"
+                   @click="set_spatial_aggregation_level(level)"
+                   class="md-button"
+                   :class="{'md-toggle': level === spatial_aggregation_level}">
+          {{level}}
+        </md-button>
+      </md-button-toggle>
     </p>
-    <p>Temporal aggregatation level: 'week'</p>
+
+    <p>
+      Temporal aggregatation level
+      <md-button-toggle md-single>
+        <md-button v-for="level in temporal_level_names" :key="level"
+                   @click="set_temporal_aggregation_level(level)"
+                   class="md-button"
+                   :class="{'md-toggle': level === temporal_aggregation_level}">
+          {{level}}
+        </md-button>
+      </md-button-toggle>
+    </p>
   </div>
 </template>
 
@@ -14,6 +32,8 @@
 
   import {get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
   import {get_all_spatial_hierarchy_level_names} from 'lib/geodata/spatial_hierarchy_helper'
+
+  import config from 'config/common'
 
   /**
    * Control various elements of the dashboard. Any settings here cascade down to all tables, maps, charts.
@@ -27,11 +47,15 @@
     },
     computed: {
       ...mapState({
+        dashboard_options: state => state.irs_monitor.dashboard_options,
         spatial_aggregation_level: state => state.irs_monitor.dashboard_options.spatial_aggregation_level,
-        temporal_aggregation_level: state => state.irs_monitor.dashboard_options.temporal_aggregation_level
+        temporal_aggregation_level: state => state.irs_monitor.dashboard_options.temporal_aggregation_level,
       }),
-      spatial_level_names: function () {
+      spatial_level_names() {
         return get_all_spatial_hierarchy_level_names()
+      },
+      temporal_level_names() {
+        return config.temporal_intervals
       }
     },
     created() {
@@ -39,15 +63,24 @@
     },
     methods: {
       create_defaults() {
-        if (!this.spatial_aggregation_level) {
+        if (!this.dashboard_options.spatial_aggregation_level) {
           const planning_level_name = get_planning_level_name()
-          console.log('no spatial_aggregation_level set, using planning_level_name', planning_level_name)
-
+          this.set_spatial_aggregation_level(planning_level_name)
         }
       },
-      debug_change_option() {
-        console.log('debug_change_option')
-        this.$store.commit('irs_monitor/set_dashboard_options', {new_one: true})
+      set_spatial_aggregation_level(level) {
+        const new_options = {
+          ...this.dashboard_options,
+          spatial_aggregation_level: level
+        }
+        this.$store.commit('irs_monitor/set_dashboard_options', new_options)
+      },
+      set_temporal_aggregation_level(level) {
+        const new_options = {
+          ...this.dashboard_options,
+          temporal_aggregation_level: level
+        }
+        this.$store.commit('irs_monitor/set_dashboard_options', new_options)
       }
     }
   }

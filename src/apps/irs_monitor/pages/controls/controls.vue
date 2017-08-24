@@ -21,15 +21,16 @@
     name: 'controls',
     components: {filters, aggregation_settings},
     props: ['responses'],
-    mounted() {
-    },
-    data() {
-      return {
-        show_filters: false,
-
+    computed: {
+      show_filters: {
+        get(){
+          return this.$store.state.irs_monitor.ui.show_filters
+        },
+        set(val){
+          this.$store.commit('irs_monitor/set_ui', {show_filters: val})
+        }
       }
     },
-    methods: {}
   }
 </script>
 
