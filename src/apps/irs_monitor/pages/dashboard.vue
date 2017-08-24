@@ -14,38 +14,36 @@
         :responses="responses"
         :targets="targets"
         :aggregations="aggregations"
-        :options="map_options"></dashboard_map>
+        :options="with_dashboard_options(map_options)"></dashboard_map>
 
       <!--TABLE-->
       <dashboard_table
         :responses="responses"
         :targets="targets"
         :aggregations="aggregations"
-        :options="table_options"></dashboard_table>
+        :options="with_dashboard_options(table_options)">
+      </dashboard_table>
 
       <!-- CUSTOM STATIC-DATA CHARTS, etc -->
       <charts
         :responses="responses"
         :targets="targets"
         :aggregations="aggregations"
-        :options="chart_configs"></charts>
+        :options="with_dashboard_options(chart_configs)"></charts>
     </div>
   </div>
 </template>
 
 <script>
   import {mapState, mapGetters} from 'vuex'
-  import which_polygon from 'which-polygon'
 
-  import cache from 'config/cache.js'
-  import {get_planning_level_id_field, get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
   import {get_geodata} from 'lib/remote/remote.geodata.js'
 
   // Components
   import dashboard_summary from './dashboard-summary.vue'
   import controls from './controls/controls.vue'
-  import dashboard_table from './table/dashboard-table.vue'
   import dashboard_map from './map/dashboard-map.vue'
+  import dashboard_table from './table/dashboard-table.vue'
   import charts from './charts/dashboard-charts.vue'
 
   export default {
@@ -53,8 +51,8 @@
     components: {
       dashboard_summary,
       controls,
-      dashboard_table,
       dashboard_map,
+      dashboard_table,
       charts,
     },
     computed: {
@@ -62,21 +60,22 @@
         instance_config: state => state.instance_config,
         geodata_ready: state => state.geodata_ready,
 
+        // Aggregations from instance_config
         aggregations: state => state.instance_config.aggregations,
 
         // Options
-        chart_configs: state => state.instance_config.applets.irs_monitor.charts,
+        dashboard_options: state => state.irs_monitor.dashboard_options,
+
+        // Options (passed to components)
         table_options: state => state.instance_config.applets.irs_monitor.table,
         map_options: state => state.instance_config.applets.irs_monitor.map,
+        chart_configs: state => state.instance_config.applets.irs_monitor.charts,
 
       }),
       ...mapGetters({
         responses: 'irs_monitor/filtered_responses',
-        targets: 'irs_monitor/targets'
+        targets: 'irs_monitor/targets',
       }),
-      planning_level_name() {
-        return get_planning_level_name()
-      },
     },
     created() {
       get_geodata(this.$store)//.then(this.refresh_data())
@@ -98,6 +97,9 @@
             console.log(e)
             this.$endLoading('irs_monitor/refresh_data')
           })
+      },
+      with_dashboard_options(options) {
+        return options
       }
     }
   }

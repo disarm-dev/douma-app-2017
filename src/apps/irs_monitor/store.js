@@ -14,6 +14,11 @@ export default {
     filters: null,
     plan: null,
     filter: null,
+
+    dashboard_options: {
+      temporal_aggregation_level: 'week',
+      spatial_aggregation_level: null
+    }
   },
   mutations: {
     // clear storage (called by meta store)
@@ -41,6 +46,10 @@ export default {
     unset_filter: (state, filter_to_remove /** string: 'spatial' **/) => {
       const new_filters = unset_filter(state.filters, filter_to_remove, state.responses)
       state.filters = new_filters
+    },
+
+    set_dashboard_options: (state, options) => {
+      state.dashboard_options = options
     }
   },
   getters: {
