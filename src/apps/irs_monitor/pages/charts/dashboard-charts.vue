@@ -39,6 +39,7 @@
   .card {
     margin: 0.5em;
     flex: 1 1 calc( 33% - 1em );
+    min-width: 280px;
   }
   /*TODO: @feature reimplement this*/
 
