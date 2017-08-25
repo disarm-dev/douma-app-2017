@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 import {has_permission} from 'lib/helpers/permission_helper.js'
 import {geodata_in_cache_and_valid} from 'lib/geodata/geodata.valid'
+import {hydrate_geodata_cache_from_idb} from 'lib/geodata/local.geodata_store'
 
 export function create_router(instance_routes, store) {
   Vue.use(VueRouter)
@@ -53,7 +54,14 @@ export function create_router(instance_routes, store) {
     if (!geodata_in_cache_and_valid()) {
       console.log('geodata required, NOT already exists && valid - go to a page to start getting geodata')
       store.commit('meta/set_previous_route', to.path)
-      return next({name: 'meta:geodata'})
+      // try to hydrate geodata from IDB
+      hydrate_geodata_cache_from_idb().then(() => {
+        if (geodata_in_cache_and_valid()) {
+          return next()
+        } else {
+          return next({name: 'meta:geodata'})
+        }
+      })
     } else {
       console.log('geodata required, already exists && valid')
       return next()

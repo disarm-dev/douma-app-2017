@@ -24,6 +24,7 @@
   import {get_all_spatial_hierarchy_level_names} from 'lib/geodata/spatial_hierarchy_helper'
   import {geodata_has_level} from 'lib/geodata/geodata.valid'
   import {get_geodata_for} from 'lib/remote/remote.geodata'
+  import {get_and_set_geodata_for} from 'lib/remote/remote.geodata'
 
   export default {
     name: 'geodata',
@@ -38,12 +39,6 @@
         return this.$store.state.instance_config.instance.slug
       }
     },
-    created() {
-      // try to hydrate geodata from IDB
-      hydrate_geodata_from_idb().then(() => {})
-      // check if geodata_valid(), then continue_routing
-      // else that's what this page is for...
-    },
     mounted() {
       this.calculate_cache_status()
       this.level_names = get_all_spatial_hierarchy_level_names()
@@ -55,7 +50,7 @@
         })
       },
       retrieve_geodata_for(level) {
-        console.log('retrieve_geodata_for', level)
+        get_and_set_geodata_for(level)
       },
       import_geodata_for(level) {
         console.log('import_geodata_for', level)
