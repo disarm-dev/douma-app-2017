@@ -3,18 +3,26 @@
     <h2>Filters for all fields</h2>
     <p>Select field and value</p>
 
-    <md-input-container>
-      <md-select v-model="filter_name">
-        <md-option v-for="field_name in field_names" :key='field_name' :value="field_name">{{field_name}}</md-option>
-      </md-select>
-    </md-input-container>
 
-    <md-input-container>
-      <md-select v-model="filter_value">
-        <md-option v-for="value in field_values" :key="value" :value="value">{{value}}</md-option>
-      </md-select>
-    </md-input-container>
+    <div class="filter_fields">
+      <md-input-container class="filter_field">
+        <md-select v-model="filter_name">
+          <md-option v-for="field_name in field_names" :key='field_name' :value="field_name">{{field_name}}</md-option>
+        </md-select>
+      </md-input-container>
 
+      <md-input-container>
+        <md-select v-model="filter_comparator">
+          <md-option v-for="comparator in comparators" :key="comparator" :value="comparator">{{comparator}}</md-option>
+        </md-select>
+      </md-input-container>
+
+      <md-input-container>
+        <md-select v-model="filter_value">
+          <md-option v-for="value in field_values" :key="value" :value="value">{{value}}</md-option>
+        </md-select>
+      </md-input-container>
+    </div>
   </div>
 </template>
 
@@ -32,7 +40,10 @@
     data() {
       return {
         filter_name: '',
-        filter_value: ''
+        filter_comparator: 'eq',
+        filter_value: '',
+
+        comparators: ['eq', 'neq', 'gt', 'gte', 'lt', 'lte']
       }
     },
     computed: {
@@ -90,4 +101,12 @@
 
 <style scoped>
 
+  .filter_fields {
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+  .filter_field {
+    flex: 1 1 33%;
+  }
 </style>

@@ -19,6 +19,7 @@ export default {
     filter: null,
 
     dashboard_options: {
+      // TODO: @config Extract default temporal_aggregation_level
       temporal_aggregation_level: 'week',
       spatial_aggregation_level: null
     }
