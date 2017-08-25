@@ -29,7 +29,7 @@ function get_geodata_for(level_name) {
   return standard_handler(url, options)
 }
 
-function set_geodata_on_cache_for(level_name, level_geodata) {
+function store_geodata(level_name, level_geodata) {
   cache[level_name] = level_geodata // WRONG. This should be writing to DB
   decorate_level(level_name) // this sets properties directly on cache
 }
@@ -37,7 +37,7 @@ function set_geodata_on_cache_for(level_name, level_geodata) {
 export function get_and_set_geodata_for(level_name) {
   return get_geodata_for(level_name)
     .then((level_geodata) => {
-      set_geodata_on_cache_for(level_name, level_geodata)
+      store_geodata(level_name, level_geodata)
     })
     .catch(console.error)
 }

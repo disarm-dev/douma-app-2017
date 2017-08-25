@@ -39,6 +39,10 @@
       }
     },
     created() {
+      // try to hydrate geodata from IDB
+      hydrate_geodata_from_idb().then(() => {})
+      // check if geodata_valid(), then continue_routing
+      // else that's what this page is for...
     },
     mounted() {
       this.calculate_cache_status()
@@ -50,13 +54,13 @@
           this.$set(this.cache_status, level, geodata_has_level(level))
         })
       },
-      download_all() {},
       retrieve_geodata_for(level) {
         console.log('retrieve_geodata_for', level)
       },
       import_geodata_for(level) {
         console.log('import_geodata_for', level)
       },
+      download_all() {},
       continue_routing() {
         if (this.$store.state.meta.previous_route) {
           const path = this.$store.state.meta.previous_route
