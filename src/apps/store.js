@@ -21,8 +21,10 @@ export function create_store(instance_config, instance_stores) {
         return undefined;
       }
     },
-    setState: (key, state, storage) =>
-      storage.setItem(key, JSON.stringify(state)),
+    setState: (key, state, storage) => {
+      console.warn("👮‍ You're doing something dumb. (setting-and-forgetting localStorage with no checks)")
+      setTimeout(() => storage.setItem(key, JSON.stringify(state)), 0)
+    },
     reducer: (state) => {
       if (excluded_paths.length === 0) {
         return state
@@ -52,6 +54,7 @@ export function create_store(instance_config, instance_stores) {
   return new Vuex.Store({
     modules: instance_stores,
     plugins: [createPersistedState(persisted_state_options), VuexLoading.Store],
+    // plugins: [VuexLoading.Store],
     state: {
       // Global config
       instance_config: instance_config, // Really important, should maybe be somewhere else
