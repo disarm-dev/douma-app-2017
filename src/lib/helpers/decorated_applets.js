@@ -14,13 +14,13 @@ export const decorate_applets = ({user_allowed_applets, instance_applets}) => {
   const sorted_allowed_applets = without(intersection(Object.keys(instance_applets), user_allowed_applets), 'meta')
 
   sorted_allowed_applets.forEach(name => {
-    decorations.push({name, ...title_and_icon_for(name, instance_applets)})
+    decorations.push({name, ...properties_for(name, instance_applets)})
   })
 
   return decorations
 }
 
-function title_and_icon_for (applet_name, instance_applets) {
+function properties_for (applet_name, instance_applets) {
   if (!applet_name) return {}
 
   // Find all possible configurations
@@ -28,8 +28,6 @@ function title_and_icon_for (applet_name, instance_applets) {
   const instance_config_for_applet = instance_applets[applet_name]
 
   // Overwrite any common_config title and icon
-  const {title, icon} = {...common_config_for_applet, ...instance_config_for_applet}
-
-  return {title, icon}
+  return {...common_config_for_applet, ...instance_config_for_applet}
 }
 

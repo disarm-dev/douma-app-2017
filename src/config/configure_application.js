@@ -27,10 +27,24 @@ import {instantiate_analytics, set_common_analytics} from 'config/analytics'
 import {configure_spatial_helpers} from 'lib/geodata/spatial_hierarchy_helper'
 import {configure_standard_handler} from 'lib/remote/remote.standard-handler'
 import {try_reconnect} from 'lib/remote/remote.standard-handler'
+import {add_network_status_watcher} from 'lib/helpers/network_status.js'
+import pubsubcache from 'lib/helpers/pubsubcache'
+import {need_to_update} from 'lib/remote/remote.update'
+import {set_raven_user_context} from 'config/error_tracking.js'
 
-export function create_and_launch_application (instance_config) {
+
+
+
+/**
+ * Build a 'douma_app' instance
+ * @param instance_config
+ * @returns {Vue}
+ */
+export function configure_application (instance_config) {
+
 
   // CREATE REQUIRED OBJECTS FOR APP (store AND router)
+
 
   // Collect stores and routes for applets ONLY in this instance {stores: {}, routes: []}
   // Ignores user permissions
@@ -48,7 +62,9 @@ export function create_and_launch_application (instance_config) {
   // Configure theme, either from default or instance_config
   configure_theme(instance_config)
 
+
   // BEFORE VUE APP IS CREATED (USING store OR router)
+
 
   // Configure spatial_helpers to use instance_config
   configure_spatial_helpers(instance_config)
@@ -65,7 +81,9 @@ export function create_and_launch_application (instance_config) {
   instantiate_analytics(router)
 
 
+
   // CREATE VUE APP
+
 
   // Instantiate Vue app with store and router
   const douma_app = new Vue({
@@ -76,11 +94,39 @@ export function create_and_launch_application (instance_config) {
   })
 
 
+
   // AFTER VUE APP IS CREATED
+
 
   // Analytics 2/2: set common properties (e.g. user) for every event
   // (App needs to be running to send the first requests setting user props, etc)
   set_common_analytics(douma_app)
 
-  return douma_app
+  // Configure application update
+  need_to_update().then((can_update) => {
+    const update_available = (can_update.status === 'CAN_UPDATE')
+
+    pubsubcache.subscribe('service_worker/onstatechange', (topic, args) => {
+
+      const new_service_worker_activated = (args === 'activated')
+      if (update_available && new_service_worker_activated) {
+        douma_app.$store.commit('root:set_sw_update_available', true)
+      } else {
+        douma_app.$store.commit('root:set_sw_update_available', false)
+      }
+
+      console.log('service_worker/onstatechange message:', args)
+    })
+  })
+
+
+  // Add extra info to error logging
+  set_raven_user_context(douma_app.$store.state)
+
+  // Configure on/offline watcher
+  add_network_status_watcher(douma_app)
+
+  // Keep track of what version we're working on, in production at least.
+  if (DOUMA_PRODUCTION_MODE) console.info('🚀 Launched DiSARM version ' + VERSION_COMMIT_HASH_SHORT)
+
 }

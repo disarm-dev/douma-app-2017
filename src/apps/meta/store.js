@@ -72,7 +72,7 @@ export default {
         // You have a valid, authenticated user
         if (authenticated_user.is_valid()) {
 
-          // Start by clearing instance-specific data if instance_id has changed
+          // Start by clearing instance-specific data ONLY if instance_id has changed
           context.dispatch('clear_data_storage', {instance_id_changed, authenticated_user: authenticated_user.model}).then(() => {
 
             // Set some basic stuff
