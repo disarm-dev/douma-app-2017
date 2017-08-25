@@ -14,11 +14,12 @@ export default {
     },
     responses: [],
     responses_last_updated_at: null,
-    filters: null,
+    filters: [],
     plan: null,
     filter: null,
 
     dashboard_options: {
+      // TODO: @config Extract default temporal_aggregation_level
       temporal_aggregation_level: 'week',
       spatial_aggregation_level: null
     }
@@ -81,9 +82,10 @@ export default {
 
       const filtered = state.responses.filter(response => {
         return true
-        // // TODO: @debug This first filter is more of a DEBUG filter, making sure we have valid responses
-        // return (response.location.selection) // TODO: @feature Add actual filtering
-        //   && state.plan.targets.find(t => t.id === response.location.selection.id)
+        return this.filters.all(filter => {
+          filter.field
+          filter.value
+        })
       })
 
       // Run instance decorator on all responses

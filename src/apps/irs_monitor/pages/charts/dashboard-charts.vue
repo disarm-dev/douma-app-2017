@@ -3,7 +3,7 @@
     <md-card
       v-for="chart in options"
       :key="chart.id"
-      class="card"
+      class="chart"
       :class="{'card-half-width': chart.style.width_constraint == 'half'}">
 
         <custom_chart
@@ -36,14 +36,9 @@
     flex-flow: row wrap;
   }
 
-  .card {
+  .chart {
     margin: 0.5em;
     flex: 1 1 calc( 33% - 1em );
     min-width: 280px;
-  }
-  /*TODO: @feature reimplement this*/
-
-  .card-half-width {
-    /* width: 45%; */
   }
 </style>

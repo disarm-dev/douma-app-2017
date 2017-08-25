@@ -1,3 +1,9 @@
+// basic pubsub module with cache!
+// enables us to start publishing to a channel,
+// and for later subscribers to replay the messages
+// stores max of 10 messages
+// source: internet, undated
+
 let topics = {};//sw: [{token: 1, func: () => {}}]}
 let subUid = -1
 let cache = {};//sw: ['args', 'args2']}

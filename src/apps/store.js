@@ -9,7 +9,7 @@ export function create_store(instance_config, instance_stores) {
 
   // vuex-persistedstate
   // Exclude these paths from state persistence
-  const excluded_paths = ['geodata_ready', 'geodata_loading_progress', 'sw_update_available', 'sw_message']
+  const excluded_paths = ['sw_update_available', 'sw_message']
 
   const persisted_state_options = {
     getState:(key, storage) => {
@@ -21,8 +21,10 @@ export function create_store(instance_config, instance_stores) {
         return undefined;
       }
     },
-    setState: (key, state, storage) =>
-      storage.setItem(key, JSON.stringify(state)),
+    setState: (key, state, storage) => {
+      console.warn("👮‍ You're doing something dumb. (setting-and-forgetting localStorage with no checks)")
+      setTimeout(() => storage.setItem(key, JSON.stringify(state)), 0)
+    },
     reducer: (state) => {
       if (excluded_paths.length === 0) {
         return state
@@ -52,6 +54,7 @@ export function create_store(instance_config, instance_stores) {
   return new Vuex.Store({
     modules: instance_stores,
     plugins: [createPersistedState(persisted_state_options), VuexLoading.Store],
+    // plugins: [VuexLoading.Store],
     state: {
       // Global config
       instance_config: instance_config, // Really important, should maybe be somewhere else
@@ -65,10 +68,6 @@ export function create_store(instance_config, instance_stores) {
       // Irrelevant values: only watched for changes
       trigger_sidebar_visible_irrelevant_value: false,
       trigger_help_visible_irrelevant_value: false, // Beware - don't care whether it true or false, just that it changes
-
-      // Geodata
-      geodata_loading_progress: 0,
-      geodata_ready: false,
 
     },
     mutations: {
@@ -93,12 +92,6 @@ export function create_store(instance_config, instance_stores) {
       'root:toggle_sidebar': (state) => {
         state.trigger_sidebar_visible_irrelevant_value= !state.trigger_sidebar_visible_irrelevant_value
       },
-      'root:set_geodata_loading_progress': (state, progress) => {
-        state.geodata_loading_progress = progress
-      },
-      'root:set_geodata_ready': (state, ready) => {
-        state.geodata_ready = ready
-      }
     },
   })
 }

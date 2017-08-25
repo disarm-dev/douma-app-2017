@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import {has_permission} from 'lib/helpers/permission_helper.js'
+import {geodata_in_cache_and_valid} from 'lib/geodata/geodata.valid'
+import {hydrate_geodata_cache_from_idb} from 'lib/geodata/local.geodata_store'
 
 export function create_router(instance_routes, store) {
   Vue.use(VueRouter)
@@ -31,11 +33,38 @@ export function create_router(instance_routes, store) {
     // User not logged in
     if (to.name === 'meta:login') {
       // next() if destination is the login page
-      next()
+      return next()
     } else {
       // Otherwise go to the login page (storing your original target)
       store.commit('meta/set_previous_route', to.path)
-      next({name: 'meta:login'})
+      return next({name: 'meta:login'})
+    }
+  })
+
+  router.beforeEach((to, from, next) => {
+
+    // check if any applets require geodata, or continue
+    const geodata_required = store.getters['meta/decorated_applets'].some(applet => applet.geodata_required)
+    if (!geodata_required) return next()
+
+    // if you're on your way to any 'meta' page, then carry on
+    if (/^meta/.test(to.name)) return next()
+
+    // geodata is required by at least one applet. check if it's already valid
+    if (!geodata_in_cache_and_valid()) {
+      console.log('geodata required, NOT already exists && valid - go to a page to start getting geodata')
+      store.commit('meta/set_previous_route', to.path)
+      // try to hydrate geodata from IDB
+      hydrate_geodata_cache_from_idb().then(() => {
+        if (geodata_in_cache_and_valid()) {
+          return next()
+        } else {
+          return next({name: 'meta:geodata'})
+        }
+      })
+    } else {
+      console.log('geodata required, already exists && valid')
+      return next()
     }
 
   })

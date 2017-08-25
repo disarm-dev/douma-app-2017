@@ -6,8 +6,8 @@
       :title="risk_visible ? layer_definitions.risk.legend_title : plan_layer_definitions.selected_areas.legend_title"
     ></map_legend>
 
-    <md-checkbox :disabled='!geodata_ready || edit_mode' v-model="risk_visible">Show risk</md-checkbox>
-    <md-checkbox v-if="next_level_down" :disabled='!geodata_ready || clusters_disabled' v-model="show_lowest_spatial_level">Show {{next_level_down.name}}</md-checkbox>
+    <md-checkbox :disabled='edit_mode' v-model="risk_visible">Show risk</md-checkbox>
+    <md-checkbox v-if="next_level_down" :disabled='clusters_disabled' v-model="show_lowest_spatial_level">Show {{next_level_down.name}}</md-checkbox>
     <div v-if="edit_mode">
       <p>Showing areas where risk is above: {{converted_slider_value}}</p>
       <input  id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value">
@@ -50,7 +50,7 @@
 
   export default {
     name: 'plan_map',
-    props: ['edit_mode', 'geodata_ready', 'selected_filter_area_id'],
+    props: ['edit_mode', 'selected_filter_area_id'],
     components: {map_legend},
     data() {
       return {
@@ -148,7 +148,6 @@
     watch: {
       'show_lowest_spatial_level': 'toggle_cluster_visiblity',
       'edit_mode': 'manage_map_mode',
-      'geodata_ready': 'render_map',
       'risk_slider_value': 'set_risk_slider_value',
 
       'risk_visible': 'redraw_target_areas',
@@ -161,19 +160,17 @@
     methods: {
       // Get some data in
       render_map() {
-        if (this.geodata_ready) {
-          this._map = basic_map(this.$store)
+        this._map = basic_map(this.$store)
 
-          this._map.on('load', () => {
-            this.clusters_disabled = false
-            this.manage_map_mode()
-            this.add_target_areas()
-            this.fit_bounds()
-            this.$emit('map_loaded')
-            this.set_slider_range()
-            this.toggle_cluster_visiblity()
-          })
-        }
+        this._map.on('load', () => {
+          this.clusters_disabled = false
+          this.manage_map_mode()
+          this.add_target_areas()
+          this.fit_bounds()
+          this.$emit('map_loaded')
+          this.set_slider_range()
+          this.toggle_cluster_visiblity()
+        })
       },
 
       fit_bounds() {
@@ -348,7 +345,7 @@
       },
       redraw_target_areas() {
 
-        if (this.geodata_ready && this._map) {
+        if (this._map) {
           // redraw target areas
           this.remove_target_areas()
           this.add_target_areas()

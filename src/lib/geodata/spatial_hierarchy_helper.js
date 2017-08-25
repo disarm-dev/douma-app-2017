@@ -13,6 +13,10 @@ const configure_spatial_helpers = (instance_config) => {
   spatial_hierarchy_cache = instance_config.spatial_hierarchy
 }
 
+
+const get_slug = () => {
+  return instance_config_cache.instance.slug
+}
 /**
  * Something like 'AggUniCode' or 'OBJECTID'
  * @returns {*|string}
@@ -128,6 +132,7 @@ const get_data_version = () => {
 
 export {
   configure_spatial_helpers,
+  get_slug,
   get_planning_level_id_field,
   get_denominator_fields,
   get_denominator_enumerable_name,

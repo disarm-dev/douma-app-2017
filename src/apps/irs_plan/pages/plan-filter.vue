@@ -41,7 +41,6 @@
     computed: {
       ...mapState({
         instance_config: state => state.instance_config,
-        geodata_ready: state => state.geodata_ready,
         selected_filter_area_option: state => state.irs_plan.selected_filter_area_option
       }),
       filter_options() {

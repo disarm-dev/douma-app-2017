@@ -3,7 +3,7 @@
     <h3>Selected regions:</h3>
     <md-button class='md-raised md-primary' @click.native="download_plan">Download plan</md-button>
     <v-client-table
-      v-if="geodata_ready && selected_target_area_ids.length !== 0"
+      v-if="selected_target_area_ids.length !== 0"
       :data="table.data"
       :columns="table.columns"
     ></v-client-table>
@@ -21,7 +21,7 @@
 
   export default {
     name: 'plan_summary',
-    props: ['edit', 'geodata_ready'],
+    props: ['edit'],
     data() {
       return {
         calculator: {
@@ -41,18 +41,14 @@
         return get_planning_level_name()
       },
       selected_areas() {
-        if (!this.geodata_ready) return []
-
         return cache.geodata[this.planning_level_name].features.filter(feature => {
           return this.selected_target_area_ids.includes(feature.properties.__disarm_geo_id)
         })
       },
       table() {
-        if (this.geodata_ready) {
-          const data = this.selected_areas.map(r => r.properties)
-          const columns = Object.keys(data[0])
-          return {data, columns}
-        }
+        const data = this.selected_areas.map(r => r.properties)
+        const columns = Object.keys(data[0])
+        return {data, columns}
       },
     },
     methods: {

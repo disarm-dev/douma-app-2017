@@ -6,11 +6,10 @@
     <div class='applet_container'>
 
       <!--DASHBOARD CONTROLS-->
-      <controls v-if="geodata_ready" :responses="responses"></controls>
+      <controls :responses="responses"></controls>
 
       <!--MAP-->
       <dashboard_map
-        v-if='geodata_ready'
         :responses="responses"
         :targets="targets"
         :aggregations="aggregations"
@@ -47,6 +46,7 @@
   import dashboard_map from './map/dashboard-map.vue'
   import dashboard_table from './table/dashboard-table.vue'
   import charts from './charts/dashboard-charts.vue'
+  import {geodata_in_cache_and_valid} from '../../../lib/geodata/geodata.valid'
 
   export default {
     name: 'Dashboard',
@@ -60,7 +60,6 @@
     computed: {
       ...mapState({
         instance_config: state => state.instance_config,
-        geodata_ready: state => state.geodata_ready,
 
         // Aggregations from instance_config
         aggregations: state => state.instance_config.aggregations,
@@ -80,7 +79,10 @@
       }),
     },
     created() {
-      get_geodata(this.$store)//.then(this.refresh_data())
+      if (!geodata_in_cache_and_valid()) {
+        this.$store.commit('meta/set_snackbar', {message: 'Message from MONITOR: Problem with geodata'})
+        this.$router.push({name: 'meta:geodata'})
+      }
     },
     methods: {
       refresh_data() {

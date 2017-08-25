@@ -1,7 +1,7 @@
 import get from 'lodash.get'
 
 import cache from 'config/cache'
-import {geodata_valid} from 'lib/geodata/geodata.valid'
+import {geodata_in_cache_and_valid} from 'lib/geodata/geodata.valid'
 import {get_all_spatial_hierarchy_levels} from './spatial_hierarchy_helper'
 
 /**
@@ -10,7 +10,7 @@ import {get_all_spatial_hierarchy_levels} from './spatial_hierarchy_helper'
  */
 export const generate_location_selections = () => {
   const location_selections = {}
-  if (!geodata_valid()) throw new Error('Invalid geodata')
+  if (!geodata_in_cache_and_valid()) throw new Error('Invalid geodata')
 
   // Find the level with a `group_by_field`
   const all_levels = get_all_spatial_hierarchy_levels()

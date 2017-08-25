@@ -7,10 +7,8 @@ import geojson_validation from 'geojson-validation'
 /**
  * @returns {boolean}
  */
-function geodata_valid() {
+function geodata_in_cache_and_valid() {
   if (!Object.keys(cache.geodata).length) {
-    // TODO: @feature Remove geodata console.logs
-    console.warn('No spatial hierarchies on cache - need to (re-)load geodata')
     return false
   }
 
@@ -31,9 +29,13 @@ function geodata_has_all_levels() {
   const level_names = get_all_spatial_hierarchy_level_names()
 
   return level_names.every(level_name => {
-    return has(cache.geodata, level_name)
+    return geodata_has_level(level_name)
   })
 
+}
+
+function geodata_has_level(level_name) {
+  return has(cache.geodata, level_name)
 }
 
 /**
@@ -57,4 +59,4 @@ function check_geodata_features_not_zero_length() {
   })
 }
 
-export {geodata_valid, geodata_has_all_levels}
+export {geodata_in_cache_and_valid, geodata_has_all_levels, geodata_has_level}

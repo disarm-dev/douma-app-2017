@@ -3,6 +3,7 @@ import home from './pages/home.vue'
 import login from './pages/login.vue'
 import logout from './pages/logout.vue'
 import clear_data from './pages/clear_data.vue'
+import geodata from './pages/geodata.vue'
 
 export default [
   {
@@ -28,6 +29,11 @@ export default [
         path: 'clear_data',
         name: 'meta:clear_data',
         component: clear_data,
+      },
+      {
+        path: 'geodata',
+        name: 'meta:geodata',
+        component: geodata,
       }
     ]
   }

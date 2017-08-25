@@ -5,7 +5,7 @@
         slot="primary_action"
         class="md-primary md-icon-button md-raised"
         :class="{'md-warn': edit_mode}"
-        :disabled="isLoading('irs_plan/load_plan') || !geodata_ready || !can_and_have_focused_planned"
+        :disabled="isLoading('irs_plan/load_plan') || !can_and_have_focused_planned"
         @click.native='edit_mode = !edit_mode'
       >
         <md-icon>edit</md-icon>
@@ -38,7 +38,7 @@
       <div>
         <!-- FILTER TO LIMIT PLAN -->
         <plan_filter
-          v-if="must_focus_planning && geodata_ready"
+          v-if="must_focus_planning "
           :unsaved_changes="unsaved_changes"
         ></plan_filter>
 
@@ -46,9 +46,8 @@
         <!--PLAN MAP-->
         <md-card>
           <md-card-content>
-            <plan_calculator :geodata_ready="geodata_ready"></plan_calculator>
+            <plan_calculator ></plan_calculator>
             <plan_map
-              :geodata_ready="geodata_ready"
               :edit_mode="edit_mode"
               :selected_filter_area_id="selected_filter_area_id"
               v-on:map_loaded="edit_disabled = false"
@@ -59,7 +58,7 @@
 
         <!--PLAN SUMMARY-->
         <md-card class="card"><md-card-content>
-          <plan_summary :geodata_ready="geodata_ready"></plan_summary>
+          <plan_summary></plan_summary>
         </md-card-content></md-card>
 
       </div>
@@ -68,12 +67,9 @@
       <md-dialog ref="geodata_loading_modal" :md-click-outside-to-close="false">
         <md-dialog-title>Loading base layers</md-dialog-title>
 
-        <md-dialog-content class="centred">
-          <md-spinner :md-progress="geodata_loading_progress"></md-spinner>
-        </md-dialog-content>
 
         <md-dialog-actions>
-          <md-button :disabled='!geodata_ready' class="md-primary" @click.native="$refs.geodata_loading_modal.close()">Start planning!</md-button>
+          <md-button class="md-primary" @click.native="$refs.geodata_loading_modal.close()">Start planning!</md-button>
         </md-dialog-actions>
       </md-dialog>
     </div>
@@ -99,6 +95,7 @@
 
   import {get_planning_level_name, get_next_level_up_from_planning_level} from 'lib/geodata/spatial_hierarchy_helper'
   import {target_areas_inside_focus_filter_area} from '../helpers/target_areas_helper.js'
+  import {geodata_in_cache_and_valid} from '../../../lib/geodata/geodata.valid'
 
   export default {
     name: 'Plan',
@@ -112,8 +109,6 @@
     computed: {
       ...mapState({
         instance_config: state => state.instance_config,
-        geodata_loading_progress: state => state.geodata_loading_progress,
-        geodata_ready: state => state.geodata_ready,
 
         current_plan: state => state.irs_plan.current_plan,
         selected_filter_area_id: state => get(state, 'irs_plan.selected_filter_area_option.id', null),
@@ -151,8 +146,11 @@
         return this.selected_target_area_ids.length !== 0
       }
     },
-    mounted() {
-      get_geodata(this.$store)
+    created() {
+      if (!geodata_in_cache_and_valid()) {
+        this.$store.commit('meta/set_snackbar', {message: 'Message from PLAN: Problem with geodata'})
+        this.$router.push({name: 'meta:geodata'})
+      }
     },
     methods: {
       load_plan() {

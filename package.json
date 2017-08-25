@@ -74,10 +74,10 @@
     "survey-vue": "^0.12.17",
     "sw-offline-google-analytics": "0.0.19",
     "uuid": "^3.0.1",
-    "vue": "^2.3.4",
+    "vue": "^2.4.2",
     "vue-analytics": "^4.1.2",
     "vue-json-tree-view": "^2.0.7",
-    "vue-material": "^0.7.1",
+    "vue-material": "^0.7.4",
     "vue-multiselect": "^2.0.0-beta.15",
     "vue-router": "^2.5.3",
     "vue-shortkey": "^2.1.8",
@@ -149,7 +149,7 @@
     "url-loader": "^0.5.8",
     "vue-loader": "^12.1.0",
     "vue-style-loader": "^3.0.1",
-    "vue-template-compiler": "^2.3.4",
+    "vue-template-compiler": "^2.4.2",
     "webpack": "^3.4.0",
     "webpack-bundle-analyzer": "^2.2.1",
     "webpack-dev-middleware": "^1.10.0",
@@ -167,5 +167,5 @@
     "last 2 versions",
     "not ie <= 10"
   ],
-  "version": "178.25.0"
+  "version": "178.25.1"
 }

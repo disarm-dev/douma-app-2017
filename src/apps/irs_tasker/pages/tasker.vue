@@ -34,8 +34,6 @@
 
           <!--MAP-->
           <tasker_map
-            v-if="geodata_ready"
-
             :plan_target_ids="plan_target_ids"
             :assignments="assignments"
             :decorated_teams="decorated_teams"
@@ -67,6 +65,7 @@
   import {AssignmentPlan} from 'lib/models/assignment_plan.model'
   import {DECORATED_UNASSIGNED_TEAM} from '../unassigned_team'
   import {get_geodata} from 'lib/remote/remote.geodata.js'
+  import {geodata_in_cache_and_valid} from '../../../lib/geodata/geodata.valid'
 
   const PALETTE = chroma.brewer.Set2
 
@@ -82,7 +81,6 @@
     computed: {
       ...mapState({
         instance_slug: state => state.instance_config.instance.slug,
-        geodata_ready: state => state.geodata_ready,
 
         unsynced_changes: state => state.irs_tasker.unsynced_changes,
         selected_team_name: state => state.irs_tasker.selected_team_name,
@@ -114,8 +112,11 @@
           .concat({...DECORATED_UNASSIGNED_TEAM, count: unassigned_count})
       }
     },
-    mounted() {
-      get_geodata(this.$store)
+    created() {
+      if (!geodata_in_cache_and_valid()) {
+        this.$store.commit('meta/set_snackbar', {message: 'Message from TASK: Problem with geodata'})
+        this.$router.push({name: 'meta:geodata'})
+      }
     },
     methods: {
       // Load plan, and load-and-save assignments

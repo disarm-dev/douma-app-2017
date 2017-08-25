@@ -27,7 +27,7 @@ HTTP.interceptors.response.use(function (response) {
 
 /**
  * Standard handler for all remote requests (currently both client server and API)
- * Passed ptions overwrite any default options.
+ * Passed options overwrite any default options.
  * @param url
  * @param options
  */
