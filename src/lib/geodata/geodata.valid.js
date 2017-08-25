@@ -9,8 +9,6 @@ import geojson_validation from 'geojson-validation'
  */
 function geodata_in_cache_and_valid() {
   if (!Object.keys(cache.geodata).length) {
-    // TODO: @feature Remove geodata console.logs
-    console.warn('No spatial hierarchies on cache - need to (re-)load geodata')
     return false
   }
 
