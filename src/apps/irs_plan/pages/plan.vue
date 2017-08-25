@@ -3,7 +3,7 @@
     <controls>
       <md-button
         slot="primary_action"
-        class="md-icon-button md-raised"
+        class="md-primary md-icon-button md-raised"
         :class="{'md-warn': edit_mode}"
         :disabled="isLoading('irs_plan/load_plan') || !geodata_ready || !can_and_have_focused_planned"
         @click.native='edit_mode = !edit_mode'

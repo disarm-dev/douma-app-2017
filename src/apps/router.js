@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import {has_permission} from 'lib/helpers/permission_helper.js'
+import {geodata_valid} from 'lib/geodata/geodata.valid'
 
 export function create_router(instance_routes, store) {
   Vue.use(VueRouter)
@@ -31,11 +32,29 @@ export function create_router(instance_routes, store) {
     // User not logged in
     if (to.name === 'meta:login') {
       // next() if destination is the login page
-      next()
+      return next()
     } else {
       // Otherwise go to the login page (storing your original target)
       store.commit('meta/set_previous_route', to.path)
-      next({name: 'meta:login'})
+      return next({name: 'meta:login'})
+    }
+  })
+
+  router.beforeEach((to, from, next) =>{
+    // check if any applets require geodata, or continue
+    const geodata_required = store.getters['meta/decorated_applets'].some(a => a.geodata_required)
+    if (!geodata_required) return next()
+
+    // if you're already on your way to get_geodata, by on your way
+    if (to.name === 'meta:get_geodata') return next()
+
+    // geodata is required by at least one applet. check if it's already valid
+    if (!geodata_valid()) {
+      console.log('geodata required, NOT already exists && valid - go to a page to start getting geodata')
+      return next({name: 'meta:get_geodata'})
+    } else {
+      console.log('geodata required, already exists && valid')
+      return next()
     }
 
   })

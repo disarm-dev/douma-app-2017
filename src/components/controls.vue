@@ -1,5 +1,5 @@
 <template>
-  <md-toolbar class="md-dense controls">
+  <md-toolbar class="md-dense sub_toolbar">
     <slot name="primary_action"></slot>
 
     <md-menu md-direction="bottom right" md-size="6">
@@ -29,9 +29,9 @@
 </script>
 
 <style scoped>
-  .controls {
-    background-color: #607D8B;
-    color: white;
+  .sub_toolbar {
+    background-color: #dedede;
+    color: #3e3e3e;
     position: sticky;
     top: 48px;
     z-index: 10;

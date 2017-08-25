@@ -2,11 +2,34 @@
   <div>
     <h2>Filters for all fields</h2>
     <p>Select field and value</p>
+
+
+    <div class="filter_fields">
+      <md-input-container class="filter_field">
+        <md-select v-model="filter_name">
+          <md-option v-for="field_name in field_names" :key='field_name' :value="field_name">{{field_name}}</md-option>
+        </md-select>
+      </md-input-container>
+
+      <md-input-container>
+        <md-select v-model="filter_comparator">
+          <md-option v-for="comparator in comparators" :key="comparator" :value="comparator">{{comparator}}</md-option>
+        </md-select>
+      </md-input-container>
+
+      <md-input-container>
+        <md-select v-model="filter_value">
+          <md-option v-for="value in field_values" :key="value" :value="value">{{value}}</md-option>
+        </md-select>
+      </md-input-container>
+    </div>
   </div>
 </template>
 
 <script>
   import {mapState} from 'vuex'
+  import _, {flatten, get, uniq} from 'lodash'
+
   import {get_form_fields} from 'lib/instance_data/form_helpers'
 
   export default {
@@ -15,22 +38,75 @@
     mounted() {
     },
     data() {
-      return {}
+      return {
+        filter_name: '',
+        filter_comparator: 'eq',
+        filter_value: '',
+
+        comparators: ['eq', 'neq', 'gt', 'gte', 'lt', 'lte']
+      }
     },
     computed: {
       ...mapState({
         form: state => state.instance_config.form
-      })
+      }),
+      field_names() {
+        let all_field_names = []
+        this.responses.forEach(response => {
+          const nested_keys = this.extract_nested_keys(response)
+          all_field_names.push(nested_keys)
+        })
+        const flattened = _(all_field_names).flatten().uniq().sort().value()
+        console.log('flattened', flattened)
+        return flattened
+      },
+      field_values() {
+        if (!this.filter_name) return []
+        return _(this.responses).map(r => {
+          return get(r, this.filter_name)
+        }).uniq().sort().value()
+      }
     },
     mounted() {
-      const fields = get_form_fields(this.form)
-      console.log(fields, this.responses.length)
-      // get all options for each form field
     },
-    methods: {}
+    methods: {
+      extract_nested_keys(data) {
+        var result = {};
+
+        function recurse(cur, prop) {
+          if (Object(cur) !== cur) {
+            result[prop] = cur;
+          } else if (Array.isArray(cur)) {
+            for (var i = 0, l = cur.length; i < l; i++)
+              recurse(cur[i], prop + '[' + i + ']');
+            if (l === 0)
+              result[prop] = [];
+          } else {
+            var isEmpty = true;
+            for (var p in cur) {
+              isEmpty = false;
+              recurse(cur[p], prop ? prop + '.' + p : p);
+            }
+            if (isEmpty && prop)
+              result[prop] = {};
+          }
+        }
+
+        recurse(data, '');
+        return Object.keys(result);
+      }
+    }
   }
 </script>
 
 <style scoped>
 
+  .filter_fields {
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+  .filter_field {
+    flex: 1 1 33%;
+  }
 </style>
