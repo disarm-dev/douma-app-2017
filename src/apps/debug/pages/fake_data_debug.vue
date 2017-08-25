@@ -20,7 +20,6 @@ import random_point_in_polygon from 'random-points-on-polygon'
 import {getCoord} from '@turf/invariant'
 import moment from 'moment-mini'
 
-import {get_geodata} from 'lib/remote/remote.geodata.js'
 import cache from 'config/cache'
 import {get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
 import {ResponseSchema} from 'lib/models/response.schema'
@@ -49,9 +48,6 @@ export default {
     planning_level_name() {
       return get_planning_level_name()
     },
-  },
-  mounted() {
-    get_geodata(this.$store)
   },
   methods: {
     get_polygon(id) {
