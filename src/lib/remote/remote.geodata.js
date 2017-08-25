@@ -12,7 +12,29 @@ import {get_all_spatial_hierarchy_level_names, get_data_version} from 'lib/geoda
 import {geodata_valid, geodata_has_all_levels} from 'lib/geodata/geodata.valid'
 import {decorate_geodata_on_cache} from 'lib/geodata/geodata.decorate'
 
-export const get_geodata = (store, force_reload = false) => {
+export function get_geodata_for(level, slug) {
+  return new Promise((resolve, reject) => {
+    const url = geodata_url_for(slug, level)
+    standard_handler(url)
+      .then((geodata) => {
+        console.log(geodata)
+        cache.geodata[level] = geodata
+        resolve()
+      })
+      .catch((err) => {
+        console.log(err)
+        reject(err)
+      })
+  })
+}
+
+/**
+ * Start retrieving required geodata files from network (either remote or SW cache)
+ * Figures out what levels are required, and uses the passed in `store` to notify of progress
+ * @param store
+ * @param force_reload
+ */
+export function get_geodata (store, force_reload = false) {
   // TODO: @feature Remove geodata console.logs
   store.commit('loading/LOAD', 'get_geodata')
   console.log('GEODATA: Start loading geodata')

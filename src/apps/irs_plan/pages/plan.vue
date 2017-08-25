@@ -99,6 +99,7 @@
 
   import {get_planning_level_name, get_next_level_up_from_planning_level} from 'lib/geodata/spatial_hierarchy_helper'
   import {target_areas_inside_focus_filter_area} from '../helpers/target_areas_helper.js'
+  import {geodata_valid} from '../../../lib/geodata/geodata.valid'
 
   export default {
     name: 'Plan',
@@ -151,8 +152,11 @@
         return this.selected_target_area_ids.length !== 0
       }
     },
-    mounted() {
-      get_geodata(this.$store)
+    created() {
+      if (!geodata_valid()) {
+        this.$store.commit('meta/set_snackbar', {message: 'Message from PLAN: Problem with geodata'})
+        this.$router.push({name: 'meta:geodata'})
+      }
     },
     methods: {
       load_plan() {
