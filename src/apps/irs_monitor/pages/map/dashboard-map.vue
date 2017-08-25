@@ -52,6 +52,7 @@
 
         // map cache
         _map: null,
+        map_loaded: false,
         bbox: [],
         _click_handler: null,
         _aggregated_responses_fc: null,
@@ -102,6 +103,7 @@
         this._map = basic_map(this.$store)
 
         this._map.on('load', () => {
+          this.map_loaded = true
           // Go no further if there are no responses
           // TODO: @refac Check for this another way
           if (!this.responses.length) return
@@ -114,6 +116,7 @@
         this._map.fitBounds(this.bbox, {padding: 20})
       },
       redraw_layers() {
+        if (!this.map_loaded) return
         this.calculate_layer_attributes()
         this.switch_layer()
       },
