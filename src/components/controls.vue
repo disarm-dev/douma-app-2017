@@ -1,5 +1,5 @@
 <template>
-  <md-toolbar class="md-accent md-dense controls">
+  <md-toolbar class="md-dense controls">
     <slot name="primary_action"></slot>
 
     <md-menu md-direction="bottom right" md-size="6">
@@ -23,23 +23,15 @@
 </template>
 
 <script>
-  //import { mapState, mapActions, mapMutations } from 'vuex'
-
   export default {
-    name: 'controls',
-    mounted() {
-    },
-    data() {
-      return {}
-    },
-    methods: {}
+    name: 'controls'
   }
 </script>
 
 <style scoped>
   .controls {
-    /*display: flex;*/
-    /*min-height: 50px;*/
+    background-color: #607D8B;
+    color: white;
     position: sticky;
     top: 48px;
     z-index: 10;

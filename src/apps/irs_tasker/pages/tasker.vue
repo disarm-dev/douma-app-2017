@@ -1,6 +1,5 @@
 <template>
-  <div class="applet_container">
-
+  <div>
     <controls>
       <template slot="menu_items">
         <md-menu-item :disabled="isLoading('irs_tasker/load_plan')" @click="load_plan">
@@ -21,37 +20,39 @@
 
     </controls>
 
+    <div class="applet_container">
 
-    <md-card>
-      <md-card-content>
-        <!--LEGEND-->
-        <map_legend
-          :entries="entries_for_legend"
-          :selected_entry="selected_team_name"
-          @select="select_team"
-          title="Teams"
-        ></map_legend>
+      <md-card>
+        <md-card-content>
+          <!--LEGEND-->
+          <map_legend
+            :entries="entries_for_legend"
+            :selected_entry="selected_team_name"
+            @select="select_team"
+            title="Teams"
+          ></map_legend>
 
-        <!--MAP-->
-        <tasker_map
-          v-if="geodata_ready"
+          <!--MAP-->
+          <tasker_map
+            v-if="geodata_ready"
 
-          :plan_target_ids="plan_target_ids"
-          :assignments="assignments"
-          :decorated_teams="decorated_teams"
+            :plan_target_ids="plan_target_ids"
+            :assignments="assignments"
+            :decorated_teams="decorated_teams"
 
-          @assign_areas_to_selected_team="assign_areas_to_selected_team"
-        ></tasker_map>
-      </md-card-content>
-    </md-card>
+            @assign_areas_to_selected_team="assign_areas_to_selected_team"
+          ></tasker_map>
+        </md-card-content>
+      </md-card>
 
-    <!--TEAM LIST-->
-    <team_list
-      :assignments="assignments"
-      :decorated_teams="decorated_teams"
-      @selected_team="select_team"
-    ></team_list>
+      <!--TEAM LIST-->
+      <team_list
+        :assignments="assignments"
+        :decorated_teams="decorated_teams"
+        @selected_team="select_team"
+      ></team_list>
 
+    </div>
   </div>
 </template>
 

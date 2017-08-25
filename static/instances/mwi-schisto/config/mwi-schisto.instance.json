@@ -2,15 +2,49 @@
   "applets": {
     "irs_monitor": {
       "title": "Monitor",
-      "aggregations": {
-        "map": "structures sprayed %",
-        "table": ["structures sprayed", "structures sprayed %"]
+      "map": {
+        "chart_type": "map",
+        "bin_by": "location.selection.id",
+        "aggregation_names": ["number of rooms sprayed"]
       },
-      "components": [
+      "table": {
+        "chart_type": "table",
+        "bin_by": "location.selection.name",
+        "aggregation_names": ["number of rooms sprayed"]
+      },
+      "charts": [
         {
-          "height_constraint": "viewport",
-          "name": "nam_chart_structures_sprayed_doughnut",
-          "width_constraint": "half"
+          "id": "team_performance",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "fake_data": [
+              {
+                "x": ["24 jul", "31 jul", "7 aug", "14 aug", "21 aug"],
+                "y": [10, 25, 45, 65, 72],
+                "name": "coverage",
+                "type": "line"
+              }
+            ],
+            "layout": {
+              "showlegend": true,
+              "title": "Proportion of rooms sprayed / total number of rooms visited",
+              "yaxis": {
+                "title": "% coverage"
+              },
+              "xaxis": {
+                "title": "Period commencing"
+              }
+            },
+            "chart_type": "line",
+            "time_series": true,
+            "bin_by": "team_name",
+            "single_series": {
+              "aggregation_name": "structures sprayed"
+            }
+          }
         }
       ]
     },
