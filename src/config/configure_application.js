@@ -104,6 +104,7 @@ export function configure_application (instance_config) {
   need_to_update().then((can_update) => {
     const update_available = (can_update.status === 'CAN_UPDATE')
 
+    // Make sure we can catch any messages passed from ServiceWorker
     pubsubcache.subscribe('service_worker/onstatechange', (topic, args) => {
 
       const new_service_worker_activated = (args === 'activated')
