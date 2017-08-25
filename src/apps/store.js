@@ -9,7 +9,7 @@ export function create_store(instance_config, instance_stores) {
 
   // vuex-persistedstate
   // Exclude these paths from state persistence
-  const excluded_paths = ['geodata_ready', 'geodata_loading_progress', 'sw_update_available', 'sw_message']
+  const excluded_paths = ['sw_update_available', 'sw_message']
 
   const persisted_state_options = {
     getState:(key, storage) => {
@@ -66,10 +66,6 @@ export function create_store(instance_config, instance_stores) {
       trigger_sidebar_visible_irrelevant_value: false,
       trigger_help_visible_irrelevant_value: false, // Beware - don't care whether it true or false, just that it changes
 
-      // Geodata
-      geodata_loading_progress: 0,
-      geodata_ready: false,
-
     },
     mutations: {
       'root:set_snackbar': (state, snackbar) => {
@@ -93,12 +89,6 @@ export function create_store(instance_config, instance_stores) {
       'root:toggle_sidebar': (state) => {
         state.trigger_sidebar_visible_irrelevant_value= !state.trigger_sidebar_visible_irrelevant_value
       },
-      'root:set_geodata_loading_progress': (state, progress) => {
-        state.geodata_loading_progress = progress
-      },
-      'root:set_geodata_ready': (state, ready) => {
-        state.geodata_ready = ready
-      }
     },
   })
 }

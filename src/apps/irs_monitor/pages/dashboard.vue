@@ -6,11 +6,10 @@
     <div class='applet_container'>
 
       <!--DASHBOARD CONTROLS-->
-      <controls v-if="geodata_ready" :responses="responses"></controls>
+      <controls :responses="responses"></controls>
 
       <!--MAP-->
       <dashboard_map
-        v-if='geodata_ready'
         :responses="responses"
         :targets="targets"
         :aggregations="aggregations"
@@ -61,7 +60,6 @@
     computed: {
       ...mapState({
         instance_config: state => state.instance_config,
-        geodata_ready: state => state.geodata_ready,
 
         // Aggregations from instance_config
         aggregations: state => state.instance_config.aggregations,

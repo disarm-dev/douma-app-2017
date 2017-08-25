@@ -1,7 +1,7 @@
 import Dexie from 'dexie'
 
 import cache from 'config/cache'
-import {decorate_level} from 'lib/geodata/geodata.decorate'
+import {decorate_geodata_on_cache} from 'lib/geodata/geodata.decorate'
 
 const db = new Dexie('disarm_geodata')
 const disarm_geodata_key = 'disarm_geodata_key'
@@ -49,25 +49,14 @@ function retrieve_geodata_from_idb() {
   return db.geodata_collection.get(disarm_geodata_key)
 }
 
+/**
+ * Try to retrieve geodata from IDB, and set on cache if it exists
+ */
 export function hydrate_geodata_cache_from_idb() {
   return retrieve_geodata_from_idb()
     .then((record) => {
       if (record) cache.geodata = record.geodata
+      decorate_geodata_on_cache()
     })
     .catch(console.error)
-}
-
-
-const e = {
-  disarm_geodata_key: 'disarm_geodata_key',
-  geodata: {
-    wards: {}
-  }
-}
-
-const f = {
-  disarm_geodata_key: 'disarm_geodata_key',
-  geodata: {
-    clusters: {}
-  }
 }

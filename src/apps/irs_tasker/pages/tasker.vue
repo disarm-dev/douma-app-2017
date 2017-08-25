@@ -34,8 +34,6 @@
 
           <!--MAP-->
           <tasker_map
-            v-if="geodata_ready"
-
             :plan_target_ids="plan_target_ids"
             :assignments="assignments"
             :decorated_teams="decorated_teams"
@@ -83,7 +81,6 @@
     computed: {
       ...mapState({
         instance_slug: state => state.instance_config.instance.slug,
-        geodata_ready: state => state.geodata_ready,
 
         unsynced_changes: state => state.irs_tasker.unsynced_changes,
         selected_team_name: state => state.irs_tasker.selected_team_name,
