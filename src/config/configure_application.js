@@ -84,7 +84,6 @@ export function configure_application (instance_config) {
 
   // CREATE VUE APP
 
-
   // Instantiate Vue app with store and router
   const douma_app = new Vue({
     el: '#douma',
@@ -94,8 +93,7 @@ export function configure_application (instance_config) {
   })
 
 
-
-  // AFTER VUE APP IS CREATED
+  // AFTER VUE APP IS CREATED (first page has rendered)
 
 
   // Analytics 2/2: set common properties (e.g. user) for every event
@@ -118,7 +116,6 @@ export function configure_application (instance_config) {
       console.log('service_worker/onstatechange message:', args)
     })
   })
-
 
   // Add extra info to error logging
   set_raven_user_context(douma_app.$store.state)
