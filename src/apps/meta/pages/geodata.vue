@@ -8,7 +8,8 @@
           <md-icon v-else>error</md-icon>
           {{level}}
           <div>
-            <md-button @click.native="get_geodata_for(level)" class="list-button md-raised md-primary md-list-action">Download</md-button>
+            <md-button @click.native="retrieve_geodata_for(level)" class="list-button md-raised md-primary md-list-action">Download</md-button>
+            <md-button @click.native="import_geodata_for(level)" class="list-button md-raised md-primary md-list-action">Import</md-button>
           </div>
         </md-list-item>
       </md-list>
@@ -50,10 +51,11 @@
         })
       },
       download_all() {},
-      get_geodata_for(level) {
-//        get_geodata_for(level, this.slug).then(() => {
-//          this.calculate_cache_status()
-//        })
+      retrieve_geodata_for(level) {
+        console.log('retrieve_geodata_for', level)
+      },
+      import_geodata_for(level) {
+        console.log('import_geodata_for', level)
       },
       continue_routing() {
         if (this.$store.state.meta.previous_route) {
