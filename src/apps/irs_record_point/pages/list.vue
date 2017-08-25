@@ -1,7 +1,5 @@
 <template>
-  <div class='applet_container'>
-     <!--<local_record_summary></local_record_summary>-->
-
+  <div>
     <controls>
       <md-button slot="primary_action" class="md-icon-button md-raised md-primary" @click.native='$router.push("/irs/record_point/new")'>
         <md-icon>add</md-icon>
@@ -31,36 +29,42 @@
 
     </controls>
 
-    <!-- LIST ALL -->
-    <md-card>
-      <md-card-header>
-        <div class="md-title">{{unsynced_count}} responses</div>
-      </md-card-header>
-      <md-card-content>
-        <md-list>
-          <virtual_list :size="40" :remain="10">
-            <md-list-item
-              v-for='response in responses'
-              :index='response'
-              :class="{'md-primary': !response.synced}"
-              :key="response.id"
-            >
-              <md-icon>
-                {{response.synced ? 'check' : 'mode_edit'}}
-              </md-icon>
+    <div class='applet_container'>
+       <!--<local_record_summary></local_record_summary>-->
 
-              <div>
-                <router-link
-                  :to="{name: response.synced ? 'irs_record_point:view' : 'irs_record_point:edit', params: {response_id: response.id}}">
-                  {{format_response(response)}}
-                </router-link>
-              </div>
-            </md-list-item>
-          </virtual_list>
-        </md-list>
-      </md-card-content>
-    </md-card>
 
+
+      <!-- LIST ALL -->
+      <md-card>
+        <md-card-header>
+          <div class="md-title">{{unsynced_count}} responses</div>
+        </md-card-header>
+        <md-card-content>
+          <md-list>
+            <virtual_list :size="40" :remain="10">
+              <md-list-item
+                v-for='response in responses'
+                :index='response'
+                :class="{'md-primary': !response.synced}"
+                :key="response.id"
+              >
+                <md-icon>
+                  {{response.synced ? 'check' : 'mode_edit'}}
+                </md-icon>
+
+                <div>
+                  <router-link
+                    :to="{name: response.synced ? 'irs_record_point:view' : 'irs_record_point:edit', params: {response_id: response.id}}">
+                    {{format_response(response)}}
+                  </router-link>
+                </div>
+              </md-list-item>
+            </virtual_list>
+          </md-list>
+        </md-card-content>
+      </md-card>
+
+    </div>
   </div>
 </template>
 

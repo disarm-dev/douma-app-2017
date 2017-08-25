@@ -1,30 +1,61 @@
-{
-  "homesteads found": {
-    "numerator_expr": "1"
+[
+  {
+    "name": "number of people in homestead (total)",
+    "numerator_expr": "n_people_homestead_underage5 + n_people_homestead_overage5"
   },
-  "structures found": {
-    "numerator_expr": "number_sprayable + number_unsprayable"
+  {
+    "name": "number of people in the homestead (<5 yrs)",
+    "numerator_expr": "n_people_homestead_underage5"
   },
-  "structures found %": {
-    "numerator_expr": "number_sprayable + number_unsprayable",
-    "denominator_field": "number_of_households"
+  {
+    "name": "number of people in the homestead (>5 yrs)",
+    "numerator_expr": "n_people_homestead_overage5"
   },
-  "structures sprayed": {
-    "numerator_expr": "numbersprayed_delta + numbersprayed_ddt"
+  {
+    "name": "number of buildings visited",
+    "numerator_expr": "n_buildings"
   },
-  "structures sprayed %": {
-    "numerator_expr": "numbersprayed_delta + numbersprayed_ddt",
-    "denominator_field": "number_of_households"
+  {
+    "name": "number of rooms visited",
+    "numerator_expr": "room_count"
   },
-  "sprayable structures not sprayed": {
-    "numerator_expr": "number_sprayable - (numbersprayed_delta + numbersprayed_ddt)"
+  {
+    "name": "number of rooms sprayed",
+    "numerator_expr": "number_sprayed"
   },
-  "sprayable structures not sprayed (refused)": {
-    "numerator_expr": "number_sprayable - (numbersprayed_delta + numbersprayed_ddt)"
+  {
+    "name": "number of rooms sprayed with DDT",
+    "numerator_expr": "number_sprayed_ddt"
   },
-  "sprayable structures not sprayed (refused) %": {
-    "numerator_expr": "number_sprayable - (numbersprayed_delta + numbersprayed_ddt)",
-    "denominator_field": "number_of_households"
+  {
+    "name": "number of rooms sprayed with lambda-cyhalothrin",
+    "numerator_expr": "number_sprayed_lambdacyhalothrin"
+  },
+  {
+    "name": "number of other structures visited",
+    "numerator_expr": "number_other_structures"
+  },
+  {
+    "name": "Total other structures sprayed",
+    "numerator_expr": "number_sprayed_other_partial_spray"
+  },
+  {
+    "name": "number of rooms not sprayed",
+    "numerator_expr": "n_unsprayed"
+  },
+  {
+    "name": "number of rooms not sprayed - locked",
+    "numerator_expr": "rooms_locked"
+  },
+  {
+    "name": "number of rooms not sprayed - locked (%)",
+    "numerator_expr": "rooms_locked",
+    "denominator_field": "n_unsprayed"
+  },
+
+  {
+    "name": "number of buildings targeted",
+    "denominator_field": "structures_targeted"
   }
-}
+]
 

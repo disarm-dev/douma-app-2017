@@ -1,6 +1,5 @@
 <template>
-  <div class='applet_container'>
-
+  <div>
     <controls>
       <md-button
         slot="primary_action"
@@ -35,47 +34,49 @@
       </div>
     </controls>
 
-    <div>
-      <!-- FILTER TO LIMIT PLAN -->
-      <plan_filter
-        v-if="must_focus_planning && geodata_ready"
-        :unsaved_changes="unsaved_changes"
-      ></plan_filter>
+    <div class='applet_container'>
+      <div>
+        <!-- FILTER TO LIMIT PLAN -->
+        <plan_filter
+          v-if="must_focus_planning && geodata_ready"
+          :unsaved_changes="unsaved_changes"
+        ></plan_filter>
 
 
-      <!--PLAN MAP-->
-      <md-card>
-        <md-card-content>
-          <plan_calculator :geodata_ready="geodata_ready"></plan_calculator>
-          <plan_map
-            :geodata_ready="geodata_ready"
-            :edit_mode="edit_mode"
-            :selected_filter_area_id="selected_filter_area_id"
-            v-on:map_loaded="edit_disabled = false"
-          ></plan_map>
-        </md-card-content>
-      </md-card>
+        <!--PLAN MAP-->
+        <md-card>
+          <md-card-content>
+            <plan_calculator :geodata_ready="geodata_ready"></plan_calculator>
+            <plan_map
+              :geodata_ready="geodata_ready"
+              :edit_mode="edit_mode"
+              :selected_filter_area_id="selected_filter_area_id"
+              v-on:map_loaded="edit_disabled = false"
+            ></plan_map>
+          </md-card-content>
+        </md-card>
 
 
-      <!--PLAN SUMMARY-->
-      <md-card class="card"><md-card-content>
-        <plan_summary :geodata_ready="geodata_ready"></plan_summary>
-      </md-card-content></md-card>
+        <!--PLAN SUMMARY-->
+        <md-card class="card"><md-card-content>
+          <plan_summary :geodata_ready="geodata_ready"></plan_summary>
+        </md-card-content></md-card>
 
+      </div>
+
+      <!-- Progress-->
+      <md-dialog ref="geodata_loading_modal" :md-click-outside-to-close="false">
+        <md-dialog-title>Loading base layers</md-dialog-title>
+
+        <md-dialog-content class="centred">
+          <md-spinner :md-progress="geodata_loading_progress"></md-spinner>
+        </md-dialog-content>
+
+        <md-dialog-actions>
+          <md-button :disabled='!geodata_ready' class="md-primary" @click.native="$refs.geodata_loading_modal.close()">Start planning!</md-button>
+        </md-dialog-actions>
+      </md-dialog>
     </div>
-
-    <!-- Progress-->
-    <md-dialog ref="geodata_loading_modal" :md-click-outside-to-close="false">
-      <md-dialog-title>Loading base layers</md-dialog-title>
-
-      <md-dialog-content class="centred">
-        <md-spinner :md-progress="geodata_loading_progress"></md-spinner>
-      </md-dialog-content>
-
-      <md-dialog-actions>
-        <md-button :disabled='!geodata_ready' class="md-primary" @click.native="$refs.geodata_loading_modal.close()">Start planning!</md-button>
-      </md-dialog-actions>
-    </md-dialog>
   </div>
 </template>
 

@@ -3,6 +3,21 @@
     DiSARM is the Disease Surveillance And Risk Monitoring platform.
     Find out more at <a href='http://www.disarm.io'>disarm.io</a>
 
+- title: Reloading and updating
+  content: >
+    - DiSARM is designed to run offline in a robust way that protects your data.
+
+    - In general, you can try reloading any page that looks like it's stuck loading (click the reload button on your browser).
+    If you're editing a form, you may lose your entry unless you save first.
+
+    - If DISARM is online, it will check to see if there's a new version available. If there is, it will download and update in the background, letting you know
+    when it's ready.
+    Sometimes (due to a slow connection or other issue), the update doesn't work.
+
+
+    - If things get stuck on a desktop browser, you can try a "force reload", which is `ctrl+shift+r` on Windows (`cmd+shift+r` on Mac).
+    This will try to re-download the required application files and start up again. Your data (except unsaved forms) will not be removed.
+
 - title: Log-in
   image: login.png
   content: Enter your username and password, Just click login.
