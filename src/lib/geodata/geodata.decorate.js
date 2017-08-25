@@ -1,5 +1,5 @@
 import cache from 'config/cache'
-import {geodata_valid} from 'lib/geodata/geodata.valid'
+import {geodata_in_cache_and_valid} from 'lib/geodata/geodata.valid'
 import {get_all_spatial_hierarchy_level_names, get_display_name_for_level, get_field_name_for_level} from 'lib/geodata/spatial_hierarchy_helper'
 
 /**
@@ -7,7 +7,7 @@ import {get_all_spatial_hierarchy_level_names, get_display_name_for_level, get_f
  * @returns {boolean}
  */
 export function decorate_geodata_on_cache () {
-  if (!geodata_valid()) throw new Error('Invalid geodata')
+  if (!geodata_in_cache_and_valid()) throw new Error('Invalid geodata')
 
   const level_names = get_all_spatial_hierarchy_level_names()
 

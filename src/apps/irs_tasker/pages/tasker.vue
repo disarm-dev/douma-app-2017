@@ -67,7 +67,7 @@
   import {AssignmentPlan} from 'lib/models/assignment_plan.model'
   import {DECORATED_UNASSIGNED_TEAM} from '../unassigned_team'
   import {get_geodata} from 'lib/remote/remote.geodata.js'
-  import {geodata_valid} from '../../../lib/geodata/geodata.valid'
+  import {geodata_in_cache_and_valid} from '../../../lib/geodata/geodata.valid'
 
   const PALETTE = chroma.brewer.Set2
 
@@ -116,7 +116,7 @@
       }
     },
     created() {
-      if (!geodata_valid()) {
+      if (!geodata_in_cache_and_valid()) {
         this.$store.commit('meta/set_snackbar', {message: 'Message from TASK: Problem with geodata'})
         this.$router.push({name: 'meta:geodata'})
       }

@@ -1,5 +1,5 @@
 import cache from 'config/cache'
-import {geodata_valid} from 'lib/geodata/geodata.valid'
+import {geodata_in_cache_and_valid} from 'lib/geodata/geodata.valid'
 import {configure_spatial_helpers} from 'lib/geodata/spatial_hierarchy_helper'
 
 const instance_config = {
@@ -36,7 +36,7 @@ describe('geodata.valid.js', () => {
     const geodata = {}
 
     cache.geodata = geodata
-    const is_valid = geodata_valid()
+    const is_valid = geodata_in_cache_and_valid()
     assert.isFalse(is_valid)
   })
 
@@ -47,7 +47,7 @@ describe('geodata.valid.js', () => {
     }
 
     cache.geodata = geodata
-    const is_valid = geodata_valid()
+    const is_valid = geodata_in_cache_and_valid()
     assert.isFalse(is_valid)
   })
 
@@ -58,7 +58,7 @@ describe('geodata.valid.js', () => {
     }
 
     cache.geodata = geodata
-    const is_valid = geodata_valid()
+    const is_valid = geodata_in_cache_and_valid()
     assert.isFalse(is_valid)
   })
 
@@ -73,7 +73,7 @@ describe('geodata.valid.js', () => {
     }
 
     cache.geodata = geodata
-    const is_valid = geodata_valid()
+    const is_valid = geodata_in_cache_and_valid()
     assert.isFalse(is_valid)
   })
 
@@ -142,7 +142,7 @@ describe('geodata.valid.js', () => {
     }
 
     cache.geodata = geodata
-    const is_valid = geodata_valid()
+    const is_valid = geodata_in_cache_and_valid()
     assert.isTrue(is_valid)
   })
 })

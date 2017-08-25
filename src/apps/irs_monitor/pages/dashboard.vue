@@ -47,7 +47,7 @@
   import dashboard_map from './map/dashboard-map.vue'
   import dashboard_table from './table/dashboard-table.vue'
   import charts from './charts/dashboard-charts.vue'
-  import {geodata_valid} from '../../../lib/geodata/geodata.valid'
+  import {geodata_in_cache_and_valid} from '../../../lib/geodata/geodata.valid'
 
   export default {
     name: 'Dashboard',
@@ -81,7 +81,7 @@
       }),
     },
     created() {
-      if (!geodata_valid()) {
+      if (!geodata_in_cache_and_valid()) {
         this.$store.commit('meta/set_snackbar', {message: 'Message from MONITOR: Problem with geodata'})
         this.$router.push({name: 'meta:geodata'})
       }

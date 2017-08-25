@@ -47,7 +47,7 @@
   // Geodata
   import cache from 'config/cache'
   import {get_geodata} from 'lib/remote/remote.geodata'
-  import {geodata_valid} from 'lib/geodata/geodata.valid'
+  import {geodata_in_cache_and_valid} from 'lib/geodata/geodata.valid'
   import {decorate_geodata_on_cache} from 'lib/geodata/geodata.decorate'
   import {generate_location_selections} from 'lib/geodata/generate_location_selection'
 
@@ -104,7 +104,7 @@
         get_geodata(this.$store, true).then(() => this.success.local_geodata_ready = true)
       },
       check_geodata_valid() {
-        const result = geodata_valid()
+        const result = geodata_in_cache_and_valid()
         if (!result) console.log('geodata_has_all_levels', geodata_has_all_levels())
         this.success.geodata_valid = result
       },
