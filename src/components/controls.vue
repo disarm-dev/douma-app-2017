@@ -23,24 +23,15 @@
 </template>
 
 <script>
-  //import { mapState, mapActions, mapMutations } from 'vuex'
-
   export default {
-    name: 'controls',
-    mounted() {
-    },
-    data() {
-      return {}
-    },
-    methods: {}
+    name: 'controls'
   }
 </script>
 
 <style scoped>
   .controls {
-    background-color: #afadad;
-    /*display: flex;*/
-    /*min-height: 50px;*/
+    background-color: #607D8B;
+    color: white;
     position: sticky;
     top: 48px;
     z-index: 10;
