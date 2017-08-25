@@ -1,5 +1,5 @@
 <template>
-  <md-toolbar class="md-accent md-dense controls">
+  <md-toolbar class="md-dense controls">
     <slot name="primary_action"></slot>
 
     <md-menu md-direction="bottom right" md-size="6">
@@ -38,6 +38,7 @@
 
 <style scoped>
   .controls {
+    background-color: #afadad;
     /*display: flex;*/
     /*min-height: 50px;*/
     position: sticky;
