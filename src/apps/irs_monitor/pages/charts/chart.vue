@@ -3,7 +3,7 @@
 </template>
 
 <script>
-  import Plotly from 'plotly.js/dist/plotly.js'
+  import Plotly from 'plotly.js/dist/plotly-basic.js'
   import get_data from '../../lib/get_data_for_viz'
 
   const plotly_event_listeners = []
