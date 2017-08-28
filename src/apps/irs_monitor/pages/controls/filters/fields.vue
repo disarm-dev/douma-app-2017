@@ -28,7 +28,11 @@
 
 <script>
   import {mapState} from 'vuex'
-  import _, {flatten, get, uniq} from 'lodash'
+  import {get, sort} from 'lodash'
+  import flow from 'lodash/fp/flow'
+  import flatten from 'lodash/fp/flatten'
+  import uniq from 'lodash/fp/uniq'
+  import sortBy from 'lodash/fp/sortBy'
 
   import {get_form_fields} from 'lib/instance_data/form_helpers'
 
@@ -56,15 +60,25 @@
           const nested_keys = this.extract_nested_keys(response)
           all_field_names.push(nested_keys)
         })
-        const flattened = _(all_field_names).flatten().uniq().sort().value()
+
+        const flattened = flow(
+          flatten,
+          uniq,
+          sortBy(x => x)
+        )(all_field_names)
         console.log('flattened', flattened)
+
         return flattened
       },
       field_values() {
         if (!this.filter_name) return []
-        return _(this.responses).map(r => {
-          return get(r, this.filter_name)
-        }).uniq().sort().value()
+        return flow(
+          map(r => {
+            return get(r, this.filter_name)
+          }),
+          uniq,
+          sortBy(x => x)
+        )(this.responses)
       }
     },
     mounted() {

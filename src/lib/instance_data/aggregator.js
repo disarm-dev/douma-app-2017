@@ -1,6 +1,9 @@
 import {Parser} from 'expr-eval'
 import isNumber from 'is-number'
-import _ from 'lodash'
+import flow from 'lodash/fp/flow'
+import compact from 'lodash/fp/compact'
+import map from 'lodash/fp/map'
+import uniq from 'lodash/fp/uniq'
 import {get_denominator_enumerable_name} from 'lib/geodata/spatial_hierarchy_helper'
 
 /**
@@ -68,13 +71,19 @@ function _calculate_denominator({responses, targets}) {
   const enumerable_field = get_denominator_enumerable_name()
 
   // get all area ids
-  const unique_area_ids_from_responses = _(responses).map('location.selection.id').uniq()
+  const unique_area_ids_from_responses = flow(
+    map('location.selection.id'),
+    uniq
+  )(responses)
 
   // get target for each unique_area_id
-  const unique_targets = _(unique_area_ids_from_responses).map((area_id) => {
-    const target = targets.find(d => d.id === area_id)
-    return target
-  }).compact()
+  const unique_targets = flow(
+    map((area_id) => {
+      const target = targets.find(d => d.id === area_id)
+      return target
+    }),
+    compact
+  )(unique_area_ids_from_responses)
 
   // add the enumeral from the targets together to get denominator
   const denominator = unique_targets.reduce((acc, target) => {

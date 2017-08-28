@@ -1,5 +1,8 @@
 // find the correct aggregations for the chart
-import _, {has} from 'lodash'
+import {has} from 'lodash'
+import flow from 'lodash/fp/flow'
+import map from 'lodash/fp/map'
+import compact from 'lodash/fp/compact'
 import {featureCollection} from '@turf/helpers'
 
 import cache from 'config/cache'
@@ -181,23 +184,26 @@ export function decorate_for_map({binned_responses, targets, aggregations, optio
   // create featureCollection, matching geodata with response bins
   const geodata_features = selected_geodata_level_fc.features
 
-  const decorated_features = _(binned_aggregations).map((bin) => {
-    const found = geodata_features.find(feature => {
-      return feature.properties.__disarm_geo_id === bin.key
-    })
+  const decorated_features = flow(
+    map((bin) => {
+      const found = geodata_features.find(feature => {
+        return feature.properties.__disarm_geo_id === bin.key
+      })
 
-    if (found) {
-      found.properties = {
-        ...found.properties,
-        ...bin.values
+      if (found) {
+        found.properties = {
+          ...found.properties,
+          ...bin.values
+        }
+      } else {
+        console.warn(`Cannot find geodata for ${bin.key}`)
+        return {}
       }
-    } else {
-      console.warn(`Cannot find geodata for ${bin.key}`)
-      return {}
-    }
 
-    return found
-  }).compact().value() // TODO: Should not need `#value()` call here...
+      return found
+    }),
+    compact
+  )(binned_aggregations)
 
   // return a featureCollection
   return featureCollection(decorated_features)
