@@ -32,6 +32,7 @@
   import {geodata_has_level} from 'lib/geodata/geodata.valid'
   import {get_geodata_for} from 'lib/remote/remote.geodata'
   import {get_and_set_geodata_for} from 'lib/remote/remote.geodata'
+  import {hydrate_geodata_cache_from_idb} from "lib/geodata/local.geodata_store";
 
   export default {
     name: 'geodata',
@@ -47,8 +48,13 @@
       }
     },
     mounted() {
-      this.calculate_cache_status()
       this.level_names = get_all_spatial_hierarchy_level_names()
+      hydrate_geodata_cache_from_idb().then(() => {
+        this.calculate_cache_status()
+        if (this.level_names.every(geodata_has_level)) {
+          this.continue_routing()
+        }
+      })
     },
     methods: {
       calculate_cache_status(level) {

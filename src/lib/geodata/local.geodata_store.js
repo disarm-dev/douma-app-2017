@@ -57,6 +57,7 @@ export function hydrate_geodata_cache_from_idb() {
     .then((record) => {
       if (record) cache.geodata = record.geodata
       decorate_geodata_on_cache()
+      return record
     })
     .catch(console.error)
 }
