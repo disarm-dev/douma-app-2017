@@ -12,13 +12,13 @@
           <span>{{level}}</span>
 
           <md-button @click.native="retrieve_geodata_for(level)" class="md-dense list-button md-raised md-primary">Download</md-button>
-          <!--<md-button @click.native="import_geodata_for(level)" class="md-dense list-button md-raised md-primary">Import</md-button>-->
-          <div>
+          <md-button @click.native="import_geodata_for(level)" class="md-dense list-button md-raised md-primary">Import</md-button>
+          <!-- <div>
             <md-input-container>
               <label>Upload geodata for {{level}}</label>
               <md-file v-model="file[level]" :id="level" :name="level" @selected="upload_geodata"></md-file>
             </md-input-container>
-          </div>
+          </div> -->
 
         </md-list-item>
       </md-list>
@@ -70,9 +70,13 @@
         })
       },
       retrieve_geodata_for(level) {
-        get_and_set_geodata_for(level).then(() => {
-          this.calculate_cache_status()
-        })
+        get_and_set_geodata_for(level)
+          .then(() => {
+            return hydrate_geodata_cache_from_idb()
+          })
+          .then(() => {
+            this.calculate_cache_status()
+          })
       },
       import_geodata_for(level) {
         console.log('import_geodata_for', level)
