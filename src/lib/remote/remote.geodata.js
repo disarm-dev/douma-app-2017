@@ -1,6 +1,7 @@
 import {standard_handler} from 'lib/remote/remote.standard-handler.js'
 import {get_all_spatial_hierarchy_level_names, get_slug, get_data_version} from 'lib/geodata/spatial_hierarchy_helper'
 import {save_geodata_to_idb} from 'lib/geodata/local.geodata_store'
+import cache from 'config/cache'
 
 /**
  * Simple string-interpolation to generate a URL
@@ -28,13 +29,14 @@ function get_geodata_for(level_name) {
 }
 
 function store_geodata({level_name, level_geodata}) {
-  save_geodata_to_idb({level_name, level_geodata: level_geodata})
+  cache.geodata[level_name] = level_geodata
+  save_geodata_to_idb({level_name, level_geodata})
 }
 
 export function get_and_set_geodata_for(level_name) {
   return get_geodata_for(level_name)
     .then((level_geodata) => {
-      store_geodata({level_name, level_geodata})
+      return store_geodata({level_name, level_geodata})
     })
     .catch(console.error)
 }
