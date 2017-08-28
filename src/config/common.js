@@ -17,7 +17,7 @@ export default {
     'irs_plan': {title: 'IRS Plan', icon: 'assignment_turned_in', geodata_required: true},
     'irs_monitor': {title: 'IRS Monitor', icon: 'dashboard', geodata_required: true},
     'irs_tasker': {title: 'IRS Tasker', icon: 'group', geodata_required: true},
-    'debug': {title: 'Debug', icon: 'bug_report'},
+    'debug': {title: 'Debug', icon: 'bug_report', geodata_required: true},
     // Meta below is currently ignored in sidebar (statically included), but here for the breadcrumbs
     'meta': {title: 'User', icon: 'person'},
   },

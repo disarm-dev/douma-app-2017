@@ -3,7 +3,7 @@
     <md-input-container>
       <label>Number of areas (between 0 and 3 records generated for each area)</label>
       <md-input type="number" v-model="areas_count"></md-input>
-      <md-button :disabled="!geodata_ready" @click.native="generate_data">Generate</md-button>
+      <md-button @click.native="generate_data">Generate</md-button>
     </md-input-container>
 
     <div v-if="message">
@@ -38,7 +38,6 @@ export default {
     ...mapState({
       user: state => state.meta.user.username,
       slug: state => state.instance_config.instance.slug,
-      geodata_ready: state => state.geodata_ready,
       instance_config: state => state.instance_config,
     }),
     location_selection() {
