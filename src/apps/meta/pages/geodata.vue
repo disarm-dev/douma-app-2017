@@ -32,10 +32,8 @@
   import {geodata_has_level} from 'lib/geodata/geodata.valid'
   import {get_geodata_for} from 'lib/remote/remote.geodata'
   import {get_and_set_geodata_for} from 'lib/remote/remote.geodata'
-  //import MdListItem from "../../../../node_modules/vue-material/src/components/mdList/mdListItemButton.vue";
 
   export default {
-    //components: {MdListItem},
     name: 'geodata',
     data () {
       return {
