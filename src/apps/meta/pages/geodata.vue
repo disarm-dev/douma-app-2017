@@ -12,7 +12,13 @@
           <span>{{level}}</span>
 
           <md-button @click.native="retrieve_geodata_for(level)" class="md-dense list-button md-raised md-primary">Download</md-button>
-          <md-button @click.native="import_geodata_for(level)" class="md-dense list-button md-raised md-primary">Import</md-button>
+          <!--<md-button @click.native="import_geodata_for(level)" class="md-dense list-button md-raised md-primary">Import</md-button>-->
+          <div>
+            <md-input-container>
+              <label>Upload geodata for {{level}}</label>
+              <md-file v-model="file[level]" :id="level" :name="level" @selected="upload_geodata"></md-file>
+            </md-input-container>
+          </div>
 
         </md-list-item>
       </md-list>
@@ -38,6 +44,7 @@
     name: 'geodata',
     data () {
       return {
+        file: {},
         cache_status: {},
         level_names: []
       }
@@ -69,6 +76,19 @@
       },
       import_geodata_for(level) {
         console.log('import_geodata_for', level)
+      },
+      upload_geodata(e) {
+        if (e.length === 0) return
+
+        const file = e.item(0)
+        const file_reader = new FileReader();
+
+        file_reader.onload = (e) => {
+          const result = JSON.parse(e.target.result)
+          console.log('result', result)
+        }
+
+        file_reader.readAsText(file)
       },
       download_all() {},
       continue_routing() {
