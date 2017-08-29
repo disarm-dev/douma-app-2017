@@ -21,7 +21,7 @@
           },
           "options": {
             "title": "Variable definitions",
-            "text": "**Markdown here** : \n\n New line here\n\n "
+            "text": "**Room**: \nAn enclosed space (e.g. bedrooms, living rooms, kitchen)\n\n**Other structure**: \nBesides rooms, any other structures that are sprayable (e.g. bathrooms, toilets, passages, open-kitchens)\n\n**Building**: \nOne or more conjoined rooms\n\n**Homestead**: \nA yard with one or more buildings\n\n**Household**: \nA group of people who share the same home\n\n**Head of household**: \nAny person responsible for the people who live in a household"
           }
         },
         {
