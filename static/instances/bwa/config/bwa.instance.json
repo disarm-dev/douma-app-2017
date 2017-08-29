@@ -13,6 +13,18 @@
       },
       "charts": [
         {
+          "id": "variable_definition",
+          "chart_type": "text",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "title": "Variable definitions",
+            "text": "**Markdown here** : \n\n New line here\n\n "
+          }
+        },
+        {
           "id": "team_performance",
           "style": {
             "height_constraint": "none",
