@@ -15,15 +15,12 @@
 
       <md-card-actions>
         <!--Only for first page, take you back to Location tab/page -->
-        <!--<md-button v-if="show_back_to_location" @click.native="$emit('previous_view')" class="md-raised">Previous</md-button>-->
+        <md-button v-if="show_back_to_location" @click.native="$emit('previous_view')" class="md-raised">Previous</md-button>
 
         <!-- SurveyJS navigation proxies -->
         <md-button v-if="show_previous" @click.native="previous_page" class="md-raised">Previous</md-button>
-        <md-button v-if="show_next" :disabled="next_disabled" @click.native="next_page" class="md-raised">Next
-        </md-button>
-        <md-button v-if="show_complete" :disabled="complete_disabled" @click.native="complete"
-                   class="md-raised md-primary">Complete
-        </md-button>
+        <md-button v-if="show_next" :disabled="next_disabled" @click.native="next_page" class="md-raised">Next</md-button>
+        <md-button v-if="show_complete" :disabled="complete_disabled" @click.native="complete" class="md-raised md-primary">Complete</md-button>
       </md-card-actions>
     </md-card>
 
@@ -84,11 +81,19 @@
       on_page_change() { // Called from SurveyJS #onValueChanged
         this.control_navigation()
       },
+      is_single_page_form() {
+        return this._survey.isFirstPage && this._survey.isLastPage
+      },
 
       control_navigation() {
         this.$nextTick(() => {
           // All buttons off and disabled
           this.reset_navigation()
+
+          // Handle single_page_forms differently to avoid 'red screen of errors'
+          if (this.is_single_page_form()) {
+            return this.control_single_page_form_complete()
+          }
 
           // Either back to location, or back to previous question
           this.control_previous_button_visibility()
@@ -117,7 +122,7 @@
         this.show_next = !this._survey.isLastPage
       },
       control_complete_button_visibility() {
-        const is_single_page_or_last_page = (this._survey.isFirstPage && this._survey.isLastPage) || this._survey.isLastPage
+        const is_single_page_or_last_page = (this.is_single_page_form()) || this._survey.isLastPage
 
         // No questions answered (will need solving again when we fix the 'screen of red errors')
 //        if (!is_single_page_or_last_page && Object.keys(this._survey.data).length === 0) return
@@ -147,7 +152,6 @@
         // which currently has a validation_error
 
 
-
         // get names of all questions answered (from validations)
         const questions_answered_names = this.validations.errors.reduce((questions_array, err) => {
           return questions_array.concat(err.questions)
@@ -174,7 +178,7 @@
         })
 
 
-        
+
         const has_form_errors = this._survey.isCurrentPageHasErrors
         const has_validation_errors = (last_page_with_validation_error_index === current_page_index)
 
@@ -190,9 +194,20 @@
 
 
       },
+      control_single_page_form_complete() {
+        this.show_complete = true
+        this.complete_disabled = false
+      },
+
+      // Navigation
       next_page() { this._survey.nextPage() },
       previous_page() { this._survey.prevPage() },
-      complete() { this.$emit('complete', this._survey) }
+      complete() {
+        if (this.is_single_page_form() && this._survey.isCurrentPageHasErrors){
+          return console.log('fix errors')
+        }
+        this.$emit('complete', this._survey)
+      }
     }
   }
 </script>
