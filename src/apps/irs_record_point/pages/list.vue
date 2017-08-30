@@ -11,7 +11,7 @@
           <span>Sync {{unsynced_count}} responses</span>
         </md-menu-item>
 
-        <md-menu-item :disabled="true || syncing || synced_count === 0" @click="clear_synced_responses">
+        <md-menu-item :disabled="syncing || synced_count === 0" @click="clear_synced_responses">
           <md-icon>close</md-icon>
           <span>Hide synced responses</span>
         </md-menu-item>
