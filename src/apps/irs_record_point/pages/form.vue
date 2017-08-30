@@ -93,7 +93,7 @@
           // Either back to location, or back to previous question
           this.control_previous_button_visibility()
 
-          // Depending on whether last page or single-page-form
+          // Depending on whether is last_page or a single-page-form
           this.control_next_button_visibility()
           this.control_complete_button_visibility()
 
@@ -119,7 +119,7 @@
       control_complete_button_visibility() {
         const is_single_page_or_last_page = (this._survey.isFirstPage && this._survey.isLastPage) || this._survey.isLastPage
 
-        // No questions answered
+        // No questions answered (will need solving again when we fix the 'screen of red errors')
 //        if (!is_single_page_or_last_page && Object.keys(this._survey.data).length === 0) return
 
         // Last page (or single-page), but with errors
@@ -138,11 +138,23 @@
         }
       },
       control_next_button_disabled() {
-        const question_names = this.validations.errors.reduce((questions_array, err) => {
+        // 'next' is disabled if:
+        // - there are SurveyJS form_errors on current page
+        // - there are validation_errors relating to the current page
+
+        // check if the current page is the last page which has a validation_error
+        // you can go backwards to fix validation_errors, but not forwards past the last page
+        // which currently has a validation_error
+
+
+
+        // get names of all questions answered (from validations)
+        const questions_answered_names = this.validations.errors.reduce((questions_array, err) => {
           return questions_array.concat(err.questions)
         }, [])
 
-        const question_indices = question_names.map((question_name) => {
+        // get page indices for every page with an answered question
+        const question_page_indices = questions_answered_names.map((question_name) => {
           const question = this._survey.getQuestionByName(question_name)
           const page = this._survey.getPageByQuestion(question)
 
@@ -153,25 +165,34 @@
           return question_name_index
         })
 
-        const last_page_with_error = Math.max(...question_indices)
+        // find last page with a VALIDATION error (good variable name!)
+        const last_page_with_validation_error_index = Math.max(...question_page_indices)
 
+        // get current page index, to compare with pages with errors
         const current_page_index = this._survey.pages.findIndex((survey_page) => {
           return this._survey.currentPage.id === survey_page.id
         })
 
-        if (last_page_with_error === current_page_index) {
+
+        
+        const has_form_errors = this._survey.isCurrentPageHasErrors
+        const has_validation_errors = (last_page_with_validation_error_index === current_page_index)
+
+
+        if (has_form_errors || has_validation_errors) {
+          // either: 1) there are SurveyJS form_errors, or 2) you're on the last page with a validation_error
+          // so, you cannot continue
           this.next_disabled = true
+        } else {
+          // CARRY ON
+          this.next_disabled = false
         }
+
+
       },
-      next_page() {
-        this._survey.nextPage()
-      },
-      previous_page() {
-        this._survey.prevPage()
-      },
-      complete() {
-        this.$emit('complete', this._survey)
-      }
+      next_page() { this._survey.nextPage() },
+      previous_page() { this._survey.prevPage() },
+      complete() { this.$emit('complete', this._survey) }
     }
   }
 </script>
