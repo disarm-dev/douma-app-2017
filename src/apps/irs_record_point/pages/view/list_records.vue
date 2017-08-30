@@ -77,7 +77,7 @@
   import get from 'lodash.get'
 
   import controls from 'components/controls.vue'
-  import local_record_summary from './local_record_summary'
+  import local_record_summary from './_unused_local_record_summary'
 
   export default {
     name: 'List',

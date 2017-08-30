@@ -136,10 +136,10 @@
   import {Response} from 'lib/models/response.model'
   import {Validator} from 'lib/instance_data/validations'
 
-  import location_coords from './location_coords.vue'
-  import location_selection from './location_selection'
-  import review from './validation.vue'
-  import form_renderer from './form.vue'
+  import location_coords from './location/location_coords.vue'
+  import location_selection from './location/location_selection'
+  import review from './validations/validation.vue'
+  import form_renderer from './form_renderer.vue'
 
   export default {
     name: 'Record',
@@ -268,6 +268,7 @@
         }
       },
       save_response() {
+        debugger
         const decorated_response = this._response.decorate_for_sending()
 
         if (this.response_id) {
