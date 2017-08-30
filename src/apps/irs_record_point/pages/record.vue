@@ -41,7 +41,7 @@
         <review
           ref="validation_result"
           :validations='validation_result'
-          :survey="survey"
+          :survey="survey_for_validation_review"
           v-on:show_location="set_current_view('location')"
         ></review>
         <md-card-actions>
@@ -119,7 +119,7 @@
       v-show="current_view === 'form'"
       ref="form"
       @complete='on_form_complete'
-      @change="on_form_change"
+      @change="on_form_data_change"
       @previous_view="set_current_view('location')"
       :initial_form_data='response.form_data'
       :response_is_valid="response_is_valid"
@@ -151,7 +151,7 @@
 
         // Support
         _validator: null,
-        survey: null, // TODO: @refac Should only be in one place, currently created on form_renderer
+        survey_for_validation_review: null, // TODO: @refac Should only be in one place, currently created on form_renderer
 
         // Validation result will return object looking like this:
         validation_result: {
@@ -183,17 +183,11 @@
       response() {
         return this._response.model
       },
-      page_title() {
-        return this.response_id ? 'Update' : 'Create'
-      },
       response_is_valid() {
         return (this.validation_result.errors.length === 0)
       },
       validation_result_empty() {
         return (this.validation_result.errors.length === 0) && (this.validation_result.warnings.length === 0)
-      },
-      location_is_valid() {
-        return this.validation_result.errors.filter(e => e.is_location).length === 0
       },
       have_errors() {
         return this.validation_result.errors.length
@@ -237,9 +231,6 @@
       toggle_show_validation_result() {
         this.show_validation_result = !this.show_validation_result
       },
-      toggle_show_location() {
-        this.show_location = !this.show_location
-      },
       on_location_change(coords) {
         this.response.location.coords = coords
         this.validate(this.response)
@@ -248,13 +239,13 @@
         this.response.location.selection = location_selection
         this.validate(this.response)
       },
-      on_form_change(survey) {
+      on_form_data_change(survey) { // Event from form_renderer
         this.response.form_data = survey.data
         this.survey = survey
         this.validate(this.response)
       },
-      on_form_complete(survey) {
-        this.on_form_change(survey)
+      on_form_complete(survey) { // Event from form_renderer
+        this.on_form_data_change(survey)
 
         if (this.response_is_valid) {
           this.save_response()

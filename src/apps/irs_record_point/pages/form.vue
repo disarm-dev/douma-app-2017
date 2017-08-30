@@ -14,7 +14,10 @@
       </md-card-content>
 
       <md-card-actions>
-        <md-button v-if="show_back_to_location" @click.native="$emit('previous_view')" class="md-raised">Previous</md-button>
+        <!--Only for first page, take you back to Location tab/page -->
+        <!--<md-button v-if="show_back_to_location" @click.native="$emit('previous_view')" class="md-raised">Previous</md-button>-->
+
+        <!-- SurveyJS navigation proxies -->
         <md-button v-if="show_previous" @click.native="previous_page" class="md-raised">Previous</md-button>
         <md-button v-if="show_next" :disabled="next_disabled" @click.native="next_page" class="md-raised">Next</md-button>
         <md-button v-if="show_complete" :disabled="complete_disabled" @click.native="complete" class="md-raised md-primary">Complete</md-button>
@@ -35,18 +38,25 @@
     props: ['initial_form_data', 'response_is_valid', 'validations'],
     data () {
       return {
-        _survey: {},
+        // UI
         show_back_to_location: true,
+
+        // SurveyJS navigation proxies
         show_previous: false,
-        show_next: true,
-        next_disabled: false,
+        show_next: false,
         show_complete: false,
+
+        next_disabled: false,
         complete_disabled: false,
+
+        // Data
+        _survey: {},
       }
     },
     watch: {
+      // TODO: Combine following watchers
       'response_is_valid': 'control_complete_button_visibility',
-      'response_is_valid': 'control_next_button_disabled'
+      'response_is_valid': 'control_next_button_disabled',
     },
     mounted(){
       this.create_form()
@@ -60,34 +70,42 @@
 
         // KNOCKOUT
         this._survey = new Survey.Model(form_options, "surveyContainer")
-        this._survey.onValueChanged.add(this.on_form_change)
-        this._survey.onCurrentPageChanged.add(this.on_page_changed)
+        this._survey.onValueChanged.add(this.on_form_data_change)
+        this._survey.onCurrentPageChanged.add(this.on_page_change)
 
         if (this.initial_form_data !== null) {
           this._survey.data = this.initial_form_data
         }
       },
-      on_page_changed() {
-        this.control_navigation_visibility()
-        this.control_complete_button_visibility()
-        this.control_next_button_disabled()
-      },
-      on_form_change() {
+      on_form_data_change() { // Called from SurveyJS #onCurrentPageChanged
         this.$emit('change', this._survey)
-        this.control_navigation_visibility()
+        this.control_navigation()
+      },
+      on_page_change() { // Called from SurveyJS #onValueChanged
+        this.control_navigation()
+      },
+
+      control_navigation() {
+        this.control_back_to_location_visibility()
+
+        this.control_next_button_visibility()
+        this.control_previous_button_visibility()
         this.control_complete_button_visibility()
+
         this.control_next_button_disabled()
       },
-      control_navigation_visibility() {
-        this.show_back_to_location = false
-        this.show_next = false
-        this.show_previous = false
-
-        if (this._survey.isFirstPage) this.show_back_to_location = true
-        if (!this._survey.isLastPage) this.show_next = true
-        if (!this._survey.isFirstPage) this.show_previous = true
+      control_back_to_location_visibility() {
+        this.show_back_to_location = this._survey.isFirstPage
+      },
+      control_next_button_visibility() {
+        this.show_next = !this._survey.isLastPage
+        console.log('control_next_button_visibility', this.show_next)
+      },
+      control_previous_button_visibility() {
+        this.show_previous = !this._survey.isFirstPage
       },
       control_complete_button_visibility() {
+        // TODO: Any ideas why we need $nextTick here, other than 'to make it work'
         this.$nextTick(() => {
           this.show_complete = false
           this.complete_disabled = true
@@ -97,6 +115,7 @@
             return
           }
 
+          // Accessing #isCurrentPageHasErrors triggers SurveyJS validations
           if (this._survey.isLastPage && (this._survey.isCurrentPageHasErrors || !this.response_is_valid)) {
             // Last page, but with errors
             this.show_complete = true
@@ -140,15 +159,9 @@
           this.next_disabled = true
         }
       },
-      next_page() {
-        this._survey.nextPage()
-      },
-      previous_page() {
-        this._survey.prevPage()
-      },
-      complete() {
-        this.$emit('complete', this._survey)
-      }
+      next_page() { this._survey.nextPage() },
+      previous_page() { this._survey.prevPage() },
+      complete() { this.$emit('complete', this._survey) }
     }
   }
 </script>
