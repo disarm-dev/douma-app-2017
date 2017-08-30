@@ -1,8 +1,8 @@
 <template>
   <v-touch
-  :options="{touchAction: 'pan-y'}"
-  v-on:swipeleft="next_page"
-  v-on:swiperight="previous_page">
+    :options="{touchAction: 'pan-y'}"
+    v-on:swipeleft="next_page"
+    v-on:swiperight="previous_page">
 
     <md-card>
       <md-card-header>
@@ -20,7 +20,7 @@
         <!-- SurveyJS navigation proxies -->
         <md-button v-if="show_previous" @click.native="previous_page" class="md-raised">Previous</md-button>
         <md-button v-if="show_next" :disabled="next_disabled" @click.native="next_page" class="md-raised">Next</md-button>
-        <md-button v-if="show_complete" :disabled="complete_disabled" @click.native="complete" class="md-raised md-primary">Complete</md-button>
+        <md-button v-if="show_complete" :disabled="complete_disabled" @click.native="complete" class="md-raised md-primary">Complete *submit*</md-button>
       </md-card-actions>
     </md-card>
 
@@ -31,12 +31,10 @@
   import * as Survey from 'survey-knockout'
   import 'survey-knockout/survey.css'
 
-  import flatten from 'lodash.flatten'
-
   export default {
     name: 'form',
-    props: ['initial_form_data', 'response_is_valid', 'validations'],
-    data () {
+    props: ['initial_form_data', 'response_is_valid', 'validations', 'current_view'],
+    data() {
       return {
         // UI
         show_back_to_location: true,
@@ -54,11 +52,10 @@
       }
     },
     watch: {
-      // TODO: Combine following watchers
-      'response_is_valid': 'control_complete_button_visibility',
-      'response_is_valid': 'control_next_button_disabled',
+      'response_is_valid': 'control_navigation',
+      'current_view': 'control_navigation'
     },
-    mounted(){
+    mounted() {
       this.create_form()
     },
     methods: {
@@ -69,7 +66,7 @@
         }
 
         // KNOCKOUT
-        this._survey = new Survey.Model(form_options, "surveyContainer")
+        this._survey = new Survey.Model(form_options, 'surveyContainer')
         this._survey.onValueChanged.add(this.on_form_data_change)
         this._survey.onCurrentPageChanged.add(this.on_page_change)
 
@@ -78,7 +75,7 @@
         }
       },
       on_form_data_change() { // Called from SurveyJS #onCurrentPageChanged
-        this.$emit('change', this._survey)
+        this.$emit('change', this._survey) // For validations
         this.control_navigation()
       },
       on_page_change() { // Called from SurveyJS #onValueChanged
@@ -86,50 +83,46 @@
       },
 
       control_navigation() {
-        this.control_back_to_location_visibility()
+        this.$nextTick(() => {
 
-        this.control_next_button_visibility()
-        this.control_previous_button_visibility()
-        this.control_complete_button_visibility()
+          this.control_previous_button_visibility()
 
-        this.control_next_button_disabled()
-      },
-      control_back_to_location_visibility() {
-        this.show_back_to_location = this._survey.isFirstPage
-      },
-      control_next_button_visibility() {
-        this.show_next = !this._survey.isLastPage
-        console.log('control_next_button_visibility', this.show_next)
+          this.control_next_button_visibility()
+          this.control_complete_button_visibility()
+
+          this.control_next_button_disabled()
+        })
       },
       control_previous_button_visibility() {
         this.show_previous = !this._survey.isFirstPage
+        this.show_back_to_location = !this.show_previous
+      },
+      control_next_button_visibility() {
+        if (this.current_view === 'form') console.log('next button should be visible')
+        this.show_next = !this._survey.isLastPage
       },
       control_complete_button_visibility() {
-        // TODO: Any ideas why we need $nextTick here, other than 'to make it work'
-        this.$nextTick(() => {
-          this.show_complete = false
+        this.show_complete = false
+        this.complete_disabled = true
+        const is_single_page_or_last_page = (this._survey.isFirstPage && this._survey.isLastPage) || this._survey.isLastPage
+
+        // No questions answered
+//        if (!is_single_page_or_last_page && Object.keys(this._survey.data).length === 0) return
+
+        // Last page (or single-page), but with errors
+        // Accessing #isCurrentPageHasErrors triggers SurveyJS validations
+        if (is_single_page_or_last_page && (this._survey.isCurrentPageHasErrors || !this.response_is_valid)) {
+          this.show_complete = true
           this.complete_disabled = true
+          return
+        }
 
-          if (Object.keys(this._survey.data).length === 0) {
-            // No questions answered
-            return
-          }
-
-          // Accessing #isCurrentPageHasErrors triggers SurveyJS validations
-          if (this._survey.isLastPage && (this._survey.isCurrentPageHasErrors || !this.response_is_valid)) {
-            // Last page, but with errors
-            this.show_complete = true
-            this.complete_disabled = true
-            return
-          }
-
-          if (this._survey.isLastPage && this.response_is_valid && !this._survey.isCurrentPageHasErrors) {
-            // All good, complete!
-            this.show_complete = true
-            this.complete_disabled = false
-            return
-          }
-        })
+        // Last page (or single-page), no errors. All good, complete!
+        if (is_single_page_or_last_page && this.response_is_valid && !this._survey.isCurrentPageHasErrors) {
+          this.show_complete = true
+          this.complete_disabled = false
+          return
+        }
       },
       control_next_button_disabled() {
         this.next_disabled = false
@@ -159,9 +152,15 @@
           this.next_disabled = true
         }
       },
-      next_page() { this._survey.nextPage() },
-      previous_page() { this._survey.prevPage() },
-      complete() { this.$emit('complete', this._survey) }
+      next_page() {
+        this._survey.nextPage()
+      },
+      previous_page() {
+        this._survey.prevPage()
+      },
+      complete() {
+        this.$emit('complete', this._survey)
+      }
     }
   }
 </script>

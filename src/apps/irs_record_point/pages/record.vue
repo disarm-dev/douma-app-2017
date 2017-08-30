@@ -122,6 +122,7 @@
       @change="on_form_data_change"
       @previous_view="set_current_view('location')"
       :initial_form_data='response.form_data'
+      :current_view="current_view"
       :response_is_valid="response_is_valid"
       :validations='validation_result'
     ></form_renderer>
