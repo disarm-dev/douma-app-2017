@@ -114,7 +114,8 @@
     "irs_record_point": {
       "title": "IRS Data Collection and Reporting Tool",
       "metadata": {
-        "show": false
+        "show": false,
+        "fields": ["team_name"]
       }
     },
     "meta": {},
