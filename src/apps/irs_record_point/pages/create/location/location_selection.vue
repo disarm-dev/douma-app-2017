@@ -83,7 +83,6 @@
 
         const fuse_options = {
           keys: ['name'],
-
         }
 
         this._fuse =  new Fuse(this._all_locations, fuse_options)

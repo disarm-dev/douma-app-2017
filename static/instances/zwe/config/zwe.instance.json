@@ -3,7 +3,10 @@
     "irs_plan": {},
     "irs_tasker": {},
     "irs_record_point": {
-      "title": "IRS Data Collector"
+      "title": "IRS Data Collector",
+      "metadata": {
+        "show": true
+      }
     },
     "irs_monitor": {
       "title": "IRS Dashboard",

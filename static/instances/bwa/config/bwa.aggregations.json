@@ -1,5 +1,9 @@
 [
   {
+    "name": "number of buildings targeted",
+    "denominator_field": "structures_targeted"
+  },
+  {
     "name": "number of people in homestead (total)",
     "numerator_expr": "n_people_homestead_underage5 + n_people_homestead_overage5"
   },
@@ -39,10 +43,14 @@
     "name": "Total other structures sprayed",
     "numerator_expr": "number_sprayed_other_partial_spray"
   },
+
+
   {
     "name": "number of rooms not sprayed",
     "numerator_expr": "n_unsprayed"
   },
+
+
   {
     "name": "number of rooms not sprayed - locked",
     "numerator_expr": "rooms_locked"
@@ -51,11 +59,7 @@
     "name": "number of rooms not sprayed - locked (%)",
     "numerator_expr": "rooms_locked",
     "denominator_field": "n_unsprayed"
-  },
-  
-  {
-    "name": "number of buildings targeted",
-    "denominator_field": "structures_targeted"
   }
+
 ]
 

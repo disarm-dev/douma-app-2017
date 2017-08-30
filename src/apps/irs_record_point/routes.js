@@ -1,6 +1,6 @@
-import record from './pages/record.vue'
-import list from './pages/list.vue'
-import view_response from './pages/view_response.vue'
+import record from './pages/create/create_record.vue'
+import list from './pages/view/list_records.vue'
+import view_response from './pages/view/show_response.vue'
 
 export default [
   {

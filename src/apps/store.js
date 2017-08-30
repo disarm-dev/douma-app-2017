@@ -3,9 +3,27 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import { createVuexLoader } from 'vuex-loading'
 import objectPath from 'object-path'
+import {mapKeys as map_keys, merge} from 'lodash'
 
 export function create_store(instance_config, instance_stores) {
   Vue.use(Vuex)
+
+  // extend instance_stores with data property and actions to manipulate large_collections
+  const default_store = {
+    state: {
+      large_collections: {},
+    },
+    mutations: {
+      set_large_collections: (state, {name, models}) => state.large_collections[name] = Object.freeze(models)
+    }
+  }
+
+  instance_stores = map_keys(instance_stores, (value, key) => {
+    instance_stores[key].value = merge(default_store, instance_stores[key].value)
+  })
+  
+  console.log('instance_stores', instance_stores)
+
 
   // vuex-persistedstate
   // Exclude these paths from state persistence
@@ -33,6 +51,7 @@ export function create_store(instance_config, instance_stores) {
         excluded_paths.forEach(function(path) {
           objectPath.del(state_copy, path)
         })
+        // ignore every 'large_collections' path
         return state_copy
       }
     }

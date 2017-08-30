@@ -16,6 +16,5 @@ export const create_records = (records) => {
     method: 'post'
   }
 
-
   return standard_handler(url, options)
 }
