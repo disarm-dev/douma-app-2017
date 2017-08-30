@@ -13,6 +13,10 @@ export default {
     previous_route: '',
     locations: [],
     personalised_instance_id: 'default',
+
+    large_collections: {
+      geodata: null
+    }
   },
   mutations: {
     set_previous_route: (state, previous_route) => {
@@ -37,7 +41,7 @@ export default {
     },
     set_personalised_instance_id: (state, personalised_instance_id) => {
       state.personalised_instance_id = personalised_instance_id || 'default'
-    }
+    },
   },
   getters: {
     decorated_applets(state, getters, rootState) {

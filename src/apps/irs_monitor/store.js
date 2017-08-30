@@ -5,12 +5,12 @@ import {decorate_responses_from_json} from 'lib/models/response.model'
 import instance_decorator from 'lib/instance_data/decorators'
 
 import {set_filter, unset_filter} from './pages/controls/filters/controller'
+import {controller} from './controller'
 
 export default {
   namespaced: true,
   state: {
     ui: {
-
     },
     responses: [],
     responses_last_updated_at: null,
@@ -22,7 +22,8 @@ export default {
       // TODO: @config Extract default temporal_aggregation_level
       temporal_aggregation_level: 'week',
       spatial_aggregation_level: null
-    }
+    },
+
   },
   mutations: {
     // clear storage (called by meta store)
@@ -34,7 +35,7 @@ export default {
     },
     // set responses
     set_responses: (state, responses) => {
-      state.responses = responses
+      state.responses = Object.freeze(responses)
     },
     update_responses_last_updated_at:(state) => {
       state.responses_last_updated_at = new Date
@@ -77,10 +78,10 @@ export default {
     // ideally, filtered_responses should change in response to the
     // settings of the filter e.g. "locality #2"
     filtered_responses(state, getters, rootState) {
-      if (!state.plan) return []
-      if (!state.responses.length) return []
+      if (!state.large_collections.plan) return []
+      if (!state.large_collections.responses.length) return []
 
-      const filtered = state.responses.filter(response => {
+      const filtered = state.large_collections.responses.filter(response => {
         return true
         return this.filters.all(filter => {
           filter.field
@@ -97,12 +98,12 @@ export default {
   },
   actions: {
     get_all_records: (context) => {
-      const instance_slug = context.rootState.instance_config.instance.slug
-      return get_all_records(instance_slug).then(res=> {
-        const responses = decorate_responses_from_json(res, context.rootState.instance_config)
-        context.commit('update_responses_last_updated_at')
-        context.commit('set_responses', responses)
-      })
+      const fn = (responses) => context.commit('set_responses', responses)
+      return controller.retrieve_from_remote(context, fn)
+        // .then((records) => {
+        //   context.commit('update_responses_last_updated_at')
+        //   context.commit('set_responses', records)
+        // })
     },
     get_current_plan: (context) => {
       const instance_slug = context.rootState.instance_config.instance.slug

@@ -199,7 +199,7 @@
       }
     },
     created() {
-      this.validator = Object.freeze(new Validator(this.instance_config.validations)
+      this.validator = Object.freeze(new Validator(this.instance_config.validations))
 
       if (this.response_id) {
         const found = this.$store.state.irs_record_point.responses.find(r => r.id === this.response_id)
