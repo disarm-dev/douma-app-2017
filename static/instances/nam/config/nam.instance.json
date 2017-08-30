@@ -45,7 +45,11 @@
       ]
     },
     "irs_plan": {},
-    "irs_record_point": {},
+    "irs_record_point": {
+      "metadata": {
+        "show": true
+      }
+    },
     "meta": {},
     "data_wizard": {},
     "debug": {}

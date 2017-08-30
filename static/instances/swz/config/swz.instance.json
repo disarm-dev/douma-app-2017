@@ -157,7 +157,11 @@
       ]
     },
     "irs_plan": {},
-    "irs_record_point": {},
+    "irs_record_point": {
+      "metadata": {
+        "show": true
+      }
+    },
     "irs_tasker": {},
     "meta": {},
     "data_wizard": {},
