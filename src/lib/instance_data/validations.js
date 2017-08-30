@@ -1,5 +1,5 @@
 import {Parser} from 'expr-eval'
-import is_empty from 'lodash.isempty'
+import {isEmpty as is_empty} from 'lodash'
 import {CoordsSchema, SelectionSchema} from 'lib/models/response.schema'
 
 export class Validator {
@@ -12,7 +12,7 @@ export class Validator {
 
     // Validate location - only if location.selection has been set (i.e. expect coords set)
     let location_result = [], location_selection_result = []
-    if (!is_empty(response.location_selection)) {
+    if (!is_empty(response.location.selection)) {
       location_result = this._validate_location(response.location.coords)
       location_selection_result = this._validate_location_selection(response.location.selection)
     }
