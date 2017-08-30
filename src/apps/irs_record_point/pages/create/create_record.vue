@@ -9,29 +9,28 @@
       </md-button>
 
       <!--VALIDATIONS CARD TOGGLE-->
-        <md-button
-          class="animated"
-          :class="{orange: have_warnings, red: have_errors, 'md-raised': !show_validation_result, shake: shake_button}"
-          :disabled="validation_result_empty"
-          @click.native="toggle_show_validation_result"
-        >
+      <md-button
+        class="animated"
+        :class="{orange: have_warnings, red: have_errors, 'md-raised': !show_validation_result, shake: shake_button}"
+        :disabled="validation_result_empty"
+        @click.native="toggle_show_validation_result"
+      >
+        <span v-if="!validation_result_empty">
+          {{validation_result.errors.length + validation_result.warnings.length}}
+        </span>
 
-          <span v-if="!validation_result_empty">
-            {{validation_result.errors.length + validation_result.warnings.length}}
-          </span>
-
-          {{ validation_result_empty ? "No validation issues" : (validation_length  === 1 ? "Validation issue" : "Validation issues")}}
-        </md-button>
+        {{ validation_result_empty ? "No validation issues" : (validation_length === 1 ? "Validation issue" : "Validation issues")}}
+      </md-button>
     </div>
 
-    <!-- CONFIRM CLOSE FORM -->
+    <!-- CONFIRM FORM CLOSE -->
     <md-dialog-confirm
       md-title="Closing form - you will lose any changes"
       md-content-html="Do you want to continue?"
       md-ok-text="continue"
       md-cancel-text="cancel"
-      @close="respond_to_close_form_confirm"
-      ref="close_form_confirm">
+      @close="manage_confirm_form_close"
+      ref="confirm_form_close">
     </md-dialog-confirm>
 
 
@@ -51,7 +50,7 @@
     </transition>
 
 
-    <!-- METADATA EDITOR (PAGE 1)-->
+    <!-- METADATA EDITOR -->
     <md-card v-show="current_view === 'metadata'">
       <md-card-content>
         <md-card-header>
@@ -77,8 +76,8 @@
             </md-input-container>
           </md-list-item>
           <!--<md-input-container>-->
-            <!--<label>Team</label>-->
-            <!--<md-input v-model="response.team_name"></md-input>-->
+          <!--<label>Team</label>-->
+          <!--<md-input v-model="response.team_name"></md-input>-->
           <!--</md-input-container>-->
         </md-list>
 
@@ -88,7 +87,7 @@
       </md-card-actions>
     </md-card>
 
-    <!--LOCATION CARD (PAGE 2)-->
+    <!--LOCATION CARD -->
     <md-card v-show="current_view === 'location'" class='location'>
       <md-card-content>
         <md-card-header>
@@ -100,11 +99,11 @@
           :initial_location='response.location.coords'
         ></location_coords>
 
-      <location_selection
-        @change="on_location_selection_selected"
-        :initial_location_selection="response.location.selection"
-      >
-      </location_selection>
+        <location_selection
+          @change="on_location_selection_selected"
+          :initial_location_selection="response.location.selection"
+        >
+        </location_selection>
 
       </md-card-content>
       <md-card-actions>
@@ -117,7 +116,6 @@
     <!--FORM-->
     <form_renderer
       v-show="current_view === 'form'"
-      ref="form"
       @complete='on_form_complete'
       @change="on_form_data_change"
       @previous_view="set_current_view('location')"
@@ -145,13 +143,13 @@
     name: 'Record',
     components: {location_coords, location_selection, form_renderer, review},
     props: ['response_id'],
-    data () {
+    data() {
       return {
         // User data
         _response: null, // This is the only response which exists
 
         // Support
-        _validator: null,
+        validator: null,
         survey_for_validation_review: null, // TODO: @refac Should only be in one place, currently created on form_renderer
 
         // Validation result will return object looking like this:
@@ -174,12 +172,12 @@
     computed: {
       ...mapState({
         username: state => state.meta.user.username,
-        instance_slug : state => state.instance_config.instance.slug,
+        instance_slug: state => state.instance_config.instance.slug,
         instance_config: state => state.instance_config,
         team_name: state => state.irs_record_point.team_name
       }),
       formatted_recorded_on() {
-        return this.response.recorded_on + ""
+        return this.response.recorded_on + ''
       },
       response() {
         return this._response.model
@@ -197,11 +195,11 @@
         return this.validation_result.warnings.length
       },
       validation_length() {
-        return this.validation_result.errors.length  + this.validation_result.warnings.length
+        return this.validation_result.errors.length + this.validation_result.warnings.length
       }
     },
     created() {
-      this._validator = new Validator(this.instance_config.validations)
+      this.validator = Object.freeze(new Validator(this.instance_config.validations)
 
       if (this.response_id) {
         const found = this.$store.state.irs_record_point.responses.find(r => r.id === this.response_id)
@@ -236,7 +234,7 @@
         this.response.location.coords = coords
         this.validate(this.response)
       },
-      on_location_selection_selected(location_selection){
+      on_location_selection_selected(location_selection) {
         this.response.location.selection = location_selection
         this.validate(this.response)
       },
@@ -255,20 +253,19 @@
         }
       },
       validate(response) {
-        this.validation_result = this._validator.validate(response)
+        this.validation_result = this.validator.validate(response)
         if (this.validation_result_empty) this.show_validation_result = false
 
         // Events
         const non_location_errors = this.validation_result.errors.filter(r => !r.is_location).length
         if (non_location_errors) {
-          this.$ga.event('irs_record','validation_issues', 'errors', this.validation_result.errors.map(r => r.name).join('.'))
+          this.$ga.event('irs_record', 'validation_issues', 'errors', this.validation_result.errors.map(r => r.name).join('.'))
         }
         if (this.validation_result.warnings.length) {
-          this.$ga.event('irs_record','validation_issues', 'warning', this.validation_result.warnings.map(w => w.name).join('.'))
+          this.$ga.event('irs_record', 'validation_issues', 'warning', this.validation_result.warnings.map(w => w.name).join('.'))
         }
       },
       save_response() {
-        debugger
         const decorated_response = this._response.decorate_for_sending()
 
         if (this.response_id) {
@@ -291,10 +288,10 @@
         if (this.response_id) {
           this.$router.push('/irs/record_point')
         } else {
-          this.$refs.close_form_confirm.open()
+          this.$refs.confirm_form_close.open()
         }
       },
-      respond_to_close_form_confirm(type) {
+      manage_confirm_form_close(type) {
         if (type === 'cancel') {
         } else {
           this.$router.push('/irs/record_point')
@@ -325,14 +322,17 @@
   .md-card {
     margin: 10px;
   }
+
   .orange {
     background-color: orange !important;
     color: white !important;
   }
+
   .red {
     background-color: red !important;
     color: white !important;
   }
+
   .green {
     background-color: green !important;
     color: white !important;
@@ -341,14 +341,15 @@
   .slide-fade-enter-active {
     transition: all 1s ease;
   }
+
   .slide-fade-leave-active {
     transition: all 1s ease;
   }
-  .slide-fade-enter, .slide-fade-leave-to{
+
+  .slide-fade-enter, .slide-fade-leave-to {
     transform: translateY(-5px);
     opacity: 0;
   }
-
 
   /* From animate.css */
   .animated {
