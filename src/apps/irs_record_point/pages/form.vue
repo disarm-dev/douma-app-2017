@@ -19,8 +19,11 @@
 
         <!-- SurveyJS navigation proxies -->
         <md-button v-if="show_previous" @click.native="previous_page" class="md-raised">Previous</md-button>
-        <md-button v-if="show_next" :disabled="next_disabled" @click.native="next_page" class="md-raised">Next</md-button>
-        <md-button v-if="show_complete" :disabled="complete_disabled" @click.native="complete" class="md-raised md-primary">Complete *submit*</md-button>
+        <md-button v-if="show_next" :disabled="next_disabled" @click.native="next_page" class="md-raised">Next
+        </md-button>
+        <md-button v-if="show_complete" :disabled="complete_disabled" @click.native="complete"
+                   class="md-raised md-primary">Complete
+        </md-button>
       </md-card-actions>
     </md-card>
 
@@ -44,8 +47,8 @@
         show_next: false,
         show_complete: false,
 
-        next_disabled: false,
-        complete_disabled: false,
+        next_disabled: true,
+        complete_disabled: true,
 
         // Data
         _survey: {},
@@ -84,26 +87,36 @@
 
       control_navigation() {
         this.$nextTick(() => {
+          // All buttons off and disabled
+          this.reset_navigation()
 
+          // Either back to location, or back to previous question
           this.control_previous_button_visibility()
 
+          // Depending on whether last page or single-page-form
           this.control_next_button_visibility()
           this.control_complete_button_visibility()
 
           this.control_next_button_disabled()
         })
       },
+      reset_navigation() {
+        // SurveyJS navigation proxies
+        this.show_previous = false
+        this.show_next = false
+        this.show_complete = false
+
+        this.next_disabled = true
+        this.complete_disabled = true
+      },
       control_previous_button_visibility() {
         this.show_previous = !this._survey.isFirstPage
         this.show_back_to_location = !this.show_previous
       },
       control_next_button_visibility() {
-        if (this.current_view === 'form') console.log('next button should be visible')
         this.show_next = !this._survey.isLastPage
       },
       control_complete_button_visibility() {
-        this.show_complete = false
-        this.complete_disabled = true
         const is_single_page_or_last_page = (this._survey.isFirstPage && this._survey.isLastPage) || this._survey.isLastPage
 
         // No questions answered
@@ -125,8 +138,6 @@
         }
       },
       control_next_button_disabled() {
-        this.next_disabled = false
-
         const question_names = this.validations.errors.reduce((questions_array, err) => {
           return questions_array.concat(err.questions)
         }, [])
