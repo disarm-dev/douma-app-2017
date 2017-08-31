@@ -84,7 +84,7 @@
 
       </md-card-content>
       <md-card-actions>
-        <md-button @click.native="set_current_view('location')" class="md-raised">Next</md-button>
+        <md-button @click.native="next_view()" class="md-raised">Next</md-button>
       </md-card-actions>
     </md-card>
 
@@ -108,8 +108,8 @@
 
       </md-card-content>
       <md-card-actions>
-        <md-button @click.native="set_current_view('metadata')" class="md-raised">Previous</md-button>
-        <md-button @click.native="set_current_view('form')" class="md-raised">Next</md-button>
+        <md-button v-if="current_index !== 0" @click.native="previous_view()" class="md-raised">Previous</md-button>
+        <md-button @click.native="next_view()" class="md-raised">Next</md-button>
       </md-card-actions>
     </md-card>
 
@@ -120,7 +120,7 @@
       ref="form"
       @complete='on_form_complete'
       @change="on_form_change"
-      @previous_view="set_current_view('location')"
+      @previous_view="previous_view()"
       :initial_form_data='response.form_data'
       :response_is_valid="response_is_valid"
       :validations='validation_result'
@@ -203,6 +203,15 @@
       },
       validation_length() {
         return this.validation_result.errors.length  + this.validation_result.warnings.length
+      },
+      current_index() {
+        const current_index = this.pages.findIndex(page_name => {
+          return page_name === this.current_view
+        })
+        return current_index
+      },
+      pages_from_instance_config() {
+        return this.instance_config.applets.irs_record_point.pages
       }
     },
     created() {
@@ -219,10 +228,38 @@
         }
         this._response = new Response(empty_response)
       }
+
+      // Remove pages we don't want
+
+      const page_names = Object.keys(this.pages_from_instance_config)
+
+      for (const page_name of page_names) {
+        const page = this.pages_from_instance_config[page_name]
+        if (page.hasOwnProperty('show') && page.show === false) {
+          const page_index = this.pages.findIndex(pn => pn === page_name)
+          this.pages.splice(page_index, 1)
+        }
+      }
+
+      this.current_view = this.pages[0]
     },
     mounted() {
     },
     methods: {
+      next_view() {
+        const can_go_to_next_page = (this.pages.length - 1) > this.current_index
+
+        if (can_go_to_next_page) {
+          this.current_view = this.pages[this.current_index + 1]
+        }
+      },
+      previous_view() {
+        const can_go_to_previous_page = this.current_index !== 0
+
+        if (can_go_to_previous_page) {
+          this.current_view = this.pages[this.current_index - 1]
+        }
+      },
       set_current_view(view) {
         this.current_view = view
         if (view === 'form') {

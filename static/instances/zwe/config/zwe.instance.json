@@ -4,8 +4,10 @@
     "irs_tasker": {},
     "irs_record_point": {
       "title": "IRS Data Collector",
-      "metadata": {
-        "show": true
+      "pages": {
+        "metadata": {
+          "show": true
+        }
       }
     },
     "irs_monitor": {

@@ -46,8 +46,10 @@
     },
     "irs_plan": {},
     "irs_record_point": {
-      "metadata": {
-        "show": true
+      "pages": {
+        "metadata": {
+          "show": true
+        }
       }
     },
     "meta": {},

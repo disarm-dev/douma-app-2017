@@ -101,8 +101,10 @@
     },
     "irs_record_point": {
       "title": "IRS Data Collection and Reporting Tool",
-      "metadata": {
-        "show": false
+      "pages": {
+        "metadata": {
+          "show": false
+        }
       }
     },
     "meta": {},
