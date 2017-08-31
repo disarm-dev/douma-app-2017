@@ -61,7 +61,7 @@
           <md-list-item v-if="fields.includes('username')">
             <md-input-container>
               <label>username</label>
-              <md-input disabled v-model="response.username"></md-input>
+              <md-input v-model="response.username"></md-input>
             </md-input-container>
           </md-list-item>
           <md-list-item v-if="fields.includes('team_name')">
