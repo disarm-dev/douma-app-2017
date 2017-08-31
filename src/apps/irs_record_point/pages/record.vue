@@ -42,7 +42,7 @@
           ref="validation_result"
           :validations='validation_result'
           :survey="survey"
-          v-on:show_location="set_current_view('location')"
+          v-on:show_location="go_to_location_view"
         ></review>
         <md-card-actions>
           <md-button @click.native="show_validation_result = false">Hide</md-button>
@@ -84,7 +84,7 @@
 
       </md-card-content>
       <md-card-actions>
-        <md-button @click.native="next_view()" class="md-raised">Next</md-button>
+        <md-button @click.native="go_to_next_view()" class="md-raised">Next</md-button>
       </md-card-actions>
     </md-card>
 
@@ -108,8 +108,8 @@
 
       </md-card-content>
       <md-card-actions>
-        <md-button v-if="current_index !== 0" @click.native="previous_view()" class="md-raised">Previous</md-button>
-        <md-button @click.native="next_view()" class="md-raised">Next</md-button>
+        <md-button v-if="current_index !== 0" @click.native="go_to_previous_view()" class="md-raised">Previous</md-button>
+        <md-button @click.native="go_to_next_view()" class="md-raised">Next</md-button>
       </md-card-actions>
     </md-card>
 
@@ -120,7 +120,7 @@
       ref="form"
       @complete='on_form_complete'
       @change="on_form_change"
-      @previous_view="previous_view()"
+      @previous_view="go_to_previous_view()"
       :initial_form_data='response.form_data'
       :response_is_valid="response_is_valid"
       :validations='validation_result'
@@ -246,25 +246,31 @@
     mounted() {
     },
     methods: {
-      next_view() {
+      go_to_next_view() {
+        // Check that we are not on the last page
         const can_go_to_next_page = (this.pages.length - 1) > this.current_index
 
         if (can_go_to_next_page) {
-          this.current_view = this.pages[this.current_index + 1]
+          const next_page = this.pages[this.current_index + 1]
+
+          if (next_page === 'form') {
+            this.validate(this.response)
+          }
+
+          this.current_view = next_page
         }
       },
-      previous_view() {
+      go_to_previous_view() {
+        // Check that we are not on the first page
         const can_go_to_previous_page = this.current_index !== 0
 
         if (can_go_to_previous_page) {
           this.current_view = this.pages[this.current_index - 1]
         }
       },
-      set_current_view(view) {
-        this.current_view = view
-        if (view === 'form') {
-          this.validate(this.response)
-        }
+      go_to_location_view() {
+        const location_index = this.pages.findIndex(page => page === 'location')
+        this.current_view = this.pages[location_index]
       },
       shake_validations(newVal, oldVal) {
         if (newVal > oldVal) {
@@ -282,11 +288,9 @@
       },
       on_location_change(coords) {
         this.response.location.coords = coords
-        this.validate(this.response)
       },
       on_location_selection_selected(location_selection){
         this.response.location.selection = location_selection
-        this.validate(this.response)
       },
       on_form_change(survey) {
         this.response.form_data = survey.data

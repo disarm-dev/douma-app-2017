@@ -92,34 +92,38 @@
           this.show_complete = false
           this.complete_disabled = true
 
-          if (Object.keys(this._survey.data).length === 0) {
-            // No questions answered
-            return
-          }
+          // No questions answered
+          if (Object.keys(this._survey.data).length === 0) return
 
-          if (this._survey.isLastPage && (this._survey.isCurrentPageHasErrors || !this.response_is_valid)) {
+          // Only complete from last page
+          if (!this._survey.isLastPage) return
+
+          const some_errors = (this._survey.isCurrentPageHasErrors || !this.response_is_valid)
+
+          if (some_errors) {
             // Last page, but with errors
             this.show_complete = true
             this.complete_disabled = true
-            return
-          }
-
-          if (this._survey.isLastPage && this.response_is_valid && !this._survey.isCurrentPageHasErrors) {
+          } else {
             // All good, complete!
             this.show_complete = true
             this.complete_disabled = false
-            return
           }
         })
       },
       control_next_button_disabled() {
-        this.next_disabled = false
+        this.next_disabled = true
 
+        if (!this.current_page_is_furthest_page_with_errors()) {
+          this.next_disabled = false
+        }
+      },
+      current_page_is_furthest_page_with_errors() {
         const question_names = this.validations.errors
+          // remove location validation, they don't exist on a form page.
+          .filter(error => !error.is_location)
           .reduce((questions_array, err) => {
-            if (err.is_location) {
-              return questions_array
-            }
+
             return questions_array.concat(err.questions)
           }, [])
 
@@ -134,15 +138,13 @@
           return question_name_index
         })
 
-        const last_page_with_error = Math.max(...question_indices)
+        const furthest_page_index_with_error = Math.max(...question_indices)
 
         const current_page_index = this._survey.pages.findIndex((survey_page) => {
           return this._survey.currentPage.id === survey_page.id
         })
 
-        if (last_page_with_error === current_page_index) {
-          this.next_disabled = true
-        }
+        return furthest_page_index_with_error === current_page_index
       },
       next_page() {
         this._survey.nextPage()
