@@ -56,7 +56,8 @@
     "irs_plan": {},
     "irs_record_point": {
       "metadata": {
-        "show": true
+        "show": true,
+        "fields": ["username", "team_name", "recorded_on"]
       }
     },
     "meta": {},
