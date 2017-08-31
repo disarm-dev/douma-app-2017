@@ -5,6 +5,15 @@
     </md-card-header>
 
     <multiselect
+      v-model="category"
+      @select="select_category"
+      :options="categories"
+      >
+      <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
+    </multiselect>
+
+    <multiselect
+      v-if="category"
       v-model="selection"
       @select="select_location"
       :options="location_options"
@@ -15,7 +24,7 @@
       label="name"
       :internal-search="false"
       @search-change="search"
-      >
+    >
       <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
     </multiselect>
   </div>
@@ -23,9 +32,9 @@
 
 <script>
   import Fuse from 'fuse.js'
-  import array_unique from 'array-unique'
   import Multiselect from 'vue-multiselect'
   import {get_record_location_selection} from 'lib/geodata/spatial_hierarchy_helper'
+  import { uniq } from 'lodash'
 
   export default {
     name: 'location_selection',
@@ -33,6 +42,7 @@
     components: {Multiselect},
     data() {
       return {
+        category: null,
         selection: null,
         _fuse: null,
         search_query: '',
@@ -47,6 +57,13 @@
       }
     },
     computed: {
+      categories() {
+        const all_categories = this._all_locations.map(loc => {
+          return loc.category
+        })
+
+        return uniq(all_categories).sort()
+      },
       location_options() {
         let result
         if (this.search_query.length) {
@@ -57,7 +74,7 @@
 
         // present locations for multiselect
 
-        const categories = array_unique(result.map(r => r.category)).sort()
+        const categories = uniq(result.map(r => r.category)).filter(c => c === this.category).sort()
 
         const nested = categories.map(category => {
           const matches = result
@@ -82,11 +99,13 @@
         this._all_locations = get_record_location_selection()
 
         const fuse_options = {
-          keys: ['name'],
-
+          keys: ['name']
         }
 
         this._fuse =  new Fuse(this._all_locations, fuse_options)
+      },
+      select_category(category) {
+        this.category = category
       },
       select_location(selection) {
         this.selection = selection
