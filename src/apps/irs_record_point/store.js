@@ -7,7 +7,8 @@ export default {
   namespaced: true,
   state: {
     responses: [],
-    team_name: null
+    team_name: null,
+    category: null
   },
   mutations: {
     clear_data_storage: (state) => {
@@ -40,6 +41,9 @@ export default {
     },
     set_team_name: (state, team_name) => {
       state.team_name = team_name
+    },
+    set_category: (state, category) => {
+      state.category = category
     }
   },
   actions: {

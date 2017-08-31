@@ -57,8 +57,15 @@
         this.selection = this.initial_location_selection
         this.$emit('change', this.selection)
       }
+
+      if (this.initial_category !== null) {
+        this.category = this.initial_category
+      }
     },
     computed: {
+      initial_category() {
+        return this.$store.state.irs_record_point.category
+      },
       categories() {
         const all_categories = this._all_locations.map(loc => {
           return loc.category
@@ -108,6 +115,7 @@
       },
       select_category(category) {
         this.category = category
+        this.$store.commit('irs_record_point/set_category', category)
       },
       select_location(selection) {
         this.selection = selection
