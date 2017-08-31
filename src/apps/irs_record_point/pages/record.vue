@@ -210,8 +210,8 @@
         })
         return current_index
       },
-      pages_from_instance_config() {
-        return this.instance_config.applets.irs_record_point.pages
+      irs_record_point_config() {
+        return this.instance_config.applets.irs_record_point
       }
     },
     created() {
@@ -229,19 +229,13 @@
         this._response = new Response(empty_response)
       }
 
-      // Remove pages we don't want
-
-      const page_names = Object.keys(this.pages_from_instance_config)
-
-      for (const page_name of page_names) {
-        const page = this.pages_from_instance_config[page_name]
-        if (page.hasOwnProperty('show') && page.show === false) {
-          const page_index = this.pages.findIndex(pn => pn === page_name)
-          this.pages.splice(page_index, 1)
-        }
+      // Remove meta page if necessary
+      if (this.irs_record_point_config.metadata.show === false) {
+        this.pages.splice(0, 1)
       }
 
       this.current_view = this.pages[0]
+
     },
     mounted() {
     },

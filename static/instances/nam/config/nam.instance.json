@@ -18,18 +18,27 @@
       },
       "charts": [
         {
-
           "id": "spray_status_pie",
           "style": {
             "height_constraint": "none",
             "width_constraint": "half"
           },
           "options": {
-            "fake_data": [{
-              "values": [34,12,4],
-              "labels": ["Sprayed", "Refused", "Other"],
-              "type": "pie"
-            }],
+            "fake_data": [
+              {
+                "values": [
+                  34,
+                  12,
+                  4
+                ],
+                "labels": [
+                  "Sprayed",
+                  "Refused",
+                  "Other"
+                ],
+                "type": "pie"
+              }
+            ],
             "layout": {
               "title": "Refusal reason"
             },
@@ -46,10 +55,8 @@
     },
     "irs_plan": {},
     "irs_record_point": {
-      "pages": {
-        "metadata": {
-          "show": true
-        }
+      "metadata": {
+        "show": true
       }
     },
     "meta": {},

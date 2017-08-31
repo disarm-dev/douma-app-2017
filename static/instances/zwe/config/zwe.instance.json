@@ -4,10 +4,8 @@
     "irs_tasker": {},
     "irs_record_point": {
       "title": "IRS Data Collector",
-      "pages": {
-        "metadata": {
-          "show": true
-        }
+      "metadata": {
+        "show": true
       }
     },
     "irs_monitor": {
@@ -19,7 +17,9 @@
         "aggregation_names": [
           "structures sprayed %"
         ],
-        "property_layers": ["risk"]
+        "property_layers": [
+          "risk"
+        ]
       },
       "table": {
         "aggregation_names": [
