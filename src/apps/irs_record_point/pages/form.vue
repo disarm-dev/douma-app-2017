@@ -115,9 +115,13 @@
       control_next_button_disabled() {
         this.next_disabled = false
 
-        const question_names = this.validations.errors.reduce((questions_array, err) => {
-          return questions_array.concat(err.questions)
-        }, [])
+        const question_names = this.validations.errors
+          .reduce((questions_array, err) => {
+            if (err.is_location) {
+              return questions_array
+            }
+            return questions_array.concat(err.questions)
+          }, [])
 
         const question_indices = question_names.map((question_name) => {
           const question = this._survey.getQuestionByName(question_name)

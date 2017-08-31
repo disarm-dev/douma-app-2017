@@ -225,6 +225,9 @@
     methods: {
       set_current_view(view) {
         this.current_view = view
+        if (view === 'form') {
+          this.validate(this.response)
+        }
       },
       shake_validations(newVal, oldVal) {
         if (newVal > oldVal) {
