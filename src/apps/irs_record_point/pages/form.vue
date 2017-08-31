@@ -1,8 +1,8 @@
 <template>
   <v-touch
-  :options="{touchAction: 'pan-y'}"
-  v-on:swipeleft="next_page"
-  v-on:swiperight="previous_page">
+    :options="{touchAction: 'pan-y'}"
+    v-on:swipeleft="next_page"
+    v-on:swiperight="previous_page">
 
     <md-card>
       <md-card-header>
@@ -14,7 +14,10 @@
       </md-card-content>
 
       <md-card-actions>
+        <!--Only for first page, take you back to Location tab/page -->
         <md-button v-if="show_back_to_location" @click.native="$emit('previous_view')" class="md-raised">Previous</md-button>
+
+        <!-- SurveyJS navigation proxies -->
         <md-button v-if="show_previous" @click.native="previous_page" class="md-raised">Previous</md-button>
         <md-button v-if="show_next" :disabled="next_disabled" @click.native="next_page" class="md-raised">Next</md-button>
         <md-button v-if="show_complete" :disabled="complete_disabled" @click.native="complete" class="md-raised md-primary">Complete</md-button>
@@ -28,27 +31,31 @@
   import * as Survey from 'survey-knockout'
   import 'survey-knockout/survey.css'
 
-  import flatten from 'lodash.flatten'
-
   export default {
     name: 'form',
-    props: ['initial_form_data', 'response_is_valid', 'validations'],
-    data () {
+    props: ['initial_form_data', 'response_is_valid', 'validations', 'current_view'],
+    data() {
       return {
-        _survey: {},
+        // UI
         show_back_to_location: true,
+
+        // SurveyJS navigation proxies
         show_previous: false,
-        show_next: true,
-        next_disabled: false,
+        show_next: false,
         show_complete: false,
-        complete_disabled: false,
+
+        next_disabled: true,
+        complete_disabled: true,
+
+        // Data
+        _survey: {},
       }
     },
     watch: {
-      'response_is_valid': 'control_complete_button_visibility',
-      'response_is_valid': 'control_next_button_disabled'
+      'response_is_valid': 'control_navigation',
+      'current_view': 'control_navigation'
     },
-    mounted(){
+    mounted() {
       this.create_form()
     },
     methods: {
@@ -59,75 +66,101 @@
         }
 
         // KNOCKOUT
-        this._survey = new Survey.Model(form_options, "surveyContainer")
-        this._survey.onValueChanged.add(this.on_form_change)
-        this._survey.onCurrentPageChanged.add(this.on_page_changed)
+        this._survey = new Survey.Model(form_options, 'surveyContainer')
+        this._survey.onValueChanged.add(this.on_form_data_change)
+        this._survey.onCurrentPageChanged.add(this.on_page_change)
 
         if (this.initial_form_data !== null) {
           this._survey.data = this.initial_form_data
         }
       },
-      on_page_changed() {
-        this.control_navigation_visibility()
-        this.control_complete_button_visibility()
-        this.control_next_button_disabled()
+      on_form_data_change() { // Called from SurveyJS #onCurrentPageChanged
+        this.$emit('change', this._survey) // For validations
+        this.control_navigation()
       },
-      on_form_change() {
-        this.$emit('change', this._survey)
-        this.control_navigation_visibility()
-        this.control_complete_button_visibility()
-        this.control_next_button_disabled()
+      on_page_change() { // Called from SurveyJS #onValueChanged
+        this.control_navigation()
       },
-      control_navigation_visibility() {
-        this.show_back_to_location = false
-        this.show_next = false
-        this.show_previous = false
+      is_single_page_form() {
+        return this._survey.isFirstPage && this._survey.isLastPage
+      },
 
-        if (this._survey.isFirstPage) this.show_back_to_location = true
-        if (!this._survey.isLastPage) this.show_next = true
-        if (!this._survey.isFirstPage) this.show_previous = true
-      },
-      control_complete_button_visibility() {
+      control_navigation() {
         this.$nextTick(() => {
-          this.show_complete = false
-          this.complete_disabled = true
+          // All buttons off and disabled
+          this.reset_navigation()
 
-          // No questions answered
-          if (Object.keys(this._survey.data).length === 0) return
-
-          // Only complete from last page
-          if (!this._survey.isLastPage) return
-
-          const some_errors = (this._survey.isCurrentPageHasErrors || !this.response_is_valid)
-
-          if (some_errors) {
-            // Last page, but with errors
-            this.show_complete = true
-            this.complete_disabled = true
-          } else {
-            // All good, complete!
-            this.show_complete = true
-            this.complete_disabled = false
+          // Handle single_page_forms differently to avoid 'red screen of errors'
+          if (this.is_single_page_form()) {
+            return this.control_single_page_form_complete()
           }
+
+          // Either back to location, or back to previous question
+          this.control_previous_button_visibility()
+
+          // Depending on whether is last_page or a single-page-form
+          this.control_next_button_visibility()
+          this.control_complete_button_visibility()
+
+          this.control_next_button_disabled()
         })
       },
-      control_next_button_disabled() {
-        this.next_disabled = true
+      reset_navigation() {
+        // SurveyJS navigation proxies
+        this.show_previous = false
+        this.show_next = false
+        this.show_complete = false
 
-        if (!this.current_page_is_furthest_page_with_errors()) {
-          this.next_disabled = false
+        this.next_disabled = true
+        this.complete_disabled = true
+      },
+      control_previous_button_visibility() {
+        this.show_previous = !this._survey.isFirstPage
+        this.show_back_to_location = !this.show_previous
+      },
+      control_next_button_visibility() {
+        this.show_next = !this._survey.isLastPage
+      },
+      control_complete_button_visibility() {
+        const is_single_page_or_last_page = (this.is_single_page_form()) || this._survey.isLastPage
+
+        // No questions answered (will need solving again when we fix the 'screen of red errors')
+//        if (!is_single_page_or_last_page && Object.keys(this._survey.data).length === 0) return
+
+        // Last page (or single-page), but with errors
+        // Accessing #isCurrentPageHasErrors triggers SurveyJS validations
+        if (is_single_page_or_last_page && (this._survey.isCurrentPageHasErrors || !this.response_is_valid)) {
+          this.show_complete = true
+          this.complete_disabled = true
+          return
+        }
+
+        // Last page (or single-page), no errors. All good, complete!
+        if (is_single_page_or_last_page && this.response_is_valid && !this._survey.isCurrentPageHasErrors) {
+          this.show_complete = true
+          this.complete_disabled = false
+          return
         }
       },
-      current_page_is_furthest_page_with_errors() {
-        const question_names = this.validations.errors
-          // remove location validation, they don't exist on a form page.
+      control_next_button_disabled() {
+        // 'next' is disabled if:
+        // - there are SurveyJS form_errors on current page
+        // - there are validation_errors relating to the current page
+
+        // check if the current page is the last page which has a validation_error
+        // you can go backwards to fix validation_errors, but not forwards past the last page
+        // which currently has a validation_error
+
+
+        // get names of all questions answered (from validations)
+        const questions_answered_names = this.validations.errors
           .filter(error => !error.is_location)
           .reduce((questions_array, err) => {
-
             return questions_array.concat(err.questions)
           }, [])
 
-        const question_indices = question_names.map((question_name) => {
+        // get page indices for every page with an answered question
+        const question_page_indices = questions_answered_names.map((question_name) => {
           const question = this._survey.getQuestionByName(question_name)
           const page = this._survey.getPageByQuestion(question)
 
@@ -138,21 +171,43 @@
           return question_name_index
         })
 
-        const furthest_page_index_with_error = Math.max(...question_indices)
+        // find last page with a VALIDATION error (good variable name!)
+        const last_page_with_validation_error_index = Math.max(...question_page_indices)
 
+        // get current page index, to compare with pages with errors
         const current_page_index = this._survey.pages.findIndex((survey_page) => {
           return this._survey.currentPage.id === survey_page.id
         })
 
-        return furthest_page_index_with_error === current_page_index
+
+
+        const has_form_errors = this._survey.isCurrentPageHasErrors
+        const has_validation_errors = (last_page_with_validation_error_index === current_page_index)
+
+
+        if (has_form_errors || has_validation_errors) {
+          // either: 1) there are SurveyJS form_errors, or 2) you're on the last page with a validation_error
+          // so, you cannot continue
+          this.next_disabled = true
+        } else {
+          // CARRY ON
+          this.next_disabled = false
+        }
+
+
       },
-      next_page() {
-        this._survey.nextPage()
+      control_single_page_form_complete() {
+        this.show_complete = true
+        this.complete_disabled = false
       },
-      previous_page() {
-        this._survey.prevPage()
-      },
+
+      // Navigation
+      next_page() { this._survey.nextPage() },
+      previous_page() { this._survey.prevPage() },
       complete() {
+        if (this.is_single_page_form() && this._survey.isCurrentPageHasErrors){
+          return console.log('fix errors')
+        }
         this.$emit('complete', this._survey)
       }
     }
