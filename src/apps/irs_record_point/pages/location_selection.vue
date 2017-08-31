@@ -5,6 +5,7 @@
     </md-card-header>
 
     <multiselect
+      class="multiselect"
       v-model="category"
       @select="select_category"
       :options="categories"
@@ -13,6 +14,7 @@
     </multiselect>
 
     <multiselect
+      class="multiselect"
       v-if="category"
       v-model="selection"
       @select="select_location"
@@ -117,3 +119,8 @@
     }
   }
 </script>
+<style>
+  .multiselect {
+    margin-top: 0.5em;
+  }
+</style>
