@@ -2,26 +2,27 @@
   <div class='record-container'>
 
     <div class="record-controls">
-
       <!--BACK TO LIST-->
       <md-button class="md-icon-button" @click="close_form">
-        <md-icon>arrow_back</md-icon>
+        <md-icon v-if="response_id">arrow_back</md-icon>
+        <md-icon v-else class="md-warn">delete</md-icon>
       </md-button>
 
       <!--VALIDATIONS CARD TOGGLE-->
-        <md-button
-          class="animated"
-          :class="{orange: have_warnings, red: have_errors, 'md-raised': !show_validation_result, shake: shake_button}"
-          :disabled="validation_result_empty"
-          @click.native="toggle_show_validation_result"
-        >
+      <md-button
+        class="animated"
+        :class="{orange: have_warnings, red: have_errors, 'md-raised': !show_validation_result, shake: shake_button}"
+        :disabled="validation_result_empty"
+        @click.native="toggle_show_validation_result"
+      >
 
-          <span v-if="!validation_result_empty">
-            {{validation_result.errors.length + validation_result.warnings.length}}
-          </span>
+        <span v-if="!validation_result_empty">
+          {{validation_result.errors.length + validation_result.warnings.length}}
+        </span>
 
-          {{ validation_result_empty ? "No validation issues" : (validation_length  === 1 ? "Validation issue" : "Validation issues")}}
-        </md-button>
+        {{ validation_result_empty ? "No validation issues" : (validation_length  === 1 ? "Validation issue" : "Validation issues")}}
+      </md-button>
+
     </div>
 
     <!-- CONFIRM CLOSE FORM -->

@@ -1,3 +1,7 @@
+
+
+
+
 <template>
   <div class="container">
     <h1>Structure-based data collector</h1>

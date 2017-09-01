@@ -182,7 +182,7 @@
       },
       control_single_page_form_complete() {
         this.show_complete = true
-        this.complete_disabled = false
+        this.complete_disabled = !this.response_is_valid
       },
 
       // Do navigation
