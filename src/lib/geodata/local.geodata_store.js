@@ -54,10 +54,12 @@ function retrieve_geodata_from_idb() {
  */
 export function hydrate_geodata_cache_from_idb() {
   return retrieve_geodata_from_idb()
-    .then((record) => {
-      if (record) cache.geodata = record.geodata
-      decorate_geodata_on_cache()
-      return record
+    .then((geodata) => {
+      if (geodata) {
+        cache.geodata = geodata.geodata
+        decorate_geodata_on_cache()
+      }
+      return geodata
     })
     .catch(console.error)
 }
