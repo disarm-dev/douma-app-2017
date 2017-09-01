@@ -33,29 +33,18 @@
     name: 'geodata',
     data () {
       return {
-        file: {},
         cache_status: {},
-        level_names: []
-      }
-    },
-    computed: {
-      slug() {
-        return this.$store.state.instance_config.instance.slug
+        level_names: get_all_spatial_hierarchy_level_names()
       }
     },
     mounted() {
-      this.level_names = get_all_spatial_hierarchy_level_names()
-      hydrate_geodata_cache_from_idb().then(() => {
-        if (this.level_names.every(geodata_has_level)) {
-          this.continue_routing()
-        }
-        this.calculate_cache_status()
-      })
+      this.calculate_cache_status()
     },
     methods: {
-      calculate_cache_status(level) {
+      calculate_cache_status() {
         this.level_names.forEach(level => {
-          this.$set(this.cache_status, level, geodata_has_level(level))
+          const status = geodata_has_level(level)
+          this.$set(this.cache_status, level, status)
         })
       },
       retrieve_geodata_for(level) {
@@ -64,28 +53,9 @@
             return hydrate_geodata_cache_from_idb()
           })
           .then(() => {
-            this.$nextTick(() => {
-              console.log('get here')
-              this.calculate_cache_status()
-            })
-
+            console.log('get here')
+            this.calculate_cache_status()
           })
-      },
-      import_geodata_for(level) {
-        console.log('import_geodata_for', level)
-      },
-      upload_geodata(e) {
-        if (e.length === 0) return
-
-        const file = e.item(0)
-        const file_reader = new FileReader();
-
-        file_reader.onload = (e) => {
-          const result = JSON.parse(e.target.result)
-          console.log('result', result)
-        }
-
-        file_reader.readAsText(file)
       },
       back() {
         this.$router.push('/')
