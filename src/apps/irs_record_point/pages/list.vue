@@ -27,18 +27,21 @@
     <div class='applet_container'>
        <!--<local_record_summary></local_record_summary>-->
 
-
-
       <!-- LIST ALL -->
       <md-card>
         <md-card-header>
           <div class="md-title">{{responses.length}} responses ({{unsynced_count}} unsynced)</div>
         </md-card-header>
         <md-card-content>
+          <md-input-container>
+            <label>filter by ID</label>
+            <md-input v-model="id_search_string"></md-input>
+          </md-input-container>
+
           <md-list>
             <virtual_list :size="40" :remain="10">
               <md-list-item
-                v-for='response in responses'
+                v-for='response in filtered_responses'
                 :index='response'
                 :class="{'md-primary': !response.synced}"
                 :key="response.id"
@@ -80,23 +83,34 @@
     data () {
       return {
         syncing: false,
-        target_denominator: 0
+        target_denominator: 0,
+        id_search_string: ''
       }
     },
     computed: {
       ...mapState({
         instance_config: state => state.instance_config,
-        responses: state => state.irs_record_point.responses.sort((a, b) => new Date(b.recorded_on) - new Date(a.recorded_on)),
         unsynced_count: state => state.irs_record_point.responses.filter(r => !r.synced).length,
         online: state => state.network_online
       }),
+      responses() {
+        return this.$store.state.irs_record_point.responses
+      },
+      filtered_responses() {
+        return this.responses
+          .filter(r => {
+            if (!this.id_search_string) return true
+            return this.short_id(r.id).includes(this.id_search_string)
+          })
+          .sort((a, b) => new Date(b.recorded_on) - new Date(a.recorded_on))
+      },
       unsynced_responses() {
         return this.responses.filter(r => !r.synced)
       }
     },
     methods: {
       format_response(response) {
-        const id = get(response, 'id', 'no id').substring(0,6)
+        const id = this.short_id(get(response, 'id', 'no id'))
         const location_name = get(response, 'location.selection.name', '')
         const ago = this.format_datetime_from_now(response.recorded_on)
 
@@ -136,6 +150,9 @@
             this.$store.commit('irs_record_point/update_response', response)
           })
         }
+      },
+      short_id(id) {
+        return id.substring(0,6)
       }
     }
   }
