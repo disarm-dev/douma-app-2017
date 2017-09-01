@@ -79,12 +79,5 @@ export default {
       // Return the results array
       return results
     },
-    clear_synced_responses: (context) => {
-      let synced_responses = context.state.responses.filter(r => r.synced)
-
-      synced_responses.forEach((response) => {
-        context.commit('delete_response', response)
-      })
-    }
   }
 }

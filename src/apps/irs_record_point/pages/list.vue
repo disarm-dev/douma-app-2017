@@ -11,11 +11,6 @@
           <span>Sync {{unsynced_count}} responses</span>
         </md-menu-item>
 
-        <md-menu-item :disabled="syncing || synced_count === 0" @click="clear_synced_responses">
-          <md-icon>close</md-icon>
-          <span>Hide synced responses</span>
-        </md-menu-item>
-
         <md-menu-item :disabled="syncing || unsynced_count === 0" @click="download_records">
           <md-icon>file_download</md-icon>
           <span>Export {{unsynced_count}} unsynced</span>
@@ -32,18 +27,21 @@
     <div class='applet_container'>
        <!--<local_record_summary></local_record_summary>-->
 
-
-
       <!-- LIST ALL -->
       <md-card>
         <md-card-header>
-          <div class="md-title">{{unsynced_count}} responses</div>
+          <div class="md-title">{{responses.length}} responses ({{unsynced_count}} unsynced)</div>
         </md-card-header>
         <md-card-content>
+          <md-input-container>
+            <label>filter by ID</label>
+            <md-input v-model="id_search_string"></md-input>
+          </md-input-container>
+
           <md-list>
             <virtual_list :size="40" :remain="10">
               <md-list-item
-                v-for='response in responses'
+                v-for='response in filtered_responses'
                 :index='response'
                 :class="{'md-primary': !response.synced}"
                 :key="response.id"
@@ -85,27 +83,38 @@
     data () {
       return {
         syncing: false,
-        target_denominator: 0
+        target_denominator: 0,
+        id_search_string: ''
       }
     },
     computed: {
       ...mapState({
         instance_config: state => state.instance_config,
-        responses: state => state.irs_record_point.responses.sort((a, b) => new Date(b.recorded_on) - new Date(a.recorded_on)),
         unsynced_count: state => state.irs_record_point.responses.filter(r => !r.synced).length,
-        synced_count: state => state.irs_record_point.responses.filter(r => r.synced).length,
         online: state => state.network_online
       }),
+      responses() {
+        return this.$store.state.irs_record_point.responses
+      },
+      filtered_responses() {
+        return this.responses
+          .filter(r => {
+            if (!this.id_search_string) return true
+            return this.short_id(r.id).includes(this.id_search_string)
+          })
+          .sort((a, b) => new Date(b.recorded_on) - new Date(a.recorded_on))
+      },
       unsynced_responses() {
         return this.responses.filter(r => !r.synced)
       }
     },
     methods: {
       format_response(response) {
+        const id = this.short_id(get(response, 'id', 'no id'))
         const location_name = get(response, 'location.selection.name', '')
         const ago = this.format_datetime_from_now(response.recorded_on)
 
-        return `${location_name} - ${ago}`
+        return `${ago} in ${location_name} (id: ${id})`
       },
       format_datetime_from_now(date) {
         return moment(date).fromNow()//format('hh:mm a DD MMM YYYY')
@@ -130,9 +139,6 @@
             this.syncing = false
           })
       },
-      clear_synced_responses() {
-        this.$store.dispatch('irs_record_point/clear_synced_responses')
-      },
       download_records() {
         const content = JSON.stringify(this.unsynced_responses)
         const date = moment().format('YYYY-MM-DD_HHmm')
@@ -144,6 +150,9 @@
             this.$store.commit('irs_record_point/update_response', response)
           })
         }
+      },
+      short_id(id) {
+        return id.substring(0,5)
       }
     }
   }
