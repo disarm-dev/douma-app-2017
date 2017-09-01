@@ -32,7 +32,7 @@
       <!-- LIST ALL -->
       <md-card>
         <md-card-header>
-          <div class="md-title">{{unsynced_count}} responses</div>
+          <div class="md-title">{{responses.length}} responses ({{unsynced_count}} unsynced)</div>
         </md-card-header>
         <md-card-content>
           <md-list>
@@ -88,7 +88,6 @@
         instance_config: state => state.instance_config,
         responses: state => state.irs_record_point.responses.sort((a, b) => new Date(b.recorded_on) - new Date(a.recorded_on)),
         unsynced_count: state => state.irs_record_point.responses.filter(r => !r.synced).length,
-        synced_count: state => state.irs_record_point.responses.filter(r => r.synced).length,
         online: state => state.network_online
       }),
       unsynced_responses() {
@@ -97,10 +96,11 @@
     },
     methods: {
       format_response(response) {
+        const id = get(response, 'id', 'no id').substring(0,6)
         const location_name = get(response, 'location.selection.name', '')
         const ago = this.format_datetime_from_now(response.recorded_on)
 
-        return `${location_name} - ${ago}`
+        return `${ago} in ${location_name} (id: ${id})`
       },
       format_datetime_from_now(date) {
         return moment(date).fromNow()//format('hh:mm a DD MMM YYYY')
