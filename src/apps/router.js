@@ -41,6 +41,7 @@ export function create_router(instance_routes, store) {
     }
   })
 
+  // Redirect to get geodata if needed
   router.beforeEach((to, from, next) => {
 
     // check if any applets require geodata, or continue
