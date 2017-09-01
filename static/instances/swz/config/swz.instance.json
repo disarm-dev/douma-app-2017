@@ -166,7 +166,7 @@
     "irs_record_point": {
       "metadata": {
         "show": true,
-        "fields": ["username", "team_name", "recorded_on"]
+        "optional_fields": ["team_name"]
       }
     },
     "irs_tasker": {},

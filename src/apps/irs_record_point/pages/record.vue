@@ -58,22 +58,25 @@
           <div class="md-title">Metadata</div>
         </md-card-header>
         <md-list>
-          <md-list-item v-if="fields.includes('username')">
+          <!-- REQUIRED METADATA FIELDS-->
+          <md-list-item>
             <md-input-container>
               <label>username</label>
               <md-input v-model="response.username"></md-input>
             </md-input-container>
           </md-list-item>
-          <md-list-item v-if="fields.includes('team_name')">
-            <md-input-container>
-              <label>team name (optional)</label>
-              <md-input v-model.lazy="response.team_name" @input="team_name_changed"></md-input>
-            </md-input-container>
-          </md-list-item>
-          <md-list-item v-if="fields.includes('recorded_on')">
+          <md-list-item>
             <md-input-container>
               <label>Date recorded on</label>
               <md-input disabled type='text' v-model="formatted_recorded_on"></md-input>
+            </md-input-container>
+          </md-list-item>
+
+          <!-- OPTIONAL FIELDS -->
+          <md-list-item v-for="field in optional_fields" :key="field">
+            <md-input-container>
+              <label>{{field}}</label>
+              <md-input v-model.lazy="response[field]" @change="field_changed(field)"></md-input>
             </md-input-container>
           </md-list-item>
         </md-list>
@@ -210,8 +213,8 @@
       irs_record_point_config() {
         return this.instance_config.applets.irs_record_point
       },
-      fields() {
-        return this.instance_config.applets.irs_record_point.metadata.fields
+      optional_fields() {
+        return this.instance_config.applets.irs_record_point.metadata.optional_fields
       }
     },
     created() {
@@ -224,7 +227,7 @@
         const empty_response = {
           username: this.username,
           instance_slug: this.instance_slug,
-          team_name: this.team_name
+          team_name: this.team_name // TODO: @refac Brittle: this needs to match what's set in `instance.json`
         }
         this._response = new Response(empty_response)
       }
@@ -345,8 +348,9 @@
           this.$router.push('/irs/record_point')
         }
       },
-      team_name_changed(team_name) {
-        this.$store.commit('irs_record_point/set_team_name', team_name)
+      field_changed(field) {
+        // TODO: @refac Stop this being only able to do team_name!
+        this.$store.commit('irs_record_point/set_team_name', this.response[field])
       }
     }
   }

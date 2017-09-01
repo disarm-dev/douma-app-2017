@@ -103,7 +103,7 @@
       "title": "IRS Data Collection and Reporting Tool",
       "metadata": {
         "show": false,
-        "fields": ["username", "team_name", "recorded_on"]
+        "optional_fields": []
       }
     },
     "meta": {},

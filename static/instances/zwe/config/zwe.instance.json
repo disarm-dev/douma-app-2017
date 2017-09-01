@@ -6,7 +6,7 @@
       "title": "IRS Data Collector",
       "metadata": {
         "show": true,
-        "fields": ["username", "team_name", "recorded_on"]
+        "optional_fields": []
       }
     },
     "irs_monitor": {
