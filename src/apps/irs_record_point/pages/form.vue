@@ -1,30 +1,23 @@
 <template>
-  <v-touch
-    :options="{touchAction: 'pan-y'}"
-    v-on:swipeleft="next_page"
-    v-on:swiperight="previous_page">
+  <md-card>
+    <md-card-header>
+      <div class="md-title">Form</div>
+    </md-card-header>
 
-    <md-card>
-      <md-card-header>
-        <div class="md-title">Form</div>
-      </md-card-header>
+    <md-card-content>
+      <div id="surveyContainer"></div>
+    </md-card-content>
 
-      <md-card-content>
-        <div id="surveyContainer"></div>
-      </md-card-content>
+    <md-card-actions>
+      <!--Only for first page, take you back to Location tab/page -->
+      <md-button v-if="show_back_to_location" @click.native="$emit('previous_view')" class="md-raised">Previous</md-button>
 
-      <md-card-actions>
-        <!--Only for first page, take you back to Location tab/page -->
-        <md-button v-if="show_back_to_location" @click.native="$emit('previous_view')" class="md-raised">Previous</md-button>
-
-        <!-- SurveyJS navigation proxies -->
-        <md-button v-if="show_previous" @click.native="previous_page" class="md-raised">Previous</md-button>
-        <md-button v-if="show_next" :disabled="next_disabled" @click.native="next_page" class="md-raised">Next</md-button>
-        <md-button v-if="show_complete" :disabled="complete_disabled" @click.native="complete" class="md-raised md-primary">Complete</md-button>
-      </md-card-actions>
-    </md-card>
-
-  </v-touch>
+      <!-- SurveyJS navigation proxies -->
+      <md-button v-if="show_previous" @click.native="previous_page" class="md-raised">Previous</md-button>
+      <md-button v-if="show_next" :disabled="next_disabled" @click.native="next_page" class="md-raised">Next</md-button>
+      <md-button v-if="show_complete" :disabled="complete_disabled" @click.native="complete" class="md-raised md-primary">Complete</md-button>
+    </md-card-actions>
+  </md-card>
 </template>
 
 <script>
