@@ -85,7 +85,7 @@
         return this._survey.isFirstPage && this._survey.isLastPage
       },
 
-
+      // Main entry point to control navigation
       control_navigation() {
         this.$nextTick(() => {
           // All buttons off and disabled
@@ -94,13 +94,14 @@
           // Back to location or previous question
           this.control_previous_and_location_button_visibility()
 
-          // Handle single_page_forms differently to avoid 'red screen of errors'
+          // Control next/complete buttons
           if (this.is_single_page_form()) {
+            // No next buttons, so only interested in completing
             this.control_single_page_form_complete()
           } else {
+            // Multipage form, so want a 'next'
             this.control_next_button_visibility()
-            this.control_complete_button_visibility()
-            this.control_next_button_disabled()
+            if (!this.show_next) this.control_complete_button_visibility()
           }
 
         })
@@ -118,39 +119,19 @@
         this.show_previous = !this._survey.isFirstPage
         this.show_back_to_location = !this.show_previous
       },
+
+      // Next
       control_next_button_visibility() {
         this.show_next = !this._survey.isLastPage
-      },
-      control_complete_button_visibility() {
-        const is_single_page_or_last_page = (this.is_single_page_form()) || this._survey.isLastPage
-
-        // No questions answered (will need solving again when we fix the 'screen of red errors')
-//        if (!is_single_page_or_last_page && Object.keys(this._survey.data).length === 0) return
-
-        // Last page (or single-page), but with errors
-        // Accessing #isCurrentPageHasErrors triggers SurveyJS validations
-        if (is_single_page_or_last_page && (this._survey.isCurrentPageHasErrors || !this.response_is_valid)) {
-          this.show_complete = true
-          this.complete_disabled = true
-          return
-        }
-
-        // Last page (or single-page), no errors. All good, complete!
-        if (is_single_page_or_last_page && this.response_is_valid && !this._survey.isCurrentPageHasErrors) {
-          this.show_complete = true
-          this.complete_disabled = false
-          return
-        }
+        if (this.show_next) this.control_next_button_disabled()
       },
       control_next_button_disabled() {
-        // 'next' is disabled if:
-        // - there are SurveyJS form_errors on current page
-        // - there are validation_errors relating to the current page
-
-        // check if the current page is the last page which has a validation_error
+        this.next_disabled = this.current_page_is_furthest_page_with_errors()
+      },
+      current_page_is_furthest_page_with_errors() {
+        // check if the current page is the furthest page which has a validation_error
         // you can go backwards to fix validation_errors, but not forwards past the last page
         // which currently has a validation_error
-
 
         // get names of all questions answered (from validations)
         const questions_answered_names = this.validations.errors
@@ -179,29 +160,39 @@
           return this._survey.currentPage.id === survey_page.id
         })
 
+        return (last_page_with_validation_error_index === current_page_index)
+      },
 
+      // Complete
+      control_complete_button_visibility() {
+        // Only interested in last page or single-page (most likely will never fail since we're checking
+        // this already in #control_navigation)
+        const neither_single_page_nor_last_page = !(this.is_single_page_form() || this._survey.isLastPage)
+        if (neither_single_page_nor_last_page) return
 
-        const has_form_errors = this._survey.isCurrentPageHasErrors
-        const has_validation_errors = (last_page_with_validation_error_index === current_page_index)
+        // No questions answered, don't validate until you start answering questions
+        if (Object.keys(this._survey.data).length === 0) return
 
+        // Check for errors
+//        const some_errors = (this._survey.isCurrentPageHasErrors || !this.response_is_valid)
+        const some_errors = !this.response_is_valid
 
-        if (has_form_errors || has_validation_errors) {
-          // either: 1) there are SurveyJS form_errors, or 2) you're on the last page with a validation_error
-          // so, you cannot continue
-          this.next_disabled = true
+        if (some_errors) {
+          // Last page, but with errors
+          this.show_complete = true
+          this.complete_disabled = true
         } else {
-          // CARRY ON
-          this.next_disabled = false
+          // All good, complete!
+          this.show_complete = true
+          this.complete_disabled = false
         }
-
-
       },
       control_single_page_form_complete() {
         this.show_complete = true
         this.complete_disabled = false
       },
 
-      // Navigation
+      // Do navigation
       next_page() { this._survey.nextPage() },
       previous_page() { this._survey.prevPage() },
       complete() {
