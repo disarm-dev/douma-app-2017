@@ -11,11 +11,6 @@
           <span>Sync {{unsynced_count}} responses</span>
         </md-menu-item>
 
-        <md-menu-item :disabled="syncing || synced_count === 0" @click="clear_synced_responses">
-          <md-icon>close</md-icon>
-          <span>Hide synced responses</span>
-        </md-menu-item>
-
         <md-menu-item :disabled="syncing || unsynced_count === 0" @click="download_records">
           <md-icon>file_download</md-icon>
           <span>Export {{unsynced_count}} unsynced</span>
@@ -129,9 +124,6 @@
             this.$endLoading('irs_record_point/sync')
             this.syncing = false
           })
-      },
-      clear_synced_responses() {
-        this.$store.dispatch('irs_record_point/clear_synced_responses')
       },
       download_records() {
         const content = JSON.stringify(this.unsynced_responses)
