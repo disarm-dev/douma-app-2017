@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import {get} from 'lodash'
 
 import {has_permission} from 'lib/helpers/permission_helper.js'
 import {geodata_in_cache_and_valid} from 'lib/geodata/geodata.valid'
@@ -45,8 +46,12 @@ export function create_router(instance_routes, store) {
   router.beforeEach((to, from, next) => {
 
     // check if any applets require geodata, or continue
-    const geodata_required = store.getters['meta/decorated_applets'].some(applet => applet.geodata_required)
-    if (!geodata_required) return next()
+    const decorated_applets = store.getters['meta/decorated_applets']
+    const to_applet = decorated_applets.find(applet => applet.name === to.name.split(":")[0])
+    const geodata_required = get(to_applet, 'geodata_required', false)
+    if (!geodata_required) {
+      return next()
+    }
 
     // if you're on your way to any 'meta' page, then carry on
     if (/^meta/.test(to.name)) return next()
