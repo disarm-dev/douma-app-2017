@@ -9,6 +9,7 @@
       v-model="category"
       @select="select_category"
       :options="categories"
+      placeholder="Select area"
       >
       <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
     </multiselect>
@@ -21,7 +22,7 @@
       :options="location_options"
       group-values="locations"
       group-label="category"
-      placeholder="Alternative location search"
+      placeholder="Select sub-area"
       track-by="id"
       label="name"
       :internal-search="false"
