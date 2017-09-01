@@ -5,27 +5,16 @@
 
       <md-list>
         <md-list-item v-for="level in level_names" :key="level" >
-
           <md-icon v-if="cache_status[level] == true">done</md-icon>
           <md-icon v-else>error</md-icon>
 
           <span>{{level}}</span>
-
           <md-button @click.native="retrieve_geodata_for(level)" class="md-dense list-button md-raised md-primary">Download</md-button>
-          <md-button @click.native="import_geodata_for(level)" class="md-dense list-button md-raised md-primary">Import</md-button>
-          <!-- <div>
-            <md-input-container>
-              <label>Upload geodata for {{level}}</label>
-              <md-file v-model="file[level]" :id="level" :name="level" @selected="upload_geodata"></md-file>
-            </md-input-container>
-          </div> -->
-
         </md-list-item>
       </md-list>
 
       <div>
-        <md-button @click.native="download_all">Download all</md-button>
-        <md-button @click.native="continue_routing">Continue</md-button>
+        <md-button class='md-primary md-raised' @click.native="back">Back</md-button>
       </div>
 
     </div>
@@ -57,10 +46,10 @@
     mounted() {
       this.level_names = get_all_spatial_hierarchy_level_names()
       hydrate_geodata_cache_from_idb().then(() => {
-        this.calculate_cache_status()
         if (this.level_names.every(geodata_has_level)) {
           this.continue_routing()
         }
+        this.calculate_cache_status()
       })
     },
     methods: {
@@ -75,7 +64,11 @@
             return hydrate_geodata_cache_from_idb()
           })
           .then(() => {
-            this.calculate_cache_status()
+            this.$nextTick(() => {
+              console.log('get here')
+              this.calculate_cache_status()
+            })
+
           })
       },
       import_geodata_for(level) {
@@ -94,14 +87,8 @@
 
         file_reader.readAsText(file)
       },
-      download_all() {},
-      continue_routing() {
-        if (this.$store.state.meta.previous_route) {
-          const path = this.$store.state.meta.previous_route
-          this.$router.push(path)
-        } else {
-          this.$router.push('/')
-        }
+      back() {
+        this.$router.push('/')
       },
     }
   }
