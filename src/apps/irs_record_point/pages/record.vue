@@ -100,7 +100,7 @@
         ></location_coords>
 
       <location_selection
-        @change="on_location_selection_selected"
+        @change="on_location_selection_change"
         :initial_location_selection="response.location.selection"
       >
       </location_selection>
@@ -286,7 +286,7 @@
       on_location_change(coords) {
         this.response.location.coords = coords
       },
-      on_location_selection_selected(location_selection){
+      on_location_selection_change(location_selection){
         this.response.location.selection = location_selection
       },
       on_form_change(survey) {

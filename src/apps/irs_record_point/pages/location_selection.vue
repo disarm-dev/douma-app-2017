@@ -7,7 +7,6 @@
     <multiselect
       class="multiselect"
       v-model="category"
-      @select="select_category"
       :options="categories"
       placeholder="Select area"
       >
@@ -18,7 +17,6 @@
       class="multiselect"
       v-if="category"
       v-model="selection"
-      @select="select_location"
       :options="location_options"
       group-values="locations"
       group-label="category"
@@ -45,28 +43,36 @@
     components: {Multiselect},
     data() {
       return {
-        category: null,
-        selection: null,
         _fuse: null,
         search_query: '',
-        _all_locations: []
-      }
-    },
-    created() {
-      this.prepare_fuse()
-      if (this.initial_location_selection !== null) {
-        this.selection = this.initial_location_selection
-        this.$emit('change', this.selection)
-      }
+        _all_locations: [],
 
-      if (this.initial_category !== null) {
-        this.category = this.initial_category
+        hidden_category: '',
+
+
       }
     },
     computed: {
-      initial_category() {
-        return this.$store.state.irs_record_point.category
+      // primary area selector
+      category: {
+        get() {
+          return this.$store.state.irs_record_point.persisted_metadata.category
+        },
+        set(category_string) {
+          this.$store.commit('irs_record_point/set_persisted_metadata', {name: 'category', value: category_string})
+        }
       },
+      // secondary area selector
+      selection: {
+        get() {
+          return this.$store.state.irs_record_point.persisted_metadata.selection
+        },
+        set(selection_object) {
+          this.$store.commit('irs_record_point/set_persisted_metadata', {name: 'selection', value: selection_object})
+          this.$emit('change', selection_object)
+        }
+      },
+
       categories() {
         const all_categories = this._all_locations.map(loc => {
           return loc.category
@@ -83,7 +89,6 @@
         }
 
         // present locations for multiselect
-
         const categories = uniq(result.map(r => r.category)).filter(c => c === this.category).sort()
 
         const nested = categories.map(category => {
@@ -104,6 +109,17 @@
         return nested
       },
     },
+    created() {
+      this.prepare_fuse()
+
+      if (this.initial_location_selection !== null) {
+        this.$emit('change', this.initial_location_selection)
+        this.selection = this.initial_location_selection
+        this.category = this.find_category_for_selection(this.selection)
+      } else {
+        this.$emit('change', this.selection)
+      }
+    },
     methods: {
       prepare_fuse() {
         this._all_locations = get_record_location_selection()
@@ -114,13 +130,9 @@
 
         this._fuse =  new Fuse(this._all_locations, fuse_options)
       },
-      select_category(category) {
-        this.category = category
-        this.$store.commit('irs_record_point/set_category', category)
-      },
-      select_location(selection) {
-        this.selection = selection
-        this.$emit('change', this.selection)
+      find_category_for_selection(selection) {
+        const found = this._all_locations.find(l => l.id === selection.id)
+        if (found) return found.category
       },
       search(query) {
         this.search_query = query
