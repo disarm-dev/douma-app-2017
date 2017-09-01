@@ -85,24 +85,24 @@
         return this._survey.isFirstPage && this._survey.isLastPage
       },
 
+
       control_navigation() {
         this.$nextTick(() => {
           // All buttons off and disabled
           this.reset_navigation()
 
+          // Back to location or previous question
+          this.control_previous_and_location_button_visibility()
+
           // Handle single_page_forms differently to avoid 'red screen of errors'
           if (this.is_single_page_form()) {
-            return this.control_single_page_form_complete()
+            this.control_single_page_form_complete()
+          } else {
+            this.control_next_button_visibility()
+            this.control_complete_button_visibility()
+            this.control_next_button_disabled()
           }
 
-          // Either back to location, or back to previous question
-          this.control_previous_button_visibility()
-
-          // Depending on whether is last_page or a single-page-form
-          this.control_next_button_visibility()
-          this.control_complete_button_visibility()
-
-          this.control_next_button_disabled()
         })
       },
       reset_navigation() {
@@ -114,7 +114,7 @@
         this.next_disabled = true
         this.complete_disabled = true
       },
-      control_previous_button_visibility() {
+      control_previous_and_location_button_visibility() {
         this.show_previous = !this._survey.isFirstPage
         this.show_back_to_location = !this.show_previous
       },
@@ -205,9 +205,12 @@
       next_page() { this._survey.nextPage() },
       previous_page() { this._survey.prevPage() },
       complete() {
-        if (this.is_single_page_form() && this._survey.isCurrentPageHasErrors){
-          return console.log('fix errors')
-        }
+        // Cannot complete a single-page form with errors - we won't have checked until first time
+        // 'complete' is clicked
+        if (this.is_single_page_form() && this._survey.isCurrentPageHasErrors) return
+
+        // If not a single_page_form, and you can click 'complete', then you're probably ok.
+        if (this._survey.isCurrentPageHasErrors) return console.warn("Errors in (non single-page form), should not be able to click 'complete'")
         this.$emit('complete', this._survey)
       }
     }
