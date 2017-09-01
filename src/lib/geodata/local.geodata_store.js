@@ -27,7 +27,7 @@ export async function save_geodata_to_idb({level_name, level_geodata}) {
       }
     }
     console.log('put', new_record)
-    db.geodata_collection.put(new_record)
+    return db.geodata_collection.put(new_record)
   } else {
     const updated_record = {
       disarm_geodata_key,
@@ -39,7 +39,7 @@ export async function save_geodata_to_idb({level_name, level_geodata}) {
       }
     }
     console.log('update', level_geodata)
-    db.geodata_collection.update(disarm_geodata_key, updated_record)
+    return db.geodata_collection.update(disarm_geodata_key, updated_record)
   }
 }
 
@@ -61,5 +61,4 @@ export function hydrate_geodata_cache_from_idb() {
       }
       return geodata
     })
-    .catch(console.error)
 }

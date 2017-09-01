@@ -6,7 +6,7 @@
     <!-- Sidenav -->
     <sidebar></sidebar>
 
-    <!-- Notifications (snackbar and serviceWorker dialog-->
+    <!-- Notifications (snackbar and serviceWorker dialog) -->
     <notifications></notifications>
 
     <!-- Help -->

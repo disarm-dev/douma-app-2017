@@ -1,15 +1,21 @@
 <template>
   <div class="applet_container">
-    <h2>Geodata</h2>
+    <h2>Geographic data</h2>
+    <p>To continue, you need to load the geographic data.</p>
     <div class="list">
 
       <md-list>
         <md-list-item v-for="level in level_names" :key="level" >
-          <md-icon v-if="cache_status[level] == true">done</md-icon>
-          <md-icon v-else>error</md-icon>
+          <md-avatar>
+            <md-icon v-if="cache_status[level] == true" class="success">check_circle</md-icon>
+            <span v-else-if="isLoading(`geodata/${level}`)"><md-spinner md-indeterminate class="md-accent" :md-size="30"></md-spinner></span>
+            <md-icon v-else class="md-warn">error</md-icon>
+          </md-avatar>
 
           <span>{{level}}</span>
+
           <md-button @click.native="retrieve_geodata_for(level)" class="md-dense list-button md-raised md-primary">Download</md-button>
+
         </md-list-item>
       </md-list>
 
@@ -22,11 +28,12 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
 
   import {get_all_spatial_hierarchy_level_names} from 'lib/geodata/spatial_hierarchy_helper'
   import {geodata_has_level} from 'lib/geodata/geodata.valid'
   import {get_geodata_for} from 'lib/remote/remote.geodata'
-  import {get_and_set_geodata_for} from 'lib/remote/remote.geodata'
+  import {get_and_store_locally_geodata_for} from 'lib/remote/remote.geodata'
   import {hydrate_geodata_cache_from_idb} from "lib/geodata/local.geodata_store";
 
   export default {
@@ -37,8 +44,15 @@
         level_names: get_all_spatial_hierarchy_level_names()
       }
     },
+    computed: {
+      ...mapGetters({
+        isLoading: 'loading/isLoading'
+      })
+    },
     mounted() {
-      this.calculate_cache_status()
+      hydrate_geodata_cache_from_idb().then(() => {
+        this.calculate_cache_status()
+      })
     },
     methods: {
       calculate_cache_status() {
@@ -48,14 +62,22 @@
         })
       },
       retrieve_geodata_for(level) {
-        get_and_set_geodata_for(level)
+        this.$startLoading(`geodata/${level}`)
+
+        get_and_store_locally_geodata_for(level)
           .then(() => {
             return hydrate_geodata_cache_from_idb()
           })
           .then(() => {
             console.log('get here')
             this.calculate_cache_status()
+            this.$endLoading(`geodata/${level}`)
           })
+          .catch((err) => {
+            this.$endLoading(`geodata/${level}`)
+            console.error(err)
+          })
+
       },
       back() {
         this.$router.push('/')
@@ -72,5 +94,9 @@
 
   .list-button {
     float: right;
+  }
+
+  .success {
+    color: #689F38;
   }
 </style>
