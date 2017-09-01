@@ -152,7 +152,7 @@
         }
       },
       short_id(id) {
-        return id.substring(0,6)
+        return id.substring(0,5)
       }
     }
   }
