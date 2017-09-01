@@ -61,9 +61,10 @@
         <md-list>
           <!-- REQUIRED METADATA FIELDS-->
           <md-list-item>
-            <md-input-container>
+            <md-input-container :class="{'md-input-invalid': response.username !== username}">
               <label>username</label>
               <md-input v-model="response.username"></md-input>
+              <span v-if="response.username !== username" class="md-error">Note username changed</span>
             </md-input-container>
           </md-list-item>
           <md-list-item>
