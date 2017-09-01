@@ -72,6 +72,7 @@
               <label>Date recorded on</label>
               <md-input disabled type='text' v-model="formatted_recorded_on"></md-input>
             </md-input-container>
+
           </md-list-item>
 
           <!-- OPTIONAL FIELDS -->

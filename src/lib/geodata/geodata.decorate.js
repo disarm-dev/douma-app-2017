@@ -7,7 +7,7 @@ import {get_all_spatial_hierarchy_level_names, get_display_name_for_level, get_f
  * @returns {boolean}
  */
 export function decorate_geodata_on_cache () {
-  if (!geodata_in_cache_and_valid()) throw new Error('Invalid geodata')
+  if (!geodata_in_cache_and_valid()) return // throw new Error('Invalid geodata')
 
   const level_names = get_all_spatial_hierarchy_level_names()
 

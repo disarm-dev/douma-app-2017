@@ -1,31 +1,26 @@
 <template>
   <div class="applet_container">
-    <h2>Geodata</h2>
+    <h2>Geographic data</h2>
+    <p>To continue, you need to load the geographic data.</p>
     <div class="list">
 
       <md-list>
         <md-list-item v-for="level in level_names" :key="level" >
-
-          <md-icon v-if="cache_status[level] == true">done</md-icon>
-          <md-icon v-else>error</md-icon>
+          <md-avatar>
+            <md-icon v-if="cache_status[level] == true" class="success">check_circle</md-icon>
+            <span v-else-if="isLoading(`geodata/${level}`)"><md-spinner md-indeterminate class="md-accent" :md-size="30"></md-spinner></span>
+            <md-icon v-else class="md-warn">error</md-icon>
+          </md-avatar>
 
           <span>{{level}}</span>
 
           <md-button @click.native="retrieve_geodata_for(level)" class="md-dense list-button md-raised md-primary">Download</md-button>
-          <md-button @click.native="import_geodata_for(level)" class="md-dense list-button md-raised md-primary">Import</md-button>
-          <!-- <div>
-            <md-input-container>
-              <label>Upload geodata for {{level}}</label>
-              <md-file v-model="file[level]" :id="level" :name="level" @selected="upload_geodata"></md-file>
-            </md-input-container>
-          </div> -->
 
         </md-list-item>
       </md-list>
 
       <div>
-        <md-button @click.native="download_all">Download all</md-button>
-        <md-button @click.native="continue_routing">Continue</md-button>
+        <md-button class='md-primary md-raised' @click.native="back">Back</md-button>
       </div>
 
     </div>
@@ -33,75 +28,59 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
 
   import {get_all_spatial_hierarchy_level_names} from 'lib/geodata/spatial_hierarchy_helper'
   import {geodata_has_level} from 'lib/geodata/geodata.valid'
   import {get_geodata_for} from 'lib/remote/remote.geodata'
-  import {get_and_set_geodata_for} from 'lib/remote/remote.geodata'
+  import {get_and_store_locally_geodata_for} from 'lib/remote/remote.geodata'
   import {hydrate_geodata_cache_from_idb} from "lib/geodata/local.geodata_store";
 
   export default {
     name: 'geodata',
     data () {
       return {
-        file: {},
         cache_status: {},
-        level_names: []
+        level_names: get_all_spatial_hierarchy_level_names()
       }
     },
     computed: {
-      slug() {
-        return this.$store.state.instance_config.instance.slug
-      }
+      ...mapGetters({
+        isLoading: 'loading/isLoading'
+      })
     },
     mounted() {
-      this.level_names = get_all_spatial_hierarchy_level_names()
       hydrate_geodata_cache_from_idb().then(() => {
         this.calculate_cache_status()
-        if (this.level_names.every(geodata_has_level)) {
-          this.continue_routing()
-        }
       })
     },
     methods: {
-      calculate_cache_status(level) {
+      calculate_cache_status() {
         this.level_names.forEach(level => {
-          this.$set(this.cache_status, level, geodata_has_level(level))
+          const status = geodata_has_level(level)
+          this.$set(this.cache_status, level, status)
         })
       },
       retrieve_geodata_for(level) {
-        get_and_set_geodata_for(level)
+        this.$startLoading(`geodata/${level}`)
+
+        get_and_store_locally_geodata_for(level)
           .then(() => {
             return hydrate_geodata_cache_from_idb()
           })
           .then(() => {
+            console.log('get here')
             this.calculate_cache_status()
+            this.$endLoading(`geodata/${level}`)
           })
-      },
-      import_geodata_for(level) {
-        console.log('import_geodata_for', level)
-      },
-      upload_geodata(e) {
-        if (e.length === 0) return
+          .catch((err) => {
+            this.$endLoading(`geodata/${level}`)
+            console.error(err)
+          })
 
-        const file = e.item(0)
-        const file_reader = new FileReader();
-
-        file_reader.onload = (e) => {
-          const result = JSON.parse(e.target.result)
-          console.log('result', result)
-        }
-
-        file_reader.readAsText(file)
       },
-      download_all() {},
-      continue_routing() {
-        if (this.$store.state.meta.previous_route) {
-          const path = this.$store.state.meta.previous_route
-          this.$router.push(path)
-        } else {
-          this.$router.push('/')
-        }
+      back() {
+        this.$router.push('/')
       },
     }
   }
@@ -115,5 +94,9 @@
 
   .list-button {
     float: right;
+  }
+
+  .success {
+    color: #689F38;
   }
 </style>
