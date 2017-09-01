@@ -37,9 +37,11 @@
             "chart_type": "line",
             "time_series": true,
             "bin_by": "recorded_on",
-            "multi_series": [{
-              "aggregation_name": "structures found %"
-            }]
+            "multi_series": [
+              {
+                "aggregation_name": "structures found %"
+              }
+            ]
           }
         },
         {
@@ -62,9 +64,11 @@
             "chart_type": "line",
             "time_series": true,
             "bin_by": "recorded_on",
-            "multi_series": [{
-              "aggregation_name": "structures sprayed %"
-            }]
+            "multi_series": [
+              {
+                "aggregation_name": "structures sprayed %"
+              }
+            ]
           }
         },
         {
@@ -117,9 +121,11 @@
             "chart_type": "line",
             "time_series": true,
             "bin_by": "recorded_on",
-            "multi_series": [{
-              "aggregation_name": "structures found %"
-            }]
+            "multi_series": [
+              {
+                "aggregation_name": "structures found %"
+              }
+            ]
           }
         },
         {
@@ -157,7 +163,12 @@
       ]
     },
     "irs_plan": {},
-    "irs_record_point": {},
+    "irs_record_point": {
+      "metadata": {
+        "show": true,
+        "optional_fields": ["team_name"]
+      }
+    },
     "irs_tasker": {},
     "meta": {},
     "data_wizard": {},

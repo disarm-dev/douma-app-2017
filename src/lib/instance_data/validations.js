@@ -1,6 +1,7 @@
 import {Parser} from 'expr-eval'
 import is_empty from 'lodash.isempty'
 import {CoordsSchema, SelectionSchema} from 'lib/models/response.schema'
+import {get} from 'lodash'
 
 export class Validator {
   constructor(validations) {
@@ -9,13 +10,13 @@ export class Validator {
   }
 
   validate(response) {
-
     // Validate location - only if location.selection has been set (i.e. expect coords set)
-    let location_result = [], location_selection_result = []
-    if (!is_empty(response.location_selection)) {
-      location_result = this._validate_location(response.location.coords)
-      location_selection_result = this._validate_location_selection(response.location.selection)
-    }
+
+    const location_coords = get(response, 'location.coords', null)
+    const location_selection = get(response, 'location.selection', null)
+
+    const location_result = this._validate_location(location_coords)
+    const location_selection_result = this._validate_location_selection(location_selection)
 
     // Validate main form_data / response object
     const survey_results = this._validate_form_data(response.form_data)
@@ -41,7 +42,7 @@ export class Validator {
     if (!questions_answered.length) return []
 
 
-    const survey_validations = this.validations.map(validation=> {
+    const survey_validations = this.validations.map(validation => {
       // Try the precondition first, will return either false or a message
       const precondition_result = this._validate_precondition({validation, questions_answered, form_data})
       if (precondition_result.status === 'precondition_failed') return precondition_result
@@ -63,7 +64,7 @@ export class Validator {
       status: 'failed'
     }
 
-    if (coords=== null) return validation
+    if (coords === null) return validation
     if (!CoordsSchema(coords)) return validation
 
     return {...validation, status: 'passed'}

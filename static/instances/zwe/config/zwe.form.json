@@ -214,16 +214,6 @@
      ]
     }
    ]
-  },
-  {
-   "name": "page2",
-   "elements": [
-    {
-     "type": "text",
-     "name": "hh_name",
-     "title": "Head of household name"
-    }
-   ]
   }
  ]
 }

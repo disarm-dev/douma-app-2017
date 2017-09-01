@@ -4,9 +4,6 @@ import Vue from 'vue'
 import {ClientTable} from 'vue-tables-2'
 Vue.use(ClientTable)
 
-import VueTouch from 'vue-touch'
-Vue.use(VueTouch)
-
 import TreeView from "vue-json-tree-view"
 Vue.use(TreeView)
 

@@ -2,26 +2,27 @@
   <div class='record-container'>
 
     <div class="record-controls">
-
       <!--BACK TO LIST-->
       <md-button class="md-icon-button" @click="close_form">
-        <md-icon>arrow_back</md-icon>
+        <md-icon v-if="response_id">arrow_back</md-icon>
+        <md-icon v-else class="md-warn">delete</md-icon>
       </md-button>
 
       <!--VALIDATIONS CARD TOGGLE-->
-        <md-button
-          class="animated"
-          :class="{orange: have_warnings, red: have_errors, 'md-raised': !show_validation_result, shake: shake_button}"
-          :disabled="validation_result_empty"
-          @click.native="toggle_show_validation_result"
-        >
+      <md-button
+        class="animated"
+        :class="{orange: have_warnings, red: have_errors, 'md-raised': !show_validation_result, shake: shake_button}"
+        :disabled="validation_result_empty"
+        @click.native="toggle_show_validation_result"
+      >
 
-          <span v-if="!validation_result_empty">
-            {{validation_result.errors.length + validation_result.warnings.length}}
-          </span>
+        <span v-if="!validation_result_empty">
+          {{validation_result.errors.length + validation_result.warnings.length}}
+        </span>
 
-          {{ validation_result_empty ? "No validation issues" : (validation_length  === 1 ? "Validation issue" : "Validation issues")}}
-        </md-button>
+        {{ validation_result_empty ? "No validation issues" : (validation_length  === 1 ? "Validation issue" : "Validation issues")}}
+      </md-button>
+
     </div>
 
     <!-- CONFIRM CLOSE FORM -->
@@ -42,7 +43,7 @@
           ref="validation_result"
           :validations='validation_result'
           :survey="survey"
-          v-on:show_location="set_current_view('location')"
+          v-on:show_location="go_to_location_view"
         ></review>
         <md-card-actions>
           <md-button @click.native="show_validation_result = false">Hide</md-button>
@@ -58,16 +59,12 @@
           <div class="md-title">Metadata</div>
         </md-card-header>
         <md-list>
+          <!-- REQUIRED METADATA FIELDS-->
           <md-list-item>
-            <md-input-container>
+            <md-input-container :class="{'md-input-invalid': response.username !== username}">
               <label>username</label>
-              <md-input disabled v-model="response.username"></md-input>
-            </md-input-container>
-          </md-list-item>
-          <md-list-item>
-            <md-input-container>
-              <label>team name (optional)</label>
-              <md-input v-model.lazy="response.team_name" @input="team_name_changed"></md-input>
+              <md-input v-model="response.username"></md-input>
+              <span v-if="response.username !== username" class="md-error">Note username changed</span>
             </md-input-container>
           </md-list-item>
           <md-list-item>
@@ -76,15 +73,19 @@
               <md-input disabled type='text' v-model="formatted_recorded_on"></md-input>
             </md-input-container>
           </md-list-item>
-          <!--<md-input-container>-->
-            <!--<label>Team</label>-->
-            <!--<md-input v-model="response.team_name"></md-input>-->
-          <!--</md-input-container>-->
+
+          <!-- OPTIONAL FIELDS -->
+          <md-list-item v-for="field in optional_fields" :key="field">
+            <md-input-container>
+              <label>{{field}}</label>
+              <md-input v-model.lazy="response[field]" @change="field_changed(field)"></md-input>
+            </md-input-container>
+          </md-list-item>
         </md-list>
 
       </md-card-content>
       <md-card-actions>
-        <md-button @click.native="set_current_view('location')" class="md-raised">Next</md-button>
+        <md-button @click.native="go_to_next_view()" class="md-raised">Next</md-button>
       </md-card-actions>
     </md-card>
 
@@ -101,15 +102,15 @@
         ></location_coords>
 
       <location_selection
-        @change="on_location_selection_selected"
+        @change="on_location_selection_change"
         :initial_location_selection="response.location.selection"
       >
       </location_selection>
 
       </md-card-content>
       <md-card-actions>
-        <md-button @click.native="set_current_view('metadata')" class="md-raised">Previous</md-button>
-        <md-button @click.native="set_current_view('form')" class="md-raised">Next</md-button>
+        <md-button v-if="current_index !== 0" @click.native="go_to_previous_view()" class="md-raised">Previous</md-button>
+        <md-button @click.native="go_to_next_view()" class="md-raised">Next</md-button>
       </md-card-actions>
     </md-card>
 
@@ -120,10 +121,11 @@
       ref="form"
       @complete='on_form_complete'
       @change="on_form_change"
-      @previous_view="set_current_view('location')"
+      @previous_view="go_to_previous_view()"
       :initial_form_data='response.form_data'
       :response_is_valid="response_is_valid"
       :validations='validation_result'
+      :current_view="current_view"
     ></form_renderer>
 
   </div>
@@ -203,6 +205,18 @@
       },
       validation_length() {
         return this.validation_result.errors.length  + this.validation_result.warnings.length
+      },
+      current_index() {
+        const current_index = this.pages.findIndex(page_name => {
+          return page_name === this.current_view
+        })
+        return current_index
+      },
+      irs_record_point_config() {
+        return this.instance_config.applets.irs_record_point
+      },
+      optional_fields() {
+        return this.instance_config.applets.irs_record_point.metadata.optional_fields
       }
     },
     created() {
@@ -215,16 +229,47 @@
         const empty_response = {
           username: this.username,
           instance_slug: this.instance_slug,
-          team_name: this.team_name
+          team_name: this.team_name // TODO: @refac Brittle: this needs to match what's set in `instance.json`
         }
         this._response = new Response(empty_response)
       }
+
+      // Remove meta page if necessary
+      if (this.irs_record_point_config.metadata.show === false) {
+        this.pages.splice(0, 1)
+      }
+
+      this.current_view = this.pages[0]
+
     },
     mounted() {
     },
     methods: {
-      set_current_view(view) {
-        this.current_view = view
+      go_to_next_view() {
+        // Check that we are not on the last page
+        const can_go_to_next_page = (this.pages.length - 1) > this.current_index
+
+        if (can_go_to_next_page) {
+          const next_page = this.pages[this.current_index + 1]
+
+          if (next_page === 'form') {
+            this.validate(this.response)
+          }
+
+          this.current_view = next_page
+        }
+      },
+      go_to_previous_view() {
+        // Check that we are not on the first page
+        const can_go_to_previous_page = this.current_index !== 0
+
+        if (can_go_to_previous_page) {
+          this.current_view = this.pages[this.current_index - 1]
+        }
+      },
+      go_to_location_view() {
+        const location_index = this.pages.findIndex(page => page === 'location')
+        this.current_view = this.pages[location_index]
       },
       shake_validations(newVal, oldVal) {
         if (newVal > oldVal) {
@@ -242,11 +287,9 @@
       },
       on_location_change(coords) {
         this.response.location.coords = coords
-        this.validate(this.response)
       },
-      on_location_selection_selected(location_selection){
+      on_location_selection_change(location_selection){
         this.response.location.selection = location_selection
-        this.validate(this.response)
       },
       on_form_change(survey) {
         this.response.form_data = survey.data
@@ -307,8 +350,9 @@
           this.$router.push('/irs/record_point')
         }
       },
-      team_name_changed(team_name) {
-        this.$store.commit('irs_record_point/set_team_name', team_name)
+      field_changed(field) {
+        // TODO: @refac Stop this being only able to do team_name!
+        this.$store.commit('irs_record_point/set_team_name', this.response[field])
       }
     }
   }

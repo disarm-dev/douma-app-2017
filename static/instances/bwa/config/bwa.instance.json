@@ -100,7 +100,11 @@
       "title": "IRS Planning and Management"
     },
     "irs_record_point": {
-      "title": "IRS Data Collection and Reporting Tool"
+      "title": "IRS Data Collection and Reporting Tool",
+      "metadata": {
+        "show": false,
+        "optional_fields": []
+      }
     },
     "meta": {},
     "data_wizard": {},

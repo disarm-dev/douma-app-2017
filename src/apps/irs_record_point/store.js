@@ -7,7 +7,9 @@ export default {
   namespaced: true,
   state: {
     responses: [],
-    team_name: null
+
+    // Not pure metadata, but we want to persist between each form entry
+    persisted_metadata: {}
   },
   mutations: {
     clear_data_storage: (state) => {
@@ -38,8 +40,16 @@ export default {
     delete_all_responses: (state) => {
       state.responses = []
     },
+
+    set_persisted_metadata: (state, {name, value}) => {
+      const new_metadata = {...state.persisted_metadata, [name]: value}
+      state.persisted_metadata = new_metadata
+    },
     set_team_name: (state, team_name) => {
-      state.team_name = team_name
+      state.persisted_metadata.team_name = team_name
+    },
+    set_category: (state, category) => {
+      state.persisted_metadata.category = category
     }
   },
   actions: {
