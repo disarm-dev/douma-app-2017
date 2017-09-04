@@ -1,229 +1,251 @@
 {
- "pages": [
-  {
-   "name": "page1",
-   "elements": [
+  "pages": [
     {
-     "type": "radiogroup",
-     "name": "sprayed",
-     "title": "Household sprayed",
-     "isRequired": true,
-     "choices": [
-      {
-       "value": "yes",
-       "text": "Yes"
-      },
-      {
-       "value": "partial",
-       "text": "Partially Sprayed"
-      },
-      {
-       "value": "no",
-       "text": "No"
-      }
-     ]
+      "elements": [
+        {
+          "type": "radiogroup",
+          "choices": [
+            {
+              "value": "ordinary_household",
+              "text": "Ordinary household"
+            },
+            {
+              "value": "institution",
+              "text": "Institution"
+            }
+          ],
+          "isRequired": true,
+          "name": "household_type",
+          "title": "Type of household"
+        },
+        {
+          "type": "radiogroup",
+          "choices": [
+            {
+              "value": "yes",
+              "text": "Yes"
+            },
+            {
+              "value": "partial",
+              "text": "Partially sprayed"
+            },
+            {
+              "value": "no",
+              "text": "No"
+            }
+          ],
+          "isRequired": true,
+          "name": "sprayed",
+          "title": "Household sprayed"
+        },
+        {
+          "type": "text",
+          "inputType": "number",
+          "isRequired": true,
+          "name": "number_sprayable_rooms",
+          "title": "Total number of sprayable rooms",
+          "validators": [
+            {
+              "type": "numeric",
+              "text": "Minimum value is 0"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "inputType": "number",
+          "isRequired": true,
+          "name": "number_sprayed",
+          "title": "Rooms sprayed",
+          "validators": [
+            {
+              "type": "numeric",
+              "text": "Minimum value is 0"
+            }
+          ],
+          "visible": false,
+          "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'"
+        },
+        {
+          "type": "text",
+          "inputType": "number",
+          "isRequired": true,
+          "name": "number_unsprayed",
+          "title": "Rooms not sprayed",
+          "validators": [
+            {
+              "type": "numeric",
+              "text": "Minimum value is 0"
+            }
+          ],
+          "visible": false,
+          "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'"
+        },
+        {
+          "type": "radiogroup",
+          "choices": [
+            {
+              "value": "ddt",
+              "text": "DDT"
+            },
+            {
+              "value": "py",
+              "text": "PY"
+            },
+            {
+              "value": "op",
+              "text": "OP"
+            }
+          ],
+          "hasOther": true,
+          "isRequired": true,
+          "name": "chemical_used",
+          "title": "Insecticide used",
+          "visible": false,
+          "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'"
+        },
+        {
+          "type": "text",
+          "inputType": "number",
+          "isRequired": true,
+          "name": "total_population",
+          "title": "Total population protected",
+          "validators": [
+            {
+              "type": "numeric",
+              "text": "Minimum value is 0"
+            }
+          ],
+          "visible": false,
+          "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'"
+        },
+        {
+          "type": "text",
+          "inputType": "number",
+          "isRequired": true,
+          "name": "under_five",
+          "title": "Population <5 YRS",
+          "validators": [
+            {
+              "type": "numeric",
+              "text": "Minimum value is 0"
+            }
+          ],
+          "visible": false,
+          "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'"
+        },
+        {
+          "type": "text",
+          "inputType": "number",
+          "isRequired": true,
+          "name": "over_five",
+          "title": "Population >/= 5 YRS",
+          "validators": [
+            {
+              "type": "numeric",
+              "text": "Minimum value is 0"
+            }
+          ],
+          "visible": false,
+          "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'"
+        },
+        {
+          "type": "radiogroup",
+          "choices": [
+            {
+              "value": "locked",
+              "text": "Locked"
+            },
+            {
+              "value": "refused",
+              "text": "Refused"
+            },
+            {
+              "value": "away_day",
+              "text": "Away for the day"
+            },
+            {
+              "value": "temp_away",
+              "text": "Temporarily away"
+            },
+            {
+              "value": "food_storage",
+              "text": "Food storage"
+            },
+            {
+              "value": "infant",
+              "text": "Infant"
+            },
+            {
+              "value": "property",
+              "text": "Too much property in the room"
+            },
+            {
+              "value": "elderly",
+              "text": "Elderly person"
+            }
+          ],
+          "isRequired": true,
+          "name": "reason_unsprayed",
+          "title": "Reason for not fully spraying household",
+          "visible": false,
+          "visibleIf": "{sprayed} = 'partial' or {sprayed} = 'no'"
+        },
+        {
+          "type": "radiogroup",
+          "choices": [
+            {
+              "value": "allergies",
+              "text": "Allergies to insecticide"
+            },
+            {
+              "value": "do_not_want",
+              "text": "I do not want"
+            },
+            {
+              "value": "religion",
+              "text": "Religious beliefs"
+            },
+            {
+              "value": "no_water",
+              "text": "No water"
+            },
+            {
+              "value": "busy",
+              "text": "Too busy/have competing activities"
+            }
+          ],
+          "hasOther": true,
+          "isRequired": true,
+          "name": "refusal_reason",
+          "title": "Reason for Refusal",
+          "visible": false,
+          "visibleIf": "{reason_unsprayed} = 'refused'"
+        }
+      ],
+      "name": "page1",
+      "navigationButtonsVisibility": "show"
     },
     {
-     "type": "text",
-     "inputType": "number",
-     "isRequired": true,
-     "name": "number_sprayable_rooms",
-     "title": "Total number of sprayable rooms",
-     "validators": [
-      {
-       "type": "numeric",
-       "minValue": "0",
-       "text": "Minimum value is 0"
-      }
-     ]
-    },
-    {
-     "type": "text",
-     "inputType": "number",
-     "isRequired": true,
-     "name": "number_sprayed",
-     "title": "Rooms fully sprayed",
-     "validators": [
-      {
-       "type": "numeric",
-       "minValue": "0",
-       "text": "Minimum value is 0"
-      }
-     ],
-     "visible": false,
-     "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'"
-    },
-    {
-     "type": "text",
-     "inputType": "number",
-     "isRequired": true,
-     "name": "number_unsprayed",
-     "title": "Rooms not sprayed",
-     "validators": [
-      {
-       "type": "numeric",
-       "minValue": "0",
-       "text": "Minimum value is 0"
-      }
-     ],
-     "visible": false,
-     "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'"
-    },
-    {
-     "type": "radiogroup",
-     "name": "chemical_used",
-     "visible": false,
-     "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'",
-     "title": "Chemical used",
-     "isRequired": true,
-     "hasOther": true,
-     "choices": [
-      {
-       "value": "ddt",
-       "text": "DDT"
-      },
-      {
-       "value": "py",
-       "text": "PY"
-      },
-      {
-       "value": "op",
-       "text": "OP"
-      }
-     ]
-    },
-    {
-     "type": "text",
-     "inputType": "number",
-     "isRequired": true,
-     "name": "total_population",
-     "title": "Total population protected",
-     "validators": [
-      {
-       "type": "numeric",
-       "minValue": "0",
-       "text": "Minimum value is 0"
-      }
-     ],
-     "visible": false,
-     "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'"
-    },
-    {
-     "type": "text",
-     "inputType": "number",
-     "isRequired": true,
-     "name": "under_five",
-     "title": "Population <5 YRS",
-     "validators": [
-      {
-       "type": "numeric",
-       "minValue": "0",
-       "text": "Minimum value is 0"
-      }
-     ],
-     "visible": false,
-     "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'"
-    },
-    {
-     "type": "text",
-     "inputType": "number",
-     "isRequired": true,
-     "name": "over_five",
-     "title": "Population >/= 5 YRS",
-     "validators": [
-      {
-       "type": "numeric",
-       "minValue": "0",
-       "text": "Minimum value is 0"
-      }
-     ],
-     "visible": false,
-     "visibleIf": "{sprayed} = 'yes' or {sprayed} = 'partial'"
-    },
-    {
-     "type": "radiogroup",
-     "name": "reason_unsprayed",
-     "visible": false,
-     "visibleIf": "{sprayed} = 'partial' or {sprayed} = 'no'",
-     "title": "Reason for not fully spraying household",
-     "isRequired": true,
-     "choices": [
-      {
-       "value": "locked",
-       "text": "Locked"
-      },
-      {
-       "value": "refused",
-       "text": "Refused"
-      },
-      {
-       "value": "away_day",
-       "text": "Away for the day"
-      },
-      {
-       "value": "temp_away",
-       "text": "Temporarily away"
-      },
-      {
-       "value": "food_storage",
-       "text": "Food storage"
-      },
-      {
-       "value": "infant",
-       "text": "Infant"
-      },
-      {
-       "value": "property",
-       "text": "Too much property in the room"
-      },
-      {
-       "value": "elderly",
-       "text": "Elderly person"
-      }
-     ]
-    },
-    {
-     "type": "radiogroup",
-     "name": "refusal_reason",
-     "visible": false,
-     "visibleIf": "{reason_unsprayed} = 'refused'",
-     "title": "Reason for Refusal",
-     "isRequired": true,
-     "hasOther": true,
-     "choices": [
-      {
-       "value": "allergies",
-       "text": "Allergies to insecticide"
-      },
-      {
-       "value": "do_not_want",
-       "text": "I do not want"
-      },
-      {
-       "value": "religion",
-       "text": "Religious beliefs"
-      },
-      {
-       "value": "no_water",
-       "text": "No water"
-      },
-      {
-       "value": "busy",
-       "text": "Too busy/have competing activities"
-      }
-     ]
+      "elements": [
+        {
+          "type": "text",
+          "name": "hh_name",
+          "title": "Head of household name",
+          "visible": false,
+          "visibleIf": "{household_type} = 'ordinary_household'"
+        },
+        {
+          "type": "text",
+          "name": "institution_head",
+          "title": "Head of institution name",
+          "visible": false,
+          "visibleIf": "{household_type} = 'institution'"
+        }
+      ],
+      "name": "page2",
+      "navigationButtonsVisibility": "show"
     }
-   ]
-  },
-  {
-   "name": "page2",
-   "elements": [
-    {
-     "type": "text",
-     "name": "hh_name",
-     "title": "Head of household name"
-    }
-   ]
-  }
- ]
+  ],
+  "showNavigationButtons": false
 }
