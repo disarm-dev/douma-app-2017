@@ -48,6 +48,7 @@
         _all_locations: [],
 
         hidden_category: '',
+        _selection: null,
 
 
       }
@@ -65,10 +66,10 @@
       // secondary area selector
       selection: {
         get() {
-          return this.$store.state.irs_record_point.persisted_metadata.selection
+          return this._selection
         },
         set(selection_object) {
-          this.$store.commit('irs_record_point/set_persisted_metadata', {name: 'selection', value: selection_object})
+          this._selection = selection_object
           this.$emit('change', selection_object)
         }
       },
