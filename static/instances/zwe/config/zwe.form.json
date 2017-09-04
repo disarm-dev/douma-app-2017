@@ -243,9 +243,7 @@
           "visibleIf": "{household_type} = 'institution'"
         }
       ],
-      "name": "page2",
-      "navigationButtonsVisibility": "show"
+      "name": "page2"
     }
-  ],
-  "showNavigationButtons": false
+  ]
 }
