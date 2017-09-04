@@ -1,7 +1,7 @@
 <template>
   <div>
     <md-card-header>
-      <div>2. Select nearest location</div>
+      <div>2. Select nearest location *</div>
     </md-card-header>
 
     <multiselect
