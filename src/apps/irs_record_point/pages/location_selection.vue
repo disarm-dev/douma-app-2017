@@ -6,6 +6,7 @@
 
     <multiselect
       class="multiselect"
+      v-if="!use_custom_location"
       v-model="category"
       :options="categories"
       placeholder="Select area"
@@ -15,7 +16,7 @@
 
     <multiselect
       class="multiselect"
-      v-if="category"
+      v-if="category && !use_custom_location"
       v-model="selection"
       :options="location_options"
       group-values="locations"
@@ -28,6 +29,14 @@
     >
       <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
     </multiselect>
+
+    <md-checkbox v-model="use_custom_location">Enter custom location (location not on list)</md-checkbox>
+
+    <md-input-container v-if="use_custom_location">
+      <label>Custom location</label>
+      <md-input v-model="custom_location_selection"></md-input>
+    </md-input-container>
+    
   </div>
 </template>
 
@@ -46,11 +55,11 @@
         _fuse: null,
         search_query: '',
         _all_locations: [],
+        _custom_location_selection: '',
+        use_custom_location: false,
 
         hidden_category: '',
-        _selection: null,
-
-
+        _selection: null
       }
     },
     computed: {
@@ -108,6 +117,16 @@
         })
 
         return nested
+      },
+      custom_location_selection: {
+        get() {
+          return this._custom_location_selection
+        },
+        set(custom_location) {
+          this._custom_location_selection = custom_location
+          // TODO: @refac Need to ensure this doesn't break anything relying on location selection.
+          this.$emit('change', {id: 'custom_location', name: custom_location})
+        }
       },
     },
     created() {
