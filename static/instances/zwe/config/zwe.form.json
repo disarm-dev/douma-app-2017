@@ -223,8 +223,7 @@
           "visibleIf": "{reason_unsprayed} = 'refused'"
         }
       ],
-      "name": "page1",
-      "navigationButtonsVisibility": "show"
+      "name": "page1"
     },
     {
       "elements": [
