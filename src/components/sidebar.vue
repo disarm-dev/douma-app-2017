@@ -65,7 +65,7 @@
 
 <script>
   import {mapState, mapGetters} from 'vuex'
-  import {need_to_update} from 'lib/remote/remote.update'
+  import {need_to_update} from 'lib/remote/check-application-version'
 
   export default {
     name: 'sidebar',

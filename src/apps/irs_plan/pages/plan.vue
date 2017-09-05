@@ -90,12 +90,12 @@
   import plan_map from './plan-map.vue'
   import plan_calculator from './plan-calculator.vue'
   import cache from 'config/cache.js'
-  import {Plan} from 'lib/models/plan/plan.model.js'
-  import {get_geodata} from 'lib/remote/remote.geodata'
+  import {Plan} from 'lib/models/plan/model.js'
+  import {get_geodata} from 'lib/models/geodata/remote'
 
-  import {get_planning_level_name, get_next_level_up_from_planning_level} from 'lib/geodata/spatial_hierarchy_helper'
+  import {get_planning_level_name, get_next_level_up_from_planning_level} from 'lib/instance_data/spatial_hierarchy_helper'
   import {target_areas_inside_focus_filter_area} from '../helpers/target_areas_helper.js'
-  import {geodata_in_cache_and_valid} from '../../../lib/geodata/geodata.valid'
+  import {geodata_in_cache_and_valid} from '../../../lib/models/geodata/geodata.valid'
 
   export default {
     name: 'Plan',

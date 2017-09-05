@@ -1,7 +1,8 @@
 import {Parser} from 'expr-eval'
-import is_empty from 'lodash.isempty'
-import {CoordsSchema, SelectionSchema} from 'lib/models/response/response.schema'
 import {get} from 'lodash'
+
+import {CoordsSchema} from 'lib/models/response/schemas/coords.schema'
+import {SelectionSchema} from 'lib/models/response/schemas/selection.schema'
 
 export class Validator {
   constructor(validations) {

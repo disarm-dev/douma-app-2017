@@ -1,4 +1,5 @@
 import {Parser} from 'expr-eval'
+
 /**
  * Takes responses and decorates them with new properties under the '_decorated' key.
  * It uses the 'decorators' from the instance_config to figure out which properties to calculate.
@@ -67,6 +68,8 @@ const evaluate_decorator = (response, decorator_expressions_array) => {
   return null
 }
 
+
+// TODO: @refac Move this somewhere more generic (probably already exists)
 const form_data_has_required_variables = (response, required_variables) => {
   const response_variables = Object.keys(response.form_data)
 

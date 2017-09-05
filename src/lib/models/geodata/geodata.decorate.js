@@ -1,6 +1,6 @@
 import cache from 'config/cache'
-import {geodata_in_cache_and_valid} from 'lib/geodata/geodata.valid'
-import {get_all_spatial_hierarchy_level_names, get_display_name_for_level, get_field_name_for_level} from 'lib/geodata/spatial_hierarchy_helper'
+import {geodata_in_cache_and_valid} from 'lib/models/geodata/geodata.valid'
+import {get_all_spatial_hierarchy_level_names, get_display_name_for_level, get_field_name_for_level} from 'lib/instance_data/spatial_hierarchy_helper'
 
 /**
  * Sets the __disarm_geo_id and __disarm_geo_name directly on the cache

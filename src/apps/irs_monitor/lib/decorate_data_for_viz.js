@@ -6,8 +6,8 @@ import compact from 'lodash/fp/compact'
 import {featureCollection} from '@turf/helpers'
 
 import cache from 'config/cache'
-import {aggregate_on} from 'lib/instance_data/aggregator'
-import {get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
+import {aggregate_on} from 'lib/models/response/aggregations/aggregator'
+import {get_planning_level_name} from 'lib/instance_data/spatial_hierarchy_helper'
 
 export function decorate_for_chart({binned_responses, targets, aggregations, options}) {
   // Figure what to do

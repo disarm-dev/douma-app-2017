@@ -38,7 +38,7 @@
   import {mapState, mapGetters} from 'vuex'
   import {cloneDeep as clone_deep} from 'lodash'
 
-  import {get_geodata} from 'lib/remote/remote.geodata.js'
+  import {get_geodata} from 'lib/models/geodata/remote.js'
 
   // Components
   import dashboard_summary from './dashboard-summary.vue'
@@ -46,7 +46,7 @@
   import dashboard_map from './map/dashboard-map.vue'
   import dashboard_table from './table/dashboard-table.vue'
   import charts from './charts/dashboard-charts.vue'
-  import {geodata_in_cache_and_valid} from '../../../lib/geodata/geodata.valid'
+  import {geodata_in_cache_and_valid} from '../../../lib/models/geodata/geodata.valid'
 
   export default {
     name: 'Dashboard',

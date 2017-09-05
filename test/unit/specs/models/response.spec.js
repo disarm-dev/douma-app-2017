@@ -1,6 +1,6 @@
 import omit from 'lodash.omit'
 
-import {Response} from 'lib/models/response/response.model.js'
+import {Response} from 'lib/models/response/model.js'
 
 describe('Response model', () => {
 

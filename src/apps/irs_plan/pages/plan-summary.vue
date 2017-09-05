@@ -17,7 +17,7 @@
   import {mapState, mapGetters} from 'vuex'
 
   import cache from 'config/cache.js'
-  import {get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
+  import {get_planning_level_name} from 'lib/instance_data/spatial_hierarchy_helper'
 
   export default {
     name: 'plan_summary',

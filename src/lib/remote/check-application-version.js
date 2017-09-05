@@ -1,4 +1,4 @@
-import {get_version} from 'lib/remote/remote.standard-handler'
+import {get_version} from 'lib/remote/standard-handler'
 
 /**
  * Returns object containing {status: ['CAN_UPDATE', 'ON_LATEST' or 'NO_RESPONSE'], local_version: version, remote_version: version}

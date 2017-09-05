@@ -4,7 +4,7 @@ import flow from 'lodash/fp/flow'
 import compact from 'lodash/fp/compact'
 import map from 'lodash/fp/map'
 import uniq from 'lodash/fp/uniq'
-import {get_denominator_enumerable_name} from 'lib/geodata/spatial_hierarchy_helper'
+import {get_denominator_enumerable_name} from 'lib/instance_data/spatial_hierarchy_helper'
 
 /**
  * For the given array of responses, will reduce to a single value

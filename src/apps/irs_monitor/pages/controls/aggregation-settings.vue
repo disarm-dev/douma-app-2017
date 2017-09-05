@@ -30,8 +30,8 @@
 <script>
   import {mapState} from 'vuex'
 
-  import {get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
-  import {get_all_spatial_hierarchy_level_names} from 'lib/geodata/spatial_hierarchy_helper'
+  import {get_planning_level_name} from 'lib/instance_data/spatial_hierarchy_helper'
+  import {get_all_spatial_hierarchy_level_names} from 'lib/instance_data/spatial_hierarchy_helper'
 
   import config from 'config/common'
 

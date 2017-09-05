@@ -2,7 +2,7 @@ import inside from '@turf/inside'
 import centroid from '@turf/centroid'
 
 import cache from 'config/cache'
-import {get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
+import {get_planning_level_name} from 'lib/instance_data/spatial_hierarchy_helper'
 
 /**
  * Return all area_ids if there's no selected_filter_area

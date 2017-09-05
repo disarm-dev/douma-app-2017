@@ -1,6 +1,6 @@
 import cache from 'config/cache'
-import {geodata_in_cache_and_valid} from 'lib/geodata/geodata.valid'
-import {configure_spatial_helpers} from 'lib/geodata/spatial_hierarchy_helper'
+import {geodata_in_cache_and_valid} from 'lib/models/geodata/geodata.valid'
+import {configure_spatial_helpers} from 'lib/instance_data/spatial_hierarchy_helper'
 
 const instance_config = {
   spatial_hierarchy: {
