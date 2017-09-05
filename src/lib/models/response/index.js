@@ -1,7 +1,10 @@
+import {get_all_records} from './remote'
+import {create_records_local, get_records_local, create_record_local} from "./local"
 
-export async function get_records() {
+// For dashboard
+export async function get_records_from_remote() {
   // get them from remote
-  const remote_responses = await get_responses()
+  const remote_responses = await get_all_records()
 
   // validate and report on errors
   const valid_responses = validate_responses(remote_responses)
@@ -16,4 +19,21 @@ export async function get_records() {
   return decorated_records
 }
 
-export function create_records(records_array) {}
+
+
+// For record_point
+export async function sync_records(records_array) {
+  // send them off to the remote
+  // mark the sent ones as synced
+  // update the local db with synced records
+  // return synced records, then update store
+}
+
+export async function create_record(record) {
+  await create_record_local(record)
+}
+
+export async function get_records() {
+  const records = await get_records_local()
+  return records
+}
