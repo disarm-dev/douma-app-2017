@@ -19,6 +19,7 @@ describe('responses displayed in table', () => {
           longitude: 31,
           accuracy: 10
         },
+        // This has no id
         selection: {
           name: "custom location"
         }
@@ -78,10 +79,4 @@ describe('responses displayed in table', () => {
     assert.deepEqual(location_selection_names, row_names)
   })
 
-  it('does not include in rows-to-display any row with a custom location-selection', () => {
-    const result = get_data({responses, targets, aggregations, options})
-    // assert the length of the out is not equal to the input, as one response doesn't have a valid location.selection for map
-
-    assert(false, 'unimplemented')
-  })
 })
