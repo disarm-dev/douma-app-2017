@@ -36,7 +36,7 @@
       <label>Custom location</label>
       <md-input v-model="custom_location_selection"></md-input>
     </md-input-container>
-    
+
   </div>
 </template>
 
@@ -124,8 +124,7 @@
         },
         set(custom_location) {
           this._custom_location_selection = custom_location
-          // TODO: @refac Need to ensure this doesn't break anything relying on location selection.
-          this.$emit('change', {id: 'custom_location', name: custom_location})
+          this.$emit('change', { name: custom_location})
         }
       },
     },
@@ -134,8 +133,17 @@
 
       if (this.initial_location_selection !== null) {
         this.$emit('change', this.initial_location_selection)
-        this.selection = this.initial_location_selection
-        this.category = this.find_category_for_selection(this.selection)
+
+        if (this.initial_location_selection.hasOwnProperty('id')) {
+          // initial_location_selection is an object for the multiselect
+          this.selection = this.initial_location_selection
+          this.category = this.find_category_for_selection(this.selection)
+        } else {
+          // it is a custom text property, use text input
+          this.use_custom_location = true
+          this.custom_location_selection = this.initial_location_selection.name
+        }
+
       } else {
         this.$emit('change', this.selection)
       }
