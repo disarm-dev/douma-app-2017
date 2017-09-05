@@ -20,7 +20,7 @@ describe('responses displayed in table', () => {
           accuracy: 10
         },
         selection: {
-          name: "location"
+          name: "custom location"
         }
       }
     },
@@ -40,7 +40,7 @@ describe('responses displayed in table', () => {
           accuracy: 10
         },
         selection: {
-          name: "location",
+          name: "location_name_1",
           id: "1"
         }
       }
@@ -69,11 +69,12 @@ describe('responses displayed in table', () => {
   }
 
   it('creates a row for each unique response.location.selection.name', () => {
+    const location_selection_names = responses.map(response => response.location.selection.name).sort()
 
-    const result = get_data({responses, targets, aggregations, options})
+    const response_rows = get_data({responses, targets, aggregations, options})
+    const row_names = response_rows.map(row => row.row_name).sort()
 
     // assert the number of rows is equal to the number of unique list of response.location.selection.name
-
-    assert(false, 'unimplemented')
+    assert.deepEqual(location_selection_names, row_names)
   })
 })
