@@ -16,10 +16,8 @@
     props: ['chart_id', 'responses', 'targets', 'aggregations', 'options'],
     computed: {
       formatted_text() {
-        console.log('this.options.text', this.options.text)
         const converter = new showdown.Converter({simpleLineBreaks: true})
         let makeHtml = converter.makeHtml(this.options.text)
-        console.log('makeHtml', makeHtml)
         return makeHtml
       }
     }
