@@ -1,8 +1,8 @@
 import {get_all_records} from 'lib/remote/remote.records'
 import {get_current_plan} from 'lib/remote/remote.plans'
 import {Plan} from 'lib/models/plan/plan.model'
-import {decorate_responses_from_json} from 'lib/models/response/response.model'
-import instance_decorator from 'lib/instance_data/decorators'
+import {decorate_responses_from_json} from 'lib/models/response/response.decorator'
+import instance_decorator from 'lib/models/response/response.decorators-evaluated'
 import {set_filter, unset_filter} from './pages/controls/filters/controller'
 import CONFIG from 'config/common'
 
