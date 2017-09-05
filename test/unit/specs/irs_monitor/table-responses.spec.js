@@ -77,4 +77,11 @@ describe('responses displayed in table', () => {
     // assert the number of rows is equal to the number of unique list of response.location.selection.name
     assert.deepEqual(location_selection_names, row_names)
   })
+
+  it('does not include in rows-to-display any row with a custom location-selection', () => {
+    const result = get_data({responses, targets, aggregations, options})
+    // assert the length of the out is not equal to the input, as one response doesn't have a valid location.selection for map
+
+    assert(false, 'unimplemented')
+  })
 })

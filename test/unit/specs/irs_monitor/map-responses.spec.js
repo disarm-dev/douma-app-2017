@@ -80,13 +80,6 @@ xdescribe('responses displayed on map', () => {
     assert(false, 'unimplemented')
   })
 
-  it('does not include in rows-to-display any row with a custom location-selection', () => {
-    const result = get_data({responses, targets, aggregations, options})
-    // assert the length of the out is not equal to the input, as one response doesn't have a valid location.selection for map
-
-    assert(false, 'unimplemented')
-  })
-
   it('somehow notifies user that there are responses not shown on map', () => {
 
     assert(false, 'unimplemented')
