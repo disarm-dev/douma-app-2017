@@ -135,7 +135,7 @@
 <script>
   import {mapState} from 'vuex'
 
-  import {Response} from 'lib/models/response.model'
+  import {Response} from 'lib/models/response/response.model'
   import {Validator} from 'lib/instance_data/validations'
 
   import location_coords from './location_coords.vue'

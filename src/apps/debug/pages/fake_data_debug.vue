@@ -22,9 +22,9 @@ import moment from 'moment-mini'
 
 import cache from 'config/cache'
 import {get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
-import {ResponseSchema} from 'lib/models/response.schema'
+import {ResponseSchema} from 'lib/models/response/response.schema'
 import {get_record_location_selection} from 'lib/geodata/spatial_hierarchy_helper'
-import {Response} from 'lib/models/response.model'
+import {Response} from 'lib/models/response/response.model'
 
 export default {
   name: 'fake_responses_debug',
