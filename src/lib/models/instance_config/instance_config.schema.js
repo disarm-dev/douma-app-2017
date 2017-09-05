@@ -1,55 +1,11 @@
 // Schema for the raw `instance_config.json` file, not the one with `form` and `location_selection` added
 
 import schema from 'js-schema'
-
-const base_schema = {
-  '?title': String,
-  '?icon': String,
-}
-
-const IrsMonitorSchema = schema({
-  ...base_schema,
-  map: Object,
-  table: Object,
-  charts: Array.of_x(1, Infinity, {
-    id: String,
-    style: {
-      height_constraint: ['none', 'viewport'],
-      width_constraint: ['half', 'full']
-    }
-  })
-})
-
-const IrsPlanSchema = schema({
-  ...base_schema,
-  // default_planning_level: String // One of the spatial_hierarchy `name` fields
-})
-const IrsRecordPointSchema = schema({...base_schema})
-const IrsTaskerSchema = schema({...base_schema})
-const MetaSchema = schema({...base_schema})
-
-const AppletSchema = schema({
-  '?irs_monitor': IrsMonitorSchema,
-  '?irs_plan': IrsPlanSchema,
-  '?irs_record_point': IrsRecordPointSchema,
-  '?irs_tasker': IrsTaskerSchema,
-  meta: MetaSchema
-})
-
-const SpatialHierarchySchema = schema({
-  field_name: String,
-  name: String,
-  '?group_by_level': String, // Used for creating location_selection
-  '?group_by_field': String, // Used for creating location_selection
-})
-
-
-
-
-
+import {AppletsSchema} from './applets.schema'
+import {SpatialHierarchySchema} from './spatial-hierarchy.schema'
 
 export const IncomingInstanceConfigSchema = schema({
-  applets: AppletSchema,
+  applets: AppletsSchema,
   map_focus: {
     centre: {
       lat: Number,

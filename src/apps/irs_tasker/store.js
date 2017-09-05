@@ -1,7 +1,7 @@
 import without from 'lodash.without'
 
-import {AssignmentSchema} from 'lib/models/assignment.schema'
-import {AssignmentPlan} from 'lib/models/assignment_plan.model'
+import {AssignmentSchema} from 'lib/models/assignment_plan/assignment.schema'
+import {AssignmentPlan} from 'lib/models/assignment_plan/assignment_plan.model'
 import {DECORATED_UNASSIGNED_TEAM} from 'apps/irs_tasker/unassigned_team'
 import {get_current_plan} from 'lib/remote/remote.plans'
 import {get_assignment_plan, create_assignment_plan} from 'lib/remote/remote.assignment_plan'

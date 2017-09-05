@@ -1,5 +1,5 @@
 import {get_instance_file} from 'lib/remote/remote.instance'
-import {IncomingInstanceConfigSchema} from 'lib/models/instance_config.schema'
+import {IncomingInstanceConfigSchema} from 'lib/models/instance_config/instance_config.schema'
 import CONFIG from 'config/common'
 
 

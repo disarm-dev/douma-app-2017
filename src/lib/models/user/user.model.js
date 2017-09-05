@@ -1,4 +1,4 @@
-import {UserSchema} from 'lib/models/user.schema'
+import {UserSchema} from 'lib/models/user/user.schema'
 
 export class User {
   constructor(user_json) {
