@@ -4,6 +4,13 @@ import {uniq, remove} from 'lodash'
 import cache from 'config/cache'
 
 describe('responses displayed on map', () => {
+  const expected = {}
+
+  // beforeEach(() => {
+    // set seed data on expected
+    // use expected in tests to ensure that the seed data is not mutated during a previous test
+  // })
+
   // Input for get_data
   const responses = [
     {
