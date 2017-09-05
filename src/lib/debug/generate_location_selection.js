@@ -1,8 +1,8 @@
 import get from 'lodash.get'
 
 import cache from 'config/cache'
-import {geodata_in_cache_and_valid} from 'lib/geodata/geodata.valid'
-import {get_all_spatial_hierarchy_levels} from './spatial_hierarchy_helper'
+import {geodata_in_cache_and_valid} from 'lib/models/geodata/geodata.valid'
+import {get_all_spatial_hierarchy_levels} from '../instance_data/spatial_hierarchy_helper'
 
 /**
  *

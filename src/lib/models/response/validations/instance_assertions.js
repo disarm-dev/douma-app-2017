@@ -2,7 +2,7 @@ import get from 'lodash.get'
 import uniq from 'lodash.uniq'
 import {Parser} from 'expr-eval'
 
-import {get_form_fields} from './form_helpers'
+import {get_form_fields} from '../../../instance_data/form_helpers'
 
 function extract_validation_fields(validations) {
   const result_fields = []

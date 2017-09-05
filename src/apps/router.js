@@ -2,9 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import {get} from 'lodash'
 
-import {has_permission} from 'lib/helpers/permission_helper.js'
-import {geodata_in_cache_and_valid} from 'lib/geodata/geodata.valid'
-import {hydrate_geodata_cache_from_idb} from 'lib/geodata/local.geodata_store'
+import {has_permission} from 'lib/models/user/permission_helper.js'
+import {geodata_in_cache_and_valid} from 'lib/models/geodata/geodata.valid'
+import {hydrate_geodata_cache_from_idb} from 'lib/models/geodata/local.geodata_store'
 
 export function create_router(instance_routes, store) {
   Vue.use(VueRouter)

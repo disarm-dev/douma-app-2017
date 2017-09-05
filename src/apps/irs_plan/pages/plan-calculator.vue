@@ -15,7 +15,7 @@
   import numeral from 'numeral'
 
   import cache from 'config/cache.js'
-  import {get_planning_level_name, get_denominator_fields} from 'lib/geodata/spatial_hierarchy_helper'
+  import {get_planning_level_name, get_denominator_fields} from 'lib/instance_data/spatial_hierarchy_helper'
 
   export default {
     name: 'plan-calculator',

@@ -37,7 +37,7 @@
 <script>
   import download from 'downloadjs'
   import cache from 'config/cache'
-  import {get_all_spatial_hierarchy_levels} from 'lib/geodata/spatial_hierarchy_helper'
+  import {get_all_spatial_hierarchy_levels} from 'lib/instance_data/spatial_hierarchy_helper'
 
   export default {
     name: 'upload_geodata',

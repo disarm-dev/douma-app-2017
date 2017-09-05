@@ -30,11 +30,11 @@
 <script>
   import {mapGetters} from 'vuex'
 
-  import {get_all_spatial_hierarchy_level_names} from 'lib/geodata/spatial_hierarchy_helper'
-  import {geodata_has_level} from 'lib/geodata/geodata.valid'
-  import {get_geodata_for} from 'lib/remote/remote.geodata'
-  import {get_and_store_locally_geodata_for} from 'lib/remote/remote.geodata'
-  import {hydrate_geodata_cache_from_idb} from "lib/geodata/local.geodata_store";
+  import {get_all_spatial_hierarchy_level_names} from 'lib/instance_data/spatial_hierarchy_helper'
+  import {geodata_has_level} from 'lib/models/geodata/geodata.valid'
+  import {get_geodata_for} from 'lib/models/geodata/remote'
+  import {get_and_store_locally_geodata_for} from 'lib/models/geodata/remote'
+  import {hydrate_geodata_cache_from_idb} from "lib/models/geodata/local.geodata_store";
 
   export default {
     name: 'geodata',

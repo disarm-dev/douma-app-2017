@@ -38,7 +38,7 @@
 
 <script>
   import {mapState, mapGetters} from 'vuex'
-  import {try_reconnect} from 'lib/remote/remote.standard-handler'
+  import {try_reconnect} from 'lib/remote/standard-handler'
 
   export default {
     name: 'toolbar',

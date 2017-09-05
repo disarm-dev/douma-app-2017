@@ -15,7 +15,7 @@
   import {basic_map} from 'lib/helpers/basic_map.js'
   import cache from 'config/cache'
   import {DECORATED_UNASSIGNED_TEAM} from '../unassigned_team'
-  import {planning_level_ids_to_features} from 'lib/geodata/polygons_from_geodata'
+  import {planning_level_ids_to_features} from 'lib/models/geodata/polygons_from_geodata'
 
   export default {
     name: 'tasker-map',

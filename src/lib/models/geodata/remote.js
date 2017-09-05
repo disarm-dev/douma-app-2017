@@ -1,6 +1,6 @@
-import {standard_handler} from 'lib/remote/remote.standard-handler.js'
-import {get_all_spatial_hierarchy_level_names, get_slug, get_data_version} from 'lib/geodata/spatial_hierarchy_helper'
-import {save_geodata_to_idb} from 'lib/geodata/local.geodata_store'
+import {standard_handler} from 'lib/remote/standard-handler.js'
+import {get_all_spatial_hierarchy_level_names, get_slug, get_data_version} from 'lib/instance_data/spatial_hierarchy_helper'
+import {save_geodata_to_idb} from 'lib/models/geodata/local.geodata_store'
 
 /**
  * Simple string-interpolation to generate a URL

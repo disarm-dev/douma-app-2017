@@ -1,5 +1,5 @@
 import cache from 'config/cache'
-import {Plan} from 'lib/models/plan/plan.model.js'
+import {Plan} from 'lib/models/plan/model.js'
 
 xdescribe('Plan model', () => {
 

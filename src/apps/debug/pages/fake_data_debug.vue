@@ -21,10 +21,10 @@ import {getCoord} from '@turf/invariant'
 import moment from 'moment-mini'
 
 import cache from 'config/cache'
-import {get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
-import {ResponseSchema} from 'lib/models/response/response.schema'
-import {get_record_location_selection} from 'lib/geodata/spatial_hierarchy_helper'
-import {Response} from 'lib/models/response/response.model'
+import {get_planning_level_name} from 'lib/instance_data/spatial_hierarchy_helper'
+import {ResponseSchema} from 'lib/models/response/schemas/schema'
+import {get_record_location_selection} from 'lib/instance_data/spatial_hierarchy_helper'
+import {Response} from 'lib/models/response/model'
 
 export default {
   name: 'fake_responses_debug',

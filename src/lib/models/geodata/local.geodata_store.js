@@ -1,7 +1,7 @@
 import Dexie from 'dexie'
 
 import cache from 'config/cache'
-import {decorate_geodata_on_cache} from 'lib/geodata/geodata.decorate'
+import {decorate_geodata_on_cache} from 'lib/models/geodata/geodata.decorate'
 
 const db = new Dexie('disarm_geodata')
 const disarm_geodata_key = 'disarm_geodata_key'

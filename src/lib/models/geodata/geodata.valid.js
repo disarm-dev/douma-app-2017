@@ -1,6 +1,6 @@
 import has from 'lodash.has'
 
-import {get_all_spatial_hierarchy_level_names} from 'lib/geodata/spatial_hierarchy_helper'
+import {get_all_spatial_hierarchy_level_names} from 'lib/instance_data/spatial_hierarchy_helper'
 import cache from 'config/cache'
 import geojson_validation from 'geojson-validation'
 
