@@ -3,8 +3,8 @@ import {get_current_plan} from 'lib/remote/remote.plans'
 import {Plan} from 'lib/models/plan/plan.model'
 import {decorate_responses_from_json} from 'lib/models/response/response.model'
 import instance_decorator from 'lib/instance_data/decorators'
-
 import {set_filter, unset_filter} from './pages/controls/filters/controller'
+import CONFIG from 'config/common'
 
 export default {
   namespaced: true,
@@ -20,7 +20,7 @@ export default {
 
     dashboard_options: {
       // TODO: @config Extract default temporal_aggregation_level
-      temporal_aggregation_level: 'week',
+      temporal_aggregation_level: CONFIG.applets.irs_monitor.defaults.temporal_aggregation_level,
       spatial_aggregation_level: null
     }
   },
