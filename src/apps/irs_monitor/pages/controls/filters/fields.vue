@@ -66,7 +66,6 @@
           uniq,
           sortBy(x => x)
         )(all_field_names)
-        console.log('flattened', flattened)
 
         return flattened
       },
