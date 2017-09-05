@@ -62,7 +62,7 @@
   import team_list from './team_list'
   import map_legend from 'components/map_legend.vue'
   import tasker_map from './tasker-map.vue'
-  import {AssignmentPlan} from 'lib/models/assignment_plan.model'
+  import {AssignmentPlan} from 'lib/models/assignment_plan/assignment_plan.model'
   import {DECORATED_UNASSIGNED_TEAM} from '../unassigned_team'
   import {get_geodata} from 'lib/remote/remote.geodata.js'
   import {geodata_in_cache_and_valid} from '../../../lib/geodata/geodata.valid'

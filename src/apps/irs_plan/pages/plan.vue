@@ -90,7 +90,7 @@
   import plan_map from './plan-map.vue'
   import plan_calculator from './plan-calculator.vue'
   import cache from 'config/cache.js'
-  import {Plan} from 'lib/models/plan.model.js'
+  import {Plan} from 'lib/models/plan/plan.model.js'
   import {get_geodata} from 'lib/remote/remote.geodata'
 
   import {get_planning_level_name, get_next_level_up_from_planning_level} from 'lib/geodata/spatial_hierarchy_helper'

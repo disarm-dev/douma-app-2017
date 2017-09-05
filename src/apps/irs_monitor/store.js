@@ -1,6 +1,6 @@
 import {get_all_records} from 'lib/remote/remote.records'
 import {get_current_plan} from 'lib/remote/remote.plans'
-import {Plan} from 'lib/models/plan.model'
+import {Plan} from 'lib/models/plan/plan.model'
 import {decorate_responses_from_json} from 'lib/models/response/response.model'
 import instance_decorator from 'lib/instance_data/decorators'
 
