@@ -1,6 +1,6 @@
 import get_data from 'apps/irs_monitor/lib/get_data_for_viz'
 import {featureCollection} from '@turf/helpers'
-import {uniq} from 'lodash'
+import {uniq, remove} from 'lodash'
 import cache from 'config/cache'
 
 describe('responses displayed on map', () => {
@@ -117,9 +117,38 @@ describe('responses displayed on map', () => {
   })
 
   it('does not include in rows-to-display any row with a custom location-selection', () => {
-    const result = get_data({responses, targets, aggregations, options})
-    // assert the length of the out is not equal to the input, as one response doesn't have a valid location.selection for map
 
-    assert(false, 'unimplemented')
+    // Add a response which does not have an id in location.selection
+    const custom_location_response = {
+      instance_slug: 'test_instance',
+      username: 'test_user',
+
+      id: 'id',
+      userAgent: 'chrome',
+      recorded_on: "today",
+
+      form_data: {},
+      location: {
+        coords: {
+          latitude: 24,
+          longitude: 31,
+          accuracy: 10
+        },
+        selection: {
+          name: 'custom location'
+        }
+      }
+    }
+
+    const all_responses = responses.concat(custom_location_response)
+
+    const result_fc = get_data({responses: all_responses, targets, aggregations, options})
+
+    // Get all ids from responses
+    const location_ids = responses.map(response => response.location.selection.id)
+    const unique_location_ids = uniq(location_ids)
+
+    // Assert that adding a response without a location.selection.id does not create a new feature for that response.
+    assert.equal(result_fc.features.length, unique_location_ids.length)
   })
 })

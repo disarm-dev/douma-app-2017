@@ -70,13 +70,15 @@ describe('responses displayed in table', () => {
   }
 
   it('creates a row for each unique response.location.selection.name', () => {
-    const location_selection_names = responses.map(response => response.location.selection.name).sort()
+    // Create expected ouput
+    const expected_location_selection_names = responses.map(response => response.location.selection.name).sort()
 
+    // Create actual output
     const response_rows = get_data({responses, targets, aggregations, options})
-    const row_names = response_rows.map(row => row.row_name).sort()
+    const actual_row_names = response_rows.map(row => row.row_name).sort()
 
-    // assert the number of rows is equal to the number of unique list of response.location.selection.name
-    assert.deepEqual(location_selection_names, row_names)
+    // Assert the number of rows is equal to the number of unique list of response.location.selection.name
+    assert.deepEqual(expected_location_selection_names, actual_row_names)
   })
 
 })
