@@ -7,7 +7,9 @@ export const CoordsSchema = schema({
 })
 
 export const SelectionSchema = schema({
-  id: [Number, String],
+  // id is optional, as the custom text input only uses the name property
+  // this is to distinguish between free text entry and something from location_selection
+  '?id': [Number, String],
   name: String
 })
 
