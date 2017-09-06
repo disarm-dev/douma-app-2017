@@ -10,20 +10,24 @@
 
           <!-- DOWNLOAD STATUS-->
           <md-avatar>
-            <md-icon v-if="cache_status[level] == true" class="success">check_circle</md-icon>
+            <md-icon v-if="loading_progress[level].status === 'complete'" class="success">check_circle</md-icon>
             <span v-else-if="isLoading(`geodata/${level}`)"><md-spinner md-indeterminate class="md-accent" :md-size="30"></md-spinner></span>
             <md-icon v-else class="md-warn">error</md-icon>
           </md-avatar>
 
 
           <!-- LEVEL NAME -->
-          <span>{{level}}</span>
+          <span>
+            {{level}}
+            <span v-if="loading_progress[level].total">{{loading_progress[level].total}}</span>
+            <span v-if="loading_progress[level].progress">{{loading_progress[level].progress}}</span>
+          </span>
 
 
           <!--DOWNLOAD BUTTON -->
           <md-button
             @click.native="retrieve_geodata_for(level)"
-            :disabled="isLoading(`geodata/${level}`) || cache_status[level] == true"
+            :disabled="isLoading(`geodata/${level}`) || loading_progress[level].status === 'complete'"
             class="md-dense list-button md-raised md-primary"
           >
             Download
@@ -42,6 +46,8 @@
 
 <script>
   import {mapGetters} from 'vuex'
+  import numeral from 'numeral'
+  import bytes from 'bytes'
 
   import {get_all_spatial_hierarchy_level_names} from 'lib/instance_data/spatial_hierarchy_helper'
   import {geodata_has_level} from 'lib/models/geodata/geodata.valid'
@@ -53,7 +59,7 @@
     name: 'geodata',
     data () {
       return {
-        cache_status: {},
+        loading_progress: {},
         level_names: get_all_spatial_hierarchy_level_names()
       }
     },
@@ -62,27 +68,32 @@
         isLoading: 'loading/isLoading'
       })
     },
+    created() {
+      for (let level_name of this.level_names) {
+        this.loading_progress[level_name] = {}
+      }
+    },
     mounted() {
       hydrate_geodata_cache_from_idb().then(() => {
-        this.calculate_cache_status()
+        this.calculate_loading_progress()
       })
     },
     methods: {
-      calculate_cache_status() {
+      calculate_loading_progress() {
         this.level_names.forEach(level => {
-          const status = geodata_has_level(level)
-          this.$set(this.cache_status, level, status)
+          const status = geodata_has_level(level) ? 'complete' : 'none'
+          this.loading_progress[level].status = status
         })
       },
       retrieve_geodata_for(level) {
         this.$startLoading(`geodata/${level}`)
 
-        get_and_store_locally_geodata_for(level)
+        get_and_store_locally_geodata_for(level, this.update_progress)
           .then(() => {
             return hydrate_geodata_cache_from_idb()
           })
           .then(() => {
-            this.calculate_cache_status()
+            this.calculate_loading_progress()
             this.$endLoading(`geodata/${level}`)
           })
           .catch((err) => {
@@ -94,6 +105,15 @@
       back() {
         this.$router.push('/')
       },
+      update_progress(progress_event) {
+        const progress = numeral(progress_event.loaded / progress_event.total).format('0%')
+        this.loading_progress[progress_event.level_name].progress = progress
+
+        const total = bytes(progress_event.total)
+        this.loading_progress[progress_event.level_name].total = total
+
+        console.log('progress', progress_event, progress)
+      }
     }
   }
 </script>
