@@ -24,6 +24,10 @@
         </md-button>
       </md-button-toggle>
     </p>
+
+    <p>
+      <md-checkbox :value="limit_to_plan" @change="set_limit_to_plan">Limit to plan</md-checkbox>
+    </p>
   </div>
 </template>
 
@@ -50,6 +54,7 @@
         dashboard_options: state => state.irs_monitor.dashboard_options,
         spatial_aggregation_level: state => state.irs_monitor.dashboard_options.spatial_aggregation_level,
         temporal_aggregation_level: state => state.irs_monitor.dashboard_options.temporal_aggregation_level,
+        limit_to_plan: state => state.irs_monitor.dashboard_options.limit_to_plan,
       }),
       spatial_level_names() {
         return get_all_spatial_hierarchy_level_names()
@@ -79,6 +84,13 @@
         const new_options = {
           ...this.dashboard_options,
           temporal_aggregation_level: level
+        }
+        this.$store.commit('irs_monitor/set_dashboard_options', new_options)
+      },
+      set_limit_to_plan(limit_to_plan) {
+        const new_options = {
+          ...this.dashboard_options,
+          limit_to_plan: limit_to_plan
         }
         this.$store.commit('irs_monitor/set_dashboard_options', new_options)
       }

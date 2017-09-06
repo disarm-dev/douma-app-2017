@@ -21,7 +21,8 @@ export default {
     dashboard_options: {
       // TODO: @config Extract default temporal_aggregation_level
       temporal_aggregation_level: CONFIG.applets.irs_monitor.defaults.temporal_aggregation_level,
-      spatial_aggregation_level: null
+      spatial_aggregation_level: null,
+      limit_to_plan: false
     }
   },
   mutations: {
