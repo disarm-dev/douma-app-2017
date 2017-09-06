@@ -10,8 +10,20 @@
 
       <div>
         <span>Show areas by:</span>
-        <md-radio v-model="selected_layer" name="map-type" md-value="coverage">Coverage</md-radio>
+        
+        <md-radio 
+          v-for="aggregation in options.aggregation_names" 
+          :key="aggregation" 
+          v-model="selected_layer" 
+          name="map-type" 
+          :md-value="aggregation"
+        >
+          {{aggregation}}
+        </md-radio>
+        
+
         <md-radio v-model="selected_layer" name="map-type" md-value="risk">Risk</md-radio>
+        
       </div>
 
       <md-checkbox v-model="show_response_points">Show response points</md-checkbox>
@@ -48,7 +60,7 @@
 
         // User values
         show_response_points: true,
-        selected_layer: 'structures sprayed %',
+        selected_layer: 'risk',
 
         // map cache
         _map: null,

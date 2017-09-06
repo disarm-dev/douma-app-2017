@@ -184,19 +184,22 @@ export function decorate_for_map({binned_responses, targets, aggregations, optio
   // create featureCollection, matching geodata with response bins
   let geodata_features
 
+
   if (options.limit_to_plan) {
     const target_ids = targets.map(t => t.id)
     geodata_features = selected_geodata_level_fc.features.filter((feature) => {
       return target_ids.includes(feature.properties.__disarm_geo_id)
     })
   } else {
-    geodata_features = selected_geodata_level_fc.features.map((feature) => {
-      aggregations_for_map.forEach(aggregation => {
-        feature.properties[aggregation.name] = 0
-      })
-      return feature
-    })
+    geodata_features = selected_geodata_level_fc.features
   }
+
+  geodata_features = geodata_features.map((feature) => {
+    aggregations_for_map.forEach(aggregation => {
+      feature.properties[aggregation.name] = 0
+    })
+    return feature
+  })
 
   const decorated_features = flow(
     map((feature) => {
