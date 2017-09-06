@@ -10,7 +10,7 @@
 
           <!-- DOWNLOAD STATUS-->
           <md-avatar>
-            <md-icon v-if="loading_progress[level].status === 'complete'" class="success">check_circle</md-icon>
+            <md-icon v-if="loading_progress[level].status == 'complete'" class="success">check_circle</md-icon>
             <span v-else-if="isLoading(`geodata/${level}`)"><md-spinner md-indeterminate class="md-accent" :md-size="30"></md-spinner></span>
             <md-icon v-else class="md-warn">error</md-icon>
           </md-avatar>
@@ -27,7 +27,7 @@
           <!--DOWNLOAD BUTTON -->
           <md-button
             @click.native="retrieve_geodata_for(level)"
-            :disabled="isLoading(`geodata/${level}`) || loading_progress[level].status === 'complete'"
+            :disabled="isLoading(`geodata/${level}`) || loading_progress[level].status == 'complete'"
             class="md-dense list-button md-raised md-primary"
           >
             Download
@@ -70,7 +70,11 @@
     },
     created() {
       for (let level_name of this.level_names) {
-        this.loading_progress[level_name] = {}
+        this.$set(this.loading_progress, level_name,  {
+          status: '',
+          progress: '',
+          total: ''
+        })
       }
     },
     mounted() {
@@ -82,7 +86,9 @@
       calculate_loading_progress() {
         this.level_names.forEach(level => {
           const status = geodata_has_level(level) ? 'complete' : 'none'
+          console.log('level, status', level, status)
           this.loading_progress[level].status = status
+          console.log('this.loading_progress', this.loading_progress)
         })
       },
       retrieve_geodata_for(level) {
