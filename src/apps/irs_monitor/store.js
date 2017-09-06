@@ -17,6 +17,10 @@ export default {
     filters: [],
     plan: null,
     filter: null,
+    map_options: {
+      show_response_points: true, 
+      selected_layer: 'risk'
+    },
 
     dashboard_options: {
       // TODO: @config Extract default temporal_aggregation_level
@@ -56,6 +60,12 @@ export default {
     set_ui: (state, ui) => {state.ui = ui},
     set_dashboard_options: (state, options) => {
       state.dashboard_options = options
+    },
+    set_selected_layer(state, selected_layer) {
+      state.map_options.selected_layer = selected_layer
+    },
+    set_show_response_points(state, show_response_points) {
+      state.map_options.show_response_points = show_response_points
     }
   },
   getters: {

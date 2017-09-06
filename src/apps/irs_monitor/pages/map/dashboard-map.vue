@@ -58,10 +58,6 @@
         layer_definitions,
         _risk_scaler: null,
 
-        // User values
-        show_response_points: true,
-        selected_layer: 'risk',
-
         // map cache
         _map: null,
         map_loaded: false,
@@ -104,7 +100,24 @@
             colour: array[1]
           }
         })
+      },
+      selected_layer: {
+        get() {
+          return this.$store.state.irs_monitor.map_options.selected_layer
+        },
+        set(val) {
+          this.$store.commit('irs_monitor/set_selected_layer', val)
+        }
+      },
+      show_response_points: {
+        get() {
+          return this.$store.state.irs_monitor.map_options.show_response_points
+        },
+        set(val) {
+          this.$store.commit('irs_monitor/set_show_response_points', val)
+        }
       }
+
     },
     mounted() {
       this.render_map()
