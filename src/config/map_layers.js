@@ -1,5 +1,5 @@
 export const layer_definitions = {
-  risk: {
+  normalised_risk: {
     palette: 'RdYlBu',
     reverse_palette: true,
     attribute: 'normalised_risk',

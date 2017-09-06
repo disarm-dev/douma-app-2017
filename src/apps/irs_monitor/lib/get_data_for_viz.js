@@ -19,14 +19,7 @@ export default function get_data({responses, targets, aggregations, options}) {
   if (!options.chart_type) throw new Error("Missing `options.chart_type`")
 
   // Create categorical or time_series bins of responses
-  let binned_responses
-  if (options.time_series) {
-    binned_responses = time_series_bins({responses, options})
-  } else if (options.spatial_bins) {
-    binned_responses = spatial_bins({responses, options})
-  } else {
-    binned_responses = categorical_bins({responses, options})
-  }
+  const binned_responses = bin_responses(responses, options)
 
 
   // The 'decorate' functions below also include the aggregation process
@@ -56,3 +49,14 @@ export default function get_data({responses, targets, aggregations, options}) {
   return data
 }
 
+function bin_responses(responses, options) {
+  let binned_responses
+  if (options.time_series) {
+    binned_responses = time_series_bins({responses, options})
+  } else if (options.spatial_bins) {
+    binned_responses = spatial_bins({responses, options})
+  } else {
+    binned_responses = categorical_bins({responses, options})
+  }
+  return binned_responses
+}

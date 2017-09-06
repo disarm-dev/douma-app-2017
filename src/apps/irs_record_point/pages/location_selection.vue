@@ -1,11 +1,13 @@
 <template>
   <div>
     <md-card-header>
-      <div>2. Select nearest location</div>
+      <div v-if="use_custom_location">Enter location *</div>
+      <div v-else>Select nearest location *</div>
     </md-card-header>
 
     <multiselect
       class="multiselect"
+      v-if="!use_custom_location"
       v-model="category"
       :options="categories"
       placeholder="Select area"
@@ -15,7 +17,7 @@
 
     <multiselect
       class="multiselect"
-      v-if="category"
+      v-if="category && !use_custom_location"
       v-model="selection"
       :options="location_options"
       group-values="locations"
@@ -28,13 +30,21 @@
     >
       <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
     </multiselect>
+
+    <md-checkbox v-model="use_custom_location">Enter custom location (location not on list)</md-checkbox>
+
+    <md-input-container v-if="use_custom_location">
+      <label>Custom location</label>
+      <md-input v-model="custom_location_selection"></md-input>
+    </md-input-container>
+
   </div>
 </template>
 
 <script>
   import Fuse from 'fuse.js'
   import Multiselect from 'vue-multiselect'
-  import {get_record_location_selection} from 'lib/geodata/spatial_hierarchy_helper'
+  import {get_record_location_selection} from 'lib/instance_data/spatial_hierarchy_helper'
   import { uniq } from 'lodash'
 
   export default {
@@ -46,10 +56,11 @@
         _fuse: null,
         search_query: '',
         _all_locations: [],
+        _custom_location_selection: '',
+        use_custom_location: false,
 
         hidden_category: '',
-
-
+        _selection: null
       }
     },
     computed: {
@@ -65,10 +76,10 @@
       // secondary area selector
       selection: {
         get() {
-          return this.$store.state.irs_record_point.persisted_metadata.selection
+          return this._selection
         },
         set(selection_object) {
-          this.$store.commit('irs_record_point/set_persisted_metadata', {name: 'selection', value: selection_object})
+          this._selection = selection_object
           this.$emit('change', selection_object)
         }
       },
@@ -108,14 +119,32 @@
 
         return nested
       },
+      custom_location_selection: {
+        get() {
+          return this._custom_location_selection
+        },
+        set(custom_location) {
+          this._custom_location_selection = custom_location
+          this.$emit('change', { name: custom_location})
+        }
+      },
     },
     created() {
       this.prepare_fuse()
 
       if (this.initial_location_selection !== null) {
         this.$emit('change', this.initial_location_selection)
-        this.selection = this.initial_location_selection
-        this.category = this.find_category_for_selection(this.selection)
+
+        if (this.initial_location_selection.hasOwnProperty('id')) {
+          // initial_location_selection is an object for the multiselect
+          this.selection = this.initial_location_selection
+          this.category = this.find_category_for_selection(this.selection)
+        } else {
+          // it is a custom text property, use text input
+          this.use_custom_location = true
+          this.custom_location_selection = this.initial_location_selection.name
+        }
+
       } else {
         this.$emit('change', this.selection)
       }

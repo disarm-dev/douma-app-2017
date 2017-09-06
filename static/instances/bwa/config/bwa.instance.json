@@ -13,6 +13,18 @@
       },
       "charts": [
         {
+          "id": "variable_definition",
+          "chart_type": "text",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "title": "Variable definitions",
+            "text": "**Room**: \nAn enclosed space (e.g. bedrooms, living rooms, kitchen)\n\n**Other structure**: \nBesides rooms, any other structures that are sprayable (e.g. bathrooms, toilets, passages, open-kitchens)\n\n**Building**: \nOne or more conjoined rooms\n\n**Homestead**: \nA yard with one or more buildings\n\n**Household**: \nA group of people who share the same home\n\n**Head of household**: \nAny person responsible for the people who live in a household"
+          }
+        },
+        {
           "id": "team_performance",
           "style": {
             "height_constraint": "none",
@@ -102,7 +114,7 @@
     "irs_record_point": {
       "title": "IRS Data Collection and Reporting Tool",
       "metadata": {
-        "show": false,
+        "show": true,
         "optional_fields": []
       }
     },

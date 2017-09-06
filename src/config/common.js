@@ -15,7 +15,7 @@ export default {
     'structure_recorder': {title: 'Structure Recorder', icon: 'assignment'},
     'irs_record_point': {title: 'IRS Record', icon: 'assignment'},
     'irs_plan': {title: 'IRS Plan', icon: 'assignment_turned_in', geodata_required: true},
-    'irs_monitor': {title: 'IRS Monitor', icon: 'dashboard', geodata_required: true},
+    'irs_monitor': {title: 'IRS Monitor', icon: 'dashboard', geodata_required: true, defaults: {temporal_aggregation_level: 'week'}},
     'irs_tasker': {title: 'IRS Tasker', icon: 'group', geodata_required: true},
     'debug': {title: 'Debug', icon: 'bug_report', geodata_required: true},
     // Meta below is currently ignored in sidebar (statically included), but here for the breadcrumbs

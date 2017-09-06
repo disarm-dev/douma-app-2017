@@ -38,7 +38,7 @@
 
 <script>
   import {mapState, mapGetters} from 'vuex'
-  import {try_reconnect} from 'lib/remote/remote.standard-handler'
+  import {try_reconnect} from 'lib/remote/standard-handler'
 
   export default {
     name: 'toolbar',
@@ -63,14 +63,14 @@
         if (this.$route.name) {
           current_applet_name = this.$route.name.split(':')[0]
         } else {
-          console.log('wtf?')
+          return false
         }
 
         const found = this.decorated_applets.find(applet => applet.name === current_applet_name)
         if (found) {
           return found
         } else {
-          return false
+          return false // view will render the instance_title
         }
       }
     },

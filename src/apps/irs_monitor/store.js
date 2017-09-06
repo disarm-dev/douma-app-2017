@@ -1,10 +1,10 @@
-import {get_all_records} from 'lib/remote/remote.records'
-import {get_current_plan} from 'lib/remote/remote.plans'
-import {Plan} from 'lib/models/plan.model'
-import {decorate_responses_from_json} from 'lib/models/response.model'
-import instance_decorator from 'lib/instance_data/decorators'
-
+import {get_all_records} from 'lib/models/response/remote'
+import {get_current_plan} from 'lib/models/plan/remote'
+import {Plan} from 'lib/models/plan/model'
+import {decorate_responses_from_json} from 'lib/models/response/decorator'
+import instance_decorator from 'lib/models/response/decorators-evaluated'
 import {set_filter, unset_filter} from './pages/controls/filters/controller'
+import CONFIG from 'config/common'
 
 export default {
   namespaced: true,
@@ -17,11 +17,16 @@ export default {
     filters: [],
     plan: null,
     filter: null,
+    map_options: {
+      show_response_points: true, 
+      selected_layer: 'risk'
+    },
 
     dashboard_options: {
       // TODO: @config Extract default temporal_aggregation_level
-      temporal_aggregation_level: 'week',
-      spatial_aggregation_level: null
+      temporal_aggregation_level: CONFIG.applets.irs_monitor.defaults.temporal_aggregation_level,
+      spatial_aggregation_level: null,
+      limit_to_plan: false
     }
   },
   mutations: {
@@ -55,6 +60,12 @@ export default {
     set_ui: (state, ui) => {state.ui = ui},
     set_dashboard_options: (state, options) => {
       state.dashboard_options = options
+    },
+    set_selected_layer(state, selected_layer) {
+      state.map_options.selected_layer = selected_layer
+    },
+    set_show_response_points(state, show_response_points) {
+      state.map_options.show_response_points = show_response_points
     }
   },
   getters: {
@@ -77,7 +88,6 @@ export default {
     // ideally, filtered_responses should change in response to the
     // settings of the filter e.g. "locality #2"
     filtered_responses(state, getters, rootState) {
-      if (!state.plan) return []
       if (!state.responses.length) return []
 
       const filtered = state.responses.filter(response => {

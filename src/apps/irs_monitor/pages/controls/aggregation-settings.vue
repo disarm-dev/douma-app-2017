@@ -24,16 +24,21 @@
         </md-button>
       </md-button-toggle>
     </p>
+
+    <p>
+      <md-checkbox :value="limit_to_plan" :disabled="!plan" @change="set_limit_to_plan">Limit to plan</md-checkbox>
+      <md-chip class="md-warn" v-if="!plan">There is no plan</md-chip>
+    </p>
   </div>
 </template>
 
 <script>
   import {mapState} from 'vuex'
 
-  import {get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
-  import {get_all_spatial_hierarchy_level_names} from 'lib/geodata/spatial_hierarchy_helper'
+  import {get_planning_level_name} from 'lib/instance_data/spatial_hierarchy_helper'
+  import {get_all_spatial_hierarchy_level_names} from 'lib/instance_data/spatial_hierarchy_helper'
 
-  import config from 'config/common'
+  import CONFIG from 'config/common'
 
   /**
    * Control various elements of the dashboard. Any settings here cascade down to all tables, maps, charts.
@@ -43,19 +48,19 @@
    */
   export default {
     name: 'aggregation-settings',
-    mounted() {
-    },
     computed: {
       ...mapState({
         dashboard_options: state => state.irs_monitor.dashboard_options,
         spatial_aggregation_level: state => state.irs_monitor.dashboard_options.spatial_aggregation_level,
         temporal_aggregation_level: state => state.irs_monitor.dashboard_options.temporal_aggregation_level,
+        limit_to_plan: state => state.irs_monitor.dashboard_options.limit_to_plan,
+        plan: state => state.irs_monitor.plan
       }),
       spatial_level_names() {
         return get_all_spatial_hierarchy_level_names()
       },
       temporal_level_names() {
-        return config.temporal_intervals
+        return CONFIG.temporal_intervals
       }
     },
     created() {
@@ -79,6 +84,13 @@
         const new_options = {
           ...this.dashboard_options,
           temporal_aggregation_level: level
+        }
+        this.$store.commit('irs_monitor/set_dashboard_options', new_options)
+      },
+      set_limit_to_plan(limit_to_plan) {
+        const new_options = {
+          ...this.dashboard_options,
+          limit_to_plan: limit_to_plan
         }
         this.$store.commit('irs_monitor/set_dashboard_options', new_options)
       }

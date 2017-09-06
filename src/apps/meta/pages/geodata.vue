@@ -6,15 +6,32 @@
 
       <md-list>
         <md-list-item v-for="level in level_names" :key="level" >
+
+
+          <!-- DOWNLOAD STATUS-->
           <md-avatar>
-            <md-icon v-if="cache_status[level] == true" class="success">check_circle</md-icon>
+            <md-icon v-if="loading_progress[level].status == 'complete'" class="success">check_circle</md-icon>
             <span v-else-if="isLoading(`geodata/${level}`)"><md-spinner md-indeterminate class="md-accent" :md-size="30"></md-spinner></span>
             <md-icon v-else class="md-warn">error</md-icon>
           </md-avatar>
 
-          <span>{{level}}</span>
 
-          <md-button @click.native="retrieve_geodata_for(level)" class="md-dense list-button md-raised md-primary">Download</md-button>
+          <!-- LEVEL NAME -->
+          <span>
+            {{level}}
+            <span v-if="loading_progress[level].total">{{loading_progress[level].total}}</span>
+            <span v-if="loading_progress[level].progress">{{loading_progress[level].progress}}</span>
+          </span>
+
+
+          <!--DOWNLOAD BUTTON -->
+          <md-button
+            @click.native="retrieve_geodata_for(level)"
+            :disabled="isLoading(`geodata/${level}`) || loading_progress[level].status == 'complete'"
+            class="md-dense list-button md-raised md-primary"
+          >
+            Download
+          </md-button>
 
         </md-list-item>
       </md-list>
@@ -29,18 +46,20 @@
 
 <script>
   import {mapGetters} from 'vuex'
+  import numeral from 'numeral'
+  import bytes from 'bytes'
 
-  import {get_all_spatial_hierarchy_level_names} from 'lib/geodata/spatial_hierarchy_helper'
-  import {geodata_has_level} from 'lib/geodata/geodata.valid'
-  import {get_geodata_for} from 'lib/remote/remote.geodata'
-  import {get_and_store_locally_geodata_for} from 'lib/remote/remote.geodata'
-  import {hydrate_geodata_cache_from_idb} from "lib/geodata/local.geodata_store";
+  import {get_all_spatial_hierarchy_level_names} from 'lib/instance_data/spatial_hierarchy_helper'
+  import {geodata_has_level} from 'lib/models/geodata/geodata.valid'
+  import {get_geodata_for} from 'lib/models/geodata/remote'
+  import {get_and_store_locally_geodata_for} from 'lib/models/geodata/remote'
+  import {hydrate_geodata_cache_from_idb} from "lib/models/geodata/local.geodata_store";
 
   export default {
     name: 'geodata',
     data () {
       return {
-        cache_status: {},
+        loading_progress: {},
         level_names: get_all_spatial_hierarchy_level_names()
       }
     },
@@ -49,28 +68,38 @@
         isLoading: 'loading/isLoading'
       })
     },
+    created() {
+      for (let level_name of this.level_names) {
+        this.$set(this.loading_progress, level_name,  {
+          status: '',
+          progress: '',
+          total: ''
+        })
+      }
+    },
     mounted() {
       hydrate_geodata_cache_from_idb().then(() => {
-        this.calculate_cache_status()
+        this.calculate_loading_progress()
       })
     },
     methods: {
-      calculate_cache_status() {
+      calculate_loading_progress() {
         this.level_names.forEach(level => {
-          const status = geodata_has_level(level)
-          this.$set(this.cache_status, level, status)
+          const status = geodata_has_level(level) ? 'complete' : 'none'
+          console.log('level, status', level, status)
+          this.loading_progress[level].status = status
+          console.log('this.loading_progress', this.loading_progress)
         })
       },
       retrieve_geodata_for(level) {
         this.$startLoading(`geodata/${level}`)
 
-        get_and_store_locally_geodata_for(level)
+        get_and_store_locally_geodata_for(level, this.update_progress)
           .then(() => {
             return hydrate_geodata_cache_from_idb()
           })
           .then(() => {
-            console.log('get here')
-            this.calculate_cache_status()
+            this.calculate_loading_progress()
             this.$endLoading(`geodata/${level}`)
           })
           .catch((err) => {
@@ -82,6 +111,15 @@
       back() {
         this.$router.push('/')
       },
+      update_progress(progress_event) {
+        const progress = numeral(progress_event.loaded / progress_event.total).format('0%')
+        this.loading_progress[progress_event.level_name].progress = progress
+
+        const total = bytes(progress_event.total)
+        this.loading_progress[progress_event.level_name].total = total
+
+        console.log('progress', progress_event, progress)
+      }
     }
   }
 </script>

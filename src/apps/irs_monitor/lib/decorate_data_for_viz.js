@@ -6,8 +6,8 @@ import compact from 'lodash/fp/compact'
 import {featureCollection} from '@turf/helpers'
 
 import cache from 'config/cache'
-import {aggregate_on} from 'lib/instance_data/aggregator'
-import {get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
+import {aggregate_on} from 'lib/models/response/aggregations/aggregator'
+import {get_planning_level_name} from 'lib/instance_data/spatial_hierarchy_helper'
 
 export function decorate_for_chart({binned_responses, targets, aggregations, options}) {
   // Figure what to do
@@ -182,28 +182,44 @@ export function decorate_for_map({binned_responses, targets, aggregations, optio
   })
 
   // create featureCollection, matching geodata with response bins
-  const geodata_features = selected_geodata_level_fc.features
+  let geodata_features
+
+
+  if (options.limit_to_plan) {
+    const target_ids = targets.map(t => t.id)
+    geodata_features = selected_geodata_level_fc.features.filter((feature) => {
+      return target_ids.includes(feature.properties.__disarm_geo_id)
+    })
+  } else {
+    geodata_features = selected_geodata_level_fc.features
+  }
+
+  geodata_features = geodata_features.map((feature) => {
+    aggregations_for_map.forEach(aggregation => {
+      feature.properties[aggregation.name] = 0
+    })
+    return feature
+  })
 
   const decorated_features = flow(
-    map((bin) => {
-      const found = geodata_features.find(feature => {
-        return feature.properties.__disarm_geo_id === bin.key
+    map((feature) => {
+
+      const found_bin = binned_aggregations.find((bin) => {
+        return bin.key === feature.properties.__disarm_geo_id
       })
 
-      if (found) {
-        found.properties = {
-          ...found.properties,
-          ...bin.values
+      if (found_bin) {
+        feature.properties = {
+          ...feature.properties,
+          ...found_bin.values
         }
-      } else {
-        console.warn(`Cannot find geodata for ${bin.key}`)
-        return {}
       }
 
-      return found
+      return feature
     }),
     compact
-  )(binned_aggregations)
+  )(geodata_features)
+
 
   // return a featureCollection
   return featureCollection(decorated_features)

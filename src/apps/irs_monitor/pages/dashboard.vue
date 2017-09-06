@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--  SUMMARY, LOAD, DOWNLOAD (DUMPING GROUND) -->
-    <dashboard_summary :responses='responses' @refresh_data="refresh_data"></dashboard_summary>
+    <dashboard_summary :responses='responses' @load_responses="load_responses" @load_plan="load_plan"></dashboard_summary>
 
     <div class='applet_container'>
 
@@ -38,7 +38,7 @@
   import {mapState, mapGetters} from 'vuex'
   import {cloneDeep as clone_deep} from 'lodash'
 
-  import {get_geodata} from 'lib/remote/remote.geodata.js'
+  import {get_geodata} from 'lib/models/geodata/remote.js'
 
   // Components
   import dashboard_summary from './dashboard-summary.vue'
@@ -46,7 +46,7 @@
   import dashboard_map from './map/dashboard-map.vue'
   import dashboard_table from './table/dashboard-table.vue'
   import charts from './charts/dashboard-charts.vue'
-  import {geodata_in_cache_and_valid} from '../../../lib/geodata/geodata.valid'
+  import {geodata_in_cache_and_valid} from '../../../lib/models/geodata/geodata.valid'
 
   export default {
     name: 'Dashboard',
@@ -78,28 +78,31 @@
         targets: 'irs_monitor/targets',
       }),
     },
-    created() {
-      if (!geodata_in_cache_and_valid()) {
-        this.$store.commit('meta/set_snackbar', {message: 'Message from MONITOR: Problem with geodata'})
-        this.$router.push({name: 'meta:geodata'})
-      }
-    },
     methods: {
-      refresh_data() {
-        this.$startLoading('irs_monitor/refresh_data')
+      load_responses() {
+        this.$startLoading('irs_monitor/load_responses')
 
-        Promise.all([
-          this.$store.dispatch('irs_monitor/get_all_records'),
-          this.$store.dispatch('irs_monitor/get_current_plan'),
-
-        ])
+        this.$store.dispatch('irs_monitor/get_all_records')
           .then(() => {
-            this.$endLoading('irs_monitor/refresh_data')
-            this.$store.commit('root:set_snackbar', {message: 'Successfully retrieved records'})
+            this.$endLoading('irs_monitor/load_responses')
+            this.$store.commit('root:set_snackbar', {message: 'Successfully retrieved responses'})
           })
           .catch(e => {
             console.log(e)
-            this.$endLoading('irs_monitor/refresh_data')
+            this.$endLoading('irs_monitor/load_responses')
+          })
+      },
+      load_plan() {
+        this.$startLoading('irs_monitor/load_plan')
+
+        this.$store.dispatch('irs_monitor/get_current_plan')
+          .then(() => {
+            this.$endLoading('irs_monitor/load_plan')
+            this.$store.commit('root:set_snackbar', {message: 'Successfully retrieved plan'})
+          })
+          .catch(e => {
+            console.log(e)
+            this.$endLoading('irs_monitor/load_plan')
           })
       },
       with_dashboard_options(options) {

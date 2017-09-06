@@ -41,7 +41,7 @@
   import cache from 'config/cache.js'
   import {basic_map} from 'lib/helpers/basic_map'
   import map_legend from 'components/map_legend.vue'
-  import {get_planning_level_name, get_next_level_down_from_planning_level, get_next_level_up_from_planning_level} from 'lib/geodata/spatial_hierarchy_helper'
+  import {get_planning_level_name, get_next_level_down_from_planning_level, get_next_level_up_from_planning_level} from 'lib/instance_data/spatial_hierarchy_helper'
   import {target_areas_inside_focus_filter_area} from '../helpers/target_areas_helper.js'
   import {prepare_palette} from 'lib/helpers/palette_helper.js'
   import {layer_definitions} from 'config/map_layers'

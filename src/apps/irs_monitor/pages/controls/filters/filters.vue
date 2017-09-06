@@ -14,7 +14,7 @@
   import {mapState} from 'vuex'
 
   import cache from 'config/cache'
-  import {get_next_level_up_from_planning_level, get_all_spatial_hierarchy_level_names, get_planning_level_name, get_planning_level} from 'lib/geodata/spatial_hierarchy_helper'
+  import {get_next_level_up_from_planning_level, get_all_spatial_hierarchy_level_names, get_planning_level_name, get_planning_level} from 'lib/instance_data/spatial_hierarchy_helper'
 
   import field_filters from './fields.vue'
   import temporal_filter from './temporal'

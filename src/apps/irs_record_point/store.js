@@ -1,7 +1,7 @@
 import clonedeep from 'lodash.clonedeep'
 
 import CONFIG from 'config/common'
-import {create_records} from 'lib/remote/remote.records'
+import {create_records} from 'lib/models/response/remote'
 
 export default {
   namespaced: true,

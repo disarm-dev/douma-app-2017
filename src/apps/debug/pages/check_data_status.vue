@@ -39,16 +39,16 @@
 
   // Form
   import {get_form_elements} from 'lib/instance_data/form_helpers'
-  import {fields_for_aggregations_exist_in_form} from 'lib/instance_data/aggregator.instance_assertions.js'
-  import {fields_for_validations_exist_in_form} from 'lib/instance_data/validations.instance_assertions'
+  import {fields_for_aggregations_exist_in_form} from 'lib/models/response/aggregations/aggregator.instance_assertions.js'
+  import {fields_for_validations_exist_in_form} from 'lib/models/response/validations/instance_assertions'
   import {fields_for_presenters_exist_in_form} from 'lib/instance_data/presenters.instance_assertions'
-  import {fields_for_fake_form_exist_in_form} from 'lib/instance_data/fake_form.instance_assertions'
+  import {fields_for_fake_form_exist_in_form} from 'lib/debug/fake_form.instance_assertions'
 
   // Geodata
   import cache from 'config/cache'
-  import {geodata_in_cache_and_valid} from 'lib/geodata/geodata.valid'
-  import {decorate_geodata_on_cache} from 'lib/geodata/geodata.decorate'
-  import {generate_location_selections} from 'lib/geodata/generate_location_selection'
+  import {geodata_in_cache_and_valid} from 'lib/models/geodata/geodata.valid'
+  import {decorate_geodata_on_cache} from 'lib/models/geodata/geodata.decorate'
+  import {generate_location_selections} from 'lib/debug/generate_location_selection'
 
   export default {
     name: 'check_data_status',

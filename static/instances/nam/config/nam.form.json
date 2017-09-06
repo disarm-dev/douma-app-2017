@@ -11,7 +11,6 @@
           "validators": [
             {
               "type": "numeric",
-              "minValue": "-0",
               "text": "Minimum Value is Zero"
             }
           ]
@@ -19,13 +18,11 @@
         {
           "type": "text",
           "inputType": "number",
-          "isRequired": true,
           "name": "number_unsprayable",
           "title": "How many unsprayable sleeping structures are in the household/homestead?",
           "validators": [
             {
               "type": "numeric",
-              "minValue": "0",
               "text": "Minimum Value is Zero"
             }
           ]
@@ -44,7 +41,6 @@
           "validators": [
             {
               "type": "numeric",
-              "minValue": "0",
               "text": "Minimum Value is Zero"
             }
           ],
@@ -60,7 +56,6 @@
           "validators": [
             {
               "type": "numeric",
-              "minValue": "0",
               "text": "Minimum Value is Zero"
             }
           ],
@@ -81,7 +76,6 @@
           "validators": [
             {
               "type": "numeric",
-              "minValue": "0",
               "text": "Minimum Value is Zero"
             }
           ],
@@ -90,6 +84,12 @@
         },
         {
           "type": "radiogroup",
+          "name": "Reasons for not spraying",
+          "visible": false,
+          "visibleIf": "{number_unsprayed} > 0",
+          "title": "Reasons for not spraying",
+          "isRequired": true,
+          "hasOther": true,
           "choices": [
             {
               "value": "locked",
@@ -103,13 +103,7 @@
               "value": "sick_infant",
               "text": "Sick person/young infant"
             }
-          ],
-          "hasOther": true,
-          "isRequired": true,
-          "name": "Reasons for not spraying",
-          "title": "Reasons for not ",
-          "visible": false,
-          "visibleIf": "{number_unsprayed} > 0"
+          ]
         }
       ],
       "name": "page3"
@@ -125,7 +119,6 @@
           "validators": [
             {
               "type": "numeric",
-              "minValue": "0",
               "text": "Minimum Value is Zero"
             }
           ]
@@ -139,7 +132,6 @@
           "validators": [
             {
               "type": "numeric",
-              "minValue": "0",
               "text": "Minimum Value is Zero"
             }
           ]
@@ -151,7 +143,6 @@
       "elements": [
         {
           "type": "text",
-          "isRequired": true,
           "name": "name_household",
           "title": "Head of Household Name",
           "visible": false,
@@ -159,7 +150,6 @@
         },
         {
           "type": "text",
-          "isRequired": true,
           "name": "health_number",
           "title": "Household Health Number (Enter the number on the sticker given to the head of household)",
           "visible": false,
@@ -189,7 +179,6 @@
           "validators": [
             {
               "type": "numeric",
-              "minValue": "-0",
               "text": "Minimum Value is Zero"
             }
           ],
