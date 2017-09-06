@@ -10,23 +10,24 @@
 
       <div>
         <span>Show areas by:</span>
-        
-        <md-radio 
-          v-for="aggregation in options.aggregation_names" 
-          :key="aggregation" 
-          v-model="selected_layer" 
-          name="map-type" 
+
+        <md-radio
+          :disabled="!responses.length"
+          v-for="aggregation in options.aggregation_names"
+          :key="aggregation"
+          v-model="selected_layer"
+          name="map-type"
           :md-value="aggregation"
         >
           {{aggregation}}
         </md-radio>
-        
 
-        <md-radio v-model="selected_layer" name="map-type" md-value="normalised_risk">Risk</md-radio>
-        
+
+        <md-radio :disabled="!responses.length" v-model="selected_layer" name="map-type" md-value="normalised_risk">Risk</md-radio>
+
       </div>
 
-      <md-checkbox v-model="show_response_points">Show response points</md-checkbox>
+      <md-checkbox :disabled="!responses.length" v-model="show_response_points">Show response points</md-checkbox>
 
     </md-card-content>
   </md-card>
@@ -232,7 +233,7 @@
         this._click_handler = (e) => {
           e.originalEvent.stopPropagation()
           const feature = this._map.queryRenderedFeatures(e.point)[0]
-          
+
           if (feature) {
             new Popup({closeOnClick: true})
               .setLngLat(e.lngLat)
@@ -307,7 +308,7 @@
 
         this._responses_click_handler = (e) => {
           e.originalEvent.stopPropagation()
-          
+
           const feature = this._map.queryRenderedFeatures(e.point)[0]
 
           if (feature) {
