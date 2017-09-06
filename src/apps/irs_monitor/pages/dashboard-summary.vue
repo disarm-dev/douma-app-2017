@@ -1,10 +1,20 @@
 <template>
   <controls>
-    <md-button slot="primary_action" class="md-icon-button md-raised md-primary" :disabled="isLoading('irs_monitor/refresh_data')" @click.native='refresh_data'>
+    <md-button slot="primary_action" class="md-icon-button md-raised md-primary" :disabled="isLoading('irs_monitor/load_responses')" @click.native='load_responses'>
       <md-icon>refresh</md-icon>
     </md-button>
 
     <template slot="menu_items">
+      <md-menu-item :disabled="isLoading('irs_monitor/load_plan')" @click="load_plan">
+        <md-icon>file_download</md-icon>
+        <span>Load plan</span>
+      </md-menu-item>
+
+      <md-menu-item :disabled="isLoading('irs_monitor/load_responses')" @click="load_responses">
+        <md-icon>file_download</md-icon>
+        <span>Load responses</span>
+      </md-menu-item>
+
       <md-menu-item :disabled="isLoading('irs_monitor/refresh_data') || !responses.length" @click="download_responses">
         <md-icon>file_download</md-icon>
         <span>Download responses</span>
@@ -12,7 +22,7 @@
     </template>
 
     <div slot="text">
-      {{responses.length}} records
+      {{responses.length}} records 
       Last updated: {{responses_last_updated_at}}
     </div>
   </controls>
@@ -52,14 +62,12 @@
         isLoading: 'loading/isLoading'
       })
     },
-    mounted() {
-      if (!this.plan) {
-        this.$nextTick(() => this.$store.commit('root:set_snackbar', {message: "Plan missing - refresh data to load"}))
-      }
-    },
     methods: {
-      refresh_data() {
-        this.$emit('refresh_data')
+      load_responses() {
+        this.$emit('load_responses')
+      },
+      load_plan() {
+        this.$emit('load_plan')
       },
       download_responses() {
         if(!this.responses.length) return

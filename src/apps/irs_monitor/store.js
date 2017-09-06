@@ -17,11 +17,16 @@ export default {
     filters: [],
     plan: null,
     filter: null,
+    map_options: {
+      show_response_points: true, 
+      selected_layer: 'risk'
+    },
 
     dashboard_options: {
       // TODO: @config Extract default temporal_aggregation_level
       temporal_aggregation_level: CONFIG.applets.irs_monitor.defaults.temporal_aggregation_level,
-      spatial_aggregation_level: null
+      spatial_aggregation_level: null,
+      limit_to_plan: false
     }
   },
   mutations: {
@@ -55,6 +60,12 @@ export default {
     set_ui: (state, ui) => {state.ui = ui},
     set_dashboard_options: (state, options) => {
       state.dashboard_options = options
+    },
+    set_selected_layer(state, selected_layer) {
+      state.map_options.selected_layer = selected_layer
+    },
+    set_show_response_points(state, show_response_points) {
+      state.map_options.show_response_points = show_response_points
     }
   },
   getters: {
@@ -77,7 +88,6 @@ export default {
     // ideally, filtered_responses should change in response to the
     // settings of the filter e.g. "locality #2"
     filtered_responses(state, getters, rootState) {
-      if (!state.plan) return []
       if (!state.responses.length) return []
 
       const filtered = state.responses.filter(response => {

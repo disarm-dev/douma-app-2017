@@ -10,8 +10,20 @@
 
       <div>
         <span>Show areas by:</span>
-        <md-radio v-model="selected_layer" name="map-type" md-value="coverage">Coverage</md-radio>
-        <md-radio v-model="selected_layer" name="map-type" md-value="risk">Risk</md-radio>
+        
+        <md-radio 
+          v-for="aggregation in options.aggregation_names" 
+          :key="aggregation" 
+          v-model="selected_layer" 
+          name="map-type" 
+          :md-value="aggregation"
+        >
+          {{aggregation}}
+        </md-radio>
+        
+
+        <md-radio v-model="selected_layer" name="map-type" md-value="normalised_risk">Risk</md-radio>
+        
       </div>
 
       <md-checkbox v-model="show_response_points">Show response points</md-checkbox>
@@ -27,6 +39,7 @@
   import centroid from '@turf/centroid'
   import numeral from 'numeral'
   import {Popup} from 'mapbox-gl'
+  import {get} from 'lodash'
 
   import {basic_map} from 'lib/helpers/basic_map.js'
   import map_legend from 'components/map_legend.vue'
@@ -46,15 +59,12 @@
         layer_definitions,
         _risk_scaler: null,
 
-        // User values
-        show_response_points: true,
-        selected_layer: 'structures sprayed %',
-
         // map cache
         _map: null,
         map_loaded: false,
         bbox: [],
         _click_handler: null,
+        _responses_click_handler: null,
         _aggregated_responses_fc: null,
         _filtered_responses_fc: null,
       }
@@ -77,12 +87,12 @@
         return cache.geodata[get_planning_level_name()]
       },
       entries_for_legend() {
-        const layer_definition = layer_definitions['default_palette']
+        const layer_definition = get(layer_definitions, this.selected_layer, layer_definitions['default_palette'])
         const palette = prepare_palette(layer_definition)
 
 
         return palette.map((array) => {
-          if (this.selected_layer === 'risk' && this._risk_scaler) {
+          if (this.selected_layer === 'normalised_risk' && this._risk_scaler) {
             const value = this._risk_scaler.value(array[0])
             array[0] = numeral(value).format('0.[00]')
           }
@@ -92,7 +102,24 @@
             colour: array[1]
           }
         })
+      },
+      selected_layer: {
+        get() {
+          return this.$store.state.irs_monitor.map_options.selected_layer
+        },
+        set(val) {
+          this.$store.commit('irs_monitor/set_selected_layer', val)
+        }
+      },
+      show_response_points: {
+        get() {
+          return this.$store.state.irs_monitor.map_options.show_response_points
+        },
+        set(val) {
+          this.$store.commit('irs_monitor/set_show_response_points', val)
+        }
       }
+
     },
     mounted() {
       this.render_map()
@@ -131,9 +158,8 @@
       },
       zoom_to_features () {
         // Zoom to features
-        const layer_string = this.selected_layer
         this.bbox = bbox(this._aggregated_responses_fc)
-        this.bind_popup(layer_definitions[layer_string])
+        this.bind_popup(this.selected_layer)
       },
 
       // Lower-level map stuff
@@ -152,7 +178,7 @@
       add_layer(layer_string) {
         this.clear_map()
 
-        const layer_type = layer_definitions['default_palette']
+        const layer_type = get(layer_definitions, layer_string, layer_definitions['default_palette'])
 
         // create stops
         const palette = prepare_palette(layer_type)
@@ -198,18 +224,22 @@
         })
 
       },
-      bind_popup(layer_type) {
+      bind_popup() {
         // Remove previous click handler before anything
         this._map.off('click', 'areas', this._click_handler)
 
         // Define new click handler
         this._click_handler = (e) => {
+          e.originalEvent.stopPropagation()
           const feature = this._map.queryRenderedFeatures(e.point)[0]
-
+          
           if (feature) {
             new Popup({closeOnClick: true})
               .setLngLat(e.lngLat)
-              .setHTML(`<p>${layer_type.attribute}: ${feature.properties[layer_type.attribute]}</p>`)
+              .setHTML(`
+                <p><b>${feature.properties.__disarm_geo_name}</b></p>
+                <p>${this.selected_layer}: ${feature.properties[this.selected_layer]}</p>
+              `)
               .addTo(this._map);
           }
         }
@@ -245,6 +275,7 @@
           let coords_point = point([longitude, latitude])
 
           coords_point.properties = response._decorated
+          coords_point.properties.id = response.id
 
           return coords_point
         }).filter(a => a)
@@ -272,6 +303,27 @@
           }
         })
 
+        this._map.off('click', 'responses', this._responses_click_handler)
+
+        this._responses_click_handler = (e) => {
+          e.originalEvent.stopPropagation()
+          
+          const feature = this._map.queryRenderedFeatures(e.point)[0]
+
+          if (feature) {
+            new Popup({closeOnClick: true})
+              .setLngLat(e.lngLat)
+              .setHTML(`
+                <p><b>${feature.properties.id}</b></p>
+                <p>${JSON.stringify(feature.properties)}</p>
+              `)
+              .addTo(this._map);
+          }
+        }
+
+        // Add click handler to map
+        this._map.on('click', 'responses', this._responses_click_handler)
+
       },
 
       // Data calculations TODO: @refac Remove calculations to lib
@@ -280,9 +332,8 @@
 
         const data = get_data({responses: this.responses, targets: this.targets, aggregations: this.aggregations, options: this.options})
         this._aggregated_responses_fc = data
-        return
 
-        features = this.calculate_risk(features)
+        this._aggregated_responses_fc.features = this.calculate_risk(this._aggregated_responses_fc.features)
       },
       /**
        * Add scaled/normalised risk to each feature
@@ -293,7 +344,7 @@
         const values_array = features.map(feature => feature.properties.risk).sort().filter(i => i)
         this._risk_scaler = new LogValueConvertor(values_array)
 
-        const attribute = layer_definitions.risk.attribute
+        const attribute = layer_definitions.normalised_risk.attribute
         return features.map((feature) => {
           feature.properties[attribute] = this._risk_scaler.lval(feature.properties.risk)
           return feature
