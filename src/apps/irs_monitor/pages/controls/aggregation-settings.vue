@@ -37,7 +37,7 @@
   import {get_planning_level_name} from 'lib/instance_data/spatial_hierarchy_helper'
   import {get_all_spatial_hierarchy_level_names} from 'lib/instance_data/spatial_hierarchy_helper'
 
-  import config from 'config/common'
+  import CONFIG from 'config/common'
 
   /**
    * Control various elements of the dashboard. Any settings here cascade down to all tables, maps, charts.
@@ -47,8 +47,6 @@
    */
   export default {
     name: 'aggregation-settings',
-    mounted() {
-    },
     computed: {
       ...mapState({
         dashboard_options: state => state.irs_monitor.dashboard_options,
@@ -60,7 +58,7 @@
         return get_all_spatial_hierarchy_level_names()
       },
       temporal_level_names() {
-        return config.temporal_intervals
+        return CONFIG.temporal_intervals
       }
     },
     created() {
