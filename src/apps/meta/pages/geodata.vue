@@ -82,7 +82,6 @@
             return hydrate_geodata_cache_from_idb()
           })
           .then(() => {
-            console.log('get here')
             this.calculate_cache_status()
             this.$endLoading(`geodata/${level}`)
           })
