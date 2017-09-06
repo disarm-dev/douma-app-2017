@@ -1,6 +1,6 @@
 <template>
   <controls>
-    <md-button slot="primary_action" class="md-icon-button md-raised md-primary" :disabled="isLoading('irs_monitor/refresh_data')" @click.native='refresh_data'>
+    <md-button slot="primary_action" class="md-icon-button md-raised md-primary" :disabled="isLoading('irs_monitor/load_responses')" @click.native='load_responses'>
       <md-icon>refresh</md-icon>
     </md-button>
 
