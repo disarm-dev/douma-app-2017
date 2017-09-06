@@ -64,6 +64,7 @@
         map_loaded: false,
         bbox: [],
         _click_handler: null,
+        _responses_click_handler: null,
         _aggregated_responses_fc: null,
         _filtered_responses_fc: null,
       }
@@ -229,12 +230,16 @@
 
         // Define new click handler
         this._click_handler = (e) => {
+          e.originalEvent.stopPropagation()
           const feature = this._map.queryRenderedFeatures(e.point)[0]
-
+          
           if (feature) {
             new Popup({closeOnClick: true})
               .setLngLat(e.lngLat)
-              .setHTML(`<p>${this.selected_layer}: ${feature.properties[this.selected_layer]}</p>`)
+              .setHTML(`
+                <p><b>${feature.properties.__disarm_geo_name}</b></p>
+                <p>${this.selected_layer}: ${feature.properties[this.selected_layer]}</p>
+              `)
               .addTo(this._map);
           }
         }
@@ -270,6 +275,7 @@
           let coords_point = point([longitude, latitude])
 
           coords_point.properties = response._decorated
+          coords_point.properties.id = response.id
 
           return coords_point
         }).filter(a => a)
@@ -296,6 +302,27 @@
             'circle-opacity': 0.9,
           }
         })
+
+        this._map.off('click', 'responses', this._responses_click_handler)
+
+        this._responses_click_handler = (e) => {
+          e.originalEvent.stopPropagation()
+          
+          const feature = this._map.queryRenderedFeatures(e.point)[0]
+
+          if (feature) {
+            new Popup({closeOnClick: true})
+              .setLngLat(e.lngLat)
+              .setHTML(`
+                <p><b>${feature.properties.id}</b></p>
+                <p>${JSON.stringify(feature.properties)}</p>
+              `)
+              .addTo(this._map);
+          }
+        }
+
+        // Add click handler to map
+        this._map.on('click', 'responses', this._responses_click_handler)
 
       },
 
