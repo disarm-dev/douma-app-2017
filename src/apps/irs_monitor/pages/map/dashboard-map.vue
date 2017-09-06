@@ -158,7 +158,7 @@
       zoom_to_features () {
         // Zoom to features
         this.bbox = bbox(this._aggregated_responses_fc)
-        this.bind_popup(get(layer_definitions, this.selected_layer, layer_definitions['default_palette']))
+        this.bind_popup(this.selected_layer)
       },
 
       // Lower-level map stuff
@@ -223,7 +223,7 @@
         })
 
       },
-      bind_popup(layer_type) {
+      bind_popup() {
         // Remove previous click handler before anything
         this._map.off('click', 'areas', this._click_handler)
 
@@ -234,7 +234,7 @@
           if (feature) {
             new Popup({closeOnClick: true})
               .setLngLat(e.lngLat)
-              .setHTML(`<p>${layer_type.attribute}: ${feature.properties[layer_type.attribute]}</p>`)
+              .setHTML(`<p>${this.selected_layer}: ${feature.properties[this.selected_layer]}</p>`)
               .addTo(this._map);
           }
         }
