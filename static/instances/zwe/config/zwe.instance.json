@@ -176,7 +176,12 @@
   "instance": {
     "title": "Zimbabwe IRS Tool",
     "location_name": "Zimbabwe (Matabeleland South)",
-    "slug": "zwe"
+    "slug": "zwe",
+    "api": {
+      // Standard DOUMA API
+      "url": "https://douma-api.herokuapp.com",
+      "version": "v3"
+    }
   },
   "spatial_hierarchy": {
     "data_version": 7,
@@ -184,7 +189,7 @@
       "planning_level_name": "wards",
       "record_location_selection_level_name": "wards",
       "denominator_fields": {
-        "number_of_households": "NumHouseholds"
+        "number_of_households": "NumRooms"
       }
     },
     "levels": [

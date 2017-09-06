@@ -1,6 +1,9 @@
 export default {
   api: {
     // Standard DOUMA API
+    debug: {
+
+    },
     url: BRANCH === 'master' ? "https://douma-api.herokuapp.com" : "https://douma-api-stage.herokuapp.com",
     version: "v3",
 

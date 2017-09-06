@@ -6,8 +6,8 @@ import CONFIG from 'config/common'
 
 let store
 
-const configure_standard_handler = (app_store) => {
-  store = app_store
+const configure_standard_handler = ($store) => {
+  store = $store
 }
 
 // Create axios HTTP object
@@ -59,7 +59,9 @@ const standard_handler = (url, options = {}) => {
 }
 
 // Get basic root URL from static configuration
-const douma_api_root = `${CONFIG.api.url}/${CONFIG.api.version}`
+const instance_api_root = get(store, 'state.instance_config.instance.api.root')
+const douma_api_root = DOUMA_PRODUCTION_MODE ? `${CONFIG.api.url}/${CONFIG.api.version}` : instance_api_root
+
 // const douma_api_root = `http://localhost:3000/${CONFIG.api.version}`
 
 const try_reconnect = () => {
