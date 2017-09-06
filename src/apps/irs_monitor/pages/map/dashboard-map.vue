@@ -22,7 +22,7 @@
         </md-radio>
         
 
-        <md-radio v-model="selected_layer" name="map-type" md-value="risk">Risk</md-radio>
+        <md-radio v-model="selected_layer" name="map-type" md-value="normalised_risk">Risk</md-radio>
         
       </div>
 
@@ -39,6 +39,7 @@
   import centroid from '@turf/centroid'
   import numeral from 'numeral'
   import {Popup} from 'mapbox-gl'
+  import {get} from 'lodash'
 
   import {basic_map} from 'lib/helpers/basic_map.js'
   import map_legend from 'components/map_legend.vue'
@@ -85,12 +86,12 @@
         return cache.geodata[get_planning_level_name()]
       },
       entries_for_legend() {
-        const layer_definition = layer_definitions['default_palette']
+        const layer_definition = get(layer_definitions, this.selected_layer, layer_definitions['default_palette'])
         const palette = prepare_palette(layer_definition)
 
 
         return palette.map((array) => {
-          if (this.selected_layer === 'risk' && this._risk_scaler) {
+          if (this.selected_layer === 'normalised_risk' && this._risk_scaler) {
             const value = this._risk_scaler.value(array[0])
             array[0] = numeral(value).format('0.[00]')
           }
@@ -156,9 +157,8 @@
       },
       zoom_to_features () {
         // Zoom to features
-        const layer_string = this.selected_layer
         this.bbox = bbox(this._aggregated_responses_fc)
-        this.bind_popup(layer_definitions[layer_string])
+        this.bind_popup(get(layer_definitions, this.selected_layer, layer_definitions['default_palette']))
       },
 
       // Lower-level map stuff
@@ -177,7 +177,7 @@
       add_layer(layer_string) {
         this.clear_map()
 
-        const layer_type = layer_definitions['default_palette']
+        const layer_type = get(layer_definitions, layer_string, layer_definitions['default_palette'])
 
         // create stops
         const palette = prepare_palette(layer_type)
@@ -305,9 +305,8 @@
 
         const data = get_data({responses: this.responses, targets: this.targets, aggregations: this.aggregations, options: this.options})
         this._aggregated_responses_fc = data
-        return
 
-        features = this.calculate_risk(features)
+        this._aggregated_responses_fc.features = this.calculate_risk(this._aggregated_responses_fc.features)
       },
       /**
        * Add scaled/normalised risk to each feature
@@ -318,7 +317,7 @@
         const values_array = features.map(feature => feature.properties.risk).sort().filter(i => i)
         this._risk_scaler = new LogValueConvertor(values_array)
 
-        const attribute = layer_definitions.risk.attribute
+        const attribute = layer_definitions.normalised_risk.attribute
         return features.map((feature) => {
           feature.properties[attribute] = this._risk_scaler.lval(feature.properties.risk)
           return feature
