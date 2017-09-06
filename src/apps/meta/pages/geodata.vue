@@ -6,15 +6,28 @@
 
       <md-list>
         <md-list-item v-for="level in level_names" :key="level" >
+
+
+          <!-- DOWNLOAD STATUS-->
           <md-avatar>
             <md-icon v-if="cache_status[level] == true" class="success">check_circle</md-icon>
             <span v-else-if="isLoading(`geodata/${level}`)"><md-spinner md-indeterminate class="md-accent" :md-size="30"></md-spinner></span>
             <md-icon v-else class="md-warn">error</md-icon>
           </md-avatar>
 
+
+          <!-- LEVEL NAME -->
           <span>{{level}}</span>
 
-          <md-button @click.native="retrieve_geodata_for(level)" class="md-dense list-button md-raised md-primary">Download</md-button>
+
+          <!--DOWNLOAD BUTTON -->
+          <md-button
+            @click.native="retrieve_geodata_for(level)"
+            :disabled="isLoading(`geodata/${level}`) || cache_status[level] == true"
+            class="md-dense list-button md-raised md-primary"
+          >
+            Download
+          </md-button>
 
         </md-list-item>
       </md-list>
