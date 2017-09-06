@@ -78,7 +78,6 @@ export default {
     // ideally, filtered_responses should change in response to the
     // settings of the filter e.g. "locality #2"
     filtered_responses(state, getters, rootState) {
-      if (!state.plan) return []
       if (!state.responses.length) return []
 
       const filtered = state.responses.filter(response => {

@@ -26,7 +26,8 @@
     </p>
 
     <p>
-      <md-checkbox :value="limit_to_plan" @change="set_limit_to_plan">Limit to plan</md-checkbox>
+      <md-checkbox :value="limit_to_plan" :disabled="!plan" @change="set_limit_to_plan">Limit to plan</md-checkbox>
+      <md-chip class="md-warn" v-if="!plan">There is no plan</md-chip>
     </p>
   </div>
 </template>
@@ -53,6 +54,7 @@
         spatial_aggregation_level: state => state.irs_monitor.dashboard_options.spatial_aggregation_level,
         temporal_aggregation_level: state => state.irs_monitor.dashboard_options.temporal_aggregation_level,
         limit_to_plan: state => state.irs_monitor.dashboard_options.limit_to_plan,
+        plan: state => state.irs_monitor.plan
       }),
       spatial_level_names() {
         return get_all_spatial_hierarchy_level_names()
