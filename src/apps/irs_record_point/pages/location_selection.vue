@@ -8,7 +8,7 @@
     <multiselect
       class="multiselect"
       v-if="!use_custom_location"
-      v-model="category"
+      v-model="area"
       :options="categories"
       placeholder="Select area"
       >
@@ -17,8 +17,8 @@
 
     <multiselect
       class="multiselect"
-      v-if="category && !use_custom_location"
-      v-model="selection"
+      v-if="area && !use_custom_location"
+      v-model="sub_area"
       :options="location_options"
       group-values="locations"
       group-label="category"
@@ -59,27 +59,27 @@
         _custom_location_selection: '',
         use_custom_location: false,
 
-        _selection: null
+        _sub_area: null
       }
     },
     computed: {
       // primary area selector
-      category: {
+      area: {
         get() {
-          return this.$store.state.irs_record_point.persisted_metadata.category
+          return this.$store.state.irs_record_point.persisted_metadata.area
         },
-        set(category_string) {
-          this.$store.commit('irs_record_point/set_persisted_metadata', {name: 'category', value: category_string})
+        set(area_string) {
+          this.$store.commit('irs_record_point/set_persisted_metadata', {name: 'area', value: area_string})
         }
       },
       // secondary area selector
-      selection: {
+      sub_area: {
         get() {
-          return this._selection
+          return this._sub_area
         },
-        set(selection_object) {
-          this._selection = selection_object
-          this.$emit('change', selection_object)
+        set(sub_area_object) {
+          this._sub_area = sub_area_object
+          this.$emit('change', sub_area_object)
         }
       },
 
@@ -99,7 +99,7 @@
         }
 
         // present locations for multiselect
-        const categories = uniq(result.map(r => r.category)).filter(c => c === this.category).sort()
+        const categories = uniq(result.map(r => r.category)).filter(c => c === this.area).sort()
 
         const nested = categories.map(category => {
           const matches = result
@@ -137,8 +137,8 @@
 
         if (this.initial_location_selection.hasOwnProperty('id')) {
           // initial_location_selection is an object for the multiselect
-          this.selection = this.initial_location_selection
-          this.category = this.find_category_for_selection(this.selection)
+          this.sub_area = this.initial_location_selection
+          this.area = this.find_area_for_sub_area(this.sub_area)
         } else {
           // it is a custom text property, use text input
           this.use_custom_location = true
@@ -146,7 +146,7 @@
         }
 
       } else {
-        this.$emit('change', this.selection)
+        this.$emit('change', this.sub_area)
       }
     },
     methods: {
@@ -159,7 +159,7 @@
 
         this._fuse =  new Fuse(this._all_locations, fuse_options)
       },
-      find_category_for_selection(selection) {
+      find_area_for_sub_area(selection) {
         const found = this._all_locations.find(l => l.id === selection.id)
         if (found) return found.category
       },
