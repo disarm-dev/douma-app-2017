@@ -93,7 +93,7 @@
         "name": "constituencies"
       },
       {
-        "group_by_field": "name",
+        "group_by_field": "constituency",
         "field_name": "id",
         "display_field_name": "name",
         "name": "villages"
