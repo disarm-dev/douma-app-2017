@@ -20,8 +20,6 @@
       v-if="area && !use_custom_location"
       v-model="sub_area"
       :options="location_options"
-      group-values="locations"
-      group-label="category"
       placeholder="Select sub-area"
       track-by="id"
       label="name"
@@ -91,33 +89,16 @@
         return uniq(all_categories).sort()
       },
       location_options() {
-        let result
+        let sub_areas
         if (this.search_query.length) {
-          result = this._fuse.search(this.search_query)
+          sub_areas = this._fuse.search(this.search_query)
         } else {
-          result = this._all_locations
+          sub_areas = this._all_locations
         }
 
-        // present locations for multiselect
-        const categories = uniq(result.map(r => r.category)).filter(c => c === this.area).sort()
+        const filtered_sub_areas = sub_areas.filter(({category}) =>  category === this.area)
 
-        const nested = categories.map(category => {
-          const matches = result
-            .filter(r => r.category === category)
-            .map(r => {
-              return {
-                name: r.name,
-                id: r.id
-              }
-            })
-
-          return {
-            category,
-            locations: matches
-          }
-        })
-
-        return nested
+        return filtered_sub_areas
       },
       custom_location_selection: {
         get() {
