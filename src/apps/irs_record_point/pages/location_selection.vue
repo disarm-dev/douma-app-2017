@@ -2,7 +2,7 @@
   <div>
     <md-card-header>
       <div v-if="use_custom_location">Enter location *</div>
-      <div v-else>* Select nearest location</div>
+      <div v-else>* Select area and sub-area</div>
     </md-card-header>
 
     <multiselect
@@ -59,7 +59,6 @@
         _custom_location_selection: '',
         use_custom_location: false,
 
-        hidden_category: '',
         _selection: null
       }
     },
@@ -111,6 +110,7 @@
                 id: r.id
               }
             })
+
           return {
             category,
             locations: matches
