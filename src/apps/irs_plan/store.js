@@ -4,6 +4,7 @@ import {create_plan, get_current_plan} from 'lib/models/plan/remote'
 import {Plan} from 'lib/models/plan/model'
 import {get_next_level_up_from_planning_level} from 'lib/instance_data/spatial_hierarchy_helper'
 import cache from 'config/cache'
+import {geodata_in_cache_and_valid} from 'lib/models/geodata/geodata.valid'
 
 export default {
   namespaced: true,
@@ -37,6 +38,11 @@ export default {
     },
     'selected_filter_area': (state, getters, rootState) => {
       if (!state.selected_filter_area_option) return null
+
+      if (!geodata_in_cache_and_valid()) {
+        console.warn("Dangerously returning while we're building geodata from indexeddb: cache not loading.")
+        return null
+      }
 
       const level = get_next_level_up_from_planning_level()
 
