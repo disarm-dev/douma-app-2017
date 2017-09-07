@@ -2,7 +2,7 @@
   <div>
     <md-card-header>
       <div v-if="use_custom_location">Enter location *</div>
-      <div v-else>Select nearest location *</div>
+      <div v-else>* Select nearest location</div>
     </md-card-header>
 
     <multiselect
