@@ -117,7 +117,7 @@
     created() {
       this.prepare_fuse()
 
-      if (this.initial_location_selection !== null) {
+      if (!this.initial_location_selection) {
         this.$emit('change', this.initial_location_selection)
 
         if (this.initial_location_selection.hasOwnProperty('id')) {
