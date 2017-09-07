@@ -77,7 +77,7 @@
     "slug": "nam"
   },
   "spatial_hierarchy": {
-    "data_version": 1,
+    "data_version": 2,
     "markers": {
       "planning_level_name": "villages",
       "record_location_selection_level_name": "villages",
@@ -93,7 +93,7 @@
         "name": "constituencies"
       },
       {
-        "group_by_field": "name",
+        "group_by_field": "constituency",
         "field_name": "id",
         "display_field_name": "name",
         "name": "villages"
