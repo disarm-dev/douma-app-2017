@@ -77,7 +77,7 @@
     "slug": "nam"
   },
   "spatial_hierarchy": {
-    "data_version": 1,
+    "data_version": 2,
     "markers": {
       "planning_level_name": "villages",
       "record_location_selection_level_name": "villages",
