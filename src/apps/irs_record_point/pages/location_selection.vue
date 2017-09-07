@@ -98,7 +98,11 @@
 
         const filtered_sub_areas = sub_areas.filter(({category}) =>  category === this.area)
 
-        return filtered_sub_areas
+        const sorted_sub_areas = filtered_sub_areas.sort((a, b) => {
+          return a.name < b.name ? -1 : a.name > b.name ? 1 : a.name >= b.name ? 0 : NaN;
+        })
+
+        return sorted_sub_areas
       },
       custom_location_selection: {
         get() {
