@@ -19,7 +19,7 @@ export default {
     filter: null,
     map_options: {
       show_response_points: true, 
-      selected_layer: 'risk'
+      selected_layer: 'normalised_risk'
     },
 
     dashboard_options: {
