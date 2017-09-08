@@ -1,7 +1,9 @@
 <template>
   <span>
     <md-card-header>
-      <div class="md-title">{{options.title}}</div>
+      <div class="md-subheading">
+        <b>{{options.title}}</b>
+      </div>
     </md-card-header>
     <md-card-content v-html="formatted_text">
     </md-card-content>

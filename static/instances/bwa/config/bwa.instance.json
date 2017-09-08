@@ -9,7 +9,21 @@
       "table": {
         "chart_type": "table",
         "bin_by": "location.selection.name",
-        "aggregation_names": ["number of rooms sprayed"]
+        "aggregation_names": [
+          "number of people in homestead (total)",
+          "number of people in the homestead (<5 yrs)",
+          "number of people in the homestead (>5 yrs)",
+          "number of buildings visited",
+          "number of rooms visited",
+          "number of rooms sprayed",
+          "number of rooms sprayed with DDT",
+          "number of rooms sprayed with lambda-cyhalothrin",
+          "number of other structures visited",
+          "Total other structures sprayed",
+          "number of rooms not sprayed",
+          "number of rooms not sprayed - locked",
+          "number of rooms not sprayed - locked (%)"
+        ]
       },
       "charts": [
         {

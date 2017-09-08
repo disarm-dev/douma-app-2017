@@ -24,6 +24,7 @@
 
 
         <md-radio :disabled="!responses.length" v-model="selected_layer" name="map-type" md-value="normalised_risk">Risk</md-radio>
+        <md-radio v-model="selected_layer" name="map-type" md-value="none">Nothing</md-radio>
 
       </div>
 
@@ -178,6 +179,10 @@
       },
       add_layer(layer_string) {
         this.clear_map()
+
+        if (layer_string === 'none') {
+          return
+        }
 
         const layer_type = get(layer_definitions, layer_string, layer_definitions['default_palette'])
 
