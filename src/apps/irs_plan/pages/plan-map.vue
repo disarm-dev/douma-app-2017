@@ -3,7 +3,7 @@
     <div id="map"></div>
     <map_legend
       :entries="entries_for_legend"
-      :title="risk_visible ? layer_definitions.risk.legend_title : plan_layer_definitions.selected_areas.legend_title"
+      :title="risk_visible ? layer_definitions.normalised_risk.legend_title : plan_layer_definitions.selected_areas.legend_title"
     ></map_legend>
 
     <md-checkbox :disabled='edit_mode' v-model="risk_visible">Show risk</md-checkbox>
