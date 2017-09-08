@@ -1,11 +1,11 @@
 <template>
   <div>
     <h3>Calculator</h3>
+    <p>Working with {{selected_target_area_ids.length}} {{planning_level_name}}, containing in total {{number_of_structures}} {{enumerable_name}}</p>
     <div>
       At a rate of <input class="slim-input" type="number" v-model="calculator.enumerables"/> {{enumerable_name}} per team per day, with  <input
       class="slim-input" type="number" v-model="calculator.teams"/> teams this would take {{days_to_spray}} days
     </div>
-    <p>Working with {{selected_target_area_ids.length}} {{planning_level_name}}, containing in total {{number_of_structures}} {{enumerable_name}}</p>
   </div>
 </template>
 
