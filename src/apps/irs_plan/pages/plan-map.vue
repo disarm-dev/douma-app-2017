@@ -123,7 +123,7 @@
       },
       entries_for_legend() {
         if (this.risk_visible) {
-          const layer_definition = layer_definitions.risk
+          const layer_definition = layer_definitions.normalised_risk
           const palette = prepare_palette(layer_definition)
 
           return palette.map((array) => {
@@ -521,7 +521,7 @@
         const areas_with_normalised_risk = featureCollection(features)
 
         // create stops
-        const stops = prepare_palette(layer_definitions.risk)
+        const stops = prepare_palette(layer_definitions.normalised_risk)
 
         this._map.addLayer({
           id: 'areas_by_risk',
