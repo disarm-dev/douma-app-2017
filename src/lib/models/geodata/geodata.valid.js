@@ -1,6 +1,7 @@
 import has from 'lodash.has'
+import {get} from 'lodash'
 
-import {get_all_spatial_hierarchy_level_names} from 'lib/instance_data/spatial_hierarchy_helper'
+import {get_all_spatial_hierarchy_level_names, get_data_version} from 'lib/instance_data/spatial_hierarchy_helper'
 import cache from 'config/cache'
 import geojson_validation from 'geojson-validation'
 
@@ -16,6 +17,9 @@ function geodata_in_cache_and_valid() {
   if (!all_levels_present) return false
   const is_valid_geojson = geodata_is_valid_geojson()
   if (!is_valid_geojson) return false
+    
+  const is_latest_version = geodata_is_latest_version()
+  if (!is_latest_version) return false
 
   check_geodata_features_not_zero_length()
 
@@ -59,4 +63,15 @@ function check_geodata_features_not_zero_length() {
   })
 }
 
-export {geodata_in_cache_and_valid, geodata_has_all_levels, geodata_has_level}
+function geodata_is_latest_version () {
+  const version_from_instance_config = get_data_version()
+  const version_from_idb = get(cache.geodata, '_version')
+  const is_latest_version = version_from_idb >= version_from_instance_config
+
+  console.log('geodata_is_latest_version', is_latest_version)
+  console.log('get(cache.geodata, \'_version\')', get(cache.geodata, '_version'))
+  console.log('get_data_version()', get_data_version())
+  return is_latest_version
+}
+
+export {geodata_in_cache_and_valid, geodata_has_all_levels, geodata_has_level, geodata_is_latest_version}
