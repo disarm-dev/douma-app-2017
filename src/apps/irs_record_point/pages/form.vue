@@ -55,7 +55,8 @@
       create_form() {
         const form_options = {
           ...this.$store.state.instance_config.form,
-          showNavigationButtons: false
+          goNextPageAutomatic: false,
+          showNavigationButtons: false,
         }
 
         // KNOCKOUT
