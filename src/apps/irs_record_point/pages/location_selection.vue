@@ -17,7 +17,8 @@
 
     <multiselect
       class="multiselect"
-      v-if="area && !use_custom_location"
+      v-if="!use_custom_location"
+      :disabled="!area"
       v-model="sub_area"
       :options="location_options"
       placeholder="Select sub-area"
