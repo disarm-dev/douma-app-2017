@@ -21,8 +21,8 @@
           "validators": [
             {
               "type": "numeric",
-              "minValue": 1,
-              "text": "Value must be one or greater"
+              "text": "Value must be one or greater",
+              "minValue": 1
             }
           ]
         }
@@ -119,8 +119,8 @@
           "validators": [
             {
               "type": "numeric",
-              "minValue": 1,
-              "text": "Minimum value must be one"
+              "text": "Minimum value must be one",
+              "minValue": 1
             }
           ]
         },
@@ -355,116 +355,116 @@
           "isRequired": true,
           "name": "unsprayed_reason",
           "title": "Reasons for not spraying rooms"
-        },
-        {
-          "type": "panel",
-          "name": "n_unsprayed_reason_partialspray",
-          "elements": [
-            {
-              "type": "text",
-              "inputType": "number",
-              "isRequired": true,
-              "name": "rooms_locked",
-              "placeHolder": "0",
-              "title": "Locked",
-              "visible": false,
-              "visibleIf": "{unsprayed_reason} contains 'locked'"
-            },
-            {
-              "type": "text",
-              "inputType": "number",
-              "isRequired": true,
-              "name": "n_rooms_nobody",
-              "placeHolder": "0",
-              "title": "No one home",
-              "visible": false,
-              "visibleIf": "{unsprayed_reason} contains 'no_one_home'"
-            },
-            {
-              "type": "text",
-              "inputType": "number",
-              "isRequired": true,
-              "name": "n_rooms_refused",
-              "placeHolder": "0",
-              "title": "Head of household refused",
-              "visible": false,
-              "visibleIf": "{unsprayed_reason} contains 'hh_refused'"
-            },
-            {
-              "type": "text",
-              "inputType": "number",
-              "isRequired": true,
-              "name": "n_rooms_baby",
-              "placeHolder": "0",
-              "title": "There is a newborn",
-              "visible": false,
-              "visibleIf": "{unsprayed_reason} contains 'newborn'"
-            },
-            {
-              "type": "text",
-              "inputType": "number",
-              "isRequired": true,
-              "name": "n_rooms_funeral",
-              "placeHolder": "0",
-              "title": "There is a funeral",
-              "visible": false,
-              "visibleIf": "{unsprayed_reason} contains 'funeral'"
-            },
-            {
-              "type": "text",
-              "inputType": "number",
-              "isRequired": true,
-              "name": "n_rooms_kitchen",
-              "placeHolder": "0",
-              "title": "Room is a kitchen",
-              "visible": false,
-              "visibleIf": "{unsprayed_reason} contains 'kitchen'"
-            },
-            {
-              "type": "text",
-              "inputType": "number",
-              "isRequired": true,
-              "name": "n_rooms_food",
-              "placeHolder": "0",
-              "title": "Room is a food store",
-              "visible": false,
-              "visibleIf": "{unsprayed_reason} contains 'food_store'"
-            },
-            {
-              "type": "text",
-              "inputType": "number",
-              "isRequired": true,
-              "name": "n_rooms_patient",
-              "placeHolder": "0",
-              "title": "There is a patient or elderly person in the home",
-              "visible": false,
-              "visibleIf": "{unsprayed_reason} contains 'patient_elderly'"
-            },
-            {
-              "type": "text",
-              "inputType": "number",
-              "isRequired": true,
-              "name": "n_rooms_material",
-              "placeHolder": "0",
-              "title": "Room was not sprayable due to material (ie canvas)",
-              "visible": false,
-              "visibleIf": "{unsprayed_reason} contains 'material'"
-            },
-            {
-              "type": "text",
-              "inputType": "number",
-              "isRequired": true,
-              "name": "n_rooms_other",
-              "placeHolder": "0",
-              "title": "Other reason",
-              "visible": false,
-              "visibleIf": "{unsprayed_reason} contains 'other'"
-            }
-          ],
-          "title": "Of the number of unsprayed rooms, please list the number of rooms unsprayed for each reason:"
         }
       ],
       "name": "UNSPRAYED details 2",
+      "visible": false,
+      "visibleIf": "{n_unsprayed} > 0"
+    },
+    {
+      "elements": [
+        {
+          "type": "text",
+          "inputType": "number",
+          "isRequired": true,
+          "name": "n_rooms_other",
+          "placeHolder": "0",
+          "title": "Other reason",
+          "visible": false,
+          "visibleIf": "{unsprayed_reason} contains 'other'"
+        },
+        {
+          "type": "text",
+          "inputType": "number",
+          "isRequired": true,
+          "name": "n_rooms_patient",
+          "placeHolder": "0",
+          "title": "There is a patient or elderly person in the home",
+          "visible": false,
+          "visibleIf": "{unsprayed_reason} contains 'patient_elderly'"
+        },
+        {
+          "type": "text",
+          "inputType": "number",
+          "isRequired": true,
+          "name": "n_rooms_food",
+          "placeHolder": "0",
+          "title": "Room is a food store",
+          "visible": false,
+          "visibleIf": "{unsprayed_reason} contains 'food_store'"
+        },
+        {
+          "type": "text",
+          "inputType": "number",
+          "isRequired": true,
+          "name": "n_rooms_kitchen",
+          "placeHolder": "0",
+          "title": "Room is a kitchen",
+          "visible": false,
+          "visibleIf": "{unsprayed_reason} contains 'kitchen'"
+        },
+        {
+          "type": "text",
+          "inputType": "number",
+          "isRequired": true,
+          "name": "n_rooms_funeral",
+          "placeHolder": "0",
+          "title": "There is a funeral",
+          "visible": false,
+          "visibleIf": "{unsprayed_reason} contains 'funeral'"
+        },
+        {
+          "type": "text",
+          "inputType": "number",
+          "isRequired": true,
+          "name": "n_rooms_baby",
+          "placeHolder": "0",
+          "title": "There is a newborn",
+          "visible": false,
+          "visibleIf": "{unsprayed_reason} contains 'newborn'"
+        },
+        {
+          "type": "text",
+          "inputType": "number",
+          "isRequired": true,
+          "name": "n_rooms_nobody",
+          "placeHolder": "0",
+          "title": "No one home",
+          "visible": false,
+          "visibleIf": "{unsprayed_reason} contains 'no_one_home'"
+        },
+        {
+          "type": "text",
+          "inputType": "number",
+          "isRequired": true,
+          "name": "rooms_locked",
+          "placeHolder": "0",
+          "title": "Locked",
+          "visible": false,
+          "visibleIf": "{unsprayed_reason} contains 'locked'"
+        },
+        {
+          "type": "text",
+          "inputType": "number",
+          "isRequired": true,
+          "name": "n_rooms_refused",
+          "placeHolder": "0",
+          "title": "Head of household refused",
+          "visible": false,
+          "visibleIf": "{unsprayed_reason} contains 'hh_refused'"
+        },
+        {
+          "type": "text",
+          "inputType": "number",
+          "isRequired": true,
+          "name": "n_rooms_material",
+          "placeHolder": "0",
+          "title": "Room was not sprayable due to material (ie canvas)",
+          "visible": false,
+          "visibleIf": "{unsprayed_reason} contains 'material'"
+        }
+      ],
+      "name": "UNSPRAYED details 3",
       "visible": false,
       "visibleIf": "{n_unsprayed} > 0"
     },
