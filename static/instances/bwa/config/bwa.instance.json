@@ -123,10 +123,10 @@
       "title": "Dashboard"
     },
     "irs_plan": {
-      "title": "IRS Planning and Management"
+      "title": "Planning + Management"
     },
     "irs_record_point": {
-      "title": "IRS Data Collection and Reporting Tool",
+      "title": "Data Collection + Reporting",
       "metadata": {
         "show": true,
         "optional_fields": []
