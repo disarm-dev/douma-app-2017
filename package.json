@@ -70,6 +70,7 @@
     "random-points-on-polygon": "0.0.4",
     "raven-js": "^3.15.0",
     "showdown": "^1.7.1",
+    "strip-json-comments": "^2.0.1",
     "strip-json-comments-loader": "0.0.2",
     "survey-knockout": "^0.12.23",
     "sw-offline-google-analytics": "0.0.19",

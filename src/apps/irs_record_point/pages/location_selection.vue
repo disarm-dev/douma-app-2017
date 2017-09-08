@@ -17,7 +17,8 @@
 
     <multiselect
       class="multiselect"
-      v-if="area && !use_custom_location"
+      v-if="!use_custom_location"
+      :disabled="!area"
       v-model="sub_area"
       :options="location_options"
       placeholder="Select sub-area"
@@ -117,10 +118,10 @@
     created() {
       this.prepare_fuse()
 
-      if (!this.initial_location_selection) {
+      if (this.initial_location_selection) {
         this.$emit('change', this.initial_location_selection)
 
-        if (this.initial_location_selection.hasOwnProperty('id')) {
+        if (Object.prototype.hasOwnProperty.call(this.initial_location_selection, 'id')) {
           // initial_location_selection is an object for the multiselect
           this.sub_area = this.initial_location_selection
           this.area = this.find_area_for_sub_area(this.sub_area)

@@ -1,5 +1,14 @@
 <template>
-  <div :id="chart_id"></div>
+  <div>
+
+    <md-card-header>
+      <div class="md-subheading">
+        <b>{{options.layout.title}}</b>
+      </div>
+    </md-card-header>
+
+    <div :id="chart_id"></div>
+  </div>
 </template>
 
 <script>
@@ -40,6 +49,8 @@
         }
 
         const layout = {...layout_defaults, ...this.options.layout}
+
+        delete layout.title
 
         // Plotly#newPlot can be called multiple times, will update data, but not layout
         Plotly.newPlot(this.chart_id, data, layout, {displayModeBar: this.options.layout.displayModeBar || false}).then((plot) => {

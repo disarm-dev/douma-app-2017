@@ -27,7 +27,7 @@
 
     <p>
       <md-checkbox :value="limit_to_plan" :disabled="!plan" @change="set_limit_to_plan">Limit to plan</md-checkbox>
-      <md-chip class="md-warn" v-if="!plan">There is no plan</md-chip>
+      <md-chip class="md-warn" v-if="!plan">No plan loaded</md-chip>
     </p>
   </div>
 </template>

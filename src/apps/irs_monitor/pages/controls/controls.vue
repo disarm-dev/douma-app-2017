@@ -1,12 +1,16 @@
 <template>
   <md-card class="card filter_select">
     <md-card-header>
-      <div class="md-title" @click="show_filters = !show_filters">Controls</div>
+      <div class="md-title" @click="show_filters = !show_filters">
+        <md-icon v-if="show_filters">keyboard_arrow_down</md-icon>
+        <md-icon v-else>keyboard_arrow_right</md-icon>
+        Filters
+      </div>
     </md-card-header>
 
     <md-card-content v-show="show_filters">
       <aggregation_settings></aggregation_settings>
-      <filters :responses="responses"></filters>
+      <!--<filters :responses="responses"></filters>-->
     </md-card-content>
 
   </md-card>

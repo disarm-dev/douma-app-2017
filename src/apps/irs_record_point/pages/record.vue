@@ -43,7 +43,7 @@
           ref="validation_result"
           :validations='validation_result'
           :survey="survey"
-          v-on:show_location="go_to_location_view"
+          v-on:show_location="go_back_to_location_view"
         ></review>
         <md-card-actions>
           <md-button @click.native="show_validation_result = false">Hide</md-button>
@@ -268,7 +268,8 @@
           this.current_view = this.pages[this.current_index - 1]
         }
       },
-      go_to_location_view() {
+      go_back_to_location_view() {
+        this.survey.currentPage = this.survey.pages[0]
         const location_index = this.pages.findIndex(page => page === 'location')
         this.current_view = this.pages[location_index]
       },
