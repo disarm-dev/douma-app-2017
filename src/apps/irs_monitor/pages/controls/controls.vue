@@ -1,7 +1,7 @@
 <template>
   <md-card class="card filter_select">
     <md-card-header>
-      <div class="md-title" @click="show_filters = !show_filters">Controls</div>
+      <div class="md-title" @click="show_filters = !show_filters">Filters</div>
     </md-card-header>
 
     <md-card-content v-show="show_filters">
@@ -33,7 +33,7 @@
     },
   }
 </script>
-
+m
 <style scoped>
 
 </style>
