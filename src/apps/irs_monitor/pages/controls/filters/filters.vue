@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!--<field_filters :responses="responses"></field_filters>-->
+    <field_filters :responses="responses"></field_filters>
 
     <temporal_filter></temporal_filter>
 

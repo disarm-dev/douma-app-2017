@@ -10,7 +10,7 @@
 
     <md-card-content v-show="show_filters">
       <aggregation_settings></aggregation_settings>
-      <filters :responses="responses"></filters>
+      <!--<filters :responses="responses"></filters>-->
     </md-card-content>
 
   </md-card>

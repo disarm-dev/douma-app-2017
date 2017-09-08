@@ -10,6 +10,7 @@
         "chart_type": "table",
         "bin_by": "location.selection.name",
         "aggregation_names": [
+          "number of rooms targeted",
           "number of people in homestead (total)",
           "number of people in the homestead (<5 yrs)",
           "number of people in the homestead (>5 yrs)",
@@ -21,8 +22,27 @@
           "number of other structures visited",
           "Total other structures sprayed",
           "number of rooms not sprayed",
+          "number of rooms not sprayable (N)",
+          "number of rooms not sprayable (%)",
+          "Number of sprayable rooms not sprayed",
+
+          // Refusal reasons
           "number of rooms not sprayed - locked",
-          "number of rooms not sprayed - locked (%)"
+          "number of rooms not sprayed - locked (%)",
+          "number of rooms not sprayed - nobody",
+          "number of rooms not sprayed - nobody (%)",
+          "number of rooms not sprayed - refusal",
+          "number of rooms not sprayed - refusal (%)",
+          "number of rooms not sprayed - baby",
+          "number of rooms not sprayed - baby (%)",
+          "number of rooms not sprayed - patient",
+          "number of rooms not sprayed - patient (%)",
+          "number of rooms not sprayed - funeral",
+          "number of rooms not sprayed - funeral (%)",
+          "number of rooms not sprayed - kitchen",
+          "number of rooms not sprayed - kitchen (%)",
+          "number of rooms not sprayed - food storage",
+          "number of rooms not sprayed - food storage (%)"
         ]
       },
       "charts": [
