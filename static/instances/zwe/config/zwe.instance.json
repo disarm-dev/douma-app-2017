@@ -22,7 +22,7 @@
           "risk"
         ],
         "response_point_fields": [
-
+          "recorded_on"
         ]
       },
       "table": {

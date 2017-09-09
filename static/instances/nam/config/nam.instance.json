@@ -8,7 +8,7 @@
           "structures sprayed %"
         ],
         "response_point_fields": [
-
+          "recorded_on"
         ]
       },
       "table": {
