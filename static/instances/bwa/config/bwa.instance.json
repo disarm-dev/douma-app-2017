@@ -225,7 +225,14 @@
       "title": "Dashboard"
     },
     "irs_plan": {
-      "title": "Planning + Management"
+      "title": "Planning + Management",
+      "table_output": [
+        {"display_name": "District name", "source_field": "name_2"},
+        {"display_name": "Village name", "source_field": "VILLAGE"},
+        {"display_name": "Number of buildings enumerated", "source_field": "NumStrct"},
+        {"display_name": "Estimated number of rooms", "source_field": "NumRooms"},
+        {"display_name": "Predicted risk", "source_field": "risk"}
+      ]
     },
     "irs_record_point": {
       "title": "Data Collection + Reporting",
