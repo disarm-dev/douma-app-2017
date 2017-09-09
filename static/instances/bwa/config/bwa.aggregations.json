@@ -19,11 +19,11 @@
   },
   {
     "name": "number of buildings visited",
-    "numerator_expr": "n_buildings"
+    "numerator_expr": "number_of_buildings_in_homesteads"
   },
   {
     "name": "number of rooms visited",
-    "numerator_expr": "room_count"
+    "numerator_expr": "number_of_rooms"
   },
   {
     "name": "number of rooms sprayed",
@@ -47,7 +47,7 @@
   },
   {
     "name": "number of rooms not sprayed",
-    "numerator_expr": "n_unsprayed"
+    "numerator_expr": "number_of_rooms_not_sprayed"
   },
   {
     "name": "number of rooms not sprayable (N)",
@@ -56,11 +56,11 @@
   {
     "name": "number of rooms not sprayable (%)",
     "numerator_expr": "n_rooms_material",
-    "denominator_field": "n_unsprayed"
+    "denominator_field": "number_of_rooms_not_sprayed"
   },
   {
     "name": "Number of sprayable rooms not sprayed",
-    "numerator_expr": "n_unsprayed - n_rooms_material"
+    "numerator_expr": "number_of_rooms_not_sprayed - n_rooms_material"
   },
 
   // Refusal reasons below
@@ -73,7 +73,7 @@
   {
     "name": "number of rooms not sprayed - locked (%)",
     "numerator_expr": "rooms_locked",
-    "denominator_field": "n_unsprayed"
+    "denominator_field": "number_of_rooms_not_sprayed"
   },
 
   // Nobody
@@ -84,7 +84,7 @@
   {
     "name": "number of rooms not sprayed - nobody (%)",
     "numerator_expr": "n_rooms_nobody",
-    "denominator_field": "n_unsprayed"
+    "denominator_field": "number_of_rooms_not_sprayed"
   },
 
   // refusal
@@ -95,7 +95,7 @@
   {
     "name": "number of rooms not sprayed - refusal (%)",
     "numerator_expr": "n_rooms_refused",
-    "denominator_field": "n_unsprayed"
+    "denominator_field": "number_of_rooms_not_sprayed"
   },
 
   // baby
@@ -106,7 +106,7 @@
   {
     "name": "number of rooms not sprayed - baby (%)",
     "numerator_expr": "n_rooms_baby",
-    "denominator_field": "n_unsprayed"
+    "denominator_field": "number_of_rooms_not_sprayed"
   },
 
   // patient
@@ -117,7 +117,7 @@
   {
     "name": "number of rooms not sprayed - patient (%)",
     "numerator_expr": "n_rooms_patient",
-    "denominator_field": "n_unsprayed"
+    "denominator_field": "number_of_rooms_not_sprayed"
   },
 
   // funeral
@@ -128,7 +128,7 @@
   {
     "name": "number of rooms not sprayed - funeral (%)",
     "numerator_expr": "n_rooms_funeral",
-    "denominator_field": "n_unsprayed"
+    "denominator_field": "number_of_rooms_not_sprayed"
   },
 
   // kitchen
@@ -139,7 +139,7 @@
   {
     "name": "number of rooms not sprayed - kitchen (%)",
     "numerator_expr": "n_rooms_kitchen",
-    "denominator_field": "n_unsprayed"
+    "denominator_field": "number_of_rooms_not_sprayed"
   },
 
   // food storage
@@ -150,7 +150,7 @@
   {
     "name": "number of rooms not sprayed - food storage (%)",
     "numerator_expr": "n_rooms_food",
-    "denominator_field": "n_unsprayed"
+    "denominator_field": "number_of_rooms_not_sprayed"
   }
 ]
 

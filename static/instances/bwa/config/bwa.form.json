@@ -16,7 +16,7 @@
           "type": "text",
           "inputType": "number",
           "isRequired": true,
-          "name": "n_buildings",
+          "name": "number_of_buildings_in_homesteads",
           "title": "How many buildings are in this homestead?",
           "validators": [
             {
@@ -114,7 +114,7 @@
           "type": "text",
           "inputType": "number",
           "isRequired": true,
-          "name": "room_count",
+          "name": "number_of_rooms",
           "title": "How many rooms are in this homestead?  (Count all rooms in all buildings)",
           "validators": [
             {
@@ -297,7 +297,7 @@
           "type": "text",
           "inputType": "number",
           "isRequired": true,
-          "name": "n_unsprayed",
+          "name": "number_of_rooms_not_sprayed",
           "title": "How many rooms were NOT sprayed?",
           "validators": [
             {
@@ -359,7 +359,7 @@
       ],
       "name": "UNSPRAYED details 2",
       "visible": false,
-      "visibleIf": "{n_unsprayed} > 0"
+      "visibleIf": "{number_of_rooms_not_sprayed} > 0"
     },
     {
       "elements": [
@@ -466,7 +466,7 @@
       ],
       "name": "UNSPRAYED details 3",
       "visible": false,
-      "visibleIf": "{n_unsprayed} > 0"
+      "visibleIf": "{number_of_rooms_not_sprayed} > 0"
     },
     {
       "elements": [

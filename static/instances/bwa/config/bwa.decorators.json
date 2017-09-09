@@ -1,14 +1,14 @@
 {
   "status": [
-    {"pink": "n_rooms_material == room_count"},
+    {"blue": "n_rooms_material == number_of_rooms"},
     {"red": "any_sprayed == 'no'"},
-    {"yellow": "room_count > number_sprayed"},
-    {"green": "room_count == number_sprayed"}
+    {"yellow": "number_of_rooms > number_sprayed"},
+    {"green": "number_of_rooms == number_sprayed"}
   ],
   "sprayed_status": [
-    {"not sprayable": "n_rooms_material == room_count"},
+    {"not sprayable": "n_rooms_material == number_of_rooms"},
     {"not sprayed": "any_sprayed == 'no'"},
-    {"partial": "room_count > number_sprayed"},
-    {"sprayed": "room_count == number_sprayed"}
+    {"partial": "number_of_rooms > number_sprayed"},
+    {"sprayed": "number_of_rooms == number_sprayed"}
   ]
 }

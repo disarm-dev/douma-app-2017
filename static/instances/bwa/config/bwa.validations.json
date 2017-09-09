@@ -1,13 +1,13 @@
 [
   {
-    "expression": "n_unsprayed == (rooms_locked + n_rooms_nobody + n_rooms_refused + n_rooms_baby + n_rooms_patient + n_rooms_funeral + n_rooms_kitchen + n_rooms_food + n_rooms_material + n_rooms_other)",
+    "expression": "number_of_rooms_not_sprayed == (rooms_locked + n_rooms_nobody + n_rooms_refused + n_rooms_baby + n_rooms_patient + n_rooms_funeral + n_rooms_kitchen + n_rooms_food + n_rooms_material + n_rooms_other)",
     "message": "Reasons for rooms unsprayed must = total # of rooms unsprayed.",
     "name": "rooms_unsprayed_refusal_count",
     "precondition": "",
     "type": "error"
   },
   {
-    "expression": "room_count == (number_rooms_modern + number_rooms_traditional)",
+    "expression": "number_of_rooms == (number_rooms_modern + number_rooms_traditional)",
     "message": "Modern + traditional rooms must = total rooms",
     "name": "number_of_rooms",
     "precondition": null,
@@ -28,14 +28,14 @@
     "type": "warning"
   },
   {
-    "expression": "room_count < 51",
+    "expression": "number_of_rooms < 51",
     "message": "Is this the correct # of rooms in this homestead?",
     "name": "max_number_of_rooms",
     "precondition": "",
     "type": "warning"
   },
   {
-    "expression": " number_sprayed <= room_count",
+    "expression": " number_sprayed <= number_of_rooms",
     "message": "# rooms sprayed must be < or = to total # of rooms",
     "name": "numer_of_rooms_sprayed_total",
     "precondition": "",
@@ -63,9 +63,9 @@
     "type": "error"
   },
   {
-    "expression": "(n_unsprayed + number_sprayed) == room_count",
+    "expression": "(number_of_rooms_not_sprayed + number_sprayed) == number_of_rooms",
     "message": "sprayed + unsprayed rooms must = total room count",
-    "name": "room_count_sprayed_unsprayed",
+    "name": "number_of_rooms_sprayed_unsprayed",
     "precondition": "",
     "type": "error"
   }
