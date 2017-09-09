@@ -42,6 +42,7 @@
   import numeral from 'numeral'
   import {Popup} from 'mapbox-gl'
   import {get} from 'lodash'
+  import flatten_object from 'flat'
 
   import {basic_map} from 'lib/helpers/basic_map.js'
   import map_legend from 'components/map_legend.vue'
@@ -238,7 +239,7 @@
         this._click_handler = (e) => {
           e.originalEvent.stopPropagation()
           const feature = this._map.queryRenderedFeatures(e.point)[0]
-
+          console.log(feature)
           if (feature) {
             new Popup({closeOnClick: true})
               .setLngLat(e.lngLat)
@@ -279,9 +280,7 @@
           if (!latitude || !longitude) return null
 
           let coords_point = point([longitude, latitude])
-
-          coords_point.properties = response._decorated
-          coords_point.properties.id = response.id
+          coords_point.properties = flatten_object(response)// {...response.form_data, ...response._decorated}
 
           return coords_point
         }).filter(a => a)
@@ -316,13 +315,18 @@
 
           const feature = this._map.queryRenderedFeatures(e.point)[0]
 
+          const html = Object.keys(feature.properties)
+            .filter(property_name => {
+              return this.instance_config.applets.irs_monitor.map.response_point_fields.includes(property_name)
+            })
+            .map(key => {
+              return `<div>${key} : ${feature.properties[key]}</div>`
+            })
+
           if (feature) {
             new Popup({closeOnClick: true})
               .setLngLat(e.lngLat)
-              .setHTML(`
-                <p><b>${feature.properties.id}</b></p>
-                <p>${JSON.stringify(feature.properties)}</p>
-              `)
+              .setHTML(html.join(''))
               .addTo(this._map);
           }
         }

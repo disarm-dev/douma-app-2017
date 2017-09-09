@@ -6,6 +6,9 @@
         "bin_by": "location.selection.id",
         "aggregation_names": [
           "structures sprayed %"
+        ],
+        "response_point_fields": [
+
         ]
       },
       "table": {

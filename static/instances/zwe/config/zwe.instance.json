@@ -20,6 +20,9 @@
         ],
         "property_layers": [
           "risk"
+        ],
+        "response_point_fields": [
+
         ]
       },
       "table": {

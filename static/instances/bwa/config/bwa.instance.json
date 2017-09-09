@@ -4,7 +4,12 @@
       "map": {
         "chart_type": "map",
         "bin_by": "location.selection.id",
-        "aggregation_names": ["number of rooms sprayed"]
+        "aggregation_names": ["number of rooms sprayed"],
+        "response_point_fields": [
+          "recorded_on",
+          "form_data.n_buildings",
+          "form_data.room_count"
+        ]
       },
       "table": {
         "chart_type": "table",
