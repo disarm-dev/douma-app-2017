@@ -80,7 +80,7 @@
             ],
             "layout": {
               "showlegend": true,
-              "title": "Proportion of rooms sprayed / total number of rooms visited",
+              "title": "Room coverage as % of target",
               "yaxis": {
                 "title": "% coverage"
               },
@@ -97,8 +97,51 @@
           }
         },
         {
-
+          "id": "spray_status_absolute",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "layout": {
+              "showlegend": true,
+              "title": "Spray status",
+              "yaxis": {
+                "title": "# of rooms"
+              },
+              "xaxis": {
+                "title": "Spray status"
+              }
+            },
+            "chart_type": "bar",
+            "bin_by": "_decorated.sprayed_status",
+            "single_series": {
+              "aggregation_name": "count"
+            }
+          }
+        },
+        {
           "id": "spray_status_pie",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "layout": {
+              "title": "Sprayed status proportion"
+            },
+            "chart_type": "pie",
+            "bin_by": "_decorated.sprayed_status",
+            "series": [
+              {
+                "aggregation_name": "count"
+              }
+            ]
+          }
+        },
+        {
+
+          "id": "spray_status_pie_reason",
           "style": {
             "height_constraint": "none",
             "width_constraint": "half"
@@ -117,6 +160,40 @@
             "series": [{
               "aggregation_name": "count"
             }]
+          }
+        },
+        {
+          "id": "room_coverage_by_week",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "chart_type": "bar",
+            "time_series": true,
+            "cumulative": true,
+            "bin_by": "recorded_on",
+            "layout": {
+              "showlegend": true,
+              "title": "Spray room coverage",
+              "yaxis": {
+                "title": "# of rooms"
+              },
+              "xaxis": {
+                "title": "Period commencing"
+              },
+              "barmode": "stack"
+            },
+            "multi_series": [
+              {
+                "aggregation_name": "number of rooms sprayed",
+                "colour": "green"
+              },
+              {
+                "aggregation_name": "number of rooms not sprayed",
+                "colour": "red"
+              }
+            ]
           }
         },
         {
