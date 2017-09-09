@@ -280,7 +280,7 @@
           if (!latitude || !longitude) return null
 
           let coords_point = point([longitude, latitude])
-          coords_point.properties = flatten_object(response)// {...response.form_data, ...response._decorated}
+          coords_point.properties = {...response._decorated, ...flatten_object(response)}// {...response.form_data, ...response._decorated}
 
           return coords_point
         }).filter(a => a)
