@@ -7,11 +7,11 @@
         "aggregation_names": ["number of rooms sprayed"],
         "response_point_fields": [
           "recorded_on",
-          "form_data.n_buildings",
-          "form_data.room_count",
+          "form_data.number_of_buildings_in_homesteads",
+          "form_data.number_of_rooms",
           "_decorated.sprayed_status",
           "form_data.number_sprayed",
-          "form_data.n_unsprayed"
+          "form_data.number_of_rooms_not_sprayed"
         ]
       },
       "table": {
