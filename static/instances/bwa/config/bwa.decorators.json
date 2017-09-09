@@ -1,6 +1,6 @@
 {
   "status": [
-    {"pink": "n_rooms_material == room_count"},
+    {"blue": "n_rooms_material == room_count"},
     {"red": "any_sprayed == 'no'"},
     {"yellow": "room_count > number_sprayed"},
     {"green": "room_count == number_sprayed"}
