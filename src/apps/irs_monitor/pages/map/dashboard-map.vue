@@ -43,6 +43,7 @@
   import {Popup} from 'mapbox-gl'
   import {get} from 'lodash'
   import flatten_object from 'flat'
+  import moment from 'moment-mini'
 
   import {basic_map} from 'lib/helpers/basic_map.js'
   import map_legend from 'components/map_legend.vue'
@@ -320,8 +321,15 @@
               return this.instance_config.applets.irs_monitor.map.response_point_fields.includes(property_name)
             })
             .map(key => {
-              const title = key.replace(/(form_data|_decorated)\./, '').replace(/_/,' ')
-              return `<div>${title} : ${feature.properties[key]}</div>`
+              let title = key, value = feature.properties[key]
+
+              if (key === 'recorded_on') {
+                value = moment(feature.properties[key]).format('YYYY MM DDD')
+              } else {
+                title = title.replace(/(form_data|_decorated)\./, '').replace(/_/,' ')
+              }
+
+              return `<div>${title} : ${value}</div>`
             })
 
           if (feature) {
