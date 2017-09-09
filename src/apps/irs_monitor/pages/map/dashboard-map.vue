@@ -320,7 +320,8 @@
               return this.instance_config.applets.irs_monitor.map.response_point_fields.includes(property_name)
             })
             .map(key => {
-              return `<div>${key} : ${feature.properties[key]}</div>`
+              const title = key.replace(/(form_data|_decorated)\./, '')
+              return `<div>${title} : ${feature.properties[key]}</div>`
             })
 
           if (feature) {
