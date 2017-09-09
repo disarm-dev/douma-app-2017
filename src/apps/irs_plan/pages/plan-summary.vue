@@ -55,7 +55,7 @@
           }, {})
         })
 
-        const columns = Object.keys(data[0])
+        const columns = Object.keys(data[0] || {})
         return {data, columns}
       },
     },
