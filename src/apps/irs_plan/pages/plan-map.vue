@@ -185,7 +185,10 @@
       add_map_listeners() {
         this.remove_map_listeners()
         this.handler.click = (e) => {
-          const feature = this._map.queryRenderedFeatures(e.point, {layers: ['selected', 'unselected', 'bulk_selected', 'bulk_unselected']})[0]
+          const features = this._map.queryRenderedFeatures(e.point, {layers: ['selected', 'unselected', 'bulk_selected', 'bulk_unselected']})
+          if (!features) return
+
+          const feature = features[0]
 
           if (feature) {
             const feature_id = feature.properties.__disarm_geo_id
@@ -200,7 +203,8 @@
 
         this.handler.move = (e) => {
           const features = this._map.queryRenderedFeatures(e.point, {layers: ['selected', 'unselected']})
-          this._map.getCanvas().style.cursor = features.length ? 'pointer' : ''
+          if (features)
+            this._map.getCanvas().style.cursor = features.length ? 'pointer' : ''
         }
 
         // Add cursor/pointer handler
