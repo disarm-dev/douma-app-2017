@@ -10,8 +10,8 @@
 
           <!-- DOWNLOAD STATUS-->
           <md-avatar>
-            <md-icon v-if="loading_progress[level].status == 'complete'" class="success">check_circle</md-icon>
-            <md-icon v-else-if="loading_progress[level].status == 'update_available'" class="md-warn">update</md-icon>
+            <md-icon v-if="loading_progress[level].status === 'complete'" class="success">check_circle</md-icon>
+            <md-icon v-else-if="loading_progress[level].status === 'update_available'" class="md-warn">update</md-icon>
             <span v-else-if="isLoading(`geodata/${level}`)"><md-spinner md-indeterminate class="md-accent" :md-size="30"></md-spinner></span>
             <md-icon v-else class="md-warn">error</md-icon>
           </md-avatar>
@@ -19,6 +19,7 @@
 
           <!-- LEVEL NAME -->
           <span>
+            <md-chip v-if="loading_progress[level].status === 'update_available'" class="md-warn"> update available</md-chip>
             {{level}}
             <span v-if="loading_progress[level].total">{{loading_progress[level].total}}</span>
             <span v-if="loading_progress[level].progress">{{loading_progress[level].progress}}</span>
@@ -28,7 +29,7 @@
           <!--DOWNLOAD BUTTON -->
           <md-button
             @click.native="retrieve_geodata_for(level)"
-            :disabled="isLoading(`geodata/${level}`) || loading_progress[level].status == 'complete'"
+            :disabled="isLoading(`geodata/${level}`) || loading_progress[level].status === 'complete'"
             class="md-dense list-button md-raised md-primary"
           >
             Download
@@ -51,7 +52,7 @@
   import bytes from 'bytes'
 
   import {get_all_spatial_hierarchy_level_names} from 'lib/instance_data/spatial_hierarchy_helper'
-  import {geodata_has_level, geodata_outdated, geodata_level_version_matches_instance_config } from 'lib/models/geodata/geodata.valid'
+  import {geodata_has_level, geodata_versions_correct, geodata_level_version_matches_instance_config } from 'lib/models/geodata/geodata.valid'
   import {get_geodata_for} from 'lib/models/geodata/remote'
   import {get_and_store_locally_geodata_for} from 'lib/models/geodata/remote'
   import {hydrate_geodata_cache_from_idb} from "lib/models/geodata/local.geodata_store";

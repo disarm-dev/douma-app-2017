@@ -1,4 +1,4 @@
-import {geodata_outdated} from "lib/models/geodata/geodata.valid"
+import {geodata_versions_correct} from "lib/models/geodata/geodata.valid"
 
 describe('geodata outdated', () => {
   it('returns false if versions for all levels do not match required', () => {
@@ -13,7 +13,7 @@ describe('geodata outdated', () => {
 
     const required_version = 1
 
-    const result = geodata_outdated(geodata, required_version)
+    const result = geodata_versions_correct(geodata, required_version)
 
     assert.isFalse(result)
 
@@ -31,7 +31,7 @@ describe('geodata outdated', () => {
 
     const required_version = 1
 
-    const result = geodata_outdated(geodata, required_version)
+    const result = geodata_versions_correct(geodata, required_version)
 
     assert.isTrue(result)
   })
@@ -47,7 +47,7 @@ describe('geodata outdated', () => {
 
     const required_version = 1
 
-    const result = geodata_outdated(geodata, required_version)
+    const result = geodata_versions_correct(geodata, required_version)
 
     assert.isFalse(result)
   })

@@ -10,25 +10,25 @@ import {versions_match} from "lib/models/geodata/geodata.versions"
  * @returns {boolean}
  */
 function geodata_in_cache_and_valid() {
+  // TODO: @feature We want to pass in geodata and not rely on cache.geodata
+
   if (!Object.keys(cache.geodata).length) {
     return false
   }
 
+  // Check geodata valida
   const all_levels_present = geodata_has_all_levels()
-  if (!all_levels_present) return false
   const is_valid_geojson = geodata_is_valid_geojson()
-  if (!is_valid_geojson) return false
-    
-  if (geodata_outdated()) {
-    console.log('Not on latest geodata version')
-    return false
-  }
+
+
+  // Check geodata version
+  const required_version = get_data_version()
+  const versions_correct = geodata_versions_correct(cache.geodata, required_version)
 
   // This logs a warning if the geodata is empty
   check_geodata_features_not_zero_length()
 
-  // All other checks return false, so return true here
-  return true
+  return all_levels_present && is_valid_geojson && versions_correct
 }
 
 /**
@@ -54,7 +54,8 @@ function geodata_is_valid_geojson() {
   const level_names = get_all_spatial_hierarchy_level_names()
 
   return level_names.every(level_name => {
-    return geojson_validation.valid(cache.geodata[level_name])
+    const level = get(cache.geodata, level_name, null)
+    return geojson_validation.valid(level)
   })
 }
 
@@ -79,8 +80,13 @@ function geodata_level_version_matches_instance_config(level_name) {
   return versions_match(version_from_idb, version_from_instance_config)
 }
 
-
-function geodata_outdated (geodata, required_version) {
+/**
+ *
+ * @param geodata
+ * @param required_version
+ * @returns {boolean}
+ */
+function geodata_versions_correct (geodata, required_version) {
   const levels = Object.keys(geodata)
 
   return levels.every(level_name => {
@@ -90,4 +96,4 @@ function geodata_outdated (geodata, required_version) {
   })
 }
 
-export {geodata_in_cache_and_valid, geodata_has_all_levels, geodata_has_level, geodata_outdated, geodata_level_version_matches_instance_config}
+export {geodata_in_cache_and_valid, geodata_has_all_levels, geodata_has_level, geodata_versions_correct, geodata_level_version_matches_instance_config}
