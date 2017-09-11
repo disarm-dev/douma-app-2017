@@ -6,6 +6,9 @@
         "bin_by": "location.selection.id",
         "aggregation_names": [
           "structures sprayed %"
+        ],
+        "response_point_fields": [
+          "recorded_on"
         ]
       },
       "table": {
@@ -162,7 +165,13 @@
         }
       ]
     },
-    "irs_plan": {},
+    "irs_plan": {
+      "table_output": [
+        {"display_name": "Locality name", "source_field": "Fnl_l_1"},
+        {"display_name": "Number of structures enumerated", "source_field": "NmStrct"},
+        {"display_name": "Predicted risk", "source_field": "risk"}
+      ]
+    },
     "irs_record_point": {
       "metadata": {
         "show": true,

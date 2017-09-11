@@ -1,6 +1,13 @@
 {
   "applets": {
-    "irs_plan": {},
+    "irs_plan": {
+      "table_output": [
+        {"display_name": "District name", "source_field": "DISTRICT"},
+        {"display_name": "Ward name", "source_field": "WARD_ID"},
+        {"display_name": "Estimated number of rooms", "source_field": "NumRooms"},
+        {"display_name": "Predicted risk", "source_field": "risk"}
+      ]
+    },
     "irs_tasker": {},
     "irs_record_point": {
       "title": "IRS Data Collector",
@@ -20,6 +27,9 @@
         ],
         "property_layers": [
           "risk"
+        ],
+        "response_point_fields": [
+          "recorded_on"
         ]
       },
       "table": {

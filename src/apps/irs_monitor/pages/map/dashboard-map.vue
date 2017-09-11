@@ -12,7 +12,6 @@
         <span>Show areas by:</span>
 
         <md-radio
-          :disabled="!responses.length"
           v-for="aggregation in options.aggregation_names"
           :key="aggregation"
           v-model="selected_layer"
@@ -23,12 +22,12 @@
         </md-radio>
 
 
-        <md-radio :disabled="!responses.length" v-model="selected_layer" name="map-type" md-value="normalised_risk">Risk</md-radio>
+        <md-radio v-model="selected_layer" name="map-type" md-value="normalised_risk">Risk</md-radio>
         <md-radio v-model="selected_layer" name="map-type" md-value="none">Nothing</md-radio>
 
       </div>
 
-      <md-checkbox :disabled="!responses.length" v-model="show_response_points">Show response points</md-checkbox>
+      <md-checkbox :disabled="!responses.length" v-model="show_response_points">Show response points <b v-if="!responses.length"></b>(No responses loaded)</md-checkbox>
 
     </md-card-content>
   </md-card>
@@ -41,7 +40,9 @@
   import centroid from '@turf/centroid'
   import numeral from 'numeral'
   import {Popup} from 'mapbox-gl'
-  import {get} from 'lodash'
+  import {clone, get} from 'lodash'
+  import flatten_object from 'flat'
+  import moment from 'moment-mini'
 
   import {basic_map} from 'lib/helpers/basic_map.js'
   import map_legend from 'components/map_legend.vue'
@@ -74,6 +75,7 @@
     watch: {
       'responses': 'redraw_layers',
       'options': 'redraw_layers',
+      'map_loaded': 'redraw_layers',
 
       'selected_layer': 'switch_layer',
       'show_response_points': 'redraw_layers'
@@ -238,7 +240,7 @@
         this._click_handler = (e) => {
           e.originalEvent.stopPropagation()
           const feature = this._map.queryRenderedFeatures(e.point)[0]
-
+          console.log(feature)
           if (feature) {
             new Popup({closeOnClick: true})
               .setLngLat(e.lngLat)
@@ -279,9 +281,7 @@
           if (!latitude || !longitude) return null
 
           let coords_point = point([longitude, latitude])
-
-          coords_point.properties = response._decorated
-          coords_point.properties.id = response.id
+          coords_point.properties = {...response._decorated, ...flatten_object(response)}// {...response.form_data, ...response._decorated}
 
           return coords_point
         }).filter(a => a)
@@ -316,13 +316,27 @@
 
           const feature = this._map.queryRenderedFeatures(e.point)[0]
 
+          const html = Object.keys(feature.properties)
+            .filter(property_name => {
+              return this.instance_config.applets.irs_monitor.map.response_point_fields.includes(property_name)
+            })
+            .map(key => {
+              let title = clone(key)
+              let value = clone(feature.properties[key])
+
+              if (key === 'recorded_on') {
+                value = moment(feature.properties[key]).format('hh:mm DD MMM \'YY')
+              } else {
+                title = title.replace(/(form_data|_decorated)\./, '').replace(/_/,' ')
+              }
+
+              return `<div>${title} : ${value}</div>`
+            })
+
           if (feature) {
             new Popup({closeOnClick: true})
               .setLngLat(e.lngLat)
-              .setHTML(`
-                <p><b>${feature.properties.id}</b></p>
-                <p>${JSON.stringify(feature.properties)}</p>
-              `)
+              .setHTML(html.join(''))
               .addTo(this._map);
           }
         }

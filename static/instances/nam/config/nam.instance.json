@@ -6,6 +6,9 @@
         "bin_by": "location.selection.id",
         "aggregation_names": [
           "structures sprayed %"
+        ],
+        "response_point_fields": [
+          "recorded_on"
         ]
       },
       "table": {
@@ -53,7 +56,13 @@
         }
       ]
     },
-    "irs_plan": {},
+    "irs_plan": {
+      "table_output": [
+        {"display_name": "Village name", "source_field": "name"},
+        {"display_name": "Number of households", "source_field": "NumHouseho"},
+        {"display_name": "Predicted risk", "source_field": "risk"}
+      ]
+    },
     "irs_record_point": {
       "metadata": {
         "show": false,
