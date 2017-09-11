@@ -69,16 +69,19 @@ function check_geodata_features_not_zero_length() {
 }
 
 function geodata_level_is_latest_version(level_name) {
-  const version_from_instance_config = get_data_version()
-
+  // TODO: @feature Use the geodata from the store, not cache
+  // const version_from_idb = get(store.state.meta.geodata, `${level_name}._version`, null)
   const version_from_idb = get(cache.geodata, `${level_name}._version`, null)
 
   if (!version_from_idb) {
-    // has no _version on it, so not latest version
+    // This level has no _version on it, so before versions were included
     return false
   }
 
+  const version_from_instance_config = get_data_version(level_name)
+
   if (!version_from_instance_config) {
+    // This level has no _version on it, so before versions were included
     return false
   }
 
@@ -87,15 +90,8 @@ function geodata_level_is_latest_version(level_name) {
     return true
   }
 
-  if (version_from_idb < version_from_instance_config) {
-    // database version is lower than instance_config
-    // So not latest version
-    return false
-  }
-
-  console.log("Geodata version in instance_config is lower than idb?")
-  // return true to not stop user
-  return true
+  // The versions are not the same, they need to be
+  return false
 }
 
 
