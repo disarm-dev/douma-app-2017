@@ -51,7 +51,7 @@
   import bytes from 'bytes'
 
   import {get_all_spatial_hierarchy_level_names} from 'lib/instance_data/spatial_hierarchy_helper'
-  import {geodata_has_level, geodata_is_latest_version, geodata_level_version_matches_instance_config } from 'lib/models/geodata/geodata.valid'
+  import {geodata_has_level, geodata_outdated, geodata_level_version_matches_instance_config } from 'lib/models/geodata/geodata.valid'
   import {get_geodata_for} from 'lib/models/geodata/remote'
   import {get_and_store_locally_geodata_for} from 'lib/models/geodata/remote'
   import {hydrate_geodata_cache_from_idb} from "lib/models/geodata/local.geodata_store";

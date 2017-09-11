@@ -4,6 +4,7 @@ import {get, uniq} from 'lodash'
 import {get_all_spatial_hierarchy_level_names, get_data_version} from 'lib/instance_data/spatial_hierarchy_helper'
 import cache from 'config/cache'
 import geojson_validation from 'geojson-validation'
+import {versions_match} from "lib/models/geodata/geodata.versions"
 
 /**
  * @returns {boolean}
@@ -18,8 +19,7 @@ function geodata_in_cache_and_valid() {
   const is_valid_geojson = geodata_is_valid_geojson()
   if (!is_valid_geojson) return false
     
-  const is_latest_version = geodata_is_latest_version()
-  if (!is_latest_version) {
+  if (geodata_outdated()) {
     console.log('Not on latest geodata version')
     return false
   }
@@ -76,77 +76,18 @@ function geodata_level_version_matches_instance_config(level_name) {
 
   const version_from_instance_config = get_data_version(level_name)
 
-  return check_version_match(version_from_idb, version_from_instance_config)
-  //
-  // if (!version_from_idb) {
-  //   // This level has no _version on it, so before versions were included
-  //   return false
-  // }
-  //
-  //
-  // if (!version_from_instance_config) {
-  //   // This level has no _version on it, so before versions were included
-  //   return false
-  // }
-  //
-  // if (version_from_instance_config == version_from_idb) {
-  //   // versions are the same
-  //   return true
-  // }
-  //
-  // // The versions are not the same, they need to be
-  // return false
+  return versions_match(version_from_idb, version_from_instance_config)
 }
 
 
-function geodata_is_latest_version () {
-  const version_from_instance_config = get_data_version()
+function geodata_outdated (geodata, required_version) {
+  const levels = Object.keys(geodata)
 
-  if (!version_from_instance_config) {
-    // If we can't get a data version from the instance_config
-    // then we are not on the latest version
-    return false
-  }
-
-  const level_names = get_all_spatial_hierarchy_level_names()
-
-  const versions = level_names.map((level_name) => {
-    return get(cache.geodata, `${level_name}._version`, null)
+  return levels.every(level_name => {
+    const level = geodata[level_name]
+    const level_version = get(level, '_version', null)
+    return versions_match(level_version, required_version)
   })
-
-  const unique_versions = uniq(versions)
-
-  if (unique_versions.length > 1) {
-    // we have multiple versions
-    // so we are not up to date
-    return false
-  }
-
-  // all versions are the same, now compare
-  const version_from_idb = unique_versions[0]
-
-  if (!version_from_idb) {
-    // If we can't get a data version from the database
-    // then we are not on the latest version
-    return false
-  }
-
-  if (version_from_idb == version_from_instance_config) {
-    // The versions are the same,
-    // We are on the latest version
-    return true
-  }
-
-  if (version_from_idb < version_from_instance_config) {
-    // The database version is lower than the instance_config
-    // We are not on the latest version and need to update
-    return false
-
-  }
-
-  console.log("Geodata version in instance_config is lower than idb?")
-  // return true to not stop user
-  return true
 }
 
-export {geodata_in_cache_and_valid, geodata_has_all_levels, geodata_has_level, geodata_is_latest_version, geodata_level_version_matches_instance_config}
+export {geodata_in_cache_and_valid, geodata_has_all_levels, geodata_has_level, geodata_outdated, geodata_level_version_matches_instance_config}
