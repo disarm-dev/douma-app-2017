@@ -88,10 +88,12 @@
         this.level_names.forEach(level => {
           let status
 
-          if (!geodata_level_is_latest_version(level)) {
-            status = 'update_available'
-          } else if (geodata_has_level(level)) {
-            status = 'complete'
+          if (geodata_has_level(level)) {
+            if (!geodata_level_is_latest_version(level)) {
+              status = 'update_available'
+            } else {
+              status = 'complete'
+            }
           } else {
             status = 'none'
           }
