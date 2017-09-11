@@ -2,6 +2,7 @@ import Dexie from 'dexie'
 
 import cache from 'config/cache'
 import {decorate_geodata_on_cache} from 'lib/models/geodata/geodata.decorate'
+import {get_data_version} from "lib/instance_data/spatial_hierarchy_helper"
 
 const db = new Dexie('disarm_geodata')
 const disarm_geodata_key = 'disarm_geodata_key'
@@ -19,6 +20,8 @@ db.version(1).stores({
 export async function save_geodata_to_idb({level_name, level_geodata}) {
   const existing_record = await retrieve_geodata_from_idb()
 
+  level_geodata._version = get_data_version()
+
   if (!existing_record) {
     const new_record = {
       disarm_geodata_key,
@@ -26,7 +29,7 @@ export async function save_geodata_to_idb({level_name, level_geodata}) {
         [level_name]: level_geodata
       }
     }
-    console.log('put', new_record)
+
     return db.geodata_collection.put(new_record)
   } else {
     const updated_record = {
@@ -38,7 +41,7 @@ export async function save_geodata_to_idb({level_name, level_geodata}) {
         }
       }
     }
-    console.log('update', level_geodata)
+
     return db.geodata_collection.update(disarm_geodata_key, updated_record)
   }
 }

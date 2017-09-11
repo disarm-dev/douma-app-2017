@@ -126,8 +126,9 @@ const get_next_level_down_from_planning_level = () => {
   return (levels[index + 1] || false)
 }
 
-const get_data_version = () => {
-  return get(spatial_hierarchy_cache, 'data_version', 'Unknown version')
+const get_data_version = (level_name) => {
+  console.warn('Unused level_name', level_name) //TODO: @ƒeature https://gitlab.com/disarm/disarm-feedback/issues/120
+  return get(spatial_hierarchy_cache, 'data_version', null)
 }
 
 export {

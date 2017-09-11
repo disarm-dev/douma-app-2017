@@ -3,7 +3,7 @@ import {featureCollection} from '@turf/helpers'
 import {uniq, remove} from 'lodash'
 import cache from 'config/cache'
 
-describe('responses displayed on map', () => {
+xdescribe('responses displayed on map', () => {
   const expected = {}
 
   // beforeEach(() => {
