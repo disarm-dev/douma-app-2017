@@ -10,7 +10,7 @@ export function versions_match(local_version, required_version) {
 
   if (!both_versions_are_numbers) return false
 
-  if (local_version == required_version) return true
+  if (local_version === required_version) return true
 
   return false
 }
