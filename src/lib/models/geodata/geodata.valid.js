@@ -68,30 +68,34 @@ function check_geodata_features_not_zero_length() {
   })
 }
 
-function geodata_level_is_latest_version(level_name) {
+function geodata_level_version_matches_instance_config(level_name) {
   // TODO: @feature Use the geodata from the store, not cache
   // const version_from_idb = get(store.state.meta.geodata, `${level_name}._version`, null)
   const version_from_idb = get(cache.geodata, `${level_name}._version`, null)
 
-  if (!version_from_idb) {
-    // This level has no _version on it, so before versions were included
-    return false
-  }
 
   const version_from_instance_config = get_data_version(level_name)
 
-  if (!version_from_instance_config) {
-    // This level has no _version on it, so before versions were included
-    return false
-  }
-
-  if (version_from_instance_config == version_from_idb) {
-    // versions are the same
-    return true
-  }
-
-  // The versions are not the same, they need to be
-  return false
+  return check_version_match(version_from_idb, version_from_instance_config)
+  //
+  // if (!version_from_idb) {
+  //   // This level has no _version on it, so before versions were included
+  //   return false
+  // }
+  //
+  //
+  // if (!version_from_instance_config) {
+  //   // This level has no _version on it, so before versions were included
+  //   return false
+  // }
+  //
+  // if (version_from_instance_config == version_from_idb) {
+  //   // versions are the same
+  //   return true
+  // }
+  //
+  // // The versions are not the same, they need to be
+  // return false
 }
 
 
@@ -145,4 +149,4 @@ function geodata_is_latest_version () {
   return true
 }
 
-export {geodata_in_cache_and_valid, geodata_has_all_levels, geodata_has_level, geodata_is_latest_version, geodata_level_is_latest_version}
+export {geodata_in_cache_and_valid, geodata_has_all_levels, geodata_has_level, geodata_is_latest_version, geodata_level_version_matches_instance_config}
