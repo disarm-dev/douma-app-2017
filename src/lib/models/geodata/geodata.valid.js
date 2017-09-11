@@ -1,5 +1,5 @@
 import has from 'lodash.has'
-import {get} from 'lodash'
+import {get, uniq} from 'lodash'
 
 import {get_all_spatial_hierarchy_level_names, get_data_version} from 'lib/instance_data/spatial_hierarchy_helper'
 import cache from 'config/cache'
@@ -93,7 +93,9 @@ function geodata_level_is_latest_version(level_name) {
     return false
   }
 
-  console.log("Don't know what to do here, shouldn't happen")
+  console.log("Geodata version in instance_config is lower than idb?")
+  // return true to not stop user
+  return true
 }
 
 
@@ -106,7 +108,22 @@ function geodata_is_latest_version () {
     return false
   }
 
-  const version_from_idb = get(cache.geodata, '_version', null)
+  const level_names = get_all_spatial_hierarchy_level_names()
+
+  const versions = level_names.map((level_name) => {
+    return get(cache.geodata, `${level_name}._version`, null)
+  })
+
+  const unique_versions = uniq(versions)
+
+  if (unique_versions.length > 1) {
+    // we have multiple versions
+    // so we are not up to date
+    return false
+  }
+
+  // all versions are the same, now compare
+  const version_from_idb = unique_versions[0]
 
   if (!version_from_idb) {
     // If we can't get a data version from the database
@@ -127,7 +144,9 @@ function geodata_is_latest_version () {
 
   }
 
-  console.log("Don't know what to do here, shouldn't happen")
+  console.log("Geodata version in instance_config is lower than idb?")
+  // return true to not stop user
+  return true
 }
 
 export {geodata_in_cache_and_valid, geodata_has_all_levels, geodata_has_level, geodata_is_latest_version, geodata_level_is_latest_version}
