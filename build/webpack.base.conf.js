@@ -33,8 +33,7 @@ module.exports = {
       'apps': resolve('src/apps'),
       'components': resolve('src/components'),
       'config': resolve('src/config'),
-      'lib': resolve('src/lib'),
-      'lib_instances': resolve('src/lib_instances'),
+      'lib': resolve('src/lib')
     }
   },
   module: {
