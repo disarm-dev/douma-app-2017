@@ -12,7 +12,6 @@
         <span>Show areas by:</span>
 
         <md-radio
-          :disabled="!responses.length"
           v-for="aggregation in options.aggregation_names"
           :key="aggregation"
           v-model="selected_layer"
@@ -23,12 +22,12 @@
         </md-radio>
 
 
-        <md-radio :disabled="!responses.length" v-model="selected_layer" name="map-type" md-value="normalised_risk">Risk</md-radio>
+        <md-radio v-model="selected_layer" name="map-type" md-value="normalised_risk">Risk</md-radio>
         <md-radio v-model="selected_layer" name="map-type" md-value="none">Nothing</md-radio>
 
       </div>
 
-      <md-checkbox :disabled="!responses.length" v-model="show_response_points">Show response points</md-checkbox>
+      <md-checkbox :disabled="!responses.length" v-model="show_response_points">Show response points <b v-if="!responses.length"></b>(No responses loaded)</md-checkbox>
 
     </md-card-content>
   </md-card>
@@ -76,6 +75,7 @@
     watch: {
       'responses': 'redraw_layers',
       'options': 'redraw_layers',
+      'map_loaded': 'redraw_layers',
 
       'selected_layer': 'switch_layer',
       'show_response_points': 'redraw_layers'
