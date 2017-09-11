@@ -32,7 +32,8 @@
     },
     computed: {
       ...mapState({
-        slug: state => state.instance_config.instance.slug
+        slug: state => state.instance_config.instance.slug,
+        table_output: state => state.instance_config.applets.irs_plan.table_output
       }),
       ...mapGetters({
         selected_target_area_ids: 'irs_plan/all_selected_area_ids'
@@ -46,8 +47,15 @@
         })
       },
       table() {
-        const data = this.selected_areas.map(r => r.properties)
-        const columns = Object.keys(data[0])
+        const properties = this.selected_areas.map(r => r.properties)
+        const data = properties.map((properties_object) => {
+          return this.table_output.reduce((row, {display_name, source_field}) => {
+            row[display_name] = properties_object[source_field]
+            return row
+          }, {})
+        })
+
+        const columns = Object.keys(data[0] || {})
         return {data, columns}
       },
     },

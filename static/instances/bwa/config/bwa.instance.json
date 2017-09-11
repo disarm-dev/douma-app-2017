@@ -4,7 +4,15 @@
       "map": {
         "chart_type": "map",
         "bin_by": "location.selection.id",
-        "aggregation_names": ["number of rooms sprayed"]
+        "aggregation_names": ["number of rooms sprayed"],
+        "response_point_fields": [
+          "recorded_on",
+          "form_data.number_of_buildings_in_homesteads",
+          "form_data.number_of_rooms",
+          "_decorated.sprayed_status",
+          "form_data.number_sprayed",
+          "form_data.number_of_rooms_not_sprayed"
+        ]
       },
       "table": {
         "chart_type": "table",
@@ -75,7 +83,7 @@
             ],
             "layout": {
               "showlegend": true,
-              "title": "Proportion of rooms sprayed / total number of rooms visited",
+              "title": "Room coverage as % of target",
               "yaxis": {
                 "title": "% coverage"
               },
@@ -92,26 +100,80 @@
           }
         },
         {
-
+          "id": "spray_status_absolute",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "layout": {
+              "showlegend": true,
+              "title": "Spray status",
+              "yaxis": {
+                "title": "# of rooms"
+              },
+              "xaxis": {
+                "title": "Spray status"
+              }
+            },
+            "chart_type": "bar",
+            "bin_by": "_decorated.sprayed_status",
+            "single_series": {
+              "aggregation_name": "count"
+            }
+          }
+        },
+        {
           "id": "spray_status_pie",
           "style": {
             "height_constraint": "none",
             "width_constraint": "half"
           },
           "options": {
-            "fake_data": [{
-              "values": [34, 12, 4, 12, 26, 18, 17, 21],
-              "labels": ["Locked","Nobody","Refused","Baby","Patient","Kitchen ","Food ","Material"],
-              "type": "pie"
-            }],
             "layout": {
-              "title": "Refusal reasons for not spraying room"
+              "title": "Sprayed status proportion"
             },
             "chart_type": "pie",
             "bin_by": "_decorated.sprayed_status",
-            "series": [{
-              "aggregation_name": "count"
-            }]
+            "series": [
+              {
+                "aggregation_name": "count"
+              }
+            ]
+          }
+        },
+        {
+          "id": "room_coverage_by_week",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "chart_type": "bar",
+            "time_series": true,
+            "cumulative": true,
+            "bin_by": "recorded_on",
+            "layout": {
+              "showlegend": true,
+              "title": "Spray room coverage",
+              "yaxis": {
+                "title": "# of rooms"
+              },
+              "xaxis": {
+                "title": "Period commencing"
+              },
+              "barmode": "stack"
+            },
+            "multi_series": [
+              {
+                "aggregation_name": "number of rooms sprayed",
+                "colour": "green"
+              },
+              {
+                "aggregation_name": "number of rooms not sprayed",
+                "colour": "red"
+              }
+            ]
           }
         },
         {
@@ -138,15 +200,44 @@
               "aggregation_name": "number of rooms sprayed"
             }]
           }
+        },
+        {
+          "id": "spray_status_pie_reason",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "fake_data": [{
+              "values": [34, 12, 4, 12, 26, 18, 17, 21],
+              "labels": ["Locked","Nobody","Refused","Baby","Patient","Kitchen ","Food ","Material"],
+              "type": "pie"
+            }],
+            "layout": {
+              "title": "Refusal reasons for not spraying room"
+            },
+            "chart_type": "pie",
+            "bin_by": "_decorated.sprayed_status",
+            "series": [{
+              "aggregation_name": "count"
+            }]
+          }
         }
       ],
       "title": "Dashboard"
     },
     "irs_plan": {
-      "title": "IRS Planning and Management"
+      "title": "Planning + Management",
+      "table_output": [
+        {"display_name": "District name", "source_field": "name_2"},
+        {"display_name": "Village name", "source_field": "VILLAGE"},
+        {"display_name": "Number of buildings enumerated", "source_field": "NumStrct"},
+        {"display_name": "Estimated number of rooms", "source_field": "NumRooms"},
+        {"display_name": "Predicted risk", "source_field": "risk"}
+      ]
     },
     "irs_record_point": {
-      "title": "IRS Data Collection and Reporting Tool",
+      "title": "Data Collection + Reporting",
       "metadata": {
         "show": true,
         "optional_fields": []
@@ -174,7 +265,7 @@
       "planning_level_name": "villages",
       "record_location_selection_level_name": "villages",
       "denominator_fields": {
-        "rooms": "NumRooms"
+        "estimated rooms": "NumRooms"
       }
     },
     "levels": [
@@ -185,8 +276,8 @@
       },
       {
         "group_by_field": "name_2",
-        "field_name": "OBJECTID",
-        "display_field_name": "VILLAGE",
+        "field_name": "OBJECTID", // __disarm_geo_id
+        "display_field_name": "VILLAGE", // __disarm_geo_name
         "name": "villages"
       },
       {
