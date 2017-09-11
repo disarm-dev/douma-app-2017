@@ -127,7 +127,7 @@ const get_next_level_down_from_planning_level = () => {
 }
 
 const get_data_version = () => {
-  return get(spatial_hierarchy_cache, 'data_version', 'Unknown version')
+  return get(spatial_hierarchy_cache, 'data_version', null)
 }
 
 export {

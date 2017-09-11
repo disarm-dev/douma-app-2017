@@ -11,6 +11,7 @@
           <!-- DOWNLOAD STATUS-->
           <md-avatar>
             <md-icon v-if="loading_progress[level].status == 'complete'" class="success">check_circle</md-icon>
+            <md-icon v-else-if="loading_progress[level].status == 'update_available'" class="md-warn">update</md-icon>
             <span v-else-if="isLoading(`geodata/${level}`)"><md-spinner md-indeterminate class="md-accent" :md-size="30"></md-spinner></span>
             <md-icon v-else class="md-warn">error</md-icon>
           </md-avatar>
@@ -50,7 +51,7 @@
   import bytes from 'bytes'
 
   import {get_all_spatial_hierarchy_level_names} from 'lib/instance_data/spatial_hierarchy_helper'
-  import {geodata_has_level} from 'lib/models/geodata/geodata.valid'
+  import {geodata_has_level, geodata_is_latest_version, geodata_level_is_latest_version } from 'lib/models/geodata/geodata.valid'
   import {get_geodata_for} from 'lib/models/geodata/remote'
   import {get_and_store_locally_geodata_for} from 'lib/models/geodata/remote'
   import {hydrate_geodata_cache_from_idb} from "lib/models/geodata/local.geodata_store";
@@ -85,10 +86,22 @@
     methods: {
       calculate_loading_progress() {
         this.level_names.forEach(level => {
-          const status = geodata_has_level(level) ? 'complete' : 'none'
+          let status
+
+          if (!geodata_level_is_latest_version(level)) {
+            status = 'update_available'
+          } else if (geodata_has_level(level)) {
+            status = 'complete'
+          } else {
+            status = 'none'
+          }
+
           console.log('level, status', level, status)
+
           this.loading_progress[level].status = status
+
           console.log('this.loading_progress', this.loading_progress)
+
         })
       },
       retrieve_geodata_for(level) {
