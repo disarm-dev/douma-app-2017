@@ -41,7 +41,7 @@
   import centroid from '@turf/centroid'
   import numeral from 'numeral'
   import {Popup} from 'mapbox-gl'
-  import {get} from 'lodash'
+  import {clone, get} from 'lodash'
   import flatten_object from 'flat'
   import moment from 'moment-mini'
 
@@ -321,10 +321,11 @@
               return this.instance_config.applets.irs_monitor.map.response_point_fields.includes(property_name)
             })
             .map(key => {
-              let title = key, value = feature.properties[key]
+              let title = clone(key)
+              let value = clone(feature.properties[key])
 
               if (key === 'recorded_on') {
-                value = moment(feature.properties[key]).format('YYYY MM DDD')
+                value = moment(feature.properties[key]).format('hh:mm DD MMM \'YY')
               } else {
                 title = title.replace(/(form_data|_decorated)\./, '').replace(/_/,' ')
               }
