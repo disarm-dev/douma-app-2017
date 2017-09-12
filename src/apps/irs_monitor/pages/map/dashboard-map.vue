@@ -27,7 +27,7 @@
 
       </div>
 
-      <md-checkbox :disabled="!responses.length" v-model="show_response_points">Show response points <b v-if="!responses.length"></b>(No responses loaded)</md-checkbox>
+      <md-checkbox :disabled="!responses.length" v-model="show_response_points">Show response points <b v-if="!responses.length">(No responses loaded)</b></md-checkbox>
 
     </md-card-content>
   </md-card>
