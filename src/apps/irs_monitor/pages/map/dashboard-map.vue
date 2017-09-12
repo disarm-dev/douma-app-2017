@@ -180,18 +180,12 @@
       add_layer(layer_string) {
         this.clear_map()
 
-        if (layer_string === 'none') {
-          return
-        }
+        if (layer_string === 'none') return // TODO: @refac from 'none'
 
         const layer_type = get(layer_definitions, layer_string, layer_definitions['default_palette'])
 
         // create stops
         const palette = prepare_palette(layer_type)
-
-        // Filter to plan if required
-        const filtered_responses_fc = this._aggregated_responses_fc
-
 
         // Create layer and add to map
         this._map.addLayer({
@@ -199,7 +193,7 @@
           type: 'fill',
           source: {
             type: 'geojson',
-            data: filtered_responses_fc
+            data: this._aggregated_responses_fc
           },
           paint: {
             'fill-color': {
@@ -211,7 +205,7 @@
           }
         }, 'area_labels')
 
-        const centroid_features = filtered_responses_fc.features.map((feature) => {
+        const centroid_features = this._aggregated_responses_fc.features.map((feature) => {
           const c = centroid(feature)
           c.properties = feature.properties
           return c
@@ -352,8 +346,15 @@
       calculate_layer_attributes() {
         this.options.spatial_aggregation_level = get_planning_level_name()
 
-        const data = get_data({responses: this.responses, targets: this.targets, aggregations: this.aggregations, options: this.options})
-        this._aggregated_responses_fc = data
+        const geodata = cache.geodata // TODO: @refac When we fix geodata into store, etc
+
+        this._aggregated_responses_fc = get_data({
+          responses: this.responses,
+          targets: this.targets,
+          aggregations: this.aggregations,
+          options: this.options,
+          geodata: geodata
+        })
 
         this._aggregated_responses_fc.features = this.calculate_risk(this._aggregated_responses_fc.features)
       },

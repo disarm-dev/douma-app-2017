@@ -13,7 +13,7 @@ import {categorical_bins, spatial_bins, time_series_bins} from './bin_responses'
  * @param {boolean} [options.cumulative] - used with time_series only, whether or not to create cumulative values
  * @returns {array}
  */
-export default function get_data({responses, targets, aggregations, options}) {
+export default function get_data({responses, targets, aggregations, options, geodata}) {
 
   // check got enough options to start
   if (!options.chart_type) throw new Error("Missing `options.chart_type`")

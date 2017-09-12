@@ -38,10 +38,14 @@
         if (!this.responses.length) return
         if (this.options.fake_data) console.warn("Using fake data")
         const data = this.options.fake_data || get_data({
+        const geodata = cache.geodata // TODO: @refac When we fix geodata into store, etc
+
+        const data = get_data({
           responses: this.responses,
           targets: this.targets,
           aggregations: this.aggregations,
-          options: this.options
+          options: this.options,
+          geodata: geodata
         })
 
         const layout_defaults = {

@@ -15,6 +15,7 @@
   import moment from 'moment-mini'
 
   import get_data from '../../lib/get_data_for_viz'
+  import cache from 'config/cache'
 
   export default {
     props: ['responses', 'targets', 'aggregations', 'options'],
@@ -23,11 +24,14 @@
         return Object.keys(this.table_data[0])
       },
       table_data() {
+        const geodata = cache.geodata // TODO: @refac When we fix geodata into store, etc
+
         const data = get_data({
           responses: this.responses,
           targets: this.targets,
           aggregations: this.aggregations,
-          options: this.options
+          options: this.options,
+          geodata: geodata
         })
 
         return data
