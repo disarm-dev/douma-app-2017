@@ -239,8 +239,8 @@
         // Define new click handler
         this._click_handler = (e) => {
           e.originalEvent.stopPropagation()
-          const feature = this._map.queryRenderedFeatures(e.point)[0]
-          console.log(feature)
+          const feature = this._map.queryRenderedFeatures(e.point, {layers: ['areas']})[0]
+          console.log(e, feature)
           if (feature) {
             new Popup({closeOnClick: true})
               .setLngLat(e.lngLat)
@@ -314,9 +314,10 @@
         this._responses_click_handler = (e) => {
           e.originalEvent.stopPropagation()
 
-          const feature = this._map.queryRenderedFeatures(e.point)[0]
+          const feature = this._map.queryRenderedFeatures(e.point, {layers: ['responses']})[0]
+          console.log(e, feature)
 
-          const html = Object.keys(feature.properties)
+          const popup_properties_html = Object.keys(feature.properties)
             .filter(property_name => {
               return this.instance_config.applets.irs_monitor.map.response_point_fields.includes(property_name)
             })
@@ -333,10 +334,13 @@
               return `<div>${title} : ${value}</div>`
             })
 
+          const popup_title_html = `<p><b>Response ${feature.properties.id}</b></p>`
+          const popup_content_html = popup_title_html + popup_properties_html.join('')
+
           if (feature) {
             new Popup({closeOnClick: true})
               .setLngLat(e.lngLat)
-              .setHTML(html.join(''))
+              .setHTML(popup_content_html)
               .addTo(this._map);
           }
         }
