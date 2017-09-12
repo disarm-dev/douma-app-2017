@@ -11,19 +11,13 @@
       <div>
         <span>Show areas by:</span>
 
-        <md-radio
-          v-for="aggregation in options.aggregation_names"
-          :key="aggregation"
-          v-model="selected_layer"
-          name="map-type"
-          :md-value="aggregation"
+        <layer_selector
+            :aggregation_names="options.aggregation_names"
+            :selected_layer="selected_layer"
+            @change="set_selected_layer"
         >
-          {{aggregation}}
-        </md-radio>
+        </layer_selector>
 
-
-        <md-radio v-model="selected_layer" name="map-type" md-value="normalised_risk">Risk</md-radio>
-        <md-radio v-model="selected_layer" name="map-type" md-value="none">Nothing</md-radio>
 
       </div>
 
@@ -46,6 +40,7 @@
 
   import {basic_map} from 'lib/helpers/basic_map.js'
   import map_legend from 'components/map_legend.vue'
+  import layer_selector from './layer-selector.vue'
   import cache from 'config/cache'
   import {get_planning_level_name} from 'lib/instance_data/spatial_hierarchy_helper'
   import {layer_definitions} from 'config/map_layers'
@@ -56,7 +51,7 @@
 
   export default {
     props: ['responses', 'targets', 'aggregations', 'options'],
-    components: {map_legend},
+    components: {map_legend, layer_selector},
     data() {
       return {
         layer_definitions,
@@ -150,6 +145,9 @@
         if (!this.map_loaded) return
         this.calculate_layer_attributes()
         this.switch_layer()
+      },
+      set_selected_layer(layer_string) {
+        this.selected_layer = layer_string
       },
       switch_layer() {
         const layer_string = this.selected_layer
