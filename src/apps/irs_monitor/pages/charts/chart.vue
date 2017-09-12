@@ -8,12 +8,18 @@
     </md-card-header>
 
     <div :id="chart_id"></div>
+
+    <md-card-content v-if="!responses.length">
+      <div><em>Not enough data to display chart (and who likes empty charts anyway?)</em></div>
+    </md-card-content>
+
   </div>
 </template>
 
 <script>
   import Plotly from 'plotly.js/dist/plotly-basic.js'
   import get_data from '../../lib/get_data_for_viz'
+  import cache from 'config/cache'
 
   const plotly_event_listeners = []
 
@@ -22,7 +28,11 @@
     props: ['chart_id', 'responses', 'targets', 'aggregations', 'options'],
     watch: {
       'responses': 'render_chart',
-      'options': 'render_chart'
+    },
+    data() {
+      return {
+        _chart: null
+      }
     },
     mounted() {
       this.render_chart()
@@ -35,9 +45,13 @@
     },
     methods: {
       render_chart() {
-        if (!this.responses.length) return
-        if (this.options.fake_data) console.warn("Using fake data")
-        const data = this.options.fake_data || get_data({
+        // If no responses and chart previously rendered, then remove it and return
+        // Do these checks to avoid rendering whole chart if data has changed
+        if (!this.responses.length) {
+          if (this._chart) Plotly.purge(this._chart)
+          return
+        }
+
         const geodata = cache.geodata // TODO: @refac When we fix geodata into store, etc
 
         const data = get_data({
@@ -57,11 +71,13 @@
         delete layout.title
 
         // Plotly#newPlot can be called multiple times, will update data, but not layout
-        Plotly.newPlot(this.chart_id, data, layout, {displayModeBar: this.options.layout.displayModeBar || false}).then((plot) => {
-          const fn = Plotly.Plots.resize.bind(this, plot)
-          window.addEventListener('resize', fn, {passive: true})
-          plotly_event_listeners.push(fn)
-        })
+        Plotly.newPlot(this.chart_id, data, layout, {displayModeBar: this.options.layout.displayModeBar || false})
+          .then((plot) => {
+            this._chart = plot
+            const fn = Plotly.Plots.resize.bind(this, plot)
+            window.addEventListener('resize', fn, {passive: true})
+            plotly_event_listeners.push(fn)
+          })
 
       }
     }
