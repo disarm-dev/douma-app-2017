@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import {get_all_records} from 'lib/models/response/remote'
 import {get_current_plan} from 'lib/models/plan/remote'
 import {Plan} from 'lib/models/plan/model'
@@ -60,6 +62,9 @@ export default {
     set_ui: (state, ui) => {state.ui = ui},
     set_dashboard_options: (state, options) => {
       state.dashboard_options = options
+    },
+    set_dashboard_option: (state, {key, value}) => {
+      Vue.set(state.dashboard_options, key, value)
     },
     set_selected_layer(state, selected_layer) {
       state.map_options.selected_layer = selected_layer

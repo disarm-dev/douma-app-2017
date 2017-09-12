@@ -2,17 +2,19 @@
   <div>
 
     <md-radio
-        name="limit_selection"
-        :value='selected_limit'
+        ref="all"
         md-value="all"
+        name="limit_selection"
+        :value='local_selected_limit'
         @change="select_limit">
       All
     </md-radio>
 
     <md-radio
-        name="limit_selection"
-        :value='selected_limit'
+        ref="responses"
         md-value="responses"
+        name="limit_selection"
+        :value='local_selected_limit'
         @change="select_limit"
         :disabled="responses_disabled">
       Responses
@@ -20,9 +22,10 @@
     </md-radio>
 
     <md-radio
-        name="limit_selection"
-        :value='selected_limit' 
+        ref="plan"
         md-value="plan"
+        name="limit_selection"
+        :value='local_selected_limit'
         @change="select_limit"
         :disabled="targets_disabled">
       Plan
@@ -39,7 +42,7 @@
     props: ['responses', 'targets', 'selected_limit'],
     data() {
       return {
-        live: true
+        local_selected_limit: 'all'
       }
     },
     computed: {
@@ -52,8 +55,12 @@
         return this.targets.length === 0
       }
     },
+    created() {
+      if (this.selected_limit) this.local_selected_limit = this.selected_limit
+    },
     methods: {
       select_limit(limit_type) {
+        this.local_selected_limit = limit_type
         this.$emit('change', limit_type)
       }
     }

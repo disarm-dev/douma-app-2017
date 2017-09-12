@@ -56,17 +56,12 @@
     name: 'aggregation-settings',
     props: ['responses', 'targets'],
     components: {limit_to},
-    data() {
-      return {
-        selected_limit: 'all'
-      }
-    },
     computed: {
       ...mapState({
         dashboard_options: state => state.irs_monitor.dashboard_options,
         spatial_aggregation_level: state => state.irs_monitor.dashboard_options.spatial_aggregation_level,
         temporal_aggregation_level: state => state.irs_monitor.dashboard_options.temporal_aggregation_level,
-        limit_to_plan: state => state.irs_monitor.dashboard_options.limit_to_plan,
+        selected_limit: state => state.irs_monitor.dashboard_options.selected_limit
       }),
       spatial_level_names() {
         return get_all_spatial_hierarchy_level_names()
@@ -100,15 +95,7 @@
         this.$store.commit('irs_monitor/set_dashboard_options', new_options)
       },
       select_limit(limit_type) {
-        console.log('limit_type', limit_type)
-        this.selected_limit = limit_type
-        return
-
-        const new_options = {
-          ...this.dashboard_options,
-          limit_to_plan: limit_to_plan
-        }
-        this.$store.commit('irs_monitor/set_dashboard_options', new_options)
+        this.$store.commit('irs_monitor/set_dashboard_option', {key: 'selected_limit', value: limit_type})
       },
     }
   }
