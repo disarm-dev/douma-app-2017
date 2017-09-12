@@ -1,17 +1,17 @@
 <template>
   <div>
     <h2>Aggregation settings</h2>
-    <p>
-      Spatial aggregation level
-      <md-button-toggle md-single>
-        <md-button v-for="level in spatial_level_names" :key="level"
-                   @click="set_spatial_aggregation_level(level)"
-                   class="md-button"
-                   :class="{'md-toggle': level === spatial_aggregation_level}">
-          {{level}}
-        </md-button>
-      </md-button-toggle>
-    </p>
+    <!--<p>-->
+      <!--Spatial aggregation level-->
+      <!--<md-button-toggle md-single>-->
+        <!--<md-button v-for="level in spatial_level_names" :key="level"-->
+                   <!--@click="set_spatial_aggregation_level(level)"-->
+                   <!--class="md-button"-->
+                   <!--:class="{'md-toggle': level === spatial_aggregation_level}">-->
+          <!--{{level}}-->
+        <!--</md-button>-->
+      <!--</md-button-toggle>-->
+    <!--</p>-->
 
     <p>
       Temporal aggregatation level
@@ -25,10 +25,15 @@
       </md-button-toggle>
     </p>
 
-    <p>
-      <md-checkbox :value="limit_to_plan" :disabled="!plan" @change="set_limit_to_plan">Limit to plan</md-checkbox>
-      <md-chip class="md-warn" v-if="!plan">No plan loaded</md-chip>
-    </p>
+
+    <!-- OPTIONS: all, responses, plan -->
+    <limit_to
+      :responses="responses"
+      :targets="targets"
+      :selected_limit="limit_to"
+      @change="select_limit"
+    ></limit_to>
+
   </div>
 </template>
 
@@ -37,8 +42,9 @@
 
   import {get_planning_level_name} from 'lib/instance_data/spatial_hierarchy_helper'
   import {get_all_spatial_hierarchy_level_names} from 'lib/instance_data/spatial_hierarchy_helper'
-
   import CONFIG from 'config/common'
+
+  import limit_to from './limit-to.vue'
 
   /**
    * Control various elements of the dashboard. Any settings here cascade down to all tables, maps, charts.
@@ -48,13 +54,14 @@
    */
   export default {
     name: 'aggregation-settings',
+    props: ['responses', 'targets'],
+    components: {limit_to},
     computed: {
       ...mapState({
         dashboard_options: state => state.irs_monitor.dashboard_options,
         spatial_aggregation_level: state => state.irs_monitor.dashboard_options.spatial_aggregation_level,
         temporal_aggregation_level: state => state.irs_monitor.dashboard_options.temporal_aggregation_level,
-        limit_to_plan: state => state.irs_monitor.dashboard_options.limit_to_plan,
-        plan: state => state.irs_monitor.plan
+        limit_to: state => state.irs_monitor.dashboard_options.limit_to
       }),
       spatial_level_names() {
         return get_all_spatial_hierarchy_level_names()
@@ -87,13 +94,9 @@
         }
         this.$store.commit('irs_monitor/set_dashboard_options', new_options)
       },
-      set_limit_to_plan(limit_to_plan) {
-        const new_options = {
-          ...this.dashboard_options,
-          limit_to_plan: limit_to_plan
-        }
-        this.$store.commit('irs_monitor/set_dashboard_options', new_options)
-      }
+      select_limit(limit_type) {
+        this.$store.commit('irs_monitor/set_dashboard_option', {key: 'limit_to', value: limit_type})
+      },
     }
   }
 </script>

@@ -63,7 +63,8 @@ function check_geodata_features_not_zero_length() {
   const level_names = get_all_spatial_hierarchy_level_names()
 
   level_names.forEach(level_name => {
-    if (cache.geodata[level_name].features && cache.geodata[level_name].features.length === 0) {
+    const level_features = get(cache.geodata, `${level_name}.features`, null)
+    if (level_features && level_features.length === 0) {
       console.warn(`${level_name} has no features`)
     }
   })

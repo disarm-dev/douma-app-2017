@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import {get_all_records} from 'lib/models/response/remote'
 import {get_current_plan} from 'lib/models/plan/remote'
 import {Plan} from 'lib/models/plan/model'
@@ -26,7 +28,7 @@ export default {
       // TODO: @config Extract default temporal_aggregation_level
       temporal_aggregation_level: CONFIG.applets.irs_monitor.defaults.temporal_aggregation_level,
       spatial_aggregation_level: null,
-      limit_to_plan: false
+      limit_to: ''
     }
   },
   mutations: {
@@ -61,6 +63,9 @@ export default {
     set_dashboard_options: (state, options) => {
       state.dashboard_options = options
     },
+    set_dashboard_option: (state, {key, value}) => {
+      Vue.set(state.dashboard_options, key, value)
+    },
     set_selected_layer(state, selected_layer) {
       state.map_options.selected_layer = selected_layer
     },
@@ -90,8 +95,16 @@ export default {
     filtered_responses(state, getters, rootState) {
       if (!state.responses.length) return []
 
-      const filtered = state.responses.filter(response => {
+      // limit to plan if 'dashboard_options.limit_to_plan' is true
+      const plan_target_area_ids = getters.plan_target_area_ids
+      const limited_to_plan = state.responses.filter(r => {
+        if (!state.dashboard_options.limit_to_plan) return true
+        return plan_target_area_ids.includes(r.location_selection.id)
+      })
+
+      const filtered = limited_to_plan.filter(response => {
         return true
+
         return this.filters.all(filter => {
           filter.field
           filter.value

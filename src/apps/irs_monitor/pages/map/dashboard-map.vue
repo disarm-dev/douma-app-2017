@@ -11,23 +11,17 @@
       <div>
         <span>Show areas by:</span>
 
-        <md-radio
-          v-for="aggregation in options.aggregation_names"
-          :key="aggregation"
-          v-model="selected_layer"
-          name="map-type"
-          :md-value="aggregation"
+        <layer_selector
+            :aggregation_names="options.aggregation_names"
+            :selected_layer="selected_layer"
+            @change="set_selected_layer"
         >
-          {{aggregation}}
-        </md-radio>
+        </layer_selector>
 
-
-        <md-radio v-model="selected_layer" name="map-type" md-value="normalised_risk">Risk</md-radio>
-        <md-radio v-model="selected_layer" name="map-type" md-value="none">Nothing</md-radio>
 
       </div>
 
-      <md-checkbox :disabled="!responses.length" v-model="show_response_points">Show response points <b v-if="!responses.length"></b>(No responses loaded)</md-checkbox>
+      <md-checkbox :disabled="!responses.length" v-model="show_response_points">Show response points <b v-if="!responses.length">(No responses loaded)</b></md-checkbox>
 
     </md-card-content>
   </md-card>
@@ -46,6 +40,7 @@
 
   import {basic_map} from 'lib/helpers/basic_map.js'
   import map_legend from 'components/map_legend.vue'
+  import layer_selector from './layer-selector.vue'
   import cache from 'config/cache'
   import {get_planning_level_name} from 'lib/instance_data/spatial_hierarchy_helper'
   import {layer_definitions} from 'config/map_layers'
@@ -56,7 +51,7 @@
 
   export default {
     props: ['responses', 'targets', 'aggregations', 'options'],
-    components: {map_legend},
+    components: {map_legend, layer_selector},
     data() {
       return {
         layer_definitions,
@@ -151,6 +146,9 @@
         this.calculate_layer_attributes()
         this.switch_layer()
       },
+      set_selected_layer(layer_string) {
+        this.selected_layer = layer_string
+      },
       switch_layer() {
         const layer_string = this.selected_layer
 
@@ -182,18 +180,12 @@
       add_layer(layer_string) {
         this.clear_map()
 
-        if (layer_string === 'none') {
-          return
-        }
+        if (layer_string === 'none') return // TODO: @refac from 'none'
 
         const layer_type = get(layer_definitions, layer_string, layer_definitions['default_palette'])
 
         // create stops
         const palette = prepare_palette(layer_type)
-
-        // Filter to plan if required
-        const filtered_responses_fc = this._aggregated_responses_fc
-
 
         // Create layer and add to map
         this._map.addLayer({
@@ -201,7 +193,7 @@
           type: 'fill',
           source: {
             type: 'geojson',
-            data: filtered_responses_fc
+            data: this._aggregated_responses_fc
           },
           paint: {
             'fill-color': {
@@ -213,7 +205,7 @@
           }
         }, 'area_labels')
 
-        const centroid_features = filtered_responses_fc.features.map((feature) => {
+        const centroid_features = this._aggregated_responses_fc.features.map((feature) => {
           const c = centroid(feature)
           c.properties = feature.properties
           return c
@@ -239,8 +231,8 @@
         // Define new click handler
         this._click_handler = (e) => {
           e.originalEvent.stopPropagation()
-          const feature = this._map.queryRenderedFeatures(e.point)[0]
-          console.log(feature)
+          const feature = this._map.queryRenderedFeatures(e.point, {layers: ['areas']})[0]
+          console.log(e, feature)
           if (feature) {
             new Popup({closeOnClick: true})
               .setLngLat(e.lngLat)
@@ -314,9 +306,10 @@
         this._responses_click_handler = (e) => {
           e.originalEvent.stopPropagation()
 
-          const feature = this._map.queryRenderedFeatures(e.point)[0]
+          const feature = this._map.queryRenderedFeatures(e.point, {layers: ['responses']})[0]
+          console.log(e, feature)
 
-          const html = Object.keys(feature.properties)
+          const popup_properties_html = Object.keys(feature.properties)
             .filter(property_name => {
               return this.instance_config.applets.irs_monitor.map.response_point_fields.includes(property_name)
             })
@@ -333,10 +326,13 @@
               return `<div>${title} : ${value}</div>`
             })
 
+          const popup_title_html = `<p><b>Response ${feature.properties.id}</b></p>`
+          const popup_content_html = popup_title_html + popup_properties_html.join('')
+
           if (feature) {
             new Popup({closeOnClick: true})
               .setLngLat(e.lngLat)
-              .setHTML(html.join(''))
+              .setHTML(popup_content_html)
               .addTo(this._map);
           }
         }
@@ -350,8 +346,15 @@
       calculate_layer_attributes() {
         this.options.spatial_aggregation_level = get_planning_level_name()
 
-        const data = get_data({responses: this.responses, targets: this.targets, aggregations: this.aggregations, options: this.options})
-        this._aggregated_responses_fc = data
+        const geodata = cache.geodata // TODO: @refac When we fix geodata into store, etc
+
+        this._aggregated_responses_fc = get_data({
+          responses: this.responses,
+          targets: this.targets,
+          aggregations: this.aggregations,
+          options: this.options,
+          geodata: geodata
+        })
 
         this._aggregated_responses_fc.features = this.calculate_risk(this._aggregated_responses_fc.features)
       },

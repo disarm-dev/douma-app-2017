@@ -27,21 +27,6 @@
             "width_constraint": "half"
           },
           "options": {
-            "fake_data": [
-              {
-                "values": [
-                  34,
-                  12,
-                  4
-                ],
-                "labels": [
-                  "Sprayed",
-                  "Refused",
-                  "Other"
-                ],
-                "type": "pie"
-              }
-            ],
             "layout": {
               "title": "Refusal reason"
             },

@@ -1,12 +1,12 @@
 export default {
   api: {
     // Standard DOUMA API
-    url: BRANCH === 'master' ? "https://douma-api.herokuapp.com" : "https://douma-api-stage.herokuapp.com",
-    version: "v3",
+    url: BRANCH === 'master' ? 'https://douma-api.herokuapp.com' : 'https://douma-api-stage.herokuapp.com',
+    version: 'v3',
 
     // Currently not used
-    WEATHER_API_URL: "https://weather.api.disarm.io/processor/output",
-    R_SERVER_URL: "https://cluster.api.disarm.io"
+    WEATHER_API_URL: 'https://weather.api.disarm.io/processor/output',
+    R_SERVER_URL: 'https://cluster.api.disarm.io'
   },
   applets: {
     // The order here is irrelevant to sidebar - that is currently fixed by the user auth/permissions sheet,
@@ -15,7 +15,13 @@ export default {
     'structure_recorder': {title: 'Structure Recorder', icon: 'assignment'},
     'irs_record_point': {title: 'IRS Record', icon: 'assignment'},
     'irs_plan': {title: 'IRS Plan', icon: 'assignment_turned_in', geodata_required: true},
-    'irs_monitor': {title: 'IRS Monitor', icon: 'dashboard', geodata_required: true, defaults: {temporal_aggregation_level: 'week'}},
+    'irs_monitor': {
+      title: 'IRS Monitor',
+      icon: 'dashboard',
+      geodata_required: true,
+      defaults: {temporal_aggregation_level: 'week'},
+      limit_to_options: ['all', 'responses', 'plan']
+    },
     'irs_tasker': {title: 'IRS Tasker', icon: 'group', geodata_required: true},
     'debug': {title: 'Debug', icon: 'bug_report', geodata_required: true},
     // Meta below is currently ignored in sidebar (statically included), but here for the breadcrumbs
