@@ -1,35 +1,48 @@
 <template>
   <div>
-    <md-radio
-        v-for="aggregation in aggregation_names"
-        :key="aggregation"
-        :value="selected_layer"
+
+    <multiselect
+        :options="layer_options"
+        track-by="id"
+        label="label"
         @input="set_selected_layer"
-        name="map-type"
-        :md-value="aggregation"
+        :value="selected_layer_id"
     >
-      {{aggregation}}
-    </md-radio>
-
-
-    <md-radio :value="selected_layer" @input='set_selected_layer' name="map-type" md-value="normalised_risk">Risk</md-radio>
-    <md-radio :value="selected_layer" @input='set_selected_layer' name="map-type" md-value="none">Nothing</md-radio>
+    </multiselect>
 
   </div>
 </template>
 
 <script>
   //import { mapState, mapActions, mapMutations } from 'vuex'
+  import Multiselect from 'vue-multiselect'
 
   export default {
     name: 'layer-selector',
+    components: {Multiselect},
     props: ['aggregation_names', 'selected_layer'],
     data() {
       return {}
     },
+    computed: {
+      layer_options() {
+        const fixed_options = [
+          { id: 'none', label: 'No layer' },
+          { id: 'normalised_risk', label: 'Risk' }
+        ]
+
+        return fixed_options.concat(this.aggregation_names.map(name => {
+          return {id: name, label: name}
+        }))
+
+      },
+      selected_layer_id() {
+        return this.layer_options.find(o => o.id === this.selected_layer)
+      }
+    },
     methods: {
-      set_selected_layer(layer_string) {
-        this.$emit('change', layer_string)
+      set_selected_layer(option) {
+        this.$emit('change', option.id)
       }
     }
   }
