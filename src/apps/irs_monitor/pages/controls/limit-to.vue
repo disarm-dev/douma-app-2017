@@ -36,6 +36,10 @@
 </template>
 
 <script>
+  import {get} from 'lodash'
+
+  import CONFIG from 'config/common'
+  const LIMIT_OPTIONS = get(CONFIG, 'applets.irs_monitor.limit_to_options', [])
 
   export default {
     name: 'limit-to',
@@ -60,6 +64,7 @@
     },
     methods: {
       select_limit(limit_type) {
+        if (!LIMIT_OPTIONS.includes(limit_type)) throw new Error(`Attempting to set limit_type to "${limit_type}" - disallowed by config`)
         this.local_selected_limit = limit_type
         this.$emit('change', limit_type)
       }

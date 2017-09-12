@@ -14,6 +14,19 @@ import {categorical_bins, spatial_bins, time_series_bins} from './bin_responses'
  * @returns {array}
  */
 export default function get_data({responses, targets, aggregations, options, geodata}) {
+  console.log('options', options)
+
+  // filter geodata in here
+  switch (options.limit_to) {
+    case 'all':
+      break
+    case 'responses':
+      break
+    case 'targets':
+      break
+    default:
+
+  }
 
   // check got enough options to start
   if (!options.chart_type) throw new Error("Missing `options.chart_type`")

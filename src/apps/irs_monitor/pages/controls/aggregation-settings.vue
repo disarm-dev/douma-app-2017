@@ -30,7 +30,7 @@
     <limit_to
       :responses="responses"
       :targets="targets"
-      :selected_limit="selected_limit"
+      :selected_limit="limit_to"
       @change="select_limit"
     ></limit_to>
 
@@ -61,7 +61,7 @@
         dashboard_options: state => state.irs_monitor.dashboard_options,
         spatial_aggregation_level: state => state.irs_monitor.dashboard_options.spatial_aggregation_level,
         temporal_aggregation_level: state => state.irs_monitor.dashboard_options.temporal_aggregation_level,
-        selected_limit: state => state.irs_monitor.dashboard_options.selected_limit
+        limit_to: state => state.irs_monitor.dashboard_options.limit_to
       }),
       spatial_level_names() {
         return get_all_spatial_hierarchy_level_names()
@@ -95,7 +95,7 @@
         this.$store.commit('irs_monitor/set_dashboard_options', new_options)
       },
       select_limit(limit_type) {
-        this.$store.commit('irs_monitor/set_dashboard_option', {key: 'selected_limit', value: limit_type})
+        this.$store.commit('irs_monitor/set_dashboard_option', {key: 'limit_to', value: limit_type})
       },
     }
   }
