@@ -27,11 +27,12 @@
 
 
     <!-- OPTIONS: all, responses, plan -->
-    <p>
-      <md-radio name="limit_selection" md-value="all" @change="select_limit">All</md-radio>
-      <md-radio name="limit_selection" md-value="responses" @change="select_limit" :disabled="!responses.length">Responses</md-radio>
-      <md-radio name="limit_selection" md-value="plan" @change="select_limit" :disabled="!targets.length">Plan</md-radio><md-chip class="md-warn" v-if="!targets.length">No plan loaded</md-chip>
-    </p>
+    <limit_to
+      :responses="responses"
+      :targets="targets"
+      :selected_limit="selected_limit"
+      @change="select_limit"
+    ></limit_to>
 
   </div>
 </template>
@@ -41,8 +42,9 @@
 
   import {get_planning_level_name} from 'lib/instance_data/spatial_hierarchy_helper'
   import {get_all_spatial_hierarchy_level_names} from 'lib/instance_data/spatial_hierarchy_helper'
-
   import CONFIG from 'config/common'
+
+  import limit_to from './limit-to.vue'
 
   /**
    * Control various elements of the dashboard. Any settings here cascade down to all tables, maps, charts.
@@ -53,6 +55,12 @@
   export default {
     name: 'aggregation-settings',
     props: ['responses', 'targets'],
+    components: {limit_to},
+    data() {
+      return {
+        selected_limit: 'all'
+      }
+    },
     computed: {
       ...mapState({
         dashboard_options: state => state.irs_monitor.dashboard_options,
@@ -93,6 +101,7 @@
       },
       select_limit(limit_type) {
         console.log('limit_type', limit_type)
+        this.selected_limit = limit_type
         return
 
         const new_options = {
@@ -100,7 +109,7 @@
           limit_to_plan: limit_to_plan
         }
         this.$store.commit('irs_monitor/set_dashboard_options', new_options)
-      }
+      },
     }
   }
 </script>
