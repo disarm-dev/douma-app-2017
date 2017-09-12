@@ -25,10 +25,14 @@
       </md-button-toggle>
     </p>
 
+
+    <!-- OPTIONS: all, responses, plan -->
     <p>
-      <md-checkbox :value="limit_to_plan" :disabled="!plan" @change="set_limit_to_plan">Limit to plan</md-checkbox>
-      <md-chip class="md-warn" v-if="!plan">No plan loaded</md-chip>
+      <md-radio name="limit_selection" md-value="all" @change="select_limit">All</md-radio>
+      <md-radio name="limit_selection" md-value="responses" @change="select_limit" :disabled="!responses.length">Responses</md-radio>
+      <md-radio name="limit_selection" md-value="plan" @change="select_limit" :disabled="!targets.length">Plan</md-radio><md-chip class="md-warn" v-if="!targets.length">No plan loaded</md-chip>
     </p>
+
   </div>
 </template>
 
@@ -48,13 +52,13 @@
    */
   export default {
     name: 'aggregation-settings',
+    props: ['responses', 'targets'],
     computed: {
       ...mapState({
         dashboard_options: state => state.irs_monitor.dashboard_options,
         spatial_aggregation_level: state => state.irs_monitor.dashboard_options.spatial_aggregation_level,
         temporal_aggregation_level: state => state.irs_monitor.dashboard_options.temporal_aggregation_level,
         limit_to_plan: state => state.irs_monitor.dashboard_options.limit_to_plan,
-        plan: state => state.irs_monitor.plan
       }),
       spatial_level_names() {
         return get_all_spatial_hierarchy_level_names()
@@ -87,7 +91,10 @@
         }
         this.$store.commit('irs_monitor/set_dashboard_options', new_options)
       },
-      set_limit_to_plan(limit_to_plan) {
+      select_limit(limit_type) {
+        console.log('limit_type', limit_type)
+        return
+
         const new_options = {
           ...this.dashboard_options,
           limit_to_plan: limit_to_plan

@@ -6,7 +6,7 @@
     <div class='applet_container'>
 
       <!--DASHBOARD CONTROLS-->
-      <controls :responses="responses"></controls>
+      <controls :responses="responses" :targets="targets"></controls>
 
       <!--MAP-->
       <dashboard_map

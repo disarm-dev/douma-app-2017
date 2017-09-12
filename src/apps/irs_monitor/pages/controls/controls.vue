@@ -9,7 +9,7 @@
     </md-card-header>
 
     <md-card-content v-show="show_filters">
-      <aggregation_settings></aggregation_settings>
+      <aggregation_settings :responses="responses" :targets="targets"></aggregation_settings>
       <!--<filters :responses="responses"></filters>-->
     </md-card-content>
 
@@ -24,7 +24,7 @@
   export default {
     name: 'controls',
     components: {filters, aggregation_settings},
-    props: ['responses'],
+    props: ['responses', 'targets'],
     computed: {
       show_filters: {
         get(){

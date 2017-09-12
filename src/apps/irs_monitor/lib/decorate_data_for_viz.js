@@ -171,6 +171,7 @@ export function decorate_for_map({binned_responses, targets, aggregations, optio
     if (!found) console.warn(`Missing aggregation for ${string}`)
     return found
   })
+
   // calculate all aggregations for responses in each bin
   const binned_aggregations = binned_responses.map(bin => {
     let result = {key: bin.key, values: {}}
@@ -182,25 +183,6 @@ export function decorate_for_map({binned_responses, targets, aggregations, optio
   })
 
   // create featureCollection, matching geodata with response bins
-  let geodata_features
-
-
-  if (options.limit_to_plan) {
-    const target_ids = targets.map(t => t.id)
-    geodata_features = selected_geodata_level_fc.features.filter((feature) => {
-      return target_ids.includes(feature.properties.__disarm_geo_id)
-    })
-  } else {
-    geodata_features = selected_geodata_level_fc.features
-  }
-
-  geodata_features = geodata_features.map((feature) => {
-    aggregations_for_map.forEach(aggregation => {
-      feature.properties[aggregation.name] = 0
-    })
-    return feature
-  })
-
   const decorated_features = flow(
     map((feature) => {
 
@@ -218,7 +200,7 @@ export function decorate_for_map({binned_responses, targets, aggregations, optio
       return feature
     }),
     compact
-  )(geodata_features)
+  )(selected_geodata_level_fc.features)
 
 
   // return a featureCollection
