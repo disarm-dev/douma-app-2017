@@ -73,14 +73,6 @@
             "width_constraint": "half"
           },
           "options": {
-            "fake_data": [
-              {
-                "x": ["24 jul", "31 jul", "7 aug", "14 aug", "21 aug"],
-                "y": [10, 25, 45, 65, 72],
-                "name": "coverage",
-                "type": "line"
-              }
-            ],
             "layout": {
               "showlegend": true,
               "title": "Room coverage as % of target",
