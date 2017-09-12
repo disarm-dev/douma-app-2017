@@ -1,12 +1,8 @@
 import get from 'lodash.get'
 
-/**
- * Something like 'AggUniCode' for SWZ or 'OBJECTID' for BWA
- * @param instance_config
- * @returns {*|string}
- */
 let instance_config_cache = null
 let spatial_hierarchy_cache = null
+
 
 const configure_spatial_helpers = (instance_config) => {
   instance_config_cache = instance_config
@@ -14,9 +10,6 @@ const configure_spatial_helpers = (instance_config) => {
 }
 
 
-const get_slug = () => {
-  return instance_config_cache.instance.slug
-}
 /**
  * Something like 'AggUniCode' or 'OBJECTID'
  * @returns {*|string}
@@ -42,25 +35,19 @@ const get_planning_level_name = () => {
 }
 
 
-
-const get_planning_level_display_name = () => {
-  const planning_level_name = spatial_hierarchy_cache.markers.planning_level_name // e.g. villages for NAM
-  const planning_level = spatial_hierarchy_cache.levels.find(sp => sp.name === planning_level_name)
-  return planning_level.display_field_name
-}
-
-
 const get_planning_level = () => {
   const planning_level_name = spatial_hierarchy_cache.markers.planning_level_name // e.g. villages for NAM
   const planning_level = spatial_hierarchy_cache.levels.find(sp => sp.name === planning_level_name)
   return planning_level
 }
 
+
 const get_field_name_for_level = (level_name) => {
   const level = spatial_hierarchy_cache.levels.find(level => level.name === level_name)
   if (!level) throw new Error(`Cannot find level ${level_name} in instance_config.spatial_hierarchy.levels`)
   return level.field_name
 }
+
 
 const get_display_name_for_level = (level_name) => {
   const level = spatial_hierarchy_cache.levels.find(level => level.name === level_name)
@@ -69,29 +56,19 @@ const get_display_name_for_level = (level_name) => {
 }
 
 
-const get_denominator_fields = () => {
-  return spatial_hierarchy_cache.markers.denominator_fields
-}
+// Property helpers
+const get_slug = () => instance_config_cache.instance.slug
 
-const get_denominator_enumerable_name = () => {
-  return Object.keys(get_denominator_fields())[0]
-}
+const get_denominator_fields = () => spatial_hierarchy_cache.markers.denominator_fields
 
-const get_all_spatial_hierarchy_levels = () => {
-  return spatial_hierarchy_cache.levels
-}
+const get_denominator_enumerable_name = () => Object.keys(get_denominator_fields())[0]
 
-const get_all_spatial_hierarchy_level_names = () => {
-  return spatial_hierarchy_cache.levels.map(level => level.name)
-}
+const get_all_spatial_hierarchy_levels = () => spatial_hierarchy_cache.levels
 
-const get_level_by_name = (name) => {
-  return spatial_hierarchy_cache.levels.find(level => level.name === name)
-}
+const get_all_spatial_hierarchy_level_names = () => spatial_hierarchy_cache.levels.map(level => level.name)
 
-const get_top_level_hierarchy = () => {
-  return spatial_hierarchy_cache.levels[0]
-}
+
+
 
 const get_record_location_selection = () => {
   const record_location_selection_level_name = spatial_hierarchy_cache.markers.record_location_selection_level_name
@@ -133,24 +110,22 @@ const get_data_version = (level_name) => {
 
 export {
   configure_spatial_helpers,
+
   get_slug,
   get_planning_level_id_field,
   get_denominator_fields,
   get_denominator_enumerable_name,
   get_planning_level,
   get_planning_level_name,
-  get_planning_level_display_name,
   get_field_name_for_level,
   get_display_name_for_level,
 
   get_all_spatial_hierarchy_levels,
   get_all_spatial_hierarchy_level_names,
-  get_level_by_name,
   get_record_location_selection,
 
   get_next_level_up_from_planning_level,
   get_next_level_down_from_planning_level,
-  get_top_level_hierarchy,
   get_data_version
 }
 
