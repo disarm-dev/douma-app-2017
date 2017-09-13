@@ -71,5 +71,20 @@ function bin_responses(responses, options) {
   } else {
     binned_responses = categorical_bins({responses, options})
   }
+  return remove_null_from_binned_responses(binned_responses)
+}
+
+function remove_null_from_binned_responses(binned_responses) {
+  const index_of_null = binned_responses.findIndex(bin => {
+    // null is a string, not null
+    return bin.key === 'null'
+  })
+  console.log('index_of_null', index_of_null)
+  if (index_of_null >= 0) {
+    // delete binned_responses[index_of_null]
+    binned_responses[index_of_null].key = "Other"
+  }
+  
+
   return binned_responses
 }
