@@ -1,4 +1,4 @@
-import {remove_null_from_binned_responses} from "apps/irs_monitor/lib/get_data_for_viz"
+import {replace_null_key_in_binned_responses} from "apps/irs_monitor/lib/get_data_for_viz"
 
 describe('replace null from binned responses', () => {
   it("replaces null with 'other'", () => {
@@ -11,9 +11,11 @@ describe('replace null from binned responses', () => {
       }
     ]
 
-    const result = remove_null_from_binned_responses(bins)
+    const replace_with = 'test'
 
-    assert.equal(bins[0].key, 'Other')
+    const result = replace_null_key_in_binned_responses(bins, replace_with)
+
+    assert.equal(result[0].key, replace_with)
   })
 
   it('does nothing to bins without the key null', () => {
@@ -26,9 +28,11 @@ describe('replace null from binned responses', () => {
       }
     ]
 
-    const result = remove_null_from_binned_responses(bins)
+    const replace_with = 'test'
 
-    assert.deepEqual(bins, result)
+    const result = replace_null_key_in_binned_responses(bins, replace_with)
+
+    assert.deepEqual(result, bins)
 
   })
 

@@ -19,6 +19,7 @@ export default {
       title: 'IRS Monitor',
       icon: 'dashboard',
       geodata_required: true,
+      replace_null_key_with: 'Other',
       defaults: {temporal_aggregation_level: 'week'},
       limit_to_options: ['all', 'responses', 'plan']
     },

@@ -1,5 +1,6 @@
 import {decorate_for_chart, decorate_for_map, decorate_for_pie, decorate_for_table} from './decorate_data_for_viz'
 import {categorical_bins, spatial_bins, time_series_bins} from './bin_responses'
+import CONFIG from "config/common"
 
 /**
  * Prepare and aggregate data for a basic series chart
@@ -71,18 +72,25 @@ function bin_responses(responses, options) {
   } else {
     binned_responses = categorical_bins({responses, options})
   }
-  return remove_null_from_binned_responses(binned_responses)
+  const replace_with = CONFIG.applets.irs_monitor.replace_null_key_with
+  return replace_null_key_in_binned_responses(binned_responses, replace_with)
 }
 
-function remove_null_from_binned_responses(binned_responses) {
+/**
+ *
+ * @param {Array} binned_responses
+ * @param {String} replace_with
+ * @returns {*}
+ */
+export function replace_null_key_in_binned_responses(binned_responses, replace_with) {
   const index_of_null = binned_responses.findIndex(bin => {
     // null is a string, not null
     return bin.key === 'null'
   })
-  console.log('index_of_null', index_of_null)
+
   if (index_of_null >= 0) {
     // delete binned_responses[index_of_null]
-    binned_responses[index_of_null].key = "Other"
+    binned_responses[index_of_null].key = replace_with
   }
   
 
