@@ -1,5 +1,8 @@
+import {get} from 'lodash'
+
 import {decorate_for_chart, decorate_for_map, decorate_for_pie, decorate_for_table} from './decorate_data_for_viz'
 import {categorical_bins, spatial_bins, time_series_bins} from './bin_responses'
+import CONFIG from "config/common"
 
 /**
  * Prepare and aggregate data for a basic series chart
@@ -14,10 +17,10 @@ import {categorical_bins, spatial_bins, time_series_bins} from './bin_responses'
  * @returns {array}
  */
 export default function get_data({responses, targets, aggregations, options, geodata}) {
-  console.log('options', options)
 
   // filter geodata in here
-  switch (options.limit_to) {
+  const limit_to = get(options, 'limit_to', 'all')
+  switch (limit_to) {
     case 'all':
       break
     case 'responses':
@@ -29,7 +32,9 @@ export default function get_data({responses, targets, aggregations, options, geo
   }
 
   // check got enough options to start
-  if (!options.chart_type) throw new Error("Missing `options.chart_type`")
+  const chart_type = get(options, 'chart_type', false)
+
+  if (!chart_type) throw new Error("Missing `options.chart_type`")
 
   // Create categorical or time_series bins of responses
   const binned_responses = bin_responses(responses, options)
@@ -39,7 +44,7 @@ export default function get_data({responses, targets, aggregations, options, geo
 
   // Create data in right structure depending on chart_type and options (esp. in 'aggregate_for_chart')
   let data
-  switch (options.chart_type) {
+  switch (chart_type) {
     case 'pie':
       data = decorate_for_pie({binned_responses, targets, aggregations, options})
       break
@@ -71,5 +76,27 @@ function bin_responses(responses, options) {
   } else {
     binned_responses = categorical_bins({responses, options})
   }
+  const replace_with = CONFIG.applets.irs_monitor.replace_null_key_with
+  return replace_null_key_in_binned_responses(binned_responses, replace_with)
+}
+
+/**
+ *
+ * @param {Array} binned_responses
+ * @param {String} replace_with
+ * @returns {*}
+ */
+export function replace_null_key_in_binned_responses(binned_responses, replace_with) {
+  const index_of_null = binned_responses.findIndex(bin => {
+    // null is a string, not null
+    return bin.key === 'null'
+  })
+
+  if (index_of_null >= 0) {
+    // delete binned_responses[index_of_null]
+    binned_responses[index_of_null].key = replace_with
+  }
+  
+
   return binned_responses
 }

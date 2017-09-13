@@ -376,7 +376,12 @@
     }
   }
 </script>
-<style>
+<style scoped>
+  .card {
+    overflow: visible;
+    z-index: 4;
+  }
+
   #map {
     height: 500px
   }

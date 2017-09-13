@@ -19,8 +19,12 @@ export default {
       title: 'IRS Monitor',
       icon: 'dashboard',
       geodata_required: true,
+      replace_null_key_with: 'unknown',
       defaults: {temporal_aggregation_level: 'week'},
-      limit_to_options: ['all', 'responses', 'plan']
+      limit_to_options: ['all', 'responses', 'plan'],
+      chart_layout_defaults:{ // plotlyjs
+        legend: {"x": 1, y: 0, bgcolor: 'rgba(234, 234, 234, 0.79)'}
+      }
     },
     'irs_tasker': {title: 'IRS Tasker', icon: 'group', geodata_required: true},
     'debug': {title: 'Debug', icon: 'bug_report', geodata_required: true},

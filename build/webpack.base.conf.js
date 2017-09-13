@@ -4,7 +4,7 @@ var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
 var GitRevisionPlugin = require('git-revision-webpack-plugin')
-var StripJSONCommentsLoader = require('strip-json-comments-loader')
+var StripJSONCommentsLoader = require('webpack-comment-remover-loader')
 var get_analytics_ua_for_branch = require('./analytics_ua_for_branch')
 
 var gitRevisionPlugin = new GitRevisionPlugin()
@@ -67,7 +67,8 @@ module.exports = {
       },
       {
         test: /.json$/,
-        loader: StripJSONCommentsLoader
+        loader: StripJSONCommentsLoader,
+        exclude: /node_modules/
       }
     ]
   },

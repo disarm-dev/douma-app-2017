@@ -7,7 +7,7 @@
       :class="{'card-half-width': chart.style.width_constraint == 'half'}">
 
         <text_widget
-          v-if="chart.chart_type === 'text'"
+          v-if="chart.chart_type && chart.chart_type === 'text'"
           :chart_id="chart.id"
           :responses="responses"
           :targets="targets"

@@ -195,6 +195,18 @@ export function decorate_for_map({binned_responses, targets, aggregations, optio
           ...feature.properties,
           ...found_bin.values
         }
+      } else {
+        // Decorate the feature with the aggregations and set values to 0
+
+        const empty_aggregations = aggregations_for_map.reduce((acc, aggregation) => {
+          acc[aggregation.name] = 0
+          return acc
+        }, {})
+
+        feature.properties = {
+          ...feature.properties,
+          ...empty_aggregations
+        }
       }
 
       return feature

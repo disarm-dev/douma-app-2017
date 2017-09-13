@@ -1,6 +1,6 @@
 import {nest} from 'd3-collection'
 import {ascending} from 'd3-array'
-import {get} from 'lodash'
+import {get, has, isString, isArray} from 'lodash'
 
 import moment_original from 'moment-mini'
 import {extendMoment} from 'moment-range'
@@ -11,13 +11,43 @@ const moment = extendMoment(moment_original)
  * C
  * @param responses
  * @param options
+ * @return {array} binned_responses
  */
 export function categorical_bins({responses, options}) {
-  // split/bin into series
-  const binned_responses = nest()
-    .key(f => get(f, options.bin_by))
-    .sortKeys(ascending)
-    .entries(responses)
+  // check input
+  const bin_by = get(options, 'bin_by', null)
+
+  if (bin_by === null) throw new Error('Missing options.bin_by')
+  if (bin_by.length === 0) throw new Error('bin_by must not be an empty string or empty array')
+
+  let binned_responses
+
+  if (isString(bin_by)) {
+    // handle string
+    // split/bin into series
+    binned_responses = nest()
+      .key(f => get(f, bin_by))
+      .sortKeys(ascending)
+      .entries(responses)
+
+  } else if (isArray(bin_by)) {
+    // handle array
+    const binned_not_sorted= bin_by.map((key) => {
+      const values = responses.filter((response) => {
+        return has(response, key)
+      })
+      return {key, values}
+    })
+
+    binned_responses = binned_not_sorted.sort((a, b) => {
+      return a.key.localeCompare(b.key)
+    })
+
+
+
+  } else {
+    throw new Error('bin_by must be a string or non-empty array')
+  }
 
   return binned_responses
 }
