@@ -72,7 +72,6 @@
     "raven-js": "^3.15.0",
     "showdown": "^1.7.1",
     "strip-json-comments": "^2.0.1",
-    "strip-json-comments-loader": "0.0.2",
     "survey-knockout": "^0.12.23",
     "sw-offline-google-analytics": "0.0.19",
     "uuid": "^3.0.1",
@@ -90,6 +89,7 @@
     "vuex": "^2.3.1",
     "vuex-loading": "^0.1.11",
     "vuex-persistedstate": "^1.4.1",
+    "webpack-comment-remover-loader": "0.0.3",
     "which-polygon": "^2.1.0"
   },
   "devDependencies": {
@@ -151,6 +151,7 @@
     "vue-loader": "^12.1.0",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.4.2",
+    "vue-test-utils": "git+https://github.com/vuejs/vue-test-utils.git",
     "webpack": "^3.4.0",
     "webpack-bundle-analyzer": "^2.2.1",
     "webpack-dev-middleware": "^1.10.0",
