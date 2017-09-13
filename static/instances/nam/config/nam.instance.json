@@ -43,8 +43,8 @@
     },
     "irs_plan": {
       "table_output": [
-        {"display_name": "Village name", "source_field": "name"},
-        {"display_name": "Number of households", "source_field": "NumHouseho"},
+        {"display_name": "Village name", "source_field": "mp_NAME"},
+        {"display_name": "Number of structures", "source_field": "NumStructu"},
         {"display_name": "Predicted risk", "source_field": "risk"}
       ]
     },
@@ -71,12 +71,12 @@
     "slug": "nam"
   },
   "spatial_hierarchy": {
-    "data_version": 2,
+    "data_version": 3,
     "markers": {
       "planning_level_name": "villages",
       "record_location_selection_level_name": "villages",
       "denominator_fields": {
-        "number_of_households": "NumHouseholds"
+        "structures": "NumStructu"
       }
     },
     "levels": [
@@ -87,9 +87,9 @@
         "name": "constituencies"
       },
       {
-        "group_by_field": "constituency",
-        "field_name": "id",
-        "display_field_name": "name",
+        "group_by_field": "CONSTIT",
+        "field_name": "uID",
+        "display_field_name": "mp_NAME",
         "name": "villages"
       }
     ]
