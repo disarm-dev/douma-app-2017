@@ -71,12 +71,12 @@
     "slug": "nam"
   },
   "spatial_hierarchy": {
-    "data_version": 2,
+    "data_version": 3,
     "markers": {
       "planning_level_name": "villages",
       "record_location_selection_level_name": "villages",
       "denominator_fields": {
-        "number_of_households": "NumHouseholds"
+        "households": "NumStructu"
       }
     },
     "levels": [
@@ -87,9 +87,9 @@
         "name": "constituencies"
       },
       {
-        "group_by_field": "constituency",
-        "field_name": "id",
-        "display_field_name": "name",
+        "group_by_field": "CONSTIT",
+        "field_name": "uID",
+        "display_field_name": "mp_NAME",
         "name": "villages"
       }
     ]
