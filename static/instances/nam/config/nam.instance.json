@@ -18,28 +18,28 @@
           "structures sprayed",
           "structures sprayed %"
         ]
-      },
-      "charts": [
-        {
-          "id": "spray_status_pie",
-          "style": {
-            "height_constraint": "none",
-            "width_constraint": "half"
-          },
-          "options": {
-            "layout": {
-              "title": "Refusal reason"
-            },
-            "chart_type": "pie",
-            "bin_by": "_decorated.sprayed_status",
-            "series": [
-              {
-                "aggregation_name": "count"
-              }
-            ]
-          }
-        }
-      ]
+      }
+//      "charts": [
+//        {
+//          "id": "spray_status_pie",
+//          "style": {
+//            "height_constraint": "none",
+//            "width_constraint": "half"
+//          },
+//          "options": {
+//            "layout": {
+//              "title": "Refusal reason"
+//            },
+//            "chart_type": "pie",
+//            "bin_by": "_decorated.sprayed_status",
+//            "series": [
+//              {
+//                "aggregation_name": "count"
+//              }
+//            ]
+//          }
+//        }
+//      ]
     },
     "irs_plan": {
       "table_output": [

@@ -9,7 +9,7 @@ const IrsMonitorSchema = schema({
   ...applet_base_schema,
   map: Object,
   table: Object,
-  charts: Array.of_x(1, Infinity, {
+  '?charts': Array.of_x(1, Infinity, {
     id: String,
     style: {
       height_constraint: ['none', 'viewport'],
