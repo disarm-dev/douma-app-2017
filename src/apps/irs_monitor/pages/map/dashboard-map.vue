@@ -60,7 +60,8 @@
         // map cache
         _map: null,
         map_loaded: false,
-        bbox: [],
+        bounds_already_fit: false,
+
         _click_handler: null,
         _responses_click_handler: null,
         _aggregated_responses_fc: null,
@@ -139,12 +140,16 @@
         })
       },
       fit_bounds() {
-        this._map.fitBounds(this.bbox, {padding: 20})
+        if (this.bounds_already_fit) return
+        this.bounds_already_fit = true
+        const map_bbox = bbox(this._aggregated_responses_fc)
+        this._map.fitBounds(map_bbox, {padding: 20})
       },
       redraw_layers() {
         if (!this.map_loaded) return
         this.calculate_layer_attributes()
         this.switch_layer()
+        this.fit_bounds()
       },
       set_selected_layer(layer_string) {
         this.selected_layer = layer_string
@@ -156,14 +161,9 @@
 
         this.add_response_points()
         this.add_layer(layer_string)
-        this.zoom_to_features()
-      },
-      zoom_to_features () {
-        // Zoom to features
-        this.bbox = bbox(this._aggregated_responses_fc)
         this.bind_popup(this.selected_layer)
       },
-
+      
       // Lower-level map stuff
       clear_map() {
         const ids = ['areas', 'area_labels']
