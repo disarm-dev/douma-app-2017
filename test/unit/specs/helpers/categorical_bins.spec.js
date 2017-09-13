@@ -20,4 +20,14 @@ describe('categorical bins', () => {
     assert.equal(result[1].key, 2)
   })
 
+  it('should throw when no options are passed in', () => {
+    const responses = [
+      {type: 1},
+      {type: 2},
+      {type: 1}
+    ]
+    const fn = categorical_bins.bind(this, {responses})
+    assert.throws(fn, 'Missing options.bin_by')
+  })
+
 })

@@ -13,9 +13,14 @@ const moment = extendMoment(moment_original)
  * @param options
  */
 export function categorical_bins({responses, options}) {
+  const bin_by = get(options, 'bin_by', false)
+
+  if (!bin_by) {
+    throw new Error('Missing options.bin_by')
+  }
   // split/bin into series
   const binned_responses = nest()
-    .key(f => get(f, options.bin_by))
+    .key(f => get(f, bin_by))
     .sortKeys(ascending)
     .entries(responses)
 
