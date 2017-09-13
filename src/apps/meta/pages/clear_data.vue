@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <md-list>
-      <md-list-item @click="clear_geodata"><md-icon>language</md-icon><span>clear geodata</span><md-icon v-if='geodata_cleared' class="md-primary">check</md-icon></md-list-item>
       <md-list-item v-for="applet in applets" :key="applet" @click="clear_applet_storage(applet)">
         <md-icon>delete</md-icon><span>clear storage for {{applet}}</span>
       </md-list-item>
@@ -27,10 +26,6 @@
       },
     },
     methods: {
-      clear_geodata() {
-        cache.geodata = {}
-        this.geodata_cleared = true
-      },
       clear_local_storage() {
         localStorage.clear()
         console.log('Cleared localStorage')
@@ -38,9 +33,9 @@
         location.reload()
       },
       clear_applet_storage(applet) {
-        console.log('applet', applet)
         const mutation  = `${applet}/clear_data_storage`
         this.$store.commit(mutation, {}, {root: true})
+        this.$store.commit('root:set_snackbar', {message: `Cleared storage for ${applet}`})
       },
     }
   }
