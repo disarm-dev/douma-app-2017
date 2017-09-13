@@ -76,7 +76,7 @@
       "planning_level_name": "villages",
       "record_location_selection_level_name": "villages",
       "denominator_fields": {
-        "households": "NumStructu"
+        "structures": "NumStructu"
       }
     },
     "levels": [
