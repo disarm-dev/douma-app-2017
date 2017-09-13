@@ -12,6 +12,26 @@ describe('categorical bins', () => {
     assert.throws(fn, 'Missing options.bin_by')
   })
 
+  it('should throw error if options.bin_by string is empty', () => {
+    const responses = []
+    const options = {
+      bin_by: ''
+    }
+    const fn = categorical_bins.bind(this, {responses, options})
+    assert.throws(fn, 'bin_by must not be an empty string or empty array')
+  })
+
+  it('should throw error if options.bin_by array is empty', () => {
+    const responses = []
+    const options = {
+      bin_by: []
+    }
+    const fn = categorical_bins.bind(this, {responses, options})
+    assert.throws(fn, 'bin_by must not be an empty string or empty array')
+  })
+
+
+
   describe('options.bin_by as string', () => {
 
     it('bins responses based on a string in options.bin_by', () => {
@@ -35,17 +55,17 @@ describe('categorical bins', () => {
 
 
   describe('options.bin_by as array ', () => {
-    it('should throw error if array is empty', () => {
-      const responses = []
+    it('should return 1 bin for each provided array entry', () => {
+      const responses = [
+        {custom_name1: 1},
+        {custom_name1: 2}
+      ]
       const options = {
-        bin_by: []
+        bin_by: ['custom_name1']
       }
-      const fn = categorical_bins.bind(this, {responses, options})
-      assert.throws(fn, 'bin_by must be a string or non-empty array')
-    })
+      const result = categorical_bins({responses, options})
 
-    xit('should return 1 bin for each provided array entry', () => {
-
+      assert.lengthOf(result, 1)
     })
   })
 
