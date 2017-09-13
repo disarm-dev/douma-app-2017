@@ -205,9 +205,16 @@
             },
             "chart_type": "pie",
             "bin_by": "_decorated.sprayed_status",
-            "series": [{
-              "aggregation_name": "count"
-            }]
+            "series": [
+              {"aggregation_name": "number of rooms not sprayed - locked"},
+              {"aggregation_name": "number of rooms not sprayed - nobody"},
+              {"aggregation_name": "number of rooms not sprayed - refusal"},
+              {"aggregation_name": "number of rooms not sprayed - baby"},
+              {"aggregation_name": "number of rooms not sprayed - patient"},
+              {"aggregation_name": "number of rooms not sprayed - funeral"},
+              {"aggregation_name": "number of rooms not sprayed - kitchen"},
+              {"aggregation_name": "number of rooms not sprayed - food storage"}
+            ]
           }
         }
       ],
