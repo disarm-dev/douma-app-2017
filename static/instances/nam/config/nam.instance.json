@@ -43,8 +43,8 @@
     },
     "irs_plan": {
       "table_output": [
-        {"display_name": "Village name", "source_field": "name"},
-        {"display_name": "Number of households", "source_field": "NumHouseho"},
+        {"display_name": "Village name", "source_field": "mp_NAME"},
+        {"display_name": "Number of structures", "source_field": "NumStructu"},
         {"display_name": "Predicted risk", "source_field": "risk"}
       ]
     },
