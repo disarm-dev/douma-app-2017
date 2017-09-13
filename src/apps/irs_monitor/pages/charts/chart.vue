@@ -9,7 +9,7 @@
 
     <div :id="chart_id"></div>
 
-    <md-card-content v-if="has_responses">
+    <md-card-content v-if="!has_responses">
       <div><em>Not enough data to display chart (and who likes empty charts anyway?)</em></div>
     </md-card-content>
 
@@ -38,10 +38,11 @@
     },
     computed: {
       chart_title() { return get(this.options, 'layout.title', 'No title') },
-      has_responses() { return this.responses && this.response.length !== 0}
+      has_responses() { return this.responses && this.responses.length !== 0}
     },
     created() {
-      const plotly_event_listeners = []
+      this.plotly_event_listeners = []
+      this.data = []
     },
     mounted() {
       this.render_chart()
@@ -54,16 +55,16 @@
     },
     methods: {
       render_chart() {
-        // If no responses and chart previously rendered, then remove it and return
+        // If no responses and chart was previously rendered, then remove it and return
         // Do these checks to avoid rendering whole chart if data has changed
-        if (this.has_responses) {
+        if (!this.has_responses) {
           if (this._chart) Plotly.purge(this._chart)
           return
         }
 
         const geodata = cache.geodata // TODO: @refac When we fix geodata into store, etc
 
-        const data = get_data({
+        this.data = get_data({
           responses: this.responses,
           targets: this.targets,
           aggregations: this.aggregations,
@@ -80,7 +81,7 @@
 
         // Plotly#newPlot can be called multiple times, will update data, but not layout
         const displayModeBar = get(this.options, 'layout.displayModeBar', false)
-        Plotly.newPlot(this.chart_id, data, layout, {displayModeBar})
+        Plotly.newPlot(this.chart_id, this.data, layout, {displayModeBar})
           .then((plot) => {
             this._chart = plot
             const fn = Plotly.Plots.resize.bind(this, plot)

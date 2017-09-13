@@ -4,7 +4,9 @@
       "map": {
         "chart_type": "map",
         "bin_by": "location.selection.id",
-        "aggregation_names": ["number of rooms sprayed"],
+        "aggregation_names": [
+          "number of rooms sprayed"
+        ],
         "response_point_fields": [
           "recorded_on",
           "form_data.number_of_buildings_in_homesteads",
@@ -33,7 +35,6 @@
           "number of rooms not sprayable (N)",
           "number of rooms not sprayable (%)",
           "Number of sprayable rooms not sprayed",
-
           // Refusal reasons
           "number of rooms not sprayed - locked",
           "number of rooms not sprayed - locked (%)",
@@ -188,9 +189,11 @@
             "chart_type": "bar",
             "time_series": true,
             "bin_by": "recorded_on",
-            "multi_series": [{
-              "aggregation_name": "number of rooms sprayed"
-            }]
+            "multi_series": [
+              {
+                "aggregation_name": "number of rooms sprayed"
+              }
+            ]
           }
         },
         {
@@ -204,16 +207,21 @@
               "title": "Refusal reasons for not spraying room"
             },
             "chart_type": "pie",
-            "bin_by": "_decorated.sprayed_status",
+            "bin_by": [
+              "form_data.rooms_locked",
+              "form_data.n_rooms_nobody",
+              "form_data.n_rooms_refused",
+              "form_data.n_rooms_baby",
+              "form_data.n_rooms_patient",
+              "form_data.n_rooms_funeral",
+              "form_data.n_rooms_kitchen",
+              "form_data.n_rooms_food_storage",
+              "form_data.n_rooms_other"
+            ],
             "series": [
-              {"aggregation_name": "number of rooms not sprayed - locked"},
-              {"aggregation_name": "number of rooms not sprayed - nobody"},
-              {"aggregation_name": "number of rooms not sprayed - refusal"},
-              {"aggregation_name": "number of rooms not sprayed - baby"},
-              {"aggregation_name": "number of rooms not sprayed - patient"},
-              {"aggregation_name": "number of rooms not sprayed - funeral"},
-              {"aggregation_name": "number of rooms not sprayed - kitchen"},
-              {"aggregation_name": "number of rooms not sprayed - food storage"}
+              {
+                "aggregation_name": "count"
+              }
             ]
           }
         }
@@ -223,11 +231,26 @@
     "irs_plan": {
       "title": "Planning + Management",
       "table_output": [
-        {"display_name": "District name", "source_field": "name_2"},
-        {"display_name": "Village name", "source_field": "VILLAGE"},
-        {"display_name": "Number of buildings enumerated", "source_field": "NumStrct"},
-        {"display_name": "Estimated number of rooms", "source_field": "NumRooms"},
-        {"display_name": "Predicted risk", "source_field": "risk"}
+        {
+          "display_name": "District name",
+          "source_field": "name_2"
+        },
+        {
+          "display_name": "Village name",
+          "source_field": "VILLAGE"
+        },
+        {
+          "display_name": "Number of buildings enumerated",
+          "source_field": "NumStrct"
+        },
+        {
+          "display_name": "Estimated number of rooms",
+          "source_field": "NumRooms"
+        },
+        {
+          "display_name": "Predicted risk",
+          "source_field": "risk"
+        }
       ]
     },
     "irs_record_point": {
@@ -270,8 +293,10 @@
       },
       {
         "group_by_field": "name_2",
-        "field_name": "OBJECTID", // __disarm_geo_id
-        "display_field_name": "VILLAGE", // __disarm_geo_name
+        "field_name": "OBJECTID",
+        // __disarm_geo_id
+        "display_field_name": "VILLAGE",
+        // __disarm_geo_name
         "name": "villages"
       },
       {

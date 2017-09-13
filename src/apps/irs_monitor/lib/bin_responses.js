@@ -32,12 +32,18 @@ export function categorical_bins({responses, options}) {
 
   } else if (isArray(bin_by)) {
     // handle array
-    binned_responses = bin_by.map((key) => {
+    const binned_not_sorted= bin_by.map((key) => {
       const values = responses.filter((response) => {
         return has(response, key)
       })
       return {key, values}
     })
+
+    binned_responses = binned_not_sorted.sort((a, b) => {
+      return a.key.localeCompare(b.key)
+    })
+
+
 
   } else {
     throw new Error('bin_by must be a string or non-empty array')
