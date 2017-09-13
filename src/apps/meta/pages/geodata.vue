@@ -29,7 +29,7 @@
           <!--DOWNLOAD BUTTON -->
           <md-button
             @click.native="retrieve_geodata_for(level)"
-            :disabled="isLoading(`geodata/${level}`) || loading_progress[level].status === 'complete'"
+            :disabled="isLoading(`geodata/${level}`)"
             class="md-dense list-button md-raised md-primary"
           >
             Download
