@@ -20,7 +20,10 @@ export default {
       icon: 'dashboard',
       geodata_required: true,
       defaults: {temporal_aggregation_level: 'week'},
-      limit_to_options: ['all', 'responses', 'plan']
+      limit_to_options: ['all', 'responses', 'plan'],
+      chart_layout_defaults:{
+        legend: {"xanchor": "right", bgcolor: 'rgba(234, 234, 234, 0.79)'}
+      }
     },
     'irs_tasker': {title: 'IRS Tasker', icon: 'group', geodata_required: true},
     'debug': {title: 'Debug', icon: 'bug_report', geodata_required: true},
