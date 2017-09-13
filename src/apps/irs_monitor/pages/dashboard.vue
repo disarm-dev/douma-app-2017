@@ -26,6 +26,7 @@
 
       <!-- CUSTOM STATIC-DATA CHARTS, etc -->
       <charts
+        v-if="chart_configs"
         :responses="responses"
         :targets="targets"
         :aggregations="aggregations"
