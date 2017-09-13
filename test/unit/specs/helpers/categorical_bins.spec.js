@@ -55,7 +55,7 @@ describe('categorical bins', () => {
 
 
   describe('options.bin_by as array ', () => {
-    it('should return 1 bin for each provided array entry', () => {
+    it('should return 1 bin for 1 array entry', () => {
       const responses = [
         {custom_name1: 1},
         {custom_name1: 2}
@@ -66,6 +66,23 @@ describe('categorical bins', () => {
       const result = categorical_bins({responses, options})
 
       assert.lengthOf(result, 1)
+      assert.equal(result[0].key, 'custom_name1')
+      assert.deepEqual(result[0].values, responses)
+    })
+
+    it('should return 2 bins for 2 array entries', () => {
+      const responses = [
+        {custom_name1: 1, custom_name2: 1},
+        {custom_name1: 2, custom_name2: 1}
+      ]
+      const options = {
+        bin_by: ['custom_name1', 'custom_name2']
+      }
+      const result = categorical_bins({responses, options})
+
+      assert.lengthOf(result, 2)
+      assert.equal(result[0].key, 'custom_name1')
+      assert.equal(result[1].key, 'custom_name2')
     })
   })
 

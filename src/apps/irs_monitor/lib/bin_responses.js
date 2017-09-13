@@ -1,6 +1,6 @@
 import {nest} from 'd3-collection'
 import {ascending} from 'd3-array'
-import {get, isString, isArray} from 'lodash'
+import {get, has, isString, isArray} from 'lodash'
 
 import moment_original from 'moment-mini'
 import {extendMoment} from 'moment-range'
@@ -32,15 +32,13 @@ export function categorical_bins({responses, options}) {
 
   } else if (isArray(bin_by)) {
     // handle array
-    // each element of array must meet XX requirements (e.g. have 'aggregation_name' property)
+    binned_responses = bin_by.map((key) => {
+      const values = responses.filter((response) => {
+        return has(response, key)
+      })
+      return {key, values}
+    })
 
-    // let output = []
-    // iterate each element
-    // const key = el.aggregation_name
-    // const values = find all matching responses
-    // output.push({[key]: key, values})
-
-    binned_responses = [1]
   } else {
     throw new Error('bin_by must be a string or non-empty array')
   }
