@@ -1,7 +1,3 @@
 {
-  "status": [
-    {"#d7191c": "number_sprayable == number_sprayable"},
-    {"#a6d96a": "number_sprayable == numbersprayed_ddt + numbersprayed_delta"},
-    {"#fdae61": "number_sprayable > 0"}
-  ]
+  
 }

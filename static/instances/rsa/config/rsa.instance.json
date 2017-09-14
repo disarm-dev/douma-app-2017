@@ -5,7 +5,7 @@
         "chart_type": "map",
         "bin_by": "location.selection.id",
         "aggregation_names": [
-          "structures sprayed %"
+          "responses"
         ],
         "response_point_fields": [
           "recorded_on"
@@ -15,42 +15,21 @@
         "chart_type": "table",
         "bin_by": "location.selection.name",
         "aggregation_names": [
-          "structures sprayed",
-          "structures sprayed %"
+          "responses"
         ]
       }
-//      "charts": [
-//        {
-//          "id": "spray_status_pie",
-//          "style": {
-//            "height_constraint": "none",
-//            "width_constraint": "half"
-//          },
-//          "options": {
-//            "layout": {
-//              "title": "Refusal reason"
-//            },
-//            "chart_type": "pie",
-//            "bin_by": "_decorated.sprayed_status",
-//            "series": [
-//              {
-//                "aggregation_name": "count"
-//              }
-//            ]
-//          }
-//        }
-//      ]
+//      "charts": []
     },
     "irs_plan": {
       "table_output": [
-        {"display_name": "Village name", "source_field": "mp_NAME"},
-        {"display_name": "Number of structures", "source_field": "NumStructu"},
+        {"display_name": "Municipality name", "source_field": "NAME_3"},
+        {"display_name": "Area in km2", "source_field": "area_sq_kms"},
         {"display_name": "Predicted risk", "source_field": "risk"}
       ]
     },
     "irs_record_point": {
       "metadata": {
-        "show": false,
+        "show": true,
         "optional_fields": []
       }
     },
@@ -60,37 +39,37 @@
   },
   "map_focus": {
     "centre": {
-      "lat": -19.186677697957833,
-      "lng": 16.940917968750004
+      "lat": -24.763539997063802,
+      "lng": 29.899415514140173
     },
-    "zoom": 6
+    "zoom": 5.3
   },
   "instance": {
-    "title": "Namibia IRS Tool",
-    "location_name": "Namibia",
-    "slug": "nam"
+    "title": "South Africa IRS Tool",
+    "location_name": "South Africa",
+    "slug": "rsa"
   },
   "spatial_hierarchy": {
-    "data_version": 3,
+    "data_version": 1,
     "markers": {
-      "planning_level_name": "villages",
-      "record_location_selection_level_name": "villages",
+      "planning_level_name": "municipalities",
+      "record_location_selection_level_name": "municipalities",
       "denominator_fields": {
-        "structures": "NumStructu"
+        "area": "area_sq_kms"
       }
     },
     "levels": [
       {
-        "group_by_field": "REGION",
-        "field_name": "OBJECTID",
-        "display_field_name": "CONST",
-        "name": "constituencies"
+        "group_by_field": "NAME_0",
+        "field_name": "ID_1",
+        "display_field_name": "NAME_1",
+        "name": "provinces"
       },
       {
-        "group_by_field": "CONSTIT",
-        "field_name": "uID",
-        "display_field_name": "mp_NAME",
-        "name": "villages"
+        "group_by_field": "NAME_1",
+        "field_name": "ID_3",
+        "display_field_name": "NAME_3",
+        "name": "municipalities"
       }
     ]
   }

@@ -1,38 +1,7 @@
 [
   {
-    "name": "homesteads found",
+    "name": "responses",
     "numerator_expr": "1"
-  },
-  {
-    "name": "structures found",
-    "numerator_expr": "number_sprayable + number_unsprayable"
-  },
-  {
-    "name": "structures found %",
-    "numerator_expr": "number_sprayable + number_unsprayable",
-    "denominator_field": "number_of_households"
-  },
-  {
-    "name": "structures sprayed",
-    "numerator_expr": "numbersprayed_delta + numbersprayed_ddt"
-  },
-  {
-    "name": "structures sprayed %",
-    "numerator_expr": "numbersprayed_delta + numbersprayed_ddt",
-    "denominator_field": "number_of_households"
-  },
-  {
-    "name": "sprayable structures not sprayed",
-    "numerator_expr": "number_sprayable - (numbersprayed_delta + numbersprayed_ddt)"
-  },
-  {
-    "name": "sprayable structures not sprayed (refused)",
-    "numerator_expr": "number_sprayable - (numbersprayed_delta + numbersprayed_ddt)"
-  },
-  {
-    "name": "sprayable structures not sprayed (refused) %",
-    "numerator_expr": "number_sprayable - (numbersprayed_delta + numbersprayed_ddt)",
-    "denominator_field": "number_of_households"
   }
 ]
 
