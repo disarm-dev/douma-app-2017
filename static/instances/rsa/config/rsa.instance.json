@@ -55,7 +55,7 @@
       "planning_level_name": "municipalities",
       "record_location_selection_level_name": "municipalities",
       "denominator_fields": {
-        "area": "area_sq_kms"
+        "square kilometers": "area_sq_kms"
       }
     },
     "levels": [
