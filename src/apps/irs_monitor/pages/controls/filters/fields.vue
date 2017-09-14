@@ -33,8 +33,7 @@
   import flatten from 'lodash/fp/flatten'
   import uniq from 'lodash/fp/uniq'
   import sortBy from 'lodash/fp/sortBy'
-
-  import {get_form_fields} from 'lib/instance_data/form_helpers'
+  import map from 'lodash/fp/map'
 
   export default {
     name: 'field-filters',
@@ -51,10 +50,9 @@
       }
     },
     computed: {
-      ...mapState({
-        form: state => state.instance_config.form
-      }),
       field_names() {
+        if (!this.responses || !this.responses.length) return []
+
         let all_field_names = []
         this.responses.forEach(response => {
           const nested_keys = this.extract_nested_keys(response)
@@ -71,6 +69,7 @@
       },
       field_values() {
         if (!this.filter_name) return []
+
         return flow(
           map(r => {
             return get(r, this.filter_name)
