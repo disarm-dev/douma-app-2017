@@ -1,0 +1,20 @@
+{
+  "popup_description": [
+    {
+      "title": "Date",
+      "field": "recorded_on"
+    },
+    {
+      "title": "Recorded by",
+      "field": "user"
+    },
+    {
+      "title": "Sprayable",
+      "field": "sprayable"
+    },
+    {
+      "title": "Team leader",
+      "field": "team_leader"
+    }
+  ]
+}

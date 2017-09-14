@@ -1,0 +1,97 @@
+{
+  "applets": {
+    "irs_monitor": {
+      "map": {
+        "chart_type": "map",
+        "bin_by": "location.selection.id",
+        "aggregation_names": [
+          "structures sprayed %"
+        ],
+        "response_point_fields": [
+          "recorded_on"
+        ]
+      },
+      "table": {
+        "chart_type": "table",
+        "bin_by": "location.selection.name",
+        "aggregation_names": [
+          "structures sprayed",
+          "structures sprayed %"
+        ]
+      }
+//      "charts": [
+//        {
+//          "id": "spray_status_pie",
+//          "style": {
+//            "height_constraint": "none",
+//            "width_constraint": "half"
+//          },
+//          "options": {
+//            "layout": {
+//              "title": "Refusal reason"
+//            },
+//            "chart_type": "pie",
+//            "bin_by": "_decorated.sprayed_status",
+//            "series": [
+//              {
+//                "aggregation_name": "count"
+//              }
+//            ]
+//          }
+//        }
+//      ]
+    },
+    "irs_plan": {
+      "table_output": [
+        {"display_name": "Village name", "source_field": "mp_NAME"},
+        {"display_name": "Number of structures", "source_field": "NumStructu"},
+        {"display_name": "Predicted risk", "source_field": "risk"}
+      ]
+    },
+    "irs_record_point": {
+      "metadata": {
+        "show": false,
+        "optional_fields": []
+      }
+    },
+    "meta": {},
+    "data_wizard": {},
+    "debug": {}
+  },
+  "map_focus": {
+    "centre": {
+      "lat": -19.186677697957833,
+      "lng": 16.940917968750004
+    },
+    "zoom": 6
+  },
+  "instance": {
+    "title": "Namibia IRS Tool",
+    "location_name": "Namibia",
+    "slug": "nam"
+  },
+  "spatial_hierarchy": {
+    "data_version": 3,
+    "markers": {
+      "planning_level_name": "villages",
+      "record_location_selection_level_name": "villages",
+      "denominator_fields": {
+        "structures": "NumStructu"
+      }
+    },
+    "levels": [
+      {
+        "group_by_field": "REGION",
+        "field_name": "OBJECTID",
+        "display_field_name": "CONST",
+        "name": "constituencies"
+      },
+      {
+        "group_by_field": "CONSTIT",
+        "field_name": "uID",
+        "display_field_name": "mp_NAME",
+        "name": "villages"
+      }
+    ]
+  }
+}
