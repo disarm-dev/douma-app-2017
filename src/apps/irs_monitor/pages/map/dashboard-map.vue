@@ -264,6 +264,8 @@
           // TODO: @feature Find out if {latitude, longitude} exist on coords or coords.coords
           let coords = response.location.coords
 
+          if (!coords) return null
+
           if (!coords.hasOwnProperty('latitude'))  {
             coords = coords.coords
           }
