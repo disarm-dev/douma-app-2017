@@ -307,7 +307,8 @@
           e.originalEvent.stopPropagation()
 
           const feature = this._map.queryRenderedFeatures(e.point, {layers: ['responses']})[0]
-          console.log(e, feature)
+          
+          if (!feature) return 
 
           const popup_properties_html = Object.keys(feature.properties)
             .filter(property_name => {
@@ -329,12 +330,10 @@
           const popup_title_html = `<p><b>Response ${feature.properties.id}</b></p>`
           const popup_content_html = popup_title_html + popup_properties_html.join('')
 
-          if (feature) {
-            new Popup({closeOnClick: true})
-              .setLngLat(e.lngLat)
-              .setHTML(popup_content_html)
-              .addTo(this._map);
-          }
+          new Popup({closeOnClick: true})
+            .setLngLat(e.lngLat)
+            .setHTML(popup_content_html)
+            .addTo(this._map);
         }
 
         // Add click handler to map
