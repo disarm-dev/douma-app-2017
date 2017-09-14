@@ -2,10 +2,11 @@
   "applets": {
     "irs_plan": {
       "table_output": [
+        {"display_name": "Province", "source_field": "PROVINCE"},
         {"display_name": "District name", "source_field": "DISTRICT"},
-        {"display_name": "Ward name", "source_field": "WARD_ID"},
-        {"display_name": "Estimated number of rooms", "source_field": "NumRooms"},
-        {"display_name": "Predicted risk", "source_field": "risk"}
+        {"display_name": "Ward number", "source_field": "WARDNUMBER"},
+        {"display_name": "Predicted risk", "source_field": "risk"},
+        {"display_name": "Estimated number of rooms", "source_field": "NumRooms"}
       ]
     },
     "irs_tasker": {},
@@ -200,8 +201,8 @@
     "levels": [
       {
         "group_by_field": "DISTRICT",
-        "field_name": "WARD_ID",
-        "display_field_name": "WARD_ID",
+        "field_name": "ZIMWARDSID",
+        "display_field_name": "ZIMWARDSID",
         "name": "wards"
       },
       {
