@@ -63,6 +63,10 @@ export default {
     add_filter: (state, field_filter) => {
       state.filters.push(field_filter)
     },
+    remove_filter: (state, field_filter) => {
+      const index = state.filters.findIndex(filter => Object.is(filter, field_filter))
+      state.filters.splice(index, 1)
+    },
 
     set_ui: (state, ui) => {state.ui = ui},
     set_dashboard_options: (state, options) => {
