@@ -1,24 +1,20 @@
 <template>
   <div>
     <h2>Filters for all fields</h2>
-    <p>Select field and value</p>
-
 
     <div class="filter_fields">
       <md-input-container class="filter_field">
-        <md-select v-model="filter_name">
+        <label>Select field and value</label>
+
+        <md-select v-model="filter_name" class="select">
           <md-option v-for="field_name in field_names" :key='field_name' :value="field_name">{{field_name}}</md-option>
         </md-select>
-      </md-input-container>
 
-      <md-input-container>
-        <md-select v-model="filter_comparator">
+        <md-select v-model="filter_comparator" class="select">
           <md-option v-for="comparator in comparators" :key="comparator" :value="comparator">{{comparator}}</md-option>
         </md-select>
-      </md-input-container>
 
-      <md-input-container>
-        <md-select v-model="filter_value" @input="change_handler">
+        <md-select v-model="filter_value" class="select">
           <md-option v-for="value in field_values" :key="value" :value="value">{{value}}</md-option>
         </md-select>
       </md-input-container>
@@ -116,12 +112,13 @@
         recurse(data, '');
         return Object.keys(result);
       },
-      change_handler() {
+      add_filter() {
         console.log('change_handler')
         const filter = {
-          filter_name: this.filter_name,
-          filter_comparator: this.filter_comparator,
-          filter_value: this.filter_value
+          // todo computed
+          name: this.filter_name,
+          comparator: this.filter_comparator,
+          value: this.filter_value
         }
         this.$emit('change', filter)
       }
@@ -130,6 +127,10 @@
 </script>
 
 <style scoped>
+
+  .select {
+    margin-right: 10px
+  }
 
   .filter_fields {
     display: flex;

@@ -67,7 +67,7 @@ describe('fields.vue', () => {
     assert.deepEqual(wrapper.vm.field_values, ["string 1", "string 2"])
   })
 
-  it('should emit a change event when filter_value changes', (done) => {
+  xit('should emit a change event when filter_value changes', (done) => {
     const wrapper = shallow(Fields)
     const change_stub = sinon.stub()
 
@@ -81,8 +81,41 @@ describe('fields.vue', () => {
       assert.isTrue(change_stub.called)
       done()
     })
+  })
 
+  it('should emit change when adding a filter', () => {
+    const wrapper = shallow(Fields, {
+      propsData: {responses}
+    })
 
+    sinon.spy(wrapper.vm, '$emit')
+
+    wrapper.setData({filter_name: 'field4', filter_comparator: 'eq', filter_value: 'string 2'})
+
+    wrapper.vm.add_filter()
+
+    assert.isTrue(wrapper.vm.$emit.calledOnce)
+  })
+
+  it('should emit change with a valid filter', () => {
+    const wrapper = shallow(Fields, {
+      propsData: {responses}
+    })
+
+    const expected = {
+      name: 'field4',
+      comparator: 'eq',
+      value: 'string 2'
+    }
+
+    sinon.spy(wrapper.vm, '$emit')
+
+    wrapper.setData({filter_name: 'field4', filter_comparator: 'eq', filter_value: 'string 2'})
+
+    wrapper.vm.add_filter()
+
+    assert.equal(wrapper.vm.$emit.getCall(0).args[0], 'change')
+    assert.deepEqual(wrapper.vm.$emit.getCall(0).args[1], expected)
   })
   
 })
