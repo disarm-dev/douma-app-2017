@@ -8,6 +8,7 @@ import {decorate_responses_from_json} from 'lib/models/response/decorator'
 import instance_decorator from 'lib/models/response/decorators-evaluated'
 import {set_filter, unset_filter} from './pages/controls/filters/controller'
 import CONFIG from 'config/common'
+import {filter_responses} from "apps/irs_monitor/lib/filters"
 
 export default {
   namespaced: true,
@@ -105,39 +106,19 @@ export default {
       if (!state.responses.length) return []
 
       // limit to plan if 'dashboard_options.limit_to_plan' is true
-      const plan_target_area_ids = getters.plan_target_area_ids
-      const limited_to_plan = state.responses.filter(r => {
-        if (!state.dashboard_options.limit_to_plan) return true
-        return plan_target_area_ids.includes(r.location_selection.id)
-      })
+      // const plan_target_area_ids = getters.plan_target_area_ids
+      // const limited_to_plan = state.responses.filter(r => {
+      //   if (!state.dashboard_options.limit_to_plan) return true
+      //   return plan_target_area_ids.includes(r.location_selection.id)
+      // })
 
-      const filtered = limited_to_plan.filter(response => {
-
-        if (get(state.field_filter, 'filter_name', false) &&  get(state.field_filter, 'filter_comparator', false) && get(state.field_filter, 'filter_value', false)) {
-          const {
-            filter_name,
-            filter_comparator,
-            filter_value
-          } = state.field_filter
-
-          // TODO: @feature Create a custom comparator function that uses filter_comparator
-          const result = get(response, filter_name) === filter_value
-          console.log('result', result)
-          return result
-        }
-
-        return true
-
-        return this.filters.all(filter => {
-          filter.field
-          filter.value
-        })
-      })
+      const filtered = filter_responses(state.responses, state.filters)
 
       // Run instance decorator on all responses
-      const decorated_responses = instance_decorator(filtered, rootState.instance_config)
+      // const decorated_responses = instance_decorator(filtered, rootState.instance_config)
 
-      return decorated_responses
+      return filtered
+      // return decorated_responses
     },
 
   },

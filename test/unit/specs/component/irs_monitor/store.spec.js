@@ -58,4 +58,31 @@ describe('monitor store', () => {
     assert.equal(store.state.filters.indexOf(filters[0]), -1)
 
   })
+
+  it('should filter responses when filters are present', () => {
+    const responses = [
+      {id: 1, question: 2},
+      {id: 1, question: 3},
+      {id: 2, question: 2},
+    ]
+
+    const filter = {name: 'id', comparator: 'eq', value: 2}
+
+    const store = new Vuex.Store(cloneDeep(irs_monitor_store))
+
+    store.commit('set_responses', responses)
+    store.commit('add_filter', filter)
+
+    assert.lengthOf(store.getters.filtered_responses, 1)
+
+    // remove filter and add a new one below
+
+    store.commit('remove_filter', filter)
+
+    const second_filter = {name: 'question', comparator: 'eq', value: 2}
+
+    store.commit('add_filter', second_filter)
+
+    assert.lengthOf(store.getters.filtered_responses, 2)
+  })
 })
