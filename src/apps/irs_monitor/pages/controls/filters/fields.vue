@@ -84,6 +84,13 @@
           uniq,
           sortBy(x => x)
         )(this.responses)
+      },
+      filter() {
+        return {
+          name: this.filter_name,
+          comparator: this.filter_comparator,
+          value: this.filter_value
+        }
       }
     },
     methods: {
@@ -113,14 +120,7 @@
         return Object.keys(result);
       },
       add_filter() {
-        console.log('change_handler')
-        const filter = {
-          // todo computed
-          name: this.filter_name,
-          comparator: this.filter_comparator,
-          value: this.filter_value
-        }
-        this.$emit('change', filter)
+        this.$emit('change', this.filter)
       }
     }
   }

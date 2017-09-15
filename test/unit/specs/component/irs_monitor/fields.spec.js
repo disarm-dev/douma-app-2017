@@ -67,22 +67,6 @@ describe('fields.vue', () => {
     assert.deepEqual(wrapper.vm.field_values, ["string 1", "string 2"])
   })
 
-  xit('should emit a change event when filter_value changes', (done) => {
-    const wrapper = shallow(Fields)
-    const change_stub = sinon.stub()
-
-    wrapper.setMethods({change_handler: change_stub})
-    wrapper.setProps({responses})
-
-    wrapper.setData({filter_name: 'field4'})
-    wrapper.setData({filter_value: 'string 2'})
-
-    Vue.nextTick(() => {
-      assert.isTrue(change_stub.called)
-      done()
-    })
-  })
-
   it('should emit change when adding a filter', () => {
     const wrapper = shallow(Fields, {
       propsData: {responses}
