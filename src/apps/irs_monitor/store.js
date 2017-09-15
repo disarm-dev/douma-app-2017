@@ -60,8 +60,8 @@ export default {
       const new_filters = unset_filter(state.filters, filter_to_remove, state.responses)
       state.filters = new_filters
     },
-    set_field_filter: (state, field_filter) => {
-      state.field_filter = field_filter
+    add_filter: (state, field_filter) => {
+      state.filters.push(field_filter)
     },
 
     set_ui: (state, ui) => {state.ui = ui},

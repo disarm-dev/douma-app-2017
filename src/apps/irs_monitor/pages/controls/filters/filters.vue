@@ -1,8 +1,8 @@
 <template>
   <div>
-    <filters_summary></filters_summary>
+    <filters_summary :filters="filters"></filters_summary>
 
-    <field_filters :field_filter="field_filter" :responses="responses" @change="set_field_filter"></field_filters>
+    <field_filters :responses="responses" @change="add_filter"></field_filters>
 
     <!--<temporal_filter></temporal_filter>-->
 
@@ -29,12 +29,13 @@
     components: {filters_summary, field_filters, temporal_filter, spatial_filter},
     computed: {
       ...mapState({
-        field_filter: state => state.irs_monitor.field_filter
+        field_filter: state => state.irs_monitor.field_filter,
+        filters: state => state.irs_monitor.filters,
       }),
     },
     methods: {
-      set_field_filter(field_filter) {
-        this.$store.commit('irs_monitor/set_field_filter', field_filter)
+      add_filter(field_filter) {
+        this.$store.commit('irs_monitor/add_filter', field_filter)
       }
     }
 //    mounted() {

@@ -20,4 +20,18 @@ describe('monitor store', () => {
     assert.deepEqual(store.state.responses, responses)
     assert.lengthOf(store.state.responses, 2)
   })
+
+  it('should add a filter to the filters array', () => {
+    const filter = {name: 'filter_name', comparator: 'eq', value: 'filter_value'}
+    const store = new Vuex.Store(irs_monitor_store)
+
+
+    assert.lengthOf(store.state.filters, 0)
+
+    store.commit('add_filter', filter)
+
+    assert.lengthOf(store.state.filters, 1)
+    
+    assert.deepEqual(store.state.filters[0], filter)
+  })
 })
