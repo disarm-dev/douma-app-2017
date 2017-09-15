@@ -1,5 +1,7 @@
 <template>
   <div>
+    <filters_summary></filters_summary>
+
     <field_filters :field_filter="field_filter" :responses="responses" @change="set_field_filter"></field_filters>
 
     <!--<temporal_filter></temporal_filter>-->
@@ -19,11 +21,12 @@
   import field_filters from './fields.vue'
   import temporal_filter from './temporal'
   import spatial_filter from './spatial'
+  import filters_summary from './summary'
 
   export default {
     name: 'Filters',
     props: ['responses'],
-    components: {field_filters, temporal_filter, spatial_filter},
+    components: {filters_summary, field_filters, temporal_filter, spatial_filter},
     computed: {
       ...mapState({
         field_filter: state => state.irs_monitor.field_filter
