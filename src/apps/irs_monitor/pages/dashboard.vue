@@ -6,7 +6,7 @@
     <div class='applet_container'>
 
       <!--DASHBOARD CONTROLS-->
-      <controls :responses="unfiltered_responses" :targets="targets"></controls>
+      <controls :responses="responses" :targets="targets"></controls>
 
       <!--MAP-->
       <dashboard_map
@@ -72,9 +72,6 @@
         table_options: state => state.instance_config.applets.irs_monitor.table,
         map_options: state => state.instance_config.applets.irs_monitor.map,
         chart_configs: state => state.instance_config.applets.irs_monitor.charts,
-
-        // unfiltered responses
-        unfiltered_responses: state => state.irs_monitor.responses
       }),
       ...mapGetters({
         responses: 'irs_monitor/filtered_responses',
