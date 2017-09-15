@@ -31,6 +31,26 @@ describe('fields.vue', () => {
     assert.deepEqual(wrapper.vm.field_values, [])
   })
 
+  it('should set the filter from props as local variables on created', (done) => {
+    const field_filter = {
+      filter_name: "field4",
+      filter_comparator: 'eq',
+      filter_value: 'string 2'
+    }
+
+    const wrapper = shallow(Fields, {
+      propsData: {responses, field_filter}
+    })
+
+    Vue.nextTick(() => {
+      assert.equal(wrapper.vm.filter_name, 'field4')
+      assert.equal(wrapper.vm.filter_comparator, 'eq')
+      assert.equal(wrapper.vm.filter_value, 'string 2')
+      done()
+    })
+
+  })
+
   it('should list all the unique fields from responses', () => {
     const wrapper = shallow(Fields)
     wrapper.setProps({responses})
@@ -47,7 +67,7 @@ describe('fields.vue', () => {
     assert.deepEqual(wrapper.vm.field_values, ["string 1", "string 2"])
   })
 
-  it('should emit a change event when filter_value changes', (next) => {
+  it('should emit a change event when filter_value changes', (done) => {
     const wrapper = shallow(Fields)
     const change_stub = sinon.stub()
 
@@ -59,7 +79,7 @@ describe('fields.vue', () => {
 
     Vue.nextTick(() => {
       assert.isTrue(change_stub.called)
-      next()
+      done()
     })
 
 

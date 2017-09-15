@@ -1,10 +1,10 @@
 <template>
   <div>
-    <field_filters :responses="responses"></field_filters>
+    <field_filters :field_filter="field_filter" :responses="responses" @change=""></field_filters>
 
-    <temporal_filter></temporal_filter>
+    <!--<temporal_filter></temporal_filter>-->
 
-    <spatial_filter></spatial_filter>
+    <!--<spatial_filter></spatial_filter>-->
   </div>
 </template>
 
@@ -24,11 +24,11 @@
     name: 'Filters',
     props: ['responses'],
     components: {field_filters, temporal_filter, spatial_filter},
-//    computed: {
-//      ...mapState({
-//        filter: state => state.irs_monitor.filter
-//      }),
-//    },
+    computed: {
+      ...mapState({
+        field_filter: state => state.irs_monitor.field_filter
+      }),
+    },
 //    mounted() {
 //      if (this.filter) {
 //        this.temporal = this.filter.temporal || {start: new Date(), end: new Date(new Date().getTime() + 24 * 60 * 60 * 1000)}
