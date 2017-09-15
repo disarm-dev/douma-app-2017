@@ -105,6 +105,7 @@ export default {
     filtered_responses(state, getters, rootState) {
       if (!state.responses.length) return []
 
+      // TODO: @feature Reimplement the stuff below, probably need it
       // limit to plan if 'dashboard_options.limit_to_plan' is true
       // const plan_target_area_ids = getters.plan_target_area_ids
       // const limited_to_plan = state.responses.filter(r => {
@@ -114,6 +115,7 @@ export default {
 
       const filtered = filter_responses(state.responses, state.filters)
 
+      // TODO: @feature Also reimplement the stuff below, probably need it
       // Run instance decorator on all responses
       // const decorated_responses = instance_decorator(filtered, rootState.instance_config)
 
