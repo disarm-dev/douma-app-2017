@@ -151,7 +151,7 @@
     "vue-loader": "^12.1.0",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.4.2",
-    "vue-test-utils": "git+https://github.com/vuejs/vue-test-utils.git",
+    "vue-test-utils": "git+https://github.com/vuejs/vue-test-utils.git#dev",
     "webpack": "^3.4.0",
     "webpack-bundle-analyzer": "^2.2.1",
     "webpack-dev-middleware": "^1.10.0",

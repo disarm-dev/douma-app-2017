@@ -18,7 +18,7 @@
       </md-input-container>
 
       <md-input-container>
-        <md-select v-model="filter_value">
+        <md-select v-model="filter_value" @input="change_handler">
           <md-option v-for="value in field_values" :key="value" :value="value">{{value}}</md-option>
         </md-select>
       </md-input-container>
@@ -79,8 +79,6 @@
         )(this.responses)
       }
     },
-    mounted() {
-    },
     methods: {
       extract_nested_keys(data) {
         var result = {};
@@ -106,6 +104,15 @@
 
         recurse(data, '');
         return Object.keys(result);
+      },
+      change_handler() {
+        console.log('change_handler')
+        const filter = {
+          filter_name: this.filter_name,
+          filter_comparator: this.filter_comparator,
+          filter_value: this.filter_value
+        }
+        this.$emit('change', filter)
       }
     }
   }
