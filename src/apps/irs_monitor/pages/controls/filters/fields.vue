@@ -18,6 +18,8 @@
           <md-option v-for="value in field_values" :key="value" :value="value">{{value}}</md-option>
         </md-select>
       </md-input-container>
+
+      <md-button @click="add_filter()">Add filter</md-button>
     </div>
   </div>
 </template>
