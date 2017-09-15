@@ -1,6 +1,6 @@
 <template>
   <div>
-    <field_filters :field_filter="field_filter" :responses="responses" @change=""></field_filters>
+    <field_filters :field_filter="field_filter" :responses="responses" @change="set_field_filter"></field_filters>
 
     <!--<temporal_filter></temporal_filter>-->
 
@@ -29,6 +29,11 @@
         field_filter: state => state.irs_monitor.field_filter
       }),
     },
+    methods: {
+      set_field_filter(field_filter) {
+        this.$store.commit('irs_monitor/set_field_filter', field_filter)
+      }
+    }
 //    mounted() {
 //      if (this.filter) {
 //        this.temporal = this.filter.temporal || {start: new Date(), end: new Date(new Date().getTime() + 24 * 60 * 60 * 1000)}
