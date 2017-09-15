@@ -1,6 +1,6 @@
 <template>
   <div>
-    <filters_summary :filters="filters"></filters_summary>
+    <filters_summary :filters="filters" @remove_filter="remove_filter"></filters_summary>
 
     <field_filters :responses="responses" @change="add_filter"></field_filters>
 
@@ -34,8 +34,11 @@
       }),
     },
     methods: {
-      add_filter(field_filter) {
-        this.$store.commit('irs_monitor/add_filter', field_filter)
+      add_filter(filter) {
+        this.$store.commit('irs_monitor/add_filter', filter)
+      },
+      remove_filter(filter) {
+        this.$store.commit('irs_monitor/remove_filter', filter)
       }
     }
 //    mounted() {
