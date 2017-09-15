@@ -1,5 +1,6 @@
 import Vue from 'vue'
 
+import {get} from 'lodash'
 import {get_all_records} from 'lib/models/response/remote'
 import {get_current_plan} from 'lib/models/plan/remote'
 import {Plan} from 'lib/models/plan/model'
@@ -107,6 +108,20 @@ export default {
       })
 
       const filtered = limited_to_plan.filter(response => {
+
+        if (get(state.field_filter, 'filter_name', false) &&  get(state.field_filter, 'filter_comparator', false) && get(state.field_filter, 'filter_value', false)) {
+          const {
+            filter_name,
+            filter_comparator,
+            filter_value
+          } = state.field_filter
+
+          // TODO: @feature Create a custom comparator function that uses filter_comparator
+          const result = get(response, filter_name) === filter_value
+          console.log('result', result)
+          return result
+        }
+
         return true
 
         return this.filters.all(filter => {
