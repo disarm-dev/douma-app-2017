@@ -22,67 +22,83 @@ describe('monitor store', () => {
     assert.lengthOf(store.state.responses, 2)
   })
 
-  it('should add a filter to the filters array', () => {
-    const filter = {name: 'filter_name', comparator: 'eq', value: 'filter_value'}
-    const store = new Vuex.Store(cloneDeep(irs_monitor_store))
+  describe('filters', () => {
+    it('should add a filter to the filters array', () => {
+      const filter = {name: 'filter_name', comparator: 'eq', value: 'filter_value'}
+      const store = new Vuex.Store(cloneDeep(irs_monitor_store))
 
 
-    assert.lengthOf(store.state.filters, 0)
+      assert.lengthOf(store.state.filters, 0)
 
-    store.commit('add_filter', filter)
+      store.commit('add_filter', filter)
 
-    assert.lengthOf(store.state.filters, 1)
+      assert.lengthOf(store.state.filters, 1)
 
-    assert.deepEqual(store.state.filters[0], filter)
+      assert.deepEqual(store.state.filters[0], filter)
+    })
+
+    it('should remove a filter from the filters array', () => {
+      const filters = [
+        {name: 'filter_name', comparator: 'eq', value: 'filter_value'},
+        {name: 'filter_name2', comparator: 'eq', value: 'filter_value2'},
+        {name: 'filter_name3', comparator: 'eq', value: 'filter_value3'}
+      ]
+
+      const store = new Vuex.Store(cloneDeep(irs_monitor_store))
+
+      assert.lengthOf(store.state.filters, 0)
+
+      filters.forEach(filter => store.commit('add_filter', filter))
+
+      assert.lengthOf(store.state.filters, 3)
+
+      store.commit('remove_filter', filters[0])
+
+      assert.lengthOf(store.state.filters, 2)
+
+      assert.equal(store.state.filters.indexOf(filters[0]), -1)
+
+    })
   })
 
-  it('should remove a filter from the filters array', () => {
-    const filters = [
-      {name: 'filter_name', comparator: 'eq', value: 'filter_value'},
-      {name: 'filter_name2', comparator: 'eq', value: 'filter_value2'},
-      {name: 'filter_name3', comparator: 'eq', value: 'filter_value3'}
-    ]
-
-    const store = new Vuex.Store(cloneDeep(irs_monitor_store))
-
-    assert.lengthOf(store.state.filters, 0)
-
-    filters.forEach(filter => store.commit('add_filter', filter))
-
-    assert.lengthOf(store.state.filters, 3)
-
-    store.commit('remove_filter', filters[0])
-
-    assert.lengthOf(store.state.filters, 2)
-
-    assert.equal(store.state.filters.indexOf(filters[0]), -1)
-
-  })
-
-  it('should filter responses when filters are present', () => {
+  describe('responses', () => {
     const responses = [
       {id: 1, question: 2},
-      {id: 1, question: 3},
       {id: 2, question: 2},
+      {id: 3, question: 3}
     ]
 
-    const filter = {name: 'id', comparator: 'eq', value: 2}
+    it('should return all responses with no filters', () => {
+      const store_content = cloneDeep(irs_monitor_store)
+      store_content.state.responses = responses
 
-    const store = new Vuex.Store(cloneDeep(irs_monitor_store))
+      const store = new Vuex.Store(store_content)
 
-    store.commit('set_responses', responses)
-    store.commit('add_filter', filter)
+      assert.lengthOf(store.getters.filtered_responses, 3)
+    })
 
-    assert.lengthOf(store.getters.filtered_responses, 1)
 
-    // remove filter and add a new one below
+    it('should filter responses when filters are present returning 1 response', () => {
+      const filter = {name: 'id', comparator: 'eq', value: 2}
+      const store_content = cloneDeep(irs_monitor_store)
 
-    store.commit('remove_filter', filter)
+      store_content.state.responses = responses
+      store_content.state.filters = [filter]
 
-    const second_filter = {name: 'question', comparator: 'eq', value: 2}
+      const store = new Vuex.Store(store_content)
+      assert.lengthOf(store.getters.filtered_responses, 1)
+    })
 
-    store.commit('add_filter', second_filter)
+    it('should filter responses when filters are present returning more than 1 response', () => {
+      const filter = {name: 'question', comparator: 'eq', value: 2}
+      const store_content = cloneDeep(irs_monitor_store)
 
-    assert.lengthOf(store.getters.filtered_responses, 2)
+      store_content.state.responses = responses
+      store_content.state.filters = [filter]
+
+      const store = new Vuex.Store(store_content)
+      assert.lengthOf(store.getters.filtered_responses, 2)
+    })
+
   })
 })
