@@ -106,12 +106,10 @@ export default {
     filtered_responses(state, getters, rootState) {
       if (!state.responses.length) return []
 
-      // TODO: @feature Reimplement the stuff below, probably need it
       // limit to plan if 'dashboard_options.limit_to_plan' is true
-      const plan_target_area_ids = getters.plan_target_area_ids
       const limited_to_plan = state.responses.filter(r => {
         if (!state.dashboard_options.limit_to_plan) return true
-        return plan_target_area_ids.includes(r.location_selection.id)
+        return getters.plan_target_area_ids.includes(r.location_selection.id)
       })
 
       const filtered = filter_responses(limited_to_plan, state.filters)
