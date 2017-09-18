@@ -115,12 +115,7 @@ export default {
 
       const filtered = filter_responses(state.responses, state.filters)
 
-      // TODO: @feature Also reimplement the stuff below, probably need it
-      // Run instance decorator on all responses
-      // const decorated_responses = instance_decorator(filtered, rootState.instance_config)
-
       return filtered
-      // return decorated_responses
     },
 
   },
@@ -129,8 +124,11 @@ export default {
       const instance_slug = context.rootState.instance_config.instance.slug
       return get_all_records(instance_slug).then(res=> {
         const responses = decorate_responses_from_json(res, context.rootState.instance_config)
+
+        const decorated_responses = instance_decorator(responses, context.rootState.instance_config)
+
         context.commit('update_responses_last_updated_at')
-        context.commit('set_responses', responses)
+        context.commit('set_responses', decorated_responses)
       })
     },
     get_current_plan: (context) => {
