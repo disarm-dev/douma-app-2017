@@ -31,6 +31,7 @@ export default {
       // TODO: @config Extract default temporal_aggregation_level
       temporal_aggregation_level: CONFIG.applets.irs_monitor.defaults.temporal_aggregation_level,
       spatial_aggregation_level: null,
+      limit_to_plan: false,
       limit_to: ''
     }
   },
@@ -107,13 +108,13 @@ export default {
 
       // TODO: @feature Reimplement the stuff below, probably need it
       // limit to plan if 'dashboard_options.limit_to_plan' is true
-      // const plan_target_area_ids = getters.plan_target_area_ids
-      // const limited_to_plan = state.responses.filter(r => {
-      //   if (!state.dashboard_options.limit_to_plan) return true
-      //   return plan_target_area_ids.includes(r.location_selection.id)
-      // })
+      const plan_target_area_ids = getters.plan_target_area_ids
+      const limited_to_plan = state.responses.filter(r => {
+        if (!state.dashboard_options.limit_to_plan) return true
+        return plan_target_area_ids.includes(r.location_selection.id)
+      })
 
-      const filtered = filter_responses(state.responses, state.filters)
+      const filtered = filter_responses(limited_to_plan, state.filters)
 
       return filtered
     },

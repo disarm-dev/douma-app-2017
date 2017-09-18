@@ -100,5 +100,27 @@ describe('monitor store', () => {
       assert.lengthOf(store.getters.filtered_responses, 2)
     })
 
+    it('should filter responses according to plan', () => {
+      const plan = {
+        targets: [{id: 1},{id: 2},{id: 3}]
+      }
+
+      const local_responses = [
+        {location_selection: {id: 1}},
+        {location_selection: {id: 2}},
+        {location_selection: {id: 3}},
+        {location_selection: {id: 4}}
+      ]
+
+      const store_content = cloneDeep(irs_monitor_store)
+      store_content.state.plan = plan
+      store_content.state.responses = local_responses
+      store_content.state.dashboard_options.limit_to_plan = true
+
+      const store = new Vuex.Store(store_content)
+
+      assert.equal(store.getters.filtered_responses.length, 3)
+    })
+
   })
 })
