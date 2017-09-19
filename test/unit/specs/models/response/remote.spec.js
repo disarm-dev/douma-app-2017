@@ -1,6 +1,10 @@
 import remote from 'lib/models/response/remote'
+import sinon from 'sinon'
+import axios from 'axios'
+
 
 describe('Responses remote', () => {
+
   describe('basic CRUD functions exist', () => {
     // responses/remote.js
     // create
@@ -14,5 +18,50 @@ describe('Responses remote', () => {
       assert.equal(typeof remote.create, expected)
       assert.equal(typeof remote.read_all, expected)
     })
+  })
+  
+  describe('remote calls', () => {
+    it('should display a blankslate', (done) => {
+      const sandbox = sinon.sandbox.create()
+      const resolved = new Promise((r) => r({ data: [1] }));
+      sandbox.stub(axios, 'get').returns(resolved);
+
+      axios.get('/record/all')
+        .then(({data}) => {
+          assert.equal(data.length, 1)
+          assert.equal(data[0], 1)
+          done()
+          sandbox.restore()
+        })
+        .catch((e) => {
+          done()
+          sandbox.restore()
+        })
+
+
+    });
+
+    xit('should return responses as an array', async () => {
+      const server = sinon.createFakeServer();
+
+      server.respondWith("GET", "/record/all", [200, { "Content-Type": "application/json" }, '[{ "id": 12, "comment": "Hey there" }]']);
+
+      const callback = sinon.spy();
+
+      axios.get('/record/all')
+        .then(callback)
+        .catch(console.log)
+      // remote.read_all().then(callback)
+
+      server.respond()
+
+      assert.equal(callback.called, true)
+      // assert.equal(callback.calledWith([{ id: 12, comment: "Hey there" }]), true)
+
+      server.restore()
+
+      // assert(false)
+    })
+
   })
 })
