@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import {get} from 'lodash'
+import {get, isEqual} from 'lodash'
 import {get_all_records} from 'lib/models/response/remote'
 import {get_current_plan} from 'lib/models/plan/remote'
 import {Plan} from 'lib/models/plan/model'
@@ -63,10 +63,15 @@ export default {
       state.filters = new_filters
     },
     add_filter: (state, field_filter) => {
+
+      const filter_present = state.filters.some(f => isEqual(f, field_filter))
+
+      if (filter_present) return
+
       state.filters.push(field_filter)
     },
     remove_filter: (state, field_filter) => {
-      const index = state.filters.findIndex(filter => Object.is(filter, field_filter))
+      const index = state.filters.findIndex(filter => isEqual(filter, field_filter))
       state.filters.splice(index, 1)
     },
 
