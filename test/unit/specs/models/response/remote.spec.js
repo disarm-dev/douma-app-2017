@@ -1,22 +1,18 @@
-import {get_all_records} from "lib/models/response/remote";
+import remote from 'lib/models/response/remote'
 
-xdescribe('Responses remote', () => {
+describe('Responses remote', () => {
+  describe('basic CRUD functions exist', () => {
+    // responses/remote.js
+    // create
+    // (read one)
+    // read all
+    // (update)
+    // (delete)
 
-  describe('Get records', () => {
-    it('should return a promise', () => {
-
+    it('create, read_all exist as functions', () => {
+      const expected = 'function'
+      assert.equal(typeof remote.create, expected)
+      assert.equal(typeof remote.read_all, expected)
     })
-
-    it('should return a promise resolving with an array of objects', () => {
-
-    })
-  })
-
-  describe('Create records', () => {
-    it('should throw an error if no records are passed in', () => {
-
-    })
-
-
   })
 })
