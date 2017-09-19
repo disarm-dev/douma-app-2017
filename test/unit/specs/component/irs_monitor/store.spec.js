@@ -59,6 +59,25 @@ describe('monitor store', () => {
       assert.equal(store.state.filters.indexOf(filters[0]), -1)
 
     })
+    
+    it('should not add a filter that is already in the filters array', () => {
+      const filters = [
+        {name: 'filter_name', comparator: 'eq', value: 'filter_value'},
+        {name: 'filter_name2', comparator: 'eq', value: 'filter_value2'},
+        {name: 'filter_name3', comparator: 'eq', value: 'filter_value3'}
+      ]
+
+      const monitor_store_clone = cloneDeep(irs_monitor_store)
+
+      monitor_store_clone.state.filters = filters
+
+      const store = new Vuex.Store(monitor_store_clone)
+
+      // Adding a filter that is already present in the filters array
+      store.commit('add_filter', filters[0])
+
+      assert.equal(store.state.filters.length, 3)
+    })
   })
 
   describe('responses', () => {
