@@ -10,6 +10,18 @@ describe('responses.controller', () => {
         const actual = typeof controller.sync_new_records
         assert.equal(actual, expected)
       })
+      
+      it('throw error if given no responses', async () => {
+        const expected = 'Need to pass more than zero responses'
+
+        try {
+          await controller.sync_new_records([])
+        } catch(e) {
+          const actual = e.message
+          assert.equal(actual, expected)
+        }
+
+      })
     })
     describe('"REFRESH RECORDS": get all remote records, decorate, write to local (e.g. for MONITOR)', () => {})
     xdescribe('(sync - i.e. find difference in state between local+remote and rectify)', () => {})
