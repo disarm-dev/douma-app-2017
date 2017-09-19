@@ -1,12 +1,25 @@
+import controller from 'lib/models/response/controller'
+
 describe('responses.controller', () => {
 
 
   describe('WOVEN TOGETHER', () => {
-    it('"SYNC NEW RECORDS": get all new local records, write to remote (e.g. for RECORD)', () => {})
-
-    it('"REFRESH RECORDS": get all remote records, decorate, write to local (e.g. for MONITOR)', () => {})
-
-    xit('(sync - i.e. find difference in state between local+remote and rectify)', () => {})
+    describe('"SYNC NEW RECORDS": get all new local records, write to remote (e.g. for RECORD)', () => {
+      it('should be a function', () => {
+        const expected = 'function'
+        const actual = typeof controller.sync_new_records
+        assert.equal(actual, expected)
+      })
+    })
+    describe('"REFRESH RECORDS": get all remote records, decorate, write to local (e.g. for MONITOR)', () => {})
+    xdescribe('(sync - i.e. find difference in state between local+remote and rectify)', () => {})
+  })
+  
+  describe('proxied to response/local', () => {
+    describe('create - make new record from RECORD', () => {})
+    describe('read all - view them all in MONITOR', () => {})
+    describe('update - edit in RECORD', () => {})
+    xdescribe('(delete) - not yet', () => {})
   })
 
 
@@ -16,11 +29,7 @@ describe('responses.controller', () => {
 
 
 
-  // SIMPLE (proxied to responses.local.js)
-  // * create - make new record from RECORD
-  // * read all - view them all in MONITOR
-  // * update - edit in RECORD
-  // (delete) - not yet
+
 
 
 
