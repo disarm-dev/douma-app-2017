@@ -41,7 +41,7 @@
       has_responses() { return this.responses && this.responses.length !== 0}
     },
     created() {
-      this.plotly_event_listeners = []
+      this.plotly_event_listeners = [] // This is unobserved, just a normal variable
       this.data = []
     },
     mounted() {
