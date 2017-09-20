@@ -24,7 +24,8 @@
         "spatial_bins": true,
         "bin_by": "location.selection.id",
         "aggregation_names": [
-          "structures sprayed %"
+          "structures sprayed %",
+          "structures sprayed"
         ],
         "property_layers": [
           "risk",
