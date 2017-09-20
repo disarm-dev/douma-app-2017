@@ -1,5 +1,5 @@
 <template>
-  <md-card class="card filter_select">
+  <md-card class="card filter_select filter-container">
     <md-card-header>
       <div class="md-title" @click="show_filters = !show_filters">
         <md-icon v-if="show_filters">keyboard_arrow_down</md-icon>
@@ -39,5 +39,8 @@
 </script>
 
 <style scoped>
-
+  .filter-container {
+    z-index: 4;
+    overflow: visible;
+  }
 </style>

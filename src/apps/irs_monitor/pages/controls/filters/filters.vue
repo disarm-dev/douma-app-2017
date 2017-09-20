@@ -93,14 +93,4 @@
 </script>
 
 <style scoped>
-  .date-input {
-    display: inline-block;
-    padding: 0 1em;
-  }
-
-  .filter_select {
-    z-index: 4;
-    overflow: visible;
-    margin-bottom: 10px;
-  }
 </style>
