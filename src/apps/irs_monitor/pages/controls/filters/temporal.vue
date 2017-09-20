@@ -31,7 +31,9 @@ export default {
   },
   methods: {
     set_start_and_end_dates() {
-      const dates = this.responses.map(record => record.recorded_on.getTime())
+      if (!this.responses || !this.responses.length) return
+
+      const dates = this.responses.map(record => new Date(record.recorded_on).getTime())
 
       this.start = new Date(Math.min(...dates))
       this.end = new Date(Math.max(...dates))

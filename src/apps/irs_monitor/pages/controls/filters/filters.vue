@@ -4,7 +4,7 @@
 
     <field_filters :responses="responses" @change="add_filter"></field_filters>
 
-    <!--<temporal_filter></temporal_filter>-->
+    <temporal_filter :responses="responses" @change="add_filter"></temporal_filter>
 
     <!--<spatial_filter></spatial_filter>-->
   </div>

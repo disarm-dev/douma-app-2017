@@ -16,6 +16,12 @@ describe('temporal-filters.vue', () => {
     }
   ]
 
+  it('should not crash if no responses are passed in', () => {
+    const wrapper = shallow(TemporalFilters)
+
+    assert.doesNotThrow(wrapper.vm.set_start_and_end_dates, TypeError)
+  })
+
 
   it('should set the start date to the earliest date from the responses', () => {
     const wrapper = shallow(TemporalFilters, {
