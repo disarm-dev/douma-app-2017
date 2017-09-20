@@ -29,6 +29,9 @@ export default {
   created() {
     this.set_start_and_end_dates()
   },
+  watch: {
+    'responses': 'set_start_and_end_dates'
+  },
   methods: {
     set_start_and_end_dates() {
       if (!this.responses || !this.responses.length) return
@@ -43,14 +46,14 @@ export default {
       this.$emit('change', {
         filter_name: 'recorded_on',
         filter_comparator: '>',
-        filter_value: this.start.getTime()
+        filter_value: new Date(this.start).getTime()
       })
 
       //emit end
       this.$emit('change', {
         filter_name: 'recorded_on',
         filter_comparator: '<',
-        filter_value: this.end.getTime()
+        filter_value: new Date(this.end).getTime()
       })
     }
   }

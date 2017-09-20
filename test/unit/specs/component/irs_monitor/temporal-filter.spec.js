@@ -22,6 +22,19 @@ describe('temporal-filters.vue', () => {
     assert.doesNotThrow(wrapper.vm.set_start_and_end_dates, TypeError)
   })
 
+  it('should not have start and end be null when responses change', () => {
+    const wrapper = shallow(TemporalFilters)
+
+    wrapper.setProps({responses})
+
+    const actual_start = wrapper.vm.start
+
+    assert.isNotNull(actual_start)
+
+    const actual_end = wrapper.vm.end
+    assert.isNotNull(actual_end)
+  })
+
 
   it('should set the start date to the earliest date from the responses', () => {
     const wrapper = shallow(TemporalFilters, {
