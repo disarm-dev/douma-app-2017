@@ -110,5 +110,15 @@ describe('temporal-filters.vue', () => {
     assert.deepEqual(expected_end, actual_end)
   })
 
+  it('should not emit a filter when there are no responses', () => {
+    const wrapper = shallow(TemporalFilters)
+
+    sinon.spy(wrapper.vm, '$emit')
+
+    wrapper.vm.add_temporal_filter()
+
+    assert.equal(wrapper.vm.$emit.called, false)
+  })
+
 
 })

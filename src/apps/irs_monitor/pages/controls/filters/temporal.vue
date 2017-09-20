@@ -10,6 +10,10 @@
       <b>To</b>
       <date-picker v-model="end"></date-picker>
     </div>
+
+    <div class="date-input">
+      <md-button @click="add_temporal_filter">Add filter</md-button>
+    </div>
   </div>
 </template>
 
@@ -42,6 +46,8 @@ export default {
       this.end = new Date(Math.max(...dates))
     },
     add_temporal_filter() {
+      if (!this.responses || !this.responses.length) return
+
       // emit start
       this.$emit('change', {
         name: 'recorded_on',
@@ -61,4 +67,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
+  .date-input {
+    display: inline-block;
+  }
 </style>

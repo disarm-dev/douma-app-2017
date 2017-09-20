@@ -13,6 +13,7 @@ function filter_response(response, filters) {
 
     let response_value = get(response, name, 0)
 
+    // TODO: @refac Find another way to convert string to int
     if (name === 'recorded_on') {
       response_value = new Date(response_value).getTime()
     }
