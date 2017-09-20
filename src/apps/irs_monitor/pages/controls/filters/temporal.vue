@@ -3,12 +3,12 @@
     <h2>Temporal filter</h2>
     <div class="date-input">
       <b>From</b>
-      <date-picker :value="start" @selected="set_start_date"></date-picker>
+      <date-picker v-model="start"></date-picker>
     </div>
 
     <div class="date-input">
       <b>To</b>
-      <date-picker :value="end" @selected="set_end_date"></date-picker>
+      <date-picker v-model="end"></date-picker>
     </div>
   </div>
 </template>
@@ -18,32 +18,38 @@ import DatePicker from 'vuejs-datepicker';
 
 export default {
   name: 'temporal',
+  props: ['responses'],
   components: {DatePicker},
   data () {
     return {
-      start: new Date(),
-      end: new Date(),
+      start: null,
+      end: null,
     }
   },
-  computed: {
-    temporal: {
-      get() {
-        return this.$store.state.irs_monitor.filters.temporal
-      },
-      set(value) {
-        this.$store.commit('irs_monitor/set_filter', {
-          path: 'temporal', 
-          value: value
-        })
-      }
-    }
+  created() {
+    this.set_start_and_end_dates()
   },
   methods: {
-    set_start_date(start_date) {
-      this.start = start_date
+    set_start_and_end_dates() {
+      const dates = this.responses.map(record => record.recorded_on.getTime())
+
+      this.start = new Date(Math.min(...dates))
+      this.end = new Date(Math.max(...dates))
     },
-    set_end_date(end_date) {
-      this.end = end_date
+    add_temporal_filter() {
+      // emit start
+      this.$emit('change', {
+        filter_name: 'recorded_on',
+        filter_comparator: '>',
+        filter_value: this.start.getTime()
+      })
+
+      //emit end
+      this.$emit('change', {
+        filter_name: 'recorded_on',
+        filter_comparator: '<',
+        filter_value: this.end.getTime()
+      })
     }
   }
 };
