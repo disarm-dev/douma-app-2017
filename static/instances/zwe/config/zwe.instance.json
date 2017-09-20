@@ -27,7 +27,8 @@
           "structures sprayed %"
         ],
         "property_layers": [
-          "risk"
+          "risk",
+          "NumRooms"
         ],
         "response_point_fields": [
           "recorded_on"

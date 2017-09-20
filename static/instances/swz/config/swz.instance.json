@@ -7,6 +7,10 @@
         "aggregation_names": [
           "structures sprayed %"
         ],
+        "property_layers": [
+          "risk",
+          "NmStrct"
+        ],
         "response_point_fields": [
           "recorded_on"
         ]

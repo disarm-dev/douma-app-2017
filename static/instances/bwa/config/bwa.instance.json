@@ -7,6 +7,10 @@
         "aggregation_names": [
           "number of rooms sprayed"
         ],
+        "property_layers": [
+          "risk",
+          "NumRooms"
+        ],
         "response_point_fields": [
           "recorded_on",
           "form_data.number_of_buildings_in_homesteads",

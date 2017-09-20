@@ -234,11 +234,21 @@
           const feature = this._map.queryRenderedFeatures(e.point, {layers: ['areas']})[0]
           console.log(e, feature)
           if (feature) {
+
+            const properties_to_show = this.options.aggregation_names.concat(this.options.property_layers)
+            // get properties from options
+            const property_paragraphs = properties_to_show.map(property => {
+              return `<p>${property} : ${feature.properties[property]}</p>`
+            }).join('')
+
+
+
+
             new Popup({closeOnClick: true})
               .setLngLat(e.lngLat)
               .setHTML(`
                 <p><b>${feature.properties.__disarm_geo_name}</b></p>
-                <p>${this.selected_layer}: ${feature.properties[this.selected_layer]}</p>
+                ${property_paragraphs}
               `)
               .addTo(this._map);
           }
