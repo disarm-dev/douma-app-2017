@@ -52,10 +52,10 @@
     data() {
       return {
         filter_name: '',
-        filter_comparator: 'eq',
+        filter_comparator: '==',
         filter_value: '',
 
-        comparators: ['eq', 'neq', 'gt', 'gte', 'lt', 'lte']
+        comparators: ['==', '!=', '>', '>=', '<', '<=']
       }
     },
     computed: {

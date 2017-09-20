@@ -98,7 +98,7 @@ describe('monitor store', () => {
 
 
     it('should filter responses when filters are present returning 1 response', () => {
-      const filter = {name: 'id', comparator: 'eq', value: 2}
+      const filter = {name: 'id', comparator: '==', value: 2}
       const store_content = cloneDeep(irs_monitor_store)
 
       store_content.state.responses = responses
@@ -109,7 +109,7 @@ describe('monitor store', () => {
     })
 
     it('should filter responses when filters are present returning more than 1 response', () => {
-      const filter = {name: 'question', comparator: 'eq', value: 2}
+      const filter = {name: 'question', comparator: '==', value: 2}
       const store_content = cloneDeep(irs_monitor_store)
 
       store_content.state.responses = responses
