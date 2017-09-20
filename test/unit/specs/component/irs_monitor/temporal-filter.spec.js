@@ -6,13 +6,13 @@ import TemporalFilters from 'apps/irs_monitor/pages/controls/filters/temporal.vu
 describe('temporal-filters.vue', () => {
   const responses = [
     {
-      recorded_on: new Date("2017-9-1")
+      recorded_on: new Date("2017-9-1").toString()
     },
     {
-      recorded_on: new Date("2017-9-3")
+      recorded_on: new Date("2017-9-3").toString()
     },
     {
-      recorded_on: new Date("2017-9-5")
+      recorded_on: new Date("2017-9-5").toString()
     }
   ]
 
@@ -41,7 +41,7 @@ describe('temporal-filters.vue', () => {
       propsData: {responses}
     })
 
-    const expected = responses[0].recorded_on.getTime()
+    const expected = new Date(responses[0].recorded_on).getTime()
     const actual = wrapper.vm.start.getTime()
 
     assert.equal(expected, actual)
@@ -52,7 +52,7 @@ describe('temporal-filters.vue', () => {
       propsData: {responses}
     })
 
-    const expected = responses[2].recorded_on.getTime()
+    const expected = new Date(responses[2].recorded_on).getTime()
     const actual = wrapper.vm.end.getTime()
     assert.equal(expected, actual)
   })
@@ -67,12 +67,12 @@ describe('temporal-filters.vue', () => {
 
     wrapper.vm.set_start_and_end_dates()
 
-    const expected_start = responses[0].recorded_on.getTime()
+    const expected_start = new Date(responses[0].recorded_on).getTime()
     const actual_start = wrapper.vm.start.getTime()
 
     assert.equal(expected_start, actual_start)
 
-    const expected_end = responses[2].recorded_on.getTime()
+    const expected_end = new Date(responses[2].recorded_on).getTime()
     const actual_end = wrapper.vm.end.getTime()
 
     assert.equal(expected_end, actual_end)
@@ -100,12 +100,12 @@ describe('temporal-filters.vue', () => {
 
     wrapper.vm.add_temporal_filter()
 
-    const expected_start = {filter_name: 'recorded_on', filter_comparator: '>', filter_value: responses[0].recorded_on.getTime()}
+    const expected_start = {name: 'recorded_on', comparator: '>', value: new Date(responses[0].recorded_on).getTime()}
     const actual_start = wrapper.vm.$emit.getCall(0).args[1]
     assert.deepEqual(expected_start, actual_start)
 
 
-    const expected_end = {filter_name: 'recorded_on', filter_comparator: '<', filter_value: responses[2].recorded_on.getTime()}
+    const expected_end = {name: 'recorded_on', comparator: '<', value: new Date(responses[2].recorded_on).getTime()}
     const actual_end = wrapper.vm.$emit.getCall(1).args[1]
     assert.deepEqual(expected_end, actual_end)
   })

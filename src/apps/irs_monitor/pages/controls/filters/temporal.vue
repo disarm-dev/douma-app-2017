@@ -44,16 +44,16 @@ export default {
     add_temporal_filter() {
       // emit start
       this.$emit('change', {
-        filter_name: 'recorded_on',
-        filter_comparator: '>',
-        filter_value: new Date(this.start).getTime()
+        name: 'recorded_on',
+        comparator: '>',
+        value: new Date(this.start).getTime()
       })
 
       //emit end
       this.$emit('change', {
-        filter_name: 'recorded_on',
-        filter_comparator: '<',
-        filter_value: new Date(this.end).getTime()
+        name: 'recorded_on',
+        comparator: '<',
+        value: new Date(this.end).getTime()
       })
     }
   }

@@ -8,13 +8,18 @@ export function filter_responses(responses, filters = []) {
 
 
 function filter_response(response, filters) {
-
   return filters.every(filter => {
     const {name, comparator, value} = filter
-    const response_value = get(response, name, null)
+
+    let response_value = get(response, name, 0)
+
+    if (name === 'recorded_on') {
+      response_value = new Date(response_value).getTime()
+    }
 
     const expr_string = `response_value ${comparator} ${value}`
     const variables = { response_value }
+    
     return Parser.evaluate(expr_string, variables)
   })
 }
