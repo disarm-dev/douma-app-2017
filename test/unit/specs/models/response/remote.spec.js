@@ -1,6 +1,7 @@
 import remote from 'lib/models/response/remote'
 import sinon from 'sinon'
 import axios from 'axios'
+import {configure_standard_handler} from "lib/remote/standard-handler"
 
 
 describe('Responses remote', () => {
@@ -40,6 +41,32 @@ describe('Responses remote', () => {
 
 
     });
+
+    it('should work', (done) => {
+      const sandbox = sinon.sandbox.create()
+      const resolved = new Promise((r) => r({ data: [1,2,3,4,5] }));
+      sandbox.stub(axios, 'get').returns(resolved);
+
+      const callback = sinon.spy()
+
+      configure_standard_handler({})
+      // assert(false)
+      remote.read_all()
+        .then((res) => {
+          console.log('res', res)
+          sandbox.restore()
+          done()
+
+        })
+        // .catch((e) => {
+        //   assert(false)
+        //   done()
+        //   sandbox.restore()
+        // })
+
+
+      // assert(callback.called)
+    })
 
     xit('should return responses as an array', async () => {
       const server = sinon.createFakeServer();
