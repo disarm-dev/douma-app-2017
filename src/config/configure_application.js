@@ -65,16 +65,11 @@ export function configure_application (instance_config) {
   console.log('TODO: @idea 🤔 Can we start getting the tile-cover thing going here, to cache all needed vector tiles? https://github.com/mapbox/tile-cover')
 
   // Configure standard_handler for remote requests
-  // Also trigger a ping to API, for lots of reasons, mostly that the API seems to take ages to wake up
-  // (Loads of components use network requests when they are created/mounted)
-  //try_reconnect()
   configure_standard_handler(store)
 
   // Analytics 1/2: instantiate analytics before you create the application
   // (Vue injects $ga in every component)
   instantiate_analytics(router)
-
-
 
   // CREATE VUE APP
 
@@ -85,6 +80,10 @@ export function configure_application (instance_config) {
     store,
     render: createElement => createElement(DoumaComponent),
   })
+
+  // Also trigger a ping to API, for lots of reasons, mostly that the API seems to take ages to wake up
+  // (Loads of components use network requests when they are created/mounted)
+  douma_app.$store.dispatch("try_reconnect")
 
 
   // AFTER VUE APP IS CREATED (first page has rendered)
