@@ -1,8 +1,12 @@
+const url = BRANCH === 'master' ? 'https://douma-api.herokuapp.com' : 'https://douma-api-stage.herokuapp.com'
+const version = 'v3'
+
 export default {
   api: {
     // Standard DOUMA API
-    url: BRANCH === 'master' ? 'https://douma-api.herokuapp.com' : 'https://douma-api-stage.herokuapp.com',
-    version: 'v3',
+    url: url,
+    version: version,
+    douma_api_root: `${url}/${version}`,
 
     // Currently not used
     WEATHER_API_URL: 'https://weather.api.disarm.io/processor/output',

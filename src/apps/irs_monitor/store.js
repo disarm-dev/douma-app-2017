@@ -120,12 +120,14 @@ export default {
   },
   actions: {
     get_all_records: (context) => {
-      const instance_slug = context.rootState.instance_config.instance.slug
-      return read_all(instance_slug).then(res=> {
-        const responses = decorate_responses_from_json(res, context.rootState.instance_config)
-        context.commit('update_responses_last_updated_at')
-        context.commit('set_responses', responses)
-      })
+      return context.dispatch('standard_handler', {url: CONFIG.api.douma_api_root + `/record/all`}, {root: true})
+        .then(res => {
+          // TODO: @refac It seems that we do not use the properties added from the function below
+          // const responses = decorate_responses_from_json(res, context.rootState.instance_config)
+          const responses = res
+          context.commit('update_responses_last_updated_at')
+          context.commit('set_responses', responses)
+        })
     },
     get_current_plan: (context) => {
       const instance_slug = context.rootState.instance_config.instance.slug

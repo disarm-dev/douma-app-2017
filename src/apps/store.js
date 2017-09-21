@@ -130,7 +130,7 @@ export function create_store(instance_config, instance_stores) {
       }
     },
     actions: {
-      standard_handler: (context, {url, options}) => {
+      standard_handler: (context, {url, options = {}}) => {
         const HTTP = axios.create()
 
         HTTP.defaults.timeout = 10000
