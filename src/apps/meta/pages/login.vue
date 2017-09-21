@@ -83,8 +83,8 @@
       }
     },
     mounted() {
-      this.raw_local_personalised_instance_id = this.$store.state.meta.personalised_instance_id
-      if (this.$store.state.meta.user) {
+      this.raw_local_personalised_instance_id = this.$store.state.personalised_instance_id
+      if (this.$store.state.user) {
         this.$router.push('/')
       }
       this.$nextTick(() => {
@@ -133,14 +133,14 @@
           personalised_instance_id: this.local_personalised_instance_id
         }
 
-        this.$store.dispatch('meta/login', login_details).then(() => {
-          this.$ga.set("user", `${this.$store.state.meta.user.username}/${this.$store.state.meta.user.name}`)
+        this.$store.dispatch('root:login', login_details).then(() => {
+          this.$ga.set("user", `${this.$store.state.user.username}/${this.$store.state.user.name}`)
           this.$endLoading('meta/login')
           this.login_disabled = false
           this.continue()
         })
         .catch(e => {
-          this.$endLoading('meta/login')
+          this.$endLoading('root:login')
           this.login_disabled = false
 
           // 401 from server
@@ -160,8 +160,8 @@
 
       },
       continue() {
-        if (this.$store.state.meta.previous_route) {
-          let path = this.$store.state.meta.previous_route
+        if (this.$store.state.previous_route) {
+          let path = this.$store.state.previous_route
           this.$router.push(path)
         } else {
           this.$router.push('/')

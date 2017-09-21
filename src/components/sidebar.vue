@@ -76,11 +76,11 @@
     computed: {
       ...mapState({
         instance_title: state => state.instance_config.instance.title,
-        user: state => state.meta.user,
+        user: state => state.user,
         personalised_instance_id: state => state.meta.personalised_instance_id
       }),
       ...mapGetters({
-        decorated_applets: 'meta/decorated_applets'
+        decorated_applets: 'root:decorated_applets'
       }),
       commit_hash() {
         return VERSION_COMMIT_HASH_SHORT

@@ -25,13 +25,13 @@
     name: 'home',
     computed: {
       ...mapGetters({
-        decorated_applets: 'meta/decorated_applets'
+        decorated_applets: 'root:decorated_applets'
       }),
       commit_hash() {
         return VERSION_COMMIT_HASH_SHORT
       },
       user() {
-        return this.$store.state.meta.user
+        return this.$store.state.user
       }   
     }
   }

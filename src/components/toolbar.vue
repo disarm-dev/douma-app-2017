@@ -55,7 +55,7 @@
         sw_update_available: state => state.sw_update_available,
       }),
       ...mapGetters({
-        decorated_applets: 'meta/decorated_applets',
+        decorated_applets: 'root:decorated_applets',
       }),
       current_applet_header() {
         let current_applet_name

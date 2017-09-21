@@ -20,7 +20,7 @@ const set_raven_user_context = (state) => {
 
   const user_context = {
     personalised_instance_id: state.meta.personalised_instance_id,
-    user: state.meta.user,
+    user: state.user,
   }
 
   const tags = {

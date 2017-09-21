@@ -5,8 +5,13 @@ import { createVuexLoader } from 'vuex-loading'
 import objectPath from 'object-path'
 import axios from 'axios'
 import {get} from 'lodash'
+import Raven from 'raven-js'
 
 import CONFIG from 'config/common'
+import {authenticate} from 'lib/remote/authenticate'
+import {decorate_applets} from 'lib/instance_data/decorated_applets'
+import {User} from 'lib/models/user/model'
+import {set_raven_user_context} from 'config/error_tracking.js'
 
 export function create_store(instance_config, instance_stores) {
   Vue.use(Vuex)
@@ -60,6 +65,10 @@ export function create_store(instance_config, instance_stores) {
     plugins: [createPersistedState(persisted_state_options), VuexLoading.Store],
     // plugins: [VuexLoading.Store],
     state: {
+      user: null,
+      previous_route: '',
+      personalised_instance_id: 'default',
+
       // Global config
       instance_config: instance_config, // Really important, should maybe be somewhere else
 
@@ -96,6 +105,29 @@ export function create_store(instance_config, instance_stores) {
       'root:toggle_sidebar': (state) => {
         state.trigger_sidebar_visible_irrelevant_value= !state.trigger_sidebar_visible_irrelevant_value
       },
+
+      'root:set_previous_route': (state, previous_route) => {
+        state.previous_route = previous_route
+      },
+      "root:set_user": (state, user) => {
+        state.user = user
+      },
+      "root:set_personalised_instance_id": (state, personalised_instance_id) => {
+        state.personalised_instance_id = personalised_instance_id || 'default'
+      }
+    },
+    getters: {
+      "root:decorated_applets": (state) => {
+        // Figure out which applets are allowed, and only decorate and show these!
+        if (!state.user) return []
+
+        const user_allowed_applets = state.user.allowed_apps.read
+        const instance_applets = state.instance_config.applets
+
+        const decorated_applets = decorate_applets({user_allowed_applets, instance_applets})
+
+        return decorated_applets
+      }
     },
     actions: {
       standard_handler: (context, {url, options}) => {
@@ -114,10 +146,10 @@ export function create_store(instance_config, instance_stores) {
           return Promise.reject(error)
         })
 
-        const personalised_instance_id = get(context.rootState, 'meta.personalised_instance_id')
+        const personalised_instance_id = get(context.state, 'personalised_instance_id')
         const version_commit_hash_short = VERSION_COMMIT_HASH_SHORT
-        const country = get(context.rootState, 'instance_config.instance.slug')
-        const user = get(context.rootState, 'meta.user.username')
+        const country = get(context.state, 'instance_config.instance.slug')
+        const user = get(context.state, 'user.username')
         const user_token = 'WE DONT HAVE TOKENS YET'
 
         const default_options = {}
@@ -159,6 +191,64 @@ export function create_store(instance_config, instance_stores) {
           console.log("🤷‍ DiSARM version check: No information on new version (network request failed)")
           return {status: "NO_RESPONSE", local_version: VERSION_COMMIT_HASH_SHORT}
         })
+      },
+
+      // User stuff
+      "root:login": (context, login_details) => {
+
+        const instance_id_changed = (login_details.personalised_instance_id !== context.state.personalised_instance_id)
+
+        return authenticate(login_details).then(response => {
+          if (response.error) {
+            return Promise.reject(response)
+          }
+
+          // Reject user if not authorised for this instance
+          if (response.instance_slug !== context.rootState.instance_config.instance.slug && response.instance_slug !== 'all') {
+            return Promise.reject({error: 'User not authenticated for this instance'})
+          }
+
+          const authenticated_user = new User(response)
+
+          // You have a valid, authenticated user
+          if (authenticated_user.is_valid()) {
+
+            // Start by clearing instance-specific data ONLY if instance_id has changed
+            context.dispatch('root:clear_data_storage', {instance_id_changed, authenticated_user: authenticated_user.model}).then(() => {
+
+              // Set some basic stuff
+              context.commit('root:set_personalised_instance_id', login_details.personalised_instance_id)
+              context.commit('root:set_user', authenticated_user.model)
+
+              // Add extra info to error logging
+              set_raven_user_context(context.rootState)
+
+              return Promise.resolve(authenticated_user.model)
+
+            }).catch(err => console.warn('Something unthought of', err))
+
+          } else {
+            return Promise.reject({error: 'Validation issues with user record.'})
+          }
+
+        })
+      },
+      "root:logout": (context) => {
+        Raven.setUserContext({
+          instance_slug: context.rootState.instance_config.instance.slug
+        })
+
+        context.commit('root:set_user', null)
+      },
+      "root:clear_data_storage": (context, {instance_id_changed, authenticated_user}) => {
+        if (!instance_id_changed) return // Nothing changed
+
+        const applets = get(authenticated_user, 'allowed_apps.read', [])
+        applets.forEach(applet => {
+          const mutation  = `${applet}/clear_data_storage`
+          context.commit(mutation, {}, {root: true})
+        })
+        console.warn('Instance changed. Local data storage cleared for:', applets.join(', '))
       }
     }
   })

@@ -29,7 +29,7 @@ export function create_router(instance_routes, store) {
   // Check if user is logged-in
   router.beforeEach((to, from, next) => {
     // next() if user already logged in
-    if (store.state.meta && store.state.meta.user) return next()
+    if (store.state && store.state.user) return next()
 
     // User not logged in
     if (to.name === 'meta:login') {
@@ -37,7 +37,7 @@ export function create_router(instance_routes, store) {
       return next()
     } else {
       // Otherwise go to the login page (storing your original target)
-      store.commit('meta/set_previous_route', to.path)
+      store.commit('root:set_previous_route', to.path)
       return next({name: 'meta:login'})
     }
   })
@@ -46,7 +46,7 @@ export function create_router(instance_routes, store) {
   router.beforeEach((to, from, next) => {
 
     // check if any applets require geodata, or continue
-    const decorated_applets = store.getters['meta/decorated_applets']
+    const decorated_applets = store.getters['root:decorated_applets']
     const to_applet = decorated_applets.find(applet => applet.name === to.name.split(":")[0])
     const geodata_required = get(to_applet, 'geodata_required', false)
     if (!geodata_required) {
@@ -59,7 +59,7 @@ export function create_router(instance_routes, store) {
     // geodata is required by at least one applet. check if it's already valid
     if (!geodata_in_cache_and_valid()) {
       console.log('geodata required, NOT already exists && valid - go to a page to start getting geodata')
-      store.commit('meta/set_previous_route', to.path)
+      store.commit('root:set_previous_route', to.path)
       // try to hydrate geodata from IDB
       hydrate_geodata_cache_from_idb().then(() => {
         if (geodata_in_cache_and_valid()) {
@@ -79,7 +79,7 @@ export function create_router(instance_routes, store) {
   router.beforeEach((to, from, next) => {
     const applet_name = to.name.split(':')[0]
 
-    if (has_permission({user: store.state.meta.user, applet_name})) {
+    if (has_permission({user: store.state.user, applet_name})) {
       next()
     } else {
       next({name: 'meta:home'})

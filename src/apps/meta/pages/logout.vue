@@ -8,7 +8,7 @@
 
   export default {
     mounted() {
-      this.$store.dispatch('meta/logout').then(() => {
+      this.$store.dispatch('root:logout').then(() => {
         this.$router.push('/')
       })
     }

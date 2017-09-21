@@ -175,7 +175,7 @@
     },
     computed: {
       ...mapState({
-        username: state => state.meta.user.username,
+        username: state => state.user.username,
         instance_slug : state => state.instance_config.instance.slug,
         instance_config: state => state.instance_config,
         team_name: state => state.irs_record_point.team_name

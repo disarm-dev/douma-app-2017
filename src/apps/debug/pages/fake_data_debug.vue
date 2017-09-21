@@ -36,7 +36,7 @@ export default {
   },
   computed: {
     ...mapState({
-      user: state => state.meta.user.username,
+      user: state => state.user.username,
       slug: state => state.instance_config.instance.slug,
       instance_config: state => state.instance_config,
     }),

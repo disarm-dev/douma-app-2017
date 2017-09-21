@@ -127,7 +127,7 @@
       create_position_object(position, duration) {
         position.duration = duration
         position.waypoint_id = this.waypoint_id
-        position.username = this.$store.state.meta.user.username
+        position.username = this.$store.state.user.username
         position.id = uuid()
         position.user_agent = navigator.userAgent
 

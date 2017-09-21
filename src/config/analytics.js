@@ -27,8 +27,8 @@ const set_common_analytics = (app) => {
   app.$ga.set('dimension2', app.$store.state.instance_config.instance.slug)
 
   // Set username/name if exists
-  if (app.$store.state.meta.user) {
-    app.$ga.set("dimension3", `${app.$store.state.meta.user.username}/${app.$store.state.meta.user.name}`)
+  if (app.$store.state.user) {
+    app.$ga.set("dimension3", `${app.$store.state.user.username}/${app.$store.state.user.name}`)
   }
 }
 
