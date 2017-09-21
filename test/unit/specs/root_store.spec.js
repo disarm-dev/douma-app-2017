@@ -41,6 +41,7 @@ describe('root store', () => {
         status: 200,
         response: {success: true}
       }).then(function () {
+        assert.equal(callback.calledWith({success: true}), true)
         assert.equal(callback.called, true)
         done()
       })
