@@ -38,7 +38,6 @@
 
 <script>
   import {mapState, mapGetters} from 'vuex'
-  import {try_reconnect} from 'lib/remote/standard-handler'
 
   export default {
     name: 'toolbar',
@@ -86,7 +85,7 @@
         this.$store.commit('root:trigger_help_visible')
       },
       try_reconnect() {
-        try_reconnect()
+        this.$store.dispatch('try_reconnect')
       },
       show_update_chip() {
         this.update_chip_visible = true

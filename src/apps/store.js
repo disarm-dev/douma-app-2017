@@ -6,6 +6,8 @@ import objectPath from 'object-path'
 import axios from 'axios'
 import {get} from 'lodash'
 
+import CONFIG from 'config/common'
+
 export function create_store(instance_config, instance_stores) {
   Vue.use(Vuex)
 
@@ -119,6 +121,7 @@ export function create_store(instance_config, instance_stores) {
         const user_token = 'WE DONT HAVE TOKENS YET'
 
         const default_options = {}
+        const douma_api_root = `${CONFIG.api.url}/${CONFIG.api.version}`
         default_options.url = url
         default_options.params = {
           personalised_instance_id,
@@ -133,6 +136,29 @@ export function create_store(instance_config, instance_stores) {
 
         return HTTP(assigned_options)
           .then(json => json.data)
+      },
+      try_reconnect: (context) => {
+        context.dispatch('standard_handler', {url: CONFIG.api.url})
+      },
+      get_version: (context) => {
+        const options = {
+          timeout: 2000
+        }
+        return context.dispatch('standard_handler', {url: '/VERSION', options})
+      },
+      need_to_update: (context) => {
+        return context.dispatch('get_version').then((remote_version) => {
+          if (remote_version && (remote_version !== VERSION_COMMIT_HASH_SHORT)) {
+            console.log(`🔺 DiSARM version check: New version available ${remote_version}, can/should update.`)
+            return {status: 'CAN_UPDATE', local_version: VERSION_COMMIT_HASH_SHORT, remote_version: remote_version}
+          } else {
+            console.log("✅ DiSARM version check: Already running most recent version")
+            return {status: 'ON_LATEST', local_version: VERSION_COMMIT_HASH_SHORT, remote_version: remote_version}
+          }
+        }).catch(err => {
+          console.log("🤷‍ DiSARM version check: No information on new version (network request failed)")
+          return {status: "NO_RESPONSE", local_version: VERSION_COMMIT_HASH_SHORT}
+        })
       }
     }
   })

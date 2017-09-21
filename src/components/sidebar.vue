@@ -65,7 +65,6 @@
 
 <script>
   import {mapState, mapGetters} from 'vuex'
-  import {need_to_update} from 'lib/remote/check-application-version'
 
   export default {
     name: 'sidebar',
@@ -102,7 +101,7 @@
         this.$store.commit('root:trigger_help_visible')
       },
       check_for_update() {
-        need_to_update().then(need_update => {
+        this.$store.dispatch('need_to_update').then(need_update => {
           if (need_update.status === 'CAN_UPDATE') {
             this.can_update = true
             this.$store.commit("root:set_sw_message", {

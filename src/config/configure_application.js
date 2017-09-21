@@ -23,9 +23,7 @@ import {configure_theme} from './theme'
 import {instantiate_analytics, set_common_analytics} from 'config/analytics'
 import {configure_spatial_helpers} from 'lib/instance_data/spatial_hierarchy_helper'
 import {configure_standard_handler} from 'lib/remote/standard-handler'
-import {try_reconnect} from 'lib/remote/standard-handler'
 import pubsubcache from 'lib/helpers/pubsubcache'
-import {need_to_update} from 'lib/remote/check-application-version'
 import {set_raven_user_context} from 'config/error_tracking.js'
 
 
@@ -69,7 +67,7 @@ export function configure_application (instance_config) {
   // Configure standard_handler for remote requests
   // Also trigger a ping to API, for lots of reasons, mostly that the API seems to take ages to wake up
   // (Loads of components use network requests when they are created/mounted)
-  try_reconnect()
+  //try_reconnect()
   configure_standard_handler(store)
 
   // Analytics 1/2: instantiate analytics before you create the application
@@ -97,7 +95,7 @@ export function configure_application (instance_config) {
   set_common_analytics(douma_app)
 
   // Configure application update
-  need_to_update().then((can_update) => {
+  douma_app.$store.dispatch("need_to_update").then((can_update) => {
     const update_available = (can_update.status === 'CAN_UPDATE')
 
     // Make sure we can catch any messages passed from ServiceWorker

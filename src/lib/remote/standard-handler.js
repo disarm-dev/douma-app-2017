@@ -60,20 +60,9 @@ const standard_handler = (url, options = {}) => {
 
 // Get basic root URL from static configuration
 const douma_api_root = `${CONFIG.api.url}/${CONFIG.api.version}`
-// const douma_api_root = `http://localhost:3000/${CONFIG.api.version}`
 
-const try_reconnect = () => {
-  return standard_handler(CONFIG.api.url)
-}
 
-const get_version = () => {
-  const options = {
-    timeout: 2000
-  }
-  return standard_handler('/VERSION', options)
-}
-
-export {configure_standard_handler, standard_handler, douma_api_root, try_reconnect, get_version}
+export {configure_standard_handler, standard_handler, douma_api_root}
 
 
 

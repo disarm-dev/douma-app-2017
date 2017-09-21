@@ -77,10 +77,7 @@
 <script>
   import get from 'lodash.get'
 
-  import {try_reconnect, get_version} from 'lib/remote/standard-handler'
   import cache from 'config/cache.js'
-  import {need_to_update} from 'lib/remote/check-application-version'
-
 
   export default {
     name: 'debug',
@@ -123,7 +120,7 @@
       check_network() {
         this.network_pass = false
         this.network_checking = true
-        try_reconnect().then(res => {
+        this.$store.dispatch('try_reconnect').then(res => {
           this.network_checking = false
           if (res) this.network_pass = true
         }).catch(() => {
@@ -132,7 +129,7 @@
       },
       check_if_update_available() {
         this.update_status = 'CHECKING'
-        need_to_update().then(need_update => {
+        this.$store.dispatch('need_to_update').then(need_update => {
           this.update_status = need_update.status
         })
       },
