@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import { createVuexLoader } from 'vuex-loading'
 import objectPath from 'object-path'
+import axios from 'axios'
+import {get} from 'lodash'
 
 export function create_store(instance_config, instance_stores) {
   Vue.use(Vuex)
@@ -93,6 +95,46 @@ export function create_store(instance_config, instance_stores) {
         state.trigger_sidebar_visible_irrelevant_value= !state.trigger_sidebar_visible_irrelevant_value
       },
     },
+    actions: {
+      standard_handler: (context, {url, options}) => {
+        console.log('context', context)
+        const HTTP = axios.create()
+
+        HTTP.defaults.timeout = 10000
+
+        HTTP.interceptors.response.use(function (response) {
+          context.commit('root:network_online', true)
+          return response
+        }, function (error) {
+          if (/timeout/.test(error.message)) {
+            context.commit('root:network_online', false)
+          }
+          return Promise.reject(error)
+        })
+
+        const personalised_instance_id = get(context.rootState, 'meta.personalised_instance_id')
+        const version_commit_hash_short = VERSION_COMMIT_HASH_SHORT
+        const country = get(context.rootState, 'instance_config.instance.slug')
+        const user = get(context.rootState, 'meta.user.username')
+        const user_token = 'WE DONT HAVE TOKENS YET'
+
+        const default_options = {}
+        default_options.url = url
+        default_options.params = {
+          personalised_instance_id,
+          version_commit_hash_short,
+          country,
+          instance_slug: country, // TODO: @refac remove 'country' property
+          user,
+          user_token
+        }
+
+        const assigned_options = Object.assign(default_options, options)
+
+        return HTTP(assigned_options)
+          .then(json => json.data)
+      }
+    }
   })
 }
 

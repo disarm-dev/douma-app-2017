@@ -24,7 +24,6 @@ import {instantiate_analytics, set_common_analytics} from 'config/analytics'
 import {configure_spatial_helpers} from 'lib/instance_data/spatial_hierarchy_helper'
 import {configure_standard_handler} from 'lib/remote/standard-handler'
 import {try_reconnect} from 'lib/remote/standard-handler'
-import {add_network_status_watcher} from 'lib/helpers/network_status.js'
 import pubsubcache from 'lib/helpers/pubsubcache'
 import {need_to_update} from 'lib/remote/check-application-version'
 import {set_raven_user_context} from 'config/error_tracking.js'
@@ -117,9 +116,6 @@ export function configure_application (instance_config) {
 
   // Add extra info to error logging
   set_raven_user_context(douma_app.$store.state)
-
-  // Configure on/offline watcher
-  add_network_status_watcher(douma_app)
 
   // Keep track of what version we're working on, in production at least.
   if (DOUMA_PRODUCTION_MODE) console.info('🚀 Launched DiSARM version ' + VERSION_COMMIT_HASH_SHORT)
