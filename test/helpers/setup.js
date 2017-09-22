@@ -1,3 +1,4 @@
+require("babel-core/register")
 const hooks = require('require-extension-hooks')
 
 // Setup browser environment
