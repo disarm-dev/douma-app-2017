@@ -1,6 +1,6 @@
 import test from 'ava'
 
-test('List.vue', t => {
+test('other file', t => {
   t.is(false, false, 'false is false')
 })
 
