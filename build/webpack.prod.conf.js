@@ -12,9 +12,7 @@ var LicenseWebpackPlugin = require('license-webpack-plugin')
 var SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 var Visualizer = require('webpack-visualizer-plugin');
 
-var env = process.env.NODE_ENV === 'testing'
-  ? require('../config/test.env')
-  : config.build.env
+var env = config.build.env
 
 var webpackConfig = merge(baseWebpackConfig, {
   module: {
