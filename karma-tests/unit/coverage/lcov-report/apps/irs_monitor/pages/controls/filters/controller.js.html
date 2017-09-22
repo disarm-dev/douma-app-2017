@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for apps/irs_monitor/pages/controls/filters/controller.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../../../index.html">all files</a> / <a href="index.html">apps/irs_monitor/pages/controls/filters/</a> controller.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">8% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>2/25</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/9</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/4</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">9.09% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>2/22</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {cloneDeep as clone_deep, isEqual as is_equal} from 'lodash'
+&nbsp;
+&nbsp;
+/**
+ * Set filter on filters collection
+ * @param  {Object} filters_collection A filters object
+ * @param  {String} filter_name        One of 'spatial', 'temporal' or 'Fields'
+ * @param  {Object} filter_object      Value of filter to set
+ * @return {Object}                    A filters collection
+ */
+export const set_filter = (filters_collection, filter_name, filter_object) =&gt; <span class="fstat-no" title="function not covered" >{</span>
+  const collection_clone = <span class="cstat-no" title="statement not covered" >clone_deep(filters_collection)</span>
+<span class="cstat-no" title="statement not covered" >  switch (filter_name) {</span>
+    case 'temporal':
+<span class="cstat-no" title="statement not covered" >      collection_clone.temporal = filter_object</span>
+<span class="cstat-no" title="statement not covered" >      break;</span>
+    case 'spatial':
+<span class="cstat-no" title="statement not covered" >      collection_clone.spatial = filter_object</span>
+<span class="cstat-no" title="statement not covered" >      break;</span>
+    default:
+      // Fields
+      const index = <span class="cstat-no" title="statement not covered" >collection_clone.fields.findIndex(a =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >is_equal(a, filter_name_or_object))</span></span></span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      if (index !== 0) <span class="cstat-no" title="statement not covered" >return</span></span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      collection_clone.fields.push(filter_object)</span>
+  }
+<span class="cstat-no" title="statement not covered" >  return collection_clone</span>
+}
+&nbsp;
+/**
+ * Unset Filter
+ * @param  {Object} filters_collection    A filters object
+ * @param  {String | Object} filter_name_or_object Either 'spatial', 'temporal' or a fields object
+ * @param  {Array} responses             Array of responses
+ * @return {Object}                       A filters collection
+ */
+export const unset_filter = (filters_collection, filter_name_or_object, responses) =&gt; <span class="fstat-no" title="function not covered" >{</span>
+  const collection_clone = <span class="cstat-no" title="statement not covered" >clone_deep(filters_collection)</span>
+&nbsp;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  if (filter_name_or_object === 'spatial') {</span>
+<span class="cstat-no" title="statement not covered" >    collection_clone.spatial = null</span>
+<span class="cstat-no" title="statement not covered" >    return collection_clone</span>
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  if (filter_name_or_object === 'temporal') {</span>
+<span class="cstat-no" title="statement not covered" >    collection_clone.temporal = get_date_range(responses)</span>
+<span class="cstat-no" title="statement not covered" >    return collection_clone</span>
+  }
+&nbsp;
+&nbsp;
+  // filter_name_or_object = {
+  //   team_name: 'Team 1'
+  // }
+&nbsp;
+  // collection_clone.fields = [{
+  //   team_name: 'Team 1'
+  // }, {
+  //   team_name: 'Team 2'
+  // }, {
+  //   colour: 'red'
+  // }]
+&nbsp;
+  // If it is none of the above it must be a field
+  const index = <span class="cstat-no" title="statement not covered" >collection_clone.fields.findIndex(a =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >is_equal(a, filter_name_or_object))</span></span></span>
+<span class="cstat-no" title="statement not covered" >  collection_clone.splice(index, 1)</span>
+<span class="cstat-no" title="statement not covered" >  return collection_clone</span>
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Sep 18 2017 14:04:55 GMT+0200 (SAST)
+</div>
+</div>
+<script src="../../../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../../../sorter.js"></script>
+</body>
+</html>

@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lib/models/model.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">lib/models/</a> model.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">22.58% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>7/31</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">22.22% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>2/9</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">25% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>2/8</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">23.33% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>7/30</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import uuid from 'uuid/v4'
+import which_polygon from 'which-polygon'
+import omit from 'lodash.omit'
+&nbsp;
+import {ResponseSchema} from './response.schema'
+import cache from 'config/cache'
+import {get_planning_level_id_field, get_planning_level_name} from 'lib/geodata/spatial_hierarchy_helper'
+&nbsp;
+export class Response {
+  model;
+&nbsp;
+  defaults = {
+    userAgent: navigator.userAgent,
+    id: uuid(),
+    recorded_on: new Date(),
+    location: {
+      coords: null,
+      selection: null
+    },
+    form_data: null,
+    synced: false,
+    team_name: null
+  }
+&nbsp;
+  /**
+   * Required options: username, instance_slug
+   * @param options
+   */
+  constructor(options) {
+    this.model = Object.assign(this.defaults, options)
+    this.validate()
+  }
+&nbsp;
+  validate() {
+    const errors = ResponseSchema.errors(this.model)
+&nbsp;
+    if (errors) {
+      throw new Error(`ResponseSchema validation failed: ${JSON.stringify(errors)}`)
+    } else {
+      return true
+    }
+  }
+&nbsp;
+  update(options) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    this.model = Object.assign(this.model, options)</span>
+<span class="cstat-no" title="statement not covered" >    this.validate()</span>
+  }
+&nbsp;
+  is_ready_to_send() <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    return (this.model.form_data !== null) &amp;&amp; (this.model.location.coords !== null) &amp;&amp; (this.model.location.selection !== null)</span>
+  }
+&nbsp;
+  decorate_for_sending() <span class="fstat-no" title="function not covered" >{ // TODO: @refac Rename to not conflict with 'decorators'</span>
+<span class="cstat-no" title="statement not covered" >    if (!this.is_ready_to_send()) <span class="cstat-no" title="statement not covered" >return false</span></span>
+&nbsp;
+    const decorated = <span class="cstat-no" title="statement not covered" >omit(this.model, 'synced')</span>
+<span class="cstat-no" title="statement not covered" >    console.log('🚨 TODO: Update record model use on server and everywhere else (e.g. aggregations and monitor)')</span>
+<span class="cstat-no" title="statement not covered" >    decorated.country = decorated.instance_slug</span>
+    // TODO: @refac Stop adding location_selection to root of response before sending. Don't need it anymore. (https://gitlab.com/disarm/disarm-feedback/issues/47)
+<span class="cstat-no" title="statement not covered" >    decorated.location_selection = decorated.location.selection</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return decorated</span>
+  }
+&nbsp;
+}
+&nbsp;
+&nbsp;
+/**
+ * Add additional, calculated values to the response - `_decorated` property.
+ * The instance_decorator also adds to this property.
+ * @param json
+ * @param instance_config
+ */
+export const decorate_responses_from_json = (json, instance_config) =&gt; <span class="fstat-no" title="function not covered" >{</span>
+  const responses_with_planning_target_area = <span class="cstat-no" title="statement not covered" >get_polygon_for_responses(json, instance_config)</span>
+<span class="cstat-no" title="statement not covered" >  return responses_with_planning_target_area</span>
+}
+&nbsp;
+function get_polygon_for_responses(responses, instance_config)<span class="fstat-no" title="function not covered" >{</span>
+  const planning_level_id_field = <span class="cstat-no" title="statement not covered" >get_planning_level_id_field()</span>
+  const planning_level_name = <span class="cstat-no" title="statement not covered" >get_planning_level_name()</span>
+  const planning_target_areas = <span class="cstat-no" title="statement not covered" >cache.geodata[planning_level_name]</span>
+  const query = <span class="cstat-no" title="statement not covered" >which_polygon(planning_target_areas)</span>
+&nbsp;
+  const responses_with_planning_target_area = <span class="cstat-no" title="statement not covered" >responses.map(response =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    const response_point = <span class="cstat-no" title="statement not covered" >[response.location.coords.longitude, response.location.coords.latitude]</span>
+    const found = <span class="cstat-no" title="statement not covered" >query(response_point)</span>
+<span class="cstat-no" title="statement not covered" >    if (found) {</span>
+      // TODO: @doc Explain what the 'planning_target_area' is
+<span class="cstat-no" title="statement not covered" >      response.planning_target_area = found[planning_level_id_field]</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      response.planning_target_area = null</span>
+    }
+<span class="cstat-no" title="statement not covered" >    return response</span>
+  })
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return responses_with_planning_target_area</span>
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 05 2017 11:46:58 GMT+0200 (SAST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

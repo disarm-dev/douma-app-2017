@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/components/breadCrumbs.vue</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">src/components/</a> breadCrumbs.vue
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/29</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/7</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/27</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&lt;template&gt;
+  &lt;div&gt;
+    &lt;template v-for="(bread, index) in crumbs"&gt;
+      &lt;router-link :to="bread.route" class='crumb'&gt; 
+        &lt;md-icon v-if='bread.icon'&gt;{{bread.icon}}&lt;/md-icon&gt;
+        {{bread.title}}
+      &lt;/router-link&gt;
+      &lt;span v-if='index !== (crumbs.length - 1)'&gt; &gt; &lt;/span&gt;
+    &lt;/template&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+&nbsp;
+&lt;script&gt;
+  export default {
+    data() { 
+<span class="cstat-no" title="statement not covered" >      return { </span>
+        crumbs: [] 
+      }
+    },
+    watch: { 
+      '$route': 'set_crumbs' 
+    },
+    mounted() {
+<span class="cstat-no" title="statement not covered" >      this.set_crumbs(</span>)
+    },
+    methods: {
+      set_crumbs() {
+<span class="cstat-no" title="statement not covered" >        if(this.$route.matched.length === 0<span class="cstat-no" title="statement not covered" >) retur</span></span>n
+&nbsp;
+        // Get route.meta values (e.g. icon, title, etc)
+        const applet_meta_values <span class="cstat-no" title="statement not covered" >= this.$router.options.routes.map((route) =<span class="fstat-no" title="function not covered" >&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >          return {...route.meta, name: route.name</span>}
+        })
+&nbsp;
+        const route_string <span class="cstat-no" title="statement not covered" >= `${this.$route.matched[this.$route.matched.length - 1].path}</span>`
+        let path_elements <span class="cstat-no" title="statement not covered" >= route_string.split('/'</span>)
+        const params <span class="cstat-no" title="statement not covered" >= this.$route.param</span>s
+&nbsp;
+        // Remove first matched result, which seems to always be blank
+<span class="cstat-no" title="statement not covered" >        path_elements = path_elements.splice(1, path_elements.length</span>) 
+&nbsp;
+        // Convert variables into their values
+<span class="cstat-no" title="statement not covered" >        path_elements = path_elements.map((elem) =<span class="fstat-no" title="function not covered" >&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >          return get_value_or_title(elem</span>)
+        })
+&nbsp;
+        // Iterate each path_element, create the crumb
+        let result <span class="cstat-no" title="statement not covered" >= path_elements.map((part, i) =<span class="fstat-no" title="function not covered" >&gt; {</span></span>
+          // Force first element to be link to root route
+<span class="cstat-no" title="statement not covered" >          if (i == 0) {</span>
+            const applet <span class="cstat-no" title="statement not covered" >= applet_meta_values.find((i) =<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >&gt; i.name === par</span></span>t</span>)
+<span class="cstat-no" title="statement not covered" >            return {</span>
+              title: applet.title, 
+              icon: applet.icon,
+              route: '/meta' // Has to be set to 'meta', as '/' fails to be recognised for some reason
+            }
+          }
+&nbsp;
+          let title <span class="cstat-no" title="statement not covered" >= part[0].toUpperCase() + part.substr(1</span>)
+<span class="cstat-no" title="statement not covered" >          title = truncString(title, 10, '...'</span>)
+&nbsp;
+<span class="cstat-no" title="statement not covered" >          return {</span>
+            title: title,
+            route: '/' + build_path(part, i + 1)
+          }
+        })
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this.crumbs = resul</span>t
+&nbsp;
+&nbsp;
+        // Helper functions
+        function get_value_or_title(titl<span class="fstat-no" title="function not covered" >e){</span>
+          // Replace variables with values
+<span class="cstat-no" title="statement not covered" >          if (title.indexOf(':') === 0) {</span>
+<span class="cstat-no" title="statement not covered" >             title = title.replace(/\:/, ''</span>)
+<span class="cstat-no" title="statement not covered" >             return params[title</span>]
+           } 
+          // Or just return the text
+<span class="cstat-no" title="statement not covered" >          return titl</span>e
+        }
+&nbsp;
+        function build_path(part, index<span class="fstat-no" title="function not covered" >) {</span>
+          let newArray <span class="cstat-no" title="statement not covered" >= path_elements.slice(0, index</span>)
+<span class="cstat-no" title="statement not covered" >          return newArray.join('/'</span>)
+        }
+&nbsp;
+        function truncString(str, max, ad<span class="fstat-no" title="function not covered" >d){</span>
+<span class="cstat-no" title="statement not covered" >          add = add || '...'</span>;
+<span class="cstat-no" title="statement not covered" >          return (typeof str === 'string' &amp;&amp; str.length &gt; max ? str.substring(0,4)+add : str)</span>;
+        }
+      }
+    }
+&nbsp;
+  }
+&lt;/script&gt;
+&nbsp;
+&lt;style scoped&gt;
+  .crumb {
+    color: white !important;
+    text-decoration: none !important;
+  }    
+&lt;/style&gt;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue May 09 2017 15:21:47 GMT+0200 (SAST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

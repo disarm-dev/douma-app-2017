@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for apps/irs_monitor/lib/get_data_for_viz.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">all files</a> / <a href="index.html">apps/irs_monitor/lib/</a> get_data_for_viz.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">58.82% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>20/34</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">38.89% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>7/18</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>4/4</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">60.61% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>20/33</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {get} from 'lodash'
+&nbsp;
+import {decorate_for_chart, decorate_for_map, decorate_for_pie, decorate_for_table} from './decorate_data_for_viz'
+import {categorical_bins, spatial_bins, time_series_bins} from './bin_responses'
+import CONFIG from "config/common"
+&nbsp;
+/**
+ * Prepare and aggregate data for a basic series chart
+ * @param {array} responses - bunch of responses
+ * @param {array} targets - from a Plan
+ * @param {array} aggregations - extracted from `instance_config`
+ * @param {object} options - options
+ * @param {string} options.chart_type - "bar", "line"
+ * @param {string} [options.bin_by] - property to bin by
+ * @param {string} [options.series_by] - property to create series from
+ * @param {boolean} [options.cumulative] - used with time_series only, whether or not to create cumulative values
+ * @returns {array}
+ */
+export default function get_data({responses, targets, aggregations, options, geodata}) {
+&nbsp;
+  // filter geodata in here
+  const limit_to = get(options, 'limit_to', 'all')
+  switch (limit_to) {
+    case 'all':
+      break
+<span class="branch-1 cbranch-no" title="branch not covered" >    case 'responses':</span>
+<span class="cstat-no" title="statement not covered" >      break</span>
+<span class="branch-2 cbranch-no" title="branch not covered" >    case 'targets':</span>
+<span class="cstat-no" title="statement not covered" >      break</span>
+<span class="branch-3 cbranch-no" title="branch not covered" >    default:</span>
+&nbsp;
+  }
+&nbsp;
+  // check got enough options to start
+  const chart_type = get(options, 'chart_type', false)
+&nbsp;
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!chart_type) <span class="cstat-no" title="statement not covered" >throw new Error("Missing `options.chart_type`")</span>
+&nbsp;
+  // Create categorical or time_series bins of responses
+  const binned_responses = bin_responses(responses, options)
+&nbsp;
+&nbsp;
+  // The 'decorate' functions below also include the aggregation process
+&nbsp;
+  // Create data in right structure depending on chart_type and options (esp. in 'aggregate_for_chart')
+  let data
+  switch (chart_type) {
+<span class="branch-0 cbranch-no" title="branch not covered" >    case 'pie':</span>
+<span class="cstat-no" title="statement not covered" >      data = decorate_for_pie({binned_responses, targets, aggregations, options})</span>
+<span class="cstat-no" title="statement not covered" >      break</span>
+<span class="branch-1 cbranch-no" title="branch not covered" >    case 'bar':</span>
+<span class="cstat-no" title="statement not covered" >      data = decorate_for_chart({binned_responses, targets, aggregations, options})</span>
+<span class="cstat-no" title="statement not covered" >      break</span>
+<span class="branch-2 cbranch-no" title="branch not covered" >    case 'line':</span>
+<span class="cstat-no" title="statement not covered" >      data = decorate_for_chart({binned_responses, targets, aggregations, options})</span>
+<span class="cstat-no" title="statement not covered" >      break</span>
+    case 'table':
+      data = decorate_for_table({binned_responses, targets, aggregations, options})
+      break
+<span class="branch-4 cbranch-no" title="branch not covered" >    case 'map':</span>
+<span class="cstat-no" title="statement not covered" >      data = decorate_for_map({binned_responses, targets, aggregations, options})</span>
+<span class="cstat-no" title="statement not covered" >      break</span>
+<span class="branch-5 cbranch-no" title="branch not covered" >    default:</span>
+<span class="cstat-no" title="statement not covered" >      console.error(`Didn't find an aggregation method for ${options.chart_type}.`)</span>
+  }
+&nbsp;
+  return data
+}
+&nbsp;
+function bin_responses(responses, options) {
+  let binned_responses
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (options.time_series) {
+<span class="cstat-no" title="statement not covered" >    binned_responses = time_series_bins({responses, options})</span>
+  } else <span class="missing-if-branch" title="if path not taken" >I</span>if (options.spatial_bins) {
+<span class="cstat-no" title="statement not covered" >    binned_responses = spatial_bins({responses, options})</span>
+  } else {
+    binned_responses = categorical_bins({responses, options})
+  }
+  const replace_with = CONFIG.applets.irs_monitor.replace_null_key_with
+  return replace_null_key_in_binned_responses(binned_responses, replace_with)
+}
+&nbsp;
+/**
+ *
+ * @param {Array} binned_responses
+ * @param {String} replace_with
+ * @returns {*}
+ */
+export function replace_null_key_in_binned_responses(binned_responses, replace_with) {
+  const index_of_null = binned_responses.findIndex(bin =&gt; {
+    // null is a string, not null
+    return bin.key === 'null'
+  })
+&nbsp;
+  if (index_of_null &gt;= 0) {
+    // delete binned_responses[index_of_null]
+    binned_responses[index_of_null].key = replace_with
+  }
+  
+&nbsp;
+  return binned_responses
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 19 2017 14:04:01 GMT+0200 (SAST)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>
