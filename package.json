@@ -7,7 +7,8 @@
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
     "build": "node build/build.js",
-    "unit": "env NODE_ENV=production ava",
+    "unit": "env BABEL_ENV=test NODE_ENV=production nyc ava",
+    "unit-watch": "env BABEL_ENV=test NODE_ENV=production ava --watch",
     "e2e": "node test/e2e/runner.js",
     "test": "ava && npm run e2e && ava"
   },
