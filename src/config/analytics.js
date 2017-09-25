@@ -5,9 +5,9 @@ import VueAnalytics from 'vue-analytics'
 import BUILD_TIME from 'config/build-time'
 
 const instantiate_analytics = (router) => {
-  if (DOUMA_PRODUCTION_MODE) {
+  if (BUILD_TIME.DOUMA_PRODUCTION_MODE) {
     Vue.use(VueAnalytics, {
-      id: GA_ANALYTICS_UA,
+      id: BUILD_TIME.GA_ANALYTICS_UA,
       router
     })
   } else {

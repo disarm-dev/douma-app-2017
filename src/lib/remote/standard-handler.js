@@ -2,6 +2,7 @@ import axios from 'axios'
 import get from 'lodash.get'
 import {assign} from 'lodash'
 
+import BUILD_TIME from 'config/build-time'
 import CONFIG from 'config/common'
 
 let store
@@ -36,7 +37,7 @@ const standard_handler = (url, options = {}) => {
   // Or are both equally easy to fool?...
 
   const personalised_instance_id = get(store, 'state.meta.personalised_instance_id')
-  const version_commit_hash_short = VERSION_COMMIT_HASH_SHORT
+  const version_commit_hash_short = BUILD_TIME.VERSION_COMMIT_HASH_SHORT
   const country = get(store, 'state.instance_config.instance.slug')
   const user = get(store, 'state.meta.user.username')
   const user_token = 'WE DONT HAVE TOKENS YET'

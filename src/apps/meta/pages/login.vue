@@ -54,6 +54,7 @@
   import {mapState} from 'vuex'
 
   import {generate_personalised_instance_id} from 'lib/debug/personalised_instance_id_generator'
+  import BUILD_TIME from 'config/build-time'
 
   export default {
     data() {
@@ -75,7 +76,7 @@
         return this.user_details.username.length !== 0 && this.user_details.password.length !== 0
       },
       commit_hash() {
-        return VERSION_COMMIT_HASH_SHORT
+        return BUILD_TIME.VERSION_COMMIT_HASH_SHORT
       },
       local_personalised_instance_id: {
         get() { return this.raw_local_personalised_instance_id },

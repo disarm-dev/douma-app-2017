@@ -1,4 +1,5 @@
 import {UserSchema} from 'lib/models/user/schemas/schema'
+import BUILD_TIME from 'config/build-time'
 
 export class User {
   constructor(user_json) {
@@ -7,7 +8,7 @@ export class User {
   }
 
   decorate() {
-    this.model.app_commit_hash = VERSION_COMMIT_HASH_SHORT
+    this.model.app_commit_hash = BUILD_TIME.VERSION_COMMIT_HASH_SHORT
   }
 
   is_valid() {

@@ -13,7 +13,8 @@
 
 <script>
   import convert from 'geoposition-to-object'
-
+  import BUILD_TIME from 'config/build-time'
+  
   export default {
     name: 'location_coords',
     props: ['initial_location'],
@@ -22,7 +23,7 @@
         hunting_location: false,
         coords: null,
         coords_message: '',
-        show_demo_location_button: !DOUMA_PRODUCTION_MODE
+        show_demo_location_button: !BUILD_TIME.DOUMA_PRODUCTION_MODE
       }
     },
     created() {
