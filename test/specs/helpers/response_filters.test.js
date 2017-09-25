@@ -1,69 +1,69 @@
-import {filter_responses} from "apps/irs_monitor/lib/filters"
+import test from 'ava'
 
-describe('filter_responses.js', () => {
-  it('should return all responses if no filters are passed', () => {
-    const responses = [
-      { name: 1 },
-      { name: 2 },
-      { name: 3 }
-    ]
+import {filter_responses} from 'apps/irs_monitor/lib/filters'
 
-    const result = filter_responses(responses)
+test('should return all responses if no filters are passed', t => {
+  const responses = [
+    {name: 1},
+    {name: 2},
+    {name: 3}
+  ]
 
-    assert.deepEqual(result, responses)
-  })
+  const result = filter_responses(responses)
 
-  it('should filter responses using an equality filter', () => {
-    const responses = [
-      { name: 1 },
-      { name: 2 },
-      { name: 3 }
-    ]
+  t.deepEqual(result, responses)
+})
 
-    const filter = {name: "name", comparator: "==", value: 2}
+test('should filter responses using an equality filter', t => {
+  const responses = [
+    {name: 1},
+    {name: 2},
+    {name: 3}
+  ]
 
-    const result = filter_responses(responses, [filter])
+  const filter = {name: 'name', comparator: '==', value: 2}
 
-    const expected = [
-      { name: 2 }
-    ]
+  const result = filter_responses(responses, [filter])
 
-    assert.deepEqual(result, expected)
-  })
+  const expected = [
+    {name: 2}
+  ]
 
-  it('should filter responses using a greater than filter', () => {
-    const responses = [
-      { name: 1 },
-      { name: 2 },
-      { name: 3 }
-    ]
+  t.deepEqual(result, expected)
+})
 
-    const filter = {name: "name", comparator: ">", value: 2}
+test('should filter responses using a greater than filter', t => {
+  const responses = [
+    {name: 1},
+    {name: 2},
+    {name: 3}
+  ]
 
-    const result = filter_responses(responses, [filter])
+  const filter = {name: 'name', comparator: '>', value: 2}
 
-    const expected = [
-      { name: 3 }
-    ]
+  const result = filter_responses(responses, [filter])
 
-    assert.deepEqual(result, expected)
-  })
+  const expected = [
+    {name: 3}
+  ]
 
-  it('should filter responses using a smaller than filter', () => {
-    const responses = [
-      { name: 1 },
-      { name: 2 },
-      { name: 3 }
-    ]
+  t.deepEqual(result, expected)
+})
 
-    const filter = {name: "name", comparator: "<", value: 2}
+test('should filter responses using a smaller than filter', t => {
+  const responses = [
+    {name: 1},
+    {name: 2},
+    {name: 3}
+  ]
 
-    const result = filter_responses(responses, [filter])
+  const filter = {name: 'name', comparator: '<', value: 2}
 
-    const expected = [
-      { name: 1 }
-    ]
+  const result = filter_responses(responses, [filter])
 
-    assert.deepEqual(result, expected)
-  })
+  const expected = [
+    {name: 1}
+  ]
+
+  t.deepEqual(result, expected)
 })
