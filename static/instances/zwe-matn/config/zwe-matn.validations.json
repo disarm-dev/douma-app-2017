@@ -1,0 +1,16 @@
+[
+  {
+    "expression": "number_sprayable_rooms == number_sprayed + number_unsprayed",
+    "message": "Total # of sprayable rooms must = sprayed + unsprayed",
+    "name": "room_count",
+    "precondition": "",
+    "type": "error"
+  },
+  {
+    "expression": "total_population == under_five + over_five",
+    "message": "Total population must equal < 5 YRS + >/= 5 YRS",
+    "name": "people_count",
+    "precondition": "",
+    "type": "error"
+  }
+]

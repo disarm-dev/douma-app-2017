@@ -1,0 +1,76 @@
+{
+  "applets": {
+    "irs_monitor": {
+      "map": {
+        "chart_type": "map",
+        "bin_by": "location.selection.id",
+        "aggregation_names": [
+          "responses"
+        ],
+        "response_point_fields": [
+          "recorded_on"
+        ]
+      },
+      "table": {
+        "chart_type": "table",
+        "bin_by": "location.selection.name",
+        "aggregation_names": [
+          "responses"
+        ]
+      }
+//      "charts": []
+    },
+    "irs_plan": {
+      "table_output": [
+        {"display_name": "Municipality name", "source_field": "NAME_3"},
+        {"display_name": "Area in km2", "source_field": "area_sq_kms"},
+        {"display_name": "Predicted risk", "source_field": "risk"}
+      ]
+    },
+    "irs_record_point": {
+      "metadata": {
+        "show": true,
+        "optional_fields": []
+      }
+    },
+    "meta": {},
+    "data_wizard": {},
+    "debug": {}
+  },
+  "map_focus": {
+    "centre": {
+      "lat": -24.763539997063802,
+      "lng": 29.899415514140173
+    },
+    "zoom": 5.3
+  },
+  "instance": {
+    "title": "South Africa IRS Tool",
+    "location_name": "South Africa",
+    "slug": "rsa"
+  },
+  "spatial_hierarchy": {
+    "data_version": 1,
+    "markers": {
+      "planning_level_name": "municipalities",
+      "record_location_selection_level_name": "municipalities",
+      "denominator_fields": {
+        "square kilometers": "area_sq_kms"
+      }
+    },
+    "levels": [
+      {
+        "group_by_field": "NAME_0",
+        "field_name": "ID_1",
+        "display_field_name": "NAME_1",
+        "name": "provinces"
+      },
+      {
+        "group_by_field": "NAME_1",
+        "field_name": "ID_3",
+        "display_field_name": "NAME_3",
+        "name": "municipalities"
+      }
+    ]
+  }
+}
