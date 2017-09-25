@@ -66,7 +66,7 @@
 <script>
   import {mapState, mapGetters} from 'vuex'
   import {need_to_update} from 'lib/remote/check-application-version'
-
+  import BUILD_TIME from 'config/build-time'
   export default {
     name: 'sidebar',
     data() {
@@ -84,7 +84,7 @@
         decorated_applets: 'meta/decorated_applets'
       }),
       commit_hash() {
-        return VERSION_COMMIT_HASH_SHORT
+        return BUILD_TIME.VERSION_COMMIT_HASH_SHORT
       },
     },
     watch: {

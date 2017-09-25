@@ -2,13 +2,14 @@ import Vue from 'vue'
 import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
 import get from 'lodash.get'
+import BUILD_TIME from 'config/build-time'
 
 const configure_error_tracking = ()=> {
   // Keep track of Errors
   if (process.env.NODE_ENV !== 'development') {
     Raven
       .config('https://05f42524abca4b84ba7a9b9d05fb620a@sentry.io/134727', {
-        release: VERSION_COMMIT_HASH_SHORT
+        release: BUILD_TIME.VERSION_COMMIT_HASH_SHORT
       })
       .addPlugin(RavenVue, Vue)
       .install()
@@ -25,7 +26,7 @@ const set_raven_user_context = (state) => {
 
   const tags = {
     instance_slug: state.instance_config.instance.slug,
-    branch: BRANCH
+    branch: BUILD_TIME.BRANCH
   }
 
   Raven.setUserContext(user_context)

@@ -20,6 +20,7 @@
 
 <script>
   import {mapGetters} from 'vuex'
+  import BUILD_TIME from 'config/build-time'
 
   export default {
     name: 'home',
@@ -28,7 +29,7 @@
         decorated_applets: 'meta/decorated_applets'
       }),
       commit_hash() {
-        return VERSION_COMMIT_HASH_SHORT
+        return BUILD_TIME.VERSION_COMMIT_HASH_SHORT
       },
       user() {
         return this.$store.state.meta.user

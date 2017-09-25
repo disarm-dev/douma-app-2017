@@ -28,6 +28,7 @@ import {add_network_status_watcher} from 'lib/helpers/network_status.js'
 import pubsubcache from 'lib/helpers/pubsubcache'
 import {need_to_update} from 'lib/remote/check-application-version'
 import {set_raven_user_context} from 'config/error_tracking.js'
+import BUILD_TIME from 'config/build-time'
 
 
 
@@ -122,6 +123,6 @@ export function configure_application (instance_config) {
   add_network_status_watcher(douma_app)
 
   // Keep track of what version we're working on, in production at least.
-  if (DOUMA_PRODUCTION_MODE) console.info('🚀 Launched DiSARM version ' + VERSION_COMMIT_HASH_SHORT)
+  if (BUILD_TIME.DOUMA_PRODUCTION_MODE) console.info('🚀 Launched DiSARM version ' + BUILD_TIME.VERSION_COMMIT_HASH_SHORT)
 
 }
