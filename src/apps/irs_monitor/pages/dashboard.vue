@@ -72,7 +72,6 @@
         table_options: state => state.instance_config.applets.irs_monitor.table,
         map_options: state => state.instance_config.applets.irs_monitor.map,
         chart_configs: state => state.instance_config.applets.irs_monitor.charts,
-
       }),
       ...mapGetters({
         responses: 'irs_monitor/filtered_responses',

@@ -1,10 +1,12 @@
 <template>
   <div>
-    <field_filters :responses="responses"></field_filters>
+    <filters_summary :filters="filters" @remove_filter="remove_filter"></filters_summary>
 
-    <temporal_filter></temporal_filter>
+    <field_filters :responses="responses" @change="add_filter"></field_filters>
 
-    <spatial_filter></spatial_filter>
+    <temporal_filter :responses="responses" @change="add_filter"></temporal_filter>
+
+    <!--<spatial_filter></spatial_filter>-->
   </div>
 </template>
 
@@ -19,16 +21,26 @@
   import field_filters from './fields.vue'
   import temporal_filter from './temporal'
   import spatial_filter from './spatial'
+  import filters_summary from './summary'
 
   export default {
     name: 'Filters',
     props: ['responses'],
-    components: {field_filters, temporal_filter, spatial_filter},
-//    computed: {
-//      ...mapState({
-//        filter: state => state.irs_monitor.filter
-//      }),
-//    },
+    components: {filters_summary, field_filters, temporal_filter, spatial_filter},
+    computed: {
+      ...mapState({
+        field_filter: state => state.irs_monitor.field_filter,
+        filters: state => state.irs_monitor.filters,
+      }),
+    },
+    methods: {
+      add_filter(filter) {
+        this.$store.commit('irs_monitor/add_filter', filter)
+      },
+      remove_filter(filter) {
+        this.$store.commit('irs_monitor/remove_filter', filter)
+      }
+    }
 //    mounted() {
 //      if (this.filter) {
 //        this.temporal = this.filter.temporal || {start: new Date(), end: new Date(new Date().getTime() + 24 * 60 * 60 * 1000)}
@@ -81,14 +93,4 @@
 </script>
 
 <style scoped>
-  .date-input {
-    display: inline-block;
-    padding: 0 1em;
-  }
-
-  .filter_select {
-    z-index: 4;
-    overflow: visible;
-    margin-bottom: 10px;
-  }
 </style>
