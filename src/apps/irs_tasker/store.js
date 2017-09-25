@@ -3,8 +3,8 @@ import without from 'lodash.without'
 import {AssignmentSchema} from 'lib/models/assignment_plan/schemas/assignment.schema'
 import {AssignmentPlan} from 'lib/models/assignment_plan/model'
 import {DECORATED_UNASSIGNED_TEAM} from 'apps/irs_tasker/unassigned_team'
-import {get_current_plan} from 'lib/models/plan/remote'
-import {get_assignment_plan, create_assignment_plan} from 'lib/models/assignment_plan/remote'
+import {read_plan_current} from 'lib/models/plan/remote'
+import {read_assignment_plan, create_assignment_plan} from 'lib/models/assignment_plan/remote'
 
 export default {
   namespaced: true,
@@ -69,7 +69,7 @@ export default {
       context.commit('set_unsynced_changes',true)
     },
     'get_current_plan': (context) => {
-      return get_current_plan().then((plan_json) => {
+      return read_plan_current().then((plan_json) => {
         const existing_assignments = context.state.assignments
         const {assignments, plan_target_ids} = new AssignmentPlan().extract_target_ids_and_assignments_from_plan(plan_json, existing_assignments)
 
@@ -82,7 +82,7 @@ export default {
       })
     },
     'load_assignment_plan': (context) => {
-      return get_assignment_plan().then(assignment_plan_json => {
+      return read_assignment_plan().then(assignment_plan_json => {
         const plan_target_ids = context.state.plan_target_ids
         const {assignments, teams} = new AssignmentPlan().load_from_json(assignment_plan_json, plan_target_ids)
         context.commit('set_assignments', assignments)
