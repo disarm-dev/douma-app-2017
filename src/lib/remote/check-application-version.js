@@ -1,4 +1,4 @@
-import {get_version} from 'lib/remote/standard-handler'
+import {get_version} from 'lib/remote/util'
 import BUILD_TIME from 'config/build-time'
 
 /**

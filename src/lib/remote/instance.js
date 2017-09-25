@@ -1,4 +1,4 @@
-import {standard_handler} from './standard-handler.js'
+import {request_handler} from './request-handler.js'
 import stripJsonComments from 'strip-json-comments'
 /**
  * Get single instance file (currently from client server)
@@ -17,6 +17,6 @@ export const get_instance_file = (slug, type) => {
       return JSON.parse(stripJsonComments(data))
     }
   }
-  return standard_handler(url, options)
+  return request_handler(url, options)
 
 }

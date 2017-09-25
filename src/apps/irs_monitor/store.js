@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import {get, isEqual} from 'lodash'
-import {get_all_records} from 'lib/models/response/remote'
+import {read_all} from 'lib/models/response/remote'
 import {get_current_plan} from 'lib/models/plan/remote'
 import {Plan} from 'lib/models/plan/model'
 import {decorate_responses_from_json} from 'lib/models/response/decorator'
@@ -126,7 +126,7 @@ export default {
   actions: {
     get_all_records: (context) => {
       const instance_slug = context.rootState.instance_config.instance.slug
-      return get_all_records(instance_slug).then(res=> {
+      return read_all(instance_slug).then(res=> {
         const responses = decorate_responses_from_json(res, context.rootState.instance_config)
 
         const decorated_responses = instance_decorator(responses, context.rootState.instance_config)
