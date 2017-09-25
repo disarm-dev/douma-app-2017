@@ -8,7 +8,6 @@ function read_all() {
 function _read_all() {
   return {
     url_suffix: '/record/all',
-      options: {}
   }
 }
 
@@ -23,11 +22,9 @@ function _create(responses) {
 
   return {
     url_suffix: '/record/create',
-    options: {
-      timeout: 20000,
-      method: 'post',
-      data: responses
-    }
+    timeout: 20000,
+    method: 'post',
+    data: responses
   }
 }
 

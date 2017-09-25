@@ -1,21 +1,31 @@
-import {request_handler, douma_api_root} from '../../remote/request-handler.js'
+import {request_handler} from 'lib/remote/request-handler'
+
+export default {get_assignment_plan, create_assignment_plan}
 
 // PLANS
-export const get_assignment_plan = () => {
-  let url = douma_api_root + `/assignment_plan/current`
-  let options = {timeout: 10000}
-  return request_handler(url, options)
+function get_assignment_plan() {
+  const request = _get_assignment_plan()
+  return request_handler(request)
+}
+function _get_assignment_plan() {
+  return {
+    url_suffix: '/assignment_plan/current',
+    timeout: 10000
+  }
 }
 
-export const create_assignment_plan = (assignment_plan) => {
-  let url = douma_api_root + `/assignment_plan/create`
 
-  let options = {
+function create_assignment_plan(assignment_plan) {
+  const request = _create_assignment_plan(assignment_plan)
+  return request_handler(request)
+}
+
+function _create_assignment_plan(assignment_plan) {
+  return {
+    url_suffix: '/assignment_plan/create',
     data: assignment_plan,
     method: 'post',
     timeout: 10000
   }
-
-  return request_handler(url, options)
 }
 
