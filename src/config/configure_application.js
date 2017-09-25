@@ -27,7 +27,7 @@ import {add_network_status_watcher} from 'lib/helpers/network_status.js'
 import pubsubcache from 'lib/helpers/pubsubcache'
 import {need_to_update} from 'lib/remote/check-application-version'
 import {set_raven_user_context} from 'config/error_tracking.js'
-
+import {instantiate_axios_instance} from 'lib/remote/axios_instance'
 import BUILD_TIME from 'config/build-time'
 
 
@@ -50,7 +50,8 @@ export function configure_application (instance_config) {
   // (Required for the app)
   const store = create_store(instance_config, instance_applets_stores_and_routes.stores)
 
-
+  // Instantiate the default, reusable axios instance
+  instantiate_axios_instance()
 
   // Create Vue#$router from what you got
   // (Required for the app)
