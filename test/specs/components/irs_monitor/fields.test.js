@@ -31,8 +31,7 @@ test('should have no field values when there are no responses', t => {
   t.deepEqual(wrapper.vm.field_values, [])
 })
 
-test('should set the filter from props as local variables on created', t => {
-  t.plan(3)
+test.cb('should set the filter from props as local variables on created', t => {
 
   const field_filter = {
     filter_name: "field4",
@@ -48,6 +47,7 @@ test('should set the filter from props as local variables on created', t => {
     t.is(wrapper.vm.filter_name, 'field4')
     t.is(wrapper.vm.filter_comparator, 'eq')
     t.is(wrapper.vm.filter_value, 'string 2')
+    t.end()
   })
 
 })
