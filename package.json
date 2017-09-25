@@ -163,7 +163,7 @@
     "last 2 versions",
     "not ie <= 10"
   ],
-  "version": "179.25.2",
+  "version": "179.25.3",
   "ava": {
     "require": [
       "./test/helpers/setup.js"
