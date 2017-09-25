@@ -7,7 +7,7 @@ function authenticate(user) {
   const request = _authenticate(user)
   return request_handler(request)
 }
-function _authenticate(user) => {
+function _authenticate(user) {
   const url = douma_api_root + `/auth`
 
   const options = {
