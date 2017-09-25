@@ -1,3 +1,5 @@
+import {request_handler} from 'lib/remote/request-handler'
+
 export default {read_all, create}
 
 function read_all() {
