@@ -8,12 +8,10 @@ function authenticate(user) {
   return request_handler(request)
 }
 function _authenticate(user) {
-  const url = douma_api_root + `/auth`
-
-  const options = {
+  return {
+    url_suffix: '/auth',
     data: {user},
     method: 'post',
     timeout: 10000
   }
-  return request_handler(url, options)
 }
