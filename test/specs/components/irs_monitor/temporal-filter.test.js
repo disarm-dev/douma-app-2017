@@ -1,5 +1,5 @@
 import test from 'ava'
-import {shallow, mount} from 'vue-test-utils'
+import {shallow} from 'vue-test-utils'
 import sinon from 'sinon'
 
 import TemporalFilters from 'apps/irs_monitor/pages/controls/filters/temporal.vue'
@@ -16,22 +16,37 @@ const responses = [
   }
 ]
 
-test('should not crash if no responses are passed in', t => {
+test('should render with no responses', t => {
   const wrapper = shallow(TemporalFilters)
 
-  t.notThrows(wrapper.vm.set_start_and_end_dates, TypeError)
+  t.notThrows(wrapper.vm.set_start_and_end_dates)
 })
 
-test('should not have start and end be null when responses change', t => {
-  const wrapper = shallow(TemporalFilters)
+test('should render with responses', t => {
+  const wrapper = shallow(TemporalFilters, {propsData: {responses}})
 
+  t.notThrows(wrapper.vm.set_start_and_end_dates)
+})
+
+test.cb('should set start and end when responses change from no responses to some responses', t => {
+  const wrapper = shallow(TemporalFilters)
   wrapper.setProps({responses})
 
-  const actual_start = wrapper.vm.start
-  t.not(actual_start, null)
+  t.deepEqual(wrapper.vm.responses, responses)
+  t.is(wrapper.vm.responses.length, 3)
 
-  const actual_end = wrapper.vm.end
-  t.not(actual_end, null)
+  wrapper.vm.$nextTick(() => {
+    const actual_start = wrapper.vm.start
+    t.not(actual_start, null)
+    t.true(actual_start instanceof Date)
+
+    const actual_end = wrapper.vm.end
+    t.not(actual_end, null)
+    t.true(actual_end instanceof Date)
+
+    t.end()
+  })
+
 })
 
 
