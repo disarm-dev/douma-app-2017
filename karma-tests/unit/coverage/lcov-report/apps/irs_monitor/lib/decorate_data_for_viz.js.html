@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for apps/irs_monitor/lib/decorate_data_for_viz.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">all files</a> / <a href="index.html">apps/irs_monitor/lib/</a> decorate_data_for_viz.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">11.27% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>8/71</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">16% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>4/25</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">10.29% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>7/68</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// find the correct aggregations for the chart
+import {has} from 'lodash'
+import flow from 'lodash/fp/flow'
+import map from 'lodash/fp/map'
+import compact from 'lodash/fp/compact'
+import {featureCollection} from '@turf/helpers'
+&nbsp;
+import cache from 'config/cache'
+import {aggregate_on} from 'lib/models/response/aggregations/aggregator'
+import {get_planning_level_name} from 'lib/instance_data/spatial_hierarchy_helper'
+&nbsp;
+export function decorate_for_chart({binned_responses, targets, aggregations, options}) <span class="fstat-no" title="function not covered" >{</span>
+  // Figure what to do
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  if (has(options, 'single_series')) {</span>
+<span class="cstat-no" title="statement not covered" >    return decorate_single_series({binned_responses, targets, aggregations, options})</span>
+  } else <span class="cstat-no" title="statement not covered" >if (has(options, 'multi_series')) {</span>
+<span class="cstat-no" title="statement not covered" >    return decorate_multi_series({binned_responses, targets, aggregations, options})</span>
+  }
+}
+&nbsp;
+/**
+ * Apply correct aggregation to each bin of responses in each series
+ * @param options.series - Defined in instance_config
+ * @param options.chart_type - 'bar', 'line', etc - see Plotly docs
+ * @param binned_responses - As created by `d3.nest()`
+ * @param aggregations - from config
+ * @param targets - from a Plan
+ * @return {array} - Array of things for a chart
+ */
+function decorate_single_series({binned_responses, targets, aggregations, options}) <span class="fstat-no" title="function not covered" >{</span>
+  const series = <span class="cstat-no" title="statement not covered" >{</span>
+    aggregation: aggregations.find(a =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >a.name === options.single_series.aggregation_name)</span></span>
+  }
+&nbsp;
+  let cumulative_value = <span class="cstat-no" title="statement not covered" >0 </span>// Only used for cumulative counts
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return binned_responses.map(bin =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    let value = <span class="cstat-no" title="statement not covered" >aggregate_on({aggregation: series.aggregation, responses: bin.values, targets})</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options.cumulative) {</span>
+<span class="cstat-no" title="statement not covered" >      value += cumulative_value</span>
+<span class="cstat-no" title="statement not covered" >      cumulative_value = value</span>
+    }
+&nbsp;
+    // shape the data to return
+<span class="cstat-no" title="statement not covered" >    return {</span>
+      x: [bin.key],
+      name: bin.key,
+      y: [value],
+      type: options.chart_type
+    }
+  })
+}
+&nbsp;
+/**
+ * Apply correct aggregation to each bin of responses in each series
+ * @param options.series - Defined in instance_config
+ * @param options.chart_type - 'bar', 'line', etc - see Plotly docs
+ * @param binned_responses - As created by `d3.nest()`
+ * @param aggregations - from config
+ * @param targets - from a Plan
+ * @return {array} - Array of things for a chart
+ */
+function decorate_multi_series({binned_responses, targets, aggregations, options}) <span class="fstat-no" title="function not covered" >{</span>
+  const series_for_chart = <span class="cstat-no" title="statement not covered" >options.multi_series.map(serie =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    return {</span>
+      aggregation: aggregations.find(a =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >a.name === serie.aggregation_name)</span></span>,
+      colour: serie.colour
+    }
+  })
+&nbsp;
+  // calculate rolled-up value for each bin
+  const data = <span class="cstat-no" title="statement not covered" >series_for_chart.map(series =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    const x = <span class="cstat-no" title="statement not covered" >[]</span>
+    const y = <span class="cstat-no" title="statement not covered" >[]</span>
+&nbsp;
+&nbsp;
+    let cumulative_value = <span class="cstat-no" title="statement not covered" >0/</span>/ Only used for cumulative counts
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    binned_responses.forEach(bin =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+      let value = <span class="cstat-no" title="statement not covered" >aggregate_on({aggregation: series.aggregation, responses: bin.values, targets})</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      if (options.cumulative) {</span>
+<span class="cstat-no" title="statement not covered" >        value += cumulative_value</span>
+<span class="cstat-no" title="statement not covered" >        cumulative_value = value</span>
+      }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      x.push(bin.key)</span>
+<span class="cstat-no" title="statement not covered" >      y.push(value)</span>
+    })
+&nbsp;
+    // shape the data to return
+<span class="cstat-no" title="statement not covered" >    return {</span>
+      x: x,
+      name: series.aggregation.name,
+      y: y,
+      type: options.chart_type,
+      marker: {color: series.colour}
+    }
+  })
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return data</span>
+&nbsp;
+}
+&nbsp;
+&nbsp;
+/**
+ * For a pie chart, apply correct aggregation to each bin of responses
+ * @param binned_responses
+ * @param options
+ * @param aggregations
+ * @param targets
+ * @return {array} - Array of things for a chart
+ */
+export function decorate_for_pie({binned_responses, targets, aggregations, options}) <span class="fstat-no" title="function not covered" >{</span>
+  const series_for_chart = <span class="cstat-no" title="statement not covered" >options.series.map(serie =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >    return {</span>
+      aggregation: aggregations.find(a =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >a.name === serie.aggregation_name)</span></span>,
+      colour: serie.colour
+    }
+  })
+&nbsp;
+  const series = <span class="cstat-no" title="statement not covered" >series_for_chart[0]</span>
+&nbsp;
+  let output = <span class="cstat-no" title="statement not covered" >{</span>
+    labels: [],
+    values: [],
+    type: options.chart_type
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  binned_responses.forEach(bin =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    const value = <span class="cstat-no" title="statement not covered" >aggregate_on({aggregation: series.aggregation, responses: bin.values, targets})</span>
+<span class="cstat-no" title="statement not covered" >    output.labels.push(bin.key)</span>
+<span class="cstat-no" title="statement not covered" >    output.values.push(value)</span>
+  })
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return [output]</span>
+}
+&nbsp;
+export function decorate_for_table({binned_responses, targets, aggregations, options}){
+&nbsp;
+  const found_aggregations = options.aggregation_names.map(aggregation_name =&gt; {
+    return aggregations.find(a =&gt; a.name === aggregation_name)
+  })
+&nbsp;
+  return binned_responses.map((bin) =&gt; {
+    let row = {row_name: bin.key}
+    for (let aggregation of found_aggregations) {
+      row[aggregation.name] = aggregate_on({aggregation: aggregation, responses: bin.values, targets})
+    }
+    return row
+  })
+}
+&nbsp;
+/**
+ *
+ * @param binned_responses
+ * @param targets
+ * @param {string[]} options.aggregations - list of aggregation_names to use to calculate aggregations
+ * @param {object[]} aggregations - array of Aggregations
+ * @returns {{}}
+ */
+export function decorate_for_map({binned_responses, targets, aggregations, options}) <span class="fstat-no" title="function not covered" >{</span>
+  const selected_geodata_level_fc = <span class="cstat-no" title="statement not covered" >cache.geodata[options.spatial_aggregation_level]</span>
+&nbsp;
+  // collect the aggregations from options.aggregation_names
+  const aggregations_for_map = <span class="cstat-no" title="statement not covered" >options.aggregation_names.map(string =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    const found = <span class="cstat-no" title="statement not covered" >aggregations.find(aggregation =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >aggregation.name === string)</span></span></span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (!found) <span class="cstat-no" title="statement not covered" >console.warn(`Missing aggregation for ${string}`)</span></span>
+<span class="cstat-no" title="statement not covered" >    return found</span>
+  })
+&nbsp;
+  // calculate all aggregations for responses in each bin
+  const binned_aggregations = <span class="cstat-no" title="statement not covered" >binned_responses.map(bin =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+    let result = <span class="cstat-no" title="statement not covered" >{key: bin.key, values: {}}</span>
+<span class="cstat-no" title="statement not covered" >    aggregations_for_map.forEach(aggregation =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+      const value = <span class="cstat-no" title="statement not covered" >aggregate_on({aggregation: aggregation, responses: bin.values, targets})</span>
+<span class="cstat-no" title="statement not covered" >      result.values[aggregation.name] = value</span>
+    })
+<span class="cstat-no" title="statement not covered" >    return result</span>
+  })
+&nbsp;
+  // create featureCollection, matching geodata with response bins
+  const decorated_features = <span class="cstat-no" title="statement not covered" >flow(</span>
+    map((feature) =&gt; <span class="fstat-no" title="function not covered" >{</span>
+&nbsp;
+      const found_bin = <span class="cstat-no" title="statement not covered" >binned_aggregations.find((bin) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >        return bin.key === feature.properties.__disarm_geo_id</span>
+      })
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      if (found_bin) {</span>
+<span class="cstat-no" title="statement not covered" >        feature.properties = {</span>
+          ...feature.properties,
+          ...found_bin.values
+        }
+      } else {
+        // Decorate the feature with the aggregations and set values to 0
+&nbsp;
+        const empty_aggregations = <span class="cstat-no" title="statement not covered" >aggregations_for_map.reduce((acc, aggregation) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >          acc[aggregation.name] = 0</span>
+<span class="cstat-no" title="statement not covered" >          return acc</span>
+        }, {})
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        feature.properties = {</span>
+          ...feature.properties,
+          ...empty_aggregations
+        }
+      }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      return feature</span>
+    }),
+    compact
+  )(selected_geodata_level_fc.features)
+&nbsp;
+&nbsp;
+  // return a featureCollection
+<span class="cstat-no" title="statement not covered" >  return featureCollection(decorated_features)</span>
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 19 2017 14:04:01 GMT+0200 (SAST)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

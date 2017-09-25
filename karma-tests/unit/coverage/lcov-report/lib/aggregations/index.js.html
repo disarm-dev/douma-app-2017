@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lib/aggregations/index.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">lib/aggregations/</a> index.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">7.14% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>3/42</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/22</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">16.67% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>1/6</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">8.11% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>3/37</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import isNumber from 'is-number'
+&nbsp;
+import bwa from './bwa.aggregations.js'
+import nam from './nam.aggregations.js'
+import swz from './swz.aggregations.js'
+import zwe from './zwe.aggregations.js'
+&nbsp;
+const aggregations = {bwa, nam, swz, zwe}
+&nbsp;
+export class Aggregator {
+  constructor(slug) {
+    this.slug = slug
+    this.aggregations = aggregations[slug]
+  }
+&nbsp;
+  calculate({responses, denominators, aggregation_name}) <span class="fstat-no" title="function not covered" >{</span>
+    const aggregation = <span class="cstat-no" title="statement not covered" >this.aggregations[aggregation_name]</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (!aggregation) {</span>
+<span class="cstat-no" title="statement not covered" >      throw new Error(`Missing aggregation ${aggregation_name} for ${this.slug}`)</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (aggregation.hasOwnProperty('numerator_function') &amp;&amp; aggregation.hasOwnProperty('denominator_field')) {</span>
+      // Calculate proportion
+<span class="cstat-no" title="statement not covered" >      try {</span>
+        const numerator = <span class="cstat-no" title="statement not covered" >this._calculate_numerator(responses, aggregation.numerator_function, aggregation.precondition)</span>
+        const denominator = <span class="cstat-no" title="statement not covered" >this._calculate_denominator(denominators, aggregation.denominator_field)</span>
+        const result = <span class="cstat-no" title="statement not covered" >numerator / denominator</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (!isNumber(result)) <span class="cstat-no" title="statement not covered" >return 0</span></span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return result</span>
+      } catch (e) {
+<span class="cstat-no" title="statement not covered" >        console.log(e)</span>
+<span class="cstat-no" title="statement not covered" >        return 0</span>
+      }
+&nbsp;
+    } else <span class="cstat-no" title="statement not covered" >if (aggregation.hasOwnProperty('numerator_function')) {</span>
+      // Calculate numerator only
+<span class="cstat-no" title="statement not covered" >      try {</span>
+        const numerator = <span class="cstat-no" title="statement not covered" >this._calculate_numerator(responses, aggregation.numerator_function, aggregation.precondition)</span>
+<span class="cstat-no" title="statement not covered" >        return numerator</span>
+      } catch (e) {
+<span class="cstat-no" title="statement not covered" >        console.log(e)</span>
+<span class="cstat-no" title="statement not covered" >        return 0</span>
+      }
+&nbsp;
+    } else <span class="cstat-no" title="statement not covered" >if (aggregation.hasOwnProperty('denominator_field')) {</span>
+      // Calculate denominator only
+<span class="cstat-no" title="statement not covered" >      try {</span>
+        const denominator = <span class="cstat-no" title="statement not covered" >this._calculate_denominator(denominators, aggregation.denominator_field)</span>
+<span class="cstat-no" title="statement not covered" >        return denominator</span>
+      } catch (e) {
+<span class="cstat-no" title="statement not covered" >        console.log(e)</span>
+<span class="cstat-no" title="statement not covered" >        return 0</span>
+      }
+&nbsp;
+    }
+&nbsp;
+  }
+&nbsp;
+  _calculate_numerator(responses, fn, precondition) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    return responses.reduce((sum, {form_data}) =&gt; <span class="fstat-no" title="function not covered" >{</span></span>
+<span class="cstat-no" title="statement not covered" >      if (precondition &amp;&amp; !precondition(form_data)) <span class="cstat-no" title="statement not covered" >return sum</span></span>
+      const result = <span class="cstat-no" title="statement not covered" >fn(form_data)</span>
+<span class="cstat-no" title="statement not covered" >      if (!isNumber(result)) <span class="cstat-no" title="statement not covered" >return sum</span></span>
+<span class="cstat-no" title="statement not covered" >      return sum + result</span>
+    }, 0)
+  }
+&nbsp;
+  _calculate_denominator(denominators, field) <span class="fstat-no" title="function not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >    if (!Array.isArray(denominators)) <span class="cstat-no" title="statement not covered" >denominators = [denominators]</span></span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return denominators.reduce((sum, denominator) =&gt;  <span class="fstat-no" title="function not covered" >{</span></span>
+      const result = <span class="cstat-no" title="statement not covered" >denominator[field]</span>
+<span class="cstat-no" title="statement not covered" >      if (!isNumber(result)) <span class="cstat-no" title="statement not covered" >return sum</span></span>
+<span class="cstat-no" title="statement not covered" >      return sum + result</span>
+    }, 0)
+  }
+&nbsp;
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jun 21 2017 06:01:05 GMT+0200 (SAST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>
