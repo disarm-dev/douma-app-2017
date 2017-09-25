@@ -4,6 +4,10 @@ import createPersistedState from 'vuex-persistedstate'
 import { createVuexLoader } from 'vuex-loading'
 import objectPath from 'object-path'
 
+let store
+
+export {store}
+
 export function create_store(instance_config, instance_stores) {
   Vue.use(Vuex)
 
@@ -51,7 +55,7 @@ export function create_store(instance_config, instance_stores) {
   Vue.use(VuexLoading)
 
 
-  return new Vuex.Store({
+  store = new Vuex.Store({
     modules: instance_stores,
     plugins: [createPersistedState(persisted_state_options), VuexLoading.Store],
     // plugins: [VuexLoading.Store],
@@ -94,5 +98,7 @@ export function create_store(instance_config, instance_stores) {
       },
     },
   })
+
+  return store
 }
 

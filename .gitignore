@@ -1,4 +1,3 @@
-yarn.lock
 *.sublime-workspace
 *.pem
 .idea
@@ -7,13 +6,6 @@ yarn.lock
 node_modules/
 dist/
 npm-debug.log*
-test/unit/coverage
-test/e2e/reports
-selenium-debug.log
-
-yarn-debug.log*
-yarn-error.log*
-yarn.lock
 
 serve/
 .nyc_output

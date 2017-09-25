@@ -1,4 +1,4 @@
-import {standard_handler} from './standard-handler.js'
+import {request_handler} from './request-handler.js'
 import stripJsonComments from 'strip-json-comments'
 /**
  * Get single instance file (currently from client server)
@@ -12,11 +12,12 @@ export const get_instance_file = (slug, type) => {
   // const url = `https://storage.googleapis.com/disarm-instance-config/${slug}/config/${slug}.${type}.json`
 
   let options = {
+    url,
     timeout: 20000,
     transformResponse(data) {
       return JSON.parse(stripJsonComments(data))
     }
   }
-  return standard_handler(url, options)
+  return request_handler(options)
 
 }

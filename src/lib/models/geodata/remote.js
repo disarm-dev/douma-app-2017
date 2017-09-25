@@ -1,6 +1,6 @@
 import {merge} from 'lodash'
 
-import {standard_handler} from 'lib/remote/standard-handler.js'
+import {request_handler} from 'lib/remote/request-handler.js'
 import {get_all_spatial_hierarchy_level_names, get_slug, get_data_version} from 'lib/instance_data/spatial_hierarchy_helper'
 import {save_geodata_to_idb} from 'lib/models/geodata/local.geodata_store'
 
@@ -33,7 +33,7 @@ function get_geodata_for(level_name, update_progress) {
   }
 
   const url = geodata_url_for(level_name)
-  return standard_handler(url, options)
+  return request_handler(url, options)
 }
 
 function store_geodata({level_name, level_geodata}) {

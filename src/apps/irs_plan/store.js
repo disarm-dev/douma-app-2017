@@ -1,6 +1,6 @@
 import array_unique from 'array-unique'
 
-import {create_plan, get_current_plan} from 'lib/models/plan/remote'
+import {create_plan_network, read_plan_current_network} from 'lib/models/plan'
 import {Plan} from 'lib/models/plan/model'
 import {get_next_level_up_from_planning_level} from 'lib/instance_data/spatial_hierarchy_helper'
 import cache from 'config/cache'
@@ -124,7 +124,7 @@ export default {
   actions: {
     'save_plan': (context, plan) => {
 
-      return create_plan(plan)
+      return create_plan_network(plan)
         .then(() => {
           context.commit('set_plan', plan)
           context.commit('set_unsaved_changes', false)
@@ -133,7 +133,7 @@ export default {
     'get_current_plan': (context) => {
       const instance_slug = context.rootState.instance_config.instance.slug
 
-      return get_current_plan(instance_slug).then(plan_json => {
+      return read_plan_current_network(instance_slug).then(plan_json => {
         if (Object.keys(plan_json).length === 0) {
           return context.commit('root:set_snackbar', {message: 'There is no plan. Please create one.'}, {root: true})
         }

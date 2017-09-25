@@ -1,21 +1,32 @@
-import {standard_handler, douma_api_root} from '../../remote/standard-handler.js'
+import {request_handler} from 'lib/remote/request-handler'
+
+export default {read_plan_current, create_plan}
 
 // PLANS
-export const get_current_plan = () => {
-  let url = douma_api_root + `/plan/current`
-  let options = {timeout: 10000}
-  return standard_handler(url, options)
+function read_plan_current() {
+  const request = _read_plan_current()
+  return request_handler(request)
 }
 
-export const create_plan = (plan) => {
-  let url = douma_api_root + `/plan/create`
+function _read_plan_current() {
+  return {
+    url_suffix: '/plan/current',
+    timeout: 10000
+  }
+}
 
-  let options = {
+
+function create_plan(plan) {
+  const request = _create_plan(plan)
+  return request_handler(request)
+}
+
+function _create_plan(plan) {
+  return {
+    url_suffix: '/plan/create',
     data: plan,
     method: 'post',
     timeout: 10000
   }
-
-  return standard_handler(url, options)
 }
 
