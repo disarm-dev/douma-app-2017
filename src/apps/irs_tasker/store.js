@@ -3,7 +3,7 @@ import without from 'lodash.without'
 import {AssignmentSchema} from 'lib/models/assignment_plan/schemas/assignment.schema'
 import {AssignmentPlan} from 'lib/models/assignment_plan/model'
 import {DECORATED_UNASSIGNED_TEAM} from 'apps/irs_tasker/unassigned_team'
-import {read_plan_current} from 'lib/models/plan/remote'
+import {read_plan_current_network} from 'lib/models/plan'
 import {read_assignment_plan, create_assignment_plan} from 'lib/models/assignment_plan/remote'
 
 export default {
@@ -69,7 +69,7 @@ export default {
       context.commit('set_unsynced_changes',true)
     },
     'get_current_plan': (context) => {
-      return read_plan_current().then((plan_json) => {
+      return read_plan_current_network().then((plan_json) => {
         const existing_assignments = context.state.assignments
         const {assignments, plan_target_ids} = new AssignmentPlan().extract_target_ids_and_assignments_from_plan(plan_json, existing_assignments)
 

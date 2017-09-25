@@ -1,4 +1,4 @@
-import {request_handler} from './request-handler.js'
+import {request_handler} from '../../remote/request-handler.js'
 
 export default {authenticate}
 

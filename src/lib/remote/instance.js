@@ -12,11 +12,12 @@ export const get_instance_file = (slug, type) => {
   // const url = `https://storage.googleapis.com/disarm-instance-config/${slug}/config/${slug}.${type}.json`
 
   let options = {
+    url,
     timeout: 20000,
     transformResponse(data) {
       return JSON.parse(stripJsonComments(data))
     }
   }
-  return request_handler(url, options)
+  return request_handler(options)
 
 }

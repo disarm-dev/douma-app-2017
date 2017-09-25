@@ -1,4 +1,4 @@
-export {read_all, create}
+export default {read_all, create}
 
 function read_all() {
   const request = _read_all()

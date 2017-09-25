@@ -12,11 +12,11 @@ function config_axios_instance() {
   HTTP.defaults.timeout = 10000
 
   HTTP.interceptors.response.use(function (response) {
-    store.commit('root:network_online', true)
+    window.dispatchEvent(new Event('online'))
     return response
   }, function (error) {
     if (/timeout/.test(error.message)) {
-      store.commit('root:network_online', false)
+      window.dispatchEvent(new Event('offline'))
     }
     return Promise.reject(error)
   })
@@ -34,9 +34,9 @@ const HTTP = config_axios_instance()
 export function request_handler(request) {
   if (!request) return Promise.reject(new Error("request is empty"))
 
-  const personalised_instance_id = get(context.state, 'personalised_instance_id')
-  const country = get(context.state, 'instance_config.instance.slug')
-  const user = get(context.state, 'user.username')
+  const personalised_instance_id = get(store, 'state.personalised_instance_id')
+  const country = get(store, 'state.instance_config.instance.slug')
+  const user = get(store, 'state.user.username')
   const user_token = 'IMPLEMENTATION still REQUIRED'
 
   const default_options = {}
@@ -49,7 +49,6 @@ export function request_handler(request) {
 
   default_options.params = {
     personalised_instance_id,
-    version_commit_hash_short,
     country,
     instance_slug: country, // TODO: @refac remove 'country' property
     user,

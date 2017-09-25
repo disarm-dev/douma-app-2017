@@ -1,6 +1,6 @@
 import {request_handler} from 'lib/remote/request-handler'
 
-export {read_plan_current, create_plan}
+export default {read_plan_current, create_plan}
 
 // PLANS
 function read_plan_current() {
