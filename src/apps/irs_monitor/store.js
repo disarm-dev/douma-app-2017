@@ -1,5 +1,6 @@
 import Vue from 'vue'
 
+import {get, isEqual} from 'lodash'
 import {get_all_records} from 'lib/models/response/remote'
 import {get_current_plan} from 'lib/models/plan/remote'
 import {Plan} from 'lib/models/plan/model'
@@ -7,6 +8,7 @@ import {decorate_responses_from_json} from 'lib/models/response/decorator'
 import instance_decorator from 'lib/models/response/decorators-evaluated'
 import {set_filter, unset_filter} from './pages/controls/filters/controller'
 import CONFIG from 'config/common'
+import {filter_responses} from "apps/irs_monitor/lib/filters"
 
 export default {
   namespaced: true,
@@ -19,6 +21,7 @@ export default {
     filters: [],
     plan: null,
     filter: null,
+    field_filter: null,
     map_options: {
       show_response_points: true, 
       selected_layer: 'normalised_risk'
@@ -28,6 +31,7 @@ export default {
       // TODO: @config Extract default temporal_aggregation_level
       temporal_aggregation_level: CONFIG.applets.irs_monitor.defaults.temporal_aggregation_level,
       spatial_aggregation_level: null,
+      limit_to_plan: false,
       limit_to: ''
     }
   },
@@ -57,6 +61,18 @@ export default {
     unset_filter: (state, filter_to_remove /** string: 'spatial' **/) => {
       const new_filters = unset_filter(state.filters, filter_to_remove, state.responses)
       state.filters = new_filters
+    },
+    add_filter: (state, field_filter) => {
+
+      const filter_present = state.filters.some(f => isEqual(f, field_filter))
+
+      if (filter_present) return
+
+      state.filters.push(field_filter)
+    },
+    remove_filter: (state, field_filter) => {
+      const index = state.filters.findIndex(filter => isEqual(filter, field_filter))
+      state.filters.splice(index, 1)
     },
 
     set_ui: (state, ui) => {state.ui = ui},
@@ -96,25 +112,14 @@ export default {
       if (!state.responses.length) return []
 
       // limit to plan if 'dashboard_options.limit_to_plan' is true
-      const plan_target_area_ids = getters.plan_target_area_ids
       const limited_to_plan = state.responses.filter(r => {
         if (!state.dashboard_options.limit_to_plan) return true
-        return plan_target_area_ids.includes(r.location_selection.id)
+        return getters.plan_target_area_ids.includes(r.location_selection.id)
       })
 
-      const filtered = limited_to_plan.filter(response => {
-        return true
+      const filtered = filter_responses(limited_to_plan, state.filters)
 
-        return this.filters.all(filter => {
-          filter.field
-          filter.value
-        })
-      })
-
-      // Run instance decorator on all responses
-      const decorated_responses = instance_decorator(filtered, rootState.instance_config)
-
-      return decorated_responses
+      return filtered
     },
 
   },
@@ -123,8 +128,11 @@ export default {
       const instance_slug = context.rootState.instance_config.instance.slug
       return get_all_records(instance_slug).then(res=> {
         const responses = decorate_responses_from_json(res, context.rootState.instance_config)
+
+        const decorated_responses = instance_decorator(responses, context.rootState.instance_config)
+
         context.commit('update_responses_last_updated_at')
-        context.commit('set_responses', responses)
+        context.commit('set_responses', decorated_responses)
       })
     },
     get_current_plan: (context) => {
