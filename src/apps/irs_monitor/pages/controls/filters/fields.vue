@@ -1,27 +1,25 @@
 <template>
   <div>
     <h2>Filters for all fields</h2>
-    <p>Select field and value</p>
-
 
     <div class="filter_fields">
       <md-input-container class="filter_field">
-        <md-select v-model="filter_name">
+        <label>Select field and value</label>
+
+        <md-select v-model="filter_name" class="select">
           <md-option v-for="field_name in field_names" :key='field_name' :value="field_name">{{field_name}}</md-option>
         </md-select>
-      </md-input-container>
 
-      <md-input-container>
-        <md-select v-model="filter_comparator">
+        <md-select v-model="filter_comparator" class="select">
           <md-option v-for="comparator in comparators" :key="comparator" :value="comparator">{{comparator}}</md-option>
         </md-select>
-      </md-input-container>
 
-      <md-input-container>
-        <md-select v-model="filter_value">
+        <md-select v-model="filter_value" class="select">
           <md-option v-for="value in field_values" :key="value" :value="value">{{value}}</md-option>
         </md-select>
       </md-input-container>
+
+      <md-button @click="add_filter()">Add filter</md-button>
     </div>
   </div>
 </template>
@@ -33,28 +31,37 @@
   import flatten from 'lodash/fp/flatten'
   import uniq from 'lodash/fp/uniq'
   import sortBy from 'lodash/fp/sortBy'
-
-  import {get_form_fields} from 'lib/instance_data/form_helpers'
+  import map from 'lodash/fp/map'
 
   export default {
     name: 'field-filters',
-    props: ['responses'],
-    mounted() {
+    props: ['responses', 'field_filter'],
+    created() {
+      if (this.field_filter) {
+        const {
+          filter_name,
+          filter_comparator,
+          filter_value
+        } = this.field_filter
+
+        this.filter_name = filter_name
+        this.filter_comparator = filter_comparator
+        this.filter_value = filter_value
+      }
     },
     data() {
       return {
         filter_name: '',
-        filter_comparator: 'eq',
+        filter_comparator: '==',
         filter_value: '',
 
-        comparators: ['eq', 'neq', 'gt', 'gte', 'lt', 'lte']
+        comparators: ['==', '!=', '>', '>=', '<', '<=']
       }
     },
     computed: {
-      ...mapState({
-        form: state => state.instance_config.form
-      }),
       field_names() {
+        if (!this.responses || !this.responses.length) return []
+
         let all_field_names = []
         this.responses.forEach(response => {
           const nested_keys = this.extract_nested_keys(response)
@@ -71,6 +78,7 @@
       },
       field_values() {
         if (!this.filter_name) return []
+
         return flow(
           map(r => {
             return get(r, this.filter_name)
@@ -78,9 +86,14 @@
           uniq,
           sortBy(x => x)
         )(this.responses)
+      },
+      filter() {
+        return {
+          name: this.filter_name,
+          comparator: this.filter_comparator,
+          value: this.filter_value
+        }
       }
-    },
-    mounted() {
     },
     methods: {
       extract_nested_keys(data) {
@@ -107,12 +120,19 @@
 
         recurse(data, '');
         return Object.keys(result);
+      },
+      add_filter() {
+        this.$emit('change', this.filter)
       }
     }
   }
 </script>
 
 <style scoped>
+
+  .select {
+    margin-right: 10px
+  }
 
   .filter_fields {
     display: flex;
