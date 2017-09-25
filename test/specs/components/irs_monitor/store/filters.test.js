@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {cloneDeep} from 'lodash'
+
 import irs_monitor_store from 'apps/irs_monitor/store'
 
 Vue.use(Vuex)
