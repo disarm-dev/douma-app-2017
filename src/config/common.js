@@ -1,7 +1,9 @@
+import BUILD_TIME from 'config/build-time'
+
 export default {
   api: {
     // Standard DOUMA API
-    url: BRANCH === 'master' ? 'https://douma-api.herokuapp.com' : 'https://douma-api-stage.herokuapp.com',
+    url: BUILD_TIME.BRANCH === 'master' ? 'https://douma-api.herokuapp.com' : 'https://douma-api-stage.herokuapp.com',
     version: 'v3',
 
     // Currently not used
