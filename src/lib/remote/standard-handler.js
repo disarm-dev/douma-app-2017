@@ -4,12 +4,7 @@ import {assign} from 'lodash'
 
 import BUILD_TIME from 'config/build-time'
 import CONFIG from 'config/common'
-
-let store
-
-const configure_standard_handler = (app_store) => {
-  store = app_store
-}
+import {store} from 'apps/store'
 
 // Create axios HTTP object
 const HTTP = axios.create()
@@ -74,7 +69,7 @@ const get_version = () => {
   return standard_handler('/VERSION', options)
 }
 
-export {configure_standard_handler, standard_handler, douma_api_root, try_reconnect, get_version}
+export {standard_handler, douma_api_root, try_reconnect, get_version}
 
 
 
