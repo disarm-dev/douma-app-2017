@@ -6,7 +6,8 @@
         {"display_name": "District name", "source_field": "DISTRICT"},
         {"display_name": "Ward number", "source_field": "WARDNUMBER"},
         {"display_name": "Predicted risk", "source_field": "risk"},
-        {"display_name": "Square kilometers", "source_field": "area_square_kms"}
+        {"display_name": "Number of structures", "source_field": "NumStruc"},
+        {"display_name": "Number of rooms", "source_field": "NumRooms"}
       ]
     },
     "irs_tasker": {},
@@ -195,14 +196,14 @@
       "planning_level_name": "wards",
       "record_location_selection_level_name": "wards",
       "denominator_fields": {
-        "square kilometers": "area_square_kms"
+        "rooms": "NumRooms"
       }
     },
     "levels": [
       {
         "group_by_field": "PROVINCE",
-        "field_name": "WARDNUMBER",
-        "display_field_name": "ward_name",
+        "field_name": "ZIMWARDSID",
+        "display_field_name": "name",
         "name": "wards"
       }
     ]
