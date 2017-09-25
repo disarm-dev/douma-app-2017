@@ -1,7 +1,7 @@
 import test from 'ava'
-import Vue from 'vue'
-import {shallow, mount} from 'vue-test-utils'
+import {shallow} from 'vue-test-utils'
 import sinon from 'sinon'
+
 import Fields from 'apps/irs_monitor/pages/controls/filters/fields'
 
 const responses = [
@@ -43,7 +43,7 @@ test.cb('should set the filter from props as local variables on created', t => {
     propsData: {responses, field_filter}
   })
 
-  Vue.nextTick(() => {
+  wrapper.vm.$nextTick(() => {
     t.is(wrapper.vm.filter_name, 'field4')
     t.is(wrapper.vm.filter_comparator, 'eq')
     t.is(wrapper.vm.filter_value, 'string 2')

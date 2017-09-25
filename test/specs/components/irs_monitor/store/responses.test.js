@@ -1,11 +1,11 @@
 import test from 'ava'
 import Vue from 'vue'
 import Vuex from 'vuex'
+Vue.use(Vuex)
 import {cloneDeep} from 'lodash'
 
 import irs_monitor_store from 'apps/irs_monitor/store'
 
-Vue.use(Vuex)
 
 const responses = [
   {id: 1, question: 2},
