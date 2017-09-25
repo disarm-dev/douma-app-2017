@@ -12,4 +12,4 @@ before_script:
 
 test:
   script:
-    - npm run unit
+    - npm run unit-cov
