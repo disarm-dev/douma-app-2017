@@ -48,7 +48,8 @@
         if ('geolocation' in navigator) {
           const options = {
             enableHighAccuracy: true,
-            timeout: 5000
+            timeout: 5000,
+            maximumAge: 2000
           }
 
           const success = (position) => {
