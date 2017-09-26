@@ -5,9 +5,12 @@ import {set_filter, unset_filter} from './pages/controls/filters/controller'
 import {Plan} from 'lib/models/plan/model'
 import CONFIG from 'config/common'
 import {filter_responses} from "apps/irs_monitor/lib/filters"
-import {ResponsesController} from 'lib/models/response/controller'
+import {ResponseController} from 'lib/models/response/controller'
+import {PlanController} from 'lib/models/plan/controller'
 
-const controller = new ResponsesController('monitor')
+const applet_name = 'monitor'
+const response_controller = new ResponseController(applet_name)
+const plan_controller = new PlanController(applet_name)
 
 export default {
   namespaced: true,
@@ -123,14 +126,13 @@ export default {
   },
   actions: {
     get_all_records: (context) => {
-      return controller.read_all_network().then(responses => {
+      return response_controller.read_all_network().then(responses => {
         context.commit('update_responses_last_updated_at')
         context.commit('set_responses', responses)
       })
     },
     get_current_plan: (context) => {
-      const instance_slug = context.rootState.instance_config.instance.slug
-      return get_current_plan(instance_slug)
+      return plan_controller.read_plan_current_network()
         .then(plan_json => {
           try {
             new Plan().validate(plan_json)

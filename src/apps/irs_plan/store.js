@@ -1,6 +1,6 @@
 import array_unique from 'array-unique'
 
-import {create_plan_network, read_plan_current_network} from 'lib/models/plan'
+import {create_plan_network, read_plan_current_network} from 'lib/models/plan/controller'
 import {Plan} from 'lib/models/plan/model'
 import {get_next_level_up_from_planning_level} from 'lib/instance_data/spatial_hierarchy_helper'
 import cache from 'config/cache'

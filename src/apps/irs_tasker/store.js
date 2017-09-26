@@ -3,7 +3,7 @@ import without from 'lodash.without'
 import {AssignmentSchema} from 'lib/models/assignment_plan/schemas/assignment.schema'
 import {AssignmentPlan} from 'lib/models/assignment_plan/model'
 import {DECORATED_UNASSIGNED_TEAM} from 'apps/irs_tasker/unassigned_team'
-import {read_plan_current_network} from 'lib/models/plan'
+import {read_plan_current_network} from 'lib/models/plan/controller'
 import {read_assignment_plan, create_assignment_plan} from 'lib/models/assignment_plan/remote'
 
 export default {

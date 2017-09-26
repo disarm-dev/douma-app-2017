@@ -1,7 +1,7 @@
 import remote from './remote'
 import Local from './local'
 
-export class ResponsesController {
+export class ResponseController {
   constructor(applet_name) {
     this.local = new Local(applet_name)
   }
