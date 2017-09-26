@@ -23,15 +23,9 @@
   import sidebar from 'components/sidebar.vue'
   import help from 'components/help.vue'
 
-  import {read_all_network, read_all_cache} from 'lib/models/response/controller'
-
   export default {
     name: 'DOUMA',
     components: {toolbar, sidebar, notifications, help},
-    created() {
-      window.read_all_network = read_all_network
-      window.read_all_cache = read_all_cache
-    }
   }
 </script>
 
