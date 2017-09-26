@@ -5,7 +5,12 @@
         "chart_type": "map",
         "bin_by": "location.selection.id",
         "aggregation_names": [
-          "structures sprayed %"
+          "structures sprayed %",
+          "structures sprayed"
+        ],
+        "property_layers": [
+          "risk",
+          "NmStrct"
         ],
         "response_point_fields": [
           "recorded_on"

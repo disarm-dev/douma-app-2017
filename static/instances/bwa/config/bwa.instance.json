@@ -5,7 +5,12 @@
         "chart_type": "map",
         "bin_by": "location.selection.id",
         "aggregation_names": [
-          "number of rooms sprayed"
+          "number of rooms sprayed",
+          "room spray coverage (%)"
+        ],
+        "property_layers": [
+          "risk",
+          "NumRooms"
         ],
         "response_point_fields": [
           "recorded_on",
@@ -282,7 +287,7 @@
       "planning_level_name": "villages",
       "record_location_selection_level_name": "villages",
       "denominator_fields": {
-        "estimated rooms": "NumRooms"
+        "estimated_rooms": "NumRooms"
       }
     },
     "levels": [

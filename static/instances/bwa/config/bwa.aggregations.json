@@ -4,6 +4,11 @@
     "name": "number of rooms targeted",
     "denominator_field": "rooms"
   },
+  {
+    "name": "room spray coverage (%)",
+    "numerator_expr": "number_sprayed",
+    "denominator_field": "estimated_rooms"
+  },
   // Fine from here
   {
     "name": "number of people in homestead (total)",
