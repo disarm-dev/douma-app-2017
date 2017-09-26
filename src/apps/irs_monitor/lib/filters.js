@@ -11,7 +11,9 @@ function filter_response(response, filters) {
   return filters.every(filter => {
     const {name, comparator, value} = filter
 
-    let response_value = get(response, name, 0)
+    let response_value = get(response, name, null)
+
+    if (response_value === null) return
 
     // TODO: @refac Find another way to convert string to int
     if (name === 'recorded_on') {

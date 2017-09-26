@@ -35,27 +35,14 @@
 
   export default {
     name: 'field-filters',
-    props: ['responses', 'field_filter'],
-    created() {
-      if (this.field_filter) {
-        const {
-          filter_name,
-          filter_comparator,
-          filter_value
-        } = this.field_filter
-
-        this.filter_name = filter_name
-        this.filter_comparator = filter_comparator
-        this.filter_value = filter_value
-      }
-    },
+    props: ['responses'],
     data() {
       return {
         filter_name: '',
         filter_comparator: '==',
         filter_value: '',
 
-        comparators: ['==', '!=', '>', '>=', '<', '<=']
+        comparators: ['==']
       }
     },
     computed: {
