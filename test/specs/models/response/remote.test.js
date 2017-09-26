@@ -1,4 +1,5 @@
 import test from 'ava'
+import sinon from 'sinon'
 import moxios from 'moxios'
 
 import remote from 'lib/models/response/remote'
@@ -15,22 +16,22 @@ test.afterEach(() => {
 
 
 test.failing.cb('test test', t => {
-  remote.read_all().then(() => {
-    moxios.wait(function () {
-      let request = moxios.requests.mostRecent()
-      request.respondWith({
-        status: 200,
-        response: [
-          { id: 1, firstName: 'Fred', lastName: 'Flintstone' },
-          { id: 2, firstName: 'Wilma', lastName: 'Flintstone' }
-        ]
-      }).then(function () {
-        t.end()
-      })
+  const callback = sinon.spy()
+
+  remote.read_all().then(callback)
+
+  moxios.wait(function () {
+    let request = moxios.requests.mostRecent()
+    request.respondWith({
+      status: 200,
+      response: [
+        { id: 1, firstName: 'Fred', lastName: 'Flintstone' },
+        { id: 2, firstName: 'Wilma', lastName: 'Flintstone' }
+      ]
+    }).then(function () {
+      t.true(callback.calledOnce)
+      t.end()
     })
-  }).catch(() => {
-    t.fail('caught error')
-    t.end()
   })
 
 })
