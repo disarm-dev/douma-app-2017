@@ -26,7 +26,7 @@ export function create_store(instance_config, instance_stores) {
       }
     },
     setState: (key, state, storage) => {
-      console.warn("👮‍ You're doing something dumb. (setting-and-forgetting localStorage with no checks)")
+      console.warn("👮‍ Make sure state has minimal data persisting to localStorage")
       setTimeout(() => storage.setItem(key, JSON.stringify(state)), 0)
     },
     reducer: (state) => {
