@@ -15,7 +15,7 @@
     <md-list>
       <md-list-item v-for="location in locations" :key="location.timestamp">
         <md-icon>location_searching</md-icon>
-        <span>pretty(location)</span>
+        <span>{{pretty(location)}}</span>
       </md-list-item>
     </md-list>
   </div>
