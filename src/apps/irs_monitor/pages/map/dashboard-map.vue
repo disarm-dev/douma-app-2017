@@ -232,7 +232,7 @@
         this._click_handler = (e) => {
           e.originalEvent.stopPropagation()
           const feature = this._map.queryRenderedFeatures(e.point, {layers: ['areas']})[0]
-
+          console.log(e, feature)
           if (feature) {
             new Popup({closeOnClick: true})
               .setLngLat(e.lngLat)
