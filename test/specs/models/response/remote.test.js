@@ -3,10 +3,8 @@ import sinon from 'sinon'
 import moxios from 'moxios'
 
 import remote from 'lib/models/response/remote'
-import {instantiate_axios_instance} from 'lib/remote/axios_instance'
 
 test.beforeEach(() => {
-  instantiate_axios_instance()
   moxios.install()
 })
 
@@ -15,7 +13,7 @@ test.afterEach(() => {
 })
 
 
-test.failing.cb('test test', t => {
+test.cb('test test', t => {
   const callback = sinon.spy()
 
   remote.read_all().then(callback)

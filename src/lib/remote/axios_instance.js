@@ -3,14 +3,8 @@ import axios from 'axios'
 import {get} from 'lodash'
 import {store} from 'apps/store'
 
-let axios_instance
 
-export {axios_instance}
-
-export function instantiate_axios_instance() {
-  axios_instance = config_axios_instance()
-}
-
+export {config_axios_instance}
 /**
  *
  * @returns {AxiosInstance}

@@ -50,9 +50,6 @@ export function configure_application (instance_config) {
   // (Required for the app)
   const store = create_store(instance_config, instance_applets_stores_and_routes.stores)
 
-  // Instantiate the default, reusable axios instance
-  instantiate_axios_instance()
-
   // Create Vue#$router from what you got
   // (Required for the app)
   const router = create_router(instance_applets_stores_and_routes.routes, store)

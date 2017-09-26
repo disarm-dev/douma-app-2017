@@ -1,5 +1,5 @@
 import CONFIG from 'config/common'
-import {axios_instance} from 'lib/remote/axios_instance'
+import {config_axios_instance} from 'lib/remote/axios_instance'
 
 /**
  * Standard request handler for all remote requests (currently both client server and API)
@@ -16,6 +16,7 @@ export function request_handler(request) {
     request.url = douma_api_root + request.url_suffix
   }
 
+  const axios_instance = config_axios_instance()
 
   return axios_instance(request)
     .then(json => json.data)
