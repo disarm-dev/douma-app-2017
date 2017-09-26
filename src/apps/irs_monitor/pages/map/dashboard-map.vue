@@ -225,6 +225,26 @@
 
       },
       bind_popup() {
+        // Get and prepare data
+
+        const aggregation_names = this.options.aggregation_names
+        const property_layers = this.options.property_layers
+
+        let properties_to_show = []
+
+        if (Array.isArray(aggregation_names)) {
+          properties_to_show = properties_to_show.concat(aggregation_names)
+        }
+
+        if (Array.isArray(property_layers)) {
+          properties_to_show = properties_to_show.concat(property_layers)
+        }
+
+        if (!properties_to_show.length) return
+
+
+        // Display the prepared data
+
         // Remove previous click handler before anything
         this._map.off('click', 'areas', this._click_handler)
 
@@ -234,14 +254,10 @@
           const feature = this._map.queryRenderedFeatures(e.point, {layers: ['areas']})[0]
 
           if (feature) {
-
-            const properties_to_show = this.options.aggregation_names.concat(this.options.property_layers)
             // get properties from options
             const property_paragraphs = properties_to_show.map(property => {
               return `<p>${property} : ${feature.properties[property]}</p>`
             }).join('')
-
-
 
 
             new Popup({closeOnClick: true})
