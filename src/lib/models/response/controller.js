@@ -1,5 +1,5 @@
 import remote from './remote'
-import local from './local'
+import Local from './local'
 
 export class ResponsesController {
   constructor(applet_name) {

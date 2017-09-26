@@ -1,6 +1,6 @@
 import {db} from 'lib/local_db'
 
-export class Local {
+export default class Local {
   constructor(applet_name) {
     this.collection = db[applet_name + '/responses']
   }

@@ -1,14 +1,11 @@
 import Vue from 'vue'
+import {isEqual} from 'lodash'
 
-import {get, isEqual} from 'lodash'
-// import {read_all_network} from 'lib/models/response'
-import {read_plan_current_network} from 'lib/models/plan'
-import {Plan} from 'lib/models/plan/model'
-import {decorate_responses_from_json} from 'lib/models/response/decorator'
-import instance_decorator from 'lib/models/response/decorators-evaluated'
 import {set_filter, unset_filter} from './pages/controls/filters/controller'
+import {Plan} from 'lib/models/plan/model'
 import CONFIG from 'config/common'
 import {filter_responses} from "apps/irs_monitor/lib/filters"
+import {ResponsesController} from 'lib/models/response/controller'
 
 const controller = new ResponsesController('monitor')
 

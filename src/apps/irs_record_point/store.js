@@ -66,7 +66,7 @@ export default {
       while (records_left.length > 0) {
         const records_batch = records_left.splice(0, max_records_in_batch)
 
-        await create_batch_network(records_batch)
+        await controller.create_batch_network(records_batch)
           .then((passed_records) => {
             // Set synced status for successfully-synced records
             context.commit('mark_responses_as_synced', passed_records)
