@@ -225,6 +225,26 @@
 
       },
       bind_popup() {
+        // Get and prepare data
+
+        const aggregation_names = this.options.aggregation_names
+        const property_layers = this.options.property_layers
+
+        let properties_to_show = []
+
+        if (Array.isArray(aggregation_names)) {
+          properties_to_show = properties_to_show.concat(aggregation_names)
+        }
+
+        if (Array.isArray(property_layers)) {
+          properties_to_show = properties_to_show.concat(property_layers)
+        }
+
+        if (!properties_to_show.length) return
+
+
+        // Display the prepared data
+
         // Remove previous click handler before anything
         this._map.off('click', 'areas', this._click_handler)
 
@@ -232,13 +252,19 @@
         this._click_handler = (e) => {
           e.originalEvent.stopPropagation()
           const feature = this._map.queryRenderedFeatures(e.point, {layers: ['areas']})[0]
-          console.log(e, feature)
+
           if (feature) {
+            // get properties from options
+            const property_paragraphs = properties_to_show.map(property => {
+              return `<p>${property} : ${feature.properties[property]}</p>`
+            }).join('')
+
+
             new Popup({closeOnClick: true})
               .setLngLat(e.lngLat)
               .setHTML(`
                 <p><b>${feature.properties.__disarm_geo_name}</b></p>
-                <p>${this.selected_layer}: ${feature.properties[this.selected_layer]}</p>
+                ${property_paragraphs}
               `)
               .addTo(this._map);
           }

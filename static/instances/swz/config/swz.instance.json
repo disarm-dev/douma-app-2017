@@ -5,7 +5,12 @@
         "chart_type": "map",
         "bin_by": "location.selection.id",
         "aggregation_names": [
-          "structures sprayed %"
+          "structures sprayed %",
+          "structures sprayed"
+        ],
+        "property_layers": [
+          "risk",
+          "NmStrct"
         ],
         "response_point_fields": [
           "recorded_on"
@@ -196,7 +201,7 @@
     "slug": "swz"
   },
   "spatial_hierarchy": {
-    "data_version": 1,
+    "data_version": 2,
     "markers": {
       "planning_level_name": "localities",
       "record_location_selection_level_name": "localities",
