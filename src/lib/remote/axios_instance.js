@@ -21,7 +21,7 @@ function config_axios_instance() {
   const user = get(store, 'state.user.username')
   const user_token = 'IMPLEMENTATION still REQUIRED'
 
-  instance.params = {
+  instance.defaults.params = {
     personalised_instance_id,
     country,
     instance_slug: country, // TODO: @refac remove 'country' property
