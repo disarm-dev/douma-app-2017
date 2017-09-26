@@ -50,6 +50,9 @@ function determine_instance() {
   return instance_slug
 }
 
+/**
+ * @returns Promise
+ */
 function get_instance_config () {
   const instance_slug = determine_instance()
 
