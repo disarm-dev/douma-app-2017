@@ -21,7 +21,6 @@ export default {
     filters: [],
     plan: null,
     filter: null,
-    field_filter: null,
     map_options: {
       show_response_points: true, 
       selected_layer: 'normalised_risk'
