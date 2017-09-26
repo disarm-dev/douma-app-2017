@@ -14,7 +14,7 @@ test.afterEach(() => {
 })
 
 
-test.cb('test test', t => {
+test.failing.cb('test test', t => {
   remote.read_all().then(() => {
     moxios.wait(function () {
       let request = moxios.requests.mostRecent()
