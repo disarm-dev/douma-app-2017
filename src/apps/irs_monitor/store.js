@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import {get, isEqual} from 'lodash'
-import {read_all_network} from 'lib/models/response'
+// import {read_all_network} from 'lib/models/response'
 import {read_plan_current_network} from 'lib/models/plan'
 import {Plan} from 'lib/models/plan/model'
 import {decorate_responses_from_json} from 'lib/models/response/decorator'
@@ -9,6 +9,8 @@ import instance_decorator from 'lib/models/response/decorators-evaluated'
 import {set_filter, unset_filter} from './pages/controls/filters/controller'
 import CONFIG from 'config/common'
 import {filter_responses} from "apps/irs_monitor/lib/filters"
+
+const controller = new ResponsesController('monitor')
 
 export default {
   namespaced: true,
@@ -124,14 +126,9 @@ export default {
   },
   actions: {
     get_all_records: (context) => {
-      const instance_slug = context.rootState.instance_config.instance.slug
-      return read_all_network(instance_slug).then(res=> {
-        const responses = decorate_responses_from_json(res, context.rootState.instance_config)
-
-        const decorated_responses = instance_decorator(responses, context.rootState.instance_config)
-
+      return controller.read_all_network().then(responses => {
         context.commit('update_responses_last_updated_at')
-        context.commit('set_responses', decorated_responses)
+        context.commit('set_responses', responses)
       })
     },
     get_current_plan: (context) => {

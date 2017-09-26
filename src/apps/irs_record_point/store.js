@@ -1,7 +1,7 @@
 import clonedeep from 'lodash.clonedeep'
 
 import CONFIG from 'config/common'
-import {create_batch_network} from 'lib/models/response'
+import {create_batch_network} from 'lib/models/response/controller'
 
 export default {
   namespaced: true,

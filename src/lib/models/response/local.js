@@ -1,21 +1,19 @@
-// create local DB
-// apply schema to local DB
-// add version-migrations as required
+import {db} from 'lib/local_db'
 
-// import {douma_db} from 'lib/local_dbs'
+export class Local {
+  constructor(applet_name) {
+    this.collection = db[applet_name + '/responses']
+  }
 
+  async read_all() {
+    return await this.collection.toArray()
+  }
 
-async function read_all() {
-  // const responses = await douma_db.find({}).exec()
-  //
-  // return responses
+  async create(response) {
+    await this.collection.add(response)
+  }
+
+  async bulk_create(responses) {
+    await this.collection.bulkAdd(responses)
+  }
 }
-
-async function create(responses) {
-  // for (response of responses) {
-  //   await douma_db.insert(response)
-  // }
-  // return true
-}
-
-export default {read_all, create}

@@ -23,7 +23,7 @@
   import sidebar from 'components/sidebar.vue'
   import help from 'components/help.vue'
 
-  import {read_all_network, read_all_cache} from 'lib/models/response'
+  import {read_all_network, read_all_cache} from 'lib/models/response/controller'
 
   export default {
     name: 'DOUMA',

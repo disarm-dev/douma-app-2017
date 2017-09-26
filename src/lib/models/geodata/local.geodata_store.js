@@ -1,15 +1,9 @@
-import Dexie from 'dexie'
-
 import cache from 'config/cache'
 import {decorate_geodata_on_cache} from 'lib/models/geodata/geodata.decorate'
 import {get_data_version} from "lib/instance_data/spatial_hierarchy_helper"
+import {db} from 'lib/local_db'
 
-const db = new Dexie('disarm_geodata')
 const disarm_geodata_key = 'disarm_geodata_key'
-
-db.version(1).stores({
-  geodata_collection: `disarm_geodata_key, geodata` // geodata_collection has two columns, called 'disarm_geodata_key' and 'geodata'
-})
 
 /**
  * Save the result of remote.geodata getting straight into IDB
