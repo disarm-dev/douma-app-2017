@@ -55,7 +55,7 @@
         filter_comparator: '==',
         filter_value: '',
 
-        comparators: ['==', '!=', '>', '>=', '<', '<=']
+        comparators: ['==']
       }
     },
     computed: {
