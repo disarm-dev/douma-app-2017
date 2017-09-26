@@ -15,7 +15,7 @@
     <md-list>
       <md-list-item v-for="location in locations" :key="location.timestamp">
         <md-icon>location_searching</md-icon>
-        <span>{{pretty(location)}}</span>
+        <span>{{pretty_location(location)}}</span>
       </md-list-item>
     </md-list>
   </div>
@@ -93,7 +93,7 @@
         return position
       },
       add_location(position) {
-        this.locations.push(position)
+        this.locations.unshift(position)
       },
 
       // Formatting
@@ -104,7 +104,11 @@
         return moment(timestamp).format('kk:mm:ss:SS ddd')
       },
       pretty(thing) {
-        return JSON.stringify(thing, null, 2)
+        return JSON.stringify(thing)
+      },
+      pretty_location(position) {
+        const {accuracy, latitude, longitude} = position.coords
+        return `acc: ${accuracy} lat:${latitude} lng:${longitude}`
       },
     }
   }
