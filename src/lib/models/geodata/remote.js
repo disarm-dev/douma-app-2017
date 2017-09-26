@@ -16,9 +16,17 @@ function geodata_url_for(level_name) {
 }
 
 function get_geodata_for(level_name, update_progress) {
+  const request = _get_geodata_for(level_name, update_progress)
+  return request_handler(request)
+}
+
+function _get_geodata_for(level_name, update_progress) {
   const data_version = get_data_version()
 
-  const options = {
+  const url = geodata_url_for(level_name)
+
+  return {
+    url,
     timeout: 300000,
     params: {
       data_version
@@ -31,9 +39,6 @@ function get_geodata_for(level_name, update_progress) {
       return update_progress(extended_progress_event)
     }
   }
-
-  const url = geodata_url_for(level_name)
-  return request_handler(url, options)
 }
 
 function store_geodata({level_name, level_geodata}) {
