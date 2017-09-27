@@ -1,4 +1,7 @@
 import {merge} from 'lodash'
+import geobuf from "geobuf";
+import Pbf from "pbf";
+
 
 import {request_handler} from 'lib/remote/request-handler.js'
 import {get_all_spatial_hierarchy_level_names, get_slug, get_data_version} from 'lib/instance_data/spatial_hierarchy_helper'
@@ -12,12 +15,30 @@ import {save_geodata_to_idb} from 'lib/models/geodata/local.geodata_store'
  */
 function geodata_url_for(level_name) {
   const slug = get_slug()
-  return `/static/instances/${slug}/spatial_hierarchy/${slug}.${level_name}.geojson`
+  return `/static/instances/${slug}/spatial_hierarchy/${slug}.${level_name}.pbf`
 }
 
 function get_geodata_for(level_name, update_progress) {
-  const request = _get_geodata_for(level_name, update_progress)
-  return request_handler(request)
+  const {url} = _get_geodata_for(level_name, update_progress)
+
+  return fetch(url).then((response) => {
+
+    if (!response.ok) {
+      return console.log('error')
+    }
+
+    return response.blob().then(blob => {
+      var reader = new FileReader()
+      return new Promise(resolve => {
+        reader.addEventListener("loadend", () => {
+          var pbf = new Pbf( reader.result )
+          return resolve(geobuf.decode(pbf))
+        })
+        reader.readAsArrayBuffer(blob)
+      })
+    })
+  })
+
 }
 
 function _get_geodata_for(level_name, update_progress) {
