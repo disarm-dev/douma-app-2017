@@ -23,7 +23,7 @@ export class ResponseController {
     // Clear local DB, so data is not stale
 
     // populate local DB
-    await local.create_bulk(remote_responses)
+    await this.local.create_bulk(remote_responses)
 
     // return them
     return remote_responses
@@ -31,7 +31,7 @@ export class ResponseController {
 
 
   async read_all_cache() {
-    return await local.read_all()
+    return await this.local.read_all()
   }
 
 

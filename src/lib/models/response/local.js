@@ -13,7 +13,7 @@ export default class Local {
     await this.table.add(response)
   }
 
-  async bulk_create(responses) {
+  async create_bulk(responses) {
     await this.table.bulkAdd(responses)
   }
 }

@@ -1,7 +1,9 @@
 import clonedeep from 'lodash.clonedeep'
 
 import CONFIG from 'config/common'
-import {create_batch_network} from 'lib/models/response/controller'
+import { ResponseController } from 'lib/models/response/controller'
+
+const controller = new ResponseController('record')
 
 export default {
   namespaced: true,

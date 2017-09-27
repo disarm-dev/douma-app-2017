@@ -78,6 +78,10 @@
         targets: 'irs_monitor/targets',
       }),
     },
+    created() {
+      // hydrate
+      this.$store.dispatch('irs_monitor/get_responses_local')
+    },
     methods: {
       load_responses() {
         this.$startLoading('irs_monitor/load_responses')

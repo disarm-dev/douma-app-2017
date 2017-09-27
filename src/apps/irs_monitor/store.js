@@ -125,6 +125,11 @@ export default {
 
   },
   actions: {
+    get_responses_local: (context) => {
+      return response_controller.read_all_cache().then(responses => {
+        context.commit('set_responses', responses)
+      })
+    },
     get_all_records: (context) => {
       return response_controller.read_all_network().then(responses => {
         context.commit('update_responses_last_updated_at')
