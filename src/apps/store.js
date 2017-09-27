@@ -2,19 +2,30 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import { createVuexLoader } from 'vuex-loading'
-import objectPath from 'object-path'
+import {get, set, cloneDeep} from 'lodash'
 
 let store
 
 export {store}
 
 export function create_store(instance_config, instance_stores) {
+  // Theses excluded paths are for the root store
+  let unpersisted_state = [{store_path: 'sw_update_available', default_value: false}, {store_path: 'sw_message', default_value: {message: null, title: null}}]
+
+  for (const store_name in instance_stores) {
+    const store = instance_stores[store_name]
+    const paths = get(store, 'unpersisted_state_keys', [])
+
+    paths.forEach(path => {
+      const store_path = `${store_name}.${path}`
+      const default_value = get(store.state, path, 'eggs')
+      unpersisted_state.push({store_path, default_value})
+    })
+  }
+  
   Vue.use(Vuex)
 
   // vuex-persistedstate
-  // Exclude these paths from state persistence
-  const excluded_paths = ['sw_update_available', 'sw_message']
-
   const persisted_state_options = {
     getState:(key, storage) => {
       const value = storage.getItem(key);
@@ -26,17 +37,18 @@ export function create_store(instance_config, instance_stores) {
       }
     },
     setState: (key, state, storage) => {
-      console.warn("👮‍ Make sure state has minimal data persisting to localStorage")
       setTimeout(() => storage.setItem(key, JSON.stringify(state)), 0)
     },
     reducer: (state) => {
-      if (excluded_paths.length === 0) {
+      if (unpersisted_state.length === 0) {
         return state
       } else {
-        const state_copy = Object.assign({}, state)
-        excluded_paths.forEach(function(path) {
-          objectPath.del(state_copy, path)
+        const state_copy = cloneDeep({}, state)
+
+        unpersisted_state.forEach(function({store_path, default_value}) {
+          set(state_copy, store_path, default_value)
         })
+
         return state_copy
       }
     }
@@ -65,7 +77,7 @@ export function create_store(instance_config, instance_stores) {
 
       // Global UI
       snackbar: {message: null},
-      sw_message: {message: 'null', title: 'null'},
+      sw_message: {message: null, title: null},
       sw_update_available: false,
       network_online: false,
 

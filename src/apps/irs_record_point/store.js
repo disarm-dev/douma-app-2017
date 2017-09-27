@@ -7,6 +7,7 @@ const controller = new ResponseController('record')
 
 export default {
   namespaced: true,
+  unpersisted_state_keys: ['responses'],
   state: {
     responses: [],
 
