@@ -17,7 +17,7 @@
 </template>
 
 <script>
-  import Plotly from 'plotly.js/dist/plotly-basic.js'
+  import Plotly from 'plotly.js/dist/plotly-basic.min.js'
   import {get} from 'lodash'
 
   import get_data from '../../lib/get_data_for_viz'
