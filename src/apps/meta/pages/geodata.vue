@@ -29,7 +29,7 @@
           <!--DOWNLOAD BUTTON -->
           <md-button
             @click.native="retrieve_geodata_for(level)"
-            :disabled="isLoading(`geodata/${level}`)"
+            :disabled="!online || isLoading(`geodata/${level}`)"
             class="md-dense list-button md-raised md-primary"
           >
             Download
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
+  import {mapGetters, mapState} from 'vuex'
   import numeral from 'numeral'
   import bytes from 'bytes'
 
@@ -67,7 +67,10 @@
     },
     computed: {
       ...mapGetters({
-        isLoading: 'loading/isLoading'
+        isLoading: 'loading/isLoading',
+      }),
+      ...mapState({
+        online: 'network_online'
       })
     },
     created() {
