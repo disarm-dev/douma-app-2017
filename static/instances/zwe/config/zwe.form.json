@@ -6,6 +6,22 @@
           "type": "radiogroup",
           "choices": [
             {
+              "value": "yes",
+              "text": "Yes"
+            },
+            {
+              "value": "no",
+              "text": "No"
+            }
+          ],
+          "isRequired": true,
+          "name": "mop_up",
+          "title": "Is this a return visit/mop-up?"
+        },
+        {
+          "type": "radiogroup",
+          "choices": [
+            {
               "value": "ordinary_household",
               "text": "Ordinary household"
             },
