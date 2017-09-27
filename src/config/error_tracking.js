@@ -20,9 +20,9 @@ const configure_error_tracking = ()=> {
 const set_raven_user_context = (state) => {
 
   const user_context = {
-    personalised_instance_id: state.meta.personalised_instance_id,
-    user: state.meta.user,
-    username: state.meta.user.username
+    personalised_instance_id: get(state, 'meta.personalised_instance_id', 'not_set'),
+    user: get(state, 'meta.user', 'not_set'),
+    username: get(state, 'meta.user.username', 'not_set')
   }
 
   const tags = {
