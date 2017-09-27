@@ -12,7 +12,7 @@ export function configure_service_worker () {
     return Promise.resolve()
   }
 
-  if (!'serviceWorker' in navigator) {
+  if (!('serviceWorker' in navigator)) {
     console.log('ServiceWorker not available in this browser')
     return Promise.resolve()
   }
