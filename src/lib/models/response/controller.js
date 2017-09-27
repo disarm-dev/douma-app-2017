@@ -11,7 +11,7 @@ export class ResponseController {
     const remote_responses = await remote.read_all()
 
     // const responses = decorate_responses_from_json(res, context.rootState.instance_config)
-    //
+
     // const decorated_responses = instance_decorator(responses, context.rootState.instance_config)
 
     // validate and report on errors

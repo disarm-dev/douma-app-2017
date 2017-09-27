@@ -2,18 +2,19 @@ import {db} from 'lib/local_db'
 
 export default class Local {
   constructor(applet_name) {
-    this.collection = db[applet_name + '/plans']
+    this.table = db[applet_name + '/plan']
   }
 
-  async read_all() {
-    return await this.collection.toArray()
+  async read() {
+    // TODO: @feature make sure we only get the most recent
+    return await this.table.limit(1).first() || {}
   }
 
-  async create(response) {
-    await this.collection.add(response)
-  }
-
-  async bulk_create(responses) {
-    await this.collection.bulkAdd(responses)
+  async create(plan) {
+    // We only want to have one plan saved at a time
+    // So we clear the db for plan
+    await this.table.clear()
+    // then add a new one
+    await this.table.add(plan)
   }
 }

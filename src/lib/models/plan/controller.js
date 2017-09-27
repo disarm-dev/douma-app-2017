@@ -10,7 +10,12 @@ export class PlanController {
     return await remote.read_plan_current()
   }
 
-  async create_plan_network(plan){
+  async read_plan_current_local() {
+    return await this.local.read()
+  }
+
+  async create_plan(plan){
+    await this.local.create(plan)
     return await remote.create_plan(plan)
   }
 }
