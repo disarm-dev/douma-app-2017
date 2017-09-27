@@ -16,7 +16,7 @@ function config_axios_instance() {
   instance.defaults.timeout = 10000
 
   // Default params
-  const personalised_instance_id = get(store, 'state.personalised_instance_id')
+  const personalised_instance_id = get(store, 'state.meta.personalised_instance_id')
   const country = get(store, 'state.instance_config.instance.slug')
   const user = get(store, 'state.user.username')
   const user_token = 'IMPLEMENTATION still REQUIRED'
