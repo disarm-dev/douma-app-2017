@@ -1,7 +1,9 @@
 <template>
   <div class="applet_container">
     <h2>Geographic data</h2>
-    <p>To continue, you need to load the geographic data.</p>
+    <p>To continue, you need to download {{level_names.length}} files of geographic data. They will be stored on your device (if possible), so you should only have to download one time.</p>
+    <p>If you have a slow connection, try downloading one at a time. Otherwise you can start multiple downloads going at the same time.</p>
+    <p>Downloading will stop if it's taking too long. You can resume downloading if this happens by clicking 'download' again.</p>
     <div class="list">
 
       <md-list>
