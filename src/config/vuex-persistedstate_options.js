@@ -20,7 +20,7 @@ export function generate_persisted_state_options(instance_stores) {
       if (unpersisted_state.length === 0) {
         return state
       } else {
-        const state_copy = cloneDeep({}, state)
+        const state_copy = cloneDeep(state)
 
         unpersisted_state.forEach(function({store_path, default_value}) {
           set(state_copy, store_path, default_value)
