@@ -3,8 +3,14 @@ import {cloneDeep, get, set} from 'lodash'
 export function generate_persisted_state_options(instance_stores) {
   const unpersisted_state = generate_unpersisted_state(instance_stores)
 
+  return create_options(unpersisted_state)
+}
+
+export function create_options(unpersisted_state) {
+  if (!unpersisted_state) throw new Error('unpersisted_state object required')
+
   return {
-    getState:(key, storage) => {
+    getState: (key, storage) => {
       const value = storage.getItem(key);
 
       try {
@@ -22,7 +28,7 @@ export function generate_persisted_state_options(instance_stores) {
       } else {
         const state_copy = cloneDeep(state)
 
-        unpersisted_state.forEach(function({store_path, default_value}) {
+        unpersisted_state.forEach(function ({store_path, default_value}) {
           set(state_copy, store_path, default_value)
         })
 
@@ -44,7 +50,7 @@ export function generate_unpersisted_state(instance_stores) {
 
     paths.forEach(path => {
       const store_path = `${store_name}.${path}`
-      const default_value = get(store.state, path, 'eggs')
+      const default_value = get(store.state, path, null)
       unpersisted_state.push({store_path, default_value})
     })
   }
