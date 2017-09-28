@@ -60,6 +60,13 @@ clean_up()
 
 export {db}
 
-function clean_up() {
-  // TODO: @feature remove 'disarm_geodata' db
+async function clean_up() {
+  const db_name = 'disarm_geodata'
+  if (Dexie.exists(db_name)) {
+    try {
+      await Dexie.delete(db_name)
+    } catch (e) {
+      console.log(`Could not delete ${db_name} db`)
+    }
+  }
 }
