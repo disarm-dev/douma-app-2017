@@ -10,18 +10,24 @@ export function filter_responses(responses, filters = []) {
 function filter_response(response, filters) {
   return filters.every(filter => {
     const {name, comparator, value} = filter
+    let value_from_filter = value
 
-    let response_value = get(response, name, null)
+    let value_from_response = get(response, name, null)
 
-    if (response_value === null) return
+    if (value_from_response === null) return
 
     // TODO: @refac Find another way to convert string to int
     if (name === 'recorded_on') {
-      response_value = new Date(response_value).getTime()
+      value_from_response = new Date(value_from_response).getTime()
     }
 
-    const expr_string = `response_value ${comparator} ${value}`
-    const variables = { response_value }
+    // if string, enclose in single quotes
+    if (typeof value_from_filter === 'string') {
+      value_from_filter = `'${value_from_filter}'`
+    }
+
+    const expr_string = `value_from_response ${comparator} ${value_from_filter}`
+    const variables = { value_from_response }
     
     return Parser.evaluate(expr_string, variables)
   })
