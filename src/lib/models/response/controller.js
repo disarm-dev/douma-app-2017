@@ -4,11 +4,12 @@ import Local from './local'
 export class ResponseController {
   constructor(applet_name) {
     this.local = new Local(applet_name)
+    this.remote = remote
   }
 
   async read_all_network() {
     // get them from remote
-    const remote_responses = await remote.read_all()
+    const remote_responses = await this.remote.read_all()
 
     // const responses = decorate_responses_from_json(res, context.rootState.instance_config)
 
@@ -36,7 +37,7 @@ export class ResponseController {
 
 
   async create_batch_network(responses) {
-    return await remote.create(responses)
+    return await this.remote.create(responses)
   }
 }
 
