@@ -57,7 +57,7 @@ db.version(1).stores({
 
 async function clean_up_local_dbs() {
   const db_name = 'disarm_geodata'
-  if (Dexie.exists(db_name)) {
+  if (await Dexie.exists(db_name)) {
     try {
       await Dexie.delete(db_name)
     } catch (e) {
