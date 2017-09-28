@@ -22,8 +22,13 @@
     </template>
 
     <div slot="text">
-      {{responses.length}} records 
-      Last updated: {{responses_last_updated_at}}
+      <div v-if="filters.length">
+        {{filters.length}} filters active, {{responses.length}} filtered records showing
+      </div>
+      <div v-else>
+        {{responses.length}} records
+        Last updated: {{responses_last_updated_at}}
+      </div>
     </div>
   </controls>
 
@@ -40,7 +45,7 @@
   export default {
     name: 'summary',
     components: {controls},
-    props: ['responses'],
+    props: ['responses', 'filters'],
     mounted() {
     },
     data() {
