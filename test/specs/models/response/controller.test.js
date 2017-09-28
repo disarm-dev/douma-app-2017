@@ -10,7 +10,8 @@ function setup_read_all_network() {
   const remote = {read_all}
 
   const create_bulk = sinon.stub().returns(Promise.resolve())
-  const local = {create_bulk}
+  const remove_all = sinon.stub().returns(Promise.resolve())
+  const local = {create_bulk, remove_all}
 
   const controller = new ResponseController('test')
 
@@ -39,6 +40,7 @@ test.cb("calls local methods in read_all_network with correct arguments", t => {
 
   controller.read_all_network().then(() => {
     t.true(controller.local.create_bulk.calledOnce)
+    t.true(controller.local.remove_all.calledOnce)
     t.deepEqual(responses, controller.local.create_bulk.getCall(0).args[0])
 
     t.end()

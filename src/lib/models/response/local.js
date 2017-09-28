@@ -16,4 +16,8 @@ export default class Local {
   async create_bulk(responses) {
     await this.table.bulkAdd(responses)
   }
+
+  async remove_all() {
+    await this.table.clear()
+  }
 }

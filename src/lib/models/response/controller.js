@@ -22,6 +22,7 @@ export class ResponseController {
     // const decorated_records = decorate_responses(validate_responses)
 
     // Clear local DB, so data is not stale
+    await this.local.remove_all()
 
     // populate local DB
     await this.local.create_bulk(remote_responses)
