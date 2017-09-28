@@ -99,12 +99,7 @@
             status = 'none'
           }
 
-          console.log('level, status', level, status)
-
           this.loading_progress[level].status = status
-
-          console.log('this.loading_progress', this.loading_progress)
-
         })
       },
       retrieve_geodata_for(level) {
@@ -133,8 +128,6 @@
 
         const total = bytes(progress_event.total)
         this.loading_progress[progress_event.level_name].total = total
-
-        console.log('progress', progress_event, progress)
       }
     }
   }
