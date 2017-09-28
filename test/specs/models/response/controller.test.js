@@ -3,7 +3,7 @@ import sinon from 'sinon'
 
 import {ResponseController} from "lib/models/response/controller"
 
-function setup() {
+function setup_read_all_network() {
   const responses = [{id: 1}, {id: 2}]
 
   const read_all = sinon.stub().returns(Promise.resolve(responses))
@@ -26,7 +26,7 @@ test("can be instantiated", t => {
 })
 
 test.cb("calls remote methods in read_all_network ", t => {
-  const {controller} = setup()
+  const {controller} = setup_read_all_network()
 
   controller.read_all_network().then(() => {
     t.true(controller.remote.read_all.calledOnce)
@@ -35,7 +35,7 @@ test.cb("calls remote methods in read_all_network ", t => {
 })
 
 test.cb("calls local methods in read_all_network with correct arguments", t => {
-  const {responses, controller} = setup()
+  const {responses, controller} = setup_read_all_network()
 
   controller.read_all_network().then(() => {
     t.true(controller.local.create_bulk.calledOnce)
@@ -46,7 +46,7 @@ test.cb("calls local methods in read_all_network with correct arguments", t => {
 })
 
 test.cb("read_all_network returns responses", t => {
-  const {responses, controller} = setup()
+  const {responses, controller} = setup_read_all_network()
 
   controller.read_all_network().then((actual) => {
     t.deepEqual(responses, actual)
@@ -54,4 +54,27 @@ test.cb("read_all_network returns responses", t => {
   })
 })
 
+test.cb("calls local methods in read_all_cache", t => {
+  const controller = new ResponseController('test')
+
+  controller.local = {read_all: sinon.stub().returns(Promise.resolve())}
+
+  controller.read_all_cache().then((actual) => {
+    t.true(controller.local.read_all.calledOnce)
+    t.end()
+  })
+})
+
+
+test.cb("calls local methods in read_all_cache with correct arguments", t => {
+  const responses = [{id: 1}, {id: 2}]
+  const controller = new ResponseController('test')
+
+  controller.local = {read_all: sinon.stub().returns(Promise.resolve(responses))}
+
+  controller.read_all_cache().then((actual) => {
+    t.deepEqual(responses, actual)
+    t.end()
+  })
+})
 
