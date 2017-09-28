@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--  SUMMARY, LOAD, DOWNLOAD (DUMPING GROUND) -->
-    <dashboard_summary :responses='responses' @load_responses="load_responses" @load_plan="load_plan"></dashboard_summary>
+    <dashboard_summary :responses='responses' :filters='filters' @load_responses="load_responses" @load_plan="load_plan"></dashboard_summary>
 
     <div class='applet_container'>
 
@@ -66,6 +66,7 @@
         aggregations: state => state.instance_config.aggregations,
 
         // Options
+        filters: state => state.irs_monitor.filters,
         dashboard_options: state => state.irs_monitor.dashboard_options,
 
         // Options (passed to components)
