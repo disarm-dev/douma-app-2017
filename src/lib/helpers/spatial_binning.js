@@ -8,15 +8,6 @@ import {get_field_name_for_level} from "lib/instance_data/spatial_hierarchy_help
 const AGGREGATION_FIELD = 'aggregation_field'
 
 
-export function spatial_bin (responses) {
-  const bins = nest()
-    .key(f => get(f, AGGREGATION_FIELD))
-    .entries(responses)
-
-  return bins
-}
-
-
 export function spatially_decorate_responses (responses, level_name) {
   // Get all responses - passed in
 
@@ -36,12 +27,24 @@ export function spatially_decorate_responses (responses, level_name) {
   for (const response of responses) {
     const {latitude, longitude} = response.location.coords
     const area = query([latitude, longitude])
+    console.log('area', area)
 
-    response[AGGREGATION_FIELD] = area[field_to_save]
+    if (area) {
+      response[AGGREGATION_FIELD] = area[field_to_save]
+    }
   }
 
   // bin responses
   const binned_responses = spatial_bin(responses)
 
   return binned_responses
+}
+
+
+export function spatial_bin (responses) {
+  const bins = nest()
+    .key(f => get(f, AGGREGATION_FIELD))
+    .entries(responses)
+
+  return bins
 }
