@@ -9,8 +9,6 @@ const AGGREGATION_FIELD = 'aggregation_field'
 
 
 export function spatial_bin (responses) {
-  // return [{key: 'area1', values: responses}]
-
   const bins = nest()
     .key(f => get(f, AGGREGATION_FIELD))
     .entries(responses)
