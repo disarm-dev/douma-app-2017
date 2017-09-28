@@ -78,3 +78,28 @@ test.cb("calls local methods in read_all_cache with correct arguments", t => {
   })
 })
 
+
+test.cb("calls remote methods in create_batch_network", t => {
+  const controller = new ResponseController('test')
+
+  controller.remote = {create: sinon.stub().returns(Promise.resolve())}
+
+  controller.create_batch_network().then(() => {
+    t.true(controller.remote.create.calledOnce)
+    t.end()
+  })
+})
+
+
+test.cb("calls local methods in create_batch_network with correct arguments", t => {
+  const responses = [{id: 1}, {id: 2}]
+  const controller = new ResponseController('test')
+
+  controller.remote = {create: sinon.stub().returns(Promise.resolve())}
+
+  controller.create_batch_network(responses).then(() => {
+    t.deepEqual(responses, controller.remote.create.getCall(0).args[0])
+    t.end()
+  })
+})
+
