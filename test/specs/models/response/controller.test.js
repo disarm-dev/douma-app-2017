@@ -8,12 +8,15 @@ test("can be instantiated", t => {
   t.true(controller instanceof ResponseController)
 })
 
-test.cb("calls remote and local methods in read_all_network", t => {
+test.cb("calls remote and local methods in read_all_network and returns result", t => {
+
+  const responses = [{id: 1}, {id: 2}]
+
+  const read_all = sinon.stub().returns(Promise.resolve(responses))
+  const remote = { read_all }
+
   const create_bulk = sinon.stub().returns(Promise.resolve())
   const local = { create_bulk }
-
-  const read_all = sinon.stub().returns(Promise.resolve())
-  const remote = { read_all }
 
   const controller = new ResponseController('test')
 
@@ -21,10 +24,14 @@ test.cb("calls remote and local methods in read_all_network", t => {
   controller.remote = remote
 
 
-  controller.read_all_network().then(() => {
+  controller.read_all_network().then((actual) => {
     t.true(controller.remote.read_all.calledOnce)
     t.true(controller.local.create_bulk.calledOnce)
+
+    t.deepEqual(responses, controller.local.create_bulk.getCall(0).args[0])
+    t.deepEqual(responses, actual)
+
     t.end()
   })
-
 })
+
