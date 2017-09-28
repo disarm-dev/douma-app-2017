@@ -5,6 +5,7 @@ import { createVuexLoader } from 'vuex-loading'
 import {get, set, cloneDeep} from 'lodash'
 
 let store
+import CONFIG from 'config/common'
 
 export {store}
 
@@ -55,15 +56,7 @@ export function create_store(instance_config, instance_stores) {
   }
 
   // vuex-loader
-  const VuexLoading = createVuexLoader({
-    // The Vuex module name, 'loading' by default.
-    moduleName: 'loading',
-    // The Vue component name, 'v-loading' by default.
-    componentName: 'v-loading',
-    // Vue component class name, 'v-loading' by default.
-    className: 'v-loading',
-  })
-
+  const VuexLoading = createVuexLoader(CONFIG.vuex_loader_options)
   Vue.use(VuexLoading)
 
 
