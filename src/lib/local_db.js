@@ -55,12 +55,7 @@ db.version(1).stores({
 //
 //   })
 
-
-clean_up()
-
-export {db}
-
-async function clean_up() {
+async function clean_up_local_dbs() {
   const db_name = 'disarm_geodata'
   if (Dexie.exists(db_name)) {
     try {
@@ -70,3 +65,6 @@ async function clean_up() {
     }
   }
 }
+
+export {db, clean_up_local_dbs}
+

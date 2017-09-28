@@ -29,6 +29,7 @@ import {need_to_update} from 'lib/remote/check-application-version'
 import {set_raven_user_context} from 'config/error_tracking.js'
 import {instantiate_axios_instance} from 'lib/remote/axios_instance'
 import BUILD_TIME from 'config/build-time'
+import {clean_up_local_dbs} from "lib/local_db"
 
 
 /**
@@ -74,6 +75,8 @@ export function configure_application (instance_config) {
   // (Vue injects $ga in every component)
   instantiate_analytics(router)
 
+  // Clean up old dbs, do migrations/upgrades here in the future
+  clean_up_local_dbs()
 
 
   // CREATE VUE APP
