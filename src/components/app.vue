@@ -44,6 +44,7 @@
   .applet_container {
     margin: 0.6em auto;
     width: 100%;
+    padding: 0 1em;
   }
 
   @media screen and (min-width: 600px) {

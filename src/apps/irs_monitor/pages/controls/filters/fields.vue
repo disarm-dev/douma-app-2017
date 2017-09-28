@@ -10,7 +10,7 @@
           <md-option v-for="field_name in field_names" :key='field_name' :value="field_name">{{field_name}}</md-option>
         </md-select>
 
-        <md-select v-model="filter_comparator" class="select">
+        <md-select v-model="filter_comparator" class="select" disabled>
           <md-option v-for="comparator in comparators" :key="comparator" :value="comparator">{{comparator}}</md-option>
         </md-select>
 
@@ -38,9 +38,10 @@
     props: ['responses'],
     data() {
       return {
-        filter_name: '',
-        filter_comparator: '==',
-        filter_value: '',
+        // see below #reset_inputs for default values
+        filter_name: null,
+        filter_comparator: null,
+        filter_value: null,
 
         comparators: ['==']
       }
@@ -82,7 +83,16 @@
         }
       }
     },
+    created () {
+      this.reset_inputs()
+    },
     methods: {
+      reset_inputs() {
+        // TODO: @refac replicating these data definitions === bad
+        this.filter_name = ''
+        this.filter_comparator = '=='
+        this.filter_value = ''
+      },
       extract_nested_keys(data) {
         var result = {};
 
@@ -110,6 +120,7 @@
       },
       add_filter() {
         this.$emit('change', this.filter)
+        this.reset_inputs()
       }
     }
   }
