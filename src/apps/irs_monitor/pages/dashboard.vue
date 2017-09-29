@@ -90,6 +90,7 @@
           })
           .catch(e => {
             console.log(e)
+            this.$store.commit('root:set_snackbar', {message: `Error: ${e.message}`})
             this.$endLoading('irs_monitor/load_responses')
           })
       },
@@ -103,6 +104,7 @@
           })
           .catch(e => {
             console.log(e)
+            this.$store.commit('root:set_snackbar', {message: `Error: ${e.message}`})
             this.$endLoading('irs_monitor/load_plan')
           })
       },
