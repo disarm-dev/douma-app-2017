@@ -1,43 +1,49 @@
 import which_polygon from 'which-polygon'
 import {nest} from 'd3-collection'
-import {get} from 'lodash'
+import {cloneDeep, get} from 'lodash'
 
 import {get_geodata_for_level_name} from "lib/helpers/geodata_helpers"
-import {get_field_name_for_level} from "lib/instance_data/spatial_hierarchy_helper"
+import {
+  get_all_spatial_hierarchy_level_names,
+  get_field_name_for_level
+} from 'lib/instance_data/spatial_hierarchy_helper'
 
 const AGGREGATION_FIELD = 'aggregation_field'
 
+function spatially_decorate_responses_all_levels(responses) {
+  const level_names = get_all_spatial_hierarchy_level_names()
 
-export function spatially_decorate_responses (responses, level_name) {
-  // Get all responses - passed in
+  let cloned_responses = cloneDeep(responses)
 
-  // Get list of areas at a certain level
-  const level_geodata = get_geodata_for_level_name(level_name)
+  for (let level_name of level_names) {
+    // Get list of areas at a certain level
+    const level_geodata = get_geodata_for_level_name(level_name)
 
+    // Create spatial index for level
+    const polygon_query = which_polygon(level_geodata)
 
-  // Create spatial index
+    // We want the id field for that level
+    const field_to_save = get_field_name_for_level(level_name)
 
-  const query = which_polygon(level_geodata)
+    cloned_responses = spatially_decorate_responses({cloned_responses, level_name, field_to_save, polygon_query})
+  }
 
-  // We want the id field for that level
-  const field_to_save = get_field_name_for_level(level_name)
+  return cloned_responses
+}
 
+export function spatially_decorate_responses ({cloned_responses, level_name, field_to_save, polygon_query}) {
 
   // For each response, query which area response is in
-  for (const response of responses) {
-    const {latitude, longitude} = response.location.coords
-    const area = query([latitude, longitude])
-    console.log('area', area)
+  for (let response_clone of cloned_responses) {
+    const {latitude, longitude} = response_clone.location.coords
+    const area = polygon_query([latitude, longitude])
 
     if (area) {
-      response[AGGREGATION_FIELD] = area[field_to_save]
+      set(response_clone, `spatial_hierarchy.${level_name}`, area[field_to_save])
     }
   }
 
-  // bin responses
-  const binned_responses = spatial_bin(responses)
-
-  return binned_responses
+  return cloned_responses
 }
 
 
