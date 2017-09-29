@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import {get, isEqual} from 'lodash'
 import {read_all_network} from 'lib/models/response'
-import {read_plan_current_network} from 'lib/models/plan'
+import remote from 'lib/models/plan/remote'
 import {Plan} from 'lib/models/plan/model'
 import {decorate_responses_from_json} from 'lib/models/response/decorator'
 import instance_decorator from 'lib/models/response/decorators-evaluated'
@@ -136,7 +136,7 @@ export default {
     },
     get_current_plan: (context) => {
       const instance_slug = context.rootState.instance_config.instance.slug
-      return get_current_plan(instance_slug)
+      return remote.read_plan_current(instance_slug)
         .then(plan_json => {
           try {
             new Plan().validate(plan_json)
