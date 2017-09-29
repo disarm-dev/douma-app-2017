@@ -10,7 +10,7 @@
   {
     "name": "structures found %",
     "numerator_expr": "number_sprayable + number_unsprayable",
-    "denominator_field": "number_of_households"
+    "denominator_field": "structures"
   },
   {
     "name": "structures sprayed",
@@ -19,7 +19,7 @@
   {
     "name": "structures sprayed %",
     "numerator_expr": "numbersprayed_delta + numbersprayed_ddt",
-    "denominator_field": "number_of_households"
+    "denominator_field": "structures"
   },
   {
     "name": "sprayable structures not sprayed",
@@ -32,7 +32,7 @@
   {
     "name": "sprayable structures not sprayed (refused) %",
     "numerator_expr": "number_sprayable - (numbersprayed_delta + numbersprayed_ddt)",
-    "denominator_field": "number_of_households"
+    "denominator_field": "structures"
   }
 ]
 
