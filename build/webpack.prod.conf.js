@@ -12,9 +12,7 @@ var LicenseWebpackPlugin = require('license-webpack-plugin')
 var SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 var Visualizer = require('webpack-visualizer-plugin');
 
-var env = process.env.NODE_ENV === 'testing'
-  ? require('../config/test.env')
-  : config.build.env
+var env = config.build.env
 
 var webpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -99,7 +97,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     new LicenseWebpackPlugin({
       pattern: /^(MIT|ISC|BSD.*)$/,
       unacceptablePattern: /GPL/,
-      abortOnUnacceptableLicense: true,
+      abortOnUnacceptableLicense: false,
       filename: 'static/3rdpartylicenses.txt'
     }),
     new SWPrecacheWebpackPlugin(require('../sw-precache-config.js')),

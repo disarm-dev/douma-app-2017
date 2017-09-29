@@ -1,7 +1,7 @@
 import Raven from 'raven-js'
 import get from 'lodash.get'
 
-import {authenticate} from 'lib/remote/authenticate'
+import {authenticate} from 'lib/models/user'
 import {decorate_applets} from 'lib/instance_data/decorated_applets'
 import {User} from 'lib/models/user/model'
 import {set_raven_user_context} from 'config/error_tracking.js'
@@ -11,7 +11,6 @@ export default {
   state: {
     user: null,
     previous_route: '',
-    locations: [],
     personalised_instance_id: 'default',
   },
   mutations: {
@@ -20,20 +19,6 @@ export default {
     },
     set_user: (state, user) => {
       state.user = user
-    },
-    add_location: (state, location) => {
-      state.locations.unshift(location)
-    },
-    update_location: (state, location) => {
-      const index = state.locations.findIndex(l => l.id === location.id)
-      state.locations.splice(index, 1, location)
-    },
-    delete_location: (state, location) => {
-      const index = state.locations.findIndex(l => l.id === location.id)
-      state.locations.splice(index, 1)
-    },
-    clear_locations: (state) => {
-      state.locations = []
     },
     set_personalised_instance_id: (state, personalised_instance_id) => {
       state.personalised_instance_id = personalised_instance_id || 'default'

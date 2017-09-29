@@ -1,21 +1,32 @@
-import {standard_handler, douma_api_root} from '../../remote/standard-handler.js'
+import {request_handler} from "lib/remote/request-handler"
 
-// RECORDS
-export const get_all_records = () => {
-  let url = douma_api_root + `/record/all`
+export default {read_all, create}
 
-  return standard_handler(url)
+function read_all() {
+  const request = _read_all()
+  return request_handler(request)
 }
 
-export const create_records = (records) => {
-  let url = douma_api_root + `/record/create`
-
-  let options = {
-    timeout: 20000,
-    data: records,
-    method: 'post'
+function _read_all() {
+  return {
+    url_suffix: '/record/all',
   }
-
-
-  return standard_handler(url, options)
 }
+
+
+function create(responses) {
+  const request = _create(responses)
+  return request_handler(request)
+}
+
+function _create(responses) {
+  if (!responses.length) return false
+
+  return {
+    url_suffix: '/record/create',
+    timeout: 20000,
+    method: 'post',
+    data: responses
+  }
+}
+

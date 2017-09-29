@@ -1,19 +1,32 @@
+import remote from './remote'
+import local from './local'
 
-export async function get_records() {
+export {read_all_network, read_all_cache, create_batch_network}
+
+async function read_all_network() {
   // get them from remote
-  const remote_responses = await get_responses()
+  const remote_responses = await remote.read_all()
 
   // validate and report on errors
-  const valid_responses = validate_responses(remote_responses)
+  // const valid_responses = validate_responses(remote_responses)
 
   // decorate as needed (static/by-hand and decorations.json)
-  const decorated_records = decorate_responses(validate_responses)
+  // const decorated_records = decorate_responses(validate_responses)
 
   // populate local DB
-  await local.create_records(decorated_records)
+  // await local.create(remote_responses)
 
   // return them
-  return decorated_records
+  return remote_responses
 }
 
-export function create_records(records_array) {}
+
+async function read_all_cache() {
+  // return await local.read_all()
+  return console.warn('noop')
+}
+
+
+async function create_batch_network(responses) {
+  return await remote.create(responses)
+}

@@ -74,10 +74,10 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      "VERSION_COMMIT_HASH_SHORT": JSON.stringify(gitRevisionPlugin.version()),
-      'BRANCH': JSON.stringify(gitRevisionPlugin.branch()),
-      "DOUMA_PRODUCTION_MODE": process.env.NODE_ENV === 'production',
-      "GA_ANALYTICS_UA": JSON.stringify(get_analytics_ua_for_branch(gitRevisionPlugin))
+      __VERSION_COMMIT_HASH_SHORT: JSON.stringify(gitRevisionPlugin.version()),
+      __BRANCH: JSON.stringify(gitRevisionPlugin.branch()),
+      __DOUMA_PRODUCTION_MODE: process.env.NODE_ENV === 'production',
+      __GA_ANALYTICS_UA: JSON.stringify(get_analytics_ua_for_branch(gitRevisionPlugin))
     }),
     new GitRevisionPlugin() // Write VERSION and COMMITHASH files
   ]

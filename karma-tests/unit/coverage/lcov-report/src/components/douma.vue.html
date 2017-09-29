@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/components/douma.vue</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">src/components/</a> douma.vue
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/22</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/6</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/3</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/20</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&lt;template&gt;
+  &lt;div&gt;
+    &lt;!-- MAIN PAGE 'TOOLBAR' --&gt;
+    &lt;div class="douma-toolbar"&gt;
+      &lt;!-- LOADING BAR --&gt;
+      &lt;template v-cloak&gt;
+        &lt;md-progress v-if='loading' class='md-accent' md-indeterminate&gt;&lt;/md-progress&gt;
+      &lt;/template&gt;
+      
+      &lt;md-toolbar class="md-whiteframe-1dp" &gt;
+        &lt;md-button class="md-icon-button" @click.native="toggleSideNav"&gt;
+          &lt;md-icon&gt;menu&lt;/md-icon&gt;
+        &lt;/md-button&gt;
+        &lt;!-- BREADCRUMBS --&gt;
+        &lt;h2 class="md-title" style="flex: 1"&gt;&lt;bread-crumbs&gt;&lt;/bread-crumbs&gt;&lt;/h2&gt; 
+      &lt;/md-toolbar&gt;
+    &lt;/div&gt;
+&nbsp;
+    &lt;!-- SIDENAV --&gt;
+    &lt;md-sidenav class="md-left" ref="sideNav"&gt;
+      &lt;md-toolbar class="md-medium"&gt;
+        &lt;div class="md-toolbar-container"&gt;
+          &lt;h3&gt;Country: {{$store.state.instance_config.name}}&lt;/h3&gt;
+          &lt;!-- &lt;img src="/assets/disarm-logo-word-grey.png" style="height: 50px;"&gt; --&gt;
+&nbsp;
+        &lt;/div&gt;
+        &lt;div v-if="user"&gt;
+          &lt;p @click="navigate('meta:home')"&gt;Logged in: {{user.name}}&lt;/p&gt;
+          &lt;p &gt;Demo instance: &lt;i&gt;{{$store.state.meta.demo_instance_id}}&lt;/i&gt;&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;div v-else&gt;
+          &lt;p&gt;Nope, not logged in.&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/md-toolbar&gt;
+&nbsp;
+      &lt;md-list v-if='user'&gt;
+        &lt;md-list-item v-for='applet in applets' :key='applet.name' @click.native="navigate(applet.name)"&gt;
+          &lt;md-icon&gt;{{applet.icon}}&lt;/md-icon&gt;&lt;span&gt;{{applet.title}}&lt;/span&gt;
+        &lt;/md-list-item&gt;
+&nbsp;
+        &lt;md-divider class="md-inset"&gt;&lt;/md-divider&gt;
+&nbsp;
+        
+        &lt;md-list-item @click.native="navigate('meta:home')"&gt;
+          &lt;md-icon&gt;person&lt;/md-icon&gt;&lt;span&gt;User&lt;/span&gt;
+        &lt;/md-list-item&gt;
+&nbsp;
+        &lt;md-list-item class='md-accent' @click.native="navigate('meta:logout')"&gt;
+          &lt;md-icon&gt;exit_to_app&lt;/md-icon&gt;&lt;span&gt;Logout&lt;/span&gt;
+        &lt;/md-list-item&gt;
+&nbsp;
+      &lt;/md-list&gt;
+    &lt;/md-sidenav&gt;
+&nbsp;
+    &lt;!-- SNACKBAR --&gt;
+    &lt;md-snackbar md-position="top center" ref="snackbar" :md-duration="snackbar.duration"&gt;
+      &lt;span&gt;{{snackbar.message}}&lt;/span&gt;
+      &lt;md-button class="md-accent" md-theme="light-blue" @click.native="snackbar_action"&gt;Yes?&lt;/md-button&gt;
+    &lt;/md-snackbar&gt;
+&nbsp;
+    &lt;!-- DIALOG --&gt;
+    &lt;md-dialog-alert
+      :md-title="$store.state.sw_message.title"
+      :md-content="$store.state.sw_message.message"
+      md-ok-text="Ok"
+      ref="sw_dialog"&gt;
+    &lt;/md-dialog-alert&gt;
+&nbsp;
+&nbsp;
+    &lt;!-- APPLET CONTAINER --&gt;
+    &lt;div&gt;
+      &lt;router-view&gt;&lt;/router-view&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+&nbsp;
+&lt;script&gt;
+  import BreadCrumbs from './breadCrumbs.vue'
+&nbsp;
+  export default {
+    name: 'DOUMA',
+    components: {
+      BreadCrumbs
+    },
+    props: ['theme'],
+    watch: {
+      '$store.state.snackbar': 'snackbar_open',
+      '$store.state.sw_message': 'sw_dialog_open'
+    },
+    mounted() {
+<span class="cstat-no" title="statement not covered" >      if ((typeof this.$store.state.user !== 'undefined') &amp;&amp; (this.$store.state.meta.user.version !== COMMIT_HASH)) {</span>
+<span class="cstat-no" title="statement not covered" >        console.log("Version has changed. Need to reload."</span>)        
+<span class="cstat-no" title="statement not covered" >        this.$store.commit('meta:login_user', null</span>)
+<span class="cstat-no" title="statement not covered" >        this.$router.push({name: 'meta:login'}</span>)
+      }
+    },
+    data() {
+<span class="cstat-no" title="statement not covered" >      return {</span>
+        showNav: true
+      }
+    },
+    computed: {
+      applets() {
+        const applet_decorations <span class="cstat-no" title="statement not covered" >= this.$router.options.routes.map((route) =<span class="fstat-no" title="function not covered" >&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >          return {...route.meta, name: route.name</span>}
+        })
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (!this.$store.state.meta.user<span class="cstat-no" title="statement not covered" >) retur</span></span>n
+<span class="cstat-no" title="statement not covered" >        return this.$store.state.meta.user.allowed_apps.read.map((app) =<span class="fstat-no" title="function not covered" >&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >          return applet_decorations.find((i) =<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >&gt; i.name === ap</span></span>p</span>)
+        })
+      },
+      user() {
+<span class="cstat-no" title="statement not covered" >        return this.$store.state.meta.use</span>r
+      },
+      snackbar() {
+<span class="cstat-no" title="statement not covered" >        return {</span>
+          ...this.$store.state.snackbar, 
+          duration: 7000
+        }
+      },
+      loading() {
+<span class="cstat-no" title="statement not covered" >        return this.$store.state.loadin</span>g
+      }
+    },
+    methods: {
+      navigate(name) {
+<span class="cstat-no" title="statement not covered" >        this.$router.push({name}</span>)
+<span class="cstat-no" title="statement not covered" >        this.toggleSideNav(</span>)
+      },
+      toggleSideNav() {
+<span class="cstat-no" title="statement not covered" >        this.$refs.sideNav.toggle()</span>;
+      },
+      sw_dialog_open() {
+<span class="cstat-no" title="statement not covered" >        this.$refs.sw_dialog.open(</span>)
+      },
+      snackbar_open() {
+<span class="cstat-no" title="statement not covered" >        this.$refs.snackbar.open(</span>)
+      },
+      snackbar_action() {
+<span class="cstat-no" title="statement not covered" >        this.$refs.snackbar.close(</span>)
+<span class="cstat-no" title="statement not covered" >        this.snackbar.action(</span>)
+      }
+    }
+  }
+&lt;/script&gt;
+&nbsp;
+&lt;style&gt;
+  body {
+    background-color: white;
+    padding-top: 64px;
+  }
+&nbsp;
+  .douma-toolbar {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 5;
+  }
+&nbsp;
+  [v-cloak] {
+    display: none;
+  }
+&lt;/style&gt;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue May 09 2017 15:21:47 GMT+0200 (SAST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

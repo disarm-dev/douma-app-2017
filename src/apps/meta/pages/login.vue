@@ -52,8 +52,10 @@
 
 <script>
   import {mapState} from 'vuex'
+  import {get} from 'lodash'
 
   import {generate_personalised_instance_id} from 'lib/debug/personalised_instance_id_generator'
+  import BUILD_TIME from 'config/build-time'
 
   export default {
     data() {
@@ -75,7 +77,7 @@
         return this.user_details.username.length !== 0 && this.user_details.password.length !== 0
       },
       commit_hash() {
-        return VERSION_COMMIT_HASH_SHORT
+        return BUILD_TIME.VERSION_COMMIT_HASH_SHORT
       },
       local_personalised_instance_id: {
         get() { return this.raw_local_personalised_instance_id },
@@ -160,13 +162,25 @@
 
       },
       continue() {
-        if (this.$store.state.meta.previous_route) {
-          let path = this.$store.state.meta.previous_route
-          this.$router.push(path)
+        const next_path = this.get_next_path()
+        this.$router.push(next_path)
+      },
+      get_next_path() {
+        let next_path
+        const allowed_read_apps = get(this.$store, 'state.meta.user.allowed_apps.read', [])
+
+        if (allowed_read_apps.length === 1) {
+          // Only have access to a single applet, go there.
+          next_path = {name: allowed_read_apps[0]}
+        } else if (this.$store.state.meta.previous_route) {
+          // Multiple applets, previous_route set, go there.
+          next_path = this.$store.state.meta.previous_route
         } else {
-          this.$router.push('/')
+          // Multiple applets, no previous_route, head to root route.
+          next_path = '/'
         }
-      }
+        return next_path
+      },
     }
   }
 </script>

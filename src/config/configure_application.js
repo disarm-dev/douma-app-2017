@@ -22,14 +22,13 @@ import {get_instance_stores_and_routes} from './applet_stores_and_routes'
 import {configure_theme} from './theme'
 import {instantiate_analytics, set_common_analytics} from 'config/analytics'
 import {configure_spatial_helpers} from 'lib/instance_data/spatial_hierarchy_helper'
-import {configure_standard_handler} from 'lib/remote/standard-handler'
-import {try_reconnect} from 'lib/remote/standard-handler'
+import {try_reconnect} from 'lib/remote/util'
 import {add_network_status_watcher} from 'lib/helpers/network_status.js'
 import pubsubcache from 'lib/helpers/pubsubcache'
 import {need_to_update} from 'lib/remote/check-application-version'
 import {set_raven_user_context} from 'config/error_tracking.js'
 
-
+import BUILD_TIME from 'config/build-time'
 
 
 /**
@@ -50,7 +49,8 @@ export function configure_application (instance_config) {
   // Make Vuex#$store and replace rehydrated (by vuex-persistedstate) instance_config with received instance_config
   // (Required for the app)
   const store = create_store(instance_config, instance_applets_stores_and_routes.stores)
-  store.commit('root:set_instance_config', instance_config)
+
+
 
   // Create Vue#$router from what you got
   // (Required for the app)
@@ -71,7 +71,6 @@ export function configure_application (instance_config) {
   // Also trigger a ping to API, for lots of reasons, mostly that the API seems to take ages to wake up
   // (Loads of components use network requests when they are created/mounted)
   try_reconnect()
-  configure_standard_handler(store)
 
   // Analytics 1/2: instantiate analytics before you create the application
   // (Vue injects $ga in every component)
@@ -122,6 +121,6 @@ export function configure_application (instance_config) {
   add_network_status_watcher(douma_app)
 
   // Keep track of what version we're working on, in production at least.
-  if (DOUMA_PRODUCTION_MODE) console.info('🚀 Launched DiSARM version ' + VERSION_COMMIT_HASH_SHORT)
+  if (BUILD_TIME.DOUMA_PRODUCTION_MODE) console.info('🚀 Launched DiSARM version ' + BUILD_TIME.VERSION_COMMIT_HASH_SHORT)
 
 }

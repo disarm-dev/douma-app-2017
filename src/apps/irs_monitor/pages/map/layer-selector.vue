@@ -36,6 +36,7 @@
     },
     methods: {
       set_selected_layer(option) {
+        if (!option) return
         this.$emit('change', option.id)
       }
     }

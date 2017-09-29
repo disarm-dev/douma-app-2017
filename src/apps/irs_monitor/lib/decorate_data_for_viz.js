@@ -187,7 +187,7 @@ export function decorate_for_map({binned_responses, targets, aggregations, optio
     map((feature) => {
 
       const found_bin = binned_aggregations.find((bin) => {
-        return bin.key === feature.properties.__disarm_geo_id
+        return bin.key === String(feature.properties.__disarm_geo_id)
       })
 
       if (found_bin) {

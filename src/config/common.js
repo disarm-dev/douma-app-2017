@@ -1,7 +1,9 @@
+import BUILD_TIME from 'config/build-time'
+
 export default {
   api: {
     // Standard DOUMA API
-    url: BRANCH === 'master' ? 'https://douma-api.herokuapp.com' : 'https://douma-api-stage.herokuapp.com',
+    url: BUILD_TIME.BRANCH === 'master' ? 'https://douma-api.herokuapp.com' : 'https://douma-api-stage.herokuapp.com',
     version: 'v3',
 
     // Currently not used
@@ -31,7 +33,7 @@ export default {
     // Meta below is currently ignored in sidebar (statically included), but here for the breadcrumbs
     'meta': {title: 'User', icon: 'person'},
   },
-  temporal_intervals: ['week', 'month', 'quarter'],
+  temporal_intervals: ['week', 'month', 'quarter', 'year'],
   basemap: {
     // Middle of southern Africa, start point for zooming in
     default: {
@@ -42,7 +44,7 @@ export default {
     map_token: 'pk.eyJ1Ijoibmljb2xhaWRhdmllcyIsImEiOiJjaXlhNWw1NnkwMDJoMndwMXlsaGo5NGJoIn0.T1wTBzV42MZ1O-2dy8SpOw'
   },
   instances: {
-    list: ['struc_demo', 'make', 'bwa', 'nam', 'swz', 'zwe', 'mwi-schisto'],
+    list: ['struc_demo', 'make', 'bwa', 'nam', 'swz', 'zwe', 'zwe-mats', 'zwe-matn', 'rsa', 'mwi-schisto'],
     // TODO: @refac This required_instance_files list is only relevant for the IRS modules.
     required_instance_files: ['instance', 'form', 'location_selection', 'aggregations', 'fake_form', 'validations', 'presenters', 'decorators']
   },

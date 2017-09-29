@@ -27,12 +27,12 @@
 
 
     <!-- OPTIONS: all, responses, plan -->
-    <limit_to
-      :responses="responses"
-      :targets="targets"
-      :selected_limit="limit_to"
-      @change="select_limit"
-    ></limit_to>
+    <!--<limit_to-->
+      <!--:responses="responses"-->
+      <!--:targets="targets"-->
+      <!--:selected_limit="limit_to"-->
+      <!--@change="select_limit"-->
+    <!--&gt;</limit_to>-->
 
   </div>
 </template>

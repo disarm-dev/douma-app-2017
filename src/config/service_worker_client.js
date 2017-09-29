@@ -1,16 +1,18 @@
 import pubsubcache from 'lib/helpers/pubsubcache'
 
+import BUILD_TIME from 'config/build-time'
+
 //
 // SERVICE WORKER
 //
 
 export function configure_service_worker () {
-  if (!DOUMA_PRODUCTION_MODE) {
+  if (!BUILD_TIME.DOUMA_PRODUCTION_MODE) {
     console.warn("DOUMA ServiceWorker disabled in development")
     return Promise.resolve()
   }
 
-  if (!'serviceWorker' in navigator) {
+  if (!('serviceWorker' in navigator)) {
     console.log('ServiceWorker not available in this browser')
     return Promise.resolve()
   }

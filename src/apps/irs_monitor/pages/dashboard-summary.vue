@@ -1,6 +1,6 @@
 <template>
   <controls>
-    <md-button slot="primary_action" class="md-icon-button md-raised md-primary" :disabled="isLoading('irs_monitor/load_responses')" @click.native='load_responses'>
+    <md-button slot="primary_action" class="md-icon-button md-raised md-primary" :disabled="isLoading('irs_monitor/load_responses')" @click.native='load_data'>
       <md-icon>refresh</md-icon>
     </md-button>
 
@@ -22,8 +22,13 @@
     </template>
 
     <div slot="text">
-      {{responses.length}} records 
-      Last updated: {{responses_last_updated_at}}
+      <div v-if="filters.length">
+        {{filters.length}} filters active, {{responses.length}} filtered records showing
+      </div>
+      <div v-else>
+        {{responses.length}} records
+        Last updated: {{responses_last_updated_at}}
+      </div>
     </div>
   </controls>
 
@@ -40,7 +45,7 @@
   export default {
     name: 'summary',
     components: {controls},
-    props: ['responses'],
+    props: ['responses', 'filters'],
     mounted() {
     },
     data() {
@@ -63,6 +68,10 @@
       })
     },
     methods: {
+      load_data() {
+        this.load_responses()
+        this.load_plan()
+      },
       load_responses() {
         this.$emit('load_responses')
       },

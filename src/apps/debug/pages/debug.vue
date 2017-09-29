@@ -77,10 +77,10 @@
 <script>
   import get from 'lodash.get'
 
-  import {try_reconnect, get_version} from 'lib/remote/standard-handler'
-  import cache from 'config/cache.js'
+  import {get_version, try_reconnect} from 'lib/remote/util'
   import {need_to_update} from 'lib/remote/check-application-version'
 
+  import cache from 'config/cache.js'
 
   export default {
     name: 'debug',

@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lib/instance_data/spatial_hierarchy_helper.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">lib/instance_data/</a> spatial_hierarchy_helper.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">36.51% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>23/63</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">17.39% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>4/23</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">43.75% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>21/48</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import get from 'lodash.get'
+&nbsp;
+let instance_config_cache = null
+let spatial_hierarchy_cache = null
+&nbsp;
+&nbsp;
+const configure_spatial_helpers = (instance_config) =&gt; {
+  instance_config_cache = instance_config
+  spatial_hierarchy_cache = instance_config.spatial_hierarchy
+}
+&nbsp;
+&nbsp;
+/**
+ * Something like 'AggUniCode' or 'OBJECTID'
+ * @returns {*|string}
+ */
+const get_planning_level_id_field = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
+  const planning_level_name = <span class="cstat-no" title="statement not covered" >spatial_hierarchy_cache.markers.planning_level_name</span>
+  const planning_level = <span class="cstat-no" title="statement not covered" >spatial_hierarchy_cache.levels.find(sp =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >sp.name === planning_level_name)</span></span></span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  if (planning_level &amp;&amp; planning_level.hasOwnProperty('field_name')) {</span>
+<span class="cstat-no" title="statement not covered" >    return planning_level.field_name</span>
+  } else {
+<span class="cstat-no" title="statement not covered" >    throw new Error(`Cannot find field_name for planning_level ${planning_level_name}`)</span>
+  }
+}
+&nbsp;
+/**
+ * Something like 'villages' for NAM for 'localities' for SWZ
+ */
+const get_planning_level_name = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
+  const planning_level_name = <span class="cstat-no" title="statement not covered" >spatial_hierarchy_cache.markers.planning_level_name </span>// e.g. villages for NAM
+  const planning_level = <span class="cstat-no" title="statement not covered" >spatial_hierarchy_cache.levels.find(sp =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >sp.name === planning_level_name)</span></span></span>
+<span class="cstat-no" title="statement not covered" >  return planning_level.name</span>
+}
+&nbsp;
+&nbsp;
+const get_planning_level = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
+  const planning_level_name = <span class="cstat-no" title="statement not covered" >spatial_hierarchy_cache.markers.planning_level_name </span>// e.g. villages for NAM
+  const planning_level = <span class="cstat-no" title="statement not covered" >spatial_hierarchy_cache.levels.find(sp =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >sp.name === planning_level_name)</span></span></span>
+<span class="cstat-no" title="statement not covered" >  return planning_level</span>
+}
+&nbsp;
+&nbsp;
+const get_field_name_for_level = (level_name) =&gt; <span class="fstat-no" title="function not covered" >{</span>
+  const level = <span class="cstat-no" title="statement not covered" >spatial_hierarchy_cache.levels.find(level =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >level.name === level_name)</span></span></span>
+<span class="cstat-no" title="statement not covered" >  if (!level) <span class="cstat-no" title="statement not covered" >throw new Error(`Cannot find level ${level_name} in instance_config.spatial_hierarchy.levels`)</span></span>
+<span class="cstat-no" title="statement not covered" >  return level.field_name</span>
+}
+&nbsp;
+&nbsp;
+const get_display_name_for_level = (level_name) =&gt; <span class="fstat-no" title="function not covered" >{</span>
+  const level = <span class="cstat-no" title="statement not covered" >spatial_hierarchy_cache.levels.find(level =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >level.name === level_name)</span></span></span>
+<span class="cstat-no" title="statement not covered" >  if (!level) <span class="cstat-no" title="statement not covered" >throw new Error(`Cannot find level ${level_name} in instance_config.spatial_hierarchy.levels`)</span></span>
+<span class="cstat-no" title="statement not covered" >  return level.display_field_name</span>
+}
+&nbsp;
+&nbsp;
+// Property helpers
+const get_slug = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >instance_config_cache.instance.slug</span></span>
+&nbsp;
+const get_denominator_fields = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >spatial_hierarchy_cache.markers.denominator_fields</span></span>
+&nbsp;
+const get_denominator_enumerable_name = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >Object.keys(get_denominator_fields())[0]</span></span>
+&nbsp;
+const get_all_spatial_hierarchy_levels = () =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >spatial_hierarchy_cache.levels</span></span>
+&nbsp;
+const get_all_spatial_hierarchy_level_names = () =&gt; spatial_hierarchy_cache.levels.map(level =&gt; level.name)
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+const get_record_location_selection = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
+  const record_location_selection_level_name = <span class="cstat-no" title="statement not covered" >spatial_hierarchy_cache.markers.record_location_selection_level_name</span>
+<span class="cstat-no" title="statement not covered" >  return instance_config_cache.location_selection[record_location_selection_level_name]</span>
+}
+&nbsp;
+&nbsp;
+&nbsp;
+/**
+ * Try to get the next lowest spatial hierarchy: e.g. clusters for localities for SWZ
+ * @returns a level {fieldname, name} or `false`
+ */
+const get_next_level_up_from_planning_level = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
+  const planning_level_name = <span class="cstat-no" title="statement not covered" >spatial_hierarchy_cache.markers.planning_level_name</span>
+  const levels = <span class="cstat-no" title="statement not covered" >spatial_hierarchy_cache.levels</span>
+&nbsp;
+  const index = <span class="cstat-no" title="statement not covered" >levels.findIndex(l =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >l.name === planning_level_name)</span></span></span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return (levels[index - 1] || false)</span>
+}
+&nbsp;
+/**
+ * Try to get the next lowest spatial hierarchy: e.g. clusters for localities for SWZ
+ * @returns a level {fieldname, name} or `false`
+ */
+const get_next_level_down_from_planning_level = () =&gt; <span class="fstat-no" title="function not covered" >{</span>
+  const planning_level_name = <span class="cstat-no" title="statement not covered" >spatial_hierarchy_cache.markers.planning_level_name</span>
+  const levels = <span class="cstat-no" title="statement not covered" >spatial_hierarchy_cache.levels</span>
+&nbsp;
+  const index = <span class="cstat-no" title="statement not covered" >levels.findIndex(l =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >l.name === planning_level_name)</span></span></span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return (levels[index + 1] || false)</span>
+}
+&nbsp;
+const get_data_version = (level_name) =&gt; {
+  console.warn('Unused level_name', level_name) //TODO: @ƒeature https://gitlab.com/disarm/disarm-feedback/issues/120
+  return get(spatial_hierarchy_cache, 'data_version', null)
+}
+&nbsp;
+export {
+  configure_spatial_helpers,
+&nbsp;
+  get_slug,
+  get_planning_level_id_field,
+  get_denominator_fields,
+  get_denominator_enumerable_name,
+  get_planning_level,
+  get_planning_level_name,
+  get_field_name_for_level,
+  get_display_name_for_level,
+&nbsp;
+  get_all_spatial_hierarchy_levels,
+  get_all_spatial_hierarchy_level_names,
+  get_record_location_selection,
+&nbsp;
+  get_next_level_up_from_planning_level,
+  get_next_level_down_from_planning_level,
+  get_data_version
+}
+&nbsp;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 19 2017 14:04:01 GMT+0200 (SAST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

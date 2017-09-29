@@ -31,6 +31,7 @@
     methods: {
       go_to_page_for(question_name) {
         if(!question_name) return
+        if(!this.survey) return
         const question = this.survey.getQuestionByName(question_name)
         const page = this.survey.getPageByQuestion(question)
         this.survey.currentPage = page
@@ -40,6 +41,7 @@
         return this.survey.data[question_name]
       },
       title_for_question_name(question_name) {
+        if (!this.survey) return
         return this.survey.getQuestionByName(question_name).title
       },
     }
