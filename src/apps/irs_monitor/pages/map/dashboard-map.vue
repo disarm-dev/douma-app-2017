@@ -406,7 +406,7 @@
 <style scoped>
   .card {
     overflow: visible;
-    z-index: 4;
+    z-index: 1;
   }
 
   #map {
