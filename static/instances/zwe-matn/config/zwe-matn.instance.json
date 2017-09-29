@@ -201,7 +201,7 @@
     },
     "levels": [
       {
-        "group_by_field": "PROVINCE",
+        "group_by_field": "DISTRICT",
         "field_name": "ZIMWARDSID",
         "display_field_name": "name",
         "name": "wards"
