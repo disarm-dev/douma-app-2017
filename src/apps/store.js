@@ -13,7 +13,7 @@ export function create_store(instance_config, instance_stores) {
 
   // vuex-persistedstate
   // Exclude these paths from state persistence
-  const excluded_paths = ['sw_update_available', 'sw_message']
+  const excluded_paths = ['sw_update_available', 'sw_message', 'instance_config']
 
   const persisted_state_options = {
     getState:(key, storage) => {
