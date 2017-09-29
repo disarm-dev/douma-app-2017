@@ -5,7 +5,7 @@
         slot="primary_action"
         class="md-primary md-icon-button md-raised"
         :class="{'md-warn': edit_mode}"
-        :disabled="isLoading('irs_plan/load_plan') || !can_and_have_focused_planned"
+        :disabled="edit_disabled || isLoading('irs_plan/load_plan') || !can_and_have_focused_planned"
         @click.native='edit_mode = !edit_mode'
       >
         <md-icon>edit</md-icon>
@@ -50,7 +50,7 @@
             <plan_map
               :edit_mode="edit_mode"
               :selected_filter_area_id="selected_filter_area_id"
-              v-on:map_loaded="edit_disabled = false"
+              @map_ready="edit_disabled = false"
             ></plan_map>
           </md-card-content>
         </md-card>
