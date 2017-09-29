@@ -1,7 +1,7 @@
 <template>
   <div>
     <h3>Selected {{planning_level_name}}:</h3>
-    <md-button class='md-raised md-primary' @click.native="download_plan">Download plan</md-button>
+    <md-button class='md-raised md-primary' @click.native="download_plan">Download plan table</md-button>
     <v-client-table
       v-if="selected_target_area_ids.length !== 0"
       :data="table.data"
