@@ -1,0 +1,44 @@
+[
+  {
+    "house_population": 8,
+    "name_household": "name",
+    "number_bednets": 2,
+    "number_sprayable": 5,
+    "number_unsprayable": 4,
+    "numbersprayed_OP": 0,
+    "numbersprayed_PY": 1,
+    "numbersprayed_ddt": 0,
+    "sprayable": "yes",
+    "sprayed": "partial",
+    "sprayable_unsprayed": "no",
+    "total_population_sprayedrooms": 8
+  },
+  {
+    "house_population": 8,
+    "name_household": "name",
+    "number_bednets": 2,
+    "number_sprayable": 5,
+    "number_unsprayable": 0,
+    "numbersprayed_OP": 1,
+    "numbersprayed_PY": 1,
+    "numbersprayed_ddt": 3,
+    "sprayable": "yes",
+    "sprayed": "yes",
+    "sprayable_unsprayed": "no",
+    "total_population_sprayedrooms": 8
+  },
+  {
+    "Unsprayable_reason": [
+      "locked_homesteadhouse"
+    ],
+    "sprayable": "no",
+    "sprayed": "no"
+  },
+  {
+    "Unsprayable_reason": [
+      "locked_homesteadhouse"
+    ],
+    "sprayable": "no",
+    "sprayed": "no"
+  }
+]

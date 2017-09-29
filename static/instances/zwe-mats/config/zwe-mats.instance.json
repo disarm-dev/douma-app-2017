@@ -6,8 +6,7 @@
         {"display_name": "District name", "source_field": "DISTRICT"},
         {"display_name": "Ward number", "source_field": "WARDNUMBER"},
         {"display_name": "Predicted risk", "source_field": "risk"},
-        {"display_name": "Number of structures", "source_field": "NumStruc"},
-        {"display_name": "Number of rooms", "source_field": "NumRooms"}
+        {"display_name": "Estimated number of rooms", "source_field": "NumRooms"}
       ]
     },
     "irs_tasker": {},
@@ -25,10 +24,12 @@
         "spatial_bins": true,
         "bin_by": "location.selection.id",
         "aggregation_names": [
-          "structures sprayed %"
+          "structures sprayed %",
+          "structures sprayed"
         ],
         "property_layers": [
-          "risk"
+          "risk",
+          "NumRooms"
         ],
         "response_point_fields": [
           "recorded_on"
@@ -186,12 +187,12 @@
     "zoom": 6.5
   },
   "instance": {
-    "title": "Zimbabwe (MatN) IRS Tool",
-    "location_name": "Zimbabwe (Matabeleland North)",
-    "slug": "zwe-matn"
+    "title": "Zimbabwe IRS Tool",
+    "location_name": "Zimbabwe (Matabeleland South)",
+    "slug": "zwe-mats"
   },
   "spatial_hierarchy": {
-    "data_version": 2,
+    "data_version": 9,
     "markers": {
       "planning_level_name": "wards",
       "record_location_selection_level_name": "wards",
@@ -205,6 +206,11 @@
         "field_name": "ZIMWARDSID",
         "display_field_name": "name",
         "name": "wards"
+      },
+      {
+        "field_name": "ClstrID",
+        "display_field_name": "ClstrID",
+        "name": "clusters"
       }
     ]
   }
