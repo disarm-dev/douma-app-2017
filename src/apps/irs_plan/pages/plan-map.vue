@@ -7,7 +7,7 @@
     ></map_legend>
 
     <md-checkbox :disabled='edit_mode' v-model="risk_visible">Show risk</md-checkbox>
-    <md-checkbox v-if="next_level_down" :disabled='clusters_disabled' v-model="show_lowest_spatial_level">Show {{next_level_down.name}}</md-checkbox>
+    <md-checkbox v-if="next_level_down" :disabled='show_clusters_disabled' v-model="show_lowest_spatial_level">Show {{next_level_down.name}}</md-checkbox>
     <div v-if="edit_mode">
       <p>Showing areas where risk is above: {{converted_slider_value}}</p>
       <input  id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value">
@@ -67,12 +67,11 @@
         logslider: null,
         risk_visible: false,
 
-        clusters_disabled: true, // Before map_loaded
+        show_clusters_disabled: true, // No clicking before map_ready
         user_map_focus: false,
         draw: null,
         _map: null,
         bbox: [],
-        map_loaded: false,
 
         handler: {
           click: null,
@@ -163,11 +162,11 @@
         this._map = basic_map(this.$store)
 
         this._map.on('load', () => {
-          this.clusters_disabled = false
+          this.show_clusters_disabled = false
           this.manage_map_mode()
           this.add_target_areas()
           this.fit_bounds()
-          this.$emit('map_loaded')
+          this.$emit('map_ready')
           this.set_slider_range()
           this.toggle_cluster_visiblity()
         })
