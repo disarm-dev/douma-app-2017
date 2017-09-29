@@ -5,11 +5,12 @@
 export default {read_all, create}
 
 async function read_all() {
-  return [1,2,3]
+  return console.warn('noop')
+
 }
 
 async function create(records) {
-  return console.log('Saving locally')
+  return console.warn('noop')
 }
 
 
