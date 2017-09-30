@@ -10,8 +10,7 @@
     "unit": "env BABEL_ENV=test NODE_ENV=production NODE_PATH=src ava",
     "unit-cov": "env BABEL_ENV=test NODE_ENV=production NODE_PATH=src nyc ava --verbose",
     "unit-watch": "env BABEL_ENV=test NODE_ENV=production NODE_PATH=src ava --watch",
-    "e2e": "node test/e2e/runner.js",
-    "test": "ava && npm run e2e && ava"
+    "test": "npm run unit-cov"
   },
   "dependencies": {
     "@mapbox/geo-viewport": "^0.2.2",
@@ -167,6 +166,14 @@
   "ava": {
     "require": [
       "./test/helpers/setup.js"
-    ]
+    ],
+    "files": [
+      "./test/unit/**/*.test.js"
+    ],
+    "source": [
+      "./src/**/*",
+      "./static/**/*"
+    ],
+    "failFast": true
   }
 }
