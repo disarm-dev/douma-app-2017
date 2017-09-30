@@ -170,7 +170,7 @@
       "./test/helpers/setup.js"
     ],
     "files": [
-      "./test/unit/**/*.test.js"
+      "./test/spec/**/*.test.js"
     ],
     "source": [
       "./src/**/*",
