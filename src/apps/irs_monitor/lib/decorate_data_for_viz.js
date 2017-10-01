@@ -10,8 +10,8 @@ import {aggregate_on} from 'lib/models/response/aggregations/aggregator'
 import {get_planning_level_name} from 'lib/instance_data/spatial_hierarchy_helper'
 
 export function decorate_for_chart({binned_responses, targets, aggregations, options}) {
-  // Figure what to do
 
+  // Figure what to do
   if (has(options, 'single_series')) {
     return decorate_single_series({binned_responses, targets, aggregations, options})
   } else if (has(options, 'multi_series')) {
