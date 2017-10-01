@@ -19,7 +19,7 @@ export const ChartOptionsSchema = schema({
   time_series: Boolean,
   bin_by: String,
   '?single_series': SeriesOption,
-  '?multi_series': Array.of(1, Infinity, SeriesOption)
+  '?multi_series': Array.of_x(1, Infinity, SeriesOption)
 })
 
 export const ChartSchema = schema({
