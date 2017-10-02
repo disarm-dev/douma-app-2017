@@ -12,6 +12,7 @@ import {filter_responses} from "apps/irs_monitor/lib/filters"
 
 export default {
   namespaced: true,
+  unpersisted_state_keys: ['responses'],
   state: {
     ui: {
 

@@ -5,6 +5,7 @@ import {create_batch_network} from 'lib/models/response'
 
 export default {
   namespaced: true,
+  unpersisted_state_keys: [],
   state: {
     responses: [],
 

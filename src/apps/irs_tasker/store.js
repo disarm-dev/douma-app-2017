@@ -8,6 +8,7 @@ import {read_assignment_plan, create_assignment_plan} from 'lib/models/assignmen
 
 export default {
   namespaced: true,
+  unpersisted_state_keys: [],
   state: {
     teams: [], // This is an array of team_names
     assignments: [], // Array of {area_id, team_name}
