@@ -5,29 +5,29 @@
   },
   {
     "name": "rooms found",
-    "numerator_expr": "number_sprayable + number_unsprayable"
+    "numerator_expr": "number_sprayable_rooms"
   },
   {
     "name": "rooms found %",
-    "numerator_expr": "number_sprayable + number_unsprayable",
+    "numerator_expr": "number_sprayable_rooms",
     "denominator_field": "rooms"
   },
   {
     "name": "rooms sprayed",
-    "numerator_expr": "numbersprayed_PY + numbersprayed_ddt + numbersprayed_OP"
+    "numerator_expr": "number_sprayed"
   },
   {
     "name": "rooms sprayed %",
-    "numerator_expr": "numbersprayed_PY + numbersprayed_ddt + numbersprayed_OP",
+    "numerator_expr": "number_sprayed",
     "denominator_field": "rooms"
   },
   {
     "name": "sprayable rooms not sprayed",
-    "numerator_expr": "number_sprayable - (numbersprayed_PY + numbersprayed_ddt + numbersprayed_OP)"
+    "numerator_expr": "number_sprayable_rooms - (number_sprayed)"
   },
   {
     "name": "sprayable rooms not sprayed %",
-    "numerator_expr": "number_sprayable - (numbersprayed_PY + numbersprayed_ddt + numbersprayed_OP)",
+    "numerator_expr": "number_sprayable_rooms - (number_sprayed)",
     "denominator_field": "rooms"
   }
 ]
