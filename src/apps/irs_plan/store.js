@@ -8,7 +8,6 @@ import {geodata_in_cache_and_valid} from 'lib/models/geodata/geodata.valid'
 
 export default {
   namespaced: true,
-  unpersisted_state_keys: [],
   state: {
     current_plan: null,
     areas_included_by_click: [],
