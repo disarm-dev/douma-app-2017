@@ -4,6 +4,7 @@
       Missing geodata - required to create fake records.
       <router-link to="/meta/geodata">Click here</router-link> to load it
     </div>
+
     <md-input-container v-else>
       <label>Number of areas (between 0 and 3 records generated for each area)</label>
       <md-input type="number" v-model="areas_count"></md-input>
