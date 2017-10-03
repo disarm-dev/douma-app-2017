@@ -31,6 +31,7 @@
   import {get_record_location_selection} from 'lib/instance_data/spatial_hierarchy_helper'
   import {Response} from 'lib/models/response/model'
   import {geodata_in_cache_and_valid} from 'lib/models/geodata/geodata.valid'
+  import {hydrate_geodata_cache_from_idb} from 'lib/models/geodata/local.geodata_store'
 
   export default {
     name: 'fake_responses_debug',
@@ -55,8 +56,10 @@
         return get_planning_level_name()
       },
     },
-    created() {
-      if (!geodata_in_cache_and_valid()) return this.message_type = "missing_geodata"
+    created () {
+      hydrate_geodata_cache_from_idb().then(() => {
+        if (!geodata_in_cache_and_valid()) this.message_type = "missing_geodata"
+      })
     },
     methods: {
       get_polygon(id) {
