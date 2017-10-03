@@ -4,7 +4,7 @@ import createPersistedState from 'vuex-persistedstate'
 import { createVuexLoader } from 'vuex-loading'
 import objectPath from 'object-path'
 
-import {generate_persisted_state_options} from "config/vuex-persistedstate_config"
+import {generate_persisted_state_options} from "config/vuex-persistedstate_options"
 
 let store
 
