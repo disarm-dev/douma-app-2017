@@ -1,13 +1,17 @@
 <template>
   <div class="applet_container">
-    <md-input-container>
+    <div v-if="message_type === 'missing_geodata'">
+      Missing geodata - required to create fake records.
+      <router-link to="/meta/geodata">Click here</router-link> to load it
+    </div>
+    <md-input-container v-else>
       <label>Number of areas (between 0 and 3 records generated for each area)</label>
       <md-input type="number" v-model="areas_count"></md-input>
       <md-button @click.native="generate_data">Generate</md-button>
     </md-input-container>
 
-    <div v-if="message">
-      {{message}}
+    <div v-if="message_type === 'done'">
+      Done faking. Created {{responses.length}} records.
       <router-link to="/irs/record_point">View records</router-link>
     </div>
   </div>
@@ -25,13 +29,14 @@
   import {ResponseSchema} from 'lib/models/response/schemas/schema'
   import {get_record_location_selection} from 'lib/instance_data/spatial_hierarchy_helper'
   import {Response} from 'lib/models/response/model'
+  import {geodata_in_cache_and_valid} from 'lib/models/geodata/geodata.valid'
 
   export default {
     name: 'fake_responses_debug',
     data() {
       return {
         areas_count: 50,
-        message: ''
+        message_type: ''
       }
     },
     computed: {
@@ -47,6 +52,9 @@
       planning_level_name() {
         return get_planning_level_name()
       },
+    },
+    created() {
+      if (!geodata_in_cache_and_valid()) return this.message_type = "missing_geodata"
     },
     methods: {
       get_polygon(id) {
@@ -113,7 +121,7 @@
             count += 1
           }
         })
-        this.message = `Done faking. Created ${responses.length} records.`
+        this.message_type = 'done'
         this.$store.commit('irs_record_point/add_responses', responses)
       }
     }
