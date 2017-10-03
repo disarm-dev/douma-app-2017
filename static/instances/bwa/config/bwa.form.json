@@ -3,6 +3,27 @@
     {
       "elements": [
         {
+          "type": "radiogroup",
+          "name": "mopup",
+          "title": "Is this a return visit/mop-up?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "yes",
+              "text": "Yes"
+            },
+            {
+              "value": "no",
+              "text": "No"
+            }
+          ]
+        }
+      ],
+      "name": "mopup"
+    },
+    {
+      "elements": [
+        {
           "type": "text",
           "name": "household_name",
           "title": "Record head of household name(s). (If there is more than one, separate each name with a comma)"
