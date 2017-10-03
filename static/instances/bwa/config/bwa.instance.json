@@ -108,7 +108,7 @@
               "showlegend": true,
               "title": "Spray status",
               "yaxis": {
-                "title": "# of rooms"
+                "title": "# of households"
               },
               "xaxis": {
                 "title": "Spray status"
