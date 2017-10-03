@@ -37,7 +37,8 @@
     data() {
       return {
         areas_count: 50,
-        message_type: ''
+        message_type: '',
+        responses: []
       }
     },
     computed: {
@@ -106,7 +107,6 @@
         return response
       },
       generate_data() {
-        let responses = []
 
         this.location_selection.slice(0, this.areas_count).forEach(location_selection => {
           let count = 0
@@ -115,7 +115,7 @@
             const response = this.create_response(location_selection)
             if (ResponseSchema(response)) {
               const decorated_response = new Response(response).decorate_for_sending()
-              responses.push(decorated_response)
+              this.responses.push(decorated_response)
             } else {
               console.log('Fake response failed validation', ResponseSchema.errors(response))
             }
@@ -123,7 +123,7 @@
           }
         })
         this.message_type = 'done'
-        this.$store.commit('irs_record_point/add_responses', responses)
+        this.$store.commit('irs_record_point/add_responses', this.responses)
       }
     }
   }
