@@ -79,6 +79,10 @@
         targets: 'irs_monitor/targets',
       }),
     },
+    created() {
+      this.load_responses()
+      this.load_plan()
+    },
     methods: {
       load_responses() {
         this.$startLoading('irs_monitor/load_responses')
