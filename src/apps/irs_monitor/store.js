@@ -45,7 +45,7 @@ export default {
     },
     // set responses
     set_responses: (state, responses) => {
-      state.responses = responses
+      state.responses = Object.freeze(responses)
     },
     update_responses_last_updated_at:(state) => {
       state.responses_last_updated_at = new Date
