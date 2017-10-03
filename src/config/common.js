@@ -29,7 +29,7 @@ export default {
       }
     },
     'irs_tasker': {title: 'IRS Tasker', icon: 'group', geodata_required: true},
-    'debug': {title: 'Debug', icon: 'bug_report', geodata_required: true},
+    'debug': {title: 'Debug', icon: 'bug_report', geodata_required: false},
     // Meta below is currently ignored in sidebar (statically included), but here for the breadcrumbs
     'meta': {title: 'User', icon: 'person'},
   },
