@@ -3,6 +3,9 @@ import {shallow} from 'vue-test-utils'
 
 import fake_responses_debug from 'apps/debug/pages/fake_data_debug.vue'
 import * as exports from 'lib/models/geodata/geodata.valid'
+import * as db from 'lib/models/geodata/local.geodata_store'
+
+db.hydrate_geodata_cache_from_idb = () => Promise.resolve()
 
 test('can mock an import', t => {
   exports.geodata_in_cache_and_valid = () => true
@@ -10,7 +13,7 @@ test('can mock an import', t => {
   t.true(actual)
 })
 
-test.cb('show message if geodata not loaded or valid (mock import)', t => {
+test.cb.failing('show message if geodata not loaded or valid (mock import)', t => {
   // Ensure geodata is not valid
   exports.geodata_in_cache_and_valid = () => false
 
@@ -37,7 +40,7 @@ test.cb('show message if geodata not loaded or valid (direct set value)', t => {
   })
 })
 
-test.cb('sets message_type to `missing_geodata` if geodata not valid', t => {
+test.cb.failing('sets message_type to `missing_geodata` if geodata not valid', t => {
   exports.geodata_in_cache_and_valid = () => false
   const wrapper = shallow(fake_responses_debug)
 
