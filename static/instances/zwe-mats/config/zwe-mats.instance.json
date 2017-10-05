@@ -40,6 +40,9 @@
           "rooms sprayed",
           "rooms sprayed %"
         ],
+        "property_layers": [
+          "name"
+        ],
         "bin_by": "location.selection.name",
         "chart_type": "table"
       },

@@ -55,7 +55,14 @@ export default function get_data({responses, targets, aggregations, options, geo
       data = decorate_for_chart({binned_responses, targets, aggregations, options})
       break
     case 'table':
-      data = decorate_for_table({binned_responses, targets, aggregations, options})
+      const fields = (options.property_layers|| []).concat((options.aggregation_names || []))
+      data = decorate_for_map({binned_responses, targets, aggregations, options}).features.map(f => {
+        const row = {}
+        for (const field of fields) {
+          row[field] = f.properties[field]
+        }
+        return row
+      })
       break
     case 'map':
       data = decorate_for_map({binned_responses, targets, aggregations, options})

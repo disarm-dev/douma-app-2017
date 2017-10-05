@@ -24,6 +24,9 @@
       "table": {
         "chart_type": "table",
         "bin_by": "location.selection.name",
+        "property_layers": [
+          "VILLAGE"
+        ],
         "aggregation_names": [
           "number of rooms targeted",
           "number of people in homestead (total)",
