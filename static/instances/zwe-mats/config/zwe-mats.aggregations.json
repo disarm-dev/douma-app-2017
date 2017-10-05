@@ -4,30 +4,30 @@
     "numerator_expr": "1"
   },
   {
-    "name": "structures found",
-    "numerator_expr": "number_sprayable + number_unsprayable"
+    "name": "rooms found",
+    "numerator_expr": "number_sprayable_rooms"
   },
   {
-    "name": "structures found %",
-    "numerator_expr": "number_sprayable + number_unsprayable",
-    "denominator_field": "number_of_households"
+    "name": "rooms found %",
+    "numerator_expr": "number_sprayable_rooms",
+    "denominator_field": "rooms"
   },
   {
-    "name": "structures sprayed",
-    "numerator_expr": "numbersprayed_PY + numbersprayed_ddt + numbersprayed_OP"
+    "name": "rooms sprayed",
+    "numerator_expr": "number_sprayed"
   },
   {
-    "name": "structures sprayed %",
-    "numerator_expr": "numbersprayed_PY + numbersprayed_ddt + numbersprayed_OP",
-    "denominator_field": "number_of_households"
+    "name": "rooms sprayed %",
+    "numerator_expr": "number_sprayed",
+    "denominator_field": "rooms"
   },
   {
-    "name": "sprayable structures not sprayed",
-    "numerator_expr": "number_sprayable - (numbersprayed_PY + numbersprayed_ddt + numbersprayed_OP)"
+    "name": "sprayable rooms not sprayed",
+    "numerator_expr": "number_sprayable_rooms - (number_sprayed)"
   },
   {
-    "name": "sprayable structures not sprayed %",
-    "numerator_expr": "number_sprayable - (numbersprayed_PY + numbersprayed_ddt + numbersprayed_OP)",
-    "denominator_field": "number_of_households"
+    "name": "sprayable rooms not sprayed %",
+    "numerator_expr": "number_sprayable_rooms - (number_sprayed)",
+    "denominator_field": "rooms"
   }
 ]
