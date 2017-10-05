@@ -4,9 +4,6 @@
       "elements": [
         {
           "type": "radiogroup",
-          "name": "mopup",
-          "title": "Is this a return visit/mop-up?",
-          "isRequired": true,
           "choices": [
             {
               "value": "yes",
@@ -16,10 +13,13 @@
               "value": "no",
               "text": "No"
             }
-          ]
+          ],
+          "isRequired": true,
+          "name": "Mop_up",
+          "title": "Is this a mop-up or return visit? "
         }
       ],
-      "name": "mopup"
+      "name": "Mop up"
     },
     {
       "elements": [
@@ -98,9 +98,6 @@
       "elements": [
         {
           "type": "radiogroup",
-          "name": "LLIN_used_sleeping",
-          "title": "Does this homestead have any LLINs used while sleeping?",
-          "isRequired": true,
           "choices": [
             {
               "value": "yes",
@@ -110,7 +107,10 @@
               "value": "no",
               "text": "No"
             }
-          ]
+          ],
+          "isRequired": true,
+          "name": "LLIN_used_sleeping",
+          "title": "Does this homestead have any LLINs used while sleeping?"
         },
         {
           "type": "text",
@@ -191,9 +191,6 @@
       "elements": [
         {
           "type": "radiogroup",
-          "name": "any_sprayed",
-          "title": "Were there any rooms SPRAYED in this homestead?",
-          "isRequired": true,
           "choices": [
             {
               "value": "yes",
@@ -203,7 +200,10 @@
               "value": "no",
               "text": "No"
             }
-          ]
+          ],
+          "isRequired": true,
+          "name": "any_sprayed",
+          "title": "Were there any rooms SPRAYED in this homestead?"
         }
       ],
       "name": "any SPRAYED"
@@ -483,9 +483,6 @@
       "elements": [
         {
           "type": "radiogroup",
-          "name": "LLINS_provided",
-          "title": "Were LLINs provided to this homestead?” ",
-          "isRequired": true,
           "choices": [
             {
               "value": "yes",
@@ -495,7 +492,10 @@
               "value": "no",
               "text": "No"
             }
-          ]
+          ],
+          "isRequired": true,
+          "name": "LLINS_provided",
+          "title": "Were LLINs provided to this homestead?” "
         },
         {
           "type": "text",
