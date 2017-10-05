@@ -139,15 +139,12 @@ export function decorate_for_pie({binned_responses, targets, aggregations, optio
 }
 
 export function decorate_for_table({binned_responses, targets, aggregations, options}){
+  const fields = (options.property_layers|| []).concat((options.aggregation_names || []))
 
-  const found_aggregations = options.aggregation_names.map(aggregation_name => {
-    return aggregations.find(a => a.name === aggregation_name)
-  })
-
-  return binned_responses.map((bin) => {
-    let row = {row_name: bin.key}
-    for (let aggregation of found_aggregations) {
-      row[aggregation.name] = aggregate_on({aggregation: aggregation, responses: bin.values, targets})
+  return decorate_for_map({binned_responses, targets, aggregations, options}).features.map(f => {
+    const row = {}
+    for (const field of fields) {
+      row[field] = f.properties[field]
     }
     return row
   })
