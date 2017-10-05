@@ -59,7 +59,7 @@
         // Do these checks to avoid rendering whole chart if data has changed
         if (!this.has_responses) {
           if (this._chart) Plotly.purge(this._chart)
-          return
+          return false
         }
 
         const geodata = cache.geodata // TODO: @refac When we fix geodata into store, etc
@@ -89,6 +89,7 @@
             this.plotly_event_listeners.push(fn)
           })
 
+        return true
       }
     }
   }
