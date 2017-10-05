@@ -20,10 +20,7 @@
         "chart_type": "table",
         "bin_by": "location.selection.name",
         "property_layers": [
-          "REGION",
-          "DISTRICT",
-          "mp_NAME",
-          "NumStructu"
+          "mp_NAME"
         ],
         "aggregation_names": [
           "structures sprayed",
