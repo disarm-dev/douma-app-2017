@@ -22,6 +22,9 @@
         "aggregation_names": [
           "structures sprayed",
           "structures sprayed %"
+        ],
+        "property_layers": [
+          "Fnl_l_1"
         ]
       },
       "charts": [

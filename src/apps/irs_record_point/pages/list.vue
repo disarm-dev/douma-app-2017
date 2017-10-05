@@ -142,14 +142,7 @@
       download_records() {
         const content = JSON.stringify(this.unsynced_responses)
         const date = moment().format('YYYY-MM-DD_HHmm')
-        const download_success = download(content, `${this.instance_config.instance.slug}_responses_export_${date}.json`)
-
-        if (download_success) {
-          this.unsynced_responses.forEach((response) => {
-            response.synced = true
-            this.$store.commit('irs_record_point/update_response', response)
-          })
-        }
+        download(content, `${this.instance_config.instance.slug}_responses_export_${date}.json`)
       },
       short_id(id) {
         return id.substring(0,5)
