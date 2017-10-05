@@ -133,7 +133,7 @@
             },
             "chart_type": "pie",
             "bin_by": "_decorated.sprayed_status",
-            "multi_series": [
+            "series": [
               {
                 "aggregation_name": "count"
               }
@@ -223,7 +223,7 @@
               "form_data.n_rooms_food_storage",
               "form_data.n_rooms_other"
             ],
-            "multi_series": [
+            "series": [
               {
                 "aggregation_name": "count"
               }
