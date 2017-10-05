@@ -25,8 +25,50 @@
         "aggregation_names": [
           "structures sprayed",
           "structures sprayed %"
+        ],
+        "property_layers": [
+          "REGION",
+          "DISTRICT",
+          "mp_NAME",
+          "NumStructu"
         ]
-      }
+      },
+      "charts": [
+        {
+          "id": "room_coverage_by_week",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "chart_type": "bar",
+            "time_series": true,
+            "cumulative": true,
+            "bin_by": "recorded_on",
+            "layout": {
+              "showlegend": true,
+              "title": "Spray coverage",
+              "yaxis": {
+                "title": "# of structures"
+              },
+              "xaxis": {
+                "title": "Period commencing"
+              },
+              "barmode": "stack"
+            },
+            "multi_series": [
+              {
+                "aggregation_name": "structures sprayed",
+                "colour": "green"
+              },
+              {
+                "aggregation_name": "sprayable structures not sprayed",
+                "colour": "red"
+              }
+            ]
+          }
+        }
+      ]
 //      "charts": [
 //        {
 //          "id": "spray_status_pie",
