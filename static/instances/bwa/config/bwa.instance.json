@@ -298,10 +298,8 @@
       },
       {
         "group_by_field": "name_2",
-        "field_name": "Id",
-        // __disarm_geo_id
-        "display_field_name": "VILLAGE",
-        // __disarm_geo_name
+        "field_name": "Id", // __disarm_geo_id
+        "display_field_name": "VILLAGE", // __disarm_geo_name
         "name": "villages"
       },
       {
