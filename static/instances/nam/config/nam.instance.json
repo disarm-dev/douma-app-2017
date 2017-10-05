@@ -22,6 +22,12 @@
         "aggregation_names": [
           "structures sprayed",
           "structures sprayed %"
+        ],
+        "property_layers": [
+          "REGION",
+          "DISTRICT",
+          "mp_NAME",
+          "NumStructu"
         ]
       },
       "charts": [
