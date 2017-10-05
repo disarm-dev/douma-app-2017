@@ -287,7 +287,7 @@
       "planning_level_name": "villages",
       "record_location_selection_level_name": "villages",
       "denominator_fields": {
-        "rooms": "Num_Rooms"
+        "estimated_rooms": "Num_Rooms"
       }
     },
     "levels": [
