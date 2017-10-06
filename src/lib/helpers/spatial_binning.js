@@ -1,6 +1,6 @@
 import which_polygon from 'which-polygon'
 import {nest} from 'd3-collection'
-import {cloneDeep, get} from 'lodash'
+import {cloneDeep, get, set} from 'lodash'
 
 import {get_geodata_for_level_name} from "lib/helpers/geodata_helpers"
 import {
@@ -10,7 +10,7 @@ import {
 
 const AGGREGATION_FIELD = 'aggregation_field'
 
-function spatially_decorate_responses_all_levels(responses) {
+export function spatially_decorate_responses_all_levels(responses) {
   const level_names = get_all_spatial_hierarchy_level_names()
 
   let cloned_responses = cloneDeep(responses)
