@@ -171,6 +171,8 @@ test('spatially_decorate_responses_all_levels', t => {
 
   const actual = spatially_decorate_responses_all_levels(responses)
 
+  t.is(actual.length, 4)
+
   actual.forEach(response => {
     t.is(response.spatial_hierarchy.level_1, response.area_id_hint)
   })
