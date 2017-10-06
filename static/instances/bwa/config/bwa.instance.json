@@ -285,7 +285,7 @@
     "slug": "bwa"
   },
   "spatial_hierarchy": {
-    "data_version": 6,
+    "data_version": 7,
     "markers": {
       "planning_level_name": "villages",
       "record_location_selection_level_name": "villages",
