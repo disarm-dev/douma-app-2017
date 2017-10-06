@@ -1,44 +1,37 @@
 [
   {
-    "house_population": 8,
-    "name_household": "name",
-    "number_bednets": 2,
-    "number_sprayable": 5,
-    "number_unsprayable": 4,
-    "numbersprayed_OP": 0,
-    "numbersprayed_PY": 1,
-    "numbersprayed_ddt": 0,
-    "sprayable": "yes",
-    "sprayed": "partial",
-    "sprayable_unsprayed": "no",
-    "total_population_sprayedrooms": 8
+    "mop_up":"no",
+    "household_type":"ordinary_household",
+    "sprayed":"yes",
+    "number_sprayable_rooms":4,
+    "number_sprayed":2,
+    "number_unsprayed":2,
+    "chemical_used":"ddt",
+    "total_population":3,
+    "under_five":2,
+    "over_five":1,
+    "hh_name":"name"
   },
   {
-    "house_population": 8,
-    "name_household": "name",
-    "number_bednets": 2,
-    "number_sprayable": 5,
-    "number_unsprayable": 0,
-    "numbersprayed_OP": 1,
-    "numbersprayed_PY": 1,
-    "numbersprayed_ddt": 3,
-    "sprayable": "yes",
-    "sprayed": "yes",
-    "sprayable_unsprayed": "no",
-    "total_population_sprayedrooms": 8
+    "mop_up":"no",
+    "household_type":"ordinary_household",
+    "sprayed":"partial",
+    "number_sprayable_rooms":3,
+    "number_sprayed":3,
+    "number_unsprayed":0,
+    "chemical_used":"ddt",
+    "total_population":2,
+    "under_five":1,
+    "over_five":1,
+    "hh_name":"name",
+    "reason_unsprayed":"locked"
   },
   {
-    "Unsprayable_reason": [
-      "locked_homesteadhouse"
-    ],
-    "sprayable": "no",
-    "sprayed": "no"
-  },
-  {
-    "Unsprayable_reason": [
-      "locked_homesteadhouse"
-    ],
-    "sprayable": "no",
-    "sprayed": "no"
+    "household_type":"ordinary_household",
+    "mop_up":"no",
+    "sprayed":"no",
+    "number_sprayable_rooms":2,
+    "reason_unsprayed":"locked",
+    "hh_name":"name"
   }
 ]
