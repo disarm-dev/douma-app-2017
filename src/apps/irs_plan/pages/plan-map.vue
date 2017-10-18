@@ -506,6 +506,9 @@
       },
       add_areas_coloured_by_risk() {
         const values_array = this.planning_level_fc.features.map(feature => feature.properties.risk).sort().filter(i => i)
+
+        if (values_array.length === 0) console.error("🚨 Missing all risk values on geodata")
+
         this._risk_scaler = new LogValueConvertor(values_array)
 
         const features = this.planning_level_fc.features.map((feature) => {
