@@ -62,7 +62,7 @@
             this.getting_position = false
 
             // Add additional properties
-            position = this.create_position_object(position)
+            position = this.create_position_object(position, 'get')
             this.add_location(position)
           }).catch(error => {
             const error_object = {
@@ -76,7 +76,7 @@
       toggle_watch() {
         if (this.watching_position === false) {
           const callback = (position) => {
-            position = this.create_position_object(position)
+            position = this.create_position_object(position, 'watch')
             this.add_location(position)
           }
           const errorCallback = (error) => {
@@ -92,11 +92,12 @@
 
 
       },
-      create_position_object(position) {
+      create_position_object(position, type) {
         position.waypoint_id = this.waypoint_id
         position.username = this.$store.state.meta.user.username
         position.id = uuid()
         position.user_agent = navigator.userAgent
+        position.type = type
 
         return position
       },
@@ -112,8 +113,9 @@
         return JSON.stringify(thing)
       },
       pretty_location(position) {
+        const {type} = position
         const {accuracy, latitude, longitude} = position.coords
-        return `acc: ${accuracy} lat:${latitude} lng:${longitude}`
+        return `${type.toUpperCase()} acc: ${accuracy} lat:${latitude} lng:${longitude}`
       },
     }
   }
