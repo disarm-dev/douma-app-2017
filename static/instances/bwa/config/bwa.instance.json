@@ -253,7 +253,7 @@
         },
         {
           "display_name": "Estimated number of rooms",
-          "source_field": "NumRooms"
+          "source_field": "Num_Rooms"
         },
         {
           "display_name": "Predicted risk",
