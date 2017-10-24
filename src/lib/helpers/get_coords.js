@@ -1,5 +1,5 @@
 function get_current_position_promise(options) {
-  return new Promise(function (resolve, reject) {
+  return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(resolve, reject, options);
   });
 }
