@@ -61,12 +61,10 @@ export async function get_current_coordinates(success_cb, fail_cb) {
 
   // If we have more than one position then return the position with the lowest accuracy value (the most accurate position).
   if (positions.length > 1) {
-    let position_with_highest_accuracy
+    let position_with_highest_accuracy = positions[0]
 
     positions.forEach(position => {
-      if (!position_with_highest_accuracy) {
-        position_with_highest_accuracy = position
-      } else if (position.coords.accuracy < position_with_highest_accuracy.coords.accuracy) {
+      if (position.coords.accuracy < position_with_highest_accuracy.coords.accuracy) {
         position_with_highest_accuracy = position
       }
     })
