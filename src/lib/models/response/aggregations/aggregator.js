@@ -20,7 +20,7 @@ export function aggregate_on({responses, targets, aggregation}) {
   if (aggregation.hasOwnProperty('numerator_expr') && aggregation.hasOwnProperty('denominator_field')) {
     // Calculate proportion
     try {
-      const numerator = _calculate_numerator({responses, numerator_expr: aggregation.numerator_expr, precondition: aggregation.precondition})
+      const numerator = _calculate_numerator({responses, ...aggregation})
       const denominator = _calculate_denominator({responses, targets})
       const result = numerator / denominator
 
@@ -35,7 +35,7 @@ export function aggregate_on({responses, targets, aggregation}) {
   } else if (aggregation.hasOwnProperty('numerator_expr')) {
     // Calculate numerator only
     try {
-      const numerator = _calculate_numerator({responses, numerator_expr: aggregation.numerator_expr, precondition: aggregation.precondition})
+      const numerator = _calculate_numerator({responses, ...aggregation})
       return numerator
     } catch (e) {
       console.log(e)
@@ -45,9 +45,7 @@ export function aggregate_on({responses, targets, aggregation}) {
 }
 
 
-function _calculate_numerator({responses, numerator_expr, precondition}) {
-  // TODO: DO we use the precondition? If not, let's not pass it in. But probably let's use it.
-  const expression = new Parser.parse(numerator_expr)
+function numeric_aggregator(responses, expression) {
   return responses.reduce((sum, {form_data}) => {
 
     const questions_answered = Object.keys(form_data)
@@ -64,6 +62,43 @@ function _calculate_numerator({responses, numerator_expr, precondition}) {
     }
 
   }, 0)
+}
+
+
+function collection_aggregator(responses, expression) {
+  return responses.reduce((accumulator, {form_data}) => {
+
+    const questions_answered = Object.keys(form_data)
+
+    if (expression.variables().every(i => questions_answered.includes(i))) {
+      // this will return the 'full' value (i.e. an array or object)
+      const answer_array = expression.evaluate(form_data)
+
+      for (const answer of answer_array) {
+        if (accumulator.hasOwnProperty(answer)) {
+          accumulator[answer] += 1
+        } else {
+          accumulator[answer] = 1
+        }
+      }
+    }
+
+    return accumulator
+  }, {})
+}
+
+function _calculate_numerator({responses, numerator_expr, filter}) {
+  // TODO: DO we use the precondition? If not, let's not pass it in. But probably let's use it.
+
+  const expression = new Parser.parse(numerator_expr)
+
+
+  if (filter) {
+    const result = collection_aggregator(responses, expression)
+    return result[filter] || 0
+  } else {
+    return numeric_aggregator(responses, expression)
+  }
 }
 
 function _calculate_denominator({responses, targets}) {

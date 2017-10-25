@@ -73,12 +73,14 @@
   // Locked
   {
     "name": "number of rooms not sprayed - locked",
-    "numerator_expr": "rooms_locked"
+    "numerator_expr": "unsprayed_reason",
+    "filter": "locked"
   },
   {
     "name": "number of rooms not sprayed - locked (%)",
-    "numerator_expr": "rooms_locked",
-    "denominator_field": "number_of_rooms_not_sprayed"
+    "numerator_expr": "unsprayed_reason",
+    "filter": "locked",
+    "denominator_field": "estimated_rooms"
   },
 
   // Nobody
