@@ -45,7 +45,7 @@ export function aggregate_on({responses, targets, aggregation}) {
 }
 
 
-function numeric_aggregator(responses, expression) {
+function numerical_aggregator(responses, expression) {
   return responses.reduce((sum, {form_data}) => {
 
     const questions_answered = Object.keys(form_data)
@@ -65,7 +65,7 @@ function numeric_aggregator(responses, expression) {
 }
 
 
-function collection_aggregator(responses, expression) {
+function categorical_aggregator(responses, expression) {
   return responses.reduce((accumulator, {form_data}) => {
 
     const questions_answered = Object.keys(form_data)
@@ -88,16 +88,13 @@ function collection_aggregator(responses, expression) {
 }
 
 function _calculate_numerator({responses, numerator_expr, filter}) {
-  // TODO: DO we use the precondition? If not, let's not pass it in. But probably let's use it.
-
   const expression = new Parser.parse(numerator_expr)
 
-
   if (filter) {
-    const result = collection_aggregator(responses, expression)
+    const result = categorical_aggregator(responses, expression)
     return result[filter] || 0
   } else {
-    return numeric_aggregator(responses, expression)
+    return numerical_aggregator(responses, expression)
   }
 }
 

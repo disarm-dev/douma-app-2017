@@ -86,7 +86,8 @@
   // Nobody
   {
     "name": "number of rooms not sprayed - nobody",
-    "numerator_expr": "n_rooms_nobody"
+    "numerator_expr": "unsprayed_reason",
+    "filter": "nobody"
   },
   {
     "name": "number of rooms not sprayed - nobody (%)",
@@ -141,7 +142,8 @@
   // kitchen
   {
     "name": "number of rooms not sprayed - kitchen",
-    "numerator_expr": "n_rooms_kitchen"
+    "numerator_expr": "unsprayed_reason",
+    "filter": "kitchen"
   },
   {
     "name": "number of rooms not sprayed - kitchen (%)",

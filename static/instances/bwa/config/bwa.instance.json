@@ -136,7 +136,7 @@
             },
             "chart_type": "pie",
             "bin_by": "_decorated.sprayed_status",
-            "series": [
+            "multi_series": [
               {
                 "aggregation_name": "count"
               }
@@ -215,20 +215,12 @@
               "title": "Refusal reasons for not spraying room"
             },
             "chart_type": "pie",
-            "bin_by": [
-              "form_data.rooms_locked",
-              "form_data.n_rooms_nobody",
-              "form_data.n_rooms_refused",
-              "form_data.n_rooms_baby",
-              "form_data.n_rooms_patient",
-              "form_data.n_rooms_funeral",
-              "form_data.n_rooms_kitchen",
-              "form_data.n_rooms_food_storage",
-              "form_data.n_rooms_other"
-            ],
-            "series": [
+            "multi_series": [
               {
-                "aggregation_name": "count"
+                "aggregation_name": "number of rooms not sprayed - locked"
+              },
+              {
+                "aggregation_name": "number of rooms not sprayed - kitchen"
               }
             ]
           }
