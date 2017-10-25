@@ -50,7 +50,7 @@ export async function get_current_coordinates() {
     maximumAge: 2000
   }
 
-  const {errors, positions} = await watch_n_positions(30000, options)
+  const {errors, positions} = await watch_n_positions(5000, options)
 
 
   return determine_response(positions, errors)
