@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Active filters</h2>
-        <md-chip v-for="({name, comparator, value}, index) in formatted_filters" :key="index" md-deletable @delete="on_delete(index)">
+        <md-chip v-for="({name, comparator, value}, index) in formatted_filters" :key="index" md-deletable @delete="on_delete(filters[index])">
             {{name}} {{comparator}} {{value}}
         </md-chip>
     </div>
@@ -24,8 +24,8 @@
       }
     },
     methods: {
-      on_delete(index) {
-        this.$emit('remove_filter', this.filters[index])
+      on_delete(filter) {
+        this.$emit('remove_filter', filter)
       }
     }
   }
