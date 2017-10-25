@@ -14,7 +14,7 @@
 <script>
   import convert from 'geoposition-to-object'
   import BUILD_TIME from 'config/build-time'
-  import {get_current_coordinates} from "lib/helpers/get_coords"
+  import {get_current_coordinates} from "lib/helpers/get_current_coordinates"
   
   export default {
     name: 'location_coords',
@@ -68,7 +68,7 @@
           }
 
           this.hunting_location = true
-          get_current_coordinates(success, fail)
+          get_current_coordinates().then(success).catch(fail)
         }
       }
     }

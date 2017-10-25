@@ -77,7 +77,7 @@
   },
   {
     "name": "number of rooms not sprayed - locked (%)",
-    "numerator_expr": "rooms_locked",
+    "numerator_expr": "unsprayed_reason",
     "denominator_field": "number_of_rooms_not_sprayed"
   },
 
