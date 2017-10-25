@@ -1,0 +1,9 @@
+{
+  "loader_version": "0.0.2",
+  "app_version": "0.0.3",
+  "assets": {
+    "initial": ["app.js", "app.css"],
+    "runtime": [],
+    "universal": []
+  }
+}
