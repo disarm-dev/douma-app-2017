@@ -35,6 +35,7 @@
           "number of buildings visited",
           "number of rooms visited",
           "number of rooms sprayed",
+          "room spray coverage (%)",
           "number of rooms sprayed with DDT",
           "number of rooms sprayed with lambda-cyhalothrin",
           "number of other structures visited",

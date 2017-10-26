@@ -2,7 +2,7 @@
   // Not sure if this one works
   {
     "name": "number of rooms targeted",
-    "denominator_field": "rooms"
+    "denominator_field": "estimated_rooms"
   },
   {
     "name": "room spray coverage (%)",
