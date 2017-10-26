@@ -45,3 +45,16 @@ test('should format a recorded_on filter', t => {
 
   t.deepEqual(actual, expected)
 })
+
+test('should not format a filter that is not recorded_on', t => {
+  const filters = [{name: 'some_value', comparator: 'eq', value: 'Thu Oct 26 2017 09:37:17 GMT+0200 (SAST)'}]
+
+  const wrapper = shallow(Summary, {
+    propsData: {filters}
+  })
+
+  const actual = wrapper.vm.formatted_filters[0]
+  const expected = {name: 'some_value', comparator: 'eq', value: 'Thu Oct 26 2017 09:37:17 GMT+0200 (SAST)'}
+
+  t.deepEqual(actual, expected)
+})
