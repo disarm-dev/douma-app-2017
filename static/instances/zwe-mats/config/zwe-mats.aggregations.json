@@ -29,5 +29,75 @@
     "name": "sprayable structures not sprayed %",
     "numerator_expr": "number_unsprayed",
     "denominator_field": "rooms"
+  },
+
+  // reasons not sprayed
+  {
+    "name": "structures not sprayed - locked",
+    "numerator_expr": "reason_unsprayed",
+    "filter": "locked"
+  },
+  {
+    "name": "structures not sprayed - refused",
+    "numerator_expr": "reason_unsprayed",
+    "filter": "refused"
+  },
+  {
+    "name": "structures not sprayed - away_day",
+    "numerator_expr": "reason_unsprayed",
+    "filter": "away_day"
+  },
+  {
+    "name": "structures not sprayed - temp_away",
+    "numerator_expr": "reason_unsprayed",
+    "filter": "temp_away"
+  },
+  {
+    "name": "structures not sprayed - food_storage",
+    "numerator_expr": "reason_unsprayed",
+    "filter": "food_storage"
+  },
+  {
+    "name": "structures not sprayed - infant",
+    "numerator_expr": "reason_unsprayed",
+    "filter": "infant"
+  },
+  {
+    "name": "structures not sprayed - property",
+    "numerator_expr": "reason_unsprayed == 'locked' ? 1 : 0",
+    "filter": "property"
+  },
+  {
+    "name": "structures not sprayed - elderly",
+    "numerator_expr": "reason_unsprayed",
+    "filter": "elderly"
+  },
+
+
+  // refusal reasons
+  {
+    "name": "structures not sprayed - allergies",
+    "numerator_expr": "refusal_reason",
+    "filter": "allergies"
+  },
+  {
+    "name": "structures not sprayed - do_not_want",
+    "numerator_expr": "refusal_reason",
+    "filter": "do_not_want"
+  },
+  {
+    "name": "structures not sprayed - religion",
+    "numerator_expr": "refusal_reason",
+    "filter": "religion"
+  },
+  {
+    "name": "structures not sprayed - no_water",
+    "numerator_expr": "refusal_reason",
+    "filter": "no_water"
+  },
+  {
+    "name": "structures not sprayed - busy",
+    "numerator_expr": "refusal_reason",
+    "filter": "busy"
   }
 ]
