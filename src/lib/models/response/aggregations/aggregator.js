@@ -65,7 +65,7 @@ function numerical_aggregator(responses, expression) {
 }
 
 
-function categorical_aggregator(responses, expression) {
+export function categorical_aggregator(responses, expression) {
   return responses.reduce((accumulator, {form_data}) => {
 
     const questions_answered = Object.keys(form_data)
