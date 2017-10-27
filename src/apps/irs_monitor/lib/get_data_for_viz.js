@@ -37,8 +37,12 @@ export default function get_data({responses, targets, aggregations, options, geo
   if (!chart_type) throw new Error("Missing `options.chart_type`")
 
   // Create categorical or time_series bins of responses
-  const binned_responses = bin_responses(responses, options)
 
+  let binned_responses
+
+  if (options.bin_by) {
+    binned_responses = bin_responses(responses, options)
+  }
 
   // The 'decorate' functions below also include the aggregation process
 
@@ -46,7 +50,7 @@ export default function get_data({responses, targets, aggregations, options, geo
   let data
   switch (chart_type) {
     case 'pie':
-      data = decorate_for_pie({binned_responses, targets, aggregations, options})
+      data = decorate_for_pie({responses, targets, aggregations, options})
       break
     case 'bar':
       data = decorate_for_chart({binned_responses, targets, aggregations, options})

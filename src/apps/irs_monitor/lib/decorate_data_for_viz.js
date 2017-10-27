@@ -101,21 +101,19 @@ function decorate_multi_series({binned_responses, targets, aggregations, options
 
 /**
  * For a pie chart, apply correct aggregation to each bin of responses
- * @param binned_responses
+ * @param responses
  * @param options
  * @param aggregations
  * @param targets
  * @return {array} - Array of things for a chart
  */
-export function decorate_for_pie({binned_responses, targets, aggregations, options}) {
-  const series_for_chart = options.series.map(serie => {
+export function decorate_for_pie({responses, targets, aggregations, options}) {
+  const series_for_chart = options.multi_series.map(serie => {
     return {
       aggregation: aggregations.find(a => a.name === serie.aggregation_name),
       colour: serie.colour
     }
   })
-
-  const series = series_for_chart[0]
 
   let output = {
     labels: [],
@@ -123,9 +121,9 @@ export function decorate_for_pie({binned_responses, targets, aggregations, optio
     type: options.chart_type
   }
 
-  binned_responses.forEach(bin => {
-    const value = aggregate_on({aggregation: series.aggregation, responses: bin.values, targets})
-    output.labels.push(bin.key)
+  series_for_chart.forEach(({aggregation, colour}) => {
+    const value = aggregate_on({aggregation, responses, targets})
+    output.labels.push(aggregation.name)
     output.values.push(value)
   })
 
