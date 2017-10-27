@@ -28,8 +28,8 @@
           "rooms sprayed"
         ],
         "property_layers": [
-          "risk",
-          "NumRooms"
+          {"property": "risk", "label": "Risk"},
+          {"property": "NumRooms", "label": "Number of rooms"}
         ],
         "response_point_fields": [
           "recorded_on"
