@@ -13,7 +13,7 @@
     "denominator_field": "structures"
   },
   {
-    "name": "# sprayed structures",
+    "name": "# Sprayed structures",
     "numerator_expr": "numbersprayed_delta + numbersprayed_ddt"
   },
   {

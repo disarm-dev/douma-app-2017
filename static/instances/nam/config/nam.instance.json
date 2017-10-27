@@ -6,7 +6,7 @@
         "bin_by": "location.selection.id",
         "aggregation_names": [
           "structures sprayed %",
-          "# sprayed structures"
+          "# Sprayed structures"
         ],
         "property_layers": [
           "risk",
@@ -20,7 +20,7 @@
         "chart_type": "table",
         "bin_by": "location.selection.id",
         "aggregation_names": [
-          "# sprayed structures",
+          "# Sprayed structures",
           "structures sprayed %",
           "structures not sprayed (refused) %",
           "structures not sprayed (locked) %"
@@ -69,7 +69,7 @@
             },
             "multi_series": [
               {
-                "aggregation_name": "# sprayed structures",
+                "aggregation_name": "# Sprayed structures",
                 "colour": "green"
               },
               {
