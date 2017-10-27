@@ -168,6 +168,9 @@
   "ava": {
     "require": [
       "./test/helpers/setup.js"
+    ],
+    "files": [
+      "test/specs/**/*.test.js"
     ]
   }
 }
