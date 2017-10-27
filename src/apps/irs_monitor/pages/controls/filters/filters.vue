@@ -6,7 +6,7 @@
 
     <temporal_filter :responses="responses" @change="add_filter"></temporal_filter>
 
-    <!--<spatial_filter></spatial_filter>-->
+    <spatial_filter @change="add_filter"></spatial_filter>
   </div>
 </template>
 
