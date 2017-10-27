@@ -19,9 +19,6 @@
       "table": {
         "chart_type": "table",
         "bin_by": "location.selection.id",
-        "property_layers": [
-          "mp_NAME"
-        ],
         "aggregation_names": [
           "structures sprayed",
           "structures sprayed %",
