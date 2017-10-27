@@ -26,10 +26,22 @@
           "structures not sprayed (locked) %"
         ],
         "property_layers": [
-          "REGION",
-          "DISTRICT",
-          "mp_NAME",
-          "NumStructu"
+          {
+            "property": "REGION",
+            "label": "Region"
+          },
+          {
+            "property": "DISTRICT",
+            "label": "District"
+          },
+          {
+            "property": "mp_NAME",
+            "label": "Village"
+          },
+          {
+            "property": "NumStructu",
+            "label": "# Target structures"
+          }
         ]
       },
       "charts": [
@@ -68,33 +80,42 @@
           }
         }
       ]
-//      "charts": [
-//        {
-//          "id": "spray_status_pie",
-//          "style": {
-//            "height_constraint": "none",
-//            "width_constraint": "half"
-//          },
-//          "options": {
-//            "layout": {
-//              "title": "Refusal reason"
-//            },
-//            "chart_type": "pie",
-//            "bin_by": "_decorated.sprayed_status",
-//            "series": [
-//              {
-//                "aggregation_name": "count"
-//              }
-//            ]
-//          }
-//        }
-//      ]
+      //      "charts": [
+      //        {
+      //          "id": "spray_status_pie",
+      //          "style": {
+      //            "height_constraint": "none",
+      //            "width_constraint": "half"
+      //          },
+      //          "options": {
+      //            "layout": {
+      //              "title": "Refusal reason"
+      //            },
+      //            "chart_type": "pie",
+      //            "bin_by": "_decorated.sprayed_status",
+      //            "series": [
+      //              {
+      //                "aggregation_name": "count"
+      //              }
+      //            ]
+      //          }
+      //        }
+      //      ]
     },
     "irs_plan": {
       "table_output": [
-        {"display_name": "Village name", "source_field": "mp_NAME"},
-        {"display_name": "Number of structures", "source_field": "NumStructu"},
-        {"display_name": "Predicted risk", "source_field": "risk"}
+        {
+          "display_name": "Village name",
+          "source_field": "mp_NAME"
+        },
+        {
+          "display_name": "Number of structures",
+          "source_field": "NumStructu"
+        },
+        {
+          "display_name": "Predicted risk",
+          "source_field": "risk"
+        }
       ]
     },
     "irs_record_point": {

@@ -133,14 +133,17 @@ export function decorate_for_pie({responses, targets, aggregations, options}) {
 export function decorate_for_table({binned_responses, targets, aggregations, options}){
   const static_fields = get(options, 'property_layers', [])
   const aggregation_names = get(options, 'aggregation_names', [])
-  const fields = static_fields.concat(aggregation_names)
 
   const decorated_feature_collection = decorate_geodata({binned_responses, targets, aggregations, options})
 
   const table_rows = decorated_feature_collection.features.map(f => {
     const row = {}
-    for (const field of fields) {
-      row[field] = f.properties[field]
+    for (const field of static_fields) {
+      row[field.label] = f.properties[field.property]
+    }
+
+    for (const aggregation_name of aggregation_names) {
+      row[aggregation_name] = f.properties[aggregation_name]
     }
     return row
   })
