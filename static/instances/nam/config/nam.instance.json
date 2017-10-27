@@ -5,7 +5,7 @@
         "chart_type": "map",
         "bin_by": "location.selection.id",
         "aggregation_names": [
-          "structures sprayed %",
+          "% Coverage",
           "# Sprayed structures"
         ],
         "property_layers": [
@@ -21,9 +21,9 @@
         "bin_by": "location.selection.id",
         "aggregation_names": [
           "# Sprayed structures",
-          "structures sprayed %",
-          "structures not sprayed (refused) %",
-          "structures not sprayed (locked) %"
+          "% Coverage",
+          "% refused",
+          "% locked"
         ],
         "property_layers": [
           {
