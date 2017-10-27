@@ -323,6 +323,10 @@
           },
           layout: {
             'text-field': `{__disarm_geo_name}`,
+            'text-size': 14
+          },
+          paint: {
+            'text-color': '#383838',
           }
         })
 
