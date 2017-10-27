@@ -34,70 +34,57 @@
   // reasons not sprayed
   {
     "name": "structures not sprayed - locked",
-    "numerator_expr": "reason_unsprayed",
-    "filter": "locked"
+    "numerator_expr": "reason_unsprayed == 'locked' ? 1 : 0"
   },
   {
     "name": "structures not sprayed - refused",
-    "numerator_expr": "reason_unsprayed",
-    "filter": "refused"
+    "numerator_expr": "reason_unsprayed == 'refused' ? 1 : 0"
   },
   {
     "name": "structures not sprayed - away_day",
-    "numerator_expr": "reason_unsprayed",
-    "filter": "away_day"
+    "numerator_expr": "reason_unsprayed == 'away_day' ? 1 : 0"
   },
   {
     "name": "structures not sprayed - temp_away",
-    "numerator_expr": "reason_unsprayed",
-    "filter": "temp_away"
+    "numerator_expr": "reason_unsprayed == 'temp_away' ? 1 : 0"
   },
   {
     "name": "structures not sprayed - food_storage",
-    "numerator_expr": "reason_unsprayed",
-    "filter": "food_storage"
+    "numerator_expr": "reason_unsprayed == 'food_storage' ? 1 : 0"
   },
   {
     "name": "structures not sprayed - infant",
-    "numerator_expr": "reason_unsprayed",
-    "filter": "infant"
+    "numerator_expr": "reason_unsprayed == 'infant' ? 1 : 0"
   },
   {
     "name": "structures not sprayed - property",
-    "numerator_expr": "reason_unsprayed == 'locked' ? 1 : 0",
-    "filter": "property"
+    "numerator_expr": "reason_unsprayed == 'property' ? 1 : 0"
   },
   {
     "name": "structures not sprayed - elderly",
-    "numerator_expr": "reason_unsprayed",
-    "filter": "elderly"
+    "numerator_expr": "reason_unsprayed == 'elderly' ? 1 : 0"
   },
 
 
   // refusal reasons
   {
     "name": "structures not sprayed - allergies",
-    "numerator_expr": "refusal_reason",
-    "filter": "allergies"
+    "numerator_expr": "refusal_reason == 'allergies' ? 1 : 0"
   },
   {
     "name": "structures not sprayed - do_not_want",
-    "numerator_expr": "refusal_reason",
-    "filter": "do_not_want"
+    "numerator_expr": "refusal_reason == 'do_not_want' ? 1 : 0"
   },
   {
     "name": "structures not sprayed - religion",
-    "numerator_expr": "refusal_reason",
-    "filter": "religion"
+    "numerator_expr": "refusal_reason == 'religion' ? 1 : 0"
   },
   {
     "name": "structures not sprayed - no_water",
-    "numerator_expr": "refusal_reason",
-    "filter": "no_water"
+    "numerator_expr": "refusal_reason == 'no_water' ? 1 : 0"
   },
   {
     "name": "structures not sprayed - busy",
-    "numerator_expr": "refusal_reason",
-    "filter": "busy"
+    "numerator_expr": "refusal_reason == 'busy' ? 1 : 0"
   }
 ]

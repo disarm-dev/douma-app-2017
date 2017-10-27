@@ -38,7 +38,22 @@
       "table": {
         "aggregation_names": [
           "rooms sprayed",
-          "rooms sprayed %"
+          "rooms sprayed %",
+
+          "structures not sprayed - locked",
+          "structures not sprayed - refused",
+          "structures not sprayed - away_day",
+          "structures not sprayed - temp_away",
+          "structures not sprayed - food_storage",
+          "structures not sprayed - infant",
+          "structures not sprayed - property",
+          "structures not sprayed - elderly",
+          "structures not sprayed - allergies",
+          "structures not sprayed - do_not_want",
+          "structures not sprayed - religion",
+          "structures not sprayed - no_water",
+          "structures not sprayed - busy"
+
         ],
         "property_layers": [
           "name"

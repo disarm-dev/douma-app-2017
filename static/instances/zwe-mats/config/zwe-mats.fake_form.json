@@ -31,7 +31,7 @@
     "mop_up":"no",
     "sprayed":"no",
     "number_sprayable_rooms":2,
-    "reason_unsprayed":"locked",
+    "reason_unsprayed":"refused",
     "hh_name":"name"
   }
 ]
