@@ -1,21 +1,44 @@
 [
   {
-    "health_number": "123",
-    "house_population": 8,
-    "name_household": "name",
-    "number_bednets": 0,
-    "number_sprayable": 5,
-    "number_unsprayable": 0,
+    "number_sprayable": 2,
+    "number_unsprayable": 2,
     "numbersprayed_ddt": 2,
-    "numbersprayed_delta": 3,
-    "sprayable": "yes",
-    "sprayable_unsprayed": "no",
-    "total_population_sprayedrooms": 8
+    "numbersprayed_delta": 0,
+    "number_unsprayed": 2,
+    "reasons_for_not_spraying": "locked",
+    "house_population": 8,
+    "total_population_sprayedrooms": 4,
+    "name_household": "name",
+    "health_number": "129",
+    "confirm": "129",
+    "number_bednets": "0"
   },
   {
-    "Unsprayable_reason": [
-      "school"
-    ],
-    "sprayable": "no"
+    "number_sprayable": 2,
+    "number_unsprayable": 2,
+    "numbersprayed_ddt": 2,
+    "numbersprayed_delta": 0,
+    "number_unsprayed": 2,
+    "reasons_for_not_spraying": "refused",
+    "house_population": 8,
+    "total_population_sprayedrooms": 4,
+    "name_household": "name",
+    "health_number": "129",
+    "confirm": "129",
+    "number_bednets": "0"
+  },
+  {
+    "number_sprayable": 1,
+    "number_unsprayable": 0,
+    "numbersprayed_ddt": 1,
+    "numbersprayed_delta": 0,
+    "number_unsprayed": 0,
+    "house_population": 2,
+    "total_population_sprayedrooms": 2,
+    "name_household": "name",
+    "health_number": "129",
+    "confirm": "129",
+    "number_bednets": "1",
+    "Bednets_used": 1
   }
 ]

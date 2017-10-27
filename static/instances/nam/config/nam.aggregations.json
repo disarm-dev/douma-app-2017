@@ -33,6 +33,19 @@
     "name": "sprayable structures not sprayed (refused) %",
     "numerator_expr": "number_sprayable - (numbersprayed_delta + numbersprayed_ddt)",
     "denominator_field": "structures"
+  },
+
+
+
+  {
+    "name": "structures not sprayed (refused) %",
+    "numerator_expr": "reasons_for_not_spraying == 'refused' ? 1 : 0",
+    "denominator_field": "structures"
+  },
+  {
+    "name": "structures not sprayed (locked) %",
+    "numerator_expr": "reasons_for_not_spraying == 'locked' ? 1 : 0",
+    "denominator_field": "structures"
   }
 ]
 

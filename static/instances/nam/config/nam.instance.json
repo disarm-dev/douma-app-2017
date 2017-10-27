@@ -24,7 +24,9 @@
         ],
         "aggregation_names": [
           "structures sprayed",
-          "structures sprayed %"
+          "structures sprayed %",
+          "structures not sprayed (refused) %",
+          "structures not sprayed (locked) %"
         ],
         "property_layers": [
           "REGION",
