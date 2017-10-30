@@ -74,19 +74,28 @@ test('creates a row with properties specified by property_layers', t => {
   }
 
   const options = {
-    property_layers: ['property1', 'property2']
+    property_layers: [
+      {
+        "property": 'property1',
+        "label": 'property_1_label'
+      },
+      {
+        "property": 'property2',
+        "label": 'property_2_label'
+      }
+    ]
   }
 
   const actual = decorate_for_table({binned_responses: [], options})
 
   const expected = [
     {
-      property1: 1,
-      property2: 2
+      property_1_label: 1,
+      property_2_label: 2
     },
     {
-      property1: 3,
-      property2: 4
+      property_1_label: 3,
+      property_2_label: 4
     }
   ]
 

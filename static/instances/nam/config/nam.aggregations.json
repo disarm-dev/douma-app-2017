@@ -13,11 +13,11 @@
     "denominator_field": "structures"
   },
   {
-    "name": "structures sprayed",
+    "name": "# Sprayed structures",
     "numerator_expr": "numbersprayed_delta + numbersprayed_ddt"
   },
   {
-    "name": "structures sprayed %",
+    "name": "% Coverage",
     "numerator_expr": "numbersprayed_delta + numbersprayed_ddt",
     "denominator_field": "structures"
   },
@@ -32,6 +32,19 @@
   {
     "name": "sprayable structures not sprayed (refused) %",
     "numerator_expr": "number_sprayable - (numbersprayed_delta + numbersprayed_ddt)",
+    "denominator_field": "structures"
+  },
+
+
+
+  {
+    "name": "% refused",
+    "numerator_expr": "reasons_for_not_spraying == 'refused' ? 1 : 0",
+    "denominator_field": "structures"
+  },
+  {
+    "name": "% locked",
+    "numerator_expr": "reasons_for_not_spraying == 'locked' ? 1 : 0",
     "denominator_field": "structures"
   }
 ]

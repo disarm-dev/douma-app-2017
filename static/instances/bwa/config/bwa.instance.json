@@ -25,7 +25,10 @@
         "chart_type": "table",
         "bin_by": "location.selection.id",
         "property_layers": [
-          "VILLAGE"
+          {
+            "property": "VILLAGE",
+            "label": "Village"
+          }
         ],
         "aggregation_names": [
           "number of rooms targeted",
