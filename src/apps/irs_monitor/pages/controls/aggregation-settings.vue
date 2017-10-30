@@ -81,9 +81,13 @@
         }
       },
       set_spatial_aggregation_level(level) {
+        const planning_level_name = get_planning_level_name()
+        const is_planning_level = planning_level_name === level
+
         const new_options = {
           ...this.dashboard_options,
-          spatial_aggregation_level: level
+          spatial_aggregation_level: level,
+          bin_by: is_planning_level ? 'location.selection.id' : "location.selection.category"
         }
         this.$store.commit('irs_monitor/set_dashboard_options', new_options)
       },
