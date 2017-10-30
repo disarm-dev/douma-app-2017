@@ -15,8 +15,7 @@ export function get_targets(targets, spatial_aggregation_level) {
     return targets
   }
 
-  const decorated_targets = decorate_t
-  argets(targets)
+  const decorated_targets = decorate_targets(targets)
   const binned_targets = get_binned_targets(decorated_targets)
   const aggregated_targets = get_aggregated_targets(binned_targets)
   console.log('aggregated_targets', aggregated_targets)
