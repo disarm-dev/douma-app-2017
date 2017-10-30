@@ -26,8 +26,8 @@
         "bin_by": "location.selection.id",
         "property_layers": [
           {
-            "property": "VILLAGE",
-            "label": "Village"
+            "property": "__disarm_geo_name",
+            "label": "Name"
           }
         ],
         "aggregation_names": [
