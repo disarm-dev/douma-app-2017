@@ -40,8 +40,10 @@
 <script>
   import {mapState} from 'vuex'
 
-  import {get_planning_level_name} from 'lib/instance_data/spatial_hierarchy_helper'
-  import {get_all_spatial_hierarchy_level_names} from 'lib/instance_data/spatial_hierarchy_helper'
+  import {
+    get_next_level_up_from_planning_level,
+    get_planning_level_name
+  } from 'lib/instance_data/spatial_hierarchy_helper'
   import CONFIG from 'config/common'
 
   import limit_to from './limit-to.vue'
@@ -64,7 +66,11 @@
         limit_to: state => state.irs_monitor.dashboard_options.limit_to
       }),
       spatial_level_names() {
-        return get_all_spatial_hierarchy_level_names()
+        const levels = [get_planning_level_name()]
+        if (get_next_level_up_from_planning_level()) {
+          levels.unshift(get_next_level_up_from_planning_level().name)
+        }
+        return levels
       },
       temporal_level_names() {
         return CONFIG.temporal_intervals
