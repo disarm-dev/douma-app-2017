@@ -13,8 +13,6 @@
       <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
     </multiselect>
 
-    <md-button @click="add_category" :disabled="!area">Add filter</md-button>
-
     <multiselect
             class="multiselect"
             :disabled="!area"
@@ -29,7 +27,7 @@
       <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
     </multiselect>
 
-    <md-button @click="add_area" :disabled="!sub_area">Add filter</md-button>
+    <md-button @click="add_filter" :disabled="!area">Add filter</md-button>
 
   </div>
 </template>
@@ -100,13 +98,19 @@
         this.search_query = query
       },
 
-
+      add_filter() {
+        if (this.sub_area) {
+          this.add_area()
+        } else {
+          this.add_category()
+        }
+      },
       add_category() {
         this.$emit('change', {name: 'location.selection.category', comparator: '==', value: this.area})
       },
 
       add_area() {
-        this.$emit('change', {name: 'location.selection.id', comparator: '==', value: this.sub_area.id})
+        this.$emit('change', {name: 'location.selection.id', comparator: '==', value: this.sub_area.id, display_value: this.sub_area.name})
       }
     }
   }
