@@ -190,6 +190,60 @@
               }
             ]
           }
+        },
+        {
+          "id": "refusal_reason_pie",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "full"
+          },
+          "options": {
+            "layout": {
+              "title": "Refusal reasons"
+            },
+            "chart_type": "pie",
+            "multi_series": [
+              {
+                "aggregation_name": "structures not sprayed - locked"
+              },
+              {
+                "aggregation_name": "structures not sprayed - refused"
+              },
+              {
+                "aggregation_name": "structures not sprayed - away_day"
+              },
+              {
+                "aggregation_name": "structures not sprayed - temp_away"
+              },
+              {
+                "aggregation_name": "structures not sprayed - food_storage"
+              },
+              {
+                "aggregation_name": "structures not sprayed - infant"
+              },
+              {
+                "aggregation_name": "structures not sprayed - property"
+              },
+              {
+                "aggregation_name": "structures not sprayed - elderly"
+              },
+              {
+                "aggregation_name": "structures not sprayed - allergies"
+              },
+              {
+                "aggregation_name": "structures not sprayed - do_not_want"
+              },
+              {
+                "aggregation_name": "structures not sprayed - religion"
+              },
+              {
+                "aggregation_name": "structures not sprayed - no_water"
+              },
+              {
+                "aggregation_name": "structures not sprayed - busy"
+              }
+            ]
+          }
         }
       ]
     },
