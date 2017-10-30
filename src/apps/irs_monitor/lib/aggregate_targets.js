@@ -1,7 +1,8 @@
 import {nest} from 'd3-collection'
+import isNumber from 'is-number'
 
 import {
-  get_all_spatial_hierarchy_levels, get_field_name_for_level,
+  get_all_spatial_hierarchy_levels, get_denominator_enumerable_name, get_field_name_for_level,
   get_planning_level_name
 } from "lib/instance_data/spatial_hierarchy_helper"
 import cache from "config/cache"
@@ -18,7 +19,6 @@ export function get_targets(targets, spatial_aggregation_level) {
   const decorated_targets = decorate_targets(targets)
   const binned_targets = get_binned_targets(decorated_targets)
   const aggregated_targets = get_aggregated_targets(binned_targets)
-  console.log('aggregated_targets', aggregated_targets)
   return aggregated_targets
 }
 
@@ -59,12 +59,23 @@ function get_binned_targets (targets) {
 
 
 function get_aggregated_targets(binned_targets) {
+  const denominator_enumerable_name = get_denominator_enumerable_name()
   const aggregated_targets = []
 
   for (const bin of binned_targets) {
+    const new_denominator = bin.values.reduce((sum, target) => {
+      const value = target[denominator_enumerable_name]
+
+      if (isNumber(value)) {
+        return sum + value
+      } else {
+        return sum
+      }
+    }, 0)
+
     const new_target = {
       id: bin.key,
-      ['estimated_rooms']: 1 // replace with loop
+      [denominator_enumerable_name]: new_denominator
     }
 
     aggregated_targets.push(new_target)
