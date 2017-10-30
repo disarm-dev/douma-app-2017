@@ -41,6 +41,7 @@
   export default {
     name: 'spatial_filter',
     components: {Multiselect},
+    props: ['filters'],
     data() {
       return {
         _fuse: null,
@@ -79,7 +80,17 @@
         })
 
         return sorted_sub_areas
-      }
+      },
+
+
+      // TODO: Fix these and disable inputs
+      area_set() {
+        return this.filters.every(f => f.name.contains('location.selection.category'))
+      },
+
+      sub_area_set() {
+        return this.filters.every(f => f.name.contains('location.selection.id'))
+      },
     },
     created() {
       this.prepare_fuse()
