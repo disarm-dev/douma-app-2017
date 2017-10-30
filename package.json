@@ -10,8 +10,8 @@
     "unit": "env BABEL_ENV=test NODE_ENV=production NODE_PATH=src ava",
     "unit-cov": "env BABEL_ENV=test NODE_ENV=production NODE_PATH=src nyc ava --verbose",
     "unit-watch": "env BABEL_ENV=test NODE_ENV=production NODE_PATH=src ava --watch",
-    "e2e": "node test/e2e/runner.js",
-    "test": "ava && npm run e2e && ava"
+    "e2e": "./node_modules/.bin/testcafe chrome test/e2e/",
+    "test": "npm run unit-cov"
   },
   "dependencies": {
     "@mapbox/geo-viewport": "^0.2.2",
@@ -78,6 +78,7 @@
     "strip-json-comments": "^2.0.1",
     "survey-knockout": "^0.12.23",
     "sw-offline-google-analytics": "0.0.19",
+    "testcafe": "^0.17.2",
     "uuid": "^3.0.1",
     "vue": "^2.4.4",
     "vue-analytics": "^4.1.2",
@@ -145,7 +146,7 @@
     "vue-loader": "^12.2.2",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.4.4",
-    "vue-test-utils": "git+https://github.com/vuejs/vue-test-utils.git#dev",
+    "vue-test-utils": "^1.0.0-beta",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.2.1",
     "webpack-dev-middleware": "^1.10.0",
@@ -163,10 +164,13 @@
     "last 2 versions",
     "not ie <= 10"
   ],
-  "version": "179.25.9",
+  "version": "1710.26.3",
   "ava": {
     "require": [
       "./test/helpers/setup.js"
+    ],
+    "files": [
+      "test/specs/**/*.test.js"
     ]
   }
 }

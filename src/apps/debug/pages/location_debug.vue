@@ -1,7 +1,8 @@
 <template>
   <div class='applet_container'>
     <h3>Debug location</h3>
-    <md-button class='md-raised md-primary' @click.native="get_current_position" :disabled='getting_position'>Get current location</md-button>
+    <md-button class='md-raised md-primary' @click="get_current_position" :disabled='getting_position || !!watching_position'>Get current location</md-button>
+    <md-button class="md-raised" :class="{'md-warn': !!watching_position}" @click="toggle_watch">Watch current location</md-button>
     <p>{{location_msg}}</p>
 
     <h2 v-if="errors.length">Errors</h2>
@@ -22,57 +23,46 @@
 </template>
 
 <script>
-  import {get_current_position} from 'lib/helpers/location_helper.js'
   import objectify from 'geoposition-to-object'
-
   import moment from 'moment-mini'
   import uuid from 'uuid/v4'
+
+  import {clear_watch, get_current_position, watch_current_position} from 'lib/helpers/location_helper'
 
   export default {
     name: 'location_debug',
     data () {
       return {
+        getting_position: false,
+        watching_position: false,
+
         errors: [],
         locations: [],
 
         positionOptions: {
           enableHighAccuracy: true,
-          timeout: 5000,
+          timeout: 10000,
           maximumAge: 0
         },
-
-        getting_position: false,
       }
     },
     computed: {
       location_msg() {
-        return this.location_activity || 'No action'
+        if (this.getting_position) return "Getting position"
+        if (this.watching_position) return "Watching position"
+        return "No activity"
       },
-      location() {
-        return this.locations[this.locations.length-1] || 'No location set'
-      },
-      location_activity() {
-        return this.getting_position ? 'Getting current position' : ''
-      },
-    },
-    created() {
-
     },
     methods: {
       get_current_position() {
         this.getting_position = true
 
-        const start_stamp = moment()
-
         get_current_position(this.positionOptions)
           .then((position) => {
             this.getting_position = false
 
-            const end_stamp = moment()
-            const duration = this.get_duration(start_stamp, end_stamp)
-
             // Add additional properties
-            position = this.create_position_object(position, duration)
+            position = this.create_position_object(position, 'get')
             this.add_location(position)
           }).catch(error => {
             const error_object = {
@@ -83,12 +73,31 @@
             this.errors.push(error_object)
           })
       },
-      create_position_object(position, duration) {
-        position.duration = duration
+      toggle_watch() {
+        if (this.watching_position === false) {
+          const callback = (position) => {
+            position = this.create_position_object(position, 'watch')
+            this.add_location(position)
+          }
+          const errorCallback = (error) => {
+            this.watching_position = false
+            console.error(error)
+          }
+
+          this.watching_position = watch_current_position(this.positionOptions, callback, errorCallback)
+        } else {
+          clear_watch(this.watching_position)
+          this.watching_position = false
+        }
+
+
+      },
+      create_position_object(position, type) {
         position.waypoint_id = this.waypoint_id
         position.username = this.$store.state.meta.user.username
         position.id = uuid()
         position.user_agent = navigator.userAgent
+        position.type = type
 
         return position
       },
@@ -97,9 +106,6 @@
       },
 
       // Formatting
-      get_duration(start_stamp, end_stamp) {
-        return moment.utc(moment(end_stamp,"DD/MM/YYYY HH:mm:ss").diff(moment(start_stamp,"DD/MM/YYYY HH:mm:ss"))).format("s")
-      },
       human_time(timestamp) {
         return moment(timestamp).format('kk:mm:ss:SS ddd')
       },
@@ -107,8 +113,9 @@
         return JSON.stringify(thing)
       },
       pretty_location(position) {
+        const {type} = position
         const {accuracy, latitude, longitude} = position.coords
-        return `acc: ${accuracy} lat:${latitude} lng:${longitude}`
+        return `${type.toUpperCase()} acc: ${accuracy} lat:${latitude} lng:${longitude}`
       },
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <controls>
-    <md-button slot="primary_action" class="md-icon-button md-raised md-primary" :disabled="isLoading('irs_monitor/load_responses')" @click.native='load_responses'>
+    <md-button slot="primary_action" class="md-icon-button md-raised md-primary" :disabled="isLoading('irs_monitor/load_responses')" @click.native='load_data'>
       <md-icon>refresh</md-icon>
     </md-button>
 
@@ -68,6 +68,10 @@
       })
     },
     methods: {
+      load_data() {
+        this.load_responses()
+        this.load_plan()
+      },
       load_responses() {
         this.$emit('load_responses')
       },

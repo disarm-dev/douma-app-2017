@@ -31,7 +31,7 @@
 <style scoped>
   .sub_toolbar {
     background-color: #dedede !important;
-    color: #3e3e3e;
+    color: #696969 !important;
     position: sticky;
     top: 48px;
     z-index: 10;

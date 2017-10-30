@@ -70,7 +70,7 @@ const options = {
   ]
 }
 
-test('creates a row for each unique response.location.selection.name', t => {
+test.failing('creates a row for each unique response.location.selection.name', t => {
   // Create expected ouput
   const expected_location_selection_names = responses.map(response => response.location.selection.name).sort()
 

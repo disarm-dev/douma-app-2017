@@ -13,6 +13,7 @@ export const ResponseSchema = schema({
 
   // passed-in, editable
   username: String,
+  '?user_id': String, // TODO: @refac Make required, and make username optional (or remove it!)
   team_name: [String, null],
 
   // generated, editable

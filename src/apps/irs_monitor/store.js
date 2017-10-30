@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import {get, isEqual} from 'lodash'
 import {read_all_network} from 'lib/models/response'
-import {read_plan_current_network} from 'lib/models/plan'
+import remote from 'lib/models/plan/remote'
 import {Plan} from 'lib/models/plan/model'
 import {decorate_responses_from_json} from 'lib/models/response/decorator'
 import instance_decorator from 'lib/models/response/decorators-evaluated'
@@ -126,6 +126,8 @@ export default {
     get_all_records: (context) => {
       const instance_slug = context.rootState.instance_config.instance.slug
       return read_all_network(instance_slug).then(res=> {
+        if (res.length === 0 ) throw new Error('There are no responses.')
+
         const responses = decorate_responses_from_json(res, context.rootState.instance_config)
 
         const decorated_responses = instance_decorator(responses, context.rootState.instance_config)
@@ -136,8 +138,9 @@ export default {
     },
     get_current_plan: (context) => {
       const instance_slug = context.rootState.instance_config.instance.slug
-      return get_current_plan(instance_slug)
+      return remote.read_plan_current(instance_slug)
         .then(plan_json => {
+          if (Object.keys(plan_json).length === 0) throw new Error('No plan created. Please create one.')
           try {
             new Plan().validate(plan_json)
             context.commit('set_plan', plan_json)

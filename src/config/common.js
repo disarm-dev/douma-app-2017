@@ -29,7 +29,7 @@ export default {
       }
     },
     'irs_tasker': {title: 'IRS Tasker', icon: 'group', geodata_required: true},
-    'debug': {title: 'Debug', icon: 'bug_report', geodata_required: true},
+    'debug': {title: 'Debug', icon: 'bug_report', geodata_required: false},
     // Meta below is currently ignored in sidebar (statically included), but here for the breadcrumbs
     'meta': {title: 'User', icon: 'person'},
   },
@@ -44,7 +44,7 @@ export default {
     map_token: 'pk.eyJ1Ijoibmljb2xhaWRhdmllcyIsImEiOiJjaXlhNWw1NnkwMDJoMndwMXlsaGo5NGJoIn0.T1wTBzV42MZ1O-2dy8SpOw'
   },
   instances: {
-    list: ['struc_demo', 'make', 'bwa', 'nam', 'swz', 'zwe', 'zwe-matn', 'rsa', 'mwi-schisto'],
+    list: ['struc_demo', 'make', 'bwa', 'nam', 'swz', 'zwe', 'zwe-mats', 'zwe-matn', 'rsa', 'mwi-schisto'],
     // TODO: @refac This required_instance_files list is only relevant for the IRS modules.
     required_instance_files: ['instance', 'form', 'location_selection', 'aggregations', 'fake_form', 'validations', 'presenters', 'decorators']
   },

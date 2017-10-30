@@ -9,8 +9,8 @@
           "structures sprayed"
         ],
         "property_layers": [
-          "risk",
-          "NmStrct"
+          {"property": "risk", "label": "Risk"},
+          {"property": "NmStrct", "label": "Number of structures"}
         ],
         "response_point_fields": [
           "recorded_on"
@@ -22,6 +22,9 @@
         "aggregation_names": [
           "structures sprayed",
           "structures sprayed %"
+        ],
+        "property_layers": [
+          "Fnl_l_1"
         ]
       },
       "charts": [

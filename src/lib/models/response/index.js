@@ -14,7 +14,7 @@ async function read_all_network() {
   // const decorated_records = decorate_responses(validate_responses)
 
   // populate local DB
-  await local.create(remote_responses)
+  // await local.create(remote_responses)
 
   // return them
   return remote_responses
@@ -22,7 +22,8 @@ async function read_all_network() {
 
 
 async function read_all_cache() {
-  return await local.read_all()
+  // return await local.read_all()
+  return console.warn('noop')
 }
 
 

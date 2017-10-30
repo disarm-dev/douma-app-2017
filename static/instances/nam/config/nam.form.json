@@ -84,7 +84,7 @@
         },
         {
           "type": "radiogroup",
-          "name": "Reasons for not spraying",
+          "name": "reasons_for_not_spraying",
           "visible": false,
           "visibleIf": "{number_unsprayed} > 0",
           "title": "Reasons for not spraying",

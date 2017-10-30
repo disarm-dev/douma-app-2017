@@ -66,6 +66,11 @@
               <md-input v-model="response.username"></md-input>
               <span v-if="response.username !== username" class="md-error">Note username changed</span>
             </md-input-container>
+            <md-input-container :class="{'md-input-invalid': response.user_id !== user_id}">
+              <label>user ID</label>
+              <md-input v-model="response.user_id"></md-input>
+              <span v-if="response.user_id !== user_id" class="md-error">Note user ID changed</span>
+            </md-input-container>
           </md-list-item>
           <md-list-item>
             <md-input-container>
@@ -176,6 +181,7 @@
     computed: {
       ...mapState({
         username: state => state.meta.user.username,
+        user_id: state => state.meta.user._id,
         instance_slug : state => state.instance_config.instance.slug,
         instance_config: state => state.instance_config,
         team_name: state => state.irs_record_point.team_name
@@ -227,7 +233,9 @@
         const found = this.$store.state.irs_record_point.responses.find(r => r.id === this.response_id)
         this._response = new Response(found)
       } else {
+        // TODO: @refac Definitely don't do this in here...
         const empty_response = {
+          user_id: this.user_id,
           username: this.username,
           instance_slug: this.instance_slug,
           team_name: this.team_name // TODO: @refac Brittle: this needs to match what's set in `instance.json`

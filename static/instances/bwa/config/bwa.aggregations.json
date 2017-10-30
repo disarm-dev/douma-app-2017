@@ -2,7 +2,7 @@
   // Not sure if this one works
   {
     "name": "number of rooms targeted",
-    "denominator_field": "rooms"
+    "denominator_field": "estimated_rooms"
   },
   {
     "name": "room spray coverage (%)",
@@ -73,18 +73,21 @@
   // Locked
   {
     "name": "number of rooms not sprayed - locked",
-    "numerator_expr": "rooms_locked"
+    "numerator_expr": "unsprayed_reason",
+    "filter": "locked"
   },
   {
     "name": "number of rooms not sprayed - locked (%)",
-    "numerator_expr": "rooms_locked",
-    "denominator_field": "number_of_rooms_not_sprayed"
+    "numerator_expr": "unsprayed_reason",
+    "filter": "locked",
+    "denominator_field": "estimated_rooms"
   },
 
   // Nobody
   {
     "name": "number of rooms not sprayed - nobody",
-    "numerator_expr": "n_rooms_nobody"
+    "numerator_expr": "unsprayed_reason",
+    "filter": "nobody"
   },
   {
     "name": "number of rooms not sprayed - nobody (%)",
@@ -139,7 +142,8 @@
   // kitchen
   {
     "name": "number of rooms not sprayed - kitchen",
-    "numerator_expr": "n_rooms_kitchen"
+    "numerator_expr": "unsprayed_reason",
+    "filter": "kitchen"
   },
   {
     "name": "number of rooms not sprayed - kitchen (%)",

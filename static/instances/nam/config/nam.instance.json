@@ -5,8 +5,8 @@
         "chart_type": "map",
         "bin_by": "location.selection.id",
         "aggregation_names": [
-          "structures sprayed %",
-          "structures sprayed"
+          "% Coverage",
+          "# Sprayed structures"
         ],
         "property_layers": [
           "risk",
@@ -18,39 +18,104 @@
       },
       "table": {
         "chart_type": "table",
-        "bin_by": "location.selection.name",
+        "bin_by": "location.selection.id",
         "aggregation_names": [
-          "structures sprayed",
-          "structures sprayed %"
+          "# Sprayed structures",
+          "% Coverage",
+          "% refused",
+          "% locked"
+        ],
+        "property_layers": [
+          {
+            "property": "REGION",
+            "label": "Region"
+          },
+          {
+            "property": "DISTRICT",
+            "label": "District"
+          },
+          {
+            "property": "mp_NAME",
+            "label": "Village"
+          },
+          {
+            "property": "NumStructu",
+            "label": "# Target structures"
+          }
         ]
-      }
-//      "charts": [
-//        {
-//          "id": "spray_status_pie",
-//          "style": {
-//            "height_constraint": "none",
-//            "width_constraint": "half"
-//          },
-//          "options": {
-//            "layout": {
-//              "title": "Refusal reason"
-//            },
-//            "chart_type": "pie",
-//            "bin_by": "_decorated.sprayed_status",
-//            "series": [
-//              {
-//                "aggregation_name": "count"
-//              }
-//            ]
-//          }
-//        }
-//      ]
+      },
+      "charts": [
+        {
+          "id": "room_coverage_by_week",
+          "style": {
+            "height_constraint": "none",
+            "width_constraint": "half"
+          },
+          "options": {
+            "chart_type": "bar",
+            "time_series": true,
+            "cumulative": true,
+            "bin_by": "recorded_on",
+            "layout": {
+              "showlegend": true,
+              "title": "Spray coverage",
+              "yaxis": {
+                "title": "# of structures"
+              },
+              "xaxis": {
+                "title": "Period commencing"
+              },
+              "barmode": "stack"
+            },
+            "multi_series": [
+              {
+                "aggregation_name": "# Sprayed structures",
+                "colour": "green"
+              },
+              {
+                "aggregation_name": "sprayable structures not sprayed",
+                "colour": "red"
+              }
+            ]
+          }
+        }
+      ]
+      //      "charts": [
+      //        {
+      //          "id": "spray_status_pie",
+      //          "style": {
+      //            "height_constraint": "none",
+      //            "width_constraint": "half"
+      //          },
+      //          "options": {
+      //            "layout": {
+      //              "title": "Refusal reason"
+      //            },
+      //            "chart_type": "pie",
+      //            "bin_by": "_decorated.sprayed_status",
+      //            "series": [
+      //              {
+      //                "aggregation_name": "count"
+      //              }
+      //            ]
+      //          }
+      //        }
+      //      ]
     },
     "irs_plan": {
       "table_output": [
-        {"display_name": "Village name", "source_field": "mp_NAME"},
-        {"display_name": "Number of structures", "source_field": "NumStructu"},
-        {"display_name": "Predicted risk", "source_field": "risk"}
+        {
+          "display_name": "Village name",
+          "source_field": "mp_NAME"
+        },
+        {
+          "display_name": "Number of structures",
+          "source_field": "NumStructu"
+        },
+        {
+          "display_name": "Predicted risk",
+          "source_field": "risk"
+        }
       ]
     },
     "irs_record_point": {
@@ -76,7 +141,7 @@
     "slug": "nam"
   },
   "spatial_hierarchy": {
-    "data_version": 3,
+    "data_version": 4,
     "markers": {
       "planning_level_name": "villages",
       "record_location_selection_level_name": "villages",

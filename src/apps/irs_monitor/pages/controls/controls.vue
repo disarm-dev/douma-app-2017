@@ -40,7 +40,7 @@
 
 <style scoped>
   .filter-container {
-    z-index: 4;
+    z-index: 2;
     overflow: visible;
   }
 </style>
