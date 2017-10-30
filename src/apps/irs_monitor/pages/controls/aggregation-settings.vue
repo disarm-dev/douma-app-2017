@@ -1,17 +1,17 @@
 <template>
   <div>
     <h2>Aggregation settings</h2>
-    <!--<p>-->
-      <!--Spatial aggregation level-->
-      <!--<md-button-toggle md-single>-->
-        <!--<md-button v-for="level in spatial_level_names" :key="level"-->
-                   <!--@click="set_spatial_aggregation_level(level)"-->
-                   <!--class="md-button"-->
-                   <!--:class="{'md-toggle': level === spatial_aggregation_level}">-->
-          <!--{{level}}-->
-        <!--</md-button>-->
-      <!--</md-button-toggle>-->
-    <!--</p>-->
+    <p>
+      Spatial aggregation level
+      <md-button-toggle md-single>
+        <md-button v-for="level in spatial_level_names" :key="level"
+                   @click="set_spatial_aggregation_level(level)"
+                   class="md-button"
+                   :class="{'md-toggle': level === spatial_aggregation_level}">
+          {{level}}
+        </md-button>
+      </md-button-toggle>
+    </p>
 
     <p>
       Temporal aggregatation level
