@@ -9,6 +9,7 @@ import instance_decorator from 'lib/models/response/decorators-evaluated'
 import {set_filter, unset_filter} from './pages/controls/filters/controller'
 import CONFIG from 'config/common'
 import {filter_responses} from "apps/irs_monitor/lib/filters"
+import {get_targets} from "apps/irs_monitor/lib/aggregate_targets"
 
 export default {
   namespaced: true,
@@ -92,7 +93,9 @@ export default {
     // Return all the targets from the plan
     targets(state, getters) {
       if(!state.plan) return []
-      return state.plan.targets
+
+      const spatial_aggregation_level = state.dashboard_options.spatial_aggregation_level
+      return get_targets(state.plan.targets, spatial_aggregation_level)
     },
 
     plan_target_area_ids(state) {
