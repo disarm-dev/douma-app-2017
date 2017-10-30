@@ -84,7 +84,6 @@
       },
 
 
-      // TODO: Fix these and disable inputs
       area_filter_set() {
         return this.filters.some(f => f.name.includes('location.selection.category') || f.name.includes('location.selection.id'))
       }
