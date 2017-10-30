@@ -371,8 +371,6 @@
 
       // Data calculations TODO: @refac Remove calculations to lib
       calculate_layer_attributes() {
-        this.options.spatial_aggregation_level = get_planning_level_name()
-
         const geodata = cache.geodata // TODO: @refac When we fix geodata into store, etc
 
         this._aggregated_responses_fc = get_data({
