@@ -16,7 +16,7 @@
 
     <multiselect
             class="multiselect"
-            :disabled="!area"
+            :disabled="!area || area_filter_set"
             v-model="sub_area"
             :options="location_options"
             placeholder="Select sub-area"
