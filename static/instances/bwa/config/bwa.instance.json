@@ -28,10 +28,13 @@
           {
             "property": "__disarm_geo_name",
             "label": "Name"
+          },
+          {
+            "property": "estimated_rooms",
+            "label": "Number of rooms"
           }
         ],
         "aggregation_names": [
-          "number of rooms targeted",
           "number of people in homestead (total)",
           "number of people in the homestead (<5 yrs)",
           "number of people in the homestead (>5 yrs)",
