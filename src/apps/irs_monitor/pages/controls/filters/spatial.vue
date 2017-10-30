@@ -6,6 +6,7 @@
 
     <multiselect
             class="multiselect"
+            :disabled="area_filter_set"
             v-model="area"
             :options="categories"
             placeholder="Select area"
@@ -27,7 +28,7 @@
       <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
     </multiselect>
 
-    <md-button @click="add_filter" :disabled="!area">Add filter</md-button>
+    <md-button @click="add_filter" :disabled="!area || area_filter_set">Add filter</md-button>
 
   </div>
 </template>
@@ -84,13 +85,9 @@
 
 
       // TODO: Fix these and disable inputs
-      area_set() {
-        return this.filters.every(f => f.name.contains('location.selection.category'))
-      },
-
-      sub_area_set() {
-        return this.filters.every(f => f.name.contains('location.selection.id'))
-      },
+      area_filter_set() {
+        return this.filters.some(f => f.name.includes('location.selection.category') || f.name.includes('location.selection.id'))
+      }
     },
     created() {
       this.prepare_fuse()
