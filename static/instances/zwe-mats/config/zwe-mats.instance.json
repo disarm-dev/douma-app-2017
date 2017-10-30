@@ -24,8 +24,8 @@
         "spatial_bins": true,
         "bin_by": "location.selection.id",
         "aggregation_names": [
-          "rooms sprayed %",
-          "rooms sprayed"
+          "structures sprayed %",
+          "structures sprayed"
         ],
         "property_layers": [
           "risk",
@@ -37,8 +37,8 @@
       },
       "table": {
         "aggregation_names": [
-          "rooms sprayed",
-          "rooms sprayed %",
+          "structures sprayed",
+          "structures sprayed %",
 
           "structures not sprayed - locked",
           "structures not sprayed - refused",
@@ -82,7 +82,7 @@
             "chart_type": "bar",
             "bin_by": "team_name",
             "single_series": {
-              "aggregation_name": "rooms sprayed"
+              "aggregation_name": "structures sprayed"
             }
           }
         },
@@ -110,11 +110,11 @@
             },
             "multi_series": [
               {
-                "aggregation_name": "rooms sprayed",
+                "aggregation_name": "structures sprayed",
                 "colour": "green"
               },
               {
-                "aggregation_name": "sprayable rooms not sprayed",
+                "aggregation_name": "sprayable structures not sprayed",
                 "colour": "red"
               }
             ]
@@ -156,7 +156,7 @@
             },
             "chart_type": "pie",
             "bin_by": "_decorated.sprayed_status",
-            "series": [
+            "multi_series": [
               {
                 "aggregation_name": "count"
               }
@@ -185,7 +185,7 @@
             },
             "multi_series": [
               {
-                "aggregation_name": "rooms sprayed %",
+                "aggregation_name": "structures sprayed %",
                 "colour": "green"
               }
             ]
