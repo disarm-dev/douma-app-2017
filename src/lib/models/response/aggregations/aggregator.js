@@ -13,7 +13,7 @@ import {get_denominator_enumerable_name} from 'lib/instance_data/spatial_hierarc
  * @param aggregation {Aggregation Object}
  * @returns {number}
  */
-export function aggregate_on({responses, targets, aggregation}) {
+export function aggregate_on({responses, targets, aggregation, options}) {
   // TODO: @refac Taking an array of aggregations might require fewer iterations of each response --> faster?
   if (!aggregation) throw new Error(`Missing aggregation`)
 
@@ -21,7 +21,7 @@ export function aggregate_on({responses, targets, aggregation}) {
     // Calculate proportion
     try {
       const numerator = _calculate_numerator({responses, ...aggregation})
-      const denominator = _calculate_denominator({responses, targets})
+      const denominator = _calculate_denominator({responses, targets, options})
       const result = numerator / denominator
 
       if (!isNumber(result)) return 0
@@ -35,7 +35,7 @@ export function aggregate_on({responses, targets, aggregation}) {
   } else if (aggregation.hasOwnProperty('numerator_expr')) {
     // Calculate numerator only
     try {
-      const numerator = _calculate_numerator({responses, ...aggregation})
+      const numerator = _calculate_numerator({responses, ...aggregation, options})
       return numerator
     } catch (e) {
       console.log(e)
@@ -98,13 +98,14 @@ function _calculate_numerator({responses, numerator_expr, filter}) {
   }
 }
 
-function _calculate_denominator({responses, targets}) {
+function _calculate_denominator({responses, targets, options}) {
 
   const enumerable_field = get_denominator_enumerable_name()
+  const location_grouping_field = options.bin_by // location.selection.id or location.selection.category
 
   // get all area ids
   const unique_area_ids_from_responses = flow(
-    map('location.selection.id'),
+    map(location_grouping_field),
     uniq
   )(responses)
 

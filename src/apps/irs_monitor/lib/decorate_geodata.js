@@ -4,6 +4,7 @@ import flow from "lodash/fp/flow"
 import map from "lodash/fp/map"
 import compact from "lodash/fp/compact"
 import {featureCollection} from "@turf/helpers"
+import {get_planning_level_name} from "lib/instance_data/spatial_hierarchy_helper"
 
 /**
  *
@@ -28,18 +29,20 @@ export function decorate_geodata({binned_responses, targets, aggregations, optio
   const binned_aggregations = binned_responses.map(bin => {
     let result = {key: bin.key, values: {}}
     aggregations_for_map.forEach(aggregation => {
-      const value = aggregate_on({aggregation: aggregation, responses: bin.values, targets})
+      const value = aggregate_on({aggregation: aggregation, responses: bin.values, targets, options})
       result.values[aggregation.name] = value
     })
     return result
   })
 
+  const planning_level_name = get_planning_level_name()
+  const location_grouping_field =  options.spatial_aggregation_level === planning_level_name ? '__disarm_geo_id' : '__disarm_geo_name'
   // create featureCollection, matching geodata with response bins
   const decorated_features = flow(
     map((feature) => {
 
       const found_bin = binned_aggregations.find((bin) => {
-        return bin.key === String(feature.properties.__disarm_geo_id)
+        return bin.key === String(feature.properties[location_grouping_field])
       })
 
       if (found_bin) {
