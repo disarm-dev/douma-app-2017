@@ -2,7 +2,7 @@ import {nest} from 'd3-collection'
 import isNumber from 'is-number'
 
 import {
-  get_all_spatial_hierarchy_levels, get_denominator_enumerable_name, get_display_name_for_level,
+  get_all_spatial_hierarchy_levels, get_denominator_enumerable_name, get_denominator_fields, get_display_name_for_level,
   get_field_name_for_level,
   get_planning_level_name
 } from "lib/instance_data/spatial_hierarchy_helper"
@@ -90,11 +90,13 @@ function get_aggregated_targets(binned_targets) {
 function decorate_target_level_with_denominator(aggregated_targets, spatial_aggregation_level) {
   const display_field_name = get_display_name_for_level(spatial_aggregation_level)
   const denominator_enumerable_name = get_denominator_enumerable_name()
+  const denominator_fields = get_denominator_fields()
+  const field_name = denominator_fields[denominator_enumerable_name]
 
   cache.geodata[spatial_aggregation_level].features.forEach(feature => {
     const target = aggregated_targets.find(t => t.id === feature.properties[display_field_name])
     if (target) {
-      feature.properties[denominator_enumerable_name] = target[denominator_enumerable_name]
+      feature.properties[field_name] = target[denominator_enumerable_name]
     }
   })
 

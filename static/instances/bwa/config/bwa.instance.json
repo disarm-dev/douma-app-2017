@@ -10,7 +10,7 @@
         ],
         "property_layers": [
           "risk",
-          "NumRooms"
+          "Num_Rooms"
         ],
         "response_point_fields": [
           "recorded_on",
@@ -30,7 +30,7 @@
             "label": "Name"
           },
           {
-            "property": "estimated_rooms",
+            "property": "Num_Rooms",
             "label": "Number of rooms"
           }
         ],

@@ -1,5 +1,6 @@
 import {Parser} from 'expr-eval'
 import isNumber from 'is-number'
+import get from 'lodash.get'
 import flow from 'lodash/fp/flow'
 import compact from 'lodash/fp/compact'
 import map from 'lodash/fp/map'
@@ -99,9 +100,10 @@ function _calculate_numerator({responses, numerator_expr, filter}) {
 }
 
 function _calculate_denominator({responses, targets, options}) {
-
   const enumerable_field = get_denominator_enumerable_name()
-  const location_grouping_field = options.bin_by // location.selection.id or location.selection.category
+
+  // location.selection.id or location.selection.category
+  const location_grouping_field = get(options, 'bin_by', 'location.selection.id')
 
   // get all area ids
   const unique_area_ids_from_responses = flow(
