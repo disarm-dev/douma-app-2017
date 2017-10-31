@@ -1,5 +1,6 @@
 import {Parser} from 'expr-eval'
 import isNumber from 'is-number'
+import numeral from 'numeral'
 import flow from 'lodash/fp/flow'
 import compact from 'lodash/fp/compact'
 import map from 'lodash/fp/map'
@@ -25,8 +26,7 @@ export function aggregate_on({responses, targets, aggregation, previous_aggregat
       const result = numerator / denominator
 
       if (!isNumber(result)) return 0
-
-      return result * 100
+      return numeral(result * 100).format('0.[00]')
     } catch (e) {
       console.log(e)
       return 0
