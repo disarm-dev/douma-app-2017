@@ -37,14 +37,16 @@ function decorate_targets(targets) {
   // Find the planning_level feature and get the category from that
   // get planning_level.group_by_field of each
 
-  const field_name = get_field_name_for_level(planning_level_name)
-
   const decorated_targets = targets.map(t => {
-    const feature = cache.geodata[planning_level_name].features.find(feature => {
-      return feature.properties[field_name] == t.id
+    const features = cache.geodata[planning_level_name].features
+    const feature = features.find(feature => {
+      return feature.properties.__disarm_geo_id == t.id
     })
 
-    t.category = feature.properties[category_field]
+    if (feature) {
+      t.category = feature.properties[category_field]
+    }
+
     return t
   })
 
@@ -96,6 +98,7 @@ function decorate_target_level_with_denominator(aggregated_targets, spatial_aggr
   cache.geodata[spatial_aggregation_level].features.forEach(feature => {
     const target = aggregated_targets.find(t => t.id === feature.properties[display_field_name])
     if (target) {
+
       feature.properties[field_name] = target[denominator_enumerable_name]
     }
   })
