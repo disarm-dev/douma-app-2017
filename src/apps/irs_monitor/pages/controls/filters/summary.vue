@@ -8,17 +8,20 @@
 </template>
 
 <script>
-  import moment from 'moment-mini'
-
   export default {
     name: 'filter-summary',
     props: ['filters'],
     computed: {
       formatted_filters() {
         return this.filters.map(f => {
-          if (f.name === 'recorded_on') {
-            f.value = moment(new Date(f.value)).format("MMM Do YYYY")
+          if (f.hasOwnProperty('display_value')) {
+            f.value = f.display_value
           }
+
+          if (f.hasOwnProperty('display_name')) {
+            f.name = f.display_name
+          }
+
           return f
         })
       }
