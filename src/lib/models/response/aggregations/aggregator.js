@@ -37,7 +37,7 @@ export function aggregate_on({responses, targets, aggregation, previous_aggregat
     try {
       const numerator = _calculate_numerator({responses, ...aggregation})
 
-      if (!previous_aggregations[aggregation.denominator_aggregation]) console.log('Dont have aggregation yet')
+      if (!previous_aggregations[aggregation.denominator_aggregation]) console.log('Don\'t have aggregation yet', aggregation)
 
       const denominator = previous_aggregations[aggregation.denominator_aggregation]
       const result = numerator / denominator
