@@ -30,7 +30,7 @@
             "label": "Name"
           },
           {
-            "property": "estimated_rooms",
+            "property": "Num_Rooms",
             "label": "Number of rooms"
           }
         ],
