@@ -6,6 +6,7 @@ export const UserSchema = schema({
   name: String,
   username: String,
   instance_slug: String,
+  key: String,
   allowed_apps: {
     read: Array.of_x(1, Infinity, String),
     write: Array.of_x(0, Infinity, String)

@@ -3,8 +3,9 @@ import BUILD_TIME from 'config/build-time'
 export default {
   api: {
     // Standard DOUMA API
-    url: BUILD_TIME.BRANCH === 'master' ? 'https://douma-api.herokuapp.com' : 'https://douma-api-stage.herokuapp.com',
-    version: 'v3',
+    //url: BUILD_TIME.BRANCH === 'master' ? 'https://douma-api.herokuapp.com' : 'https://douma-api-stage.herokuapp.com',
+    url: 'http://localhost:3000',
+    version: 'v4',
 
     // Currently not used
     WEATHER_API_URL: 'https://weather.api.disarm.io/processor/output',

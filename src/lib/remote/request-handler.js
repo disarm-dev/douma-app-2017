@@ -36,8 +36,7 @@ export function request_handler(request) {
 
   const personalised_instance_id = get(store, 'state.meta.personalised_instance_id')
   const country = get(store, 'state.instance_config.instance.slug')
-  const user = get(store, 'state.user.username')
-  const user_token = 'IMPLEMENTATION still REQUIRED'
+  const api_key = get(store, 'state.meta.user.key')
 
   const default_options = {}
 
@@ -51,8 +50,10 @@ export function request_handler(request) {
     personalised_instance_id,
     country,
     instance_slug: country, // TODO: @refac remove 'country' property
-    user,
-    user_token
+  }
+
+  default_options.headers = {
+    'API-Key': api_key
   }
 
   const assigned_options = Object.assign(default_options, request)

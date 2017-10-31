@@ -18,6 +18,7 @@ export default {
       state.previous_route = previous_route
     },
     set_user: (state, user) => {
+      console.log('Setting user', user)
       state.user = user
     },
     set_personalised_instance_id: (state, personalised_instance_id) => {
@@ -53,6 +54,7 @@ export default {
         }
 
         const authenticated_user = new User(response)
+        console.log('Authenticated user', authenticated_user)
 
         // You have a valid, authenticated user
         if (authenticated_user.is_valid()) {
