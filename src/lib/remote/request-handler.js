@@ -60,7 +60,11 @@ export function request_handler(request) {
 
   return HTTP(assigned_options)
     .then(json => json.data)
-
+    .catch(err => {
+      if (request.url_suffix !== '/login') {
+        return store.commit('root:set_snackbar', {message: 'Current API key is not valid. Please log out and try to login again.'}, {root: true})
+      }
+    })
 }
 
 
