@@ -24,7 +24,7 @@
           "structures sprayed %"
         ],
         "property_layers": [
-          "Fnl_l_1"
+          {"property": "Fnl_l_1", "label": "Name"}
         ]
       },
       "charts": [

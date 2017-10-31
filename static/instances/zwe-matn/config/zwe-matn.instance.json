@@ -28,7 +28,7 @@
           "rooms sprayed %"
         ],
         "property_layers": [
-          "risk"
+          {"property": "risk", "label": "Risk"}
         ],
         "response_point_fields": [
           "recorded_on"

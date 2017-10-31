@@ -41,7 +41,7 @@
           "rooms sprayed %"
         ],
         "property_layers": [
-          "name"
+          {"property": "name", "label": "Name"}
         ],
         "bin_by": "location.selection.name",
         "chart_type": "table"
