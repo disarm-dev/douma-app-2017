@@ -18,7 +18,6 @@ export default {
       state.previous_route = previous_route
     },
     set_user: (state, user) => {
-      console.log('Setting user', user)
       state.user = user
     },
     set_personalised_instance_id: (state, personalised_instance_id) => {
@@ -48,13 +47,17 @@ export default {
           return Promise.reject(response)
         }
 
+        // Reject user if login or password is incorrect
+        if (response.status === 401) {
+          return Promise.reject({error: 'User with this username or password is not found.'})
+        }
+
         // Reject user if not authorised for this instance
         if (response.instance_slug !== context.rootState.instance_config.instance.slug && response.instance_slug !== 'all') {
           return Promise.reject({error: 'User not authenticated for this instance'})
         }
 
         const authenticated_user = new User(response)
-        console.log('Authenticated user', authenticated_user)
 
         // You have a valid, authenticated user
         if (authenticated_user.is_valid()) {
