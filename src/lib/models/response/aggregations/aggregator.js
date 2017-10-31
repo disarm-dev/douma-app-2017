@@ -13,7 +13,7 @@ import {get_denominator_enumerable_name} from 'lib/instance_data/spatial_hierarc
  * @param aggregation {Aggregation Object}
  * @returns {number}
  */
-export function aggregate_on({responses, targets, aggregation}) {
+export function aggregate_on({responses, targets, aggregation, previous_aggregations}) {
   // TODO: @refac Taking an array of aggregations might require fewer iterations of each response --> faster?
   if (!aggregation) throw new Error(`Missing aggregation`)
 
@@ -22,6 +22,24 @@ export function aggregate_on({responses, targets, aggregation}) {
     try {
       const numerator = _calculate_numerator({responses, ...aggregation})
       const denominator = _calculate_denominator({responses, targets})
+      const result = numerator / denominator
+
+      if (!isNumber(result)) return 0
+
+      return result * 100
+    } catch (e) {
+      console.log(e)
+      return 0
+    }
+
+  } else if (aggregation.hasOwnProperty('numerator_expr') && aggregation.hasOwnProperty('denominator_aggregation')) {
+    // Calculate proportion
+    try {
+      const numerator = _calculate_numerator({responses, ...aggregation})
+
+      if (!previous_aggregations[aggregation.denominator_aggregation]) console.log('Dont have aggregation yet')
+
+      const denominator = previous_aggregations[aggregation.denominator_aggregation]
       const result = numerator / denominator
 
       if (!isNumber(result)) return 0
@@ -88,7 +106,8 @@ export function categorical_aggregator(responses, expression) {
 }
 
 function _calculate_numerator({responses, numerator_expr, filter}) {
-  const expression = new Parser.parse(numerator_expr)
+  const options = { operators: { 'in': true } }
+  const expression = new Parser(options).parse(numerator_expr)
 
   if (filter) {
     const result = categorical_aggregator(responses, expression)

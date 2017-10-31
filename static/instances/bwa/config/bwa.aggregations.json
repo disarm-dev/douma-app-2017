@@ -60,7 +60,7 @@
   },
   {
     "name": "Number of sprayable rooms not sprayed",
-    "numerator_expr": "number_of_rooms_not_sprayed - n_rooms_material"
+    "numerator_expr": "number_of_rooms_not_sprayed"
   },
 
   // Refusal reasons below
@@ -73,9 +73,8 @@
   },
   {
     "name": "number of rooms not sprayed - locked (%)",
-    "numerator_expr": "unsprayed_reason",
-    "filter": "locked",
-    "denominator_field": "estimated_rooms"
+    "numerator_expr": "'locked' in unsprayed_reason ? 1 : 0",
+    "denominator_aggregation": "Number of sprayable rooms not sprayed"
   },
 
   // Nobody
