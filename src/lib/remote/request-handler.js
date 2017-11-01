@@ -61,17 +61,12 @@ export function request_handler(request) {
   return HTTP(assigned_options)
     .then(json => json.data)
     .catch(err => {
-      // We treat any error on /login route as a valid response
-      // Any other route treats 401 as a valid respone
-      // Otherwise it propagates the error further
-      if (request.url_suffix !== '/login') {
-        if (err.response.status === 401) {
-          return store.commit('root:set_snackbar', {message: 'Current API key is not valid. Please log out and try to login again.'}, {root: true})
-        } else {
-          return Promise.reject(err)
-        }
+      // Any route other than login which receives 401 needs to tell user
+      // Any other errors should be propogated
+      if (request.url_suffix !== '/login' && err.response.status === 401) {
+        throw {message: 'Current API key is not valid. Please log out and try to login again.'}
       } else {
-          return err.response
+        throw err
       }
     })
 }

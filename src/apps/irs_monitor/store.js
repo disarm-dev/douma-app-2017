@@ -140,15 +140,9 @@ export default {
       const instance_slug = context.rootState.instance_config.instance.slug
       return remote.read_plan_current(instance_slug)
         .then(plan_json => {
-          if (Object.keys(plan_json).length === 0) throw new Error('No plan created. Please create one.')
-          try {
-            new Plan().validate(plan_json)
-            context.commit('set_plan', plan_json)
-          } catch (e) {
-            console.error(e)
-            context.commit('root:set_snackbar', {message: 'ERROR: Plan is not valid'}, {root: true})
-          }
-
+          if (Object.keys(plan_json).length === 0) throw {message: 'No plan created. Please create one.'}
+          if (!new Plan().validate(plan_json)) throw {message: 'Plan is not valid'}
+          context.commit('set_plan', plan_json)
         })
     }
   }
