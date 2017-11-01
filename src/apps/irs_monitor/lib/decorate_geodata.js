@@ -50,7 +50,13 @@ export function decorate_geodata({binned_responses, targets, aggregations, optio
           ...feature.properties,
           ...found_bin.values
         }
+        if (options.limit_to_plan) {
+          return feature
+        }
       } else {
+        if (options.limit_to_plan) {
+          return false
+        }
         // Decorate the feature with the aggregations and set values to 0
 
         const empty_aggregations = aggregations_for_map.reduce((acc, aggregation) => {
@@ -67,7 +73,7 @@ export function decorate_geodata({binned_responses, targets, aggregations, optio
       return feature
     }),
     compact
-  )(selected_geodata_level_fc.features)
+  )(selected_geodata_level_fc.features).filter(a => a)
 
 
   // return a featureCollection
