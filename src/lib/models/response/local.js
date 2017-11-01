@@ -1,16 +1,23 @@
-// create local DB
-// apply schema to local DB
-// add version-migrations as required
+import {db} from 'lib/local_db'
 
-export default {read_all, create}
+export default class Local {
+  constructor(applet_name) {
+    this.table = db[applet_name + '/responses']
+  }
 
-async function read_all() {
-  return console.warn('noop')
+  async read_all() {
+    return await this.table.toArray()
+  }
 
+  async create(response) {
+    await this.table.add(response)
+  }
+
+  async create_bulk(responses) {
+    await this.table.bulkAdd(responses)
+  }
+
+  async remove_all() {
+    await this.table.clear()
+  }
 }
-
-async function create(records) {
-  return console.warn('noop')
-}
-
-

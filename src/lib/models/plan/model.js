@@ -1,3 +1,5 @@
+import uuid from 'uuid/v4'
+
 import cache from 'config/cache'
 import {get_planning_level_name, get_denominator_fields} from 'lib/instance_data/spatial_hierarchy_helper'
 import {PlanSchema} from './schemas/schema'
@@ -12,7 +14,8 @@ export class Plan {
     this.model = {
       focus_filter_area,
       targets: decorated_targets,
-      country: country
+      country: country,
+      id: uuid()
     }
 
     this.validate(this.model)

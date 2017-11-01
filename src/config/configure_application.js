@@ -27,8 +27,9 @@ import {add_network_status_watcher} from 'lib/helpers/network_status.js'
 import pubsubcache from 'lib/helpers/pubsubcache'
 import {need_to_update} from 'lib/remote/check-application-version'
 import {set_raven_user_context} from 'config/error_tracking.js'
-
+import {instantiate_axios_instance} from 'lib/remote/axios_instance'
 import BUILD_TIME from 'config/build-time'
+import {clean_up_local_dbs} from "lib/local_db"
 
 
 /**
@@ -49,8 +50,6 @@ export function configure_application (instance_config) {
   // Make Vuex#$store and replace rehydrated (by vuex-persistedstate) instance_config with received instance_config
   // (Required for the app)
   const store = create_store(instance_config, instance_applets_stores_and_routes.stores)
-
-
 
   // Create Vue#$router from what you got
   // (Required for the app)
@@ -76,6 +75,8 @@ export function configure_application (instance_config) {
   // (Vue injects $ga in every component)
   instantiate_analytics(router)
 
+  // Clean up old dbs, do migrations/upgrades here in the future
+  clean_up_local_dbs()
 
 
   // CREATE VUE APP
