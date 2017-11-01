@@ -9,8 +9,8 @@
           "room spray coverage (%)"
         ],
         "property_layers": [
-          "risk",
-          "Num_Rooms"
+          {"property": "risk", "label": "Risk"},
+          {"property": "Num_Rooms", "label": "Number of rooms"}
         ],
         "response_point_fields": [
           "recorded_on",

@@ -6,7 +6,7 @@
       <md-input-container class="filter_field">
         <label>Select field and value</label>
 
-        <md-select v-model="filter_name" class="select">
+        <md-select v-model="filter_name" class="select" :disabled="!field_names.length">
           <md-option v-for="field_name in field_names" :key='field_name' :value="field_name">{{field_name}}</md-option>
         </md-select>
 
@@ -14,7 +14,7 @@
           <md-option v-for="comparator in comparators" :key="comparator" :value="comparator">{{comparator}}</md-option>
         </md-select>
 
-        <md-select v-model="filter_value" class="select">
+        <md-select v-model="filter_value" class="select" :disabled="!field_values.length">
           <md-option v-for="value in field_values" :key="value" :value="value">{{value}}</md-option>
         </md-select>
       </md-input-container>

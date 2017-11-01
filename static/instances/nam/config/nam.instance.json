@@ -9,8 +9,8 @@
           "# Sprayed structures"
         ],
         "property_layers": [
-          "risk",
-          "NumStructu"
+          {"property": "risk", "label": "Risk"},
+          {"property": "NumStructu", "label": "Number of structures"}
         ],
         "response_point_fields": [
           "recorded_on"

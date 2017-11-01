@@ -230,18 +230,7 @@
         const aggregation_names = this.options.aggregation_names
         const property_layers = this.options.property_layers
 
-        let properties_to_show = []
-
-        if (Array.isArray(aggregation_names)) {
-          properties_to_show = properties_to_show.concat(aggregation_names)
-        }
-
-        if (Array.isArray(property_layers)) {
-          properties_to_show = properties_to_show.concat(property_layers)
-        }
-
-        if (!properties_to_show.length) return
-
+        if (!property_layers.concat(aggregation_names).length) return
 
         // Display the prepared data
 
@@ -255,8 +244,12 @@
 
           if (feature) {
             // get properties from options
-            const property_paragraphs = properties_to_show.map(property => {
+            const aggregation_paragraphs = aggregation_names.map(property => {
               return `<p>${property} : ${feature.properties[property]}</p>`
+            }).join('')
+
+            const property_paragraphs = property_layers.map(({property, label}) => {
+              return `<p>${label} : ${feature.properties[property]}</p>`
             }).join('')
 
 
@@ -264,6 +257,7 @@
               .setLngLat(e.lngLat)
               .setHTML(`
                 <p><b>${feature.properties.__disarm_geo_name}</b></p>
+                ${aggregation_paragraphs}
                 ${property_paragraphs}
               `)
               .addTo(this._map);
