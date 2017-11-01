@@ -50,6 +50,7 @@ export function configure_application (instance_config) {
   // Make Vuex#$store and replace rehydrated (by vuex-persistedstate) instance_config with received instance_config
   // (Required for the app)
   const store = create_store(instance_config, instance_applets_stores_and_routes.stores)
+  store.commit('root:set_instance_config', instance_config)
 
   // Create Vue#$router from what you got
   // (Required for the app)
