@@ -1,5 +1,7 @@
 import remote from './remote'
 import Local from './local'
+import instance_decorator from 'lib/models/response/decorators-evaluated'
+import {store} from 'apps/store'
 
 export class ResponseController {
   constructor(applet_name) {
@@ -13,7 +15,7 @@ export class ResponseController {
 
     // const responses = decorate_responses_from_json(res, context.rootState.instance_config)
 
-    // const decorated_responses = instance_decorator(responses, context.rootState.instance_config)
+    const decorated_responses = instance_decorator(remote_responses, store.state.instance_config)
 
     // validate and report on errors
     // const valid_responses = validate_responses(remote_responses)
@@ -25,7 +27,7 @@ export class ResponseController {
     await this.local.remove_all()
 
     // populate local DB
-    await this.local.create_bulk(remote_responses)
+    await this.local.create_bulk(decorated_responses)
 
     // return them
     return remote_responses
