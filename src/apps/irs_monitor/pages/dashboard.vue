@@ -117,11 +117,14 @@
           // We have an array of chart configurations
           const chart_configs = options
 
+          const dashboard_options_clone = clone_deep(this.dashboard_options)
+          delete dashboard_options_clone.bin_by
+
           return chart_configs.map(config => {
             let clone = clone_deep(config)
             clone.options = {
               ...clone.options,
-              ...this.dashboard_options
+              ...dashboard_options_clone
             }
             return clone
           })
