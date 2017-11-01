@@ -13,6 +13,9 @@ var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = process.env.NODE_ENV === 'testing'
   ? require('./webpack.prod.conf')
   : require('./webpack.dev.conf')
+var webpackLoaderConfig = webpackConfig[0]
+var webpackSWConfig = webpackConfig[1]
+var webpackAppConfig = webpackConfig[2]
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
@@ -23,23 +26,35 @@ var autoOpenBrowser = !!config.dev.autoOpenBrowser
 var proxyTable = config.dev.proxyTable
 
 var app = express()
-var compiler = webpack(webpackConfig)
+var appCompiler = webpack(webpackAppConfig)
+var loaderCompiler = webpack(webpackLoaderConfig)
+var swCompiler = webpack(webpackSWConfig)
 
-var devMiddleware = require('webpack-dev-middleware')(compiler, {
-  publicPath: webpackConfig.output.publicPath,
+var loaderMiddleware = require('webpack-dev-middleware')(loaderCompiler, {
+  publicPath: webpackAppConfig.output.publicPath,
   quiet: true
 })
 
-var hotMiddleware = require('webpack-hot-middleware')(compiler, {
+var swMiddleware = require('webpack-dev-middleware')(swCompiler, {
+  publicPath: webpackAppConfig.output.publicPath,
+  quiet: true
+})
+
+var devMiddleware = require('webpack-dev-middleware')(appCompiler, {
+  publicPath: webpackAppConfig.output.publicPath,
+  quiet: true
+})
+
+var hotMiddleware = require('webpack-hot-middleware')(appCompiler, {
   log: () => {}
 })
-// force page reload when html-webpack-plugin template changes
-compiler.plugin('compilation', function (compilation) {
-  compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
-    hotMiddleware.publish({ action: 'reload' })
-    cb()
-  })
-})
+// // force page reload when html-webpack-plugin template changes
+// compiler.plugin('compilation', function (compilation) {
+//   compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
+//     hotMiddleware.publish({ action: 'reload' })
+//     cb()
+//   })
+// })
 
 // proxy api requests
 Object.keys(proxyTable).forEach(function (context) {
@@ -54,6 +69,8 @@ Object.keys(proxyTable).forEach(function (context) {
 app.use(require('connect-history-api-fallback')())
 
 // serve webpack bundle output
+app.use(loaderMiddleware)
+app.use(swMiddleware)
 app.use(devMiddleware)
 
 // enable hot-reload and state-preserving
@@ -89,3 +106,4 @@ module.exports = {
     server.close()
   }
 }
+

@@ -9,7 +9,6 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 var LicenseWebpackPlugin = require('license-webpack-plugin')
-var SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 var Visualizer = require('webpack-visualizer-plugin');
 
 var env = config.build.env
@@ -129,3 +128,4 @@ if (config.build.bundleAnalyzerReport) {
 }
 
 module.exports = webpackConfig
+
