@@ -1,6 +1,7 @@
 import {Parser} from 'expr-eval'
 import isNumber from 'is-number'
 import numeral from 'numeral'
+import {get} from 'lodash'
 import flow from 'lodash/fp/flow'
 import compact from 'lodash/fp/compact'
 import map from 'lodash/fp/map'
@@ -14,7 +15,7 @@ import {get_denominator_enumerable_name} from 'lib/instance_data/spatial_hierarc
  * @param aggregation {Aggregation Object}
  * @returns {number}
  */
-export function aggregate_on({responses, targets, aggregation, previous_aggregations}) {
+export function aggregate_on({responses, targets, aggregation, previous_aggregations, options}) {
   // TODO: @refac Taking an array of aggregations might require fewer iterations of each response --> faster?
   if (!aggregation) throw new Error(`Missing aggregation`)
 
@@ -37,7 +38,7 @@ export function aggregate_on({responses, targets, aggregation, previous_aggregat
     try {
       const numerator = _calculate_numerator({responses, ...aggregation})
 
-      if (!previous_aggregations[aggregation.denominator_aggregation]) console.log('Don\'t have aggregation yet', aggregation)
+      if (!previous_aggregations.hasOwnProperty(aggregation.denominator_aggregation)) console.log(`Don't have dependent aggregation of "${aggregation.denominator_aggregation}" for "${aggregation.name}"`)
 
       const denominator = previous_aggregations[aggregation.denominator_aggregation]
       const result = numerator / denominator
