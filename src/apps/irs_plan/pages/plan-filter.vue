@@ -4,6 +4,8 @@
       <h4>Select area to focus plan on</h4>
       <p>With an area selected, you won't be able to edit or save anywhere else.</p>
       <multiselect
+        :disabled="unsaved_changes"
+
         :value="selected_filter_area_option"
         @select="select_filter"
         :options="filter_options"
@@ -33,6 +35,7 @@
   export default {
     name: 'plan-filter',
     components: {Multiselect},
+    props: ['unsaved_changes'],
     mounted() {
     },
     computed: {
