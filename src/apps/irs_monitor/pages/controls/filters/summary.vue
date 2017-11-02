@@ -8,12 +8,15 @@
 </template>
 
 <script>
+    import {cloneDeep} from 'lodash'
   export default {
     name: 'filter-summary',
     props: ['filters'],
     computed: {
       formatted_filters() {
-        return this.filters.map(f => {
+        const cloned_filters = cloneDeep(this.filters)
+
+        return cloned_filters.map(f => {
           if (f.hasOwnProperty('display_value')) {
             f.value = f.display_value
           }
