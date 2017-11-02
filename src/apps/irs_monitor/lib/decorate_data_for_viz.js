@@ -1,5 +1,5 @@
 // find the correct aggregations for the chart
-import {get, has} from 'lodash'
+import {get, has, uniq} from 'lodash'
 import {aggregate_on} from 'lib/models/response/aggregations/aggregator'
 import {decorate_geodata} from "apps/irs_monitor/lib/decorate_geodata"
 
@@ -135,9 +135,18 @@ export function decorate_for_static_pie({responses, targets, aggregations, optio
 }
 
 export function decorate_for_dynamic_pie({responses, targets, aggregations, options}) {
+  const stats = responses.reduce((acc, response) => {
+    const source = get(response, options.generate_series_from, false)
+    if (source) {
+      acc[source] = acc[source] || 0
+      acc[source] += 1
+    }
+    return acc
+  }, {})
+
   return [{
-    labels: ['red'],
-    values: [123],
+    labels: Object.keys(stats),
+    values: Object.values(stats),
     type: 'pie'
   }]
 }
