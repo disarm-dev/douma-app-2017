@@ -65,7 +65,7 @@ export function request_handler(request) {
       // Any other errors should be propogated
       if (request.url_suffix !== '/login' && err.response.status === 401) {
         store.commit('root:set_snackbar', {message: 'Current API key is not valid. Please log out and try to login again.'}, {root: true})
-        throw {message: 'Current API key is not valid. Please log out and try to login again.'}
+        throw err
       } else {
         throw err
       }
