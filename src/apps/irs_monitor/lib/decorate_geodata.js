@@ -31,7 +31,7 @@ export function decorate_geodata({binned_responses, targets, aggregations, optio
     let result = {key: bin.key, values: {}}
     let previous_aggregations = {}
     aggregations_for_map.forEach(aggregation => {
-      const value = aggregate_on({aggregation: aggregation, responses: bin.values, targets, previous_aggregations})
+      const value = aggregate_on({aggregation, responses: bin.values, targets, previous_aggregations, options})
       previous_aggregations[aggregation.name] = value
       result.values[aggregation.name] = value
     })

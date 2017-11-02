@@ -99,7 +99,7 @@
                 "colour": "green"
               },
               {
-                "aggregation_name": "sprayable rooms not sprayed",
+                "aggregation_name": "sprayable structures not sprayed",
                 "colour": "red"
               }
             ]

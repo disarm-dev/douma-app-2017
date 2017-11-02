@@ -30,7 +30,8 @@ function decorate_single_series({binned_responses, targets, aggregations, option
   let cumulative_value = 0 // Only used for cumulative counts
   let previous_aggregations = {}
   return binned_responses.map(bin => {
-    let value = aggregate_on({aggregation: series.aggregation, responses: bin.values, targets, previous_aggregations})
+
+    let value = aggregate_on({aggregation: series.aggregation, responses: bin.values, targets, previous_aggregations, options})
     previous_aggregations[series.aggregation.name] = value
 
     if (options.cumulative) {
@@ -74,7 +75,8 @@ function decorate_multi_series({binned_responses, targets, aggregations, options
     let cumulative_value = 0// Only used for cumulative counts
     let previous_aggregations = {}
     binned_responses.forEach(bin => {
-      let value = aggregate_on({aggregation: series.aggregation, responses: bin.values, targets, previous_aggregations})
+
+      let value = aggregate_on({aggregation: series.aggregation, responses: bin.values, targets, previous_aggregations, options})
       previous_aggregations[series.aggregation.name] = value
 
       if (options.cumulative) {
@@ -125,7 +127,8 @@ export function decorate_for_pie({responses, targets, aggregations, options}) {
 
   let previous_aggregations = {}
   series_for_chart.forEach(({aggregation, colour}) => {
-    const value = aggregate_on({aggregation, responses, targets, previous_aggregations})
+
+    const value = aggregate_on({aggregation, responses, targets, previous_aggregations, options})
     previous_aggregations[aggregation.name] = value
     output.labels.push(aggregation.name)
     output.values.push(value)
