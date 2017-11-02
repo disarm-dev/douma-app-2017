@@ -24,6 +24,7 @@
             track-by="id"
             label="name"
             :internal-search="false"
+            :allow-empty="true"
             @search-change="search"
     >
       <span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
@@ -118,7 +119,8 @@
       },
 
       add_area() {
-        this.$emit('change', {name: 'location.selection.id', comparator: '==', value: this.sub_area.id, display_value: this.sub_area.name})
+        const filter = {name: 'location.selection.id', comparator: '==', value: this.sub_area.id, display_value: this.sub_area.name}
+        this.$emit('change', filter)
       }
     }
   }
