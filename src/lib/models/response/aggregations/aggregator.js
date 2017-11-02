@@ -122,7 +122,7 @@ function _calculate_denominator({responses, targets, options}) {
   const enumerable_field = get_denominator_enumerable_name()
 
   // location.selection.id or location.selection.category
-  const location_grouping_field = get(options, 'bin_by', 'location.selection.id')
+  const location_grouping_field = get(options, "geographic_level_refactor_this_key_name", false) || get(options, 'bin_by', 'location.selection.id')
 
   // get all area ids
   const unique_area_ids_from_responses = flow(

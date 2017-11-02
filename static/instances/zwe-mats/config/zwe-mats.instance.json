@@ -140,12 +140,7 @@
               "title": "Sprayed status proportion"
             },
             "chart_type": "pie",
-            "bin_by": "_decorated.sprayed_status",
-            "series": [
-              {
-                "aggregation_name": "count"
-              }
-            ]
+            "generate_series_from": "_decorated.sprayed_status"
           }
         },
         {
@@ -158,6 +153,7 @@
             "chart_type": "line",
             "time_series": true,
             "bin_by": "recorded_on",
+            "geographic_level_refactor_this_key_name": "location.selection.id",
             "layout": {
               "showlegend": true,
               "title": "Room coverage % of target",
