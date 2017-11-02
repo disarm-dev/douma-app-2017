@@ -1,5 +1,5 @@
 // find the correct aggregations for the chart
-import {get, has} from 'lodash'
+import {get, has, uniq} from 'lodash'
 import {aggregate_on} from 'lib/models/response/aggregations/aggregator'
 import {decorate_geodata} from "apps/irs_monitor/lib/decorate_geodata"
 
@@ -103,15 +103,15 @@ function decorate_multi_series({binned_responses, targets, aggregations, options
 }
 
 
-/**
- * For a pie chart, apply correct aggregation to each bin of responses
- * @param responses
- * @param options
- * @param aggregations
- * @param targets
- * @return {array} - Array of things for a chart
- */
 export function decorate_for_pie({responses, targets, aggregations, options}) {
+  if (options.hasOwnProperty('generate_series_from')) {
+    return decorate_for_dynamic_pie({responses, targets, aggregations, options})
+  } else {
+    return decorate_for_static_pie({responses, targets, aggregations, options})
+  }
+}
+
+export function decorate_for_static_pie({responses, targets, aggregations, options}) {
   const series_for_chart = options.multi_series.map(serie => {
     return {
       aggregation: aggregations.find(a => a.name === serie.aggregation_name),
@@ -136,6 +136,24 @@ export function decorate_for_pie({responses, targets, aggregations, options}) {
 
   return [output]
 }
+
+export function decorate_for_dynamic_pie({responses, targets, aggregations, options}) {
+  const stats = responses.reduce((acc, response) => {
+    const source = get(response, options.generate_series_from, false)
+    if (source) {
+      acc[source] = acc[source] || 0
+      acc[source] += 1
+    }
+    return acc
+  }, {})
+
+  return [{
+    labels: Object.keys(stats),
+    values: Object.values(stats),
+    type: 'pie'
+  }]
+}
+
 
 export function decorate_for_table({binned_responses, targets, aggregations, options}){
   const static_fields = get(options, 'property_layers', [])
