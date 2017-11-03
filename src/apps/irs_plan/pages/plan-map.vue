@@ -356,8 +356,7 @@
 
       },
       redraw_target_areas() {
-
-        if (this._map) {
+        if (this._map && this._map.loaded()   ) {
           // redraw target areas
           this.remove_target_areas()
           this.add_target_areas()
