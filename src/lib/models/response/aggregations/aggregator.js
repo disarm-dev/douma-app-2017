@@ -23,7 +23,7 @@ export function aggregate_on({responses, targets, aggregation, previous_aggregat
     // Calculate proportion
     try {
       const numerator = _calculate_numerator({responses, ...aggregation})
-      const denominator = _calculate_denominator({responses, targets, options})
+      const denominator = _calculate_denominator({responses, targets, options, aggregation})
       const result = numerator / denominator
 
       if (!isNumber(result)) return 0
@@ -118,7 +118,7 @@ function _calculate_numerator({responses, numerator_expr, filter}) {
   }
 }
 
-function _calculate_denominator({responses, targets, options}) {
+function _calculate_denominator({responses, targets, options, aggregation}) {
   const enumerable_field = get_denominator_enumerable_name()
 
   // location.selection.id or location.selection.category
