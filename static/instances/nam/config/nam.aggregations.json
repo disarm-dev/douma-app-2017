@@ -23,29 +23,18 @@
   },
   {
     "name": "sprayable structures not sprayed",
-    "numerator_expr": "number_sprayable - (numbersprayed_delta + numbersprayed_ddt)"
+    "numerator_expr": "number_unsprayed"
   },
-  {
-    "name": "sprayable structures not sprayed (refused)",
-    "numerator_expr": "number_sprayable - (numbersprayed_delta + numbersprayed_ddt)"
-  },
-  {
-    "name": "sprayable structures not sprayed (refused) %",
-    "numerator_expr": "number_sprayable - (numbersprayed_delta + numbersprayed_ddt)",
-    "denominator_field": "NumStructu"
-  },
-
-
 
   {
     "name": "% refused",
-    "numerator_expr": "reasons_for_not_spraying == 'refused' ? 1 : 0",
-    "denominator_aggregation": "sprayable structures not sprayed"
+    "numerator_expr": "reasons_for_not_spraying == 'refused' ? number_unsprayed : 0",
+    "denominator_field": "NumStructu"
   },
   {
     "name": "% locked",
-    "numerator_expr": "reasons_for_not_spraying == 'locked' ? 1 : 0",
-    "denominator_aggregation": "sprayable structures not sprayed"
+    "numerator_expr": "reasons_for_not_spraying == 'locked' ? number_unsprayed : 0",
+    "denominator_field": "NumStructu"
   }
 ]
 
