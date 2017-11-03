@@ -102,6 +102,7 @@
             "chart_type": "line",
             "time_series": true,
             "bin_by": "recorded_on",
+            "geographic_level_refactor_this_key_name": "location.selection.id",
             "multi_series": [{
               "aggregation_name": "room spray coverage (%)"
             }]
