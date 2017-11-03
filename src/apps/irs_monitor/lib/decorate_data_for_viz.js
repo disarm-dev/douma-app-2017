@@ -1,5 +1,7 @@
 // find the correct aggregations for the chart
-import {get, has, uniq} from 'lodash'
+import {get, has, uniq, isNumber} from 'lodash'
+import numeral from 'numeral'
+
 import {aggregate_on} from 'lib/models/response/aggregations/aggregator'
 import {decorate_geodata} from "apps/irs_monitor/lib/decorate_geodata"
 
@@ -168,7 +170,14 @@ export function decorate_for_table({binned_responses, targets, aggregations, opt
     }
 
     for (const aggregation_name of aggregation_names) {
-      row[aggregation_name] = f.properties[aggregation_name]
+      const value = f.properties[aggregation_name]
+
+      if (isNumber(value)) {
+        const formatted_value = numeral(value * 100).format('0.[00]')
+        row[aggregation_name] = formatted_value
+      } else {
+        row[aggregation_name] = value
+      }
     }
     return row
   })
