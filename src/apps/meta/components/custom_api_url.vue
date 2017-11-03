@@ -1,10 +1,14 @@
 <template>
   <md-card v-if="instance_allows_custom_api_url">
     <md-card-header>
-      <div>Use the box below to change the API Server URL if you've been given one and it's not already set below.</div>
+      <div v-if="!show_api_url_config" @click="show_api_url_config = !show_api_url_config">API url: {{custom_api_url}}
+        <md-icon>edit</md-icon>
+      </div>
+      <div v-if="show_api_url_config" @click="show_api_url_config = !show_api_url_config">Hide</div>
     </md-card-header>
 
-    <md-card-content>
+    <md-card-content v-if="show_api_url_config">
+      <div>Change the API Server URL if you've been given one and it's not already set below.</div>
       <md-input-container>
         <md-input v-model="custom_api_url"></md-input>
 
@@ -29,6 +33,7 @@
     },
     data() {
       return {
+        show_api_url_config: false,
         custom_api_url: retrieve_stored_param(key) || CONFIG.api.url
       }
     },
