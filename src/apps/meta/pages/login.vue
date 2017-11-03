@@ -25,6 +25,8 @@
      </md-card-content>
     </md-card>
 
+    <custom_api_url></custom_api_url>
+
     <p>
       Version: {{commit_hash}}
       <span
@@ -53,11 +55,12 @@
 <script>
   import {mapState} from 'vuex'
   import {get} from 'lodash'
-
+  import custom_api_url from '../components/custom_api_url.vue'
   import {generate_personalised_instance_id} from 'lib/debug/personalised_instance_id_generator'
   import BUILD_TIME from 'config/build-time'
 
   export default {
+    components: {custom_api_url},
     data() {
       return {
         error: '',
