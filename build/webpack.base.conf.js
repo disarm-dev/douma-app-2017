@@ -19,7 +19,7 @@ module.exports = [
     entry: './src/microloader.js',
     output: {
         filename: 'loader' + microloaderConfig['loader_version'] + '.js',
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, '../dist'),
         publicPath: process.env.NODE_ENV === 'production'
           ? config.build.assetsPublicPath
           : config.dev.assetsPublicPath
@@ -35,7 +35,7 @@ module.exports = [
     entry: './src/sw.js',
     output: {
         filename: 'sw.js',
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, '../dist'),
         publicPath: process.env.NODE_ENV === 'production'
           ? config.build.assetsPublicPath
           : config.dev.assetsPublicPath

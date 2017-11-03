@@ -2,8 +2,12 @@ var path = require('path')
 var utils = require('./utils')
 var webpack = require('webpack')
 var config = require('../config')
+var microloaderConfig = require('../microloader.json')
 var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
+var baseLoaderConfig = baseWebpackConfig[0]
+var baseSWConfig = baseWebpackConfig[1]
+var baseAppConfig = baseWebpackConfig[2]
 var CopyWebpackPlugin = require('copy-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
@@ -13,7 +17,7 @@ var Visualizer = require('webpack-visualizer-plugin');
 
 var env = config.build.env
 
-var webpackConfig = merge(baseWebpackConfig, {
+var webpackConfig = merge(baseAppConfig, {
   module: {
     rules: utils.styleLoaders({
       sourceMap: config.build.productionSourceMap,
@@ -21,11 +25,11 @@ var webpackConfig = merge(baseWebpackConfig, {
     })
   },
   devtool: config.build.productionSourceMap ? 'source-map' : false,
-  output: {
-    path: config.build.assetsRoot,
-    filename: utils.assetsPath('js/[name].[chunkhash].js'),
-    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
-  },
+  //output: {
+    //path: config.build.assetsRoot,
+    //filename: utils.assetsPath('js/[name].[chunkhash].js'),
+    //chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
+  //},
   plugins: [
     new webpack.optimize.ModuleConcatenationPlugin(),
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
@@ -40,7 +44,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     }),
     // extract css into its own file
     new ExtractTextPlugin({
-      filename: utils.assetsPath('css/[name].[contenthash].css')
+      filename: utils.assetsPath('css/[name]' + microloaderConfig['app_version'] + '.css')
     }),
     // Compress extracted CSS. We are using this plugin so that possible
     // duplicated CSS from different components can be deduped.
@@ -52,22 +56,22 @@ var webpackConfig = merge(baseWebpackConfig, {
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      filename: process.env.NODE_ENV === 'testing'
-        ? 'index.html'
-        : config.build.index,
-      template: 'index.html',
-      inject: true,
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true
-        // more options:
-        // https://github.com/kangax/html-minifier#options-quick-reference
-      },
-      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: 'dependency'
-    }),
+    //new HtmlWebpackPlugin({
+      //filename: process.env.NODE_ENV === 'testing'
+        //? 'index.html'
+        //: config.build.index,
+      //template: 'index.html',
+      //inject: true,
+      //minify: {
+        //removeComments: true,
+        //collapseWhitespace: true,
+        //removeAttributeQuotes: true
+        //// more options:
+        //// https://github.com/kangax/html-minifier#options-quick-reference
+      //},
+      //// necessary to consistently work with multiple chunks via CommonsChunkPlugin
+      //chunksSortMode: 'dependency'
+    //}),
     // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
@@ -99,7 +103,6 @@ var webpackConfig = merge(baseWebpackConfig, {
       abortOnUnacceptableLicense: false,
       filename: 'static/3rdpartylicenses.txt'
     }),
-    new SWPrecacheWebpackPlugin(require('../sw-precache-config.js')),
     new Visualizer()
   ]
 })
@@ -127,5 +130,5 @@ if (config.build.bundleAnalyzerReport) {
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
 
-module.exports = webpackConfig
+module.exports = [baseLoaderConfig, baseSWConfig, webpackConfig]
 

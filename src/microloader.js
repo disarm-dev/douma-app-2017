@@ -1,6 +1,6 @@
 import microloaderConfig from './../microloader.json'
 
-const SW_SCRIPT_NAME = 'sw.js'
+const SW_SCRIPT_NAME = '/sw.js'
 const ELEMENT_INCLUDES_ID = 'microloader-includes'
 
 //
@@ -115,7 +115,7 @@ MicroLoader.askConfigsFromServiceWorker = function() {
   })
 }
 
-/* 
+/*
   Query ServiceWorker for offline-readiness.
   We send list of required assets, and expect offline-readiness report to arrive frow ServiceWorker.
 */
