@@ -1,10 +1,6 @@
 import {get_instance_files} from 'lib/instance_data/extend_instance_config'
 import CONFIG from 'config/common'
-
-function get_hash_value(key) {
-  const matches = location.hash.match(new RegExp(key+'=([^&]*)'));
-  return matches ? matches[1] : null;
-}
+import {get_hash_value} from 'lib/helpers/hash_value'
 
 function get_subdomain_if_not_local() {
   const domain = document.domain
