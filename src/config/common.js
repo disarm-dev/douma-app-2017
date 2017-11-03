@@ -33,6 +33,10 @@ export default {
     // Meta below is currently ignored in sidebar (statically included), but here for the breadcrumbs
     'meta': {title: 'User', icon: 'person'},
   },
+  hash_params: {
+    INSTANCE_ID: 'instance',
+    API_URL: 'api_url'
+  },
   temporal_intervals: ['week', 'month', 'quarter', 'year'],
   basemap: {
     // Middle of southern Africa, start point for zooming in

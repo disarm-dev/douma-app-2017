@@ -25,7 +25,7 @@ function determine_instance() {
   let instance_slug = null
 
   const subdomain = get_subdomain_if_not_local()
-  const hash_key = 'instance'
+  const hash_key = CONFIG.hash_params.INSTANCE_ID
   const instance_hash = get_hash_value(hash_key)
   const instance_localStorage = localStorage.getItem("DOUMA_DEBUG_INSTANCE_SLUG")
 
