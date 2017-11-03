@@ -188,7 +188,8 @@
   "instance": {
     "title": "Zimbabwe IRS Tool",
     "location_name": "Zimbabwe (Matabeleland South)",
-    "slug": "zwe-mats"
+    "slug": "zwe-mats",
+    "customisable_api_url": true
   },
   "spatial_hierarchy": {
     "data_version": 11,

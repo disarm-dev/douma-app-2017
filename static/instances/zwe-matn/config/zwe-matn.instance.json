@@ -191,7 +191,8 @@
   "instance": {
     "title": "Zimbabwe (MatN) IRS Tool",
     "location_name": "Zimbabwe (Matabeleland North)",
-    "slug": "zwe-matn"
+    "slug": "zwe-matn",
+    "customisable_api_url": true
   },
   "spatial_hierarchy": {
     "data_version": 2,
