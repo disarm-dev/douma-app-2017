@@ -25,7 +25,7 @@ function get_hash_value(key) {
 }
 
 
-function store_param(key, value) {
+export function store_param(key, value) {
   const localStorage_key = key_to_localStorage_key(key)
   return localStorage.setItem(localStorage_key, value)
 }
