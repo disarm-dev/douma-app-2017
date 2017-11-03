@@ -6,8 +6,7 @@
         {"display_name": "District name", "source_field": "DISTRICT"},
         {"display_name": "Ward number", "source_field": "WARDNUMBER"},
         {"display_name": "Predicted risk", "source_field": "risk"},
-        {"display_name": "Number of structures", "source_field": "NumStruc"},
-        {"display_name": "Number of rooms", "source_field": "NumRooms"}
+        {"display_name": "Estimated number of rooms", "source_field": "NumRooms"}
       ]
     },
     "irs_tasker": {},
@@ -25,10 +24,12 @@
         "spatial_bins": true,
         "bin_by": "location.selection.id",
         "aggregation_names": [
-          "rooms sprayed %"
+          "structures sprayed %",
+          "structures sprayed"
         ],
         "property_layers": [
-          {"property": "risk", "label": "Risk"}
+          {"property": "risk", "label": "Risk"},
+          {"property": "NumRooms", "label": "Number of rooms"}
         ],
         "response_point_fields": [
           "recorded_on"
@@ -36,11 +37,11 @@
       },
       "table": {
         "aggregation_names": [
-          "rooms sprayed",
-          "rooms sprayed %"
+          "structures sprayed",
+          "structures sprayed %"
         ],
         "property_layers": [
-          {"property": "name", "label": "Name"}
+          {"property": "__disarm_geo_name", "label": "Name"}
         ],
         "bin_by": "location.selection.name",
         "chart_type": "table"
@@ -66,7 +67,7 @@
             "chart_type": "bar",
             "bin_by": "team_name",
             "single_series": {
-              "aggregation_name": "rooms sprayed"
+              "aggregation_name": "structures sprayed"
             }
           }
         },
@@ -94,11 +95,11 @@
             },
             "multi_series": [
               {
-                "aggregation_name": "rooms sprayed",
+                "aggregation_name": "structures sprayed",
                 "colour": "green"
               },
               {
-                "aggregation_name": "sprayable rooms not sprayed",
+                "aggregation_name": "sprayable structures not sprayed",
                 "colour": "red"
               }
             ]
@@ -139,12 +140,7 @@
               "title": "Sprayed status proportion"
             },
             "chart_type": "pie",
-            "bin_by": "_decorated.sprayed_status",
-            "series": [
-              {
-                "aggregation_name": "count"
-              }
-            ]
+            "generate_series_from": "_decorated.sprayed_status"
           }
         },
         {
@@ -157,6 +153,7 @@
             "chart_type": "line",
             "time_series": true,
             "bin_by": "recorded_on",
+            "geographic_level_refactor_this_key_name": "location.selection.id",
             "layout": {
               "showlegend": true,
               "title": "Room coverage % of target",
@@ -169,7 +166,7 @@
             },
             "multi_series": [
               {
-                "aggregation_name": "rooms sprayed %",
+                "aggregation_name": "structures sprayed %",
                 "colour": "green"
               }
             ]
