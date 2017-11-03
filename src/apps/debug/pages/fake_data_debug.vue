@@ -127,6 +127,7 @@
         })
         this.message_type = 'done'
         this.$store.commit('irs_record_point/add_responses', this.responses)
+        this.responses = []
       }
     }
   }
