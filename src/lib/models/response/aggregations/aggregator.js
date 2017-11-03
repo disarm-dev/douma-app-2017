@@ -7,6 +7,7 @@ import compact from 'lodash/fp/compact'
 import map from 'lodash/fp/map'
 import uniq from 'lodash/fp/uniq'
 import {get_denominator_enumerable_name} from 'lib/instance_data/spatial_hierarchy_helper'
+import cache from 'config/cache'
 
 /**
  * For the given array of responses, will reduce to a single value
@@ -119,7 +120,7 @@ function _calculate_numerator({responses, numerator_expr, filter}) {
 }
 
 function _calculate_denominator({responses, targets, options, aggregation}) {
-  const enumerable_field = get_denominator_enumerable_name()
+  const enumerable_field = get_denominator_enumerable_name() // e.g. structures for NAM
 
   // location.selection.id or location.selection.category
   const location_grouping_field = get(options, "geographic_level_refactor_this_key_name", false) || get(options, 'bin_by', 'location.selection.id')
@@ -130,18 +131,22 @@ function _calculate_denominator({responses, targets, options, aggregation}) {
     uniq
   )(responses)
 
-  // get target for each unique_area_id
+  // should be passing spatial_aggregation_level, but we're not, so need to guess
+  const spatial_aggregation_level_geodata_field = location_grouping_field === 'location.selection.id' ? '__disarm_geo_id' : '__disarm_geo_name'
+
+  // create array of feature properties for geodata which relates to responses
+  const geodata_features = cache.geodata[options.spatial_aggregation_level].features
   const unique_targets = flow(
-    map((area_id) => {
-      const target = targets.find(d => d.id === area_id)
-      return target
+    map(area_id => {
+      const target = geodata_features.find(f => f.properties[spatial_aggregation_level_geodata_field] === area_id)
+      return target.properties
     }),
     compact
   )(unique_area_ids_from_responses)
 
   // add the enumeral from the targets together to get denominator
   const denominator = unique_targets.reduce((acc, target) => {
-    return acc + target[enumerable_field]
+    return acc + target[aggregation.denominator_field]
   }, 0)
 
   return denominator
