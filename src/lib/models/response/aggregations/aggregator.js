@@ -17,15 +17,17 @@ import cache from 'config/cache'
  * @returns {number}
  */
 export function aggregate_on({responses, targets, aggregation, previous_aggregations, options}) {
+  let numerator, denominator, result // because webpack
+
   // TODO: @refac Taking an array of aggregations might require fewer iterations of each response --> faster?
   if (!aggregation) throw new Error(`Missing aggregation`)
 
   if (aggregation.hasOwnProperty('numerator_expr') && aggregation.hasOwnProperty('denominator_field')) {
     // Calculate proportion
     try {
-      const numerator = _calculate_numerator({responses, ...aggregation})
-      const denominator = _calculate_denominator({responses, targets, options, aggregation})
-      const result = numerator / denominator
+      numerator = calculate_numerator({responses, ...aggregation})
+      denominator = calculate_denominator({responses, targets, options, aggregation})
+      result = numerator / denominator
 
       if (!isNumber(result)) return 0
       return numeral(result * 100).format('0.[00]')
@@ -37,14 +39,16 @@ export function aggregate_on({responses, targets, aggregation, previous_aggregat
   } else if (aggregation.hasOwnProperty('numerator_expr') && aggregation.hasOwnProperty('denominator_aggregation')) {
     // Calculate proportion
     try {
-      const numerator = _calculate_numerator({responses, ...aggregation})
-
+      numerator = calculate_numerator({responses, ...aggregation})
       if (!previous_aggregations.hasOwnProperty(aggregation.denominator_aggregation)) console.log(`Don't have dependent aggregation of "${aggregation.denominator_aggregation}" for "${aggregation.name}"`)
 
-      const denominator = previous_aggregations[aggregation.denominator_aggregation]
-      const result = numerator / denominator
+      denominator = previous_aggregations[aggregation.denominator_aggregation]
 
-      if (!isNumber(result)) return 0
+      result = numerator / denominator
+
+      if (!isNumber(result)) {
+        return 0
+      }
 
       return result * 100
     } catch (e) {
@@ -55,7 +59,7 @@ export function aggregate_on({responses, targets, aggregation, previous_aggregat
   } else if (aggregation.hasOwnProperty('numerator_expr')) {
     // Calculate numerator only
     try {
-      const numerator = _calculate_numerator({responses, ...aggregation, options})
+      numerator = calculate_numerator({responses, ...aggregation, options})
       return numerator
     } catch (e) {
       console.log(e)
@@ -84,7 +88,6 @@ function numerical_aggregator(responses, expression) {
   }, 0)
 }
 
-
 export function categorical_aggregator(responses, expression) {
   return responses.reduce((accumulator, {form_data}) => {
 
@@ -107,7 +110,7 @@ export function categorical_aggregator(responses, expression) {
   }, {})
 }
 
-function _calculate_numerator({responses, numerator_expr, filter}) {
+function calculate_numerator({responses, numerator_expr, filter}) {
   const options = { operators: { 'in': true } }
   const expression = new Parser(options).parse(numerator_expr)
 
@@ -119,7 +122,7 @@ function _calculate_numerator({responses, numerator_expr, filter}) {
   }
 }
 
-function _calculate_denominator({responses, targets, options, aggregation}) {
+function calculate_denominator({responses, targets, options, aggregation}) {
   const enumerable_field = get_denominator_enumerable_name() // e.g. structures for NAM
 
   // location.selection.id or location.selection.category
