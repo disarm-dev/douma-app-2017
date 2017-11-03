@@ -21,7 +21,7 @@ function get_subdomain_if_not_local() {
  * Order of checking:
  * - is in an explicit `#instance=nam` hash param on URL
  * - looks like a subdomain (not a number or 'localhost')
- * - neither of the above, but already something found in sessionStorage
+ * - neither of the above, but already something found in localStorage
  * - nothing. error
  * @returns String {instance_slug}
  */
@@ -30,18 +30,18 @@ function determine_instance() {
 
   const subdomain = get_subdomain_if_not_local()
   const instance_hash = get_hash_value('instance')
-  const instance_sessionStorage = sessionStorage.getItem("DOUMA_DEBUG_INSTANCE_SLUG")
+  const instance_localStorage = localStorage.getItem("DOUMA_DEBUG_INSTANCE_SLUG")
 
   if (instance_hash && is_valid_subdomain(instance_hash )) {
-    console.warn(`🐞 Received instance_slug ${instance_hash} in URL hash - temporarily persisting to sessionStorage`)
-    sessionStorage.setItem('DOUMA_DEBUG_INSTANCE_SLUG', instance_hash)
+    console.warn(`🐞 Received instance_slug ${instance_hash} in URL hash - temporarily persisting to localStorage`)
+    localStorage.setItem('DOUMA_DEBUG_INSTANCE_SLUG', instance_hash)
     instance_slug = instance_hash
   } else if (subdomain && is_valid_subdomain(subdomain )) {
-    sessionStorage.removeItem('DOUMA_DEBUG_INSTANCE_SLUG')
+    localStorage.removeItem('DOUMA_DEBUG_INSTANCE_SLUG')
     instance_slug = subdomain
-  } else if (instance_sessionStorage && is_valid_subdomain(instance_sessionStorage )) {
-    console.warn(`🐞 Found instance_slug ${instance_sessionStorage} in sessionStorage`)
-    instance_slug = instance_sessionStorage
+  } else if (instance_localStorage && is_valid_subdomain(instance_localStorage )) {
+    console.warn(`🐞 Found instance_slug ${instance_localStorage} in localStorage`)
+    instance_slug = instance_localStorage
   } else {
     const msg = `You might be looking for an application which does not exist. Cannot find instance id in subdomain or hash ('#instance=xxx'). `
     alert(msg)
