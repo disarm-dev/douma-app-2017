@@ -1,6 +1,6 @@
 import {get_instance_files} from 'lib/instance_data/extend_instance_config'
 import CONFIG from 'config/common'
-import {get_hash_value} from 'lib/helpers/hash_value'
+import {remove_param, retrieve_stored_param, store_params_from_hash} from 'lib/helpers/hash_params'
 
 function get_subdomain_if_not_local() {
   const domain = document.domain
@@ -24,20 +24,18 @@ function get_subdomain_if_not_local() {
 function determine_instance() {
   let instance_slug = null
 
-  const subdomain = get_subdomain_if_not_local()
-  const hash_key = CONFIG.hash_params.INSTANCE_ID
-  const instance_hash = get_hash_value(hash_key)
-  const instance_localStorage = localStorage.getItem("DOUMA_DEBUG_INSTANCE_SLUG")
+  const hash_params = store_params_from_hash() // Only called once, on startup
 
-  if (instance_hash && is_valid_subdomain(instance_hash )) {
-    console.warn(`🐞 Received instance_slug ${instance_hash} in URL hash - temporarily persisting to localStorage`)
-    localStorage.setItem('DOUMA_DEBUG_INSTANCE_SLUG', instance_hash)
-    instance_slug = instance_hash
-  } else if (subdomain && is_valid_subdomain(subdomain )) {
-    localStorage.removeItem('DOUMA_DEBUG_INSTANCE_SLUG')
+  const instance_hash = hash_params[CONFIG.hash_params.INSTANCE_ID]
+  const subdomain = get_subdomain_if_not_local()
+  const instance_localStorage = retrieve_stored_param(CONFIG.hash_params.INSTANCE_ID)
+
+  if (subdomain && is_valid_subdomain(subdomain)) {
     instance_slug = subdomain
-  } else if (instance_localStorage && is_valid_subdomain(instance_localStorage )) {
-    console.warn(`🐞 Found instance_slug ${instance_localStorage} in localStorage`)
+    remove_param(CONFIG.hash_params.INSTANCE_ID)
+  } else if (instance_hash && is_valid_subdomain(instance_hash)) {
+    instance_slug = instance_hash
+  } else if (instance_localStorage && is_valid_subdomain(instance_localStorage)) {
     instance_slug = instance_localStorage
   } else {
     const msg = `You might be looking for an application which does not exist. Cannot find instance id in subdomain or hash ('#instance=xxx'). `
@@ -47,10 +45,20 @@ function determine_instance() {
   return instance_slug
 }
 
+
+function is_valid_subdomain(subdomain) {
+  if(CONFIG.instances.list.includes(subdomain)) {
+    return true
+  } else {
+    console.error(`Invalid subdomain: ${subdomain}`)
+    return false
+  }
+}
+
 /**
  * @returns Promise
  */
-function get_instance_config () {
+export function get_instance_config(hash_params) {
   const instance_slug = determine_instance()
 
   return get_instance_files(instance_slug)
@@ -63,14 +71,3 @@ function get_instance_config () {
       return res
     })
 }
-
-function is_valid_subdomain(subdomain) {
-  if(CONFIG.instances.list.includes(subdomain)) {
-    return true
-  } else {
-    console.error(`Invalid subdomain: ${subdomain}`)
-    return false
-  }
-}
-
-export {get_instance_config}
