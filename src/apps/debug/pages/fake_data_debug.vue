@@ -70,7 +70,7 @@
         return found
       },
       random_number_between(min, max) {
-        return parseInt(Math.random() * (max - min) + min)
+        return Math.floor(Math.random() * (max - min + 1)) + min;
       },
       random_recorded_on() {
         const period_days = 90
