@@ -10,7 +10,7 @@
   {
     "name": "structures found %",
     "numerator_expr": "number_sprayable_rooms + number_unsprayed",
-    "denominator_field": "rooms"
+    "denominator_field": "NumRooms"
   },
   {
     "name": "structures sprayed",
@@ -19,7 +19,7 @@
   {
     "name": "structures sprayed %",
     "numerator_expr": "number_sprayed",
-    "denominator_field": "rooms"
+    "denominator_field": "NumRooms"
   },
   {
     "name": "sprayable structures not sprayed",
@@ -28,6 +28,6 @@
   {
     "name": "sprayable structures not sprayed %",
     "numerator_expr": "number_unsprayed",
-    "denominator_field": "rooms"
+    "denominator_field": "NumRooms"
   }
 ]
