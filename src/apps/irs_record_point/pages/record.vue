@@ -338,12 +338,14 @@
         }
       },
       create_response(response) {
-        this.$store.commit('irs_record_point/create_response', response)
-        this.$router.push('/irs/record_point/')
+        this.$store.dispatch('irs_record_point/create_response_local', response).then(() => {
+          this.$router.push('/irs/record_point/')
+        })
       },
       update_response(response) {
-        this.$store.commit('irs_record_point/update_response', response)
-        this.$router.push('/irs/record_point/')
+        this.$store.commit('irs_record_point/update_response_local', response).then(() => {
+          this.$router.push('/irs/record_point/')
+        })
       },
 
       close_form() {
