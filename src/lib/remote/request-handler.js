@@ -1,6 +1,7 @@
 import CONFIG from 'config/common'
 import {config_axios_instance} from 'lib/remote/axios_instance'
 import {get_api_url} from 'config/api_url'
+import {store} from 'apps/store'
 
 /**
  * Standard request handler for all remote requests (currently both client server and API)
