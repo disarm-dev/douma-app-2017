@@ -15,7 +15,7 @@ export function request_handler(request) {
   // If a `request.url` is not already provided, will create one
   // to send request to API server
   if (!request.url) {
-    if (!request.url_suffix) throw new Error("Missing `url_suffix` on request")
+    if (!request.url_suffix && request.url_suffix !== '') throw new Error("Missing `url_suffix` on request")
 
     // Get API URL - either from localStorage or the default from CONFIG
     const api_url = get_api_url()
