@@ -191,17 +191,23 @@
           if (feature) {
             const feature_id = feature.properties.__disarm_geo_id
 
-            // if the click is inside the focus_filter_area
-            const click_point = point([e.lngLat.lng, e.lngLat.lat])
-            const selected_filter_area = this.selected_filter_area
-            const is_inside =  inside(click_point, selected_filter_area)
-            // toggle it
-            // otherwise ignore
-            if (is_inside) {
-              this.$store.commit('irs_plan/toggle_selected_target_area_id', feature_id)
-              this.refilter_target_areas()
+            // check if we need to check if we're focusing the planning
+            const has_focus_area = !!(this.selected_filter_area)
+
+            // only do the turf.inside checks if you need to and have a polygon
+            if (has_focus_area) {
+              // if the click is inside the focus_filter_area
+              const click_point = point([e.lngLat.lng, e.lngLat.lat])
+              const selected_filter_area = this.selected_filter_area
+              const is_inside =  inside(click_point, selected_filter_area)
+
+              // return without doing anything if the feature is not inside the focus area
+              if (!is_inside) return
             }
 
+            // toggle the target area and refilter
+            this.$store.commit('irs_plan/toggle_selected_target_area_id', feature_id)
+            this.refilter_target_areas()
           }
         }
 
