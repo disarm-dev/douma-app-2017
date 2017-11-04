@@ -90,7 +90,13 @@
         this.$store.dispatch('irs_monitor/get_all_records')
           .then(() => {
             this.$endLoading('irs_monitor/load_responses')
-            this.$store.commit('root:set_snackbar', {message: 'Successfully retrieved responses'})
+            let message
+            if (this.responses.length > 0) {
+              message = 'Successfully retrieved responses'
+            } else {
+              message = 'Successful retrieve, zero records found.'
+            }
+            this.$store.commit('root:set_snackbar', {message})
           })
           .catch(e => {
             console.log(e)
