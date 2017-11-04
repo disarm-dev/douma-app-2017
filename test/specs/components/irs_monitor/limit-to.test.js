@@ -3,22 +3,22 @@ import {shallow, mount} from 'vue-test-utils'
 
 import limit_to from 'apps/irs_monitor/pages/controls/limit-to.vue'
 
-test.failing('cannot select responses if empty responses array', t => {
+test('cannot select responses if empty responses array', t => {
   const wrapper = shallow(limit_to, {propsData: {responses: []}})
   t.true(wrapper.vm.responses_disabled)
 })
 
-test.failing('can select responses if more than zero responses', t => {
+test('can select responses if more than zero responses', t => {
   const wrapper = shallow(limit_to, {propsData: {responses: [1]}})
   t.false(wrapper.vm.responses_disabled)
 })
 
-test.failing('cannot select targets if empty targets array', t => {
+test('cannot select targets if empty targets array', t => {
   const wrapper = shallow(limit_to, {propsData: {targets: []}})
   t.true(wrapper.vm.targets_disabled)
 })
 
-test.failing('can select targets if more than zero targets', t => {
+test('can select targets if more than zero targets', t => {
   const wrapper = shallow(limit_to, {propsData: {targets: [1]}})
   t.false(wrapper.vm.targets_disabled)
 })
