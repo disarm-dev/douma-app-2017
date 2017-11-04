@@ -165,31 +165,22 @@
       },
       save_plan() {
         let focus_filter_area
-        let selected_target_area_ids
-
 
         if (!this.selected_filter_area) {
            // Default values if no selected filter area
           focus_filter_area = null
-          selected_target_area_ids = this.selected_target_area_ids
 
         } else {
           // Modify plan if there is a selected_filter_area
-          // TODO: @feature Make it obvious to the user that they need to select a filter_area before they can save.
           focus_filter_area = {
             id: this.selected_filter_area.properties[this.next_level_up_from_planning_level.field_name]
           }
-
-          selected_target_area_ids = target_areas_inside_focus_filter_area({
-            area_ids: this.selected_target_area_ids,
-            selected_filter_area: this.selected_filter_area
-          })
         }
 
         const plan = new Plan().create({
           instance_config: this.instance_config,
           focus_filter_area,
-          selected_target_area_ids
+          selected_target_area_ids: this.selected_target_area_ids
         })
 
         this.$startLoading('irs_plan/save_plan')
