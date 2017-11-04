@@ -16,9 +16,8 @@ export function request_handler(request) {
   if (!request.url) {
     if (!request.url_suffix) throw new Error("Missing `url_suffix` on request")
 
-    // Get API URL
+    // Get API URL - either from localStorage or the default from CONFIG
     const api_url = get_api_url()
-    console.log('api_url', api_url)
 
     const douma_api_root = `${api_url}/${CONFIG.api.version}`
     request.url = douma_api_root + request.url_suffix
