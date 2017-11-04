@@ -218,11 +218,6 @@
         "field_name": "AggUniCode",
         "display_field_name": "Fnl_l_1",
         "name": "localities"
-      },
-      {
-        "field_name": "ClstrID",
-        "display_field_name": "ClstrID",
-        "name": "clusters"
       }
     ]
   }
