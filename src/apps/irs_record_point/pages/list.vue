@@ -107,6 +107,9 @@
         return this.responses.filter(r => !r.synced)
       }
     },
+    mounted () {
+      this.$store.dispatch('irs_record_point/read_records')
+    },
     methods: {
       format_response(response) {
         const id = this.short_id(get(response, 'id', 'no id'))
