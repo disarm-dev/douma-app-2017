@@ -1,8 +1,5 @@
 <template>
   <div>
-    <md-button @click="fake_one">fake one</md-button>
-    <md-button @click="fake_update_first">fake update</md-button>
-    <md-button @click="log_all_from_local">log</md-button>
     <controls>
       <md-button slot="primary_action" class="md-icon-button md-raised md-primary" @click.native='$router.push("/irs/record_point/new")'>
         <md-icon>add</md-icon>
@@ -114,19 +111,6 @@
       this.$store.dispatch('irs_record_point/read_records')
     },
     methods: {
-      fake_one() {
-        const fake_id = (Math.random() * 100000)
-        // const fake_id = 1
-        this.$store.dispatch('irs_record_point/create_response_local', {"userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.75 Safari/537.36","id":`${fake_id}`,"recorded_on":"2017-11-04T11:54:50.832Z","location":{"coords":{"latitude":-20.374905905776128,"longitude":24.159041628749566,"accuracy":150},"selection":{"id":569,"name":"WMA NG/15 (Linyanti Sable Safaris)","category":"Ngamiland East"}},"form_data":{"Mop_up":"no","household_name":"1","number_of_buildings_in_homesteads":1,"n_people_homestead":1,"n_people_homestead_underage5":1,"n_people_homestead_overage5":0,"LLIN_used_sleeping":"no","number_of_rooms":1,"number_rooms_modern":1,"number_rooms_traditional":0,"number_other_structures":1,"any_sprayed":"no","number_of_rooms_not_sprayed":1,"unsprayed_reason":["no_one_home"],"n_rooms_nobody":1,"LLINS_provided":"no"},"team_name":null,"user_id":"dev2","username":"js","instance_slug":"bwa","country":"bwa","location_selection":{"id":569,"name":"WMA NG/15 (Linyanti Sable Safaris)","category":"Ngamiland East"}})
-      },
-      fake_update_first() {
-        let updated_response = cloneDeep(this.responses[0])
-        updated_response.just_changed = true
-        this.$store.dispatch('irs_record_point/update_response_local', updated_response)
-      },
-      log_all_from_local () {
-        this.$store.dispatch('irs_record_point/read_records')
-      },
       format_response(response) {
         const id = this.short_id(get(response, 'id', 'no id'))
         const location_name = get(response, 'location.selection.name', '')
