@@ -10,7 +10,7 @@
   {
     "name": "structures found %",
     "numerator_expr": "number_structures_total",
-    "denominator_field": "number_of_structures"
+    "denominator_field": "NumStrct"
   },
   {
     "name": "structures sprayed",
@@ -19,7 +19,7 @@
   {
     "name": "structures sprayed %",
     "numerator_expr": "number_of_structures_sprayed",
-    "denominator_field": "number_of_structures"
+    "denominator_field": "NumStrct"
   },
   {
     "name": "sprayable structures not sprayed",
@@ -28,6 +28,6 @@
   {
     "name": "sprayable structures not sprayed %",
     "numerator_expr": "number_structures_total - number_of_structures_sprayed",
-    "denominator_field": "number_of_structures"
+    "denominator_field": "NumStrct"
   }
 ]
