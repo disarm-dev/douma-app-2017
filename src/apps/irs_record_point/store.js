@@ -59,6 +59,26 @@ export default {
     }
   },
   actions: {
+    create_response_local: async (context, response) => {
+      try {
+        await controller.create_local(response)
+        context.commit('create_response', response)
+        context.commit('root:set_snackbar', {message: 'Created record'}, {root: true})
+      } catch (e) {
+        console.error(e)
+        context.commit('root:set_snackbar', {message: 'Could not save record locally'}, {root: true})
+      }
+    },
+    update_response_local: async (context, response) => {
+      try {
+        await controller.update_local(response)
+        context.commit('update_response', response)
+        context.commit('root:set_snackbar', {message: 'Updated record'}, {root: true})
+      } catch (e) {
+        console.error(e)
+        context.commit('root:set_snackbar', {message: 'Could not update record locally'}, {root: true})
+      }
+    },
     create_records: async (context, records) => {
       // TODO: @refac DEFINITELY put batching inside the controller!
       const max_records_in_batch = CONFIG.remote.max_records_batch_size
