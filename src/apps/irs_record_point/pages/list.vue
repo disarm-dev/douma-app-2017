@@ -70,9 +70,8 @@
   import virtual_list from 'vue-virtual-scroll-list'
   import download from 'downloadjs'
   import moment from 'moment-mini'
-  import flatten from 'lodash.flatten'
   import {mapState} from 'vuex'
-  import get from 'lodash.get'
+  import {cloneDeep, flatten, get} from 'lodash'
 
   import controls from 'components/controls.vue'
   import local_record_summary from './local_record_summary'
