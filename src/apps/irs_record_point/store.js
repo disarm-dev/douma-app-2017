@@ -86,5 +86,9 @@ export default {
       // Return the results array
       return results
     },
+    read_records: async (context) => {
+      const retrieved_responses = await controller.read_all_cache()
+      context.commit('set_responses', retrieved_responses)
+    }
   }
 }
