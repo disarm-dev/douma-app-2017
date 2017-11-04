@@ -1,17 +1,17 @@
 <template>
   <div>
     <h2>Aggregation settings</h2>
-    <!--<p>-->
-      <!--Spatial aggregation level-->
-      <!--<md-button-toggle md-single>-->
-        <!--<md-button v-for="level in spatial_level_names" :key="level"-->
-                   <!--@click="set_spatial_aggregation_level(level)"-->
-                   <!--class="md-button"-->
-                   <!--:class="{'md-toggle': level === spatial_aggregation_level}">-->
-          <!--{{level}}-->
-        <!--</md-button>-->
-      <!--</md-button-toggle>-->
-    <!--</p>-->
+    <p>
+      Spatial aggregation level
+      <md-button-toggle md-single>
+        <md-button v-for="level in spatial_level_names" :key="level"
+                   @click="set_spatial_aggregation_level(level)"
+                   class="md-button"
+                   :class="{'md-toggle': level === spatial_aggregation_level}">
+          {{level}}
+        </md-button>
+      </md-button-toggle>
+    </p>
 
     <p>
       Temporal aggregatation level
@@ -40,8 +40,10 @@
 <script>
   import {mapState} from 'vuex'
 
-  import {get_planning_level_name} from 'lib/instance_data/spatial_hierarchy_helper'
-  import {get_all_spatial_hierarchy_level_names} from 'lib/instance_data/spatial_hierarchy_helper'
+  import {
+    get_next_level_up_from_planning_level,
+    get_planning_level_name
+  } from 'lib/instance_data/spatial_hierarchy_helper'
   import CONFIG from 'config/common'
 
   import limit_to from './limit-to.vue'
@@ -64,7 +66,11 @@
         limit_to: state => state.irs_monitor.dashboard_options.limit_to
       }),
       spatial_level_names() {
-        return get_all_spatial_hierarchy_level_names()
+        const levels = [get_planning_level_name()]
+        if (get_next_level_up_from_planning_level()) {
+          levels.unshift(get_next_level_up_from_planning_level().name)
+        }
+        return levels
       },
       temporal_level_names() {
         return CONFIG.temporal_intervals
@@ -81,9 +87,13 @@
         }
       },
       set_spatial_aggregation_level(level) {
+        const planning_level_name = get_planning_level_name()
+        const is_planning_level = planning_level_name === level
+
         const new_options = {
           ...this.dashboard_options,
-          spatial_aggregation_level: level
+          spatial_aggregation_level: level,
+          bin_by: is_planning_level ? 'location.selection.id' : "location.selection.category"
         }
         this.$store.commit('irs_monitor/set_dashboard_options', new_options)
       },

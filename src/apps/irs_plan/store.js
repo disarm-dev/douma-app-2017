@@ -1,15 +1,21 @@
 import array_unique from 'array-unique'
 
-import {create_plan_network, read_plan_current_network} from 'lib/models/plan'
 import {Plan} from 'lib/models/plan/model'
 import {get_next_level_up_from_planning_level} from 'lib/instance_data/spatial_hierarchy_helper'
 import cache from 'config/cache'
 import {geodata_in_cache_and_valid} from 'lib/models/geodata/geodata.valid'
+import {PlanController} from 'lib/models/plan/controller'
+
+const controller = new PlanController('plan')
 
 export default {
   namespaced: true,
+  unpersisted_state_keys: ['current_plan'],
   state: {
-    current_plan: null,
+    // Actual data
+    current_plan: null, // Instance of plan model
+
+    // Kind of data
     areas_included_by_click: [],
     areas_excluded_by_click: [],
     bulk_selected_ids: [],
@@ -17,6 +23,7 @@ export default {
     // Map
     selected_filter_area_option: null,
 
+    // UI
     unsaved_changes: false,
     show_lowest_spatial_level: true // i.e. clusters but not clusters
   },
@@ -57,12 +64,12 @@ export default {
       state.show_lowest_spatial_level = show_lowest_spatial_level
     },
     clear_data_storage:(state) => {
-        state.current_plan = null
-        state.areas_included_by_click = []
-        state.areas_excluded_by_click = []
-        state.bulk_selected_ids = []
-        state.selected_filter_area_option = null
-        state.unsaved_changes = false
+      state.current_plan = null
+      state.areas_included_by_click = []
+      state.areas_excluded_by_click = []
+      state.bulk_selected_ids = []
+      state.selected_filter_area_option = null
+      state.unsaved_changes = false
     },
     "toggle_selected_target_area_id": (state, target_area_id) => {
       if (Array.isArray(target_area_id)) target_area_id = target_area_id[0]
@@ -123,19 +130,34 @@ export default {
   },
   actions: {
     'save_plan': (context, plan) => {
-
-      return create_plan_network(plan)
+      return controller.create_plan(plan)
         .then(() => {
           context.commit('set_plan', plan)
           context.commit('set_unsaved_changes', false)
         })
     },
-    'get_current_plan': (context) => {
-      const instance_slug = context.rootState.instance_config.instance.slug
+    'get_local_plan': (context) => {
+      return controller.read_plan_current_local().then(plan => {
 
-      return read_plan_current_network(instance_slug).then(plan_json => {
-        if (Object.keys(plan_json).length === 0) {
+        if (Object.keys(plan).length === 0) {
           return context.commit('root:set_snackbar', {message: 'There is no plan. Please create one.'}, {root: true})
+        }
+
+        // TODO: @refac Move the duplicate logic below into a commit
+        let target_areas = plan.targets.map(area => {
+          return area.id
+        })
+
+        context.commit('clear_plan')
+        context.commit('set_plan', plan)
+        context.commit('add_selected_target_areas', target_areas)
+        context.commit('set_unsaved_changes', false)
+      })
+    },
+    'get_network_plan': (context) => {
+      return controller.read_plan_current_network().then(plan_json => {
+        if (Object.keys(plan_json).length === 0) {
+          return context.commit('root:set_snackbar', {message: 'There is no remote plan. Please create one.'}, {root: true})
         }
 
         try {

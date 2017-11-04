@@ -1,13 +1,8 @@
 [
-  // Not sure if this one works
-  {
-    "name": "number of rooms targeted",
-    "denominator_field": "estimated_rooms"
-  },
   {
     "name": "room spray coverage (%)",
     "numerator_expr": "number_sprayed",
-    "denominator_field": "estimated_rooms"
+    "denominator_field": "Num_Rooms"
   },
   // Fine from here
   {
@@ -61,11 +56,11 @@
   {
     "name": "number of rooms not sprayable (%)",
     "numerator_expr": "n_rooms_material",
-    "denominator_field": "number_of_rooms_not_sprayed"
+    "denominator_field": "Num_Rooms"
   },
   {
     "name": "Number of sprayable rooms not sprayed",
-    "numerator_expr": "number_of_rooms_not_sprayed - n_rooms_material"
+    "numerator_expr": "number_of_rooms_not_sprayed"
   },
 
   // Refusal reasons below
@@ -73,26 +68,23 @@
   // Locked
   {
     "name": "number of rooms not sprayed - locked",
-    "numerator_expr": "unsprayed_reason",
-    "filter": "locked"
+    "numerator_expr": "rooms_locked"
   },
   {
     "name": "number of rooms not sprayed - locked (%)",
-    "numerator_expr": "unsprayed_reason",
-    "filter": "locked",
-    "denominator_field": "estimated_rooms"
+    "numerator_expr": "rooms_locked",
+    "denominator_aggregation": "Number of sprayable rooms not sprayed"
   },
 
   // Nobody
   {
     "name": "number of rooms not sprayed - nobody",
-    "numerator_expr": "unsprayed_reason",
-    "filter": "nobody"
+    "numerator_expr": "n_rooms_nobody"
   },
   {
     "name": "number of rooms not sprayed - nobody (%)",
     "numerator_expr": "n_rooms_nobody",
-    "denominator_field": "number_of_rooms_not_sprayed"
+    "denominator_aggregation": "Number of sprayable rooms not sprayed"
   },
 
   // refusal
@@ -103,7 +95,7 @@
   {
     "name": "number of rooms not sprayed - refusal (%)",
     "numerator_expr": "n_rooms_refused",
-    "denominator_field": "number_of_rooms_not_sprayed"
+    "denominator_aggregation": "Number of sprayable rooms not sprayed"
   },
 
   // baby
@@ -114,7 +106,7 @@
   {
     "name": "number of rooms not sprayed - baby (%)",
     "numerator_expr": "n_rooms_baby",
-    "denominator_field": "number_of_rooms_not_sprayed"
+    "denominator_aggregation": "Number of sprayable rooms not sprayed"
   },
 
   // patient
@@ -125,7 +117,7 @@
   {
     "name": "number of rooms not sprayed - patient (%)",
     "numerator_expr": "n_rooms_patient",
-    "denominator_field": "number_of_rooms_not_sprayed"
+    "denominator_aggregation": "Number of sprayable rooms not sprayed"
   },
 
   // funeral
@@ -136,19 +128,18 @@
   {
     "name": "number of rooms not sprayed - funeral (%)",
     "numerator_expr": "n_rooms_funeral",
-    "denominator_field": "number_of_rooms_not_sprayed"
+    "denominator_aggregation": "Number of sprayable rooms not sprayed"
   },
 
   // kitchen
   {
     "name": "number of rooms not sprayed - kitchen",
-    "numerator_expr": "unsprayed_reason",
-    "filter": "kitchen"
+    "numerator_expr": "n_rooms_kitchen"
   },
   {
     "name": "number of rooms not sprayed - kitchen (%)",
     "numerator_expr": "n_rooms_kitchen",
-    "denominator_field": "number_of_rooms_not_sprayed"
+    "denominator_aggregation": "Number of sprayable rooms not sprayed"
   },
 
   // food storage
@@ -159,7 +150,7 @@
   {
     "name": "number of rooms not sprayed - food storage (%)",
     "numerator_expr": "n_rooms_food",
-    "denominator_field": "number_of_rooms_not_sprayed"
+    "denominator_aggregation": "Number of sprayable rooms not sprayed"
   }
 ]
 

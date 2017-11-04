@@ -79,6 +79,10 @@
         targets: 'irs_monitor/targets',
       }),
     },
+    created() {
+      // hydrate
+      this.$store.dispatch('irs_monitor/get_responses_local')
+    },
     methods: {
       load_responses() {
         this.$startLoading('irs_monitor/load_responses')
@@ -86,7 +90,13 @@
         this.$store.dispatch('irs_monitor/get_all_records')
           .then(() => {
             this.$endLoading('irs_monitor/load_responses')
-            this.$store.commit('root:set_snackbar', {message: 'Successfully retrieved responses'})
+            let message
+            if (this.responses.length > 0) {
+              message = 'Successfully retrieved responses'
+            } else {
+              message = 'Successful retrieve, zero records found.'
+            }
+            this.$store.commit('root:set_snackbar', {message})
           })
           .catch(e => {
             console.log(e)
@@ -113,11 +123,14 @@
           // We have an array of chart configurations
           const chart_configs = options
 
+          const dashboard_options_clone = clone_deep(this.dashboard_options)
+          delete dashboard_options_clone.bin_by
+
           return chart_configs.map(config => {
             let clone = clone_deep(config)
             clone.options = {
               ...clone.options,
-              ...this.dashboard_options
+              ...dashboard_options_clone
             }
             return clone
           })

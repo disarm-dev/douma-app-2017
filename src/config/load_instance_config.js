@@ -1,10 +1,6 @@
 import {get_instance_files} from 'lib/instance_data/extend_instance_config'
 import CONFIG from 'config/common'
-
-function get_hash_value(key) {
-  const matches = location.hash.match(new RegExp(key+'=([^&]*)'));
-  return matches ? matches[1] : null;
-}
+import {remove_param, retrieve_stored_param, store_params_from_hash} from 'lib/helpers/hash_params'
 
 function get_subdomain_if_not_local() {
   const domain = document.domain
@@ -21,27 +17,26 @@ function get_subdomain_if_not_local() {
  * Order of checking:
  * - is in an explicit `#instance=nam` hash param on URL
  * - looks like a subdomain (not a number or 'localhost')
- * - neither of the above, but already something found in sessionStorage
+ * - neither of the above, but already something found in localStorage
  * - nothing. error
  * @returns String {instance_slug}
  */
 function determine_instance() {
   let instance_slug = null
 
-  const subdomain = get_subdomain_if_not_local()
-  const instance_hash = get_hash_value('instance')
-  const instance_sessionStorage = sessionStorage.getItem("DOUMA_DEBUG_INSTANCE_SLUG")
+  const hash_params = store_params_from_hash() // Only called once, on startup
 
-  if (instance_hash && is_valid_subdomain(instance_hash )) {
-    console.warn(`🐞 Received instance_slug ${instance_hash} in URL hash - temporarily persisting to sessionStorage`)
-    sessionStorage.setItem('DOUMA_DEBUG_INSTANCE_SLUG', instance_hash)
-    instance_slug = instance_hash
-  } else if (subdomain && is_valid_subdomain(subdomain )) {
-    sessionStorage.removeItem('DOUMA_DEBUG_INSTANCE_SLUG')
+  const instance_hash = hash_params[CONFIG.hash_params.INSTANCE_ID]
+  const subdomain = get_subdomain_if_not_local()
+  const instance_localStorage = retrieve_stored_param(CONFIG.hash_params.INSTANCE_ID)
+
+  if (subdomain && is_valid_subdomain(subdomain)) {
     instance_slug = subdomain
-  } else if (instance_sessionStorage && is_valid_subdomain(instance_sessionStorage )) {
-    console.warn(`🐞 Found instance_slug ${instance_sessionStorage} in sessionStorage`)
-    instance_slug = instance_sessionStorage
+    remove_param(CONFIG.hash_params.INSTANCE_ID)
+  } else if (instance_hash && is_valid_subdomain(instance_hash)) {
+    instance_slug = instance_hash
+  } else if (instance_localStorage && is_valid_subdomain(instance_localStorage)) {
+    instance_slug = instance_localStorage
   } else {
     const msg = `You might be looking for an application which does not exist. Cannot find instance id in subdomain or hash ('#instance=xxx'). `
     alert(msg)
@@ -50,10 +45,20 @@ function determine_instance() {
   return instance_slug
 }
 
+
+function is_valid_subdomain(subdomain) {
+  if(CONFIG.instances.list.includes(subdomain)) {
+    return true
+  } else {
+    console.error(`Invalid subdomain: ${subdomain}`)
+    return false
+  }
+}
+
 /**
  * @returns Promise
  */
-function get_instance_config () {
+export function get_instance_config(hash_params) {
   const instance_slug = determine_instance()
 
   return get_instance_files(instance_slug)
@@ -66,14 +71,3 @@ function get_instance_config () {
       return res
     })
 }
-
-function is_valid_subdomain(subdomain) {
-  if(CONFIG.instances.list.includes(subdomain)) {
-    return true
-  } else {
-    console.error(`Invalid subdomain: ${subdomain}`)
-    return false
-  }
-}
-
-export {get_instance_config}

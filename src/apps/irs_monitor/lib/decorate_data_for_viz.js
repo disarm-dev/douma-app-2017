@@ -1,5 +1,7 @@
 // find the correct aggregations for the chart
-import {get, has} from 'lodash'
+import {get, has, uniq, isNumber} from 'lodash'
+import numeral from 'numeral'
+
 import {aggregate_on} from 'lib/models/response/aggregations/aggregator'
 import {decorate_geodata} from "apps/irs_monitor/lib/decorate_geodata"
 
@@ -28,9 +30,11 @@ function decorate_single_series({binned_responses, targets, aggregations, option
   }
 
   let cumulative_value = 0 // Only used for cumulative counts
-
+  let previous_aggregations = {}
   return binned_responses.map(bin => {
-    let value = aggregate_on({aggregation: series.aggregation, responses: bin.values, targets})
+
+    let value = aggregate_on({aggregation: series.aggregation, responses: bin.values, targets, previous_aggregations, options})
+    previous_aggregations[series.aggregation.name] = value
 
     if (options.cumulative) {
       value += cumulative_value
@@ -71,9 +75,11 @@ function decorate_multi_series({binned_responses, targets, aggregations, options
 
 
     let cumulative_value = 0// Only used for cumulative counts
-
+    let previous_aggregations = {}
     binned_responses.forEach(bin => {
-      let value = aggregate_on({aggregation: series.aggregation, responses: bin.values, targets})
+
+      let value = aggregate_on({aggregation: series.aggregation, responses: bin.values, targets, previous_aggregations, options})
+      previous_aggregations[series.aggregation.name] = value
 
       if (options.cumulative) {
         value += cumulative_value
@@ -99,15 +105,15 @@ function decorate_multi_series({binned_responses, targets, aggregations, options
 }
 
 
-/**
- * For a pie chart, apply correct aggregation to each bin of responses
- * @param responses
- * @param options
- * @param aggregations
- * @param targets
- * @return {array} - Array of things for a chart
- */
 export function decorate_for_pie({responses, targets, aggregations, options}) {
+  if (options.hasOwnProperty('generate_series_from')) {
+    return decorate_for_dynamic_pie({responses, targets, aggregations, options})
+  } else {
+    return decorate_for_static_pie({responses, targets, aggregations, options})
+  }
+}
+
+export function decorate_for_static_pie({responses, targets, aggregations, options}) {
   const series_for_chart = options.multi_series.map(serie => {
     return {
       aggregation: aggregations.find(a => a.name === serie.aggregation_name),
@@ -121,14 +127,35 @@ export function decorate_for_pie({responses, targets, aggregations, options}) {
     type: options.chart_type
   }
 
+  let previous_aggregations = {}
   series_for_chart.forEach(({aggregation, colour}) => {
-    const value = aggregate_on({aggregation, responses, targets})
+
+    const value = aggregate_on({aggregation, responses, targets, previous_aggregations, options})
+    previous_aggregations[aggregation.name] = value
     output.labels.push(aggregation.name)
     output.values.push(value)
   })
 
   return [output]
 }
+
+export function decorate_for_dynamic_pie({responses, targets, aggregations, options}) {
+  const stats = responses.reduce((acc, response) => {
+    const source = get(response, options.generate_series_from, false)
+    if (source) {
+      acc[source] = acc[source] || 0
+      acc[source] += 1
+    }
+    return acc
+  }, {})
+
+  return [{
+    labels: Object.keys(stats),
+    values: Object.values(stats),
+    type: 'pie'
+  }]
+}
+
 
 export function decorate_for_table({binned_responses, targets, aggregations, options}){
   const static_fields = get(options, 'property_layers', [])
@@ -143,7 +170,8 @@ export function decorate_for_table({binned_responses, targets, aggregations, opt
     }
 
     for (const aggregation_name of aggregation_names) {
-      row[aggregation_name] = f.properties[aggregation_name]
+      const value = f.properties[aggregation_name]
+      row[aggregation_name] = value
     }
     return row
   })

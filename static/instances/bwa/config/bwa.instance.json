@@ -9,8 +9,8 @@
           "room spray coverage (%)"
         ],
         "property_layers": [
-          "risk",
-          "NumRooms"
+          {"property": "risk", "label": "Risk"},
+          {"property": "Num_Rooms", "label": "Number of rooms"}
         ],
         "response_point_fields": [
           "recorded_on",
@@ -26,12 +26,15 @@
         "bin_by": "location.selection.id",
         "property_layers": [
           {
-            "property": "VILLAGE",
-            "label": "Village"
+            "property": "__disarm_geo_name",
+            "label": "Name"
+          },
+          {
+            "property": "Num_Rooms",
+            "label": "Number of rooms"
           }
         ],
         "aggregation_names": [
-          "number of rooms targeted",
           "number of people in homestead (total)",
           "number of people in the homestead (<5 yrs)",
           "number of people in the homestead (>5 yrs)",
@@ -99,6 +102,7 @@
             "chart_type": "line",
             "time_series": true,
             "bin_by": "recorded_on",
+            "geographic_level_refactor_this_key_name": "location.selection.id",
             "multi_series": [{
               "aggregation_name": "room spray coverage (%)"
             }]
@@ -139,12 +143,7 @@
               "title": "Sprayed status proportion"
             },
             "chart_type": "pie",
-            "bin_by": "_decorated.sprayed_status",
-            "multi_series": [
-              {
-                "aggregation_name": "count"
-              }
-            ]
+            "generate_series_from": "_decorated.sprayed_status"
           }
         },
         {

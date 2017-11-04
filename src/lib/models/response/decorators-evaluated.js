@@ -35,16 +35,16 @@ const evaluate_decorators = (response, decorators) => {
     return result
   }, {})
 
-
   // Attach the decorated values to the response and return it
   response._decorated = decorated_values
   return response
 }
 
 const evaluate_decorator = (response, decorator_expressions_array) => {
+  let result
 
   // expression is something like {"red": "any_sprayed === true"},
-  for (const expression_definition of decorator_expressions_array) {
+  decorator_expressions_array.forEach(expression_definition => {
     // possible_value_name is 'red'
     const value = Object.keys(expression_definition)[0]
 
@@ -60,12 +60,12 @@ const evaluate_decorator = (response, decorator_expressions_array) => {
 
       // evaluation_result is a boolean
       if (evaluation_result) {
-        return value
+        result = value
       }
     }
-  }
-  // return null as a default
-  return null
+  })
+
+  return result
 }
 
 

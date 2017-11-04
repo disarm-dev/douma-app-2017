@@ -34,6 +34,10 @@ export default {
     // Meta below is currently ignored in sidebar (statically included), but here for the breadcrumbs
     'meta': {title: 'User', icon: 'person'},
   },
+  hash_params: {
+    INSTANCE_ID: 'instance',
+    API_URL: 'api_url'
+  },
   temporal_intervals: ['week', 'month', 'quarter', 'year'],
   basemap: {
     // Middle of southern Africa, start point for zooming in
@@ -51,5 +55,13 @@ export default {
   },
   remote: {
     max_records_batch_size: 100
+  },
+  vuex_loader_options: {
+    // The Vuex module name, 'loading' by default.
+    moduleName: 'loading',
+    // The Vue component name, 'v-loading' by default.
+    componentName: 'v-loading',
+    // Vue component class name, 'v-loading' by default.
+    className: 'v-loading',
   }
 }

@@ -19,6 +19,7 @@
 
 <script>
 import DatePicker from 'vuejs-datepicker';
+import moment from 'moment-mini'
 
 export default {
   name: 'temporal',
@@ -52,14 +53,16 @@ export default {
       this.$emit('change', {
         name: 'recorded_on',
         comparator: '>',
-        value: new Date(this.start).getTime()
+        value: new Date(this.start).getTime(),
+        display_value: moment(new Date(this.start)).format("MMM Do YYYY")
       })
 
       //emit end
       this.$emit('change', {
         name: 'recorded_on',
         comparator: '<',
-        value: new Date(this.end).getTime()
+        value: new Date(this.end).getTime(),
+        display_value: moment(new Date(this.end)).format("MMM Do YYYY")
       })
     }
   }

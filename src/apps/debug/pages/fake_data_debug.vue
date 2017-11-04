@@ -12,7 +12,7 @@
     </md-input-container>
 
     <div v-if="message_type === 'done'">
-      Done faking. Created {{responses.length}} records.
+      Done faking. Created {{created_responses_length}} records.
       <router-link to="/irs/record_point">View records</router-link>
     </div>
   </div>
@@ -39,7 +39,8 @@
       return {
         areas_count: 50,
         message_type: '',
-        responses: []
+        responses: [],
+        created_responses_length: 0
       }
     },
     computed: {
@@ -70,7 +71,7 @@
         return found
       },
       random_number_between(min, max) {
-        return parseInt(Math.random() * (max - min) + min)
+        return Math.floor(Math.random() * (max - min + 1)) + min;
       },
       random_recorded_on() {
         const period_days = 90
@@ -125,8 +126,10 @@
             count += 1
           }
         })
-        this.message_type = 'done'
         this.$store.commit('irs_record_point/add_responses', this.responses)
+        this.message_type = 'done'
+        this.created_responses_length += this.responses.length
+        this.responses = []
       }
     }
   }

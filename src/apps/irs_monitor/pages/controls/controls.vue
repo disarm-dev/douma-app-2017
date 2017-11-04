@@ -9,6 +9,7 @@
     </md-card-header>
 
     <md-card-content v-show="show_filters">
+      <limit_to :responses="responses" :targets="targets"></limit_to>
       <aggregation_settings :responses="responses" :targets="targets"></aggregation_settings>
       <filters :responses="responses"></filters>
     </md-card-content>
@@ -20,10 +21,11 @@
   //import { mapState, mapActions, mapMutations } from 'vuex'
   import aggregation_settings from './aggregation-settings.vue'
   import filters from './filters/filters.vue'
+  import limit_to from './limit-to.vue'
 
   export default {
     name: 'controls',
-    components: {filters, aggregation_settings},
+    components: {filters, aggregation_settings, limit_to},
     props: ['responses', 'targets'],
     computed: {
       show_filters: {

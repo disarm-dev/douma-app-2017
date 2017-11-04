@@ -33,6 +33,7 @@
     },
     data() {
       return {
+        chart_data: null,
         _chart: null
       }
     },
@@ -64,14 +65,13 @@
 
         const geodata = cache.geodata // TODO: @refac When we fix geodata into store, etc
 
-        this.data = get_data({
+        this.chart_data = get_data({
           responses: this.responses,
           targets: this.targets,
           aggregations: this.aggregations,
           options: this.options,
           geodata: geodata
         })
-
 
         // Check options not empty
         const options_layout = get(this.options, 'layout', {})
@@ -81,7 +81,7 @@
 
         // Plotly#newPlot can be called multiple times, will update data, but not layout
         const displayModeBar = get(this.options, 'layout.displayModeBar', false)
-        Plotly.newPlot(this.chart_id, this.data, layout, {displayModeBar})
+        Plotly.newPlot(this.chart_id, this.chart_data, layout, {displayModeBar})
           .then((plot) => {
             this._chart = plot
             const fn = Plotly.Plots.resize.bind(this, plot)

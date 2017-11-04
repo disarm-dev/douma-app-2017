@@ -151,12 +151,14 @@
         this.$store.commit('meta/set_snackbar', {message: 'Message from PLAN: Problem with geodata'})
         this.$router.push({name: 'meta:geodata'})
       }
+
+      this.$store.dispatch('irs_plan/get_local_plan')
     },
     methods: {
       load_plan() {
         this.$startLoading('irs_plan/load_plan')
 
-        this.$store.dispatch('irs_plan/get_current_plan')
+        this.$store.dispatch('irs_plan/get_network_plan')
           .then(() => { this.$endLoading('irs_plan/load_plan') })
           .catch(() => { this.$endLoading('irs_plan/load_plan') })
 

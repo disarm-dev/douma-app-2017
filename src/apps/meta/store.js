@@ -8,6 +8,7 @@ import {set_raven_user_context} from 'config/error_tracking.js'
 
 export default {
   namespaced: true,
+  unpersisted_state_keys: [],
   state: {
     user: null,
     previous_route: '',

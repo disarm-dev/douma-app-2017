@@ -1,71 +1,37 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+
 import createPersistedState from 'vuex-persistedstate'
 import { createVuexLoader } from 'vuex-loading'
-import objectPath from 'object-path'
+
+import {generate_persisted_state_options} from 'config/vuex-persistedstate_options'
+import CONFIG from 'config/common'
 
 let store
-
 export {store}
 
 export function create_store(instance_config, instance_stores) {
+  // use vuex
   Vue.use(Vuex)
 
-  // vuex-persistedstate
-  // Exclude these paths from state persistence
-  const excluded_paths = ['sw_update_available', 'sw_message', 'instance_config']
-
-  const persisted_state_options = {
-    getState:(key, storage) => {
-      const value = storage.getItem(key);
-
-      try {
-        return value && value !== 'undefined' ? JSON.parse(value) : undefined;
-      } catch (err) {
-        return undefined;
-      }
-    },
-    setState: (key, state, storage) => {
-      console.warn("👮‍ stringifying whole store into localStorage")
-      setTimeout(() => storage.setItem(key, JSON.stringify(state)), 0)
-    },
-    reducer: (state) => {
-      if (excluded_paths.length === 0) {
-        return state
-      } else {
-        const state_copy = Object.assign({}, state)
-        excluded_paths.forEach(function(path) {
-          objectPath.del(state_copy, path)
-        })
-        return state_copy
-      }
-    }
-  }
-
   // vuex-loader
-  const VuexLoading = createVuexLoader({
-    // The Vuex module name, 'loading' by default.
-    moduleName: 'loading',
-    // The Vue component name, 'v-loading' by default.
-    componentName: 'v-loading',
-    // Vue component class name, 'v-loading' by default.
-    className: 'v-loading',
-  })
-
+  const VuexLoading = createVuexLoader(CONFIG.vuex_loader_options)
   Vue.use(VuexLoading)
 
+  // Generate config (reducer, etc) for vuex-persistedstate
+  // This includes the paths for unpersisted state for large data objects
+  const persisted_state_options = generate_persisted_state_options(instance_stores)
 
   store = new Vuex.Store({
     modules: instance_stores,
     plugins: [createPersistedState(persisted_state_options), VuexLoading.Store],
-    // plugins: [VuexLoading.Store],
     state: {
       // Global config
       instance_config: instance_config, // Really important, should maybe be somewhere else
 
       // Global UI
       snackbar: {message: null},
-      sw_message: {message: 'null', title: 'null'},
+      sw_message: {message: null, title: null},
       sw_update_available: false,
       network_online: false,
 

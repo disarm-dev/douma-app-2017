@@ -1,17 +1,21 @@
 import Vue from 'vue'
+import {isEqual} from 'lodash'
 
-import {get, isEqual} from 'lodash'
-import {read_all_network} from 'lib/models/response'
-import remote from 'lib/models/plan/remote'
-import {Plan} from 'lib/models/plan/model'
-import {decorate_responses_from_json} from 'lib/models/response/decorator'
-import instance_decorator from 'lib/models/response/decorators-evaluated'
 import {set_filter, unset_filter} from './pages/controls/filters/controller'
+import {Plan} from 'lib/models/plan/model'
 import CONFIG from 'config/common'
 import {filter_responses} from "apps/irs_monitor/lib/filters"
+import {ResponseController} from 'lib/models/response/controller'
+import {PlanController} from 'lib/models/plan/controller'
+import {get_targets} from "apps/irs_monitor/lib/aggregate_targets"
+
+const applet_name = 'monitor'
+const response_controller = new ResponseController(applet_name)
+const plan_controller = new PlanController(applet_name)
 
 export default {
   namespaced: true,
+  unpersisted_state_keys: ['responses'],
   state: {
     ui: {
 
@@ -92,7 +96,9 @@ export default {
     // Return all the targets from the plan
     targets(state, getters) {
       if(!state.plan) return []
-      return state.plan.targets
+
+      const spatial_aggregation_level = state.dashboard_options.spatial_aggregation_level
+      return get_targets(state.plan.targets, spatial_aggregation_level)
     },
 
     plan_target_area_ids(state) {
@@ -123,22 +129,19 @@ export default {
 
   },
   actions: {
+    get_responses_local: (context) => {
+      return response_controller.read_all_cache().then(responses => {
+        context.commit('set_responses', responses)
+      })
+    },
     get_all_records: (context) => {
-      const instance_slug = context.rootState.instance_config.instance.slug
-      return read_all_network(instance_slug).then(res=> {
-        if (res.length === 0 ) throw new Error('There are no responses.')
-
-        const responses = decorate_responses_from_json(res, context.rootState.instance_config)
-
-        const decorated_responses = instance_decorator(responses, context.rootState.instance_config)
-
+      return response_controller.read_all_network().then(responses => {
         context.commit('update_responses_last_updated_at')
-        context.commit('set_responses', decorated_responses)
+        context.commit('set_responses', responses)
       })
     },
     get_current_plan: (context) => {
-      const instance_slug = context.rootState.instance_config.instance.slug
-      return remote.read_plan_current(instance_slug)
+      return plan_controller.read_plan_current_network()
         .then(plan_json => {
           if (Object.keys(plan_json).length === 0) throw {message: 'No plan created. Please create one.'}
           if (!new Plan().validate(plan_json)) throw {message: 'Plan is not valid'}

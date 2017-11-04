@@ -34,7 +34,7 @@
   import inside from '@turf/inside'
   import intersect from '@turf/intersect'
   import bboxPolygon from '@turf/bbox-polygon'
-  import {featureCollection} from '@turf/helpers'
+  import {featureCollection, point} from '@turf/helpers'
   import which_polygon from 'which-polygon'
   import numeral from 'numeral'
 
@@ -185,18 +185,23 @@
         this.remove_map_listeners()
         this.handler.click = (e) => {
           const features = this._map.queryRenderedFeatures(e.point, {layers: ['selected', 'unselected', 'bulk_selected', 'bulk_unselected']})
-          if (!features) return
 
           const feature = features[0]
 
           if (feature) {
             const feature_id = feature.properties.__disarm_geo_id
 
-            const feature_id_in_filter_area_array = target_areas_inside_focus_filter_area({area_ids: feature_id, selected_filter_area: this.selected_filter_area})
-            if (feature_id_in_filter_area_array.length) {
-              this.$store.commit('irs_plan/toggle_selected_target_area_id', feature_id_in_filter_area_array)
+            // if the click is inside the focus_filter_area
+            const click_point = point([e.lngLat.lng, e.lngLat.lat])
+            const selected_filter_area = this.selected_filter_area
+            const is_inside =  inside(click_point, selected_filter_area)
+            // toggle it
+            // otherwise ignore
+            if (is_inside) {
+              this.$store.commit('irs_plan/toggle_selected_target_area_id', feature_id)
               this.refilter_target_areas()
             }
+
           }
         }
 
@@ -351,8 +356,7 @@
 
       },
       redraw_target_areas() {
-
-        if (this._map) {
+        if (this._map && this._map.loaded()   ) {
           // redraw target areas
           this.remove_target_areas()
           this.add_target_areas()
