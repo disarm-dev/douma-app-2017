@@ -25,3 +25,4 @@ get_instance_config()
   .then(instance_config => {
     configure_application(instance_config)
   })
+
