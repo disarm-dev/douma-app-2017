@@ -4,6 +4,7 @@ export default {
   api: {
     // Standard DOUMA API
     url: BUILD_TIME.BRANCH === 'master' ? 'https://douma-api.herokuapp.com' : 'https://douma-api-stage.herokuapp.com',
+    // url: "http://localhost:3000",
     version: 'v3',
 
     // Currently not used
