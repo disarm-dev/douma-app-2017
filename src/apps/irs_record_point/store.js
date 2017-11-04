@@ -19,6 +19,9 @@ export default {
       state.team_name = null
       console.warn('Not clearing irs_record_point.responses - use localStorage.clear() if you really want')
     },
+    set_responses: (state, responses) => {
+      state.responses = responses
+    },
     create_response: (state, response) => {
       state.responses.push(response)
     },
