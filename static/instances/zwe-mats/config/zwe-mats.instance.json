@@ -206,11 +206,6 @@
         "field_name": "ZIMWARDSID",
         "display_field_name": "name",
         "name": "wards"
-      },
-      {
-        "field_name": "ClstrID",
-        "display_field_name": "ClstrID",
-        "name": "clusters"
       }
     ]
   }
