@@ -171,13 +171,7 @@ export function decorate_for_table({binned_responses, targets, aggregations, opt
 
     for (const aggregation_name of aggregation_names) {
       const value = f.properties[aggregation_name]
-
-      if (isNumber(value)) {
-        const formatted_value = numeral(value * 100).format('0.[00]')
-        row[aggregation_name] = formatted_value
-      } else {
-        row[aggregation_name] = value
-      }
+      row[aggregation_name] = value
     }
     return row
   })
