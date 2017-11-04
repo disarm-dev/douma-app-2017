@@ -2,6 +2,7 @@ import remote from './remote'
 import Local from './local'
 import instance_decorator from 'lib/models/response/decorators-evaluated'
 import {store} from 'apps/store'
+import local from 'lib/models/response/local'
 
 export class ResponseController {
   constructor(applet_name) {
@@ -41,6 +42,14 @@ export class ResponseController {
 
   async create_batch_network(responses) {
     return await this.remote.create(responses)
+  }
+
+  async create_local(response) {
+    return await this.local.create(response)
+  }
+
+  async update_local(response) {
+    return await this.local.update(response)
   }
 }
 
