@@ -119,7 +119,7 @@ export default {
       // limit to plan if 'dashboard_options.limit_to_plan' is true
       const limited_to_plan = state.responses.filter(r => {
         if (!state.dashboard_options.limit_to_plan) return true
-        return getters.plan_target_area_ids.includes(r.location_selection.id)
+        return getters.plan_target_area_ids.includes(r.location.selection.id)
       })
 
       const filtered = filter_responses(limited_to_plan, state.filters)

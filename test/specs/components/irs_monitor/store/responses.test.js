@@ -8,14 +8,15 @@ import irs_monitor_store from 'apps/irs_monitor/store'
 
 
 const responses = [
-  {id: 1, question: 2},
-  {id: 2, question: 2},
-  {id: 3, question: 3}
+  {id: 1, question: 2, location: {selection: {id: 3}}},
+  {id: 2, question: 2, location: {selection: {id: 3}}},
+  {id: 3, question: 3, location: {selection: {id: 3}}}
 ]
 
 test('should return all responses with no filters', t => {
   const store_content = cloneDeep(irs_monitor_store)
   store_content.state.responses = responses
+  store_content.state.dashboard_options.limit_to_plan = false
 
   const store = new Vuex.Store(store_content)
 
@@ -29,6 +30,7 @@ test('should filter responses when filters are present returning 1 response', t 
 
   store_content.state.responses = responses
   store_content.state.filters = [filter]
+  store_content.state.dashboard_options.limit_to_plan = false
 
   const store = new Vuex.Store(store_content)
   t.is(store.getters.filtered_responses.length, 1)
@@ -40,6 +42,7 @@ test('should filter responses when filters are present returning more than 1 res
 
   store_content.state.responses = responses
   store_content.state.filters = [filter]
+  store_content.state.dashboard_options.limit_to_plan = false
 
   const store = new Vuex.Store(store_content)
   t.is(store.getters.filtered_responses.length, 2)
@@ -51,10 +54,10 @@ test('should filter responses according to plan', t => {
   }
 
   const local_responses = [
-    {location_selection: {id: 1}},
-    {location_selection: {id: 2}},
-    {location_selection: {id: 3}},
-    {location_selection: {id: 4}}
+    {location: {selection: {id: 1}}},
+    {location: {selection: {id: 2}}},
+    {location: {selection: {id: 3}}},
+    {location: {selection: {id: 4}}}
   ]
 
   const store_content = cloneDeep(irs_monitor_store)
