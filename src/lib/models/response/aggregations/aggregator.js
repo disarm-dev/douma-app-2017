@@ -124,6 +124,36 @@ function calculate_numerator({responses, numerator_expr, filter}) {
 function calculate_denominator({responses, targets, options, aggregation}) {
   const enumerable_field = get_denominator_enumerable_name() // e.g. structures for NAM
 
+  // For spatial bins (map and table and any spatial chart)
+  const is_spatial_bin = options.bin_by.startsWith('location.selection')
+  // Should only have a single target
+
+  // Else should use total_target - ie. from all targets
+  const total_target = targets
+    .filter(t => t[enumerable_field])
+    .reduce((acc, t) => {
+      return acc + t[enumerable_field]
+    }, 0)
+
+  console.log('is_spatial_bin, total_target', is_spatial_bin, total_target)
+
+  if (is_spatial_bin) {
+    const target_id = get(responses[0], 'location.selection.id')
+    const found = targets.find(t => t.id === target_id)
+    if (found) {
+      return found[enumerable_field]
+    } else {
+      console.log('denominator not found for', target_id)
+      return 0
+    }
+  } else {
+    return total_target
+  }
+
+
+  // Already returned - nothing below relevant
+
+
   // location.selection.id or location.selection.category
   const location_grouping_field = get(options, "geographic_level_refactor_this_key_name", false) || get(options, 'bin_by', 'location.selection.id')
 
