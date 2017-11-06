@@ -10,7 +10,7 @@
         ],
         "property_layers": [
           {"property": "risk", "label": "Risk"},
-          {"property": "NmStrct", "label": "Number of structures"}
+          {"property": "NumStrct", "label": "Number of structures"}
         ],
         "response_point_fields": [
           "recorded_on"
@@ -48,6 +48,7 @@
             "chart_type": "line",
             "time_series": true,
             "bin_by": "recorded_on",
+            "geographic_level_refactor_this_key_name": "location.selection.id",
             "multi_series": [
               {
                 "aggregation_name": "structures found %"
@@ -75,6 +76,7 @@
             "chart_type": "line",
             "time_series": true,
             "bin_by": "recorded_on",
+            "geographic_level_refactor_this_key_name": "location.selection.id",
             "multi_series": [
               {
                 "aggregation_name": "structures sprayed %"
@@ -102,6 +104,7 @@
             "chart_type": "line",
             "time_series": true,
             "bin_by": "recorded_on",
+            "geographic_level_refactor_this_key_name": "location.selection.id",
             "multi_series": [
               {
                 "aggregation_name": "structures sprayed %"
@@ -132,6 +135,7 @@
             "chart_type": "line",
             "time_series": true,
             "bin_by": "recorded_on",
+            "geographic_level_refactor_this_key_name": "location.selection.id",
             "multi_series": [
               {
                 "aggregation_name": "structures found %"
@@ -159,6 +163,7 @@
             },
             "chart_type": "bar",
             "bin_by": "location.selection.name",
+            "geographic_level_refactor_this_key_name": "location.selection.id",
             "multi_series": [
               {
                 "aggregation_name": "structures sprayed %",
@@ -176,7 +181,7 @@
     "irs_plan": {
       "table_output": [
         {"display_name": "Locality name", "source_field": "Fnl_l_1"},
-        {"display_name": "Number of structures enumerated", "source_field": "NmStrct"},
+        {"display_name": "Number of structures enumerated", "source_field": "NumStrct"},
         {"display_name": "Predicted risk", "source_field": "risk"}
       ]
     },
@@ -209,20 +214,15 @@
       "planning_level_name": "localities",
       "record_location_selection_level_name": "localities",
       "denominator_fields": {
-        "number_of_structures": "NmStrct"
+        "number_of_structures": "NumStrct"
       }
     },
     "levels": [
       {
-        "group_by_field": "Finl_rg",
+        "group_by_field": "Final_regi",
         "field_name": "AggUniCode",
-        "display_field_name": "Fnl_l_1",
+        "display_field_name": "Final_loca",
         "name": "localities"
-      },
-      {
-        "field_name": "ClstrID",
-        "display_field_name": "ClstrID",
-        "name": "clusters"
       }
     ]
   }
