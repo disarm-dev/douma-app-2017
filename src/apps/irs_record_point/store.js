@@ -106,6 +106,7 @@ export default {
           .then((passed_records) => {
             // Set synced status for successfully-synced records
             context.commit('mark_responses_as_synced', passed_records)
+            // TODO: @feature Need to update the local copy of responses with 'synced:true'
             results.pass.push(passed_records)
           })
           .catch((failed_records) => {
