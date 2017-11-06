@@ -146,14 +146,12 @@ function calculate_denominator({responses, targets, options, aggregation}) {
 
 
   let is_at_planning_level = options.bin_by === 'location.selection.id'
-  console.log('is_at_planning_level', is_at_planning_level)
 
   const target_id = get(responses[0], options.bin_by)
   const found = targets.find(t => t.id === target_id)
   if (found) {
     return found[enumerable_field]
   } else {
-    console.log('denominator not found for', target_id)
     return 0
   }
 
