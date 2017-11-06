@@ -26,7 +26,7 @@ export function decorate_geodata({binned_responses, targets, aggregations, optio
   })
 
   // calculate all aggregations for responses in each bin
-  const binned_aggregations = binned_responses.map(bin => {
+  const spatially_binned_aggregations = binned_responses.map(bin => {
 
     let result = {key: bin.key, values: {}}
     let previous_aggregations = {}
@@ -36,21 +36,22 @@ export function decorate_geodata({binned_responses, targets, aggregations, optio
       result.values[aggregation.name] = value
     })
     return result
-  })
+  }) // e.g. [{key: 'Tutume', values: {'% sprayed': 10}}, {key: 'Chobe', values: {'% sprayed': 20}}]
 
   const planning_level_name = get_planning_level_name()
   const location_grouping_field =  options.spatial_aggregation_level === planning_level_name ? '__disarm_geo_id' : '__disarm_geo_name'
+
   // create featureCollection, matching geodata with response bins
   const decorated_features = flow(
-    map((feature) => {
+    map((geodata_feature) => {
 
-      const found_bin = binned_aggregations.find((bin) => {
-        return bin.key === String(feature.properties[location_grouping_field])
+      const found_bin = spatially_binned_aggregations.find((bin) => {
+        return bin.key === String(geodata_feature.properties[location_grouping_field])
       })
 
       if (found_bin) {
-        feature.properties = {
-          ...feature.properties,
+        geodata_feature.properties = {
+          ...geodata_feature.properties,
           ...found_bin.values
         }
       } else {
@@ -61,16 +62,16 @@ export function decorate_geodata({binned_responses, targets, aggregations, optio
           return acc
         }, {})
 
-        feature.properties = {
-          ...feature.properties,
+        geodata_feature.properties = {
+          ...geodata_feature.properties,
           ...empty_aggregations
         }
       }
 
-      return feature
+      return geodata_feature
     }),
     compact
-  )(selected_geodata_level_fc.features).filter(a => a)
+  )(selected_geodata_level_fc.features)
 
 
   // return a featureCollection
