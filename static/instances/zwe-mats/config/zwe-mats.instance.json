@@ -43,7 +43,7 @@
         "property_layers": [
           {"property": "__disarm_geo_name", "label": "Name"}
         ],
-        "bin_by": "location.selection.name",
+        "bin_by": "location.selection.id",
         "chart_type": "table"
       },
       "charts": [
