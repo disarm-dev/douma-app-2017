@@ -125,7 +125,7 @@ function calculate_denominator({responses, targets, options, aggregation}) {
   const enumerable_field = get_denominator_enumerable_name() // e.g. structures for NAM
 
   // For spatial bins (map and table and any spatial chart)
-  const is_spatial_bin = options.bin_by.startsWith('location.selection')
+  const is_non_spatial_bin = !options.bin_by.startsWith('location.selection')
   // Should only have a single target
 
   // Else should use total_target - ie. from all targets
@@ -135,52 +135,26 @@ function calculate_denominator({responses, targets, options, aggregation}) {
       return acc + t[enumerable_field]
     }, 0)
 
-  console.log('is_spatial_bin, total_target', is_spatial_bin, total_target)
+  // Non-Spatial bin
+  if (is_non_spatial_bin) return total_target
 
-  if (is_spatial_bin) {
-    const target_id = get(responses[0], 'location.selection.id')
-    const found = targets.find(t => t.id === target_id)
-    if (found) {
-      return found[enumerable_field]
-    } else {
-      console.log('denominator not found for', target_id)
-      return 0
-    }
-  } else {
-    return total_target
+
+  // Is a Spatial bin
+  if (!['location.selection.id', 'location.selection.category'].includes(options.bin_by)) {
+    throw new Error("Have a problem - options.bin_by should be spatial, but doesn't look to be")
   }
 
 
-  // Already returned - nothing below relevant
+  let is_at_planning_level = options.bin_by === 'location.selection.id'
+  console.log('is_at_planning_level', is_at_planning_level)
 
+  const target_id = get(responses[0], options.bin_by)
+  const found = targets.find(t => t.id === target_id)
+  if (found) {
+    return found[enumerable_field]
+  } else {
+    console.log('denominator not found for', target_id)
+    return 0
+  }
 
-  // location.selection.id or location.selection.category
-  const location_grouping_field = get(options, "geographic_level_refactor_this_key_name", false) || get(options, 'bin_by', 'location.selection.id')
-
-  // get all area ids
-  const unique_area_ids_from_responses = flow(
-    map(location_grouping_field),
-    uniq
-  )(responses)
-
-  // should be passing spatial_aggregation_level, but we're not, so need to guess
-  const spatial_aggregation_level_geodata_field = location_grouping_field === 'location.selection.id' ? '__disarm_geo_id' : '__disarm_geo_name'
-
-  // create array of feature properties for geodata which relates to responses
-  const geodata_features = cache.geodata[options.spatial_aggregation_level].features
-  const unique_targets = flow(
-    map(area_id => {
-      const target = geodata_features.find(f => f.properties[spatial_aggregation_level_geodata_field] === area_id)
-      return target.properties
-    }),
-    compact
-  )(unique_area_ids_from_responses)
-
-  // add the enumeral from the targets together to get denominator
-  const denominator = unique_targets.reduce((acc, target) => {
-    return acc + target[aggregation.denominator_field]
-  }, 0)
-
-  return denominator
 }
-
