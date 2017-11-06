@@ -126,7 +126,11 @@
             count += 1
           }
         })
-        this.$store.commit('irs_record_point/add_responses', this.responses)
+
+        for (const response of this.responses) {
+          this.$store.dispatch('irs_record_point/create_response_local', response)
+        }
+
         this.message_type = 'done'
         this.created_responses_length += this.responses.length
         this.responses = []
