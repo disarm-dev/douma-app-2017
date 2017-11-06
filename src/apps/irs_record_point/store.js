@@ -59,6 +59,16 @@ export default {
     }
   },
   actions: {
+    create_responses_local: async (context, responses) => {
+      try {
+        await controller.create_local_bulk(responses)
+        context.commit('add_responses', responses)
+        context.commit('root:set_snackbar', {message: 'Created records'}, {root: true})
+      } catch (e) {
+        console.error(e)
+        context.commit('root:set_snackbar', {message: 'Could not save records locally'}, {root: true})
+      }
+    },
     create_response_local: async (context, response) => {
       try {
         await controller.create_local(response)

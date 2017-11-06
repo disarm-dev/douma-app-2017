@@ -127,10 +127,7 @@
           }
         })
 
-        for (const response of this.responses) {
-          this.$store.dispatch('irs_record_point/create_response_local', response)
-        }
-
+        this.$store.dispatch('irs_record_point/create_responses_local', this.responses)
         this.message_type = 'done'
         this.created_responses_length += this.responses.length
         this.responses = []

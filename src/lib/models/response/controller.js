@@ -48,6 +48,10 @@ export class ResponseController {
     return await this.local.create(response)
   }
 
+  async create_local_bulk(responses) {
+    return await this.local.create_bulk(responses)
+  }
+
   async update_local(response) {
     return await this.local.update(response)
   }
