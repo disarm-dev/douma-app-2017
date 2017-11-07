@@ -30,13 +30,10 @@ export function request_handler(request) {
     .then(json => json.data)
     .catch(err => {
       // Any route other than login which receives 401 needs to tell user
-      // Any other errors should be propogated
-      if (request.url_suffix !== '/login' && err.response.status === 401) {
-        store.commit('root:set_snackbar', {message: 'Current API key is not valid. Please log out and try to login again.'}, {root: true})
-        throw err
-      } else {
-        throw err
+      if (request_config.url_suffix !== '/login' && err.response.status === 401) {
+        store.commit('root:set_snackbar', {message: 'Current API key is not valid. Please log out and try to login again.'})
       }
+      throw err
     })
 }
 
