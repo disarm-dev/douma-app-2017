@@ -99,8 +99,6 @@
             this.$store.commit('root:set_snackbar', {message})
           })
           .catch(e => {
-            console.log(e)
-            this.$store.commit('root:set_snackbar', {message: `Error: ${e.message}`})
             this.$endLoading('irs_monitor/load_responses')
           })
       },
@@ -113,8 +111,6 @@
             this.$store.commit('root:set_snackbar', {message: 'Successfully retrieved plan'})
           })
           .catch(e => {
-            console.log(e)
-            this.$store.commit('root:set_snackbar', {message: `Error: ${e.message}`})
             this.$endLoading('irs_monitor/load_plan')
           })
       },

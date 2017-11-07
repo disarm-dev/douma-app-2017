@@ -19,6 +19,7 @@ function config_axios_instance() {
   const personalised_instance_id = get(store, 'state.meta.personalised_instance_id')
   const country = get(store, 'state.instance_config.instance.slug')
   const user = get(store, 'state.user.username')
+  const api_key = get(store, 'state.meta.user.key')
 
   instance.defaults.params = {
     personalised_instance_id,
@@ -27,7 +28,12 @@ function config_axios_instance() {
     user
   }
 
-  // Interceptors for network monitoring
+  instance.defaults.headers = {
+    'API-Key': api_key
+  }
+
+
+    // Interceptors for network monitoring
   instance.interceptors.response.use(function (response) {
     window.dispatchEvent(new Event('online'))
     return response

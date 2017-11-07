@@ -132,11 +132,25 @@
           .then((results) => {
             console.log('results', results)
             const last_successful_sync_count = flatten(results.pass).length
+            const last_failed_sync_count = flatten(results.fail).length
+
             this.$endLoading('irs_record_point/sync')
             this.syncing = false
-            this.$store.commit('root:set_snackbar', {message: `Successfully synced ${last_successful_sync_count} responses`})
+
+            // did any responses sync?
+            if (last_successful_sync_count > 0) {
+              this.$store.commit('root:set_snackbar', {message: `Successfully synced ${last_successful_sync_count} responses`})
+            } else if (last_successful_sync_count === 0 && last_failed_sync_count > 0) {
+              this.$store.commit('root:set_snackbar', {message: `All ${last_failed_sync_count} responses failed to sync`})
+            } else {
+              this.$store.commit('root:set_snackbar', {message: `${last_successful_sync_count} responses synced, ${last_failed_sync_count} responses failed to sync`})
+            }
+
           })
-          .catch(() => {
+          .catch((e) => {
+            if (e.response.status !== 401) {
+              this.$store.commit('root:set_snackbar', {message: `Problem syncing responses`})
+            }
             this.$endLoading('irs_record_point/sync')
             this.syncing = false
           })

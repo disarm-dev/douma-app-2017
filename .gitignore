@@ -1,6 +1,7 @@
 *.sublime-workspace
 *.pem
 .idea
+.tern-port
 
 .DS_Store
 node_modules/

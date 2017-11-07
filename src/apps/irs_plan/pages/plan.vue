@@ -198,8 +198,11 @@
             this.$store.commit('root:set_snackbar', {message: 'Successful save'})
             this.$endLoading('irs_plan/save_plan')
           })
-          .catch(() => {
-            this.$store.commit('root:set_snackbar', {message: 'Not saved. Something wrong.'})
+          .catch((e) => {
+            // Check if 401 (will already have displayed snackbar)
+            if (e.response.status !== 401) {
+              this.$store.commit('root:set_snackbar', {message: 'Not saved. Something wrong.'})
+            }
             this.$endLoading('irs_plan/save_plan')
           })
       },

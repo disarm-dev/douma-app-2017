@@ -48,6 +48,11 @@ export default {
           return Promise.reject(response)
         }
 
+        // Reject user if login or password is incorrect
+        if (response.status === 401) {
+          return Promise.reject({error: 'User with this username or password is not found.'})
+        }
+
         // Reject user if not authorised for this instance
         if (response.instance_slug !== context.rootState.instance_config.instance.slug && response.instance_slug !== 'all') {
           return Promise.reject({error: 'User not authenticated for this instance'})
