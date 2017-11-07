@@ -28,7 +28,7 @@ export class ResponseController {
     await this.local.remove_all()
 
     // populate local DB
-    await this.local.create_bulk(decorated_responses)
+    await this.local.create_or_update_bulk(decorated_responses)
 
     // return them
     return remote_responses
@@ -49,7 +49,8 @@ export class ResponseController {
   }
 
   async create_local_bulk(responses) {
-    return await this.local.create_bulk(responses)
+    console.log('create local bulk responses', responses)
+    return await this.local.create_or_update_bulk(responses)
   }
 
   async update_local(response) {
