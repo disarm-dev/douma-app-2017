@@ -1,6 +1,7 @@
 import CONFIG from 'config/common'
 import {config_axios_instance} from 'lib/remote/axios_instance'
 import {get_api_url} from 'config/api_url'
+import {store} from 'apps/store'
 
 /**
  * Standard request handler for all remote requests (currently both client server and API)
@@ -14,7 +15,7 @@ export function request_handler(request) {
   // If a `request.url` is not already provided, will create one
   // to send request to API server
   if (!request.url) {
-    if (!request.url_suffix) throw new Error("Missing `url_suffix` on request")
+    if (!request.url_suffix && request.url_suffix !== '') throw new Error("Missing `url_suffix` on request")
 
     // Get API URL - either from localStorage or the default from CONFIG
     const api_url = get_api_url()
@@ -27,7 +28,16 @@ export function request_handler(request) {
 
   return axios_instance(request)
     .then(json => json.data)
-
+    .catch(err => {
+      // Any route other than login which receives 401 needs to tell user
+      // Any other errors should be propogated
+      if (request.url_suffix !== '/login' && err.response.status === 401) {
+        store.commit('root:set_snackbar', {message: 'Current API key is not valid. Please log out and try to login again.'}, {root: true})
+        throw err
+      } else {
+        throw err
+      }
+    })
 }
 
 

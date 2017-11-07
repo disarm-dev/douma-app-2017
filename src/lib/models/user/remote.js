@@ -9,8 +9,8 @@ function authenticate(user) {
 }
 function _authenticate(user) {
   return {
-    url_suffix: '/auth',
-    data: {user},
+    url_suffix: '/login',
+    data: user,
     method: 'post',
     timeout: 10000
   }

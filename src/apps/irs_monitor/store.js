@@ -143,15 +143,12 @@ export default {
     get_current_plan: (context) => {
       return plan_controller.read_plan_current_network()
         .then(plan_json => {
-          if (Object.keys(plan_json).length === 0) throw new Error('No plan created. Please create one.')
-          try {
-            new Plan().validate(plan_json)
+          if (Object.keys(plan_json).length === 0) throw {message: 'No plan created. Please create one.'}
+          if (new Plan().validate(plan_json)) {
             context.commit('set_plan', plan_json)
-          } catch (e) {
-            console.error(e)
-            context.commit('root:set_snackbar', {message: 'ERROR: Plan is not valid'}, {root: true})
+          } else {
+            console.error('plan_json is not a Plan', plan_json)
           }
-
         })
     }
   }
