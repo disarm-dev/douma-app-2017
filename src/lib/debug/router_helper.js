@@ -3,7 +3,7 @@
 // Log out a table of all possible route URLs
 
 function route_table(router) {
-  if (!router.hasOwnProperty('options')) throw "Sure you passed a $router object? No `options` property found"
+  if (!router.hasOwnProperty('options')) throw new Error("Sure you passed a $router object? No `options` property found")
   const routes = router.options.routes
   let output = []
 
