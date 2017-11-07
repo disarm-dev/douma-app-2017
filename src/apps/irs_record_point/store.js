@@ -1,7 +1,7 @@
 import clonedeep from 'lodash.clonedeep'
 
 import CONFIG from 'config/common'
-import { ResponseController } from 'lib/models/response/controller'
+import {ResponseController} from 'lib/models/response/controller'
 
 const controller = new ResponseController('record')
 
@@ -19,12 +19,22 @@ export default {
       state.team_name = null
       console.warn('Not clearing irs_record_point.responses - use localStorage.clear() if you really want')
     },
+    set_responses: (state, responses) => {
+      state.responses = responses
+    },
     create_response: (state, response) => {
       state.responses.push(response)
     },
     update_response: (state, response) => {
       let index = state.responses.findIndex((r) => r.id === response.id)
       state.responses.splice(index, 1, response)
+    },
+    update_responses: (state, responses) => {
+      console.log('update_responses', responses)
+      for (const response of responses) {
+        let index = state.responses.findIndex((r) => r.id === response.id)
+        state.responses.splice(index, 1, response)
+      }
     },
     mark_responses_as_synced: (state, responses) => {
       responses.forEach(response => {
@@ -56,6 +66,48 @@ export default {
     }
   },
   actions: {
+    create_responses_local: async (context, responses) => {
+      try {
+        await controller.create_local_bulk(responses)
+        context.commit('add_responses', responses)
+        context.commit('root:set_snackbar', {message: 'Created records'}, {root: true})
+      } catch (e) {
+        console.error(e)
+        context.commit('root:set_snackbar', {message: 'Could not save records locally'}, {root: true})
+      }
+    },
+    mark_local_responses_as_synced: async (context, responses) => {
+      responses.forEach(response => {
+        response.synced = true
+      })
+      try {
+        await controller.create_local_bulk(responses)
+        context.commit('update_responses', responses)
+      } catch (e) {
+        console.error(e)
+        context.commit('root:set_snackbar', {message: 'Could not mark records as synced locally'}, {root: true})
+      }
+    },
+    create_response_local: async (context, response) => {
+      try {
+        await controller.create_local(response)
+        context.commit('create_response', response)
+        context.commit('root:set_snackbar', {message: 'Created record'}, {root: true})
+      } catch (e) {
+        console.error(e)
+        context.commit('root:set_snackbar', {message: 'Could not save record locally'}, {root: true})
+      }
+    },
+    update_response_local: async (context, response) => {
+      try {
+        await controller.update_local(response)
+        context.commit('update_response', response)
+        context.commit('root:set_snackbar', {message: 'Updated record'}, {root: true})
+      } catch (e) {
+        console.error(e)
+        context.commit('root:set_snackbar', {message: 'Could not update record locally'}, {root: true})
+      }
+    },
     create_records: async (context, records) => {
       // TODO: @refac DEFINITELY put batching inside the controller!
       const max_records_in_batch = CONFIG.remote.max_records_batch_size
@@ -72,7 +124,7 @@ export default {
         await controller.create_batch_network(records_batch)
           .then((passed_records) => {
             // Set synced status for successfully-synced records
-            context.commit('mark_responses_as_synced', passed_records)
+            context.dispatch('mark_local_responses_as_synced', passed_records)
             results.pass.push(passed_records)
           })
           .catch((failed_records) => {
@@ -83,5 +135,9 @@ export default {
       // Return the results array
       return results
     },
+    read_records: async (context) => {
+      const retrieved_responses = await controller.read_all_cache()
+      context.commit('set_responses', retrieved_responses)
+    }
   }
 }

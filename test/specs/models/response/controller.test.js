@@ -39,9 +39,9 @@ test.skip.failing.cb("calls local methods in read_all_network with correct argum
   const {responses, controller} = setup_read_all_network()
 
   controller.read_all_network().then(() => {
-    t.true(controller.local.create_bulk.calledOnce)
+    t.true(controller.local.create_or_update_bulk.calledOnce)
     t.true(controller.local.remove_all.calledOnce)
-    t.deepEqual(responses, controller.local.create_bulk.getCall(0).args[0])
+    t.deepEqual(responses, controller.local.create_or_update_bulk.getCall(0).args[0])
 
     t.end()
   })

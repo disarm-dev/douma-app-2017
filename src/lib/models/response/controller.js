@@ -2,6 +2,7 @@ import remote from './remote'
 import Local from './local'
 import instance_decorator from 'lib/models/response/decorators-evaluated'
 import {store} from 'apps/store'
+import local from 'lib/models/response/local'
 
 export class ResponseController {
   constructor(applet_name) {
@@ -27,7 +28,7 @@ export class ResponseController {
     await this.local.remove_all()
 
     // populate local DB
-    await this.local.create_bulk(decorated_responses)
+    await this.local.create_or_update_bulk(decorated_responses)
 
     // return them
     return remote_responses
@@ -41,6 +42,19 @@ export class ResponseController {
 
   async create_batch_network(responses) {
     return await this.remote.create(responses)
+  }
+
+  async create_local(response) {
+    return await this.local.create(response)
+  }
+
+  async create_local_bulk(responses) {
+    console.log('create local bulk responses', responses)
+    return await this.local.create_or_update_bulk(responses)
+  }
+
+  async update_local(response) {
+    return await this.local.update(response)
   }
 }
 
