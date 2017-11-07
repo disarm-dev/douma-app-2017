@@ -76,7 +76,7 @@ export default {
             results.pass.push(passed_records)
           })
           .catch((failed_records) => {
-            results.fail.push(failed_records)
+            results.fail.push(records_batch)
           })
       }
 
