@@ -10,7 +10,7 @@ const controller = new PlanController('plan')
 
 export default {
   namespaced: true,
-  unpersisted_state_keys: ['current_plan'],
+  unpersisted_state_keys: [],
   state: {
     // Actual data
     current_plan: null, // Instance of plan model
