@@ -10,30 +10,55 @@ export function create_options(unpersisted_state) {
   if (!unpersisted_state) throw new Error('unpersisted_state object required')
 
   return {
-    getState: (key, storage) => {
-      const value = storage.getItem(key);
+    getState: (root_key, storage) => {
+      let state = {}
 
-      try {
-        return value && value !== 'undefined' ? JSON.parse(value) : undefined;
-      } catch (err) {
-        return undefined;
+      // extract keys from index (test_and_parse)
+      const index_key = root_key + 'index'
+      const index_keys = test_and_parse(storage.getItem(index_key))
+
+      if (!index_keys) return state
+      // iterate each key and extract value from storage (test_and_parse)
+      index_keys.forEach(key => {
+        // get value from storage
+        const value = test_and_parse(storage.getItem(root_key + key))
+        set(state, key, value)
+      })
+      // reconstruct state object
+
+      unpersisted_state.forEach(({store_path, default_value}) => {
+        set(state, store_path, default_value)
+      })
+
+
+      function test_and_parse(value) {
+        try {
+          return value && value !== 'undefined' ? JSON.parse(value) : undefined;
+        } catch (err) {
+          return undefined;
+        }
       }
-    },
-    setState: (key, state, storage) => {
-      setTimeout(() => storage.setItem(key, JSON.stringify(state)), 0)
-    },
-    reducer: (state) => {
-      if (unpersisted_state.length === 0) {
-        return state
-      } else {
-        const state_copy = cloneDeep(state)
 
-        unpersisted_state.forEach(function ({store_path, default_value}) {
-          set(state_copy, store_path, default_value)
-        })
+      return state
+    },
+    setState: (root_key, state, storage) => {
+      let index = []
 
-        return state_copy
+      for (const applet_name in state) {
+        const applet_state = state[applet_name]
+        for (const state_property in applet_state) {
+          const key = `${applet_name}.${state_property}`
+          const is_persisted = !unpersisted_state.some(u => u.store_path === key)
+          if (is_persisted) {
+            const key_specific_state = get(state, key)
+            storage.setItem(root_key + key, JSON.stringify(key_specific_state))
+            index.push(key)
+          }
+        }
       }
+      const index_key = root_key + 'index'
+      console.warn('setting state')
+      storage.setItem(index_key, JSON.stringify(index))
     }
   }
 }
