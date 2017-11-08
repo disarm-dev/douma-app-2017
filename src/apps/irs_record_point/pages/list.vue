@@ -6,12 +6,12 @@
       </md-button>
 
       <template slot="menu_items">
-        <md-menu-item :disabled="syncing || unsynced_count === 0 || !online" @click="sync">
+        <md-menu-item :disabled="has_write_permission || syncing || unsynced_count === 0 || !online" @click="sync">
           <md-icon>sync</md-icon>
           <span>Sync {{unsynced_count}} responses</span>
         </md-menu-item>
 
-        <md-menu-item :disabled="syncing || unsynced_count === 0" @click="download_records">
+        <md-menu-item :disabled="has_write_permission || syncing || unsynced_count === 0" @click="download_records">
           <md-icon>file_download</md-icon>
           <span>Export {{unsynced_count}} unsynced</span>
         </md-menu-item>
@@ -105,6 +105,10 @@
       },
       unsynced_responses() {
         return this.responses.filter(r => !r.synced)
+      },
+
+      has_write_permission() {
+        return this.$store.state.meta.user.permissions.includes('write:irs_record_point')
       }
     },
     mounted () {
