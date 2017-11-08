@@ -1,5 +1,6 @@
 import Raven from 'raven-js'
 import get from 'lodash.get'
+import unique from 'array-unique'
 
 import {authenticate} from 'lib/models/user'
 import {decorate_applets} from 'lib/instance_data/decorated_applets'
@@ -30,7 +31,8 @@ export default {
       // Figure out which applets are allowed, and only decorate and show these!
       if (!state.user) return []
 
-      const user_allowed_applets = state.user.allowed_apps.read
+      const list_of_applets = state.user.permissions.map(p => p.replace('write:', '').replace('read:', ''))
+      const user_allowed_applets = unique(list_of_applets)
       const instance_applets = rootState.instance_config.applets
 
       const decorated_applets = decorate_applets({user_allowed_applets, instance_applets})
