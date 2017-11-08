@@ -1,21 +1,21 @@
 <template>
   <controls>
-    <md-button slot="primary_action" class="md-icon-button md-raised md-primary" :disabled="isLoading('irs_monitor/load_responses')" @click.native='load_data'>
+    <md-button slot="primary_action" class="md-icon-button md-raised md-primary" :disabled="!has_read_permission || isLoading('irs_monitor/load_responses')" @click.native='load_data'>
       <md-icon>refresh</md-icon>
     </md-button>
 
     <template slot="menu_items">
-      <md-menu-item :disabled="isLoading('irs_monitor/load_plan')" @click="load_plan">
+      <md-menu-item :disabled="!has_read_permission || isLoading('irs_monitor/load_plan')" @click="load_plan">
         <md-icon>file_download</md-icon>
         <span>Load plan</span>
       </md-menu-item>
 
-      <md-menu-item :disabled="isLoading('irs_monitor/load_responses')" @click="load_responses">
+      <md-menu-item :disabled="!has_read_permission || isLoading('irs_monitor/load_responses')" @click="load_responses">
         <md-icon>file_download</md-icon>
         <span>Load responses</span>
       </md-menu-item>
 
-      <md-menu-item :disabled="isLoading('irs_monitor/refresh_data') || !responses.length" @click="download_responses">
+      <md-menu-item :disabled="!has_read_permission || isLoading('irs_monitor/refresh_data') || !responses.length" @click="download_responses">
         <md-icon>file_download</md-icon>
         <span>Download responses</span>
       </md-menu-item>
@@ -65,7 +65,14 @@
       }),
       ...mapGetters({
         isLoading: 'loading/isLoading'
-      })
+      }),
+      has_write_permission() {
+        return this.$store.state.meta.user.permissions.includes('write:irs_monitor')
+      },
+
+      has_read_permission() {
+        return this.$store.state.meta.user.permissions.includes('read:irs_monitor')
+      }
     },
     methods: {
       load_data() {
