@@ -1,4 +1,5 @@
-import clonedeep from 'lodash.clonedeep'
+import {clonedeep} from 'lodash'
+import deepFreeze from 'deep-freeze'
 
 import CONFIG from 'config/common'
 import {ResponseController} from 'lib/models/response/controller'
@@ -20,10 +21,10 @@ export default {
       console.warn('Not clearing irs_record_point.responses - use localStorage.clear() if you really want')
     },
     set_responses: (state, responses) => {
-      state.responses = responses
+      state.responses = deepFreeze(responses)
     },
     create_response: (state, response) => {
-      state.responses.push(response)
+      state.responses.push(deepFreeze(response))
     },
     update_response: (state, response) => {
       let index = state.responses.findIndex((r) => r.id === response.id)
@@ -66,6 +67,11 @@ export default {
     }
   },
   actions: {
+    responses() {
+      // watch filters or some other 'trigger' property
+      // load matching responses from IndexedDB
+      // return loaded_responses
+    },
     create_responses_local: async (context, responses) => {
       try {
         await controller.create_local_bulk(responses)
