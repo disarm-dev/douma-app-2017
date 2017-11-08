@@ -2,15 +2,15 @@
   <div>
     <controls>
       <template slot="menu_items">
-        <md-menu-item :disabled="isLoading('irs_tasker/load_plan')" @click="load_plan">
+        <md-menu-item :disabled="!has_read_permission || isLoading('irs_tasker/load_plan')" @click="load_plan">
           <md-icon>assignment_turned_in</md-icon>
           <span>Load plan</span>
         </md-menu-item>
-        <md-menu-item :disabled="isLoading('irs_tasker/save_assignments') || !plan_target_ids.length || !assignments.length || !unsynced_changes" @click="save_assignments">
+        <md-menu-item :disabled="!has_write_permission || isLoading('irs_tasker/save_assignments') || !plan_target_ids.length || !assignments.length || !unsynced_changes" @click="save_assignments">
           <md-icon>save</md-icon>
           <span>Save assignments</span>
         </md-menu-item>
-        <md-menu-item :disabled="isLoading('irs_tasker/load_assignments') || !plan_target_ids.length" @click="load_assignments">
+        <md-menu-item :disabled="!has_read_permission || isLoading('irs_tasker/load_assignments') || !plan_target_ids.length" @click="load_assignments">
           <md-icon>group</md-icon>
           <span>Load assignments</span>
         </md-menu-item>
@@ -110,6 +110,14 @@
           }
         }).filter(t => t.team_name !== DECORATED_UNASSIGNED_TEAM.team_name)
           .concat({...DECORATED_UNASSIGNED_TEAM, count: unassigned_count})
+      },
+
+      has_write_permission() {
+        return this.$store.state.meta.user.permissions.includes('write:irs_tasker')
+      },
+
+      has_read_permission() {
+        return this.$store.state.meta.user.permissions.includes('read:irs_tasker')
       }
     },
     created() {
