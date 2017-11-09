@@ -14,8 +14,6 @@ export default {
   applets: {
     // The order here is irrelevant to sidebar - that is currently fixed by the user auth/permissions sheet,
     // but should set by instance_config.json
-    'data_wizard': {title: 'Data wizard', icon: 'event_seat'},
-    'structure_recorder': {title: 'Structure Recorder', icon: 'assignment'},
     'irs_record_point': {title: 'IRS Record', icon: 'assignment'},
     'irs_plan': {title: 'IRS Plan', icon: 'assignment_turned_in', geodata_required: true},
     'irs_monitor': {
