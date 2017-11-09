@@ -146,12 +146,14 @@ export default {
       return plan_controller.read_plan_current_network()
         .then(plan_json => {
           if (Object.keys(plan_json).length === 0) {
-            context.commit('root:set_snackbar', {message: 'No plan loaded.'}, {root: true})
+            return context.commit('root:set_snackbar', {message: 'No plan loaded.'}, {root: true})
           }
-          if (new Plan().validate(plan_json)) {
+
+          try {
+            new Plan().validate(plan_json)
             context.commit('set_plan', plan_json)
-          } else {
-            console.error('plan_json is not a Plan', plan_json)
+          } catch (e) {
+            console.log(e)
           }
         })
     }
