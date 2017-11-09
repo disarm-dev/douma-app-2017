@@ -5,8 +5,8 @@ export default class Local {
     this.table = db[applet_name + '/responses']
   }
 
-  async read_all() {
-    return await this.table.toArray()
+  async read_all({personalised_instance_id, instance}) {
+    return  await this.table.where({personalised_instance_id, instance_slug: instance}).toArray()
   }
 
   async create(response) {

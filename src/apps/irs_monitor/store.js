@@ -130,7 +130,9 @@ export default {
   },
   actions: {
     get_responses_local: (context) => {
-      return response_controller.read_all_cache().then(responses => {
+      const personalised_instance_id = context.rootState.meta.personalised_instance_id
+      const instance = context.rootState.instance_config.instance.slug
+      return response_controller.read_all_cache({personalised_instance_id, instance}).then(responses => {
         context.commit('set_responses', responses)
       })
     },

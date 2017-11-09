@@ -35,8 +35,8 @@ export class ResponseController {
   }
 
 
-  async read_all_cache() {
-    return await this.local.read_all()
+  async read_all_cache({personalised_instance_id, instance}) {
+    return await this.local.read_all({personalised_instance_id, instance})
   }
 
 
