@@ -6,5 +6,6 @@
 export const has_permission = ({user, applet_name}) => {
   if (['meta'].includes(applet_name)) return true
 
-  return user.allowed_apps.read.includes(applet_name)
+  const list_of_applets = user.permissions.map(p => p.replace('write:', '').replace('read:', ''))
+  return list_of_applets.includes(applet_name)
 }
