@@ -343,7 +343,7 @@
         })
       },
       update_response(response) {
-        this.$store.commit('irs_record_point/update_response_local', response).then(() => {
+        this.$store.dispatch('irs_record_point/update_response_local', response).then(() => {
           this.$router.push('/irs/record_point/')
         })
       },
