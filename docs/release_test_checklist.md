@@ -1,5 +1,7 @@
 # Release test checklist
 
+- [ ] Start these tests online
+- [ ] Repeat offline 
 
 ## META
 
