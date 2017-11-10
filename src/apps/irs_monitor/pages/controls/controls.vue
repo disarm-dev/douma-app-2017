@@ -5,6 +5,7 @@
         <md-icon v-if="show_filters">keyboard_arrow_down</md-icon>
         <md-icon v-else>keyboard_arrow_right</md-icon>
         Filters
+        <span v-if="filters.length">({{filters.length}} active filters)</span>
       </div>
     </md-card-header>
 
@@ -18,7 +19,7 @@
 </template>
 
 <script>
-  //import { mapState, mapActions, mapMutations } from 'vuex'
+  import {mapState} from 'vuex'
   import aggregation_settings from './aggregation-settings.vue'
   import filters from './filters/filters.vue'
   import limit_to from './limit-to.vue'
@@ -28,6 +29,9 @@
     components: {filters, aggregation_settings, limit_to},
     props: ['responses', 'targets'],
     computed: {
+      ...mapState({
+        filters: state => state.irs_monitor.filters,
+      }),
       show_filters: {
         get(){
           return this.$store.state.irs_monitor.ui.show_filters
