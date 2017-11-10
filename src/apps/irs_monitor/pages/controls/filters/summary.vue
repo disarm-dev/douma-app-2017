@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <h2>Active filters</h2>
+    <div v-if="filters.length">
+        <h4>Active filters</h4>
         <md-chip v-for="({name, comparator, value}, index) in formatted_filters" :key="index" md-deletable @delete="on_delete(filters[index])">
             {{name}} {{comparator}} {{value}}
         </md-chip>
