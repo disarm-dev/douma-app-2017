@@ -21,43 +21,22 @@ test.cb('read_plan_current_network calls remote', t => {
   })
 })
 
-test.cb('read_plan_current_local calls local', t => {
+
+test.cb('create_plan calls remote', t => {
   const controller = new PlanController('test')
-
-  controller.local = {
-    read: sinon.stub().returns(Promise.resolve())
-  }
-
-  controller.read_plan_current_local().then(() => {
-    t.true(controller.local.read.calledOnce)
-    t.end()
-  })
-})
-
-test.cb('create_plan calls local and remote', t => {
-  const controller = new PlanController('test')
-
-  controller.local = {
-    create: sinon.stub().returns(Promise.resolve())
-  }
 
   controller.remote = {
     create_plan: sinon.stub().returns(Promise.resolve())
   }
 
   controller.create_plan().then(() => {
-    t.true(controller.local.create.calledOnce)
     t.true(controller.remote.create_plan.calledOnce)
     t.end()
   })
 })
 
-test.cb('create_plan calls local and remote with correct arguments', t => {
+test.cb('create_plan calls remote with correct arguments', t => {
   const controller = new PlanController('test')
-
-  controller.local = {
-    create: sinon.stub().returns(Promise.resolve())
-  }
 
   controller.remote = {
     create_plan: sinon.stub().returns(Promise.resolve())
@@ -66,7 +45,6 @@ test.cb('create_plan calls local and remote with correct arguments', t => {
   const plan = {id: 1}
 
   controller.create_plan(plan).then(() => {
-    t.deepEqual(plan, controller.local.create.getCall(0).args[0])
     t.deepEqual(plan, controller.remote.create_plan.getCall(0).args[0])
     t.end()
   })
