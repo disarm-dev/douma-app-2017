@@ -2,8 +2,8 @@
   <div>
     <md-checkbox :disabled="disabled" v-model="include_responses_outside_plan">Include responses outside plan</md-checkbox>
     <p v-if="include_responses_outside_plan" class="warn">
-      Uncheck only if responses have been recorded outside the plan.
-      Note that aggregations are calculated from the plan so will be incorrect or missing if unchecked,  but responses will display on the map.
+      You are showing responses outside the plan. This will display responses on the map, but note that aggregations are calculated from the plan so they may be incorrect or missing.
+      Uncheck to limit responses to the plan.
     </p>
   </div>
 </template>
