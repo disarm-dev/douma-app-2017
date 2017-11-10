@@ -2,7 +2,6 @@ import remote from './remote'
 import Local from './local'
 import instance_decorator from 'lib/models/response/decorators-evaluated'
 import {store} from 'apps/store'
-import local from 'lib/models/response/local'
 
 export class ResponseController {
   constructor(applet_name) {
@@ -49,7 +48,6 @@ export class ResponseController {
   }
 
   async create_local_bulk(responses) {
-    console.log('create local bulk responses', responses)
     return await this.local.create_or_update_bulk(responses)
   }
 
