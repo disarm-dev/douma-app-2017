@@ -47,6 +47,7 @@
       ...mapState({
         user: state => state.meta.user.username,
         slug: state => state.instance_config.instance.slug,
+        personalised_instance_id: state => state.meta.personalised_instance_id,
         instance_config: state => state.instance_config,
       }),
       location_selection() {
@@ -92,6 +93,7 @@
 
         const response = {
           id: uuid(),
+          personalised_instance_id: this.personalised_instance_id,
           instance_slug: this.slug,
           form_data: this.get_form_data(),
           location: {
