@@ -6,7 +6,10 @@ export default class Local {
   }
 
   async read_all({personalised_instance_id, instance}) {
-    return  await this.table.where({personalised_instance_id, instance_slug: instance}).toArray()
+    const responses = await this.table.toArray()
+    return responses.filter(r => {
+      return r.instance_slug === instance && r.personalised_instance_id === personalised_instance_id
+    })
   }
 
   async create(response) {
