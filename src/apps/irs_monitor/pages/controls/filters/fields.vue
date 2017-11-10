@@ -1,11 +1,9 @@
 <template>
   <div>
-    <h2>Filters for all fields</h2>
+    <h3>Filters for all fields</h3>
 
     <div class="filter_fields">
       <md-input-container class="filter_field">
-        <label>Select field and value</label>
-
         <md-select v-model="filter_name" class="select" :disabled="!field_names.length">
           <md-option v-for="field_name in field_names" :key='field_name' :value="field_name">{{field_name}}</md-option>
         </md-select>

@@ -1,7 +1,7 @@
 <template>
   <md-card class="card filter_select filter-container">
     <md-card-header>
-      <div class="md-title" @click="show_filters = !show_filters">
+      <div id="title" class="md-title" @click="show_filters = !show_filters">
         <md-icon v-if="show_filters">keyboard_arrow_down</md-icon>
         <md-icon v-else>keyboard_arrow_right</md-icon>
         Filters
@@ -9,9 +9,9 @@
     </md-card-header>
 
     <md-card-content v-show="show_filters">
-      <limit_to :responses="responses" :targets="targets"></limit_to>
-      <aggregation_settings :responses="responses" :targets="targets"></aggregation_settings>
       <filters :responses="responses"></filters>
+      <aggregation_settings :responses="responses" :targets="targets"></aggregation_settings>
+      <limit_to :responses="responses" :targets="targets"></limit_to>
     </md-card-content>
 
   </md-card>
@@ -41,6 +41,14 @@
 </script>
 
 <style scoped>
+  .md-card-header {
+    cursor: pointer;
+  }
+
+  #title {
+    margin-top: 0;
+  }
+
   .filter-container {
     z-index: 2;
     overflow: visible;

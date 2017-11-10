@@ -1,12 +1,12 @@
 <template>
   <div>
-    <filters_summary :filters="filters" @remove_filter="remove_filter"></filters_summary>
-
     <field_filters :responses="responses" @change="add_filter"></field_filters>
 
     <temporal_filter :responses="responses" @change="add_filter"></temporal_filter>
 
     <spatial_filter :filters="filters" @change="add_filter"></spatial_filter>
+
+    <filters_summary :filters="filters" @remove_filter="remove_filter"></filters_summary>
   </div>
 </template>
 
