@@ -1,13 +1,17 @@
 # Release test checklist
 
+
 ## META
-- [ ] (login)
+
+- [ ] login (if not already)
 - [ ] logout
 - [ ] login
 - [ ] set instance ID
 - [ ] reload - check still logged-in
 
+
 ## PLAN
+
 - [ ] load a plan - should get nothing
 - [ ] create a plan:
 	- [ ] bulk select
@@ -16,16 +20,22 @@
 - [ ] clear plan
 - [ ] load plan
 
-## FAKE DATA
+
+## DEBUG/FAKE DATA
+
 - [ ] create some fake records (few clicks)
 
+
 ## RECORD
+
 - [ ] edit previously-created record
 - [ ] sync records
 - [ ] view previously-created record
 - [ ] create record by hand (multiple paths)
 
+
 ## DASHBOARD
+
 - [ ] load plan
 - [ ] load responses
 - [ ] sync both
