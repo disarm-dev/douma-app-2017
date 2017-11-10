@@ -10,7 +10,7 @@ const controller = new PlanController('plan')
 
 export default {
   namespaced: true,
-  unpersisted_state_keys: ['current_plan'],
+  unpersisted_state_keys: [],
   state: {
     // Actual data
     current_plan: null, // Instance of plan model
@@ -135,24 +135,6 @@ export default {
           context.commit('set_plan', plan)
           context.commit('set_unsaved_changes', false)
         })
-    },
-    'get_local_plan': (context) => {
-      return controller.read_plan_current_local().then(plan => {
-
-        if (Object.keys(plan).length === 0) {
-          return context.commit('root:set_snackbar', {message: 'There is no plan. Please create one.'}, {root: true})
-        }
-
-        // TODO: @refac Move the duplicate logic below into a commit
-        let target_areas = plan.targets.map(area => {
-          return area.id
-        })
-
-        context.commit('clear_plan')
-        context.commit('set_plan', plan)
-        context.commit('add_selected_target_areas', target_areas)
-        context.commit('set_unsaved_changes', false)
-      })
     },
     'get_network_plan': (context) => {
       return controller.read_plan_current_network().then(plan_json => {
