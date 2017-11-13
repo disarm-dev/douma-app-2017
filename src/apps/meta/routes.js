@@ -4,6 +4,7 @@ import login from './pages/login.vue'
 import logout from './pages/logout.vue'
 import clear_data from './pages/clear_data.vue'
 import geodata from './pages/geodata.vue'
+import fix_personalised_instance_id_record from './pages/fix_personalised_instance_id_record.vue'
 
 export default [
   {
@@ -34,6 +35,11 @@ export default [
         path: 'geodata',
         name: 'meta:geodata',
         component: geodata,
+      },
+      {
+        path: 'fix_personalised_instance_id_record',
+        name: 'meta:fix_personalised_instance_id_record',
+        component: fix_personalised_instance_id_record,
       }
     ]
   }
