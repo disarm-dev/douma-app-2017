@@ -5,11 +5,8 @@ export default class Local {
     this.table = db[applet_name + '/responses']
   }
 
-  async read_all({personalised_instance_id, instance}) {
-    const responses = await this.table.toArray()
-    return responses.filter(r => {
-      return r.instance_slug === instance && r.personalised_instance_id === personalised_instance_id
-    })
+  async read_all() {
+    return await this.table.toArray()
   }
 
   async create(response) {
