@@ -49,12 +49,13 @@ export function create_router(instance_routes, store) {
     const decorated_applets = store.getters['meta/decorated_applets']
     const to_applet = decorated_applets.find(applet => applet.name === to.name.split(":")[0])
     const geodata_required = get(to_applet, 'geodata_required', false)
-    if (!geodata_required) {
+
+    // if you're on your way to any 'meta' page, then carry on
+    if (!geodata_required || to.name.startsWith('meta')) {
       return next()
     }
 
-    // if you're on your way to any 'meta' page, then carry on
-    if (/^meta/.test(to.name)) return next()
+    console.log('check')
 
     // geodata is required by at least one applet. check if it's already valid
     if (!geodata_in_cache_and_valid()) {
