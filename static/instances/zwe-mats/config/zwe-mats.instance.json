@@ -192,7 +192,7 @@
     "customisable_api_url": true
   },
   "spatial_hierarchy": {
-    "data_version": 11,
+    "data_version": 12,
     "markers": {
       "planning_level_name": "wards",
       "record_location_selection_level_name": "wards",
