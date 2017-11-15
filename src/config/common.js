@@ -14,7 +14,7 @@ export default {
   applets: {
     // The order here is irrelevant to sidebar - that is currently fixed by the user auth/permissions sheet,
     // but should set by instance_config.json
-    'irs_record_point': {title: 'IRS Record', icon: 'assignment'},
+    'irs_record_point': {title: 'IRS Record', icon: 'assignment', geodata_required: false},
     'irs_plan': {title: 'IRS Plan', icon: 'assignment_turned_in', geodata_required: true},
     'irs_monitor': {
       title: 'IRS Monitor',
@@ -28,9 +28,11 @@ export default {
       }
     },
     'irs_tasker': {title: 'IRS Tasker', icon: 'group', geodata_required: true},
-    'debug': {title: 'Debug', icon: 'bug_report', geodata_required: false},
+    'debug': {title: 'Debug', icon: 'bug_report', geodata_required: true},
     // Meta below is currently ignored in sidebar (statically included), but here for the breadcrumbs
-    'meta': {title: 'User', icon: 'person'},
+    'meta': {
+      title: 'User', icon: 'person', geodata_required: false
+    },
   },
   hash_params: {
     INSTANCE_ID: 'instance',
