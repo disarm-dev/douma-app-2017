@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import {isEqual} from 'lodash'
+import {isEqual, get} from 'lodash'
 
 import {set_filter, unset_filter} from './pages/controls/filters/controller'
 import {Plan} from 'lib/models/plan/model'
@@ -119,7 +119,13 @@ export default {
       // limit to plan if 'dashboard_options.limit_to_plan' is true
       const limited_to_plan = state.responses.filter(r => {
         if (!state.dashboard_options.limit_to_plan) return true
-        return getters.plan_target_area_ids.includes(r.location.selection.id)
+
+        const id = get(r, 'location.selection.id', false)
+        if (id) {
+          return getters.plan_target_area_ids.includes(id)
+        } else {
+          return false
+        }
       })
 
       const filtered = filter_responses(limited_to_plan, state.filters)
