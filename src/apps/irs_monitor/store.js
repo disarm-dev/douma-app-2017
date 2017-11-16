@@ -149,13 +149,18 @@ export default {
     get_all_records: (context) => {
       const last_id = context.state.last_id
       return response_controller.read_new_network(last_id).then(responses => {
+        context.commit('update_responses_last_updated_at')
+
         if (responses.length) {
           const updated_last_id = responses[responses.length - 1]._id
           context.commit('set_last_id', updated_last_id)
-          context.commit('set_responses', responses)
-          context.dispatch('get_all_records')
+          context.commit('root:set_snackbar', {message: 'Retrieving records.'}, {root: true})
+          return context.dispatch('get_responses_local').then(() => context.dispatch('get_all_records'))
+        } else {
+          return context.dispatch('get_responses_local')
         }
-        context.commit('update_responses_last_updated_at')
+
+        return responses
       })
     },
     get_current_plan: (context) => {
