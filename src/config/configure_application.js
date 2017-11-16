@@ -90,6 +90,8 @@ export function configure_application (instance_config) {
     render: createElement => createElement(DoumaComponent),
   })
 
+  window.__disarm_debug_app = douma_app
+
 
   // AFTER VUE APP IS CREATED (first page has rendered)
 
