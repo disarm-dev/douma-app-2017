@@ -9,13 +9,11 @@ export class ResponseController {
     this.remote = remote
   }
 
-  async read_new_network() {
-    const responses =  await this.local.read_all()
-    const known_ids = responses.map(r => r.id)
-    const new_responses = await this.remote.read_new(known_ids)
+  async read_new_network(last_id) {
+    const new_responses = await this.remote.read_new(last_id)
     const decorated_responses = instance_decorator(new_responses, store.state.instance_config)
     await this.local.create_or_update_bulk(decorated_responses)
-    return await this.local.read_all()
+    return decorated_responses
   }
 
   async read_all_network() {
@@ -44,7 +42,7 @@ export class ResponseController {
 
 
   async read_all_cache({personalised_instance_id, instance}) {
-    const responses =  await this.local.read_all()
+    const responses = await this.local.read_all()
     return responses.filter(r => {
       return r.instance_slug === instance && r.personalised_instance_id === personalised_instance_id
     })

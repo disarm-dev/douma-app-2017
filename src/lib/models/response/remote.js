@@ -2,17 +2,17 @@ import {request_handler} from "lib/remote/request-handler"
 
 export default {read_all, read_new, create}
 
-function read_new(current) {
-  const request = _read_new(current)
+function read_new(last_id) {
+  const request = _read_new(last_id)
   return request_handler(request)
 }
 
-function _read_new(current) {
+function _read_new(last_id) {
   return {
     url_suffix: '/record/updates',
     timeout: 20000,
     method: 'post',
-    data: {known_ids: current}
+    data: {last_id: last_id}
   }
 }
 

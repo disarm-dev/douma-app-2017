@@ -22,6 +22,7 @@ export default {
     },
     responses: [],
     responses_last_updated_at: null,
+    last_id: null, // ObjectID of most recently synced response
     filters: [],
     plan: null,
     filter: null,
@@ -90,6 +91,9 @@ export default {
     },
     set_show_response_points(state, show_response_points) {
       state.map_options.show_response_points = show_response_points
+    },
+    set_last_id(state, last_id) {
+      state.last_id = last_id
     }
   },
   getters: {
@@ -143,9 +147,15 @@ export default {
       })
     },
     get_all_records: (context) => {
-      return response_controller.read_new_network().then(responses => {
+      const last_id = context.state.last_id
+      return response_controller.read_new_network(last_id).then(responses => {
+        if (responses.length) {
+          const updated_last_id = responses[responses.length - 1]._id
+          context.commit('set_last_id', updated_last_id)
+          context.commit('set_responses', responses)
+          context.dispatch('get_all_records')
+        }
         context.commit('update_responses_last_updated_at')
-        context.commit('set_responses', responses)
       })
     },
     get_current_plan: (context) => {
