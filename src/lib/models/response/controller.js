@@ -9,6 +9,15 @@ export class ResponseController {
     this.remote = remote
   }
 
+  async read_new_network() {
+    const responses =  await this.local.read_all()
+    const known_ids = responses.map(r => r.id)
+    const new_responses = await this.remote.read_new(known_ids)
+    const decorated_responses = instance_decorator(new_responses, store.state.instance_config)
+    await this.local.create_or_update_bulk(decorated_responses)
+    return await this.local.read_all()
+  }
+
   async read_all_network() {
     // get them from remote
     const remote_responses = await this.remote.read_all()

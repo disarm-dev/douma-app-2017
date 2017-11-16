@@ -143,7 +143,7 @@ export default {
       })
     },
     get_all_records: (context) => {
-      return response_controller.read_all_network().then(responses => {
+      return response_controller.read_new_network().then(responses => {
         context.commit('update_responses_last_updated_at')
         context.commit('set_responses', responses)
       })
