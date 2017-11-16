@@ -88,11 +88,11 @@
         this.$startLoading('irs_monitor/load_responses')
 
         this.$store.dispatch('irs_monitor/get_all_records')
-          .then(() => {
+          .then((responses) => {
             this.$endLoading('irs_monitor/load_responses')
             let message
-            if (this.responses.length > 0) {
-              message = 'Successfully retrieved responses'
+            if (responses.length > 0) {
+              message = `Successfully retrieved responses`
             } else {
               message = 'Successful retrieve, zero records found.'
             }
