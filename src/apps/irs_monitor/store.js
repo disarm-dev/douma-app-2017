@@ -146,20 +146,21 @@ export default {
         context.commit('set_responses', responses)
       })
     },
-    get_all_records: (context) => {
+    get_all_records: async (context) => {
       const last_id = context.state.last_id
-      return response_controller.read_new_network(last_id).then(responses => {
-        context.commit('update_responses_last_updated_at')
 
-        if (responses.length) {
-          const updated_last_id = responses[responses.length - 1]._id
-          context.commit('set_last_id', updated_last_id)
-          context.commit('root:set_snackbar', {message: 'Retrieving records.'}, {root: true})
-          return context.dispatch('get_responses_local').then(() => context.dispatch('get_all_records'))
-        } else {
-          return context.dispatch('get_responses_local')
-        }
-      })
+      const responses = await response_controller.read_new_network(last_id)
+
+      if (responses.length) {
+        const updated_last_id = responses[responses.length - 1]._id
+        context.commit('set_last_id', updated_last_id)
+        context.commit('root:set_snackbar', {message: 'Retrieving more records.'}, {root: true})
+        return context.dispatch('get_all_records')
+      } else {
+        context.commit('root:set_snackbar', {message: 'Completed retrieving records. Updated map, table, charts.'}, {root: true})
+        return context.dispatch('get_responses_local')
+      }
+
     },
     get_current_plan: (context) => {
       return plan_controller.read_plan_current_network()
