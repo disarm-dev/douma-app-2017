@@ -9,6 +9,10 @@ export class ResponseController {
     this.remote = remote
   }
 
+  async count_local() {
+    return await this.local.count()
+  }
+
   async read_new_network(last_id) {
     const new_responses = await this.remote.read_new(last_id)
     const decorated_responses = instance_decorator(new_responses, store.state.instance_config)
