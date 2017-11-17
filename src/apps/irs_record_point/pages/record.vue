@@ -279,7 +279,9 @@
         }
       },
       go_back_to_location_view() {
-        this.survey.currentPage = this.survey.pages[0]
+        if (this.survey) {
+          this.survey.currentPage = this.survey.pages[0]
+        }
         const location_index = this.pages.findIndex(page => page === 'location')
         this.current_view = this.pages[location_index]
       },
