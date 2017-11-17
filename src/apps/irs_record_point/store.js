@@ -121,15 +121,13 @@ export default {
       while (records_left.length > 0) {
         const records_batch = records_left.splice(0, max_records_in_batch)
 
-        await controller.create_batch_network(records_batch)
-          .then((passed_records) => {
-            // Set synced status for successfully-synced records
-            context.dispatch('mark_local_responses_as_synced', passed_records)
-            results.pass.push(passed_records)
-          })
-          .catch((failed_records) => {
-            results.fail.push(records_batch)
-          })
+        try {
+          const passed_records = await controller.create_batch_network(records_batch)
+          await context.dispatch('mark_local_responses_as_synced', passed_records)
+          results.pass.push(passed_records)
+        } catch (failed_records) {
+          results.fail.push(records_batch)
+        }
       }
 
       // Return the results array
