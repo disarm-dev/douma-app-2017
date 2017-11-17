@@ -159,8 +159,6 @@ export default {
         } else {
           return context.dispatch('get_responses_local')
         }
-
-        return responses
       })
     },
     get_current_plan: (context) => {
