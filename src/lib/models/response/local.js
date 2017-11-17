@@ -5,6 +5,10 @@ export default class Local {
     this.table = db[applet_name + '/responses']
   }
 
+  async count() {
+    return await this.table.count()
+  }
+
   async read_all() {
     return await this.table.toArray()
   }
@@ -18,7 +22,7 @@ export default class Local {
   }
 
   async create_or_update_bulk(responses) {
-    await this.table.bulkPut(responses)
+    return await this.table.bulkPut(responses)
   }
 
   async remove_all() {
