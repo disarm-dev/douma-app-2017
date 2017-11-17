@@ -15,10 +15,16 @@
         <span>Load responses</span>
       </md-menu-item>
 
+      <md-menu-item :disabled="isLoading('irs_monitor/load_responses')" @click="force_load_responses">
+        <md-icon>file_download</md-icon>
+        <span>Re-load all responses</span>
+      </md-menu-item>
+
       <md-menu-item :disabled="isLoading('irs_monitor/refresh_data') || !responses.length" @click="download_responses">
         <md-icon>file_download</md-icon>
         <span>Download responses</span>
       </md-menu-item>
+
     </template>
 
     <div slot="text">
@@ -74,6 +80,9 @@
       },
       load_responses() {
         this.$emit('load_responses')
+      },
+      force_load_responses() {
+        this.$emit('force_load_responses')
       },
       load_plan() {
         this.$emit('load_plan')
