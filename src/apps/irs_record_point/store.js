@@ -36,13 +36,6 @@ export default {
         state.responses.splice(index, 1, response)
       }
     },
-    mark_responses_as_synced: (state, responses) => {
-      responses.forEach(response => {
-        response.synced = true
-        let index = state.responses.findIndex((r) => r.id === response.id)
-        state.responses.splice(index, 1, response)
-      })
-    },
     add_responses: (state, responses) => {
       state.responses = state.responses.concat(responses)
     },
