@@ -30,7 +30,6 @@ export default {
       state.responses.splice(index, 1, response)
     },
     update_responses: (state, responses) => {
-      console.log('update_responses', responses)
       for (const response of responses) {
         let index = state.responses.findIndex((r) => r.id === response.id)
         state.responses.splice(index, 1, response)
