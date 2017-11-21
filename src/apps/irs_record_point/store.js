@@ -127,15 +127,6 @@ export default {
       // Clone so we can easily splice. response_id ensures updating works
       const records_left = clonedeep(records)
 
-      const tried_records = clonedeep(records_left);
-
-
-     /* for(record in tried_records){
-        record.tried_sync = true;
-        console.log(record)
-      }*/
-
-
       // Batch creating of records
       const results = {pass: [], fail: []}
 
