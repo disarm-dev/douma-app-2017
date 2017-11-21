@@ -133,7 +133,7 @@ export default {
         const records_batch = records_left.splice(0, max_records_in_batch)
 
         await controller.create_batch_network(records_batch)
-          .then((passed_records) => {
+          .then((passed_records) => { // working with v4 of API
             // Find the ids of the  records that were synced, returned either as array of ids or records
             const ids = passed_records.map(record => typeof record === 'string' ? record : record.id);
             const synced_records = ids.map(id => records_batch.find(r => r.id === id))

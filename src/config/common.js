@@ -54,7 +54,7 @@ export default {
     required_instance_files: ['instance', 'form', 'location_selection', 'aggregations', 'fake_form', 'validations', 'presenters', 'decorators']
   },
   remote: {
-    max_records_batch_size: 250
+    max_records_batch_size: 100
   },
   vuex_loader_options: {
     // The Vuex module name, 'loading' by default.
