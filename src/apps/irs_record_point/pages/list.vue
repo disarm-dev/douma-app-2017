@@ -43,11 +43,11 @@
               <md-list-item
                 v-for='response in filtered_responses'
                 :index='response'
-                :class="{'md-primary': !response.synced||!response.uneditable}"
+                :class="{'md-primary': !response.synced || !response.uneditable}"
                 :key="response.id"
               >
                 <md-icon>
-                  {{response.synced ? 'check' : (response.uneditable?'warning':'mode_edit')}}
+                  {{response.synced ? 'check' : (response.uneditable ? 'warning' : 'mode_edit')}}
                 </md-icon>
 
                 <div>
