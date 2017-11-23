@@ -1,9 +1,7 @@
 <template>
   <div>
-    <md-card-header>
-      <h2>Spatial filter</h2>
-      <span v-if="area_filter_set">Spatial filter already set. Please remove the spatial filter before adding a new one.</span>
-    </md-card-header>
+    <h4>Spatial filter</h4>
+    <span v-if="area_filter_set">Spatial filter already set. Please remove the spatial filter before adding a new one.</span>
 
     <multiselect
             class="multiselect"

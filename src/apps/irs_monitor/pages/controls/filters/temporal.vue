@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Temporal filter</h2>
+    <h4>Temporal filter</h4>
     <div class="date-input">
       <b>From</b>
       <date-picker v-model="start"></date-picker>

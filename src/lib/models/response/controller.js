@@ -2,12 +2,22 @@ import remote from './remote'
 import Local from './local'
 import instance_decorator from 'lib/models/response/decorators-evaluated'
 import {store} from 'apps/store'
-import local from 'lib/models/response/local'
 
 export class ResponseController {
   constructor(applet_name) {
     this.local = new Local(applet_name)
     this.remote = remote
+  }
+
+  async count_local() {
+    return await this.local.count()
+  }
+
+  async read_new_network(last_id) {
+    const new_responses = await this.remote.read_new(last_id)
+    const decorated_responses = instance_decorator(new_responses, store.state.instance_config)
+    await this.local.create_or_update_bulk(decorated_responses)
+    return decorated_responses
   }
 
   async read_all_network() {
@@ -35,8 +45,11 @@ export class ResponseController {
   }
 
 
-  async read_all_cache() {
-    return await this.local.read_all()
+  async read_all_cache({personalised_instance_id, instance}) {
+    const responses = await this.local.read_all()
+    return responses.filter(r => {
+      return r.instance_slug === instance && r.personalised_instance_id === personalised_instance_id
+    })
   }
 
 
@@ -49,7 +62,6 @@ export class ResponseController {
   }
 
   async create_local_bulk(responses) {
-    console.log('create local bulk responses', responses)
     return await this.local.create_or_update_bulk(responses)
   }
 

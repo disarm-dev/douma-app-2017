@@ -152,6 +152,7 @@
           "options": {
             "chart_type": "line",
             "time_series": true,
+            "cumulative": true,
             "bin_by": "recorded_on",
             "geographic_level_refactor_this_key_name": "location.selection.id",
             "layout": {
@@ -175,7 +176,6 @@
       ]
     },
     "meta": {},
-    "data_wizard": {},
     "debug": {}
   },
   "map_focus": {

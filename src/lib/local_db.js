@@ -4,7 +4,7 @@ const db = new Dexie('disarm')
 
 const fields = {
   v1: {
-    responses: 'id',
+    responses: 'id, [personalised_instance_id+instance_slug]',
     plan: 'id',
     assignment_plan: 'id'
   }
