@@ -155,6 +155,7 @@ export default {
         const updated_last_id = responses[responses.length - 1]._id
         context.commit('set_last_id', updated_last_id)
         context.commit('root:set_snackbar', {message: 'Retrieving more records.'}, {root: true})
+        context.commit('update_responses_last_updated_at')
         return context.dispatch('get_all_records')
       } else {
         context.commit('root:set_snackbar', {message: 'Completed retrieving records. Updated map, table, charts.'}, {root: true})
