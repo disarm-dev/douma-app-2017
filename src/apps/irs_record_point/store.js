@@ -30,7 +30,6 @@ export default {
       state.responses.splice(index, 1, response)
     },
     update_responses: (state, responses) => {
-      console.log('update_responses', responses)
       for (const response of responses) {
         let index = state.responses.findIndex((r) => r.id === response.id)
         state.responses.splice(index, 1, response)
@@ -134,10 +133,12 @@ export default {
         const records_batch = records_left.splice(0, max_records_in_batch)
 
         await controller.create_batch_network(records_batch)
-          .then((passed_records) => {
-            // Set synced status for successfully-synced records
-            context.dispatch('mark_local_responses_as_synced', passed_records)
-            results.pass.push(passed_records)
+          .then((passed_records_ids) => {
+            // Find the ids of the  records that were synced, returned either as array of ids or records
+            const ids = passed_records_ids.map(record => typeof record === 'string' ? record : record.id);
+            const synced_records = ids.map(id => records_batch.find(r => r.id === id))
+            context.dispatch('mark_local_responses_as_synced', synced_records)
+            results.pass.push(synced_records)
           })
           .catch((failed_records) => {
             context.dispatch('mark_local_responses_as_uneditable', records_batch)

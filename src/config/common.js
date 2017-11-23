@@ -5,7 +5,7 @@ export default {
     // Standard DOUMA API
     url: BUILD_TIME.BRANCH === 'master' ? 'https://douma-api.herokuapp.com' : 'https://douma-api-stage.herokuapp.com',
     // url: 'http://localhost:3000',
-    version: 'v4',
+    version: 'v5',
 
     // Currently not used
     WEATHER_API_URL: 'https://weather.api.disarm.io/processor/output',
@@ -54,7 +54,7 @@ export default {
     required_instance_files: ['instance', 'form', 'location_selection', 'aggregations', 'fake_form', 'validations', 'presenters', 'decorators']
   },
   remote: {
-    max_records_batch_size: 250
+    max_records_batch_size: 100
   },
   vuex_loader_options: {
     // The Vuex module name, 'loading' by default.

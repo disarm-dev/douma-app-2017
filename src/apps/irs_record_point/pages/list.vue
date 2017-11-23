@@ -130,7 +130,6 @@
 
         this.$store.dispatch('irs_record_point/create_records', this.unsynced_responses)
           .then((results) => {
-            console.log('results', results)
             const last_successful_sync_count = flatten(results.pass).length
             const last_failed_sync_count = flatten(results.fail).length
 
