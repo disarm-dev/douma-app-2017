@@ -148,7 +148,7 @@
           })
           .catch((e) => {
             console.log(e)
-            if (e.response.status !== 401) {
+            if (e.response && e.response.status !== 401) {
               this.$store.commit('root:set_snackbar', {message: `Problem syncing responses`})
             }
             this.$endLoading('irs_record_point/sync')
