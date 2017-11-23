@@ -88,6 +88,18 @@ export default {
         context.commit('root:set_snackbar', {message: 'Could not mark records as synced locally'}, {root: true})
       }
     },
+    mark_local_responses_as_uneditable: async (context, responses) => {
+      responses.forEach(response => {
+        response.uneditable = true
+      })
+      try {
+        await controller.create_local_bulk(responses)
+        context.commit('update_responses', responses)
+      } catch (e) {
+        console.error(e)
+        context.commit('root:set_snackbar', {message: 'Could not mark records as synced locally'}, {root: true})
+      }
+    },
     create_response_local: async (context, response) => {
       try {
         await controller.create_local(response)
@@ -128,9 +140,11 @@ export default {
             results.pass.push(passed_records)
           })
           .catch((failed_records) => {
+            context.dispatch('mark_local_responses_as_uneditable', records_batch)
             results.fail.push(records_batch)
           })
       }
+
 
       // Return the results array
       return results
