@@ -21,10 +21,10 @@ export default {
       console.warn('Not clearing irs_record_point.responses - use localStorage.clear() if you really want')
     },
     set_responses: (state, responses) => {
-      state.responses = deepFreeze(responses)
+      state.responses = responses
     },
     create_response: (state, response) => {
-      state.responses.push(deepFreeze(response))
+      state.responses.push(response)
     },
     update_response: (state, response) => {
       let index = state.responses.findIndex((r) => r.id === response.id)
