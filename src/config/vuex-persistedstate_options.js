@@ -3,7 +3,36 @@ import {cloneDeep, get, set} from 'lodash'
 export function generate_persisted_state_options(instance_stores) {
   const unpersisted_state = generate_unpersisted_state(instance_stores)
 
+  check_and_upgrade_from_single_store()
+
   return create_options(unpersisted_state)
+}
+
+/**
+ *
+ * @param state
+ * @param unpersisted_state
+ * @param storage
+ * @param root_key
+ */
+function persist_multiple_stores(state, unpersisted_state, storage, root_key) {
+  let index = []
+
+  for (const applet_name in state) {
+    const applet_state = state[applet_name]
+    for (const state_property in applet_state) {
+      const key = `${applet_name}.${state_property}`
+      const is_persisted = !unpersisted_state.some(u => u.store_path === key)
+      if (is_persisted) {
+        const key_specific_state = get(state, key)
+        storage.setItem(root_key + key, JSON.stringify(key_specific_state))
+        index.push(key)
+      }
+    }
+  }
+  const index_key = root_key + 'index'
+
+  storage.setItem(index_key, JSON.stringify(index))
 }
 
 export function create_options(unpersisted_state) {
@@ -11,6 +40,7 @@ export function create_options(unpersisted_state) {
 
   return {
     getState: (root_key, storage) => {
+      console.log('get state')
       let state = {}
 
       // extract keys from index (test_and_parse)
@@ -42,23 +72,8 @@ export function create_options(unpersisted_state) {
       return state
     },
     setState: (root_key, state, storage) => {
-      let index = []
-
-      for (const applet_name in state) {
-        const applet_state = state[applet_name]
-        for (const state_property in applet_state) {
-          const key = `${applet_name}.${state_property}`
-          const is_persisted = !unpersisted_state.some(u => u.store_path === key)
-          if (is_persisted) {
-            const key_specific_state = get(state, key)
-            storage.setItem(root_key + key, JSON.stringify(key_specific_state))
-            index.push(key)
-          }
-        }
-      }
-      const index_key = root_key + 'index'
-      console.warn('setting state')
-      storage.setItem(index_key, JSON.stringify(index))
+      console.log('set state')
+      persist_multiple_stores(state, unpersisted_state, storage, root_key)
     }
   }
 }
@@ -81,4 +96,22 @@ export function generate_unpersisted_state(instance_stores) {
   }
 
   return unpersisted_state
+}
+
+/**
+ * utility to help upgrade from a single-store (slow) to multiple-stores (fast)
+ * Single store stuck everything in a single 'vuex' property and serialised it
+ * Multiple stores split out every module's top-level properties and make a property
+ * for each.
+ *
+ * Testing for existence of 'vuex' on its own will tell us if we need to upgrade
+ */
+export function check_and_upgrade_from_single_store() {
+  const single_store = localStorage.getItem('vuex') !== null
+
+  if (single_store) {
+    console.log("Need to upgrade from single-store")
+  } else {
+    console.log('Running multiple-stores. Good.')
+  }
 }
