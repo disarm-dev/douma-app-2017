@@ -1,4 +1,4 @@
-import {clonedeep} from 'lodash'
+import {cloneDeep} from 'lodash'
 import deepFreeze from 'deep-freeze'
 
 import CONFIG from 'config/common'
@@ -123,7 +123,7 @@ export default {
       const max_records_in_batch = CONFIG.remote.max_records_batch_size
 
       // Clone so we can easily splice. response_id ensures updating works
-      const records_left = clonedeep(records)
+      const records_left = cloneDeep(records)
 
       // Batch creating of records
       const results = {pass: [], fail: []}
