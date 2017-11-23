@@ -35,13 +35,6 @@ export default {
         state.responses.splice(index, 1, response)
       }
     },
-    mark_responses_as_synced: (state, responses) => {
-      responses.forEach(response => {
-        response.synced = true
-        let index = state.responses.findIndex((r) => r.id === response.id)
-        state.responses.splice(index, 1, response)
-      })
-    },
     add_responses: (state, responses) => {
       state.responses = state.responses.concat(responses)
     },
@@ -132,6 +125,7 @@ export default {
       while (records_left.length > 0) {
         const records_batch = records_left.splice(0, max_records_in_batch)
 
+        // TODO: @refac This should be try...catch
         await controller.create_batch_network(records_batch)
           .then((passed_records_ids) => {
             // Find the ids of the  records that were synced, returned either as array of ids or records
