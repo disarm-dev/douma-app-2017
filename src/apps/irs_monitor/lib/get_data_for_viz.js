@@ -17,7 +17,7 @@ import CONFIG from "config/common"
  * @returns {array}
  */
 export default function get_data({responses, targets, aggregations, options, geodata}) {
-
+  console.time(`🤡 get_data ${options.chart_type}`)
   // filter geodata in here
   const limit_to = get(options, 'limit_to', 'all')
   switch (limit_to) {
@@ -68,7 +68,7 @@ export default function get_data({responses, targets, aggregations, options, geo
     default:
       console.error(`Didn't find an aggregation method for ${options.chart_type}.`)
   }
-
+  console.timeEnd(`🤡 get_data ${options.chart_type}`)
   return data
 }
 
