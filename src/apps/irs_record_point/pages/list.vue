@@ -1,7 +1,7 @@
 <template>
   <div>
     <controls>
-      <md-button slot="primary_action" class="md-icon-button md-raised md-primary" @click.native='$router.push("/irs/record_point/new")'>
+      <md-button slot="primary_action" :disabled="!has_write_permission" class="md-icon-button md-raised md-primary" @click.native='$router.push("/irs/record_point/new")'>
         <md-icon>add</md-icon>
       </md-button>
 
