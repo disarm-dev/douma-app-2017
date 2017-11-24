@@ -78,6 +78,7 @@
         user_map_focus: false,
         draw: null,
         _map: null,
+        map_loaded: false,
         bbox: [],
 
         handler: {
@@ -173,6 +174,7 @@
         this._map = basic_map(this.$store)
 
         this._map.on('load', () => {
+          this.map_loaded = true
           this.show_clusters_disabled = false
           this.manage_map_mode()
           this.add_target_areas()
@@ -365,7 +367,7 @@
 
       },
       redraw_target_areas() {
-        if (this._map && this._map.loaded()) {
+        if (this._map && this.map_loaded) {
           // redraw target areas
           this.remove_target_areas()
           this.add_target_areas()
