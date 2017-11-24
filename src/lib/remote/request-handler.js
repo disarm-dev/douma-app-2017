@@ -30,7 +30,7 @@ export function request_handler(request_config) {
     .then(json => json.data)
     .catch(err => {
       // Any route other than login which receives 401 needs to tell user
-      if (request_config.url_suffix !== '/login' && err.response.status === 401) {
+      if (request_config.url_suffix !== '/login' && err.response && err.response.status === 401) {
         const message = err.response.data.message
         store.commit('root:set_snackbar', {message})
       }
