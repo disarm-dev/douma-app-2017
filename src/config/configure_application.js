@@ -30,6 +30,7 @@ import {set_raven_user_context} from 'config/error_tracking.js'
 import {instantiate_axios_instance} from 'lib/remote/axios_instance'
 import BUILD_TIME from 'config/build-time'
 import {clean_up_local_dbs} from "lib/local_db"
+import {setup_acl} from "lib/acess-control-list"
 
 
 /**
@@ -80,6 +81,7 @@ export function configure_application (instance_config) {
   clean_up_local_dbs()
 
 
+  setup_acl()
   // CREATE VUE APP
 
   // Instantiate Vue app with store and router
