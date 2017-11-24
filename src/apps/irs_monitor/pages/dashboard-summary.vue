@@ -20,7 +20,7 @@
         <span>Re-load all responses</span>
       </md-menu-item>
 
-      <md-menu-item :disabled="isLoading('irs_monitor/refresh_data') || !responses.length" @click="download_responses">
+      <md-menu-item :disabled="!has_read_permission || isLoading('irs_monitor/refresh_data') || !responses.length" @click="download_responses">
         <md-icon>file_download</md-icon>
         <span>Download responses</span>
       </md-menu-item>
