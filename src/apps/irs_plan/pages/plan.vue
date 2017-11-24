@@ -12,13 +12,13 @@
       </md-button>
 
       <template slot="menu_items">
-        <md-menu-item @click="load_plan" :disabled="!has_read_permission || isLoading('irs_plan/load_plan')">
+        <md-menu-item @click="load_plan" :disabled="!$can('read', 'irs_plan') || isLoading('irs_plan/load_plan')">
           <md-icon>assignment_turned_in</md-icon>
           <span>Load plan</span>
         </md-menu-item>
 
         <!--EDIT MODE-->
-        <md-menu-item :disabled="!has_write_permission || !unsaved_changes" @click="save_plan">
+        <md-menu-item :disabled="!$can('write', 'irs_plan') || !unsaved_changes" @click="save_plan">
           <md-icon>save</md-icon>
           <span>Save plan</span>
         </md-menu-item>
@@ -144,14 +144,6 @@
        },
       can_clear() {
         return this.selected_target_area_ids.length !== 0
-      },
-
-      has_write_permission() {
-        return this.$store.state.meta.user.permissions.includes('write:irs_plan')
-      },
-
-      has_read_permission() {
-        return this.$store.state.meta.user.permissions.includes('read:irs_plan')
       }
     },
     created() {
