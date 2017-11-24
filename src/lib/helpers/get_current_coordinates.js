@@ -9,7 +9,7 @@ function watch_positions_for(duration_ms, options) {
     setTimeout(() => {
       navigator.geolocation.clearWatch(watch_id)
       resolve(result)
-    }, duration_ms)
+    }, duration_ms) // total duration to watch for
 
     watch_id = navigator.geolocation.watchPosition((position) => {
         result.positions.push(position)
@@ -25,11 +25,11 @@ function watch_positions_for(duration_ms, options) {
 export async function get_current_coordinates() {
   const options = {
     enableHighAccuracy: true,
-    timeout: 5000,
+    timeout: 5000, // each position get should take no longer than this
     maximumAge: 2000
   }
 
-  const {errors, positions} = await watch_positions_for(5000, options)
+  const {errors, positions} = await watch_positions_for(6000, options)
   return determine_response(positions, errors)
 }
 
@@ -48,6 +48,7 @@ export function determine_response(positions, errors) {
     } else {
       // Else throw the latest error.
       const latest_error = errors[errors.length - 1]
+
       reject(latest_error)
     }
   })
