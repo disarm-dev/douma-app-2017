@@ -4,29 +4,29 @@
     "numerator_expr": "1"
   },
   {
-    "name": "structures found",
+    "name": "rooms found",
     "numerator_expr": "number_sprayable_rooms + number_unsprayed"
   },
   {
-    "name": "structures found %",
+    "name": "rooms found %",
     "numerator_expr": "number_sprayable_rooms + number_unsprayed",
     "denominator_field": "NumRooms"
   },
   {
-    "name": "structures sprayed",
+    "name": "rooms sprayed",
     "numerator_expr": "number_sprayed"
   },
   {
-    "name": "structures sprayed %",
+    "name": "rooms sprayed %",
     "numerator_expr": "number_sprayed",
     "denominator_field": "NumRooms"
   },
   {
-    "name": "sprayable structures not sprayed",
+    "name": "sprayable rooms not sprayed",
     "numerator_expr": "number_unsprayed"
   },
   {
-    "name": "sprayable structures not sprayed %",
+    "name": "sprayable rooms not sprayed %",
     "numerator_expr": "number_unsprayed",
     "denominator_field": "NumRooms"
   }
