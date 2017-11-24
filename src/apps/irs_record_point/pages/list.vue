@@ -1,17 +1,17 @@
 <template>
   <div>
     <controls>
-      <md-button slot="primary_action" class="md-icon-button md-raised md-primary" @click.native='$router.push("/irs/record_point/new")'>
+      <md-button slot="primary_action" :disabled="!$can('write', 'irs_record_point')" class="md-icon-button md-raised md-primary" @click.native='$router.push("/irs/record_point/new")'>
         <md-icon>add</md-icon>
       </md-button>
 
       <template slot="menu_items">
-        <md-menu-item :disabled="syncing || unsynced_count === 0 || !online" @click="sync">
+        <md-menu-item :disabled="!$can('write', 'irs_record_point') || syncing || unsynced_count === 0 || !online" @click="sync">
           <md-icon>sync</md-icon>
           <span>Sync {{unsynced_count}} responses</span>
         </md-menu-item>
 
-        <md-menu-item :disabled="syncing || unsynced_count === 0" @click="download_records">
+        <md-menu-item :disabled="!$can('write', 'irs_record_point') || syncing || unsynced_count === 0" @click="download_records">
           <md-icon>file_download</md-icon>
           <span>Export {{unsynced_count}} unsynced</span>
         </md-menu-item>

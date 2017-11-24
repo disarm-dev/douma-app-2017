@@ -2,15 +2,15 @@
   <div>
     <controls>
       <template slot="menu_items">
-        <md-menu-item :disabled="isLoading('irs_tasker/load_plan')" @click="load_plan">
+        <md-menu-item :disabled="!$can('read', 'irs_tasker') || isLoading('irs_tasker/load_plan')" @click="load_plan">
           <md-icon>assignment_turned_in</md-icon>
           <span>Load plan</span>
         </md-menu-item>
-        <md-menu-item :disabled="isLoading('irs_tasker/save_assignments') || !plan_target_ids.length || !assignments.length || !unsynced_changes" @click="save_assignments">
+        <md-menu-item :disabled="!$can('write', 'irs_tasker') || isLoading('irs_tasker/save_assignments') || !plan_target_ids.length || !assignments.length || !unsynced_changes" @click="save_assignments">
           <md-icon>save</md-icon>
           <span>Save assignments</span>
         </md-menu-item>
-        <md-menu-item :disabled="isLoading('irs_tasker/load_assignments') || !plan_target_ids.length" @click="load_assignments">
+        <md-menu-item :disabled="!$can('read', 'irs_tasker') || isLoading('irs_tasker/load_assignments') || !plan_target_ids.length" @click="load_assignments">
           <md-icon>group</md-icon>
           <span>Load assignments</span>
         </md-menu-item>

@@ -4,6 +4,10 @@ export default [
   {
     path: '/irs/plan',
     component: edit,
-    name: 'irs_plan'
+    name: 'irs_plan',
+    meta: {
+      can: 'read irs_plan',
+      fail: '/meta/home'
+    }
   }
 ]

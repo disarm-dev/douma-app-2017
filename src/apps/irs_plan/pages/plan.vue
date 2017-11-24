@@ -5,25 +5,25 @@
         slot="primary_action"
         class="md-primary md-icon-button md-raised"
         :class="{'md-warn': edit_mode}"
-        :disabled="edit_disabled || isLoading('irs_plan/load_plan') || !can_and_have_focused_planned"
+        :disabled="!$can('write', 'irs_plan') || edit_disabled || isLoading('irs_plan/load_plan') || !can_and_have_focused_planned"
         @click.native='edit_mode = !edit_mode'
       >
         <md-icon>edit</md-icon>
       </md-button>
 
       <template slot="menu_items">
-        <md-menu-item @click="load_plan" :disabled="isLoading('irs_plan/load_plan')">
+        <md-menu-item @click="load_plan" :disabled="!$can('read', 'irs_plan') || isLoading('irs_plan/load_plan')">
           <md-icon>assignment_turned_in</md-icon>
           <span>Load plan</span>
         </md-menu-item>
 
         <!--EDIT MODE-->
-        <md-menu-item :disabled="!unsaved_changes" @click="save_plan">
+        <md-menu-item :disabled="!$can('write', 'irs_plan') || !unsaved_changes" @click="save_plan">
           <md-icon>save</md-icon>
           <span>Save plan</span>
         </md-menu-item>
 
-        <md-menu-item :disabled='!can_clear' @click.native="clear_plan">
+        <md-menu-item :disabled="!$can('write', 'irs_plan') || !can_clear" @click.native="clear_plan">
           <md-icon>delete</md-icon>
           <span>Clear plan</span>
         </md-menu-item>

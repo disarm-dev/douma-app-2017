@@ -4,6 +4,10 @@ export default [
   {
     path: '/irs/monitor',
     component: view,
-    name: 'irs_monitor'
+    name: 'irs_monitor',
+    meta: {
+      can: 'read irs_monitor',
+      fail: '/meta/home'
+    }
   }
 ]
