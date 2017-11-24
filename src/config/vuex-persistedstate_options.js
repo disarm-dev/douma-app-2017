@@ -91,7 +91,7 @@ export function generate_unpersisted_state(instance_stores) {
 }
 
 var get_state_multiple = (root_key, storage, unpersisted_state) => {
-  console.log('📝 new get state')
+  console.log('📝 get state multiple')
   let state = {}
 
   // extract keys from index (test_and_parse)
@@ -123,9 +123,10 @@ var get_state_multiple = (root_key, storage, unpersisted_state) => {
   return state
 }
 
-var migrate_single_to_multiple = (key, storage) => {
-  const value = storage.getItem('vuex');
-  console.log('OldGetState ', key)
+var migrate_single_to_multiple = (root_key, storage) => {
+  const value = storage.getItem(key);
+  console.log('migrate single state ', root_key)
+  set(state, key, value)
   storage.clear();
   try {
     return value && value !== 'undefined' ? JSON.parse(value) : undefined;
