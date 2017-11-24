@@ -44,38 +44,7 @@ export function create_options(unpersisted_state) {
   if (!unpersisted_state) throw new Error('unpersisted_state object required')
 
   return {
-    getState: (root_key, storage) => {
-      console.log('📝 get state')
-      let state = {}
-
-      // extract keys from index (test_and_parse)
-      const index_key = root_key + 'index'
-      const index_keys = test_and_parse(storage.getItem(index_key))
-
-      if (!index_keys) return state
-      // iterate each key and extract value from storage (test_and_parse)
-      index_keys.forEach(key => {
-        // get value from storage
-        const value = test_and_parse(storage.getItem(root_key + key))
-        set(state, key, value)
-      })
-      // reconstruct state object
-
-      unpersisted_state.forEach(({store_path, default_value}) => {
-        set(state, store_path, default_value)
-      })
-
-
-      function test_and_parse(value) {
-        try {
-          return value && value !== 'undefined' ? JSON.parse(value) : undefined;
-        } catch (err) {
-          return undefined;
-        }
-      }
-
-      return state
-    },
+    getState: check_and_upgrade_from_single_store()?old_get_state:new_get_state,
     setState: (root_key, state, storage) => {
       console.log('📝 set state')
       persist_multiple_stores(state, unpersisted_state, storage, root_key)
@@ -103,6 +72,51 @@ export function generate_unpersisted_state(instance_stores) {
   return unpersisted_state
 }
 
+
+var new_get_state = (root_key, storage) => {
+  console.log('📝 new get state')
+  let state = {}
+
+  // extract keys from index (test_and_parse)
+  const index_key = root_key + 'index'
+  const index_keys = test_and_parse(storage.getItem(index_key))
+
+  if (!index_keys) return state
+  // iterate each key and extract value from storage (test_and_parse)
+  index_keys.forEach(key => {
+    // get value from storage
+    const value = test_and_parse(storage.getItem(root_key + key))
+    set(state, key, value)
+  })
+  // reconstruct state object
+
+  /*unpersisted_state.forEach(({store_path, default_value}) => {
+    set(state, store_path, default_value)
+  })*/
+
+
+  function test_and_parse(value) {
+    try {
+      return value && value !== 'undefined' ? JSON.parse(value) : undefined;
+    } catch (err) {
+      return undefined;
+    }
+  }
+
+  return state
+}
+
+var old_get_state = (key, storage) => {
+  const value = storage.getItem('vuex');
+  console.log('OldGetState ',key)
+  storage.setItem('vuex',null);
+  try {
+    return value && value !== 'undefined' ? JSON.parse(value) : undefined;
+  } catch (err) {
+    return undefined;
+  }
+}
+
 /**
  * utility to help upgrade from a single-store (slow) to multiple-stores (fast)
  * Single store stuck everything in a single 'vuex' property and serialised it
@@ -111,12 +125,12 @@ export function generate_unpersisted_state(instance_stores) {
  *
  * Testing for existence of 'vuex' on its own will tell us if we need to upgrade
  */
-export function check_and_upgrade_from_single_store() {
-  const single_store = localStorage.getItem('vuex') !== null
+function check_and_upgrade_from_single_store() {
+  /*const single_store =*/return localStorage.getItem('vuex') !== null
 
-  if (single_store) {
+  /*if (single_store) {
     console.log("📝 Need to upgrade from single-store")
   } else {
     console.log('📝 Running multiple-stores. Good.')
-  }
+  }*/
 }
