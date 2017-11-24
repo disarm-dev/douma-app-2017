@@ -46,9 +46,8 @@ export function determine_response(positions, errors) {
 
       resolve(position_with_highest_accuracy)
     } else {
-      // Else throw the latest error.
-      const latest_error = errors[errors.length - 1]
-
+      // navigator.geolocation.clearWatch might return before there is an error or a result
+      const latest_error = errors[errors.length - 1] || {code: 'watch-timeout', message: 'GPS timeout'}
       reject(latest_error)
     }
   })
