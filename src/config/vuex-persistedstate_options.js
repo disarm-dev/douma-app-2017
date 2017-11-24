@@ -1,5 +1,10 @@
 import {cloneDeep, get, set} from 'lodash'
 
+/**
+ * Designed to be called on application load
+ * @param instance_stores
+ * @returns {{getState, setState}}
+ */
 export function generate_persisted_state_options(instance_stores) {
   const unpersisted_state = generate_unpersisted_state(instance_stores)
 
@@ -40,7 +45,7 @@ export function create_options(unpersisted_state) {
 
   return {
     getState: (root_key, storage) => {
-      console.log('get state')
+      console.log('📝 get state')
       let state = {}
 
       // extract keys from index (test_and_parse)
@@ -72,7 +77,7 @@ export function create_options(unpersisted_state) {
       return state
     },
     setState: (root_key, state, storage) => {
-      console.log('set state')
+      console.log('📝 set state')
       persist_multiple_stores(state, unpersisted_state, storage, root_key)
     }
   }
@@ -110,8 +115,8 @@ export function check_and_upgrade_from_single_store() {
   const single_store = localStorage.getItem('vuex') !== null
 
   if (single_store) {
-    console.log("Need to upgrade from single-store")
+    console.log("📝 Need to upgrade from single-store")
   } else {
-    console.log('Running multiple-stores. Good.')
+    console.log('📝 Running multiple-stores. Good.')
   }
 }
