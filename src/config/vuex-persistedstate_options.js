@@ -126,7 +126,7 @@ var get_state_multiple = (root_key, storage, unpersisted_state) => {
 var migrate_single_to_multiple = (key, storage) => {
   const value = storage.getItem('vuex');
   console.log('OldGetState ', key)
-  storage.setItem('vuex', null);
+  storage.clear();
   try {
     return value && value !== 'undefined' ? JSON.parse(value) : undefined;
   } catch (err) {
