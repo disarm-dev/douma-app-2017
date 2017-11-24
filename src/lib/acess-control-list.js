@@ -11,10 +11,10 @@ export function setup_acl() {
     const permissions = get_user().permissions
 
     for (const permission of permissions) {
-      if (!permission.includes(':')) continue
+      if (!permission.includes(':')) break
 
       const permission_split = permission.split(':')
-      if (permission_split.length !== 2) continue
+      if (permission_split.length !== 2) break
 
       const verb = permission_split[0]
       const applet = permission_split[1]
