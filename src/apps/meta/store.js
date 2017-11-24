@@ -73,6 +73,8 @@ export default {
             context.commit('set_personalised_instance_id', login_details.personalised_instance_id)
             context.commit('set_user', authenticated_user.model)
 
+            // Setup the access control list after we are logged in
+            // User will not be able to navigate or click butons if this is not done
             setup_acl()
 
             // Add extra info to error logging
