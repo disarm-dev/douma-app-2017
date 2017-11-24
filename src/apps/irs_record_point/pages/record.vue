@@ -157,7 +157,7 @@
     data () {
       return {
         // User data
-        _response: null, // This is the only response which exists
+        not_response_response: null, // This is the only response which exists
 
         // Support
         _validator: null,
@@ -193,7 +193,7 @@
         return this.response.recorded_on + ""
       },
       response() {
-        return this._response ? this._response.model : {location:{}}
+        return this.not_response_response ? this.not_response_response.model : {location:{}}
       },
       page_title() {
         return this.response_id ? 'Update' : 'Create'
@@ -243,7 +243,7 @@
           if (found.uneditable) {
             this.$router.replace({name: 'irs_record_point:view', params: {response_id: this.response_id}})
           }
-          this._response = new Response(found)
+          this.not_response_response = new Response(found)
         } else {
           // TODO: @refac Definitely don't do this in here...
           const empty_response = {
@@ -253,7 +253,9 @@
             instance_slug: this.instance_slug,
             team_name: this.team_name // TODO: @refac Brittle: this needs to match what's set in `instance.json`
           }
-          this._response = new Response(empty_response)
+          console.log('empty_response', empty_response)
+          this.not_response_response = new Response(empty_response)
+          console.log('this.not_response_response', this.not_response_response)
         }
 
         // Remove meta page if necessary
@@ -348,7 +350,7 @@
         }
       },
       save_response() {
-        const decorated_response = this._response.decorate_for_sending()
+        const decorated_response = this.not_response_response.decorate_for_sending()
 
         if (this.response_id) {
           this.update_response(decorated_response)
