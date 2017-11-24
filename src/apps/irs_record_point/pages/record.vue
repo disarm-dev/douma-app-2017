@@ -148,6 +148,8 @@
   import review from './validation.vue'
   import form_renderer from './form.vue'
 
+
+
   export default {
     name: 'Record',
     components: {location_coords, location_selection, form_renderer, review},
@@ -183,6 +185,7 @@
         username: state => state.meta.user.username,
         user_id: state => state.meta.user._id,
         instance_slug : state => state.instance_config.instance.slug,
+        personalised_instance_id: state => state.meta.personalised_instance_id,
         instance_config: state => state.instance_config,
         team_name: state => state.irs_record_point.team_name
       }),
@@ -190,7 +193,7 @@
         return this.response.recorded_on + ""
       },
       response() {
-        return this._response.model
+        return this._response ? this._response.model : {location:{}}
       },
       page_title() {
         return this.response_id ? 'Update' : 'Create'
@@ -227,32 +230,46 @@
       }
     },
     created() {
-      this._validator = new Validator(this.instance_config.validations)
+      (async () => {
+        await this.$store.dispatch('irs_record_point/read_records')
+        this._validator = new Validator(this.instance_config.validations)
 
-      if (this.response_id) {
-        const found = this.$store.state.irs_record_point.responses.find(r => r.id === this.response_id)
-        this._response = new Response(found)
-      } else {
-        // TODO: @refac Definitely don't do this in here...
-        const empty_response = {
-          user_id: this.user_id,
-          username: this.username,
-          instance_slug: this.instance_slug,
-          team_name: this.team_name // TODO: @refac Brittle: this needs to match what's set in `instance.json`
+        if (this.response_id) {
+          /*
+            found becomes undefined if this.$store.dispatch('irs_record_point/read_records') is not awaited
+           */
+
+          const found = this.$store.state.irs_record_point.responses.find(r => r.id === this.response_id)
+          if (found.uneditable) {
+            this.$router.replace({name: 'irs_record_point:view', params: {response_id: this.response_id}})
+          }
+          this._response = new Response(found)
+        } else {
+          // TODO: @refac Definitely don't do this in here...
+          const empty_response = {
+            personalised_instance_id: this.personalised_instance_id,
+            user_id: this.user_id,
+            username: this.username,
+            instance_slug: this.instance_slug,
+            team_name: this.team_name // TODO: @refac Brittle: this needs to match what's set in `instance.json`
+          }
+          this._response = new Response(empty_response)
         }
-        this._response = new Response(empty_response)
-      }
 
-      // Remove meta page if necessary
-      if (this.irs_record_point_config.metadata.show === false) {
-        this.pages.splice(0, 1)
-      }
+        // Remove meta page if necessary
+        if (this.irs_record_point_config.metadata.show === false) {
+          this.pages.splice(0, 1)
+        }
 
-      this.current_view = this.pages[0]
-
+        this.current_view = this.pages[0]
+      })()
     },
     mounted() {
+
     },
+    beforeCreate() {
+    },
+
     methods: {
       go_to_next_view() {
         // Check that we are not on the last page
@@ -277,7 +294,9 @@
         }
       },
       go_back_to_location_view() {
-        this.survey.currentPage = this.survey.pages[0]
+        if (this.survey) {
+          this.survey.currentPage = this.survey.pages[0]
+        }
         const location_index = this.pages.findIndex(page => page === 'location')
         this.current_view = this.pages[location_index]
       },
@@ -343,7 +362,7 @@
         })
       },
       update_response(response) {
-        this.$store.commit('irs_record_point/update_response_local', response).then(() => {
+        this.$store.dispatch('irs_record_point/update_response_local', response).then(() => {
           this.$router.push('/irs/record_point/')
         })
       },

@@ -59,9 +59,9 @@ test.skip.failing.cb("read_all_network returns responses", t => {
 test.cb("calls local methods in read_all_cache", t => {
   const controller = new ResponseController('test')
 
-  controller.local = {read_all: sinon.stub().returns(Promise.resolve())}
+  controller.local = {read_all: sinon.stub().returns(Promise.resolve([]))}
 
-  controller.read_all_cache().then((actual) => {
+  controller.read_all_cache({personalised_instance_id: 'id', instance: 'instance'}).then((actual) => {
     t.true(controller.local.read_all.calledOnce)
     t.end()
   })
@@ -69,12 +69,12 @@ test.cb("calls local methods in read_all_cache", t => {
 
 
 test.cb("calls local methods in read_all_cache with correct arguments", t => {
-  const responses = [{id: 1}, {id: 2}]
+  const responses = [{id: 1, personalised_instance_id: 'id', instance_slug: 'instance'}, {id: 2, personalised_instance_id: 'id', instance_slug: 'instance'}]
   const controller = new ResponseController('test')
 
   controller.local = {read_all: sinon.stub().returns(Promise.resolve(responses))}
 
-  controller.read_all_cache().then((actual) => {
+  controller.read_all_cache({personalised_instance_id: 'id', instance: 'instance'}).then((actual) => {
     t.deepEqual(responses, actual)
     t.end()
   })

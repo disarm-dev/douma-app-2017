@@ -151,6 +151,7 @@
           },
           "options": {
             "chart_type": "line",
+            "cumulative": true,
             "time_series": true,
             "bin_by": "recorded_on",
             "geographic_level_refactor_this_key_name": "location.selection.id",
@@ -175,7 +176,6 @@
       ]
     },
     "meta": {},
-    "data_wizard": {},
     "debug": {}
   },
   "map_focus": {
@@ -192,7 +192,7 @@
     "customisable_api_url": true
   },
   "spatial_hierarchy": {
-    "data_version": 11,
+    "data_version": 12,
     "markers": {
       "planning_level_name": "wards",
       "record_location_selection_level_name": "wards",

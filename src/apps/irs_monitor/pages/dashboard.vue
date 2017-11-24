@@ -1,7 +1,13 @@
 <template>
   <div>
     <!--  SUMMARY, LOAD, DOWNLOAD (DUMPING GROUND) -->
-    <dashboard_summary :responses='responses' :filters='filters' @load_responses="load_responses" @load_plan="load_plan"></dashboard_summary>
+    <dashboard_summary
+        :responses='responses'
+        :filters='filters'
+        @load_responses="load_responses"
+        @force_load_responses="force_load_responses"
+        @load_plan="load_plan"
+    ></dashboard_summary>
 
     <div class='applet_container'>
 
@@ -88,11 +94,11 @@
         this.$startLoading('irs_monitor/load_responses')
 
         this.$store.dispatch('irs_monitor/get_all_records')
-          .then(() => {
+          .then((responses) => {
             this.$endLoading('irs_monitor/load_responses')
             let message
-            if (this.responses.length > 0) {
-              message = 'Successfully retrieved responses'
+            if (responses.length > 0) {
+              message = `Successfully retrieved responses`
             } else {
               message = 'Successful retrieve, zero records found.'
             }
@@ -101,6 +107,10 @@
           .catch(e => {
             this.$endLoading('irs_monitor/load_responses')
           })
+      },
+      force_load_responses() {
+        this.$store.commit('irs_monitor/set_last_id', null)
+        this.load_responses()
       },
       load_plan() {
         this.$startLoading('irs_monitor/load_plan')

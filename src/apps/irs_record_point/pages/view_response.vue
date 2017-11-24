@@ -8,6 +8,7 @@
     name: 'view_response',
     props: ['response_id'],
     mounted() {
+      this.$store.dispatch('irs_record_point/read_records')
     },
     data() {
       return {}

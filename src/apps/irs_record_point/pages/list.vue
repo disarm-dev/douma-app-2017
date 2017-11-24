@@ -43,16 +43,16 @@
               <md-list-item
                 v-for='response in filtered_responses'
                 :index='response'
-                :class="{'md-primary': !response.synced}"
+                :class="{'md-primary': !response.synced || !response.uneditable}"
                 :key="response.id"
               >
                 <md-icon>
-                  {{response.synced ? 'check' : 'mode_edit'}}
+                  {{response.synced ? 'check' : (response.uneditable ? 'warning' : 'mode_edit')}}
                 </md-icon>
 
                 <div>
                   <router-link
-                    :to="{name: response.synced ? 'irs_record_point:view' : 'irs_record_point:edit', params: {response_id: response.id}}">
+                    :to="{name: response.synced || response.uneditable ? 'irs_record_point:view' : 'irs_record_point:edit', params: {response_id: response.id}}">
                     {{format_response(response)}}
                   </router-link>
                 </div>
@@ -134,7 +134,6 @@
 
         this.$store.dispatch('irs_record_point/create_records', this.unsynced_responses)
           .then((results) => {
-            console.log('results', results)
             const last_successful_sync_count = flatten(results.pass).length
             const last_failed_sync_count = flatten(results.fail).length
 
@@ -152,7 +151,8 @@
 
           })
           .catch((e) => {
-            if (e.response.status !== 401) {
+            console.log(e)
+            if (e.response && e.response.status !== 401) {
               this.$store.commit('root:set_snackbar', {message: `Problem syncing responses`})
             }
             this.$endLoading('irs_record_point/sync')

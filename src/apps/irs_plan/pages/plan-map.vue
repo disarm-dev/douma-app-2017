@@ -2,15 +2,18 @@
   <div>
     <div id="map"></div>
     <map_legend
-      :entries="entries_for_legend"
-      :title="risk_visible ? layer_definitions.normalised_risk.legend_title : plan_layer_definitions.selected_areas.legend_title"
+        :entries="entries_for_legend"
+        :title="risk_visible ? layer_definitions.normalised_risk.legend_title : plan_layer_definitions.selected_areas.legend_title"
     ></map_legend>
 
     <md-checkbox :disabled='edit_mode' v-model="risk_visible">Show risk</md-checkbox>
-    <md-checkbox v-if="next_level_down" :disabled='show_clusters_disabled' v-model="show_lowest_spatial_level">Show {{next_level_down.name}}</md-checkbox>
+    <md-checkbox v-if="next_level_down" :disabled='show_clusters_disabled' v-model="show_lowest_spatial_level">Show
+      {{next_level_down.name}}
+    </md-checkbox>
     <div v-if="edit_mode">
       <p>Showing areas where risk is above: {{converted_slider_value}}</p>
-      <input  id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step" v-model="risk_slider_value">
+      <input id="slider" type="range" ref='risk_slider' :min="slider.min" :max="slider.max" step="slider.step"
+             v-model="risk_slider_value">
     </div>
     <div v-if="selected_target_area_ids.length">
       <md-button class="md-raised md-primary" @click="download_plan_geojson">Download plan geojson</md-button>
@@ -34,14 +37,18 @@
   import inside from '@turf/inside'
   import intersect from '@turf/intersect'
   import bboxPolygon from '@turf/bbox-polygon'
-  import {featureCollection, point} from '@turf/helpers'
+  import {featureCollection} from '@turf/helpers'
   import which_polygon from 'which-polygon'
   import numeral from 'numeral'
 
   import cache from 'config/cache.js'
   import {basic_map} from 'lib/helpers/basic_map'
   import map_legend from 'components/map_legend.vue'
-  import {get_planning_level_name, get_next_level_down_from_planning_level, get_next_level_up_from_planning_level} from 'lib/instance_data/spatial_hierarchy_helper'
+  import {
+    get_planning_level_name,
+    get_next_level_down_from_planning_level,
+    get_next_level_up_from_planning_level
+  } from 'lib/instance_data/spatial_hierarchy_helper'
   import {target_areas_inside_focus_filter_area} from '../helpers/target_areas_helper.js'
   import {prepare_palette} from 'lib/helpers/palette_helper.js'
   import {layer_definitions} from 'config/map_layers'
@@ -117,8 +124,12 @@
         return get_next_level_up_from_planning_level()
       },
       show_lowest_spatial_level: {
-        get() {return this.$store.state.irs_plan.show_lowest_spatial_level},
-        set(value) {this.$store.commit('irs_plan/set_show_lowest_spatial_level', value)}
+        get() {
+          return this.$store.state.irs_plan.show_lowest_spatial_level
+        },
+        set(value) {
+          this.$store.commit('irs_plan/set_show_lowest_spatial_level', value)
+        }
       },
       entries_for_legend() {
         if (this.risk_visible) {
@@ -185,29 +196,21 @@
         this.remove_map_listeners()
         this.handler.click = (e) => {
           const features = this._map.queryRenderedFeatures(e.point, {layers: ['selected', 'unselected', 'bulk_selected', 'bulk_unselected']})
+          if (!features) return
 
           const feature = features[0]
 
           if (feature) {
             const feature_id = feature.properties.__disarm_geo_id
 
-            // check if we need to check if we're focusing the planning
-            const has_focus_area = !!(this.selected_filter_area)
-
-            // only do the turf.inside checks if you need to and have a polygon
-            if (has_focus_area) {
-              // if the click is inside the focus_filter_area
-              const click_point = point([e.lngLat.lng, e.lngLat.lat])
-              const selected_filter_area = this.selected_filter_area
-              const is_inside =  inside(click_point, selected_filter_area)
-
-              // return without doing anything if the feature is not inside the focus area
-              if (!is_inside) return
+            const feature_id_in_filter_area_array = target_areas_inside_focus_filter_area({
+              area_ids: feature_id,
+              selected_filter_area: this.selected_filter_area
+            })
+            if (feature_id_in_filter_area_array.length) {
+              this.$store.commit('irs_plan/toggle_selected_target_area_id', feature_id_in_filter_area_array)
+              this.refilter_target_areas()
             }
-
-            // toggle the target area and refilter
-            this.$store.commit('irs_plan/toggle_selected_target_area_id', feature_id)
-            this.refilter_target_areas()
           }
         }
 
@@ -228,7 +231,7 @@
         this.toggle_show_risk()
 
         // Check if you're in editing mode
-        if(this.edit_mode) {
+        if (this.edit_mode) {
           this.add_map_listeners()
           this.add_draw_controls()
         } else {
@@ -242,7 +245,7 @@
         const geojson = this.planning_level_fc
         this.bbox = bbox(geojson)
 
-        if(!this._map.getSource('target_areas_source')) {
+        if (!this._map.getSource('target_areas_source')) {
           this._map.addSource('target_areas_source', {
             'type': 'geojson',
             'data': geojson
@@ -362,7 +365,7 @@
 
       },
       redraw_target_areas() {
-        if (this._map && this._map.loaded()   ) {
+        if (this._map && this._map.loaded()) {
           // redraw target areas
           this.remove_target_areas()
           this.add_target_areas()
@@ -383,7 +386,7 @@
       toggle_cluster_visiblity() {
         if (!this.next_level_down) return
 
-        if(!this._map.getSource('clusters_source')) {
+        if (!this._map.getSource('clusters_source')) {
           this._map.addSource('clusters_source', {
             type: 'geojson',
             data: this.next_level_down_fc
@@ -404,18 +407,18 @@
               'fill-outline-color': colour
             },
           })
-          this.$ga.event('irs_plan','change_clusters_visibility','visible', true)
+          this.$ga.event('irs_plan', 'change_clusters_visibility', 'visible', true)
 
         } else {
           if (this._map.getLayer('clusters')) {
             this._map.removeLayer('clusters')
-            this.$ga.event('irs_plan','change_clusters_visibility','visible', false)
+            this.$ga.event('irs_plan', 'change_clusters_visibility', 'visible', false)
           }
         }
       },
 
       // Draw controls
-      add_draw_controls () {
+      add_draw_controls() {
         this.remove_draw_controls()
 
         if (!this.edit_mode) return
@@ -436,13 +439,13 @@
           })
 
           this._map.on('draw.modechange', (e) => {
-            if(e.mode === 'draw_polygon') this.remove_map_listeners()
+            if (e.mode === 'draw_polygon') this.remove_map_listeners()
           })
 
           this._map.addControl(this.draw)
         }
       },
-      remove_draw_controls () {
+      remove_draw_controls() {
         if (this.draw) {
           this._map.removeControl(this.draw)
           this.draw = null
@@ -477,7 +480,10 @@
         const polygons_within_polygon_drawn = this.find_polygons_within_drawn_polygon(polygon_drawn)
         const selected_areas = polygons_within_polygon_drawn.features.map(f => f.properties.__disarm_geo_id)
 
-        const selected_areas_in_filter_area = target_areas_inside_focus_filter_area({area_ids: selected_areas, selected_filter_area: this.selected_filter_area})
+        const selected_areas_in_filter_area = target_areas_inside_focus_filter_area({
+          area_ids: selected_areas,
+          selected_filter_area: this.selected_filter_area
+        })
         this.$store.commit('irs_plan/add_selected_target_areas', selected_areas_in_filter_area)
 
         this.draw.deleteAll()
@@ -487,7 +493,7 @@
       },
 
       // Risk slider
-      set_risk_slider_value: debounce(function(){
+      set_risk_slider_value: debounce(function () {
         let areas = this.planning_level_fc.features.filter((feature) => {
           return feature.properties.risk >= this.converted_slider_value
         })
@@ -496,12 +502,15 @@
           return area.properties.__disarm_geo_id
         })
 
-        const selected_areas_in_filter_area = target_areas_inside_focus_filter_area({area_ids, selected_filter_area: this.selected_filter_area})
+        const selected_areas_in_filter_area = target_areas_inside_focus_filter_area({
+          area_ids,
+          selected_filter_area: this.selected_filter_area
+        })
         this.$store.commit('irs_plan/set_bulk_selected_ids', selected_areas_in_filter_area)
 
         this.refilter_target_areas()
 
-        this.$ga.event('irs_plan','change_risk_slider')
+        this.$ga.event('irs_plan', 'change_risk_slider')
       }, 750),
       set_slider_range() {
         const values_array = this.planning_level_fc.features.map(area => area.properties.risk).sort()
@@ -521,7 +530,7 @@
       add_areas_coloured_by_risk() {
         const values_array = this.planning_level_fc.features.map(feature => feature.properties.risk).sort().filter(i => i)
 
-        if (values_array.length === 0) console.error("🚨 Missing all risk values on geodata")
+        if (values_array.length === 0) console.error('🚨 Missing all risk values on geodata')
 
         this._risk_scaler = new LogValueConvertor(values_array)
 
@@ -530,7 +539,7 @@
           if (feature.properties.risk === 0) {
             feature.properties.normalised_risk = 0
           } else if (is_null(feature.properties.risk)) {
-            console.log("🚨 null value in risk converted to 0")
+            console.log('🚨 null value in risk converted to 0')
             feature.properties.normalised_risk = 0
           } else {
             feature.properties.normalised_risk = this._risk_scaler.lval(feature.properties.risk)

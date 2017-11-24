@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h2>Aggregation settings</h2>
+  <div class="border-line">
+    <h4>Aggregation settings</h4>
     <p>
       Spatial aggregation level
       <md-button-toggle md-single>
@@ -112,5 +112,7 @@
 </script>
 
 <style scoped>
-
+  .border-line {
+    border-top: 1px solid #ececec;
+  }
 </style>

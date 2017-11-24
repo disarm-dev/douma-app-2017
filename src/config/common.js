@@ -4,8 +4,8 @@ export default {
   api: {
     // Standard DOUMA API
     url: BUILD_TIME.BRANCH === 'master' ? 'https://douma-api.herokuapp.com' : 'https://douma-api-stage.herokuapp.com',
-    //url: 'http://localhost:3000',
-    version: 'v4',
+    // url: 'http://localhost:3000',
+    version: 'v5',
 
     // Currently not used
     WEATHER_API_URL: 'https://weather.api.disarm.io/processor/output',
@@ -14,9 +14,7 @@ export default {
   applets: {
     // The order here is irrelevant to sidebar - that is currently fixed by the user auth/permissions sheet,
     // but should set by instance_config.json
-    'data_wizard': {title: 'Data wizard', icon: 'event_seat'},
-    'structure_recorder': {title: 'Structure Recorder', icon: 'assignment'},
-    'irs_record_point': {title: 'IRS Record', icon: 'assignment'},
+    'irs_record_point': {title: 'IRS Record', icon: 'assignment', geodata_required: false},
     'irs_plan': {title: 'IRS Plan', icon: 'assignment_turned_in', geodata_required: true},
     'irs_monitor': {
       title: 'IRS Monitor',
@@ -30,9 +28,11 @@ export default {
       }
     },
     'irs_tasker': {title: 'IRS Tasker', icon: 'group', geodata_required: true},
-    'debug': {title: 'Debug', icon: 'bug_report', geodata_required: false},
+    'debug': {title: 'Debug', icon: 'bug_report', geodata_required: true},
     // Meta below is currently ignored in sidebar (statically included), but here for the breadcrumbs
-    'meta': {title: 'User', icon: 'person'},
+    'meta': {
+      title: 'User', icon: 'person', geodata_required: false
+    },
   },
   hash_params: {
     INSTANCE_ID: 'instance',

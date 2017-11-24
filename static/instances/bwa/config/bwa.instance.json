@@ -100,6 +100,7 @@
               }
             },
             "chart_type": "line",
+            "cumulative": true,
             "time_series": true,
             "bin_by": "recorded_on",
             "geographic_level_refactor_this_key_name": "location.selection.id",
@@ -223,7 +224,25 @@
                 "aggregation_name": "number of rooms not sprayed - locked"
               },
               {
+                "aggregation_name": "number of rooms not sprayed - nobody"
+              },
+              {
+                "aggregation_name": "number of rooms not sprayed - refusal"
+              },
+              {
+                "aggregation_name": "number of rooms not sprayed - baby"
+              },
+              {
+                "aggregation_name": "number of rooms not sprayed - patient"
+              },
+              {
+                "aggregation_name": "number of rooms not sprayed - funeral"
+              },
+              {
                 "aggregation_name": "number of rooms not sprayed - kitchen"
+              },
+              {
+                "aggregation_name": "number of rooms not sprayed - food storage"
               }
             ]
           }
@@ -264,7 +283,6 @@
       }
     },
     "meta": {},
-    "data_wizard": {},
     "debug": {}
   },
   "map_focus": {
@@ -280,7 +298,7 @@
     "slug": "bwa"
   },
   "spatial_hierarchy": {
-    "data_version": 9,
+    "data_version": 10,
     "markers": {
       "planning_level_name": "villages",
       "record_location_selection_level_name": "villages",

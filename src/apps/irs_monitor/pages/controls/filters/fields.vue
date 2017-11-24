@@ -1,11 +1,9 @@
 <template>
   <div>
-    <h2>Filters for all fields</h2>
+    <h4>All fields</h4>
 
     <div class="filter_fields">
       <md-input-container class="filter_field">
-        <label>Select field and value</label>
-
         <md-select v-model="filter_name" class="select" :disabled="!field_names.length">
           <md-option v-for="field_name in field_names" :key='field_name' :value="field_name">{{field_name}}</md-option>
         </md-select>
@@ -19,7 +17,7 @@
         </md-select>
       </md-input-container>
 
-      <md-button @click="add_filter()">Add filter</md-button>
+      <md-button :disabled='add_disabled' @click="add_filter()">Add filter</md-button>
     </div>
   </div>
 </template>
@@ -47,6 +45,10 @@
       }
     },
     computed: {
+      add_disabled() {
+        const can_add = (this.filter_name && this.filter_comparator && this.filter_value)
+        return !can_add
+      },
       field_names() {
         if (!this.responses || !this.responses.length) return []
 

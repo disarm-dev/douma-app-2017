@@ -1,24 +1,25 @@
 <template>
   <md-card class="card filter_select filter-container">
     <md-card-header>
-      <div class="md-title" @click="show_filters = !show_filters">
+      <div id="title" class="md-title" @click="show_filters = !show_filters">
         <md-icon v-if="show_filters">keyboard_arrow_down</md-icon>
         <md-icon v-else>keyboard_arrow_right</md-icon>
         Filters
+        <span v-if="filters.length">({{filters.length}} active filters)</span>
       </div>
     </md-card-header>
 
     <md-card-content v-show="show_filters">
-      <limit_to :responses="responses" :targets="targets"></limit_to>
-      <aggregation_settings :responses="responses" :targets="targets"></aggregation_settings>
       <filters :responses="responses"></filters>
+      <aggregation_settings :responses="responses" :targets="targets"></aggregation_settings>
+      <limit_to :responses="responses" :targets="targets"></limit_to>
     </md-card-content>
 
   </md-card>
 </template>
 
 <script>
-  //import { mapState, mapActions, mapMutations } from 'vuex'
+  import {mapState} from 'vuex'
   import aggregation_settings from './aggregation-settings.vue'
   import filters from './filters/filters.vue'
   import limit_to from './limit-to.vue'
@@ -28,6 +29,9 @@
     components: {filters, aggregation_settings, limit_to},
     props: ['responses', 'targets'],
     computed: {
+      ...mapState({
+        filters: state => state.irs_monitor.filters,
+      }),
       show_filters: {
         get(){
           return this.$store.state.irs_monitor.ui.show_filters
@@ -41,6 +45,14 @@
 </script>
 
 <style scoped>
+  .md-card-header {
+    cursor: pointer;
+  }
+
+  #title {
+    margin-top: 0;
+  }
+
   .filter-container {
     z-index: 2;
     overflow: visible;

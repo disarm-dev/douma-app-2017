@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import {isEqual} from 'lodash'
+import {isEqual, get} from 'lodash'
 
 import {set_filter, unset_filter} from './pages/controls/filters/controller'
 import {Plan} from 'lib/models/plan/model'
@@ -22,6 +22,7 @@ export default {
     },
     responses: [],
     responses_last_updated_at: null,
+    last_id: null, // ObjectID of most recently synced response
     filters: [],
     plan: null,
     filter: null,
@@ -90,6 +91,9 @@ export default {
     },
     set_show_response_points(state, show_response_points) {
       state.map_options.show_response_points = show_response_points
+    },
+    set_last_id(state, last_id) {
+      state.last_id = last_id
     }
   },
   getters: {
@@ -119,7 +123,13 @@ export default {
       // limit to plan if 'dashboard_options.limit_to_plan' is true
       const limited_to_plan = state.responses.filter(r => {
         if (!state.dashboard_options.limit_to_plan) return true
-        return getters.plan_target_area_ids.includes(r.location.selection.id)
+
+        const id = get(r, 'location.selection.id', false)
+        if (id) {
+          return getters.plan_target_area_ids.includes(id)
+        } else {
+          return false
+        }
       })
 
       const filtered = filter_responses(limited_to_plan, state.filters)
@@ -130,26 +140,41 @@ export default {
   },
   actions: {
     get_responses_local: (context) => {
-      return response_controller.read_all_cache().then(responses => {
+      const personalised_instance_id = context.rootState.meta.personalised_instance_id
+      const instance = context.rootState.instance_config.instance.slug
+      return response_controller.read_all_cache({personalised_instance_id, instance}).then(responses => {
         context.commit('set_responses', responses)
       })
     },
-    get_all_records: (context) => {
-      return response_controller.read_all_network().then(responses => {
+    get_all_records: async (context) => {
+      const last_id = context.state.last_id
+
+      const responses = await response_controller.read_new_network(last_id)
+
+      if (responses.length) {
+        const updated_last_id = responses[responses.length - 1]._id
+        context.commit('set_last_id', updated_last_id)
+        context.commit('root:set_snackbar', {message: 'Retrieving more records.'}, {root: true})
         context.commit('update_responses_last_updated_at')
-        context.commit('set_responses', responses)
-      })
+        return context.dispatch('get_all_records')
+      } else {
+        context.commit('root:set_snackbar', {message: 'Completed retrieving records. Updated map, table, charts.'}, {root: true})
+        return context.dispatch('get_responses_local')
+      }
+
     },
     get_current_plan: (context) => {
       return plan_controller.read_plan_current_network()
         .then(plan_json => {
           if (Object.keys(plan_json).length === 0) {
-            context.commit('root:set_snackbar', {message: 'No plan loaded.'}, {root: true})
+            return context.commit('root:set_snackbar', {message: 'No plan loaded.'}, {root: true})
           }
-          if (new Plan().validate(plan_json)) {
+
+          try {
+            new Plan().validate(plan_json)
             context.commit('set_plan', plan_json)
-          } else {
-            console.error('plan_json is not a Plan', plan_json)
+          } catch (e) {
+            console.log(e)
           }
         })
     }
