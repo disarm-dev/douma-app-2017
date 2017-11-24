@@ -3,13 +3,12 @@ import Acl from 'vue-browser-acl'
 import {store} from 'apps/store'
 import {router} from 'apps/router'
 
-function get_user () {
-  return store.state.meta.user || {permissions: []}
-}
-
 export function setup_acl() {
-  Vue.use(Acl, get_user, (acl) => {
-    const permissions = get_user().permissions
+  const user = store.state.meta.user
+  if (!user) return
+
+  Vue.use(Acl, user, (acl) => {
+    const permissions = user.permissions
 
     for (const permission of permissions) {
       if (!permission.includes(':')) break

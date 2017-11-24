@@ -6,6 +6,7 @@ import {authenticate} from 'lib/models/user'
 import {decorate_applets} from 'lib/instance_data/decorated_applets'
 import {User} from 'lib/models/user/model'
 import {set_raven_user_context} from 'config/error_tracking.js'
+import {setup_acl} from "lib/acess-control-list"
 
 export default {
   namespaced: true,
@@ -71,6 +72,8 @@ export default {
             // Set some basic stuff
             context.commit('set_personalised_instance_id', login_details.personalised_instance_id)
             context.commit('set_user', authenticated_user.model)
+
+            setup_acl()
 
             // Add extra info to error logging
             set_raven_user_context(context.rootState)
