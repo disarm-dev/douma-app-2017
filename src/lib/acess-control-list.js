@@ -2,16 +2,23 @@ import Vue from 'vue'
 import Acl from 'vue-browser-acl'
 import {store} from 'apps/store'
 
-function has_permission (permission) {
-  return (user) => user.permissions.includes(permission)
-}
-
 function get_user () {
   return store.state.meta.user || {permissions: []}
 }
 
 export function setup_acl() {
   Vue.use(Acl, get_user, (acl) => {
-    acl.rule('read', 'irs_record_point', has_permission('read:irs_record_point'))
+    const permissions = get_user().permissions
+
+    for (const permission of permissions) {
+      if (!permission.includes(':')) continue
+
+      const permission_split = permission.split(':')
+      if (permission_split.length !== 2) continue
+
+      const verb = permission_split[0]
+      const applet = permission_split[1]
+      acl.rule(verb, applet)
+    }
   })
 }
