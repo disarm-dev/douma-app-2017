@@ -58,7 +58,7 @@ export function create_options(unpersisted_state) {
   return {
     getState: (root_key, storage) => {
       if (needs_upgrade(root_key)) {
-        migrate_single_to_multiple(root_key , storage)
+        return migrate_single_to_multiple(root_key , storage)
       }
       return get_state_multiple(root_key, storage, unpersisted_state)
     },
@@ -124,9 +124,9 @@ var get_state_multiple = (root_key, storage, unpersisted_state) => {
 }
 
 var migrate_single_to_multiple = (root_key, storage) => {
-  const value = storage.getItem(key);
+  const value = storage.getItem(root_key);
   console.log('migrate single state ', root_key)
-  set(state, key, value)
+  //set(state, root_key, value)
   storage.clear();
   try {
     return value && value !== 'undefined' ? JSON.parse(value) : undefined;
