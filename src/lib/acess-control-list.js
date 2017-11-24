@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Acl from 'vue-browser-acl'
 import {store} from 'apps/store'
+import {router} from 'apps/router'
 
 function get_user () {
   return store.state.meta.user || {permissions: []}
@@ -20,5 +21,5 @@ export function setup_acl() {
       const applet = permission_split[1]
       acl.rule(verb, applet)
     }
-  })
+  }, {router})
 }

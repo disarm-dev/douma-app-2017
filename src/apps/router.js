@@ -6,6 +6,9 @@ import {has_permission} from 'lib/models/user/permission_helper.js'
 import {geodata_in_cache_and_valid} from 'lib/models/geodata/geodata.valid'
 import {hydrate_geodata_cache_from_idb} from 'lib/models/geodata/local.geodata_store'
 
+let router
+export {router}
+
 export function create_router(instance_routes, store) {
   Vue.use(VueRouter)
 
@@ -21,7 +24,7 @@ export function create_router(instance_routes, store) {
   })
 
   // Instantiate `router`
-  const router = new VueRouter({
+  router = new VueRouter({
     routes,
     mode: 'history'
   })
@@ -72,18 +75,6 @@ export function create_router(instance_routes, store) {
     } else {
       console.log('geodata required, already exists && valid')
       return next()
-    }
-
-  })
-
-  // Check user has permission to visit page
-  router.beforeEach((to, from, next) => {
-    const applet_name = to.name.split(':')[0]
-
-    if (has_permission({user: store.state.meta.user, applet_name})) {
-      next()
-    } else {
-      next({name: 'meta:home'})
     }
 
   })
