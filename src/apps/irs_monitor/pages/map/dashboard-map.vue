@@ -281,21 +281,12 @@
         if (!this.show_response_points) return
 
         const points = this.responses.map(response => {
-          // TODO: @feature Find out if {latitude, longitude} exist on coords or coords.coords
-          let coords = response.location.coords
-
-          if (!coords) return null
-
-          if (!coords.hasOwnProperty('latitude'))  {
-            coords = coords.coords
-          }
-
-          const {latitude, longitude} = coords
+          const {latitude, longitude} = get(response, 'location.coords', null)
 
           if (!latitude || !longitude) return null
 
-          let coords_point = point([longitude, latitude])
-          coords_point.properties = {...response._decorated, ...flatten_object(response)}// {...response.form_data, ...response._decorated}
+          const coords_point = point([longitude, latitude])
+          coords_point.properties = {...response._decorated, ...flatten_object(response)}
 
           return coords_point
         }).filter(a => a)
