@@ -37,6 +37,7 @@
   import {clone, get} from 'lodash'
   import flatten_object from 'flat'
   import moment from 'moment-mini'
+  import Raven from 'raven-js'
 
   import {basic_map} from 'lib/helpers/basic_map.js'
   import map_legend from 'components/map_legend.vue'
@@ -283,7 +284,11 @@
         const points = this.responses.map(response => {
           const {latitude, longitude} = get(response, 'location.coords', null)
 
-          if (!latitude || !longitude) return null
+          if (!latitude || !longitude) {
+            const e = new Error('Missing lat or lng from coordinates')
+            Raven.captureException(e)
+            return null
+          }
 
           const coords_point = point([longitude, latitude])
           coords_point.properties = {...response._decorated, ...flatten_object(response)}
