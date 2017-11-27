@@ -15,6 +15,7 @@ function resolve (dir) {
 }
 
 module.exports = [
+  // Micro loader
   {
     entry: './src/microloader.js',
     output: {
@@ -31,6 +32,7 @@ module.exports = [
       })
     ]
   },
+  // Service worker
   {
     entry: './src/sw.js',
     output: {
@@ -41,6 +43,7 @@ module.exports = [
           : config.dev.assetsPublicPath
     }
   },
+  // Douma
   {
     entry: {
       app: ['babel-polyfill', './src/index.js'],
