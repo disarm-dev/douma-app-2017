@@ -127,7 +127,7 @@ var migrate_single_to_multiple = (root_key, storage) => {
   const value = storage.getItem(root_key);
   console.log('migrate single state ', root_key)
   //set(state, root_key, value)
-  storage.clear();
+  storage.removeItem(root_key)
   try {
     return value && value !== 'undefined' ? JSON.parse(value) : undefined;
   } catch (err) {
