@@ -119,7 +119,7 @@ export default {
       state.areas_excluded_by_click = []
       state.bulk_selected_ids = []
       state.current_plan = null
-      state.unsaved_changes = true
+      state.unsaved_changes = false
     },
     'set_plan': (state, plan) => {
       state.current_plan = plan
