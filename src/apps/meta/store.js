@@ -31,14 +31,13 @@ export default {
     decorated_applets(state, getters, rootState) {
       // Figure out which applets are allowed, and only decorate and show these!
       if (!state.user) return []
+      if (!state.user.permissions) return []
 
       const list_of_applets = state.user.permissions.map(p => p.replace('write:', '').replace('read:', ''))
       const user_allowed_applets = unique(list_of_applets)
       const instance_applets = rootState.instance_config.applets
 
-      const decorated_applets = decorate_applets({user_allowed_applets, instance_applets})
-
-      return decorated_applets
+      return decorate_applets({user_allowed_applets, instance_applets})
     }
   },
   actions: {
