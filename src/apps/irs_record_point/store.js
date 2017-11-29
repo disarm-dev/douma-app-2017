@@ -32,7 +32,7 @@ const is_numeric = x => !isNaN(parseFloat(x)) && isFinite(x)
 
 const validate_record_coords = record => {
   if(!is_numeric(record.location.coords.latitude) && !is_numeric(record.location.coords.longitude)){
-    throw new Error('Response Coordinates are not valid')
+    throw new Error('Response lat or lng coordinate is not a number')
   }
 }
 
