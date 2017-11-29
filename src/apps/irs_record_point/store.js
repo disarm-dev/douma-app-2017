@@ -1,13 +1,37 @@
 import clonedeep from 'lodash.clonedeep'
 import Raven from 'raven-js'
 
+
 import CONFIG from 'config/common'
 import {ResponseController} from 'lib/models/response/controller'
 
 const controller = new ResponseController('record')
 
-const validate_record_coords = (record) => {
-  if(isNaN(Number(record.location.coords.latitude)) || isNaN(Number(record.location.coords.longitude))){
+/*
+  @doc
+  is_numeric returns true if the argument is either a finite number or a
+  string representation of a finite number
+
+  @example
+  isNumeric('a')      //returns false
+  isNumeric(true)     //returns false
+  isNumeric(NaN)      //returns false
+  isNumeric(Infinity) //returns false
+  isNumeric('12.76')  //returns true
+  isNumeric(12.76)    //returns true
+ */
+const is_numeric = x => !isNaN(parseFloat(x)) && isFinite(x)
+
+/*
+  @doc
+  validate_record_coords does nothing, except throw an error if either
+  * the coords are invalid
+  * the location is invalid
+  * the record is invalid
+ */
+
+const validate_record_coords = record => {
+  if(!is_numeric(record.location.coords.latitude) && !is_numeric(record.location.coords.longitude)){
     throw new Error('Response Coordinates are not valid')
   }
 }
