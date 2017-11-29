@@ -17,7 +17,7 @@ function resolve (dir) {
 module.exports = [
   // Micro loader
   {
-    entry: './src/microloader.js',
+    entry: './node_modules/@locational/micro-loader/dist/loader.js',
     output: {
         filename: 'loader' + microloaderConfig['loader_version'] + '.js',
         path: path.resolve(__dirname, '../dist'),
@@ -34,7 +34,7 @@ module.exports = [
   },
   // Service worker
   {
-    entry: './src/sw.js',
+    entry: './node_modules/@locational/micro-loader/src/sw.js',
     output: {
         filename: 'sw.js',
         path: path.resolve(__dirname, '../dist'),
