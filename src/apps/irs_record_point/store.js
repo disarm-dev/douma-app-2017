@@ -1,9 +1,16 @@
 import clonedeep from 'lodash.clonedeep'
+import Raven from 'raven-js'
 
 import CONFIG from 'config/common'
 import {ResponseController} from 'lib/models/response/controller'
 
 const controller = new ResponseController('record')
+
+const validate_record_coords = (record) => {
+  if(isNaN(Number(record.location.coords.latitude)) || isNaN(Number(record.location.coords.longitude))){
+    throw new Error('Response Coordinates are not valid')
+  }
+}
 
 export default {
   namespaced: true,
@@ -94,9 +101,7 @@ export default {
     },
     create_response_local: async (context, response) => {
       try {
-        if(isNaN(Number(response.location.coords.latitude)) || isNaN(Number(response.location.coords.longitude))){
-          throw new Error('Response Coordinates are not valid')
-        }
+        validate_record_coords(response)
         await controller.create_local(response)
         context.commit('create_response', response)
         context.commit('root:set_snackbar', {message: 'Created record'}, {root: true})
@@ -108,9 +113,7 @@ export default {
     },
     update_response_local: async (context, response) => {
       try {
-        if(isNaN(Number(response.location.coords.latitude)) || isNaN(Number(response.location.coords.longitude))){
-          throw new Error('Response Coordinates are not valid')
-        }
+        validate_record_coords(response)
         await controller.update_local(response)
         context.commit('update_response', response)
         context.commit('root:set_snackbar', {message: 'Updated record'}, {root: true})
@@ -160,3 +163,4 @@ export default {
     }
   }
 }
+
