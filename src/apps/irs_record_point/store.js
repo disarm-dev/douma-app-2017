@@ -94,21 +94,29 @@ export default {
     },
     create_response_local: async (context, response) => {
       try {
+        if(isNaN(Number(response.location.coords.latitude)) || isNaN(Number(response.location.coords.longitude))){
+          throw new Error('Response Coordinates are not valid')
+        }
         await controller.create_local(response)
         context.commit('create_response', response)
         context.commit('root:set_snackbar', {message: 'Created record'}, {root: true})
       } catch (e) {
         console.error(e)
+        Raven.captureException(e)
         context.commit('root:set_snackbar', {message: 'Could not save record locally'}, {root: true})
       }
     },
     update_response_local: async (context, response) => {
       try {
+        if(isNaN(Number(response.location.coords.latitude)) || isNaN(Number(response.location.coords.longitude))){
+          throw new Error('Response Coordinates are not valid')
+        }
         await controller.update_local(response)
         context.commit('update_response', response)
         context.commit('root:set_snackbar', {message: 'Updated record'}, {root: true})
       } catch (e) {
         console.error(e)
+        Raven.captureException(e)
         context.commit('root:set_snackbar', {message: 'Could not update record locally'}, {root: true})
       }
     },
