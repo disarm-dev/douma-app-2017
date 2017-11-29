@@ -17,7 +17,7 @@ function resolve (dir) {
 module.exports = [
   // Micro loader
   {
-    entry: './node_modules/@locational/micro-loader/dist/loader.js',
+    entry: './node_modules/@locational/micro-loader',
     output: {
         filename: 'loader' + microloaderConfig['loader_version'] + '.js',
         path: path.resolve(__dirname, '../dist'),
