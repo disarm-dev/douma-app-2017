@@ -7,34 +7,6 @@ import {ResponseController} from 'lib/models/response/controller'
 
 const controller = new ResponseController('record')
 
-/*
-  @doc
-  is_numeric returns true if the argument is either a finite number or a
-  string representation of a finite number
-
-  @example
-  isNumeric('a')      //returns false
-  isNumeric(true)     //returns false
-  isNumeric(NaN)      //returns false
-  isNumeric(Infinity) //returns false
-  isNumeric('12.76')  //returns true
-  isNumeric(12.76)    //returns true
- */
-const is_numeric = x => !isNaN(parseFloat(x)) && isFinite(x)
-
-/*
-  @doc
-  validate_record_coords does nothing, except throw an error if either
-  * the coords are invalid
-  * the location is invalid
-  * the record is invalid
- */
-
-const validate_record_coords = record => {
-  if(!is_numeric(record.location.coords.latitude) && !is_numeric(record.location.coords.longitude)){
-    throw new Error('Response lat or lng coordinate is not a number')
-  }
-}
 
 export default {
   namespaced: true,
@@ -125,25 +97,23 @@ export default {
     },
     create_response_local: async (context, response) => {
       try {
-        validate_record_coords(response)
+        if (Object.keys(response.location.coords).length === 0) Raven.captureException(new Error('Coords is empty'))
         await controller.create_local(response)
         context.commit('create_response', response)
         context.commit('root:set_snackbar', {message: 'Created record'}, {root: true})
       } catch (e) {
         console.error(e)
-        Raven.captureException(e)
         context.commit('root:set_snackbar', {message: 'Could not save record locally'}, {root: true})
       }
     },
     update_response_local: async (context, response) => {
       try {
-        validate_record_coords(response)
+        if (Object.keys(response.location.coords).length === 0) Raven.captureException(new Error('Coords is empty'))
         await controller.update_local(response)
         context.commit('update_response', response)
         context.commit('root:set_snackbar', {message: 'Updated record'}, {root: true})
       } catch (e) {
         console.error(e)
-        Raven.captureException(e)
         context.commit('root:set_snackbar', {message: 'Could not update record locally'}, {root: true})
       }
     },
