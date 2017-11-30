@@ -5,14 +5,15 @@ module.exports = {
   navigateFallback: 'index.html',
   importScripts: ['offline-analytics.js'],
   staticFileGlobsIgnorePatterns: [
-    /\/static\/instances\/?(?:[^\/]+\/?)*$/,
+    /\.map$/,
+    /\/static\/?(?:[^\/]+\/?)*$/,
     /VERSION/,
     /COMMITHASH/
   ],
   runtimeCaching: [
     {
-      urlPattern: /\/static\/instances\/?(?:[^\/]+\/?)*$/,
-      handler: 'cacheFirst'
+      urlPattern: /\/static\/?(?:[^\/]+\/?)*$/,
+      handler: 'networkFirst'
     },
     {
       urlPattern: /(api|tiles)\.mapbox\.com/,
