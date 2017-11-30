@@ -5,6 +5,7 @@ module.exports = {
   navigateFallback: 'index.html',
   importScripts: ['offline-analytics.js'],
   staticFileGlobsIgnorePatterns: [
+    /\.map$/,
     /\/static\/instances\/?(?:[^\/]+\/?)*$/,
     /VERSION/,
     /COMMITHASH/
