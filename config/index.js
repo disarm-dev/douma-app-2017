@@ -1,11 +1,14 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 var path = require('path')
+var GitRevisionPlugin = require('git-revision-webpack-plugin')
+
+var gitRevisionPlugin = new GitRevisionPlugin()
 
 module.exports = {
   build: {
     env: require('./prod.env'),
-    index: path.resolve(__dirname, '../dist/[git-revision-version]/index.html'),
-    assetsRoot: path.resolve(__dirname, '../dist') + '/[git-revision-version]',
+    index: path.resolve(__dirname, `../dist/${gitRevisionPlugin.version()}/index.html`),
+    assetsRoot: path.resolve(__dirname, '../dist', `${gitRevisionPlugin.version()}`),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     productionSourceMap: true,
