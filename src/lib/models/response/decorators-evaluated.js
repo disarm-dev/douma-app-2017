@@ -1,47 +1,5 @@
 import {Parser} from 'expr-eval'
-import {get} from 'lodash'
-import cache from 'config/cache'
-import {get_planning_level_name} from "lib/instance_data/spatial_hierarchy_helper"
-import points_within_polygon from '@turf/points-within-polygon'
-import {featureCollection} from '@turf/helpers'
 
-/**
- *
- * @param responses
- */
-
-export function guess_location_for(responses) {
-  return responses.map(r => {
-    if (!get(r, 'location.selection.id', false)) {
-
-      const planning_level_name = get_planning_level_name()
-      const fc = cache.geodata[planning_level_name]
-      const area_features = fc.features
-
-      for (const area_feature of area_features) {
-
-        const point_feature = feature({
-          "type": "Point",
-          "coordinates": [r.location.coords.longitude, r.location.coords.latitude]
-        })
-
-        const fc = featureCollection([point_feature])
-        const result = points_within_polygon(fc, area_feature)
-
-        if (result) {
-
-
-          r.location.selection = {
-            name: area_feature.properties.__disarm_geo_name,
-            id: area_feature.properties.__disarm_geo_id
-          }
-        }
-      }
-    }
-
-    return r
-  })
-}
 
 /**
  * Takes responses and decorates them with new properties under the '_decorated' key.

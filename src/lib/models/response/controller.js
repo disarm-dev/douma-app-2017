@@ -1,7 +1,8 @@
 import remote from './remote'
 import Local from './local'
-import instance_decorator, {guess_location_for} from 'lib/models/response/decorators-evaluated'
+import instance_decorator from 'lib/models/response/decorators-evaluated'
 import {store} from 'apps/store'
+import {guess_location_for} from "lib/models/response/guess_location"
 
 export class ResponseController {
   constructor(applet_name) {
