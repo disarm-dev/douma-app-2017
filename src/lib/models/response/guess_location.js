@@ -1,55 +1,80 @@
 import {get} from 'lodash'
-import cache from 'config/cache'
-import {get_planning_level_name} from "lib/instance_data/spatial_hierarchy_helper"
+import {get_planning_level_name} from 'lib/instance_data/spatial_hierarchy_helper'
 import {featureCollection, point} from '@turf/helpers'
 import bounding_box from '@turf/bbox'
 import rbush from 'rbush'
-import within from '@turf/boolean-within'
+import boolean_point_in_polygon from '@turf/boolean-point-in-polygon'
+
+import cache from 'config/cache'
+import {store} from 'apps/store'
 
 export function guess_location_for(responses) {
-  console.time('index')
   const planning_level_name = get_planning_level_name()
   const planning_level_fc = cache.geodata[planning_level_name]
   const area_features = planning_level_fc.features
   const bboxes = area_features.map(f => {
     return bbox_and_id(f, '__disarm_geo_id')
   })
-  
 
   const tree = rbush()
   tree.load(bboxes)
-  console.timeEnd('index')
-  window.tree = tree
 
-
-  return responses.map(r => {
-    if (!get(r, 'location.selection.id', false)) {
-      // fix here
-      const response_point = point([r.location.coords.longitude, r.location.coords.latitude])
-      const coords_bbox = bbox_and_id(response_point, '__disarm_geo_id')
-      const result = tree.search(coords_bbox)
-
-      if (result.length) {
-        console.log(result.length)
-        const features_from_search = result.filter(res => {
-          return within(res.feature, response_point)
-        })
-
-        console.log('features_from_search', features_from_search)
-
-
-        const names = features_from_search.map(f => {
-          return get(f, 'properties.__disarm_geo_name', '')
-        })
-        // console.log('searching for', get(r, 'location.selection.name', ''), 'found', names)
-
-        // add location.selection to record here
-      }
-
+  // Try to find and add location.selection where only location.selection.name exists
+  return responses.map(response => {
+    // return response if already have an location.selection.id
+    if (get(response, 'location.selection.id', false)) {
+      return response
     }
 
-    return r
+    // do hunting and finding
+    const response_point = point([response.location.coords.longitude, response.location.coords.latitude])
+    const coords_bbox = bbox_and_id(response_point, '__disarm_geo_id')
+    const bbox_search_result = tree.search(coords_bbox)
+
+    if (!bbox_search_result.length) {
+      console.log('No bbox search results found for', get(response, 'location.coords'))
+      return response
+    }
+
+    const guessed_location_polygon = bbox_search_result.filter(res => {
+      return boolean_point_in_polygon(response_point, res.feature, {ignoreBoundary: true})
+    })[0]
+
+    if (typeof guessed_location_polygon !== 'undefined') {
+
+      // check edit-distance, log out if above threshold
+      const written_in_name = get(response, 'location.selection.name', '')
+      const found_name = get(guessed_location_polygon, 'feature.properties.__disarm_geo_name')
+      const found_id = get(guessed_location_polygon, 'feature.properties.__disarm_geo_id')
+
+      const distance = check_edit_distance(written_in_name, found_name)
+
+      if (distance > 10) {
+        console.log(`Matching ${written_in_name} to ${found_name}, exceeds name-distance threshold. Still adding as suggestion.`)
+      }
+
+      // add guessed_location_polygon attributes to response.location.selection
+      const location_selection_from_list = store.state.instance_config.location_selection.villages.find(v => v.id === found_id)
+
+      if (typeof location_selection_from_list !== 'undefined') {
+        response.location.selection = location_selection_from_list
+        return response
+      }
+
+      console.log('Found a polygon not in location_selection list for', response)
+
+
+    } else {
+      console.log('Response coords inside a bbox, but not a known polygon', response.location.coords)
+      return response
+    }
+
+    console.log('Broken laws of logic')
   })
+}
+
+function check_edit_distance(a, b) {
+  return 1
 }
 
 function bbox_and_id(feature, field) {
