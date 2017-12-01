@@ -4,11 +4,16 @@ import {featureCollection, point} from '@turf/helpers'
 import bounding_box from '@turf/bbox'
 import rbush from 'rbush'
 import boolean_point_in_polygon from '@turf/boolean-point-in-polygon'
+import fast_levenshtein from 'fast-levenshtein'
 
 import cache from 'config/cache'
 import {store} from 'apps/store'
 
+
 export function guess_location_for(responses) {
+  let fixed = 0
+  let fixes = []
+
   const planning_level_name = get_planning_level_name()
   const planning_level_fc = cache.geodata[planning_level_name]
   const area_features = planning_level_fc.features
@@ -20,7 +25,7 @@ export function guess_location_for(responses) {
   tree.load(bboxes)
 
   // Try to find and add location.selection where only location.selection.name exists
-  return responses.map(response => {
+  const responses_with_guesses = responses.map(response => {
     // return response if already have an location.selection.id
     if (get(response, 'location.selection.id', false)) {
       return response
@@ -32,7 +37,7 @@ export function guess_location_for(responses) {
     const bbox_search_result = tree.search(coords_bbox)
 
     if (!bbox_search_result.length) {
-      console.log('No bbox search results found for', get(response, 'location.coords'))
+      fixes.push(['Point not in any village', get(response, 'location.selection.name'), response])
       return response
     }
 
@@ -47,10 +52,13 @@ export function guess_location_for(responses) {
       const found_name = get(guessed_location_polygon, 'feature.properties.__disarm_geo_name')
       const found_id = get(guessed_location_polygon, 'feature.properties.__disarm_geo_id')
 
-      const distance = check_edit_distance(written_in_name, found_name)
+      const distance = fast_levenshtein.get(written_in_name, found_name)
 
-      if (distance > 10) {
-        console.log(`Matching ${written_in_name} to ${found_name}, exceeds name-distance threshold. Still adding as suggestion.`)
+
+      if (distance > 20) {
+        fixes.push([`Matching ${written_in_name} to ${found_name}, exceeds name-distance threshold. Still adding as suggestion.`, response])
+      } else {
+        // console.log(`Matching ${written_in_name} to ${found_name}, distance ${distance}.`)
       }
 
       // add guessed_location_polygon attributes to response.location.selection
@@ -58,23 +66,22 @@ export function guess_location_for(responses) {
 
       if (typeof location_selection_from_list !== 'undefined') {
         response.location.selection = location_selection_from_list
+        fixed++
         return response
       }
 
-      console.log('Found a polygon not in location_selection list for', response)
+      fixes.push(['Found a polygon not in location_selection list for', response])
 
 
     } else {
-      console.log('Response coords inside a bbox, but not a known polygon', response.location.coords)
+      fixes.push(['Point not in any village', get(response, 'location.selection.name'), response])
       return response
     }
 
     console.log('Broken laws of logic')
   })
-}
-
-function check_edit_distance(a, b) {
-  return 1
+  console.log('Automatic suggesting of location for responses without location.selection.id (write-ins): fixed count', fixed, 'details', fixes)
+  return responses_with_guesses
 }
 
 function bbox_and_id(feature, field) {
