@@ -1,6 +1,6 @@
 import remote from './remote'
 import Local from './local'
-import instance_decorator from 'lib/models/response/decorators-evaluated'
+import instance_decorator, {guess_location_for} from 'lib/models/response/decorators-evaluated'
 import {store} from 'apps/store'
 
 export class ResponseController {
@@ -13,11 +13,12 @@ export class ResponseController {
     return await this.local.count()
   }
 
-  async read_new_network(last_id) {
+  async read_new_network_write_local(last_id) {
     const new_responses = await this.remote.read_new(last_id)
     const decorated_responses = instance_decorator(new_responses, store.state.instance_config)
-    await this.local.create_or_update_bulk(decorated_responses)
-    return decorated_responses
+    const guessed_location_responses = guess_location_for(decorated_responses)
+    await this.local.create_or_update_bulk(guessed_location_responses)
+    return guessed_location_responses
   }
 
   async read_all_network() {

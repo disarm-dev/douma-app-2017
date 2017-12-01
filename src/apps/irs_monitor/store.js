@@ -149,7 +149,7 @@ export default {
     get_all_records: async (context) => {
       const last_id = context.state.last_id
 
-      const responses = await response_controller.read_new_network(last_id)
+      const responses = await response_controller.read_new_network_write_local(last_id)
 
       if (responses.length) {
         const updated_last_id = responses[responses.length - 1]._id
