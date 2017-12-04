@@ -24,17 +24,39 @@
         filters: []
       }
     },
+    watch: {
+      'options': 'update_pipeline',
+      'filters': 'update_pipeline',
+    },
     mounted() {
-       unity.subscribe_to_pipeline({
-         configuration: this.configuration,
-         options: this.options,
-         filters: this.filters
-       })
-       .then(data_to_render => {
-         // do something with data_to_render
-         this.data_to_render = data_to_render
-       })
+      this.get_default_options_and_filters()
 
+      unity.subscribe_to_pipeline({
+        configuration: this.configuration,
+        options: this.options,
+        filters: this.filters
+      })
+        .then(data_to_render => {
+          // this function gets called every time something related to this pipeline changes
+
+          this.data_to_render = data_to_render
+        })
+    },
+    update_pipeline() {
+      // set the options and filters after have subscribed the first time
+      unity.update_pipeline({
+        configuration: this.configuration,
+        options: this.options,
+        filters: this.filters
+      })
+    },
+
+    get_default_options_and_filters() {
+      // get the filters and options that were persisted
+      // i.e. from localStorage / IDB
+
+      this.options = options
+      this.filters = filters
     }
   }
 </script>

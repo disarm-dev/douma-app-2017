@@ -1,8 +1,8 @@
 <template>
   <div>
     <div>
+      <md-button @click="get_configuration">Get configuration</md-button>
       <md-button @click="get_data">Get data</md-button>
-
       <md-button @click="rerun_pipelines">Rerun pipelines</md-button>
     </div>
 
@@ -22,10 +22,7 @@
 
   export default {
     components: {component_renderer},
-    name: 'applet.vue',
-    mounted() {
-      this.get_configuration()
-    },
+    name: 'unity-dashboard',
     data() {
       return {
         configuration: null
@@ -34,6 +31,7 @@
     methods: {
       get_configuration() {
         // get the instance.unity-config.json file
+        // are schemas defined as part of the configuration?
         fetch('/instance.unity-config.json')
           .then(res => {
             this.configuration = res
@@ -46,11 +44,13 @@
       },
       get_data() {
         fetch('responses').then((res) => {
-          unity.set_data('responses', res)
+          // What about schemas and registering them?
+          // Might need separate request for a static schema file under /static
+          unity.registerValue('responses', res)
         })
 
         fetch('plan').then((res) => {
-          unity.set_data('plan', res)
+          unity.registerValue('plan', res)
         })
       },
       rerun_pipelines() {
