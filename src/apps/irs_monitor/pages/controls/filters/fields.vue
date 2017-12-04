@@ -31,6 +31,8 @@
   import sortBy from 'lodash/fp/sortBy'
   import map from 'lodash/fp/map'
 
+  const EXCLUDE_FIELDS = ['location.selection.id', 'location.selection.name', 'location.selection.category']
+
   export default {
     name: 'field-filters',
     props: ['responses'],
@@ -64,7 +66,7 @@
           sortBy(x => x)
         )(all_field_names)
 
-        return flattened
+        return flattened.filter(f => !EXCLUDE_FIELDS.includes(f))
       },
       field_values() {
         if (!this.filter_name) return []
