@@ -13,6 +13,7 @@
       <filters :responses="responses"></filters>
       <aggregation_settings :responses="responses" :targets="targets"></aggregation_settings>
       <limit_to :responses="responses" :targets="targets"></limit_to>
+      <guess_locations></guess_locations>
     </md-card-content>
 
   </md-card>
@@ -23,10 +24,11 @@
   import aggregation_settings from './aggregation-settings.vue'
   import filters from './filters/filters.vue'
   import limit_to from './limit-to.vue'
+  import guess_locations from './guess-locations'
 
   export default {
     name: 'controls',
-    components: {filters, aggregation_settings, limit_to},
+    components: {filters, aggregation_settings, limit_to, guess_locations},
     props: ['responses', 'targets'],
     computed: {
       ...mapState({

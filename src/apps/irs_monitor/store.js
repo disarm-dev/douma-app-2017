@@ -27,7 +27,7 @@ export default {
     plan: null,
     filter: null,
     map_options: {
-      show_response_points: true, 
+      show_response_points: true,
       selected_layer: 'normalised_risk'
     },
 
@@ -37,7 +37,8 @@ export default {
       spatial_aggregation_level: null,
       limit_to_plan: true,
       limit_to: ''
-    }
+    },
+    guess_selection_ids:{}
   },
   mutations: {
     // clear storage (called by meta store)
