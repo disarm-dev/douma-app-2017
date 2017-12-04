@@ -283,7 +283,8 @@
       }
     },
     "meta": {},
-    "debug": {}
+    "debug": {},
+    "unity_dashboard": {}
   },
   "map_focus": {
     "centre": {

@@ -1,15 +1,10 @@
 <template>
-  <!--Filters or controls etc. -->
-  <input v-model="options.some_number" type="number" placeholder="Some numeric value">
-
-  <!--component to render-->
-  <template :is="configuration.component_type" :data_to_render="data_to_render"></template>
-
+  <component :is="configuration.component_type" :data_to_render="data_to_render"></component>
 </template>
 
 <script>
-  import chart from './chart'
-  import table from './table'
+  import chart from './components/chart'
+  import table from './components/table'
 
   export default {
     name: 'component_renderer',
@@ -17,47 +12,27 @@
     props: 'configuration',
     data() {
       return {
-        data_to_render: null,
-        options: {
-          some_number: 1
-        },
-        filters: []
+        data_to_render: null, // where does this come from?
       }
     },
-    watch: {
-      'options': 'update_pipeline',
-      'filters': 'update_pipeline',
+    computed: {
+      filters: {
+        get() {
+        },
+        set(value) {
+          // incl. this.$unity.run_pipeline()
+        }
+      }
     },
     mounted() {
       this.get_default_options_and_filters()
 
-      unity.subscribe_to_pipeline({
-        configuration: this.configuration,
-        options: this.options,
-        filters: this.filters
-      })
-        .then(data_to_render => {
+      this.$unity.subscribe_to_pipeline()
+        .on(data_to_render => {
           // this function gets called every time something related to this pipeline changes
-
           this.data_to_render = data_to_render
         })
     },
-    update_pipeline() {
-      // set the options and filters after have subscribed the first time
-      unity.update_pipeline({
-        configuration: this.configuration,
-        options: this.options,
-        filters: this.filters
-      })
-    },
-
-    get_default_options_and_filters() {
-      // get the filters and options that were persisted
-      // i.e. from localStorage / IDB
-
-      this.options = options
-      this.filters = filters
-    }
   }
 </script>
 

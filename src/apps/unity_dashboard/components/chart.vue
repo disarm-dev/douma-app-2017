@@ -4,7 +4,7 @@
 
 <script>
   export default {
-    name: 'chart.vue',
+    name: 'chart',
     props: ["data_to_render"],
     mounted() {
       // get chart data as a prop

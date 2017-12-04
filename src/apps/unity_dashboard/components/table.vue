@@ -6,7 +6,7 @@
   //import { mapState, mapActions, mapMutations } from 'vuex'
 
   export default {
-    name: 'table',
+    name: 'the_table',
     mounted() {
     },
     data() {

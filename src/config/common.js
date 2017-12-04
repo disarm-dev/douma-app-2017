@@ -33,6 +33,7 @@ export default {
     'meta': {
       title: 'User', icon: 'person', geodata_required: false
     },
+    'unity_dashboard': {title: 'Unity dashboard', icon: 'child_care'}
   },
   hash_params: {
     INSTANCE_ID: 'instance',

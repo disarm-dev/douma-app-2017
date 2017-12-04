@@ -6,57 +6,35 @@
       <md-button @click="rerun_pipelines">Rerun pipelines</md-button>
     </div>
 
-
     <div v-for="component_configuration in configuration.components">
       <component_renderer :config="component_configuration"></component_renderer>
     </div>
 
-    <div v-if="!component_configuration">
-      Config missing. Please add a configuration for unity.
-    </div>
   </div>
 </template>
 
 <script>
+  // Should be in `src/config/configure_application.js`, here for ease-of-reference
+  import Vue from 'vue'
+  import UnityPlugin from './unity-integration'
+  Vue.use(UnityPlugin)
+
+  // Nasty bootstrap to get unity + DOUMA playing nice to start
+  import {load_data} from './bootstrap'
+
+  // Applet-specific
   import component_renderer from "./component_renderer.vue"
 
   export default {
     components: {component_renderer},
     name: 'unity-dashboard',
-    data() {
-      return {
-        // might make the configuration a computed value
-        // could use `dashboard_id` from the router to find the correct dashboard
-        configuration: null
-      }
+    mixins: [UnityMixin],
+    props: {
+      dashboard_id: String,
     },
     methods: {
-      get_configuration() {
-        // get the instance.unity-config.json file
-        // are schemas defined as part of the configuration?
-        fetch('/instance.unity-config.json')
-          .then(res => {
-            this.configuration = res
-          })
-          .catch(e => {
-            // show dialog with error
-            alert(e)
-          })
-        //
-      },
-      get_data() {
-        fetch('responses').then((res) => {
-          // What about schemas and registering them?
-          // Might need separate request for a static schema file under /static
-          unity.registerValue('responses', res)
-        })
-
-        fetch('plan').then((res) => {
-          unity.registerValue('plan', res)
-        })
-      },
       rerun_pipelines() {
-        unity.rerun_pipelines()
+        this.$unity.rerun_pipelines()
       }
     }
   }
