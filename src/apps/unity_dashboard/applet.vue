@@ -25,6 +25,8 @@
     name: 'unity-dashboard',
     data() {
       return {
+        // might make the configuration a computed value
+        // could use `dashboard_id` from the router to find the correct dashboard
         configuration: null
       }
     },
