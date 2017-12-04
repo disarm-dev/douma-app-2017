@@ -6,7 +6,6 @@ import {aggregate_on} from 'lib/models/response/aggregations/aggregator'
 import {decorate_geodata} from "apps/irs_monitor/lib/decorate_geodata"
 
 export function decorate_for_chart({binned_responses, targets, aggregations, options}) {
-
   // Figure what to do
   if (has(options, 'single_series')) {
     return decorate_single_series({binned_responses, targets, aggregations, options})
