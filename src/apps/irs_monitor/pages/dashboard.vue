@@ -135,6 +135,7 @@
           return chart_configs.map(config => {
             let clone = clone_deep(config)
             clone.options = {
+              filters: this.filters,
               ...clone.options,
               ...dashboard_options_clone
             }
@@ -144,6 +145,7 @@
         } else {
           // Just have a simple `options` object (for either map or table)
           return {
+            filters: this.filters,
             ...options,
             ...this.dashboard_options
           }

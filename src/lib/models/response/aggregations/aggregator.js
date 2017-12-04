@@ -1,12 +1,14 @@
 import {Parser} from 'expr-eval'
 import isNumber from 'is-number'
-import {get} from 'lodash'
+import {get, has} from 'lodash'
+import {store} from 'apps/store'
 import flow from 'lodash/fp/flow'
 import compact from 'lodash/fp/compact'
 import map from 'lodash/fp/map'
 import uniq from 'lodash/fp/uniq'
 import {get_denominator_enumerable_name} from 'lib/instance_data/spatial_hierarchy_helper'
 import cache from 'config/cache'
+import {get_planning_level_name} from "../../../instance_data/spatial_hierarchy_helper";
 
 /**
  * For the given array of responses, will reduce to a single value
@@ -110,7 +112,7 @@ export function categorical_aggregator(responses, expression) {
 }
 
 function calculate_numerator({responses, numerator_expr, filter}) {
-  const options = { operators: { 'in': true } }
+  const options = {operators: {'in': true}}
   const expression = new Parser(options).parse(numerator_expr)
 
   if (filter) {
@@ -122,6 +124,30 @@ function calculate_numerator({responses, numerator_expr, filter}) {
 }
 
 function calculate_denominator({responses, targets, options, aggregation}) {
+  const spatial_filter = get(options, 'filters', []).filter(f => f.name.startsWith('location.selection'))[0]
+
+  // If spatial_filter is active, then try to filter the targets to match
+  if (spatial_filter) {
+    const planning_level_name = get_planning_level_name()// e.g villages
+    const location_selection_options = store.state.instance_config.location_selection[planning_level_name]
+
+    if (!has(spatial_filter, 'name') || typeof spatial_filter.name === 'string') throw new Error("Filter missing a name")
+    if (!has(spatial_filter, 'value')) throw new Error("Filter missing a value")
+    const spatial_filter_name = spatial_filter.name.split('.')[2]// get the last last part of the spatial filter, ie category or id
+    const spatial_filter_value = spatial_filter.value
+
+    if (spatial_filter_name === 'id') {
+      targets = targets.filter(t => t.id === spatial_filter_value)
+    } else if(spatial_filter_name === 'category') {
+      const ids = location_selection_options.filter(l => l.category === spatial_filter_value).map(l => l.id)
+      targets = targets.filter(t => ids.includes(t.id))
+    } else if (spatial_filter_name === 'name') {
+      console.log('Not implemented: limiting of denominators for a spatial filter set on a name field')
+    } else {
+      throw new Error('Trying to handle a spatial filter which has neither id nor category')
+    }
+  }
+
   const enumerable_field = get_denominator_enumerable_name() // e.g. structures for NAM
 
   // For spatial bins (map and table and any spatial chart)
@@ -138,17 +164,15 @@ function calculate_denominator({responses, targets, options, aggregation}) {
   // Non-Spatial bin
   if (is_non_spatial_bin) return total_target
 
-
+//return spartial_total_target
   // Is a Spatial bin
   if (!['location.selection.id', 'location.selection.category'].includes(options.bin_by)) {
     throw new Error("Have a problem - options.bin_by should be spatial, but doesn't look to be")
   }
 
-
-  let is_at_planning_level = options.bin_by === 'location.selection.id'
-
   const target_id = get(responses[0], options.bin_by)
   const found = targets.find(t => t.id === target_id)
+  debugger
   if (found) {
     return found[enumerable_field]
   } else {
