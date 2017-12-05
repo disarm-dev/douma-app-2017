@@ -128,6 +128,7 @@ function calculate_denominator({responses, targets, options, aggregation}) {
   if (spatial_filter) {
     const spatial_aggregation_level = options.spatial_aggregation_level
     const planning_level_name = get_planning_level_name()// e.g villages
+    const location_selection_options = store.state.instance_config.location_selection[planning_level_name]
 
     if (!has(spatial_filter, 'name') || typeof spatial_filter.name !== 'string') throw new Error("Filter missing a name")
     if (!has(spatial_filter, 'value')) throw new Error("Filter missing a value")
@@ -150,7 +151,8 @@ function calculate_denominator({responses, targets, options, aggregation}) {
 
     if (!is_filtering_at_planning_level && is_aggregating_at_planning_level) {
       // Filter the targets to only include the targets under the category in the filter
-      targets = targets.filter(t => t.category === spatial_filter_value)
+      const ids = location_selection_options.filter(t => t.category === spatial_filter_value).map(t => t.id)
+      targets = targets.filter(t => ids.includes(t.id))
     }
 
     if (!is_filtering_at_planning_level && !is_aggregating_at_planning_level) {
@@ -158,7 +160,6 @@ function calculate_denominator({responses, targets, options, aggregation}) {
       targets = targets.filter(t => t.id === spatial_filter_value)
     }
   }
-
   const enumerable_field = get_denominator_enumerable_name() // e.g. structures for NAM
 
   // Else should use total_target - ie. from all targets
