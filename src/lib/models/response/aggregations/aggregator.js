@@ -135,25 +135,25 @@ function calculate_denominator({responses, targets, options, aggregation}) {
     const spatial_filter_value = spatial_filter.value
 
     const is_filtering_at_planning_level = spatial_filter_name === 'id'
-    const is_aggrigating_at_planning_level = spatial_aggregation_level === planning_level_name
+    const is_aggregating_at_planning_level = spatial_aggregation_level === planning_level_name
 
-    if(is_filtering_at_planning_level && is_aggrigating_at_planning_level){
+    if (is_filtering_at_planning_level && is_aggregating_at_planning_level) {
       // Filter targets to only include targets with the target id in the filter
       targets = targets.filter(t => t.id === spatial_filter_value)
     }
 
-    if(is_filtering_at_planning_level && !is_aggrigating_at_planning_level){
+    if (is_filtering_at_planning_level && !is_aggregating_at_planning_level) {
       //Filter targets to only include targets for the districts the responses are in,
-      let village_category = responses[0].location_selection.category
-      targets = targets.filter(t => t.id === village_category)
+      let category = responses[0].location_selection.category
+      targets = targets.filter(t => t.id === category)
     }
 
-    if(!is_filtering_at_planning_level && is_aggrigating_at_planning_level){
+    if (!is_filtering_at_planning_level && is_aggregating_at_planning_level) {
       // Filter the targets to only include the targets under the category in the filter
       targets = targets.filter(t => t.category === spatial_filter_value)
     }
 
-    if(!is_filtering_at_planning_level && !is_aggrigating_at_planning_level){
+    if (!is_filtering_at_planning_level && !is_aggregating_at_planning_level) {
       // Filter the targets where target.id is equal to the category from the filter
       targets = targets.filter(t => t.id === spatial_filter_value)
     }
