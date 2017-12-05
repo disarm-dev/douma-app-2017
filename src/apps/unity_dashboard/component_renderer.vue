@@ -39,7 +39,7 @@
     },
     methods: {
       update_filters_for_pipeline() {
-        this.$unity.update_filters_for_pipeline(pipeline_id) // TODO: @unity .update_filters_for_pipeline() needs to update the filters
+        this.$unity.registerValue('f1', filter) // TODO: @unity .update_filters_for_pipeline() needs to update the filters
         // Call $unity.rerun_pipeline() here?
       }
     }
