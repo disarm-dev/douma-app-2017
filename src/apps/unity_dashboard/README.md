@@ -21,6 +21,9 @@ Do we need a method to get a single value out for display or can .subscribe_to_p
 
 # Pipeline setup
 
+
+### Calculating and saving targets for later
+
 Raw target:
 {num_rooms, district, village, id, name}
 
@@ -32,3 +35,13 @@ Targets at district level:
 
 Targets at village level:
   return raw targets
+
+
+### Use targets in pipeline (calculate coverage)
+Raw response:
+{structures_sprayed, village_id}
+
+Coverage for village"
+  step: join targets (by village) & responses (by village_id)
+  step: map (add_field coverage) 'structures_sprayed / num_rooms'
+  return after mapping
