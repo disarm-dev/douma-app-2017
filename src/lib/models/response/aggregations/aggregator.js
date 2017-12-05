@@ -29,7 +29,6 @@ export function aggregate_on({responses, targets, aggregation, previous_aggregat
       numerator = calculate_numerator({responses, ...aggregation})
       denominator = calculate_denominator({responses, targets, options, aggregation})
       result = numerator / denominator
-
       if (!isNumber(result)) return 0
       return result * 100
     } catch (e) {
@@ -129,7 +128,6 @@ function calculate_denominator({responses, targets, options, aggregation}) {
   if (spatial_filter) {
     const spatial_aggregation_level = options.spatial_aggregation_level
     const planning_level_name = get_planning_level_name()// e.g villages
-    const location_selection_options = store.state.instance_config.location_selection[planning_level_name]
 
     if (!has(spatial_filter, 'name') || typeof spatial_filter.name !== 'string') throw new Error("Filter missing a name")
     if (!has(spatial_filter, 'value')) throw new Error("Filter missing a value")
@@ -140,25 +138,36 @@ function calculate_denominator({responses, targets, options, aggregation}) {
     // planning_level_name === spatial_aggregation_level OR NOT
     // filter_level === planning_level_name OR NOT
 
-    if (spatial_aggregation_level === planning_level_name) {
-      targets = targets.filter(t => t[spatial_filter_name] === spatial_filter_value)
-    } else if(spatial_aggregation_level !== planning_level_name) {
-      if(spatial_filter_name==='category'){
-        targets = targets.filter(t => t.id===spatial_filter_value)
-      } else if(spatial_filter_name==='id'){
-        targets = targets.filter(t => t.id===responses[0].location_selection.category)
-      }
-    } else {
-      throw new Error('Trying to handle a spatial filter which we dont know much about')
+
+    const is_filtering_at_planning_level = spatial_filter_name === 'id'
+    const is_aggrigating_at_planning_level = spatial_aggregation_level === planning_level_name
+
+
+
+    if(is_filtering_at_planning_level && is_aggrigating_at_planning_level){
+      // Filter targets to only include targets with the target id in the filter
+      targets = targets.filter(t => t.id === spatial_filter_value)
+    }
+
+    if(is_filtering_at_planning_level && !is_aggrigating_at_planning_level){
+      //Filter targets to only include targets for the districts the responses are in,
+      let village_category = responses[0].location_selection.category
+      targets = targets.filter(t => t.id === village_category)
+    }
+
+    if(!is_filtering_at_planning_level && is_aggrigating_at_planning_level){
+      // Filter the targets to only include the targets under the category in the filter
+      targets = targets.filter(t => t.category === spatial_filter_value)
+    }
+
+    if(!is_filtering_at_planning_level && !is_aggrigating_at_planning_level){
+      // Filter the targets where target.id is equal to the category from the filter
+      targets = targets.filter(t => t.id == spatial_filter_value)
     }
   }
+  
 
   const enumerable_field = get_denominator_enumerable_name() // e.g. structures for NAM
-
-  // For spatial bins (map and table and any spatial chart)
-  const is_non_spatial_bin = !options.bin_by.startsWith('location.selection')
-  // Should only have a single target
-   if(options.chart_type==='line')debugger
 
   // Else should use total_target - ie. from all targets
   const total_target = targets
@@ -167,21 +176,6 @@ function calculate_denominator({responses, targets, options, aggregation}) {
       return acc + t[enumerable_field]
     }, 0)
 
-  // Non-Spatial bin
    return total_target
-
-  // Is a Spatial bin
-  if (!['location.selection.id', 'location.selection.category'].includes(options.bin_by)) {
-    throw new Error("Have a problem - options.bin_by should be spatial, but doesn't look to be")
-  }
-
-  const target_id = get(responses[0], options.bin_by)
-  const found = targets.find(t => t.id === target_id)
-
-  if (found) {
-    return found[enumerable_field]
-  } else {
-    return 0
-  }
 
 }
