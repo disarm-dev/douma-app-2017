@@ -1,5 +1,6 @@
 import {nest} from 'd3-collection'
 import isNumber from 'is-number'
+import {cloneDeep} from 'lodash'
 
 import {
   get_all_spatial_hierarchy_levels, get_denominator_enumerable_name, get_denominator_fields,
@@ -15,6 +16,8 @@ export function get_targets(targets, spatial_aggregation_level) {
     // Spatial aggregation level is the same as the planning_level so we return the targets
     return targets
   }
+
+  targets = cloneDeep(targets)
 
   const decorated_targets = decorate_targets(targets)
   const binned_targets = get_binned_targets(decorated_targets)
