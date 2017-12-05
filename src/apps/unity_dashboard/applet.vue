@@ -34,7 +34,7 @@
     },
     methods: {
       rerun_pipelines() {
-        this.$unity.rerun_pipelines()
+        this.$unity.rerun_pipelines() // TODO: @unity .rerun_pipelines() should rerun all pipelines
       }
     }
   }

@@ -13,6 +13,8 @@ import {unity} from './unity-integration'
 export async function load_data_into_unity(dashboard_id) {
   // Bootstrap from data from a local JSON file or two
 
+  // TODO: @unity .register_value(value_id, value) creates a value in the store
+
   unity.registerValue('responses_table', responses_table)
   unity.registerValue('targets_table', targets_table)
 }
@@ -33,5 +35,5 @@ export async function fetch_unity_configuration(instance_slug) {
     throw new Error('Problem loading unity configuration')
   }
 
-  unity.registerConfiguration('configuration', configuration)
+  unity.registerConfiguration('configuration', configuration) // TODO: @unity .register_configuration() stores the config in some store, non reactive
 }
