@@ -123,8 +123,8 @@ function calculate_numerator({responses, numerator_expr, filter}) {
 }
 
 function calculate_denominator({responses, targets, options, aggregation}) {
+
   const spatial_filter = get(options, 'filters', []).filter(f => f.name.startsWith('location.selection'))[0]
-  // If spatial_filter is active, then try to filter the targets to match
   if (spatial_filter) {
     const spatial_aggregation_level = options.spatial_aggregation_level
     const planning_level_name = get_planning_level_name()// e.g villages
@@ -134,15 +134,8 @@ function calculate_denominator({responses, targets, options, aggregation}) {
     const spatial_filter_name = spatial_filter.name.split('.')[2]// get the last last part of the spatial filter, ie category or id
     const spatial_filter_value = spatial_filter.value
 
-    // we have a matrix:
-    // planning_level_name === spatial_aggregation_level OR NOT
-    // filter_level === planning_level_name OR NOT
-
-
     const is_filtering_at_planning_level = spatial_filter_name === 'id'
     const is_aggrigating_at_planning_level = spatial_aggregation_level === planning_level_name
-
-
 
     if(is_filtering_at_planning_level && is_aggrigating_at_planning_level){
       // Filter targets to only include targets with the target id in the filter
@@ -162,20 +155,16 @@ function calculate_denominator({responses, targets, options, aggregation}) {
 
     if(!is_filtering_at_planning_level && !is_aggrigating_at_planning_level){
       // Filter the targets where target.id is equal to the category from the filter
-      targets = targets.filter(t => t.id == spatial_filter_value)
+      targets = targets.filter(t => t.id === spatial_filter_value)
     }
   }
-  
 
   const enumerable_field = get_denominator_enumerable_name() // e.g. structures for NAM
 
   // Else should use total_target - ie. from all targets
-  const total_target = targets
+  return targets
     .filter(t => t[enumerable_field])
     .reduce((acc, t) => {
       return acc + t[enumerable_field]
     }, 0)
-
-   return total_target
-
 }
