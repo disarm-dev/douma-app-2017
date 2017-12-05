@@ -125,7 +125,6 @@ function calculate_numerator({responses, numerator_expr, filter}) {
 
 function calculate_denominator({responses, targets, options, aggregation}) {
   const spatial_filter = get(options, 'filters', []).filter(f => f.name.startsWith('location.selection'))[0]
-if (options.chart_type === 'line') debugger
   // If spatial_filter is active, then try to filter the targets to match
   if (spatial_filter) {
     const spatial_aggregation_level = options.spatial_aggregation_level
@@ -142,10 +141,13 @@ if (options.chart_type === 'line') debugger
     // filter_level === planning_level_name OR NOT
 
     if (spatial_aggregation_level === planning_level_name) {
-      targets = targets.filter(t => t.id === spatial_filter_value)
+      targets = targets.filter(t => t[spatial_filter_name] === spatial_filter_value)
     } else if(spatial_aggregation_level !== planning_level_name) {
-      const ids = location_selection_options.filter(l => l.category === spatial_filter_value).map(l => l.id)
-      targets = targets.filter(t => ids.includes(t.id))
+      if(spatial_filter_name==='category'){
+        targets = targets.filter(t => t.id===spatial_filter_value)
+      } else if(spatial_filter_name==='id'){
+        targets = targets.filter(t => t.id===responses[0].location_selection.category)
+      }
     } else {
       throw new Error('Trying to handle a spatial filter which we dont know much about')
     }
@@ -156,6 +158,7 @@ if (options.chart_type === 'line') debugger
   // For spatial bins (map and table and any spatial chart)
   const is_non_spatial_bin = !options.bin_by.startsWith('location.selection')
   // Should only have a single target
+   if(options.chart_type==='line')debugger
 
   // Else should use total_target - ie. from all targets
   const total_target = targets
@@ -165,7 +168,7 @@ if (options.chart_type === 'line') debugger
     }, 0)
 
   // Non-Spatial bin
-  if (is_non_spatial_bin) return total_target
+   return total_target
 
   // Is a Spatial bin
   if (!['location.selection.id', 'location.selection.category'].includes(options.bin_by)) {
