@@ -1,6 +1,6 @@
 import {Parser} from 'expr-eval'
 import isNumber from 'is-number'
-import {get, has} from 'lodash'
+import {get, has, cloneDeep} from 'lodash'
 import {store} from 'apps/store'
 import flow from 'lodash/fp/flow'
 import compact from 'lodash/fp/compact'
@@ -17,7 +17,7 @@ import {get_planning_level_name} from "../../../instance_data/spatial_hierarchy_
  * @param aggregation {Aggregation Object}
  * @returns {number}
  */
-export function aggregate_on({responses, targets, aggregation, previous_aggregations, options}) {
+export function aggregate_on({responses, targets, aggregation, previous_aggregations, options, bin}) {
   let numerator, denominator, result // because webpack
 
   // TODO: @refac Taking an array of aggregations might require fewer iterations of each response --> faster?
@@ -27,7 +27,7 @@ export function aggregate_on({responses, targets, aggregation, previous_aggregat
     // Calculate proportion
     try {
       numerator = calculate_numerator({responses, ...aggregation})
-      denominator = calculate_denominator({responses, targets, options, aggregation})
+      denominator = calculate_denominator({responses, targets, options, aggregation, bin})
       result = numerator / denominator
       if (!isNumber(result)) return 0
       return result * 100
@@ -122,50 +122,82 @@ function calculate_numerator({responses, numerator_expr, filter}) {
   }
 }
 
-function calculate_denominator({responses, targets, options, aggregation}) {
-
+function calculate_denominator({responses, targets, options, aggregation, bin}) {
   const spatial_filter = get(options, 'filters', []).filter(f => f.name.startsWith('location.selection'))[0]
-  if (spatial_filter) {
-    const spatial_aggregation_level = options.spatial_aggregation_level
-    const planning_level_name = get_planning_level_name()// e.g villages
-    const location_selection_options = store.state.instance_config.location_selection[planning_level_name]
 
-    if (!has(spatial_filter, 'name') || typeof spatial_filter.name !== 'string') throw new Error("Filter missing a name")
-    if (!has(spatial_filter, 'value')) throw new Error("Filter missing a value")
-    const spatial_filter_name = spatial_filter.name.split('.')[2]// get the last last part of the spatial filter, ie category or id
-    const spatial_filter_value = spatial_filter.value
-
-    const is_filtering_at_planning_level = spatial_filter_name === 'id'
-    const is_aggregating_at_planning_level = spatial_aggregation_level === planning_level_name
-
-    if (is_filtering_at_planning_level && is_aggregating_at_planning_level) {
-      // Filter targets to only include targets with the target id in the filter
-      targets = targets.filter(t => t.id === spatial_filter_value)
-    }
-
-    if (is_filtering_at_planning_level && !is_aggregating_at_planning_level) {
-      //Filter targets to only include targets for the districts the responses are in,
-      let category = responses[0].location_selection.category
-      targets = targets.filter(t => t.id === category)
-    }
-
-    if (!is_filtering_at_planning_level && is_aggregating_at_planning_level) {
-      // Filter the targets to only include the targets under the category in the filter
-      const ids = location_selection_options.filter(t => t.category === spatial_filter_value).map(t => t.id)
-      targets = targets.filter(t => ids.includes(t.id))
-    }
-
-    if (!is_filtering_at_planning_level && !is_aggregating_at_planning_level) {
-      // Filter the targets where target.id is equal to the category from the filter
-      targets = targets.filter(t => t.id === spatial_filter_value)
-    }
+  if (['table', 'map'].includes(options.chart_type)) {
+    return other_filtered_targets({targets, bin})
   }
-  const enumerable_field = get_denominator_enumerable_name() // e.g. structures for NAM
 
+  if (spatial_filter) {
+    return filtered_targets({targets, responses, spatial_filter})
+  }
+
+  return sum_targets(targets)
+}
+
+function other_filtered_targets({targets, bin}) {
+  debugger
+  const filtered_targets = targets.filter(t => t.id == bin.key)
+  return sum_targets(filtered_targets)
+}
+
+function filtered_targets({targets, responses, spatial_filter}) {
+  const spatial_aggregation_level = options.spatial_aggregation_level
+  const planning_level_name = get_planning_level_name()// e.g villages
+  const location_selection_options = store.state.instance_config.location_selection[planning_level_name]
+
+  // Calculate
+  let shrunk_targets = cloneDeep(targets)
+
+  if (!has(spatial_filter, 'name') || typeof spatial_filter.name !== 'string') throw new Error("Filter missing a name")
+  if (!has(spatial_filter, 'value')) throw new Error("Filter missing a value")
+  const spatial_filter_name = spatial_filter.name.split('.')[2]// get the last last part of the spatial filter, ie category or id
+  const spatial_filter_value = spatial_filter.value
+
+  const is_filtering_at_planning_level = spatial_filter_name === 'id'
+  const is_aggregating_at_planning_level = spatial_aggregation_level === planning_level_name
+
+  if (is_filtering_at_planning_level && is_aggregating_at_planning_level) {
+    // Filter targets to only include targets with the target id in the filter
+    shrunk_targets = targets.filter(t => t.id === spatial_filter_value)
+  }
+
+  if (is_filtering_at_planning_level && !is_aggregating_at_planning_level) {
+    //Filter targets to only include targets for the districts the responses are in,
+    let category = responses[0].location_selection.category // TOOD: should be bin.key
+    shrunk_targets = targets.filter(t => t.id === category)
+  }
+
+  if (!is_filtering_at_planning_level && is_aggregating_at_planning_level) {
+    // Filter the targets to only include the targets under the category in the filter
+    const ids = location_selection_options.filter(t => t.category === spatial_filter_value).map(t => t.id)
+    shrunk_targets = targets.filter(t => ids.includes(t.id))
+  }
+
+  if (!is_filtering_at_planning_level && !is_aggregating_at_planning_level) {
+    // Filter the targets where target.id is equal to the category from the filter
+    shrunk_targets = targets.filter(t => t.id === spatial_filter_value)
+  }
+
+  return shrunk_targets
+
+}
+
+function sum_targets(targets) {
   // Else should use total_target - ie. from all targets
+  const enumerable_field = get_denominator_enumerable_name() // e.g. structures for NAM
   return targets
     .filter(t => t[enumerable_field])
     .reduce((acc, t) => {
       return acc + t[enumerable_field]
     }, 0)
+}
+
+function filter_targets({targets}) {
+
+}
+
+function aggregate_targets({targets}) {
+
 }
