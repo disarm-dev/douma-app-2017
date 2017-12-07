@@ -28,7 +28,7 @@ export function guess_location_for(responses) {
     // return response if already have an location.selection.id
     if (get(response, 'location.selection.id', false)) {
       //console.log('record with locations')
-      set(response, 'location.location_is_guessed', false)
+      set(response, 'location.selection.is_guessed', false)
       return response
     }
 
@@ -39,7 +39,7 @@ export function guess_location_for(responses) {
 
     if (!bbox_search_result.length) {
       fixes.push(['Point not in any village', get(response, 'location.selection.name'), response])
-      set(response, 'location.location_is_guessed', false)
+      set(response, 'location.selection.is_guessed', false)
       return response
     }
 
@@ -67,17 +67,17 @@ export function guess_location_for(responses) {
       if (typeof location_selection_from_list !== 'undefined') {
         response.location.selection = location_selection_from_list
         fixed++
-        set(response, 'location.location_is_guessed', true)
+        set(response, 'location.selection.is_guessed', true)
         return response
       }
 
       fixes.push(['Found a polygon not in location_selection list for', response])
-      set(response, 'location.location_is_guessed', false)
+      set(response, 'location.selection.is_guessed', false)
       return response
 
     } else {
       fixes.push(['Point not in any village', get(response, 'location.selection.name'), response])
-      set(response, 'location.location_is_guessed', false)
+      set(response, 'location.selection.is_guessed', false)
       return response
     }
 
