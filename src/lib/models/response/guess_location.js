@@ -1,4 +1,4 @@
-import {get} from 'lodash'
+import {get, set} from 'lodash'
 import {get_planning_level_name} from 'lib/instance_data/spatial_hierarchy_helper'
 import {featureCollection, point} from '@turf/helpers'
 import bounding_box from '@turf/bbox'
@@ -8,8 +8,6 @@ import fast_levenshtein from 'fast-levenshtein'
 
 import cache from 'config/cache'
 import {store} from 'apps/store'
-
-
 
 export function guess_location_for(responses) {
   let fixed = 0
@@ -30,10 +28,9 @@ export function guess_location_for(responses) {
     // return response if already have an location.selection.id
     if (get(response, 'location.selection.id', false)) {
       //console.log('record with locations')
+      set(response, 'location.location_is_guessed', false)
       return response
     }
-
-    //console.log('record without location.selection.id')
 
     // do hunting and finding
     const response_point = point([response.location.coords.longitude, response.location.coords.latitude])
@@ -42,6 +39,7 @@ export function guess_location_for(responses) {
 
     if (!bbox_search_result.length) {
       fixes.push(['Point not in any village', get(response, 'location.selection.name'), response])
+      set(response, 'location.location_is_guessed', false)
       return response
     }
 
@@ -58,37 +56,36 @@ export function guess_location_for(responses) {
 
       const distance = fast_levenshtein.get(written_in_name, found_name)
 
-
       if (distance > 20) {
         fixes.push([`Matching ${written_in_name} to ${found_name}, exceeds name-distance threshold. Still adding as suggestion.`, response])
-      } else {
-        // console.log(`Matching ${written_in_name} to ${found_name}, distance ${distance}.`)
       }
 
       // add guessed_location_polygon attributes to response.location.selection
       const location_selection_from_list = store.state.instance_config.location_selection.villages.find(v => v.id === found_id)
 
+      // Success - have guessed a location, nothing to push to `fixes`
       if (typeof location_selection_from_list !== 'undefined') {
         response.location.selection = location_selection_from_list
         fixed++
-
+        set(response, 'location.location_is_guessed', true)
         return response
       }
 
       fixes.push(['Found a polygon not in location_selection list for', response])
-
+      set(response, 'location.location_is_guessed', false)
+      return response
 
     } else {
       fixes.push(['Point not in any village', get(response, 'location.selection.name'), response])
+      set(response, 'location.location_is_guessed', false)
       return response
     }
 
-    console.log('Broken laws of logic')
   })
 
   console.log('Automatic suggesting of location for responses without location.selection.id (write-ins): fixed count', fixed, 'details', fixes)
-  store.commit('irs_record_point/add_fixes',fixes.length)
-  store.commit('irs_record_point/add_guessed_responses',fixed)
+  store.commit('irs_record_point/add_fixes', fixes.length)
+  store.commit('irs_record_point/add_guessed_responses', fixed)
   return responses_with_guesses
 }
 
