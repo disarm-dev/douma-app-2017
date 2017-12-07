@@ -131,12 +131,6 @@
 
         this._map.on('load', () => {
           this.map_loaded = true
-          // Go no further if there are no responses
-          // TODO: @refac Check for this another way
-          if (!this.responses.length) return
-
-          this.redraw_layers()
-          this.fit_bounds()
         })
       },
       fit_bounds() {
@@ -146,6 +140,7 @@
         if (!this.map_loaded) return
         this.calculate_layer_attributes()
         this.switch_layer()
+        this.fit_bounds()
       },
       set_selected_layer(layer_string) {
         this.selected_layer = layer_string

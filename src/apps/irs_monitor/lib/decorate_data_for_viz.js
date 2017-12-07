@@ -14,6 +14,7 @@ export function decorate_for_chart({binned_responses, targets, aggregations, opt
   }
 }
 
+// CHARTs
 /**
  * Apply correct aggregation to each bin of responses in each series
  * @param options.series - Defined in instance_config
@@ -32,7 +33,7 @@ function decorate_single_series({binned_responses, targets, aggregations, option
   let previous_aggregations = {}
   return binned_responses.map(bin => {
 
-    let value = aggregate_on({aggregation: series.aggregation, responses: bin.values, targets, previous_aggregations, options})
+    let value = aggregate_on({aggregation: series.aggregation, responses: bin.values, targets, previous_aggregations, options, bin})
     previous_aggregations[series.aggregation.name] = value
 
     if (options.cumulative) {
@@ -77,7 +78,7 @@ function decorate_multi_series({binned_responses, targets, aggregations, options
     let previous_aggregations = {}
     binned_responses.forEach(bin => {
 
-      let value = aggregate_on({aggregation: series.aggregation, responses: bin.values, targets, previous_aggregations, options})
+      let value = aggregate_on({aggregation: series.aggregation, responses: bin.values, targets, previous_aggregations, options, bin})
       previous_aggregations[series.aggregation.name] = value
 
       if (options.cumulative) {
@@ -104,6 +105,7 @@ function decorate_multi_series({binned_responses, targets, aggregations, options
 }
 
 
+// PIEs
 export function decorate_for_pie({responses, targets, aggregations, options}) {
   if (options.hasOwnProperty('generate_series_from')) {
     return decorate_for_dynamic_pie({responses, targets, aggregations, options})
@@ -128,8 +130,8 @@ export function decorate_for_static_pie({responses, targets, aggregations, optio
 
   let previous_aggregations = {}
   series_for_chart.forEach(({aggregation, colour}) => {
-
-    const value = aggregate_on({aggregation, responses, targets, previous_aggregations, options})
+    const bin = 'NO BIN - static pie chart'
+    const value = aggregate_on({aggregation, responses, targets, previous_aggregations, options, bin})
     previous_aggregations[aggregation.name] = value
     output.labels.push(aggregation.name)
     output.values.push(value)
@@ -155,7 +157,7 @@ export function decorate_for_dynamic_pie({responses, targets, aggregations, opti
   }]
 }
 
-
+// GEODATA-BASED
 export function decorate_for_table({binned_responses, targets, aggregations, options}){
   const static_fields = get(options, 'property_layers', [])
   const aggregation_names = get(options, 'aggregation_names', [])
