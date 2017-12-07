@@ -130,7 +130,7 @@ export function decorate_for_static_pie({responses, targets, aggregations, optio
 
   let previous_aggregations = {}
   series_for_chart.forEach(({aggregation, colour}) => {
-
+    const bin = 'NO BIN - static pie chart'
     const value = aggregate_on({aggregation, responses, targets, previous_aggregations, options, bin})
     previous_aggregations[aggregation.name] = value
     output.labels.push(aggregation.name)
