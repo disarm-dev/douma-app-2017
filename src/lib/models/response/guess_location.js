@@ -10,6 +10,7 @@ import cache from 'config/cache'
 import {store} from 'apps/store'
 
 
+
 export function guess_location_for(responses) {
   let fixed = 0
   let fixes = []
@@ -67,6 +68,7 @@ export function guess_location_for(responses) {
       if (typeof location_selection_from_list !== 'undefined') {
         response.location.selection = location_selection_from_list
         fixed++
+
         return response
       }
 
@@ -80,7 +82,10 @@ export function guess_location_for(responses) {
 
     console.log('Broken laws of logic')
   })
+
   console.log('Automatic suggesting of location for responses without location.selection.id (write-ins): fixed count', fixed, 'details', fixes)
+  store.commit('irs_record_point/add_fixes',fixes.length)
+  store.commit('irs_record_point/add_guessed_responses',fixed)
   return responses_with_guesses
 }
 

@@ -9,6 +9,7 @@
 <script>
   export default {
     name: "guess-locations",
+    props: ['responses'],
     computed: {
       disabled() {
         return false
@@ -25,6 +26,13 @@
           console.log('guess_selection_id',val)
           this.$store.commit('irs_monitor/set_dashboard_options', options)
         }
+      },
+
+      guessed_responses() {
+        return this.$store.state.irs_record_point.guessed_responses
+      },
+      not_in_village() {
+        return this.$store.state.irs_record_point.responses_not_in_village
       }
     }
   }

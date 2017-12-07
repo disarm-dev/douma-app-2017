@@ -13,7 +13,7 @@
       <filters :responses="responses"></filters>
       <aggregation_settings :responses="responses" :targets="targets"></aggregation_settings>
       <limit_to :responses="responses" :targets="targets"></limit_to>
-      <guess_locations></guess_locations>
+      <guess_locations :responses="responses"></guess_locations>
     </md-card-content>
 
   </md-card>

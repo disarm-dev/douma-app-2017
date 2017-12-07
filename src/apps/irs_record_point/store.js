@@ -2,6 +2,9 @@ import clonedeep from 'lodash.clonedeep'
 
 import CONFIG from 'config/common'
 import {ResponseController} from 'lib/models/response/controller'
+import {guess_location_for} from "../../lib/models/response/guess_location";
+import Raven from "raven-js/typescript/raven";
+import {store} from "../store";
 
 const controller = new ResponseController('record')
 
@@ -12,9 +15,23 @@ export default {
     responses: [],
 
     // Not pure metadata, but we want to persist between each form entry
-    persisted_metadata: {}
+    persisted_metadata: {},
+    guessed_responses:0,
+    responses_not_in_village:0
   },
   mutations: {
+    clear_guessed_responses: (state) => {
+      state.guessed_responses = 0
+    },
+    clear_responses_not_inVillage: (state) => {
+      state.responses_not_in_village = 0
+    },
+    add_guessed_responses: (state, responses) => {
+      state.guessed_responses += responses
+    },
+    add_fixes: (state, fixes) => {
+      state.responses_not_in_village += fixes
+    },
     clear_data_storage: (state) => {
       state.team_name = null
       console.warn('Not clearing irs_record_point.responses - use localStorage.clear() if you really want')
