@@ -38,7 +38,7 @@ export function guess_location_for(responses) {
     const bbox_search_result = tree.search(coords_bbox)
 
     if (!bbox_search_result.length) {
-      fixes.push(['Point not in any village', get(response, 'location.selection.name'), response])
+      fixes.push({message: `Point not in any village ${get(response, 'location.selection.name')}`, response})
       set(response, 'location.selection.is_guessed', false)
       return response
     }
@@ -57,7 +57,7 @@ export function guess_location_for(responses) {
       const distance = fast_levenshtein.get(written_in_name, found_name)
 
       if (distance > 20) {
-        fixes.push([`Matching ${written_in_name} to ${found_name}, exceeds name-distance threshold. Still adding as suggestion.`, response])
+        fixes.push({message: `Matching ${written_in_name} to ${found_name}, exceeds name-distance threshold. Still adding as suggestion.`, response})
       }
 
       // add guessed_location_polygon attributes to response.location.selection
@@ -71,12 +71,12 @@ export function guess_location_for(responses) {
         return response
       }
 
-      fixes.push(['Found a polygon not in location_selection list for', response])
+      fixes.push({message: 'Found a polygon not in location_selection list', response})
       set(response, 'location.selection.is_guessed', false)
       return response
 
     } else {
-      fixes.push(['Point not in any village', get(response, 'location.selection.name'), response])
+      fixes.push({message: `Point not in any village ${get(response, 'location.selection.name')}`, response})
       set(response, 'location.selection.is_guessed', false)
       return response
     }
