@@ -3,8 +3,7 @@ import clonedeep from 'lodash.clonedeep'
 import CONFIG from 'config/common'
 import {ResponseController} from 'lib/models/response/controller'
 import {guess_location_for} from "../../lib/models/response/guess_location";
-import Raven from "raven-js/typescript/raven";
-import {store} from "../store";
+import Raven from "raven-js";
 
 const controller = new ResponseController('record')
 
@@ -83,6 +82,18 @@ export default {
       } catch (e) {
         console.error(e)
         context.commit('root:set_snackbar', {message: 'Could not save records locally'}, {root: true})
+      }
+    },
+    guess_response_locations: async (context,responses) => {
+      let guessed_location_responses = responses
+      try {
+        guessed_location_responses = guess_location_for(guessed_location_responses)
+        await controller.create_local_bulk(guessed_location_responses)
+        context.commit('update_responses', guessed_location_responses)
+        context.commit('root:set_snackbar', {message: 'Finished guessing locations'}, {root: true})
+      } catch (e) {
+        Raven.captureException(e)
+        console.error(e)
       }
     },
     mark_local_responses_as_synced: async (context, responses) => {

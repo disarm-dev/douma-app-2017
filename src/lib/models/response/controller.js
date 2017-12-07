@@ -19,15 +19,8 @@ export class ResponseController {
   async read_new_network_write_local(last_id) {
     const new_responses = await this.remote.read_new(last_id)
     const decorated_responses = instance_decorator(new_responses, store.state.instance_config)
-    let guessed_location_responses = decorated_responses
-    try {
-      guessed_location_responses = guess_location_for(decorated_responses)
-    } catch (e) {
-      Raven.captureException(e)
-      console.error(e)
-    }
-    await this.local.create_or_update_bulk(guessed_location_responses)
-    return guessed_location_responses
+    await this.local.create_or_update_bulk(decorated_responses)
+    return decorated_responses
   }
 
   async read_all_network() {

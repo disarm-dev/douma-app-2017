@@ -29,8 +29,11 @@ export function guess_location_for(responses) {
   const responses_with_guesses = responses.map(response => {
     // return response if already have an location.selection.id
     if (get(response, 'location.selection.id', false)) {
+      //console.log('record with locations')
       return response
     }
+
+    //console.log('record without location.selection.id')
 
     // do hunting and finding
     const response_point = point([response.location.coords.longitude, response.location.coords.latitude])

@@ -1,8 +1,12 @@
 <template>
   <div>
-    <md-checkbox class='no-bottom-margin' :disabled="disabled" v-model="guess_selection_ids">Guess locations
-      for 'write-ins' (100 guessed out of 256 responses)
-    </md-checkbox>
+    <!--DOWNLOAD BUTTON -->
+    <md-button
+      @click.native="$store.dispatch('irs_record_point/guess_response_locations',responses)"
+      class="md-dense list-button md-raised md-primary"
+    >
+      Guess locations
+    </md-button>
   </div>
 </template>
 
