@@ -8,6 +8,7 @@ import {filter_responses} from "apps/irs_monitor/lib/filters"
 import {ResponseController} from 'lib/models/response/controller'
 import {PlanController} from 'lib/models/plan/controller'
 import {get_targets} from "apps/irs_monitor/lib/aggregate_targets"
+import {store} from "../store";
 
 const applet_name = 'monitor'
 const response_controller = new ResponseController(applet_name)
@@ -27,7 +28,7 @@ export default {
     plan: null,
     filter: null,
     map_options: {
-      show_response_points: true, 
+      show_response_points: true,
       selected_layer: 'normalised_risk'
     },
 
@@ -37,7 +38,8 @@ export default {
       spatial_aggregation_level: null,
       limit_to_plan: true,
       limit_to: ''
-    }
+    },
+    guess_selection_ids:{}
   },
   mutations: {
     // clear storage (called by meta store)
@@ -148,8 +150,11 @@ export default {
     },
     get_all_records: async (context) => {
       const last_id = context.state.last_id
-
-      const responses = await response_controller.read_new_network(last_id)
+      if(last_id == null){
+        store.commit('irs_record_point/clear_responses_not_inVillage')
+        store.commit('irs_record_point/clear_guessed_responses')
+      }
+      const responses = await response_controller.read_new_network_write_local(last_id)
 
       if (responses.length) {
         const updated_last_id = responses[responses.length - 1]._id
