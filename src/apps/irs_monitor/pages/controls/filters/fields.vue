@@ -31,6 +31,8 @@
   import sortBy from 'lodash/fp/sortBy'
   import map from 'lodash/fp/map'
 
+  const EXCLUDE_FIELD_FILTER = f => !f.startsWith('location')
+
   export default {
     name: 'field-filters',
     props: ['responses'],
@@ -64,7 +66,7 @@
           sortBy(x => x)
         )(all_field_names)
 
-        return flattened
+        return flattened.filter(EXCLUDE_FIELD_FILTER)
       },
       field_values() {
         if (!this.filter_name) return []
