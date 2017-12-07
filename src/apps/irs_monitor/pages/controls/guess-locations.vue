@@ -9,7 +9,7 @@
       Guess locations
     </md-button>
 
-    <span v-if="guessed_responses_length > 0">{{guessed_responses_length}} responses are guessed</span>
+    <span v-if="guessed_responses_length > 0">{{guessed_responses_length}} {{guessed_responses_length > 1 ? 'responses' : 'response'}} guessed</span>
 
   </div>
 </template>
