@@ -130,19 +130,18 @@ function calculate_denominator({responses, targets, options, aggregation, bin}) 
   }
 
   if (spatial_filter) {
-    return filtered_targets({targets, responses, spatial_filter})
+    return filtered_targets({targets, responses, options, spatial_filter, bin})
   }
 
   return sum_targets(targets)
 }
 
 function other_filtered_targets({targets, bin}) {
-  debugger
   const filtered_targets = targets.filter(t => t.id == bin.key)
   return sum_targets(filtered_targets)
 }
 
-function filtered_targets({targets, responses, spatial_filter}) {
+function filtered_targets({targets, responses, options, spatial_filter, bin}) {
   const spatial_aggregation_level = options.spatial_aggregation_level
   const planning_level_name = get_planning_level_name()// e.g villages
   const location_selection_options = store.state.instance_config.location_selection[planning_level_name]
@@ -165,8 +164,12 @@ function filtered_targets({targets, responses, spatial_filter}) {
 
   if (is_filtering_at_planning_level && !is_aggregating_at_planning_level) {
     //Filter targets to only include targets for the districts the responses are in,
-    let category = responses[0].location_selection.category // TOOD: should be bin.key
-    shrunk_targets = targets.filter(t => t.id === category)
+    if (responses.length === 0) {
+      shrunk_targets = []
+    } else {
+      const category = get(responses[0], 'location.selection.category', null)
+      shrunk_targets = targets.filter(t => t.id === category)
+    }
   }
 
   if (!is_filtering_at_planning_level && is_aggregating_at_planning_level) {
