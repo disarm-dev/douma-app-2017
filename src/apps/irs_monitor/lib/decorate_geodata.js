@@ -16,7 +16,6 @@ import {get_planning_level_name} from "lib/instance_data/spatial_hierarchy_helpe
  */
 export function decorate_geodata({binned_responses, targets, aggregations, options}) {
   const selected_geodata_level_fc = cache.geodata[options.spatial_aggregation_level]
-
   // collect the aggregations from options.aggregation_names
   const aggregations_for_map = options.aggregation_names.map(string => {
     const found = aggregations.find(aggregation => aggregation.name === string)
@@ -31,7 +30,7 @@ export function decorate_geodata({binned_responses, targets, aggregations, optio
     let result = {key: bin.key, values: {}}
     let previous_aggregations = {}
     aggregations_for_map.forEach(aggregation => {
-      const value = aggregate_on({aggregation, responses: bin.values, targets, previous_aggregations, options})
+      const value = aggregate_on({aggregation, responses: bin.values, targets, previous_aggregations, options, bin})
       previous_aggregations[aggregation.name] = value
       result.values[aggregation.name] = value
     })
