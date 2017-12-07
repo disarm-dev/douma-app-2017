@@ -3,10 +3,14 @@
     <!--DOWNLOAD BUTTON -->
     <md-button
       @click.native="$store.dispatch('irs_record_point/guess_response_locations',responses)"
-      class="md-dense list-button md-raised md-primary"
+      class="md-dense"
+      :disabled="disabled"
     >
       Guess locations
     </md-button>
+
+    <span v-if="guessed_responses_length > 0">{{guessed_responses_length}} responses are guessed</span>
+
   </div>
 </template>
 
@@ -16,28 +20,11 @@
     props: ['responses'],
     computed: {
       disabled() {
-        return false
+        return this.responses.length === 0
       },
-      guess_selection_ids: {
-        get() {
-          return this.$store.state.irs_monitor.dashboard_options.guess_selection_ids
-        },
-        set(val) {
-          const options = {
-            ...this.$store.state.irs_monitor.dashboard_options,
-            guess_selection_ids: val
-          }
-          console.log('guess_selection_id',val)
-          this.$store.commit('irs_monitor/set_dashboard_options', options)
-        }
+      guessed_responses_length() {
+        return this.responses.filter(r => r.location.selection.is_guessed).length
       },
-
-      guessed_responses() {
-        return this.$store.state.irs_record_point.guessed_responses
-      },
-      not_in_village() {
-        return this.$store.state.irs_record_point.responses_not_in_village
-      }
     }
   }
 </script>
