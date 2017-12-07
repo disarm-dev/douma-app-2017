@@ -14,6 +14,7 @@ export function decorate_for_chart({binned_responses, targets, aggregations, opt
   }
 }
 
+// CHARTs
 /**
  * Apply correct aggregation to each bin of responses in each series
  * @param options.series - Defined in instance_config
@@ -104,6 +105,7 @@ function decorate_multi_series({binned_responses, targets, aggregations, options
 }
 
 
+// PIEs
 export function decorate_for_pie({responses, targets, aggregations, options}) {
   if (options.hasOwnProperty('generate_series_from')) {
     return decorate_for_dynamic_pie({responses, targets, aggregations, options})
@@ -155,7 +157,7 @@ export function decorate_for_dynamic_pie({responses, targets, aggregations, opti
   }]
 }
 
-
+// GEODATA-BASED
 export function decorate_for_table({binned_responses, targets, aggregations, options}){
   const static_fields = get(options, 'property_layers', [])
   const aggregation_names = get(options, 'aggregation_names', [])
