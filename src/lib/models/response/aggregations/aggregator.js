@@ -180,7 +180,7 @@ function filtered_targets({targets, responses, spatial_filter}) {
     shrunk_targets = targets.filter(t => t.id === spatial_filter_value)
   }
 
-  return shrunk_targets
+  return sum_targets(shrunk_targets)
 
 }
 
