@@ -3,10 +3,12 @@
     <md-card-header>
       <div>* Get GPS coordinates</div>
     </md-card-header>
-    <md-button :disabled='hunting_location' class='md-raised md-primary' ref="update_location_button" @click.native="check_for_location">
+    <md-button :disabled='hunting_location' class='md-raised md-primary' ref="update_location_button"
+               @click.native="check_for_location">
       Get/Update point location
     </md-button>
-    <md-button v-if='show_demo_location_button' class='md-warn' @click.native="add_demo_location">Use demo location</md-button>
+    <md-button v-if='show_demo_location_button' class='md-warn' @click.native="add_demo_location">Use demo location
+    </md-button>
     <p class='message'>{{coords_message}}</p>
   </div>
 </template>
@@ -15,7 +17,7 @@
   import convert from 'geoposition-to-object'
   import BUILD_TIME from 'config/build-time'
   import {get_current_coordinates} from "lib/helpers/get_current_coordinates"
-  
+
   export default {
     name: 'location_coords',
     props: ['initial_location'],
@@ -27,19 +29,23 @@
         show_demo_location_button: !BUILD_TIME.DOUMA_PRODUCTION_MODE
       }
     },
-    created() {
-      if (this.initial_location  && this.initial_location.hasOwnProperty('accuracy')) {
-        this.coords = this.initial_location
-        this.coords_message = `${this.coords.latitude}, ${this.coords.longitude} (accuracy: ${this.coords.accuracy} m)`
-        this.$emit('change', this.coords)
-      }
+    watch: {
+      'initial_location': 'update_initial_location'
     },
+
     methods: {
+      update_initial_location() {
+        if (this.initial_location && this.initial_location.hasOwnProperty('accuracy')) {
+          this.coords = this.initial_location
+          this.coords_message = `${this.coords.latitude}, ${this.coords.longitude} (accuracy: ${this.coords.accuracy} m)`
+          this.$emit('change', this.coords)
+        }
+      },
       add_demo_location() {
         const map_focus = this.$store.state.instance_config.map_focus
         this.coords = {
-          latitude: map_focus.centre.lat + (Math.random()/100),
-          longitude: map_focus.centre.lng + (Math.random()/100),
+          latitude: map_focus.centre.lat + (Math.random() / 100),
+          longitude: map_focus.centre.lng + (Math.random() / 100),
           accuracy: 150
         }
         this.coords_message = `${this.coords.latitude}, ${this.coords.longitude} (accuracy: ${this.coords.accuracy} m)`

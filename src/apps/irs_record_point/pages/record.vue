@@ -20,7 +20,8 @@
           {{validation_result.errors.length + validation_result.warnings.length}}
         </span>
 
-        {{ validation_result_empty ? "No validation issues" : (validation_length  === 1 ? "Validation issue" : "Validation issues")}}
+        {{ validation_result_empty ? "No validation issues" : (validation_length === 1 ? "Validation issue" :
+        "Validation issues")}}
       </md-button>
 
     </div>
@@ -107,15 +108,16 @@
           :initial_location='response.location.coords'
         ></location_coords>
 
-      <location_selection
-        @change="on_location_selection_change"
-        :initial_location_selection="response.location.selection"
-      >
-      </location_selection>
+        <location_selection
+          @change="on_location_selection_change"
+          :initial_location_selection="response.location.selection"
+        >
+        </location_selection>
 
       </md-card-content>
       <md-card-actions>
-        <md-button v-if="current_index !== 0" @click.native="go_to_previous_view()" class="md-raised">Previous</md-button>
+        <md-button v-if="current_index !== 0" @click.native="go_to_previous_view()" class="md-raised">Previous
+        </md-button>
         <md-button @click.native="go_to_next_view()" class="md-raised">Next</md-button>
       </md-card-actions>
     </md-card>
@@ -149,12 +151,11 @@
   import form_renderer from './form.vue'
 
 
-
   export default {
     name: 'Record',
     components: {location_coords, location_selection, form_renderer, review},
     props: ['response_id'],
-    data () {
+    data() {
       return {
         // User data
         not_response_response: null, // This is the only response which exists
@@ -184,7 +185,7 @@
       ...mapState({
         username: state => state.meta.user.username,
         user_id: state => state.meta.user._id,
-        instance_slug : state => state.instance_config.instance.slug,
+        instance_slug: state => state.instance_config.instance.slug,
         personalised_instance_id: state => state.meta.personalised_instance_id,
         instance_config: state => state.instance_config,
         team_name: state => state.irs_record_point.team_name
@@ -193,7 +194,7 @@
         return this.response.recorded_on + ""
       },
       response() {
-        return this.not_response_response ? this.not_response_response.model : {location:{}}
+        return this.not_response_response ? this.not_response_response.model : {location: {}}
       },
       page_title() {
         return this.response_id ? 'Update' : 'Create'
@@ -214,7 +215,7 @@
         return this.validation_result.warnings.length
       },
       validation_length() {
-        return this.validation_result.errors.length  + this.validation_result.warnings.length
+        return this.validation_result.errors.length + this.validation_result.warnings.length
       },
       current_index() {
         const current_index = this.pages.findIndex(page_name => {
@@ -229,42 +230,44 @@
         return this.instance_config.applets.irs_record_point.metadata.optional_fields
       }
     },
-    created() {
-      (async () => {
-        await this.$store.dispatch('irs_record_point/read_records')
-        this._validator = new Validator(this.instance_config.validations)
-
-        if (this.response_id) {
-          /*
-            found becomes undefined if this.$store.dispatch('irs_record_point/read_records') is not awaited
-           */
-
-          const found = this.$store.state.irs_record_point.responses.find(r => r.id === this.response_id)
-          if (found.uneditable) {
-            this.$router.replace({name: 'irs_record_point:view', params: {response_id: this.response_id}})
-          }
-          this.not_response_response = new Response(found)
+    async created() {
+      debugger
+      //(async () => {
+      await this.$store.dispatch('irs_record_point/read_records')
+      this._validator = new Validator(this.instance_config.validations)
+      console.log('in async');
+      if (this.response_id) {
+        /*
+          found becomes undefined if this.$store.dispatch('irs_record_point/read_records') is not awaited
+         */
+        const found = this.$store.state.irs_record_point.responses.find(r => r.id === this.response_id)
+        if (found.uneditable) {
+          return this.$router.replace({name: 'irs_record_point:view', params: {response_id: this.response_id}})
         } else {
-          // TODO: @refac Definitely don't do this in here...
-          const empty_response = {
-            personalised_instance_id: this.personalised_instance_id,
-            user_id: this.user_id,
-            username: this.username,
-            instance_slug: this.instance_slug,
-            team_name: this.team_name // TODO: @refac Brittle: this needs to match what's set in `instance.json`
-          }
-          console.log('empty_response', empty_response)
-          this.not_response_response = new Response(empty_response)
-          console.log('this.not_response_response', this.not_response_response)
+          this.not_response_response = new Response(found)
         }
-
-        // Remove meta page if necessary
-        if (this.irs_record_point_config.metadata.show === false) {
-          this.pages.splice(0, 1)
+      } else {
+        // TODO: @refac Definitely don't do this in here...
+        const empty_response = {
+          personalised_instance_id: this.personalised_instance_id,
+          user_id: this.user_id,
+          username: this.username,
+          instance_slug: this.instance_slug,
+          team_name: this.team_name // TODO: @refac Brittle: this needs to match what's set in `instance.json`
         }
+        console.log('empty_response', empty_response)
+        this.not_response_response = new Response(empty_response)
+        console.log('this.not_response_response', this.not_response_response)
+      }
 
-        this.current_view = this.pages[0]
-      })()
+      // Remove meta page if necessary
+      if (this.irs_record_point_config.metadata.show === false) {
+        this.pages.splice(0, 1)
+      }
+
+      this.current_view = this.pages[0]
+      //})()
+      console.log('after async');
     },
     mounted() {
 
@@ -319,7 +322,7 @@
       on_location_change(coords) {
         this.response.location.coords = coords
       },
-      on_location_selection_change(location_selection){
+      on_location_selection_change(location_selection) {
         this.response.location.selection = location_selection
       },
       on_form_change(survey) {
@@ -343,10 +346,10 @@
         // Events
         const non_location_errors = this.validation_result.errors.filter(r => !r.is_location).length
         if (non_location_errors) {
-          this.$ga.event('irs_record','validation_issues', 'errors', this.validation_result.errors.map(r => r.name).join('.'))
+          this.$ga.event('irs_record', 'validation_issues', 'errors', this.validation_result.errors.map(r => r.name).join('.'))
         }
         if (this.validation_result.warnings.length) {
-          this.$ga.event('irs_record','validation_issues', 'warning', this.validation_result.warnings.map(w => w.name).join('.'))
+          this.$ga.event('irs_record', 'validation_issues', 'warning', this.validation_result.warnings.map(w => w.name).join('.'))
         }
       },
       save_response() {
@@ -409,14 +412,17 @@
   .md-card {
     margin: 10px;
   }
+
   .orange {
     background-color: orange !important;
     color: white !important;
   }
+
   .red {
     background-color: red !important;
     color: white !important;
   }
+
   .green {
     background-color: green !important;
     color: white !important;
@@ -425,14 +431,15 @@
   .slide-fade-enter-active {
     transition: all 1s ease;
   }
+
   .slide-fade-leave-active {
     transition: all 1s ease;
   }
-  .slide-fade-enter, .slide-fade-leave-to{
+
+  .slide-fade-enter, .slide-fade-leave-to {
     transform: translateY(-5px);
     opacity: 0;
   }
-
 
   /* From animate.css */
   .animated {
