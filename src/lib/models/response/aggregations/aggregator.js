@@ -2,12 +2,7 @@ import {Parser} from 'expr-eval'
 import isNumber from 'is-number'
 import {get, has} from 'lodash'
 import {store} from 'apps/store'
-import flow from 'lodash/fp/flow'
-import compact from 'lodash/fp/compact'
-import map from 'lodash/fp/map'
-import uniq from 'lodash/fp/uniq'
 import {get_denominator_enumerable_name} from 'lib/instance_data/spatial_hierarchy_helper'
-import cache from 'config/cache'
 import {get_planning_level_name} from "../../../instance_data/spatial_hierarchy_helper";
 
 /**
