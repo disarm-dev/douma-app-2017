@@ -46,7 +46,8 @@
     },
     watch: {
       'response_is_valid': 'control_navigation',
-      'current_view': 'control_navigation'
+      'current_view': 'control_navigation',
+      'initial_form_data':'create_form'
     },
     mounted() {
       this.create_form()
