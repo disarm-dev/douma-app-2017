@@ -231,10 +231,8 @@
       }
     },
     async created() {
-      //(async () => {
       await this.$store.dispatch('irs_record_point/read_records')
       this._validator = new Validator(this.instance_config.validations)
-      console.log('in async');
       if (this.response_id) {
         /*
           found becomes undefined if this.$store.dispatch('irs_record_point/read_records') is not awaited
@@ -254,9 +252,7 @@
           instance_slug: this.instance_slug,
           team_name: this.team_name // TODO: @refac Brittle: this needs to match what's set in `instance.json`
         }
-        console.log('empty_response', empty_response)
         this.not_response_response = new Response(empty_response)
-        console.log('this.not_response_response', this.not_response_response)
       }
 
       // Remove meta page if necessary
@@ -265,15 +261,10 @@
       }
 
       this.current_view = this.pages[0]
-      //})()
-      console.log('after async');
     },
     mounted() {
 
     },
-    beforeCreate() {
-    },
-
     methods: {
       go_to_next_view() {
         // Check that we are not on the last page
