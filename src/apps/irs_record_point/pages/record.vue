@@ -231,7 +231,6 @@
       }
     },
     async created() {
-      debugger
       //(async () => {
       await this.$store.dispatch('irs_record_point/read_records')
       this._validator = new Validator(this.instance_config.validations)
