@@ -10,12 +10,15 @@
 
     <md-card-actions>
       <!--Only for first page, take you back to Location tab/page -->
-      <md-button v-if="show_back_to_location" @click.native="$emit('previous_view')" class="md-raised">Previous</md-button>
+      <md-button v-if="show_back_to_location" @click.native="$emit('previous_view')" class="md-raised">Previous
+      </md-button>
 
       <!-- SurveyJS navigation proxies -->
       <md-button v-if="show_previous" @click.native="previous_page" class="md-raised">Previous</md-button>
       <md-button v-if="show_next" :disabled="next_disabled" @click.native="next_page" class="md-raised">Next</md-button>
-      <md-button v-if="show_complete" :disabled="complete_disabled" @click.native="complete" class="md-raised md-primary">Complete</md-button>
+      <md-button v-if="show_complete" :disabled="complete_disabled" @click.native="complete"
+                 class="md-raised md-primary">Complete
+      </md-button>
     </md-card-actions>
   </md-card>
 </template>
@@ -23,6 +26,7 @@
 <script>
   import * as Survey from 'survey-knockout'
   import 'survey-knockout/survey.css'
+  import clonedeep from 'lodash.clonedeep'
 
   export default {
     name: 'form',
@@ -40,20 +44,28 @@
         next_disabled: true,
         complete_disabled: true,
 
+        initialised_form: false,
+
         // Data
+        initial_survey_data:{},
         _survey: {},
       }
     },
     watch: {
       'response_is_valid': 'control_navigation',
       'current_view': 'control_navigation',
-      'initial_form_data':'create_form'
+      'initial_form_data': 'create_form'
     },
     mounted() {
-      this.create_form()
+    //  this.create_form('Mounted')
     },
     methods: {
-      create_form() {
+      on_initial_response(rspns) {
+        console.log('Initial Response', this.initial_form_data)
+      },
+      create_form(caller) {
+        console.log('Create Form ',this._survey)
+        if(this._survey) return
         const form_options = {
           ...this.$store.state.instance_config.form,
           goNextPageAutomatic: false,
@@ -66,7 +78,7 @@
         this._survey.onCurrentPageChanged.add(this.on_page_change)
 
         if (this.initial_form_data !== null) {
-          this._survey.data = this.initial_form_data
+          this._survey.data = clonedeep(this.initial_form_data)
         }
       },
       on_form_data_change() { // Called from SurveyJS #onCurrentPageChanged
@@ -188,8 +200,12 @@
       },
 
       // Do navigation
-      next_page() { this._survey.nextPage() },
-      previous_page() { this._survey.prevPage() },
+      next_page() {
+        this._survey.nextPage()
+      },
+      previous_page() {
+        this._survey.prevPage()
+      },
       complete() {
         // Cannot complete a single-page form with errors - we won't have checked until first time
         // 'complete' is clicked
